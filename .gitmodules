@@ -1,0 +1,18 @@
+[submodule "src/modules/notifications"]
+	path = src/modules/notifications
+	url = https://github.com/carmel-6000/notifications.git
+[submodule "src/modules/fileshandler"]
+	path = src/modules/fileshandler
+	url = https://github.com/carmel-6000/files-handler.git
+[submodule "src/modules/tools"]
+	path = src/modules/tools
+	url = https://github.com/carmel-6000/carmel-tools.git
+[submodule "src/modules/auth"]
+	path = src/modules/auth
+	url = https://github.com/carmel-6000/carmel-react-auth.git
+[submodule "src/modules/scripts"]
+	path = src/modules/scripts
+	url = https://github.com/carmel-6000/scripts.git
+[submodule "src/modules/supermodel"]
+	path = src/modules/supermodel
+	url = https://github.com/carmel-6000/supermodel.git

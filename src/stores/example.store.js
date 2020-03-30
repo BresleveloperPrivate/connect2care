@@ -1,4 +1,6 @@
-import { observable, decorate, action } from 'mobx';
+// import { observable, decorate, action } from 'mobx';
+import { observable, decorate } from 'mobx';
+
 
 class ExampleStore{
     first = "hello";
@@ -6,5 +8,5 @@ class ExampleStore{
 
 decorate(ExampleStore,{first:observable});
 
-export default new ExampleStore;
+export default new ExampleStore();
 
