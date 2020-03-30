@@ -6,6 +6,7 @@ import loadable from '@loadable/component';
 
 
 const Home = loadable(() => import('./components/Home.jsx'));
+const CreateMeeting = loadable(() => import('./components/CreateMeeting.js'));
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
                     <div className="App">
                         <Switch>
                             <Route path="/" exact component={Home} />
+                            <Route path="/create-meeting" exact component={CreateMeeting} />
                         </Switch>
                     </div>
                 </Router>
