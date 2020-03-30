@@ -15,6 +15,11 @@ class HowItWorks extends Component {
                         שלב 1 <br/><br/>
 
                    </div>
+
+                   <div className='arrowStyle'>
+                       
+                   </div> 
+
                    <div  className='result'>
                         שלב 1 <br/><br/>
                         שלב 1 <br/><br/>

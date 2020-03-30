@@ -53,3 +53,12 @@
     color: var(--custom-blue)
 
 }
+
+.containOptionsBottom{
+    bottom: -2vw;
+    height: 4vw;
+    display: flex;
+    width: 100vw;
+    padding-right: 10vw;
+
+}
