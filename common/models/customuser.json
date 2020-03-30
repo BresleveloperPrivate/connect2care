@@ -11,7 +11,7 @@
     "fields": {
       "id": {},
       "username": {
-          "title": "user name"
+        "title": "user name"
       },
       "email": {
         "title": "email"
@@ -32,24 +32,70 @@
     }
   },
   "properties": {
-
-    "mainImageId":"number"
-
+    "mainImageId": "number",
+    "name": {
+      "type": "String",
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "phone": {
+      "type": "String",
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "phone",
+        "dataType": "varchar",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    }
   },
   "validations": [],
-  
+
   "relations": {
     "accessTokens": {
       "type": "hasMany",
       "model": "AccessToken",
       "foreignKey": "userId",
-      "options": {"disableInclude": true}
+      "options": {
+        "disableInclude": true
+      }
     },
-
-    "mainImage":{
-        "type":"belongsTo",
-        "model":"Images",
-        "foreignKey":"mainImageId"
+    "mainImage": {
+      "type": "belongsTo",
+      "model": "Images",
+      "foreignKey": "mainImageId"
+    },
+    "users_meetings": {
+      "type": "hasMany",
+      "model": "users_meetings",
+      "foreignKey": "user"
+    },
+    "meetings": {
+      "type": "hasMany",
+      "model": "meetings",
+      "foreignKey": "user",
+      "keyThrough": "meeting",
+      "through": "users_meetings"
+    },
+    "meetingOwner": {
+      "type": "hasMany",
+      "model": "meetingOwner",
+      "foreignKey": "owner"
     }
   },
   "acls": [
