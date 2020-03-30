@@ -4,7 +4,14 @@ class Home extends Component {
 
     render() {
         return (
-            <div>כאן יהיה דף הפתיחה</div>
+            <div>
+
+        
+
+
+
+
+            </div>
         );
     }
 }

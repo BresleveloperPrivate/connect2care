@@ -5,7 +5,7 @@ import './App.scss';
 import loadable from '@loadable/component';
 
 
-const Home = loadable(() => import('./components/Home.jsx'));
+const Home = loadable(() => import('./components/Home.js'));
 
 
 class App extends Component {
