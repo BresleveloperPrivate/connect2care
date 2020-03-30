@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import OpeningImage from './OpeningImage'
+import NavBar from './NavBar'
+import Explanation from './Explanation'
+import HowItWorks from './HowItWorks'
+import OptionsButtons from './OptionsButtons'
+import ImagesCollage from './ImagesCollage'
 
 
 class Home extends Component {
@@ -7,10 +13,22 @@ class Home extends Component {
         return (
             <div>
 
-        
+                <NavBar
+                    history={this.props.history}
+                    className={'navbar-opening'}
+                />
 
+                <OpeningImage />
 
+                <Explanation explanation={1} />
 
+                <HowItWorks />
+
+                <Explanation explanation={2} />
+
+                <OptionsButtons className='containOptionsBottom' />
+
+                <ImagesCollage />
 
             </div>
         );
