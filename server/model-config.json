@@ -154,11 +154,15 @@
     "public": true,
     "dataSource": "msql"
   },
-  "users_meetings": {
+  "people_meetings": {
     "public": true,
     "dataSource": "msql"
   },
   "zoom": {
+    "public": true,
+    "dataSource": "msql"
+  },
+  "people": {
     "public": true,
     "dataSource": "msql"
   }
