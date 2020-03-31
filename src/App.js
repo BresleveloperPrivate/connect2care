@@ -9,7 +9,7 @@ import NavBar from './components/NavBar'
 
 const Home = loadable(() => import('./components/Home.js'));
 const Share = loadable(() => import('./components/Share.jsx'));
-
+const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 
 
 class App extends Component {
@@ -26,6 +26,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/" exact component={Home} />
                             <Route path="/share" exact component={Share} />
+                            <Route path="/create-meeting" exact component={CreateMeeting} />
                         </Switch>
                     </div>
                 </Router>

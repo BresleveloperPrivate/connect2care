@@ -1,0 +1,38 @@
+.createMeetingHeadLine{
+    font: Bold 40px/52px Assistant;
+    letter-spacing: 0;
+    color: #0A2D63;
+}
+
+.createMeetingSecondSentence{
+    font: Regular 35px/46px Assistant;
+    letter-spacing: 0;
+    margin-right: 2vw;;
+    color: #3586B1;
+    padding-bottom: 5vh;
+}
+
+.inputStyle{
+    color: #4D4F5C;
+    border: 2px solid #E8E9EC;
+    border-radius: 4px;
+    outline: none;
+    width: 65%;
+    padding: 2vh;
+    margin-bottom: 2vh;
+}
+
+.margin-right-text{
+    margin-right: 6vw;
+}
+
+.textAreaStyle{
+    resize: none;
+}
+
+.inputDetail{
+    font: Bold 18px/13px Assistant;
+    letter-spacing: 0;
+    color: #0A2D63;
+}
+
