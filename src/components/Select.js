@@ -13,12 +13,12 @@ const Select = (props) => {
     return (
         <div className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
             <div className='selectContainer' onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}>
-                <div className='d-flex select align-items-center h-100'>
+                <div className='d-flex select align-items-center h-100' style = {{backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset'}}>
                     <div style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
                     <img src={DownArrow} alt='arrow' />
                 </div>
                 {isSelectOpen &&
-                    <div className='optionsContainer'>
+                    <div className='optionsContainer' style = {{backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset'}}>
                         {props.arr && props.arr.map((value, index) =>
                             <div
                                 className='selectOption'
