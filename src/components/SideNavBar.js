@@ -31,7 +31,7 @@ const SideNavBar = (props) => {
                         return (
                             <ListItem index={index} button className='containSideListItem' key={text.option} onClick={() => {
                                 !text.open ?
-                                this.props.history.push(text.path) :
+                                props.history.push(text.path) :
                                 window.open(text.path)
                             }}>
                                 <ListItemText disableTypography className='optionTextContainer' primary={text.option} />
