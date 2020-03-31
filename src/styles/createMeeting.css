@@ -1,0 +1,66 @@
+.createMeetingHeadLine{
+    font: Bold 40px/52px Assistant;
+    letter-spacing: 0;
+    color: #0A2D63;
+}
+
+.createMeetingSecondSentence{
+    font: normal 35px/46px Assistant;
+    letter-spacing: 0.5;
+    margin-right: 2vw;;
+    color: #3586B1;
+    padding-bottom: 5vh;
+}
+
+.inputStyle{
+    color: #4D4F5C;
+    border: 2px solid #E8E9EC;
+    border-radius: 4px;
+    outline: none;
+    width: 55%;
+    padding: 1vh 2vh;
+    margin-bottom: 2vh;
+}
+
+.textSide{
+    text-align: right;
+    font: normal 30px/30px Assistant;
+    letter-spacing: 0.5px;
+    color: #082551;
+}
+
+.containInputTextSide{
+    background-color: rgb(25, 160, 153);
+    padding: 8vh 12vh 12vh;
+    top: 10vh;
+    left: 0px;
+    height: 90vh;
+    width: 36%;
+}
+
+.createMeetingButton{
+    background: #3586B1 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 29px;
+    color: white;
+    font: Bold 25px/33px Assistant;
+    padding: 1vh;
+    width: 23vh;
+    margin-bottom: 20vh;
+    text-align: center;
+}
+
+.margin-right-text{
+    margin-right: 6vw;
+}
+
+.textAreaStyle{
+    resize: none;
+}
+
+.inputDetail{
+    font: Bold 18px/13px Assistant;
+    letter-spacing: 0;
+    color: #0A2D63;
+}
+

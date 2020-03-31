@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 
 /**
- * @param senderName what the reciever sees as the name;
- * @param options { to: '', subject: '', html: '<h1></h1>' };
+ * @param {string} senderName what the reciever sees as the name;
+ * @param {Object} options { to: '', subject: '', html: '<h1></h1>' };
 */
 
 const sendEmail = (senderName, options) => {

@@ -101,5 +101,25 @@ module.exports = function (meetings) {
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
+    })
+    
+    meetings.GetMeetingInfo = (meetingId, cb) => {
+        (async () => {
+            try {
+                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'zoom', 'fallens_meetings', 'fallens', 'people_meetings', 'people'] });
+                if (!meeting) { cb({ error: "no meeting" }, null); return; }
+                cb(null, meeting);
+            } catch (err) {
+                console.log(err);
+                cb(err, null);
+            }
+        })();
+    }
+
+    meetings.remoteMethod('GetMeetingInfo', {
+        description: "Get House Id by Access Token",
+        accepts: [{ arg: "meetingId", type: "string", required: true, http: { source: 'path' } }],
+        returns: { type: "object", root: true },
+        http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 };
