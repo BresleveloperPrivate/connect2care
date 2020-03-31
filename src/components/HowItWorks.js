@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/howItWorks.css'
 
+import candle from '../icons/candle.svg' 
 import Step1 from '../icons/step1.svg'
 import Step2 from '../icons/step2.svg'
 import Step3 from '../icons/step3.svg'
@@ -85,14 +86,18 @@ class HowItWorks extends Component {
                         <div className='coverBig'>
                             <div className='arrow-left-gray'></div>
                         </div>
-                        <div className='resultText'>
-                            מתחברים לקישור של Zoom,<br />
-                        מסדרים את המצלמה
-                      </div>
-                        <div style={{flexGrow:1 , display:'flex' , justifyContent:'center' , alignItems:'center'}}>
+                        <div style={{ flexGrow: 0.8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <div className='containImageStep'><img width='100%' src={Step7} /></div>
                         </div>
-                        <div className='remember'>זוכרים.</div>
+                        <div className='resultText'>
+                            מתחברים לקישור של Zoom,<br />
+                        מסדרים את המצלמה,
+                      </div>
+                        <div className='remember'>וזוכרים.</div>
+
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div className='containImageStep'><img width='40%' src={candle} /></div>
+                        </div>
                     </div>
                 </div>
 
