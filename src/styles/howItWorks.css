@@ -179,6 +179,7 @@
         margin-right: 0px;
         margin-top: 5px;
         height: fit-content;
+        padding-top: 10vw;
     }
 
 
@@ -233,6 +234,14 @@
         padding-top: 2.5vh;
         font-size: 3.5vw;
         border-bottom: 0.7px solid white;
+    }
+
+    .resultText{
+        font-size: 4vw;
+    }
+  
+    .remember{
+        font-size: 8vw;
     }
 
   }
