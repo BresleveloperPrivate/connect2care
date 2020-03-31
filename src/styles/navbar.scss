@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
+
+.App{
+    font-family: 'Assistant';
+    height: 100vh;
+    overflow-y: overlay;
+}
+
+:root {
+    --custom-blue: #0A2D63;
+    --custom-dark-blue: #082551;
+    --custom-gray-1: #00000029;
+    --custom-gray-2: #EEEEEE;
+    --custom-light-blue: #3586B1;
+    --custom-yellow: #F5C508;
+    --custom-green: #19A099;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.navbar{
+    z-index: 10;
+    width: 100vw;
+    height: 10vh !important;
+    box-shadow: 0px 3px 6px #00000029;
+    position: fixed;
+    top: 0 !important;
+    display: flex;
+}
+
+.navbar-opening{
+    background: rgba(255, 255, 255, 0.575) 0% 0% no-repeat padding-box;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+}
+
+.navbarOptions{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbarIcon{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containIconNavbar{
+    height: 80%;
+}
+
+.optionInNavbar{
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--custom-blue);
+    margin: 0px 1vw;
+    padding: 0 1vw;
+    margin-top: auto;
+}
+
+@media screen and (max-width: 550px){
+    .navbarIcon{
+        width: 30%;
+    }
+    .navbarOptions{
+        width: 70%;
+    }
+    .containIconNavbar{
+        height: 60%;
+    }
+}
+
+@media screen and (max-width: 370px){
+    .navbarIcon{
+        width: 25%;
+    }
+    .navbarOptions{
+        width: 75%;
+    }
+    .containIconNavbar{
+        height: 50%;
+    }
+}
+
+@media screen and (max-width: 850px){
+   
+    .optionInNavbar{
+      font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 400px){
+   
+    .optionInNavbar{
+      font-size: 9px;
+    }
+}
+

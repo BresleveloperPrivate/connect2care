@@ -1,0 +1,117 @@
+{
+    "name": "fallens",
+    "http": {
+        "path": "fallens"
+    },
+    "mixins": {
+        "FilesHandler": true
+    },
+    "crud": {
+        "tableActions": {
+            "addNewRow": true,
+            "deleteRow": true,
+            "editRow": true
+        }
+    },
+    "options": {
+        "idInjection": false,
+        "mysql": {
+            "schema": "ourBro",
+            "table": "fallens"
+        }
+    },
+    "relations": {
+        "fallens_meetings": {
+            "type": "hasMany",
+            "model": "fallens_meetings",
+            "foreignKey": "fallen"
+        },
+        "meetings": {
+            "type": "hasMany",
+            "model": "meetings",
+            "foreignKey": "fallen",
+            "keyThrough": "meeting",
+            "through": "fallens_meetings"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": 10,
+            "scale": 0,
+            "generated": true,
+            "id": 1,
+            "mysql": {
+                "columnName": "id",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "nullable": "N"
+            }
+        },
+        "first_name": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "first_name",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "last_name": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "last_name",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "falling_date": {
+            "type": "Date",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "falling_date",
+                "dataType": "datetime",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
+        },
+        "image_link": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "image_link",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
+        }
+    },
+    "acls": []
+}
