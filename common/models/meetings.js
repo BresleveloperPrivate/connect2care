@@ -12,7 +12,6 @@ module.exports = function (meetings) {
 
     meetings.createMeeting = (data, options, cb) => {
         (async () => {
-            console.log('innnnnnnnnnnnnnnn', data)
             const people = meetings.app.models.people
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
@@ -59,6 +58,51 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
+    meetings.getMeetingsDashboard = (filters, options, cb) => {
+        (async () => {
+            let filtersOfMeetting = {}
+            if (filters.date) filtersOfMeetting.date = filters.date
+            if (filters.owner) filtersOfMeetting.owner = filters.owner
+
+            let include = []
+            if (filters.participants) include.push('people')
+            if (filters.input) {
+                include.push('meetingOwner')
+                include.push('fallens')
+            }
+
+            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: include }))
+            if (err) {
+                console.log("err", err)
+                return cb(err)
+            }
+            let allMeetings = JSON.parse(JSON.stringify(res))
+            if (filters.participants) {
+                allMeetings = allMeetings.filter((meeting) => (meeting.people.length < filters.participants.max) && (meeting.people.length > filters.participants.min))
+            }
+            if (filters.input) {
+                allMeetings = allMeetings.filter((meeting) =>
+                    (meeting.meetingOwner.name.include(filters.input) ||
+                        meeting.fallens.some((fallen) =>
+                            (fallen.first_name + ' ' + fallen.last_name).inslude(filters.input))
+                    )
+                )
+            }
+            allMeetings = allMeetings.slice(filters.from, filters.from + 20)
+            return cb(null, allMeetings)
+        })()
+
+    }
+
+    meetings.remoteMethod('getMeetingsDashboard', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'filters', type: 'object' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+    
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
