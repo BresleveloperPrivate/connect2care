@@ -75,7 +75,7 @@ module.exports = function (meetings) {
             }
             let allMeetings = JSON.parse(JSON.stringify(res))
             if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length < filters.participants.max) && (meeting.people.length > filters.participants.min))
+                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max) )
             }
             if (filters.relationship && filters.relationship === 'אחר') {
                 allMeetings = allMeetings.filter((meeting) =>

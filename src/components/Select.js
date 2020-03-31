@@ -14,7 +14,7 @@ const Select = (props) => {
         <div className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
             <div className='selectContainer' onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}>
                 <div className='d-flex select align-items-center h-100' style = {{backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset'}}>
-                    <div style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
+                    <div style={{ width: '90%', paddingRight:'8%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
                     <img src={DownArrow} alt='arrow' />
                 </div>
                 {isSelectOpen &&
