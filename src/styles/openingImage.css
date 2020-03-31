@@ -68,6 +68,10 @@
 @media screen and (max-width: 550px){
 
 
+    .openingImage{
+        height: 40vh;
+    }
+
     .containOptions{
         padding: 0;
         position: absolute;

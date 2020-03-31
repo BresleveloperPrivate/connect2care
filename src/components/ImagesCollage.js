@@ -3,13 +3,13 @@ import candle from '../icons/candle.svg'
 import '../styles/imagesCollage.css'
 import { imageSize } from 'image-size';
 
-const image = []
+const constImages = []
 class HowItWorks extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            image: []
+            images: []
         }
     }
 
@@ -19,40 +19,31 @@ class HowItWorks extends Component {
 
         let i = 0
         while (i < 32) {
-            if (i % 5 == 0) {
-                image.push(3)
+            if (constImages[i]) {
+                constImages.push(constImages[i])
             }
-            else if (i % 3 == 0) {
-                image.push(2)
-            }
-            else if (i % 2 == 0) {
-                image.push(1)
-            }
-            else {
-                image.push(0)
+            else{
+                constImages.push(null)
             }
             i++
         }
 
         if (window.innerWidth <= 550) {
-            this.setState({ image : image.slice(0,10)})
-        }else{
-            this.setState({ image })
+            this.setState({ images: constImages.slice(0, 10) })
+        } else {
+            this.setState({ images:constImages })
         }
-
-
         window.addEventListener('resize', this.onResize);
 
     }
 
     onResize = () => {
         if (window.innerWidth <= 550) {
-            let image = this.state.image
-            image = image.slice(0, 10)
-            console.log(image)
-            this.setState({ image })
+            let images = this.state.images
+            images = constImages.slice(0, 10)
+            this.setState({ images })
         } else {
-            this.setState({ image })
+            this.setState({ images:constImages })
         }
     }
 
@@ -70,29 +61,18 @@ class HowItWorks extends Component {
 
                     <div className='container'>
 
-                        {this.state.image.map((val, index) => {
-                            if (val == 1) {
-                                return (
-                                    <div style={{ gridArea: 'a' + Number(index + 1) , margin:'0.5vw'}}> <img className='hoverImage pointer' src='https://cdn.pixabay.com/photo/2015/02/24/15/41/dog-647528__340.jpg' width='100%' height='100%' /></div>
+                        {this.state.images.map((val, index) => {
 
-                                )
-                            }
-                            else if (val == 2) {
+                            if (val) {
                                 return (
+                                    <div style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}> <img className='hoverImage pointer' src='https://cdn.pixabay.com/photo/2015/02/24/15/41/dog-647528__340.jpg' width='100%' height='100%' /></div>
 
-                                    <div style={{ gridArea: 'a' + Number(index + 1)   , margin:'0.5vw'}}> <img className='hoverImage pointer' src='https://images.unsplash.com/photo-1541233349642-6e425fe6190e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80' width='100%' height='100%' /></div>
-                                )
-                            }
-                            else if (val == 3) {
-                                return (
-
-                                    <div style={{ gridArea: 'a' + Number(index + 1)  , margin:'0.5vw' }}> <img className='hoverImage pointer' src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRPrHLeU5_Ic3fTNymLhINgmM11kxPYilKF8JhLfa9IjzXBOg7c&usqp=CAU' width='100%' height='100%' /></div>
                                 )
                             }
                             else {
                                 return (
 
-                                    <div className='noImage' style={{ gridArea: 'a' + Number(index + 1)  , margin:'0.5vw' }}>
+                                    <div className='noImage' style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                     </div>
                                 )
                             }
