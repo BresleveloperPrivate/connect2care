@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/ourBrothers.png'
+import { withRouter } from 'react-router-dom';
+
 
 const Options =
-    [{ option: 'רשימת המפגשים', push: '/' },
-    { option: 'מי אנחנו', push: '/' },
+    [{ option: 'רשימת המפגשים', push: '/1' },
+    { option: 'מי אנחנו', push: '/2' },
     { option: 'תרמו לנו', push: 'https://ourbrothers.co.il/donate', open: true },
-    { option: 'צור קשר', push: '/' }]
+    { option: 'צור קשר', push: '/3' }]
 
 class NavBar extends Component {
 
@@ -43,4 +45,4 @@ class NavBar extends Component {
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
