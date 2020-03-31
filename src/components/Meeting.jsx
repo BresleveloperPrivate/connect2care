@@ -28,7 +28,7 @@ const Meeting = ({ match: { params } }) => {
             date: '26.04',
             time: '14:00',
         }
-        const {name, owner, description, relationship, language, isOpen, date, time} = res;
+        const { name, owner, description, relationship, language, isOpen, date, time } = res;
         setName(name);
         setOwner(owner);
         setDescription(description);
@@ -47,10 +47,10 @@ const Meeting = ({ match: { params } }) => {
         <div id="meetingPage">
             <div id="meetingPageLeft">left</div>
             <div id="meetingPageMain">
-                hello
-            <div id="meetingPageBottom">bottom</div>
-
+                <p>hello</p>
+                <div id="meetingPageBottom">bottom</div>
             </div>
+            <div id="meetingBlankLeft"></div>
         </div>
     );
 }

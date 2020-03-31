@@ -1,15 +1,26 @@
+$darkBlue: #082551;
+
 #meetingPage {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    height: 100%;
-    grid-template-areas:
-        "meetingPageMain meetingPageLeft";
+    display: flex;
 }
 
 #meetingPageMain {
-    grid-area: meetingPageMain;
+    padding-top: 10rem;
+    overflow: auto;
+    flex-grow: 1;
 }
 
+$meetinngPageLeftWidth: 400px;
+
 #meetingPageLeft {
-    grid-area: meetingPageLeft;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    width: $meetinngPageLeftWidth;
+    background-color: $darkBlue;
+}
+
+#meetingBlankLeft {
+    height: 100%;
+    width: $meetinngPageLeftWidth;
 }
