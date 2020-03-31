@@ -12,6 +12,7 @@ const Success = loadable(() => import('./components/Success.jsx'));
 const Meeting = loadable(() => import('./components/Meeting.jsx'));
 const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
+const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
 
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
 
@@ -23,12 +24,13 @@ class App extends Component {
                 <Router>
                     {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
                     <div className="App">
-                        <Route path="/(meeting|create-meeting|share|success)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
+                        <Route path="/(meeting|create-meeting|share|success|meetings)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
                             <Route path="/success" exact component={Success} />
                             <Route path="/" exact render={props => <Home {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting {...props} />} />
+                            <Route path="/meetings" exact render={props => <ListOfMeetingsUser {...props} />} />
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/share" exact component={Share} />
                             <Route path="/dashboard" component={DashboardMain} />

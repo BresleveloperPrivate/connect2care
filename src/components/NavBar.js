@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 
 const Options =
-    [{ option: 'רשימת המפגשים', path: '/1' },
+    [{ option: 'רשימת המפגשים', path: '/meetings' },
     { option: 'מי אנחנו', path: '/2' },
     { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
     { option: 'צור קשר', path: '/3' }]
