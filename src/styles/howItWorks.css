@@ -35,11 +35,13 @@
 .result{
     position: relative;
     border-radius: 5px;
-    background-color: var(--custom-blue);
+    background-color: var(--custom-dark-blue);
 	width: 30%;
     margin-right: 10px;
     height: 100%;
-    
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
 }
 
 .arrow-left-gray {
@@ -121,10 +123,16 @@
   }
 
   .resultText{
-      text-align: right;
+      padding-top: 2vw;
       font-size: 2vw;
       color: white;
       font-weight: 300;
+  }
+
+  .remember{
+      color: white;
+      font-weight: 600;
+      font-size: 5vw;
   }
 
   
@@ -167,11 +175,11 @@
     .result{
         position: relative;
         border-radius: 0px;
-        background-color: var(--custom-blue);
         width: 100%;
         margin-right: 0px;
         margin-top: 5px;
         height: fit-content;
+        padding-top: 10vw;
     }
 
 
@@ -226,6 +234,14 @@
         padding-top: 2.5vh;
         font-size: 3.5vw;
         border-bottom: 0.7px solid white;
+    }
+
+    .resultText{
+        font-size: 4vw;
+    }
+  
+    .remember{
+        font-size: 8vw;
     }
 
   }

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/ourBrothers.png'
-import menu from '../icons/menu.svg'
-import SideNavBar from './SidaNavBar'
+import menu from '../icons/menu.png'
+import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 
 
 const Options =
-    [{ option: 'רשימת המפגשים', push: '/1' },
-    { option: 'מי אנחנו', push: '/2' },
-    { option: 'תרמו לנו', push: 'https://ourbrothers.co.il/donate', open: true },
-    { option: 'צור קשר', push: '/3' }]
+    [{ option: 'רשימת המפגשים', path: '/1' },
+    { option: 'מי אנחנו', path: '/2' },
+    { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
+    { option: 'צור קשר', path: '/3' }]
 
 class NavBar extends Component {
     constructor(props) {
@@ -28,10 +28,11 @@ class NavBar extends Component {
     };
 
     render() {
-        // console.log("this.props.history", window.open("https://ourbrothers.co.il/donat"))
         return (
             <div className={'navbar ' + this.props.className}>
-                <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%"}} />
+                    <div className='containMenu'>
+                        <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%"}} />
+                        </div>
 
                 <div className='navbarOptions'>
                     {Options.map((value, index) => {
@@ -39,10 +40,11 @@ class NavBar extends Component {
                             <div key={index}
                                 onClick={() => {
                                     !value.open ?
-                                        this.props.history.push(value.push) :
-                                        window.open(value.push)
+                                        this.props.history.push(value.path) :
+                                        window.open(value.path)
                                 }}
                                 className='optionInNavbar grow-bold pointer'
+
                             >
                                 {value.option}
                             </div>
@@ -54,7 +56,11 @@ class NavBar extends Component {
                         <img src={ourBrothers} height='100%' />
                     </div>
                 </div>
-                <SideNavBar history={this.props.history} toggleDrawer={this.toggleDrawer} right={this.state.right} />
+                <SideNavBar history={this.props.history}
+                 toggleDrawer={this.toggleDrawer} 
+                 options={Options}
+                 right={this.state.right}
+                 />
             </div>
 
 

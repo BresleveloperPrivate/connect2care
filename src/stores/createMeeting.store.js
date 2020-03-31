@@ -18,7 +18,7 @@ class CreateMeetingStore {
         time: null,
         maxParticipants: null,
         fallens: null,
-        zoomId: 0
+        zoomId: 0,
     }
 
     changeMeetingName = (e) => {
