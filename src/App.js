@@ -6,7 +6,7 @@ import loadable from '@loadable/component';
 
 
 const Home = loadable(() => import('./components/Home.js'));
-
+const Success = loadable(() => import('./components/Success.jsx'));
 
 class App extends Component {
 
@@ -19,6 +19,7 @@ class App extends Component {
                     <div className="App">
                         <Switch>
                             <Route path="/" exact component={Home} />
+                            <Route path="/success" exact component={Success} />
                         </Switch>
                     </div>
                 </Router>
