@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+	<defs>
+		<image width="512" height="66" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABCAQMAAAAbufz3AAAAAXNSR0IB2cksfwAAAAZQTFRF/0haBTzIbRcf2wAAAAJ0Uk5TAP9bkSK1AAAAw0lEQVR4nO3XwQ3DIAxAUVc99NgRGIXRktEySkbgyAHFKWYDf0tEFdz9JLABW0Qkq3M1sfX2xqseBiQ/UAzY/MBlgD9eFR7BOIQPAU52hqqVVEFfjSVhpIHE9zS8GLBzAJVBLwRUBr0QvgwoHEgMqBzIDGjTgYvdpWcALP53nxewgAX8DbCx+Cc8aXkyEPAzJQYE/M7zOxTcZOE2DwO4U8XNNm/3MwFaxMiDKqlEjH0oj3vI6Jv8QDUAXKcx/vv30HdwA7CPBERPw+VkAAAAAElFTkSuQmCC"/>
+		<image width="329" height="66" id="img2" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUkAAABCAQMAAADg9LacAAAAAXNSR0IB2cksfwAAAAZQTFRF/0haBTzIbRcf2wAAAAJ0Uk5TAP9bkSK1AAAAvUlEQVR4nO3WsQ3DIBCF4bNSuMwIjMJo8WgeJSO4dIH8Ihlc8z/JKIoU6k8ynA/uRUS81FtH1PXoSmmtNAG6V9r//rWDCUhpoVttm50R3eip2rkyooUWoJUASQnX6qwWpSst60lZWaV3xBPSzaIJ0t2iGdIyhB60W0ZR4R78Lbr86RD69R9rtTal3t3K91PvdUmQei/hmFfbGBvGMDJGnDE4jXHsDPmMaDEDiRFzjPBkRDIj6Dnx0QilNOp+AKCiIOeqqwhfAAAAAElFTkSuQmCC"/>
+		<image width="512" height="66" id="img3" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABCAQMAAAAbufz3AAAAAXNSR0IB2cksfwAAAAZQTFRF/0haBTzIbRcf2wAAAAJ0Uk5TAP9bkSK1AAAAwElEQVR4nO2XsQ2AMAwEjSgoGYFRMloYjVEYgZIiwuBkA1+kRCju/yT8NnmLiER11iO5Fq9e9ciAzQ+4MyD6AfkbJr9edf8AMwFYE1YCuFgPSxcDASRmQrGB6FWhi+YjctF8xACwSlYnmyObJAzYGODmgMAAqTngYbvUB4Dpv30egAEYgN8AItP38EsLDND+YUkdvM7tEwoOWTjm4aSKAThs87gfCCDVOHnQIJw1zj5kQ5XTlx/foAnl/PdPgk3BC+UkBErhG0prAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+	</style>
+	<g id="Layer">
+		<use id="Layer" href="#img1" x="0" y="26" />
+		<use id="Layer" href="#img2" x="183" y="223" />
+	</g>
+	<use id="Layer" href="#img3" x="0" y="420" />
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+	<g id="Layer">
+	</g>
+</svg>

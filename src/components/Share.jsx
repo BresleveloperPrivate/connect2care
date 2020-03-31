@@ -13,7 +13,7 @@ class Share extends Component {
     render() {
 
         return (
-            <div>
+            <div className="navBarMargin">
                 <button onClick={this.shareWithWhatsApp}>whatsApp</button>
                 <button >facebook</button>
             </div>
