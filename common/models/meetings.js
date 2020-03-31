@@ -58,4 +58,23 @@ module.exports = function (meetings) {
         ],
         returns: { arg: 'res', type: 'object', root: true }
     });
+
+    meetings.GetMeetingInfo = (meetingId, cb) => {
+        (async () => {
+            try {
+                const meeting = await meetings.findById(meetingId, {include: ['meetingOwner', 'zoom', 'fallens_meetings', 'fallens', 'people']});
+                console.log(meeting)
+            } catch (err) {
+                console.log(err);
+                cb(err, null);
+            }
+        })();
+    } 
+
+    meetings.remoteMethod('GetMeetingInfo', {
+        description: "Get House Id by Access Token",
+        accepts: [{ arg: "meetingId", type: "string", required: true, http: {source: 'path'} }],
+        returns: { type: "object", root: true },
+        http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
+    });
 };
