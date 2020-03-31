@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import OpeningImage from './OpeningImage'
+import '../styles/animations.scss'
 import NavBar from './NavBar'
+import OpeningImage from './OpeningImage'
 import Explanation from './Explanation'
 import HowItWorks from './HowItWorks'
 import OptionsButtons from './OptionsButtons'

@@ -12,7 +12,7 @@ class Donate extends Component {
                 <div className='containDonate'>
                     
                   <div className='donateText'>רוצה לעזור לנו להמשיך לזכור?</div>  
-                    <div className='donateButton'>לתרומה לעמותה</div>
+                    <div className='pointer grow donateButton'>לתרומה לעמותה</div>
                     
                     </div>
 

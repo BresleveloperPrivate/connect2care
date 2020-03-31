@@ -7,8 +7,8 @@ class containOptions extends Component {
         return (
 
                 <div className={this.props.className}>
-                        <div className='pointer firstOptionOpeningImage'>אני רוצה ליזום מפגש</div>
-                        <div className='pointer secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
+                        <div className='pointer grow firstOptionOpeningImage'>אני רוצה ליזום מפגש</div>
+                        <div className='pointer grow secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
                 </div>
 
         );

@@ -15,10 +15,10 @@
     border-radius: 5px;
     background-color: var(--custom-light-blue);
     width: 50%;
-    position: relative;
 
 }
 .result{
+    position: relative;
     border-radius: 5px;
     background-color: var(--custom-blue);
 	width: 30%;
@@ -45,7 +45,7 @@
     bottom: 0;
     margin-top: auto;
 	margin-bottom: auto;
-	left: -40px;
+	right: -10px;
   }
 
 
@@ -70,5 +70,88 @@
     bottom: 0;
     margin-top: auto;
 	margin-bottom: auto;
-	left: -30px;
+	right: -11px;
+  }
+
+  @media screen and (max-width: 500px){
+
+
+    .containHowItWorks{
+
+        padding: 0vw;
+    }
+
+
+    .howItWorks{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .levels{
+        border-radius: 0px;
+        background-color: var(--custom-light-blue);
+        width: 100%;
+    
+    }
+    .result{
+        position: relative;
+        border-radius: 0px;
+        background-color: var(--custom-blue);
+        width: 100%;
+        margin-right: 0px;
+        margin-top: 5px;
+    }
+
+
+
+
+
+
+    .arrow-left-gray {
+        position: absolute;
+        background: var(--custom-gray-2);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        border-radius: 15px;
+      }
+      
+      .coverBig {
+        transform: rotate(270deg);
+        position: absolute;
+        overflow: hidden;
+        margin-right: auto;
+        margin-left: auto;
+        right: 0;
+        left: 0;
+        margin-top: -21px;
+        top: 0;
+        width: 30px;
+
+      }
+
+
+    .arrow-left-blue {
+        position: absolute;
+        background: var(--custom-light-blue);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        border-radius: 10px;        
+      }
+      
+      .coverSmall {
+        transform: rotate(270deg);
+        z-index: 5;
+        position: absolute;
+        overflow: hidden;
+        margin-right: auto;
+        margin-left: auto;
+        right: 0;
+        left: 0;
+        margin-top: -16px;
+        top: 0;
+
+      }
+
   }
