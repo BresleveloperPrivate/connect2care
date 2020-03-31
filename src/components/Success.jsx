@@ -3,6 +3,7 @@ import '../styles/success.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fallenImage from '../icons/515374.png';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
+import Sharing from './Sharing.jsx';
 
 
 class Success extends Component {
@@ -51,24 +52,43 @@ class Success extends Component {
     }
 
     render() {
-        return (<div className="sucessPage">
-            {this.state.isMeetingOpen != null ? <div>
-                <div className="backArrow"><FontAwesomeIcon icon="arrow-right" color="#ffffff" onClick={this.pageBack} /></div>
-                <div className="sucessHeadline">מצויין יצרת מפגש</div>
-                <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
-                <div className="sucessInfo">
-                    <img className="fallenImage" src={fallenImage} width="93px" height="123px" />
-                    <div className="meetingInfo">
-                        <div className="deathTime">{this.state.dateOfDeath}</div>
-                        <div className="relationInfo">
-                            <div className="relationDiv">
-                                <img className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
-                                <span className="relationInfo">{this.state.meetingStarter}, {this.state.relation}</span>
+        return (<div>
+            {this.state.isMeetingOpen !== null ?
+                <div>
+                    <div className="sucessPage">
+                        <div className="bigContainer">
+                            <div className="backArrow"><FontAwesomeIcon icon="arrow-right" color="#ffffff" onClick={this.pageBack} /></div>
+                            <div className="sucessHeadline">מצויין יצרת מפגש</div>
+                            <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
+                            <div className="sucessInfo">
+                                <img className="fallenImage" src={fallenImage} width="93px" height="123px" />
+                                <div className="meetingInfo">
+                                    <div className="deathTime">{this.state.dateOfDeath}</div>
+                                    {/* <div className="relationInfo"> */}
+                                    <div className="relationDiv">
+                                        <img className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
+                                        <span className="relationInfo">{this.state.meetingStarter}, {this.state.relation}</span>
+                                    </div>
+                                    <div className="detailsInfo">{this.state.meetingStory}</div>
+                                    {/* </div> */}
+                                    <div className="meetingDate">
+                                        <FontAwesomeIcon icon="clock" color="#ffffff" />
+                                        <span className="exactDate">{this.state.meetingDate} {this.state.meetingHour}</span>
+                                    </div>
+                                    <div className="isMeetingOpen">{this.state.isMeetingOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
+                                </div>
                             </div>
+                            <div className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
-                </div>
-            </div> : <div>טוען...</div>}
+                    <div className="sharingComponent"><Sharing /></div>
+                    <div className="whiteFutter">
+                        <div className="additionalInfo">
+                        <div>*קישור למפגש מחכה לך בתיבת המייל</div>
+                        <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
+                        </div>
+                    </div>
+                </div> : <div>טוען...</div>}
         </div>);
     }
 }

@@ -1,2 +1,3 @@
 import ExampleStore from './example.store'
-export default {ExampleStore}
+import CreateMeetingStore from './createMeeting.store'
+export default { ExampleStore, CreateMeetingStore }
