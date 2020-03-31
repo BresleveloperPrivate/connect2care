@@ -23,7 +23,7 @@
     "relations": {
         "meetingOwner": {
             "type": "belongsTo",
-            "model": "meetingOwner",
+            "model": "people",
             "foreignKey": "owner"
         },
         "zoom": {
@@ -43,17 +43,17 @@
             "keyThrough": "fallen",
             "through": "fallens_meetings"
         },
-        "users_meetings": {
+        "people_meetings": {
             "type": "hasMany",
-            "model": "users_meetings",
+            "model": "people_meetings",
             "foreignKey": "meeting"
         },
-        "CustomUser": {
+        "people": {
             "type": "hasMany",
-            "model": "CustomUser",
+            "model": "people",
             "foreignKey": "meeting",
-            "keyThrough": "user",
-            "through": "users_meetings"
+            "keyThrough": "person",
+            "through": "people_meetings"
         }
     },
     "properties": {
@@ -104,14 +104,14 @@
                 "nullable": "Y"
             }
         },
-        "relatoinship": {
+        "relationship": {
             "type": "String",
             "required": false,
             "length": 50,
             "precision": null,
             "scale": null,
             "mysql": {
-                "columnName": "relatoinship",
+                "columnName": "relationship",
                 "dataType": "varchar",
                 "dataLength": 50,
                 "dataPrecision": null,
@@ -186,7 +186,7 @@
             "precision": null,
             "scale": null,
             "mysql": {
-                "columnName": "relatoinship",
+                "columnName": "time",
                 "dataType": "varchar",
                 "dataLength": 50,
                 "dataPrecision": null,

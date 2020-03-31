@@ -1,7 +1,7 @@
 .openingImage{
     position: relative;
     width: 100vw;
-    height: 50vw;
+    height: 85vh;
     background-image: url(../icons/openImage.png);
     background-repeat: no-repeat;
     background-size: cover;
