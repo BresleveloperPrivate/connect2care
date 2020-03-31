@@ -5,8 +5,8 @@ import './App.scss';
 import loadable from '@loadable/component';
 
 
-const Home = loadable(() => import('./components/Home.jsx'));
-const CreateMeeting = loadable(() => import('./components/CreateMeeting.js'));
+const Home = loadable(() => import('./components/Home.js'));
+const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 
 
 class App extends Component {
