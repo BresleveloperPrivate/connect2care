@@ -1,0 +1,17 @@
+.grow{
+    transition: transform 0.5s ease;
+}
+
+.grow:hover{
+    transform: scale(1.05);
+}
+
+.grow-bold{
+    transition: font-weight 0.5s ease ,  transform 0.5s ease;
+
+}
+
+.grow-bold:hover{
+    font-weight: 500;
+    transform: scale(1.1);
+}

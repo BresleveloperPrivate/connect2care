@@ -2,6 +2,8 @@
 
 .App{
     font-family: 'Assistant';
+    height: 100vh;
+    overflow-y: overlay;
 }
 
 :root {
@@ -11,6 +13,7 @@
     --custom-gray-2: #EEEEEE;
     --custom-light-blue: #3586B1;
     --custom-yellow: #F5C508;
+    --custom-green: #19A099;
 }
 
 .pointer{
@@ -20,10 +23,10 @@
 .navbar{
     z-index: 10;
     width: 100vw;
-    height: 10vh;
+    height: 10vh !important;
     box-shadow: 0px 3px 6px #00000029;
     position: fixed;
-    top: 0;
+    top: 0 !important;
     display: flex;
 }
 
@@ -56,11 +59,12 @@
     font-size: 15px;
     font-weight: 300;
     color: var(--custom-blue);
-    margin: 0px 2vw;
+    margin: 0px 1vw;
+    padding: 0 1vw;
     margin-top: auto;
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 550px){
     .navbarIcon{
         width: 30%;
     }

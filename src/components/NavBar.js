@@ -22,7 +22,7 @@ class NavBar extends Component {
                                 onClick={() => {
                                     this.props.history.push(value.push)
                                 }}
-                                className='optionInNavbar pointer'
+                                className='optionInNavbar grow-bold pointer'
                             >
                                 {value.option}
                             </div>
