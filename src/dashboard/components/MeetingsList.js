@@ -4,7 +4,7 @@ const MeetingsList = (props) => {
 
     return (
         <div>
-           
+           רשימה
         </div>
     )
 }

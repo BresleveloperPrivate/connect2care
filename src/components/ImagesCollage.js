@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import candle from '../icons/candle.svg'
 import '../styles/imagesCollage.css'
 import { imageSize } from 'image-size';
+import Auth from '../modules/auth/Auth'
+
 
 const constImages = []
+
 class HowItWorks extends Component {
 
     constructor(props) {
@@ -14,25 +17,49 @@ class HowItWorks extends Component {
     }
 
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
 
-
-        let i = 0
-        while (i < 32) {
-            if (constImages[i]) {
-                constImages.push(constImages[i])
-            }
-            else{
-                constImages.push(null)
-            }
-            i++
-        }
-
-        if (window.innerWidth <= 550) {
-            this.setState({ images: constImages.slice(0, 10) })
+        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"32"}', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        })
+        if (err) {
+            console.log(err)
         } else {
-            this.setState({ images:constImages })
+            let i = 0
+            let meeting = 0
+            while (i < 32) {
+                if (meetings[meeting]) {
+                    for (let j = 0; j < meetings[meeting].fallens.length; j++) {
+
+                        if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id)) {
+                            constImages.push(
+                                {
+                                    meetingId: meetings[meeting].id,
+                                    fallenId: meetings[meeting].fallens[j].id,
+                                    image: meetings[meeting].fallens[j].image_link,
+                                    alt: meetings[meeting].fallens[j].firstName
+                                }
+                            )
+                            i++
+                        }
+                    }
+                    meeting++
+                }
+                else {
+                    constImages.push(null)
+                    i++
+                }
+            }
+
+            if (window.innerWidth <= 550) {
+                this.setState({ images: constImages.slice(0, 10) })
+            } else {
+                this.setState({ images: constImages })
+            }
         }
+
+
         window.addEventListener('resize', this.onResize);
 
     }
@@ -43,7 +70,7 @@ class HowItWorks extends Component {
             images = constImages.slice(0, 10)
             this.setState({ images })
         } else {
-            this.setState({ images:constImages })
+            this.setState({ images: constImages })
         }
     }
 
@@ -57,21 +84,27 @@ class HowItWorks extends Component {
                     <div className='topLabel'>
                         <div className='label'>מתחברים וזוכרים. לזכרם.</div>
                     </div>
-
-
                     <div className='container'>
 
                         {this.state.images.map((val, index) => {
 
                             if (val) {
                                 return (
-                                    <div style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}> <img className='hoverImage pointer' src='https://cdn.pixabay.com/photo/2015/02/24/15/41/dog-647528__340.jpg' width='100%' height='100%' /></div>
-
+                                    <div style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
+                                        <img
+                                            onClick={()=>{
+                                                this.props.history.push(`/meeting/${val.meetingId}`)
+                                            }}
+                                            className='hoverImage pointer'
+                                            src={val.image}
+                                            alt={val.alt}
+                                            width='100%'
+                                            height='100%' />
+                                    </div>
                                 )
                             }
                             else {
                                 return (
-
                                     <div className='noImage' style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                     </div>
                                 )
