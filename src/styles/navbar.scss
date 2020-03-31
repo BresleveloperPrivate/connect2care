@@ -20,6 +20,18 @@
     cursor: pointer;
 }
 
+.containMenu{
+    display: flex;
+    text-align: right;
+    align-items: center;
+    z-index: 11;
+    position: fixed;
+    right: 20px;
+    top: calc(5vh - 5vw);
+    height: 10vw;
+    visibility: hidden;
+}
+
 .navbar{
     z-index: 10;
     width: 100vw;
@@ -47,7 +59,7 @@
     width: 40%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -73,6 +85,12 @@
     .containIconNavbar{
         height: 60%;
     }
+    .containMenu{
+        visibility: visible;
+    }
+    .optionInNavbar{
+       display: none;
+    }
 }
 
 @media screen and (max-width: 370px){
@@ -91,13 +109,6 @@
    
     .optionInNavbar{
       font-size: 12px;
-    }
-}
-
-@media screen and (max-width: 400px){
-   
-    .optionInNavbar{
-      font-size: 9px;
     }
 }
 

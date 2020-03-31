@@ -32,7 +32,7 @@ class Home extends Component {
 
                 <OptionsButtons className='containOptionsBottom' />
 
-                <ImagesCollage />
+                <ImagesCollage history={this.props.history} />
 
                 <Quote />
 

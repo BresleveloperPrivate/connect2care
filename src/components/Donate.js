@@ -7,12 +7,12 @@ class Donate extends Component {
         return (
 
             <div className='donateImage'>
-                {/* <img className='openingImage' src={openImage} width='100%' /> */}
-                {/* <img className='lightBlueBackground' src={lightBlueBackground} /> */}
                 <div className='containDonate'>
                     
                   <div className='donateText'>רוצה לעזור לנו להמשיך לזכור?</div>  
-                    <div className='pointer grow donateButton'>לתרומה לעמותה</div>
+                    <div className='pointer grow donateButton' onClick={()=>{
+                        window.open('https://ourbrothers.co.il/donate')
+                    }}>לתרומה לעמותה</div>
                     
                     </div>
 

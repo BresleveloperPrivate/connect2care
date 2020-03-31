@@ -84,8 +84,8 @@ class Success extends Component {
                     <div className="sharingComponent"><Sharing /></div>
                     <div className="whiteFutter">
                         <div className="additionalInfo">
-                        <div>*קישור למפגש מחכה לך בתיבת המייל</div>
-                        <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
+                            <div>*קישור למפגש מחכה לך בתיבת המייל</div>
+                            <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
                         </div>
                     </div>
                 </div> : <div>טוען...</div>}

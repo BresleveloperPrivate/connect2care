@@ -507,7 +507,7 @@ DROP TABLE IF EXISTS `people_meetings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `people_meetings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` int(11) unsigned NOT NULL,
+  `person` int(11) unsigned NOT NULL,
   `meeting` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -582,4 +582,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-31 11:52:40
+-- Dump completed on 2020-03-31 13:18:13
