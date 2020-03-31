@@ -1,2 +1,3 @@
 import ExampleStore from './example.store'
-export default {ExampleStore}
+import ManagerStore from './manager.store'
+export default {ExampleStore, ManagerStore}

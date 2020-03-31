@@ -6,6 +6,7 @@ import loadable from '@loadable/component';
 
 
 const Home = loadable(() => import('./components/Home.js'));
+const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
 
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
                     <div className="App">
                         <Switch>
                             <Route path="/" exact component={Home} />
+                            <Route path="/dashboard" component={DashboardMain} />
                         </Switch>
                     </div>
                 </Router>

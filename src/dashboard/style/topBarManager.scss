@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo&display=swap');
+
+:root {
+    --custom-blue: #2A3474;
+    --custom-background-light-blue: #F0F0F7;
+    --custom-table-gray: #e7e7ec;
+    --custom-gray: #A3A6B4;
+    --custom-orange: #E1663C;
+    --custom-green: #6EC05D;
+    --custom-grey-image-uploader: #BCBCCB;
+    --custom-light-blue: #2EAFE5;
+    --custom-yellow: #F7C315;
+}
+
+::-webkit-scrollbar {
+    background-color: var(--custom-background-light-blue) !important;
+    width: 5px;
+    height: 5px;
+}
+  
+::-webkit-scrollbar-button {
+    display:none
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: var(--custom-gray) !important;
+    border-radius: 16px;
+} 
+  
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    letter-spacing: 0.24px;
+    color: var(--custom-gray);
+    opacity: 0.5;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    letter-spacing: 0.24px;
+    color: var(--custom-gray);
+    opacity: 0.5;
+}
+  
+:-ms-input-placeholder { /* IE 10+ */
+    letter-spacing: 0.24px;
+    color: var(--custom-gray);
+    opacity: 0.5;
+}
+  
+:-moz-placeholder { /* Firefox 18- */
+    letter-spacing: 0.24px;
+    color: var(--custom-gray);
+    opacity: 0.5;
+}
+
+* {
+    font-family: 'Heebo';
+}
+
+.topBar{
+    background: var(--custom-blue) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #0000000A;
+    height: 8vh;
+    position: fixed;
+    z-index: 100000;
+    width: 100vw;
+    color: white;
+    font-family: 'Heebo';
+}
+
+.managerName{
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    font-size: 17px;
+    padding-left: 8vw;
+}
+
+body{
+    background-color: var(--custom-background-light-blue) !important;
+}
+
+.backBtn{
+    font-size: 25px;
+    color: var(--custom-gray);
+    transition: color 0.5s ease;
+}
+
+.backBtn:hover{
+    color: var(--custom-orange) !important;
+}
+
+.paddingBottomDiv{
+    padding-bottom: 70px;
+}
