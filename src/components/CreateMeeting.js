@@ -13,7 +13,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
 
-
 const CssTimePicker = withStyles({
     root: {
         '&': {
@@ -23,10 +22,12 @@ const CssTimePicker = withStyles({
             color: '#157492',
             fontSize: '130%',
             textAlign: 'center',
-
         },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: '#157492'
+        '& .MuiInput-underline:hover': {
+            borderBottomColor: "none"
+        },
+        '& .MuiInput-underline:before:hover': {
+            borderBottomColor: "none"
         },
         '& .MuiInput-underline:before': {
             border: 'none',
@@ -47,13 +48,9 @@ const CreateMeeting = (props) => {
     useEffect(() => {
         getTimeValue()
     }, [props.CreateMeetingStore.meetingDetails.time]);
-    const setSelectedAreaAndError = (area) => {
-        setSelectedArea(area);
-        setError("")
-    }
 
     const searchFallen = () => {
-
+        
     }
 
     const getTimeValue = () => {
@@ -65,11 +62,6 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }} className="CreateMeeting">
-            <NavBar
-                history={props.history}
-                className={'navbar-opening'}
-            />
-
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
@@ -89,7 +81,7 @@ const CreateMeeting = (props) => {
                     placeholder="תאור קצר"
                 />
 
-                <div className="margin-right-text d-flex align-items-start" style={{ width: "60%" }}>
+                <div className="margin-right-text d-flex align-items-start" style={{ width: "65%" }}>
                     <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
                     <div style={{ width: "70%" }}>
                         <input
@@ -138,6 +130,7 @@ const CreateMeeting = (props) => {
                         <img src={grayCandle} alt="grayCandle" style={{ height: "13vh" }} />
                     </div>
                 </div>
+                
                 <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "2vh" }}>
                     <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
                     <div className="inputDetail">פרטי יוצר המפגש:</div>
@@ -174,7 +167,7 @@ const CreateMeeting = (props) => {
                     arr={meetingLanguage.map((name) => {
                         return { option: name }
                     })}
-                    width='60%'
+                    width='65%'
                     selectedText={props.CreateMeetingStore.meetingDetails.language}
                     className='inputStyle margin-right-text '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
@@ -185,7 +178,7 @@ const CreateMeeting = (props) => {
                     <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                     <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                 </div>
-                <div style={{ width: "60%" }} className="d-flex margin-right-text justify-content-between">
+                <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-between">
                     <Select
                         selectTextDefault='תאריך'
                         arr={meetingDate.map((name) => {
@@ -209,6 +202,7 @@ const CreateMeeting = (props) => {
                                 clearLabel={null}
                                 value={timeValue}
                                 onChange={props.CreateMeetingStore.changeMeetingTime}
+                                style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
                             />
                         </MuiPickersUtilsProvider>
                     </div>
@@ -222,13 +216,13 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-                <div style={{ width: "60%" }} className="d-flex margin-right-text justify-content-end">
-                    <div className="createMeetingButton">צור מפגש</div>
+                <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-end">
+                    <div  onClick={()=>props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
 
             {!pressOnCancel && <div className="position-fixed containInputTextSide">
-                <img src={cancel} alt="cancel pointer" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "26%", top: "14vh" }} />
+                <img src={cancel} alt="cancel pointer" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "24%", top: "14vh" }} />
                 <br />
                 <img src={Business} alt="Business" style={{ marginBottom: "8vh" }} />
                 <div className="textSide">
@@ -240,9 +234,7 @@ const CreateMeeting = (props) => {
                 </div>
             </div>}
         </div>
-
     );
-
 }
 
 export default inject('CreateMeetingStore')(observer(CreateMeeting));

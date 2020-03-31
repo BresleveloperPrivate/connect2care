@@ -2,42 +2,61 @@ import React, { Component } from 'react';
 import candle from '../icons/candle.svg'
 import '../styles/imagesCollage.css'
 import { imageSize } from 'image-size';
+import Auth from '../modules/auth/Auth'
 
-const image = []
+
+const constImages = []
+
 class HowItWorks extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            image: []
+            images: []
         }
     }
 
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
 
+        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"32"}', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        })
+        if (err) {
+            console.log(err)
+        } else {
+            let i = 0
+            let meeting = 0
+            while (i < 32) {
+                if (meetings[meeting]) {
+                    for (let j = 0; j < meetings[meeting].fallens.length; j++) {
 
-        let i = 0
-        while (i < 32) {
-            if (i % 5 == 0) {
-                image.push(3)
+                        if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id)) {
+                            constImages.push(
+                                {
+                                    meetingId: meetings[meeting].id,
+                                    fallenId: meetings[meeting].fallens[j].id,
+                                    image: meetings[meeting].fallens[j].image_link,
+                                    alt: meetings[meeting].fallens[j].firstName
+                                }
+                            )
+                            i++
+                        }
+                    }
+                    meeting++
+                }
+                else {
+                    constImages.push(null)
+                    i++
+                }
             }
-            else if (i % 3 == 0) {
-                image.push(2)
-            }
-            else if (i % 2 == 0) {
-                image.push(1)
-            }
-            else {
-                image.push(0)
-            }
-            i++
-        }
 
-        if (window.innerWidth <= 550) {
-            this.setState({ image : image.slice(0,10)})
-        }else{
-            this.setState({ image })
+            if (window.innerWidth <= 550) {
+                this.setState({ images: constImages.slice(0, 10) })
+            } else {
+                this.setState({ images: constImages })
+            }
         }
 
 
@@ -47,12 +66,11 @@ class HowItWorks extends Component {
 
     onResize = () => {
         if (window.innerWidth <= 550) {
-            let image = this.state.image
-            image = image.slice(0, 10)
-            console.log(image)
-            this.setState({ image })
+            let images = this.state.images
+            images = constImages.slice(0, 10)
+            this.setState({ images })
         } else {
-            this.setState({ image })
+            this.setState({ images: constImages })
         }
     }
 
@@ -66,33 +84,28 @@ class HowItWorks extends Component {
                     <div className='topLabel'>
                         <div className='label'>מתחברים וזוכרים. לזכרם.</div>
                     </div>
-
-
                     <div className='container'>
 
-                        {this.state.image.map((val, index) => {
-                            if (val == 1) {
-                                return (
-                                    <div style={{ gridArea: 'a' + Number(index + 1) , margin:'0.5vw'}}> <img className='hoverImage pointer' src='https://cdn.pixabay.com/photo/2015/02/24/15/41/dog-647528__340.jpg' width='100%' height='100%' /></div>
+                        {this.state.images.map((val, index) => {
 
-                                )
-                            }
-                            else if (val == 2) {
+                            if (val) {
                                 return (
-
-                                    <div style={{ gridArea: 'a' + Number(index + 1)   , margin:'0.5vw'}}> <img className='hoverImage pointer' src='https://images.unsplash.com/photo-1541233349642-6e425fe6190e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80' width='100%' height='100%' /></div>
-                                )
-                            }
-                            else if (val == 3) {
-                                return (
-
-                                    <div style={{ gridArea: 'a' + Number(index + 1)  , margin:'0.5vw' }}> <img className='hoverImage pointer' src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRPrHLeU5_Ic3fTNymLhINgmM11kxPYilKF8JhLfa9IjzXBOg7c&usqp=CAU' width='100%' height='100%' /></div>
+                                    <div style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
+                                        <img
+                                            onClick={()=>{
+                                                this.props.history.push(`/meeting/${val.meetingId}`)
+                                            }}
+                                            className='hoverImage pointer'
+                                            src={val.image}
+                                            alt={val.alt}
+                                            width='100%'
+                                            height='100%' />
+                                    </div>
                                 )
                             }
                             else {
                                 return (
-
-                                    <div className='noImage' style={{ gridArea: 'a' + Number(index + 1)  , margin:'0.5vw' }}>
+                                    <div className='noImage' style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                     </div>
                                 )
                             }

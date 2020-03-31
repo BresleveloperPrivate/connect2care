@@ -9,7 +9,7 @@
     font: normal 35px/46px Assistant;
     letter-spacing: 0.5;
     margin-right: 2vw;;
-    max-width: 60%;
+    max-width: 65%;
     color: #3586B1;
     padding-bottom: 5vh;
 }
@@ -19,7 +19,7 @@
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
-    width: 60%;
+    width: 65%;
     padding: 1vh 2vh;
     margin-bottom: 2vh;
 }
@@ -53,7 +53,7 @@ input[type=radio]:focus {
     top: 10vh;
     left: 0px;
     height: 90vh;
-    width: 30%;
+    width: 27%;
 }
 
 .createMeetingButton{
@@ -121,11 +121,18 @@ input[type=radio]:focus {
     padding: 0 ;
 }
   
-.inputStyle .MuiInputBase-input.Mui-disabled{
+.inputStyle .MuiInputBase-input.Mui-disabled {
     color: #157492 !important;
     -webkit-text-fill-color: #157492 !important;
 }
-  
+
+.MuiInput-underline:hover:not(.Mui-disabled):before{
+    border-bottom: none;
+}
+
+.MuiInput-underline:after{
+    border-bottom: none;
+}
 .MuiPickersModal-withAdditionalAction > *:first-child{
     cursor: not-allowed;
     pointer-events: none;
