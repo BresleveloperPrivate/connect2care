@@ -1,21 +1,134 @@
 $darkBlue: #082551;
+$lightBlue: #3586b1;
+$meetinngPageLeftWidth: 400px;
+$navBarMargin: 10vh;
 
 #meetingPage {
     display: flex;
 }
 
 #meetingPageMain {
-    padding-top: 10rem;
-    overflow: auto;
-    flex-grow: 1;
+    padding-top: $navBarMargin + 7vh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100vw - 400px);
+
+    #meetingMainMain {
+        padding-left: 162px;
+        padding-right: 162px;
+
+        #meetingButtons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #meetingTop {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+
+            #meetingName {
+                text-align: right;
+                font-size: 40px;
+                color: $darkBlue;
+                font-weight: bold;
+            }
+            #meetingOwner {
+                font-size: 32px;
+                text-align: right;
+                color: $lightBlue;
+            }
+
+            #meetingDescription {
+                text-align: right;
+                font-size: 20px;
+                margin-top: 24px;
+                color: #707070;
+                width: auto;
+            }
+
+            #meetingDateTime {
+                text-align: right;
+                color: $darkBlue;
+                font-weight: bold;
+                font-size: 20px;
+            }
+        }
+
+        #meetingFallenList {
+            margin: 40px 0;
+
+            .meetingFallen {
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-end;
+                margin-bottom: 24px;
+
+                .meetingFallenDescription {
+                    text-align: right;
+
+                    .fallenCandle {
+                        height: 24px;
+                    }
+
+                    .fallenName {
+                        font-size: 24px;
+                        color: $darkBlue;
+                        font-weight: bold;
+                    }
+
+                    .fallenDate {
+                        font-size: 20px;
+                        color: $darkBlue;
+                    }
+                }
+
+            }
+        }
+    }
+
+    #meetingPageBottom {
+        background: $lightBlue;
+        padding: 22px;
+        padding-right: 264px;
+        display: flex;
+        align-items: center;
+
+        #peopleCircle {
+            border: white 2px solid;
+            border-radius: 100vh;
+            width: 56px;
+            height: 56px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+
+            #peopleCircleNum {
+                margin-top: -5px;
+                color: white;
+                font-size: 28px;
+            }
+        }
+
+        #peopleCircleText {
+            color: white;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+    }
 }
 
-$meetinngPageLeftWidth: 400px;
-
 #meetingPageLeft {
-    position: absolute;
+    position: fixed;
     height: 100%;
     left: 0;
+    top: 0;
     width: $meetinngPageLeftWidth;
     background-color: $darkBlue;
 }

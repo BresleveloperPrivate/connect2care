@@ -8,7 +8,7 @@ import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 
 const Home = loadable(() => import('./components/Home.js'));
-const Meeting = loadable(() => import('./components/Meeting.jsx'));
+const Meeting = loadable(() => import('./components/Meeting/Meeting'));
 const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 
