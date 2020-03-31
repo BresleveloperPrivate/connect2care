@@ -1,0 +1,15 @@
+#meetingPage {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    height: 100%;
+    grid-template-areas:
+        "meetingPageMain meetingPageLeft";
+}
+
+#meetingPageMain {
+    grid-area: meetingPageMain;
+}
+
+#meetingPageLeft {
+    grid-area: meetingPageLeft;
+}
