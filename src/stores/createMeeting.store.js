@@ -15,7 +15,7 @@ class CreateMeetingStore {
         language: null,
         isOpen: null,
         date: null,
-        time: null,
+        time: "00:00",
         maxParticipants: null,
         fallens: null,
         zoomId: 0
@@ -62,11 +62,14 @@ class CreateMeetingStore {
     }
 
     changeNumberOfParticipants = (e) => {
+        console.log("e.target.value.match(/[0-9]/g)", e.target.value.match(/[0-9]/g))
+        console.log("e.target.value", e.target.value)
+        if (e.target.value.match(/[^0-9]/g)) return
         this.meetingDetails.maxParticipants = e.target.value
     }
 
-    changeMeetingTime = (e) => {
-        this.meetingDetails.time = e.target.value
+    changeMeetingTime = (event) => {
+        this.meetingDetails.time = (event.getHours() < 10 ? '0' : '') + event.getHours() + ":" + (event.getMinutes() < 10 ? '0' : '') + event.getMinutes()
     }
 }
 
@@ -74,6 +77,7 @@ decorate(CreateMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
     fallenDate: observable,
+    meetingDetails: observable,
     changeNumberOfParticipants: action,
     changeMeetingTime: action,
     changeMeetingOpenOrClose: action,

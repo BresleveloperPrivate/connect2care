@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import blueCandle from '../icons/candle-blue.svg'
@@ -8,22 +7,46 @@ import grayCandle from '../icons/gray-candle.svg'
 import person from '../icons/person.png'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
+import cancel from '../icons/cancel.svg'
 import Business from '../icons/business.svg'
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
+import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
 
+
+const CssTimePicker = withStyles({
+    root: {
+        '&': {
+            width: '61px'
+        },
+        '& input': {
+            color: '#157492',
+            fontSize: '130%',
+            textAlign: 'center',
+
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#157492'
+        },
+        '& .MuiInput-underline:before': {
+            border: 'none',
+        },
+    },
+})(TimePicker);
 
 const CreateMeeting = (props) => {
     const [selectedArea, setSelectedArea] = useState("")
-    const [selectedEra, setSelectedEra] = useState(0)
+    const [pressOnCancel, setPressOnCancel] = useState(false)
     const [error, setError] = useState()
+    const [timeValue, setTimeValue] = useState()
 
     const myCloseToTheFallen = ["אח", "הורים", "קורבי משפחה", "חבר", "אחר"]
     const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
     const meetingDate = ["26.04 - יום ראשון", "27.04 - ערב יום הזכרון", "28.04 - יום הזכרון", "29.04- יום רביעי"]
 
-    //useEffect(() => {
-    //  (async () => {
-    //})()
-    // }, []);
+    useEffect(() => {
+        getTimeValue()
+    }, [props.CreateMeetingStore.meetingDetails.time]);
     const setSelectedAreaAndError = (area) => {
         setSelectedArea(area);
         setError("")
@@ -33,8 +56,15 @@ const CreateMeeting = (props) => {
 
     }
 
+    const getTimeValue = () => {
+        let time = new Date()
+        time.setHours(props.CreateMeetingStore.meetingDetails.time.split(":")[0])
+        time.setMinutes(props.CreateMeetingStore.meetingDetails.time.split(":")[1])
+        setTimeValue(time)
+    }
+
     return (
-        <div style={{ textAlign: "right" }}>
+        <div style={{ textAlign: "right" }} className="CreateMeeting">
             <NavBar
                 history={props.history}
                 className={'navbar-opening'}
@@ -59,7 +89,7 @@ const CreateMeeting = (props) => {
                     placeholder="תאור קצר"
                 />
 
-                <div className="margin-right-text d-flex align-items-start" style={{ width: "50%" }}>
+                <div className="margin-right-text d-flex align-items-start" style={{ width: "60%" }}>
                     <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
                     <div style={{ width: "70%" }}>
                         <input
@@ -82,6 +112,7 @@ const CreateMeeting = (props) => {
                         />
                         <Select
                             selectTextDefault='קרבה שלי אל החלל'
+
                             arr={myCloseToTheFallen.map((name) => {
                                 return { option: name }
                             })}
@@ -89,14 +120,19 @@ const CreateMeeting = (props) => {
                             width='95%'
                             className='inputStyle'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
-                        {props.CreateMeetingStore.meetingDetails.relationship === "אחר" && <input
-                            type="text"
-                            className='inputStyle'
-                            style={{ width: "95%" }}
-                            // value={props.CreateMeetingStore.fallenName}        
-                            autoComplete="off"
-                            placeholder="תאריך נפילה"
-                        />}
+
+                        {(props.CreateMeetingStore.meetingDetails.relationship !== "אח" &&
+                            props.CreateMeetingStore.meetingDetails.relationship !== "הורים" &&
+                            props.CreateMeetingStore.meetingDetails.relationship !== "קורבי משפחה" &&
+                            props.CreateMeetingStore.meetingDetails.relationship !== "חבר" &&
+                            props.CreateMeetingStore.meetingDetails.relationship !== null) && <input
+                                type="text"
+                                className='inputStyle'
+                                style={{ width: "95%" }}
+                                // value={props.CreateMeetingStore.fallenName}        
+                                autoComplete="off"
+                                placeholder="קרבה שלי אל החלל"
+                            />}
                     </div>
                     <div style={{ backgroundColor: "#EEEEEE", padding: "6.8vh", borderRadius: "4px" }} >
                         <img src={grayCandle} alt="grayCandle" style={{ height: "13vh" }} />
@@ -138,18 +174,18 @@ const CreateMeeting = (props) => {
                     arr={meetingLanguage.map((name) => {
                         return { option: name }
                     })}
-                    width='50%'
+                    width='60%'
                     selectedText={props.CreateMeetingStore.meetingDetails.language}
                     className='inputStyle margin-right-text '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
 
-                <div className="margin-right-text">
+                <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                     <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="open">מפגש פתוח</label>
+                    <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
                     <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="close"><img src={lock} alt="lock" />מפגש סגור</label>
+                    <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                 </div>
-                <div style={{ width: "50%" }} className="d-flex margin-right-text justify-content-between">
+                <div style={{ width: "60%" }} className="d-flex margin-right-text justify-content-between">
                     <Select
                         selectTextDefault='תאריך'
                         arr={meetingDate.map((name) => {
@@ -159,15 +195,23 @@ const CreateMeeting = (props) => {
                         selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='inputStyle'
                         onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
-                    <input
-                        type="time"
-                        className='inputStyle'
-                        style={{ marginRight: "2vh" }}
-                        onChange={props.CreateMeetingStore.changeMeetingTime}
-                        value={props.CreateMeetingStore.meetingDetails.time}
-                        autoComplete="off"
-                        placeholder="שעה"
-                    />
+
+                    <div className='inputStyle d-flex align-items-center' style={{ marginRight: "2vh" }}>
+                        <div style={{ marginLeft: "2vh" }}>
+                            שעה:
+                        </div>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <CssTimePicker
+                                clearable
+                                ampm={false}
+                                okLabel={"אישור"}
+                                cancelLabel="ביטול"
+                                clearLabel={null}
+                                value={timeValue}
+                                onChange={props.CreateMeetingStore.changeMeetingTime}
+                            />
+                        </MuiPickersUtilsProvider>
+                    </div>
                 </div>
 
                 <input
@@ -178,20 +222,23 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-                <div style={{ width: "50%" }} className="d-flex margin-right-text justify-content-end">
+                <div style={{ width: "60%" }} className="d-flex margin-right-text justify-content-end">
                     <div className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
-            <div className="position-fixed containInputTextSide">
+
+            {!pressOnCancel && <div className="position-fixed containInputTextSide">
+                <img src={cancel} alt="cancel pointer" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "26%", top: "14vh" }} />
+                <br />
                 <img src={Business} alt="Business" style={{ marginBottom: "8vh" }} />
                 <div className="textSide">
                     ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים <br /><br />
                     <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong><br />
                     <br />
                  האחים שלנו כאן בשבילכם,
-                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיל כדאי להנחות אירוע מסוג זה.
+                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.
                 </div>
-            </div>
+            </div>}
         </div>
 
     );

@@ -1,3 +1,4 @@
+
 .createMeetingHeadLine{
     font: Bold 40px/52px Assistant;
     letter-spacing: 0;
@@ -8,6 +9,7 @@
     font: normal 35px/46px Assistant;
     letter-spacing: 0.5;
     margin-right: 2vw;;
+    max-width: 60%;
     color: #3586B1;
     padding-bottom: 5vh;
 }
@@ -17,7 +19,7 @@
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
-    width: 55%;
+    width: 60%;
     padding: 1vh 2vh;
     margin-bottom: 2vh;
 }
@@ -29,13 +31,29 @@
     color: #082551;
 }
 
+input[type=radio] {
+    border: 1px solid #4D4F5C;
+    background: url("../icons/checkbox_off_light.svg") no-repeat center center;
+    padding: 0.5em;
+    margin-left: 1vh;
+    -webkit-appearance: none;
+}
+
+input[type=radio]:checked {
+    background: url("../icons/checkbox_on_light.svg") no-repeat center center;
+}
+
+input[type=radio]:focus {
+  outline-color: transparent;
+}
+
 .containInputTextSide{
     background-color: rgb(25, 160, 153);
-    padding: 8vh 12vh 12vh;
+    padding: 8vh 10vh;
     top: 10vh;
     left: 0px;
     height: 90vh;
-    width: 36%;
+    width: 30%;
 }
 
 .createMeetingButton{
@@ -64,3 +82,52 @@
     color: #0A2D63;
 }
 
+.MuiPickersBasePicker-pickerView, .MuiPickersBasePicker-pickerViewLandscape,.MuiPickersModal-withAdditionalAction {
+    background-color: #FBF1EC !important;
+}
+
+.MuiButton-textPrimary  {
+    color: #0A2D63 !important;
+}
+  
+.MuiPickersClock-pin,.MuiPickersToolbar-toolbar,.MuiPickersTimePickerToolbar-toolbarLandscape , 
+.MuiPickersClockPointer-animateTransform, .MuiPickersClockPointer-pointer, .MuiPickersClockPointer-noPoint, 
+.MuiPickersClockNumber-clockNumberSelected{
+    direction: ltr;
+    background: #0A2D63;
+    color: #FBF1EC !important;
+}
+  
+  .MuiPickersToolbarText-toolbarBtnSelected{
+    color: #FBF1EC !important;
+  }
+  
+.MuiPickersModal-dialogRoot {
+    border-radius: 20px !important;
+    border: none !important;
+}
+  
+.MuiPickersClockPointer-thumb{
+    border-color: #0A2D63 !important;
+    background-color: #FBF1EC !important;  
+}
+  
+.MuiButton-label{
+    font-size: 130%;
+}
+.inputStyle .MuiInputBase-input {
+    color: #157492 !important;
+    -webkit-text-fill-color: #157492 !important;
+    padding: 0 ;
+}
+  
+.inputStyle .MuiInputBase-input.Mui-disabled{
+    color: #157492 !important;
+    -webkit-text-fill-color: #157492 !important;
+}
+  
+.MuiPickersModal-withAdditionalAction > *:first-child{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+  
