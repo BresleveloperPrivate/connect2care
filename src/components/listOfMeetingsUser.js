@@ -17,15 +17,7 @@ const ListOfMeetingsUser = (props) => {
 
     useEffect(() => {
         (async () => {
-            let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"where":{"id":{"gt" : "0"}},"include":[{"relation":"fallens"}],"limit":"5"}', {
-                method: 'GET',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            })
-            if(err){
-                console.log(err)
-            }else{
-                console.log(meetings)
-            }
+            await props.MeetingsStore.search()
         })()
     }, []);
 
@@ -105,7 +97,11 @@ const ListOfMeetingsUser = (props) => {
                 placeholder="מספר משתתפים מקסימלי"
             /> */}
             <div style={{ width: "50%" }} className="d-flex margin-right-text justify-content-end">
-                <div className="createMeetingButton">טען עוד</div>
+                {props.MeetingsStore.loadMoreButton && <div 
+                onClick={()=>{
+                    props.MeetingsStore.search(true)
+                }}
+                className="createMeetingButton">טען עוד</div>}
             </div>
 
         </div>

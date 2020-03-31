@@ -8,9 +8,10 @@ class MeetingsStore {
     language = false
     date = false
     lastId = 0
+    loadMoreButton = false
 
     changeSearchInput = (event) => {
-        ////if...
+        ////if match...
         this.searchInput = event.target.value
     }
 
@@ -38,22 +39,25 @@ class MeetingsStore {
         this.date = date.split(" ")[0]
     }
 
-    search = async () => {
+    search = async (getMore) => {
+
+        if (!getMore) {
+            this.lastId = 0
+        } 
 
         let filter = {
             where:
             {
-                and: [{
-                    id: { gt: this.lastId }
-                },
-                this.language ? { language: this.language } : {},
-                this.date ? { date: this.date } : {},
-                this.fallenRelative ? { relationship: this.fallenRelative } : {}
+                and: [
+                    getMore ? { id: { gt: this.lastId } } : {},
+                    this.language ? { language: this.language } : {},
+                    this.date ? { date: this.date } : {},
+                    this.fallenRelative ? { relationship: this.fallenRelative } : {}
 
                 ]
             }
             , include: [{ relation: "fallens" }],
-            limit: 4
+            limit: 3
         }
 
         let [meetings, err] = await Auth.superAuthFetch(`/api/meetings?filter=${JSON.stringify(filter)}`, {
@@ -64,12 +68,25 @@ class MeetingsStore {
             console.log(err)
         } else {
             console.log(meetings)
+            let id;
+            if(!meetings.length) return
+            if (meetings.length <= 2) {
+                this.loadMoreButton = false
+                id = meetings[meetings.length - 1].id
+            } else {
+                this.loadMoreButton = true
+                id = meetings[meetings.length - 2].id
+            }
+            this.lastId = id
+            console.log(meetings , id)
         }
     }
 
 }
 
 decorate(MeetingsStore, {
+    loadMoreButton:observable,
+    search:action,
     searchInput: observable,
     fallenRelative: observable,
     language: observable,
