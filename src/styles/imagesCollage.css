@@ -53,6 +53,8 @@
     transition: border 0.5s ease;
     border-radius: 2px;
     object-fit: cover;
+    object-position: top;
+
 }
 
 .hoverImage:hover{
@@ -85,7 +87,7 @@
   @media screen and (max-width: 550px){
     .container {
         padding: 0;
-        grid-template-rows:  14vw 14vw 14vw 19vw;
+        grid-template-rows:  14vw 14vw 16vw 19vw;
         grid-template-columns: 19vw 19vw 19vw 19vw;
         grid-template-areas:
         'a4  a1  a1  a2 '
@@ -99,6 +101,11 @@
     .label{
         font-size: 3.5vw;
         padding: 0px 1vw;
+    }
+
+    .containImagesCollage{
+        margin-top: 5vw;
+        padding: 6vw 5vw;
     }
 
   }

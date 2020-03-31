@@ -38,6 +38,13 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
+      flex-wrap: wrap;
+  }
+
+  .partner{
+    height: 7vw;
+    display: flex;
+    align-items: center;
   }
 
   @media screen and (max-width: 550px){
@@ -52,14 +59,11 @@
         font-size: 2vh;
     }
 
-    /* arrow-bottom-yellow {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        left: 40px;
-        border-radius: 5px;
-      } */
-      
+    .partner{
+      height: 12vw;
+      margin: 4vw;
+    }
+
       .cover {
         transform: rotate(270deg);
         z-index: 5;

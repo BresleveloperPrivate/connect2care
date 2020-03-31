@@ -1,0 +1,134 @@
+.sucessPage{
+    background: #082551;
+}
+
+.sucessHeadline{
+    color: white;
+    font-weight: bold;
+    text-align: right;
+    font-size: 2rem;
+
+}
+
+.sucessHeadline2{
+    color: white;
+    text-align: right;
+    font-size: 1.5rem;
+    margin-right: 0.8vw;
+
+}
+
+.backArrow{
+    text-align: right;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.sucessInfo{
+    display: flex;
+    margin-top: 2rem;
+}
+
+.deathTime{
+    color: white;
+    font-size: 1.2rem;
+}
+
+.fallenImage{
+    margin-left: 2rem;
+}
+
+.deathTime{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.relationInfo{
+    color: white;
+}
+
+.relationDiv{
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.annonymousPerson{
+    margin-left: 0.4rem;
+}
+
+.detailsInfo{
+    color: white;
+    width: 30rem;
+}
+
+.meetingInfo{
+    display: flex;
+    text-align: right;
+    flex-direction: column;
+}
+
+.bigContainer{
+    margin-right: 10rem;
+    margin-left: 15rem;
+}
+
+.exactDate{
+    color: white;
+    margin-right: 0.4rem;
+}
+
+.meetingDate{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.isMeetingOpen{
+    color: white;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    width: 5rem;
+    &:hover{
+        background-color: white;
+        color: #082551;
+        transition: 1s;
+    }
+}
+
+.shareWith{
+    color: white;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-top: 2.3rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    margin-right: 0.5rem;
+}
+
+
+#meetingStatus{
+    margin: 0.2rem;
+}
+
+.whiteFutter{
+    background-color: white;
+}
+
+.sharingComponent{
+    position: relative;
+    top: -1.5rem;
+    display: flex;
+    margin-right: 10rem;
+    margin-left: 15rem;
+}
+
+.additionalInfo{
+    margin-right: 10rem;
+    margin-left: 15rem;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    color: #082551;
+
+}
+@media only screen and (min-width: 768px) {
+
+}

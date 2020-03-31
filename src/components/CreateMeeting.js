@@ -16,7 +16,7 @@ const CreateMeeting = (props) => {
     const [selectedEra, setSelectedEra] = useState(0)
     const [error, setError] = useState()
 
-    const myCloseToTheFallen = ["אח", "הורים", "קורבי משפחה", "חבר", "אחר"]
+    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"]
     const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
     const meetingDate = ["26.04 - יום ראשון", "27.04 - ערב יום הזכרון", "28.04 - יום הזכרון", "29.04- יום רביעי"]
 
@@ -35,10 +35,10 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }}>
-            <NavBar
+            {/* <NavBar
                 history={props.history}
                 className={'navbar-opening'}
-            />
+            /> */}
 
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>

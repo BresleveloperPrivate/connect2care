@@ -23,10 +23,10 @@ class Partners extends Component {
                 </div>
 
                 <div className='containPartners'>
-            <div style={{height:'8vw'}}><img src={can} height='100%'/></div>
-            <div style={{height:'7vw'}}><img src={facebook} height='100%'/></div>
-            <div style={{height:'7vw'}}><img src={amit} height='100%'/></div>
-            <div style={{height:'5vw'}}><img src={hilma} height='100%'/></div>
+                    <div className='partner'><img src={can} height='110%' /></div>
+                    <div className='partner'><img src={facebook} height='100%' /></div>
+                    <div className='partner'><img src={amit} height='100%' /></div>
+                    <div className='partner'><img src={hilma} height='80%' /></div>
 
                 </div>
 
