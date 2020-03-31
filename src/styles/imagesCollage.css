@@ -1,6 +1,6 @@
 .containImagesCollage{
     margin-top: 3vw;
-    background-color: var(--custom-blue);
+    background-color: var(--custom-dark-blue);
     width: 100vw;
     height: fit-content;
     display: flex;
@@ -44,7 +44,7 @@
 .label{
     color: white;
     font-size: 2.5vw;
-    background-color: var(--custom-blue);
+    background-color: var(--custom-dark-blue);
     padding: 0px 1vw;
     font-weight: 300;
 }
@@ -61,16 +61,23 @@
 
 .container {
     display: grid;
+    padding: 0;
     /* grid-template-rows: auto;
     grid-template-columns: repeat(9, 1fr); */
 
-    grid-template-rows:  50px 50px 50px 50px;
-  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px ;
+    grid-template-rows:  4.5vw 4.5vw 4.5vw 4.5vw;
+  grid-template-columns: 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw ;
     grid-template-areas:
-    ' a1  a1  a2  a3  a3  a4  a5  a6  a6 '
-    ' a7  a8  a2  a9 a10  a4 a11 a11 a12'
-    ' a7 a13 a14  a9 a15 a16 a17 a18 a12'
-    'a19 a20 a14 a21 a15 a22 a23 a18 a24';
+    'a25  a1  a1  a2  a3  a3  a4  a5  a6  a6 '
+    'a25  a7  a8  a2  a9 a10  a4 a11 a11 a12'
+    'a26  a7 a13 a14  a9 a15 a16 a17 a18 a12'
+    'a19 a19 a20 a14 a21 a15 a22 a23 a18 a24'
+    'a27 a28 a20 a29 a21 a30 a22 a31 a31 a32'
+    ;
+    
+    grid-gap: 1vw;
+  }
 
-    grid-gap: 10px;
+  .noImage{
+      background-color: rgba(255, 255, 255, 0.11);
   }

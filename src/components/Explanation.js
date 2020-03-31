@@ -6,7 +6,7 @@ class Explanation extends Component {
     render() {
         return (
 
-            <div className='containExplanation'>
+            <div className='containExplanation' style={this.props.explanation === 1 ? {paddingTop:'7vw'} : {}}>
 
                 {this.props.explanation === 1 ?
                     <div className='explanation'>

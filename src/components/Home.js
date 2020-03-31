@@ -5,6 +5,9 @@ import Explanation from './Explanation'
 import HowItWorks from './HowItWorks'
 import OptionsButtons from './OptionsButtons'
 import ImagesCollage from './ImagesCollage'
+import Quote from './Quote'
+import Donate from './Donate'
+import Partners from './Partners'
 
 
 class Home extends Component {
@@ -29,6 +32,12 @@ class Home extends Component {
                 <OptionsButtons className='containOptionsBottom' />
 
                 <ImagesCollage />
+
+                <Quote />
+
+                <Donate />
+
+                <Partners />
 
             </div>
         );

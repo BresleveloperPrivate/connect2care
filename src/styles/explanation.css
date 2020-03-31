@@ -11,3 +11,13 @@
     border-right: 2px solid var(--custom-yellow);
     padding-right: 20px;
 }
+
+.containQuote{
+    width: 100vw;
+    padding: 5vw 21vw;
+}
+
+.quote{
+    font-size: 2.6vw;
+    color: var(--custom-blue)
+}
