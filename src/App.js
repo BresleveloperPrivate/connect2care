@@ -12,6 +12,8 @@ const Meeting = loadable(() => import('./components/Meeting.jsx'));
 const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 
+const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
+
 class App extends Component {
     render() {
         return (
@@ -21,10 +23,12 @@ class App extends Component {
                     <div className="App">
                         <NavBar history={this.props.history} className={'navbar-opening'} />
                         <Switch>
+                            <Route path="/" exact component={Home} />
                             <Route path="/" exact render={props => <Home {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting {...props} />} />
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/share" exact component={Share} />
+                            <Route path="/dashboard" component={DashboardMain} />
                         </Switch>
                     </div>
                 </Router>

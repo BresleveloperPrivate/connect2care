@@ -8,6 +8,8 @@ import grayCandle from '../icons/gray-candle.svg'
 import person from '../icons/person.png'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
+import Business from '../icons/business.svg'
+
 
 const CreateMeeting = (props) => {
     const [selectedArea, setSelectedArea] = useState("")
@@ -33,10 +35,10 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }}>
-            <NavBar
+            {/* <NavBar
                 history={props.history}
                 className={'navbar-opening'}
-            />
+            /> */}
 
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
@@ -57,7 +59,7 @@ const CreateMeeting = (props) => {
                     placeholder="תאור קצר"
                 />
 
-                <div className="margin-right-text d-flex align-items-start" style={{ width: "65%" }}>
+                <div className="margin-right-text d-flex align-items-start" style={{ width: "50%" }}>
                     <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
                     <div style={{ width: "70%" }}>
                         <input
@@ -96,8 +98,8 @@ const CreateMeeting = (props) => {
                             placeholder="תאריך נפילה"
                         />}
                     </div>
-                    <div style={{ backgroundColor: "#EEEEEE", padding: "8.2vh", borderRadius: "4px" }} >
-                        <img src={grayCandle} alt="grayCandle" style={{ height: "16vh" }} />
+                    <div style={{ backgroundColor: "#EEEEEE", padding: "6.8vh", borderRadius: "4px" }} >
+                        <img src={grayCandle} alt="grayCandle" style={{ height: "13vh" }} />
                     </div>
                 </div>
                 <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "2vh" }}>
@@ -136,7 +138,7 @@ const CreateMeeting = (props) => {
                     arr={meetingLanguage.map((name) => {
                         return { option: name }
                     })}
-                    width='65%'
+                    width='50%'
                     selectedText={props.CreateMeetingStore.meetingDetails.language}
                     className='inputStyle margin-right-text '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
@@ -147,7 +149,7 @@ const CreateMeeting = (props) => {
                     <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                     <label for="close"><img src={lock} alt="lock" />מפגש סגור</label>
                 </div>
-                <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-between">
+                <div style={{ width: "50%" }} className="d-flex margin-right-text justify-content-between">
                     <Select
                         selectTextDefault='תאריך'
                         arr={meetingDate.map((name) => {
@@ -176,9 +178,19 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-
-
-
+                <div style={{ width: "50%" }} className="d-flex margin-right-text justify-content-end">
+                    <div className="createMeetingButton">צור מפגש</div>
+                </div>
+            </div>
+            <div className="position-fixed containInputTextSide">
+                <img src={Business} alt="Business" style={{ marginBottom: "8vh" }} />
+                <div className="textSide">
+                    ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים <br /><br />
+                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong><br />
+                    <br />
+                 האחים שלנו כאן בשבילכם,
+                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיל כדאי להנחות אירוע מסוג זה.
+                </div>
             </div>
         </div>
 
