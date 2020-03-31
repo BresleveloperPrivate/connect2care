@@ -32,37 +32,7 @@
     }
   },
   "properties": {
-    "mainImageId": "number",
-    "name": {
-      "type": "String",
-      "required": false,
-      "length": 50,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name",
-        "dataType": "varchar",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "phone": {
-      "type": "String",
-      "required": false,
-      "length": 50,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "phone",
-        "dataType": "varchar",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    }
+    "mainImageId": "number"
   },
   "validations": [],
 
@@ -79,23 +49,6 @@
       "type": "belongsTo",
       "model": "Images",
       "foreignKey": "mainImageId"
-    },
-    "users_meetings": {
-      "type": "hasMany",
-      "model": "users_meetings",
-      "foreignKey": "user"
-    },
-    "meetings": {
-      "type": "hasMany",
-      "model": "meetings",
-      "foreignKey": "user",
-      "keyThrough": "meeting",
-      "through": "users_meetings"
-    },
-    "meetingOwner": {
-      "type": "hasMany",
-      "model": "meetingOwner",
-      "foreignKey": "owner"
     }
   },
   "acls": [

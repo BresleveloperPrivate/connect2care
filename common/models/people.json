@@ -1,7 +1,7 @@
 {
-    "name": "users_meetings",
+    "name": "people",
     "http": {
-        "path": "users_meetings"
+        "path": "people"
     },
     "mixins": {
         "FilesHandler": true
@@ -17,20 +17,27 @@
         "idInjection": false,
         "mysql": {
             "schema": "ourBro",
-            "table": "users_meetings"
+            "table": "people"
         }
     },
     "relations": {
-        "CustomUser": {
-            "type": "belongsTo",
-            "model": "CustomUser",
-            "foreignKey": "user"
-        },
-        "meetings": {
-            "type": "belongsTo",
+        "people_meetings": {
+            "type": "hasMany",
+            "model": "people_meetings",
+            "foreignKey": "person"
+          },
+          "meetings": {
+            "type": "hasMany",
             "model": "meetings",
-            "foreignKey": "meeting"
-        }
+            "foreignKey": "person",
+            "keyThrough": "meeting",
+            "through": "people_meetings"
+          },
+          "meetingOwner": {
+            "type": "hasMany",
+            "model": "meetings",
+            "foreignKey": "owner"
+          }
     },
     "properties": {
         "id": {
@@ -50,31 +57,46 @@
                 "nullable": "N"
             }
         },
-        "user": {
-            "type": "Number",
+        "name": {
+            "type": "String",
             "required": false,
-            "length": null,
+            "length": 50,
             "precision": null,
             "scale": null,
             "mysql": {
-                "columnName": "user",
-                "dataType": "int",
-                "dataLength": null,
+                "columnName": "name",
+                "dataType": "varchar",
+                "dataLength": 50,
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "N"
             }
         },
-        "meeting": {
-            "type": "Number",
+        "email": {
+            "type": "String",
             "required": false,
-            "length": null,
+            "length": 50,
             "precision": null,
             "scale": null,
             "mysql": {
-                "columnName": "meeting",
-                "dataType": "int",
-                "dataLength": null,
+                "columnName": "email",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "phone": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "phone",
+                "dataType": "varchar",
+                "dataLength": 50,
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "N"

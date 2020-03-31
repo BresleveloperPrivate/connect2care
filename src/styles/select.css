@@ -1,0 +1,44 @@
+.selectContainer{
+    position: relative;
+    height: 100%;
+}
+
+.select, .optionsContainer{
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 3px;
+}
+
+.optionsContainer{
+    position: absolute;
+    width: calc(100% + 4vh);
+    right: -2vh;
+    z-index: 1;
+    box-shadow: 3px 4px 15px rgba(185, 188, 199, 0.795);
+    overflow: auto;
+    max-height: 200px;
+}
+
+.selectOption:not(:last-child){
+    border-bottom: 1px solid rgba(208, 212, 221, 0.4);
+}
+
+.selectOption:hover{
+    background-color: #ffffff85;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.searchButton{
+    width: fit-content;
+    margin-left: 5%;
+    background: rgb(238, 238, 238);
+    margin-right: auto;
+    padding: 1vh 2vh;
+    border-radius: 10px;
+    margin-bottom: 2vh;
+    color: #A4AFB7;
+    font-weight: bold;
+}

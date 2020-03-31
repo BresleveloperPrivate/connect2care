@@ -21,18 +21,18 @@
         }
     },
     "relations": {
-          "fallens_meetings": {
+        "fallens_meetings": {
             "type": "hasMany",
             "model": "fallens_meetings",
             "foreignKey": "fallen"
-          },
-          "meetings": {
+        },
+        "meetings": {
             "type": "hasMany",
             "model": "meetings",
             "foreignKey": "fallen",
             "keyThrough": "meeting",
             "through": "fallens_meetings"
-          }
+        }
     },
     "properties": {
         "id": {
@@ -83,15 +83,15 @@
             }
         },
         "falling_date": {
-            "type": "String",
+            "type": "Date",
             "required": false,
-            "length": 50,
+            "length": null,
             "precision": null,
             "scale": null,
             "mysql": {
                 "columnName": "falling_date",
-                "dataType": "varchar",
-                "dataLength": 50,
+                "dataType": "datetime",
+                "dataLength": null,
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "Y"
