@@ -1,8 +1,10 @@
 import React, { Component, Suspense } from 'react';
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import './App.scss';
+import './styles/animations.scss'
 
 import loadable from '@loadable/component';
+import NavBar from './components/NavBar'
 
 
 const Home = loadable(() => import('./components/Home.js'));
@@ -18,7 +20,9 @@ class App extends Component {
         return (
             <Suspense fallback={<div>Loading...</div>}>
                 <Router>
+                    {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
                     <div className="App">
+                        <NavBar history={this.props.history} className={'navbar-opening'} />
                         <Switch>
                             <Route path="/" exact component={Home} />
                             <Route path="/share" exact component={Share} />
