@@ -14,6 +14,7 @@ const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 
 class App extends Component {
     render() {
+        console.log("sdfsadf",this.props.history)
         return (
             <Suspense fallback={<div>Loading...</div>}>
                 <Router>
