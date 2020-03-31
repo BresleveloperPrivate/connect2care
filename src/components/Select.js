@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
-import './select.css'
+import '../styles/select.css'
 
 const Select = (props) => {
     const ref = useRef()

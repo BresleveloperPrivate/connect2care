@@ -17,7 +17,7 @@ class CreateMeetingStore {
         date: null,
         time: null,
         maxParticipants: null,
-        
+        fallens: null,
         zoomId: 0
     }
 

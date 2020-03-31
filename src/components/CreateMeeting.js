@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './createMeeting.css'
+import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import blueCandle from '../icons/candle-blue.svg'
 import grayCandle from '../icons/gray-candle.svg'
@@ -14,7 +15,7 @@ const CreateMeeting = (props) => {
     const [error, setError] = useState()
 
     const myCloseToTheFallen = ["אח", "הורים", "קורבי משפחה", "חבר", "אחר"]
-    const meetingLanguage = ['עברית','English','français','العربية','русский','አማርኛ','español']
+    const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
     const meetingDate = ["26.04 - יום ראשון", "27.04 - ערב יום הזכרון", "28.04 - יום הזכרון", "29.04- יום רביעי"]
 
     //useEffect(() => {
@@ -32,7 +33,12 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }}>
-            <div className="createMeetingHeadLine margin-right-text">יצירת המפגש</div>
+            <NavBar
+                history={props.history}
+                className={'navbar-opening'}
+            />
+
+            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
                 <input
@@ -59,7 +65,7 @@ const CreateMeeting = (props) => {
                             className='inputStyle'
                             style={{ width: "95%" }}
                             onChange={props.CreateMeetingStore.changeFallenName}
-                            value={props.CreateMeetingStore.fallenName}        
+                            value={props.CreateMeetingStore.fallenName}
                             autoComplete="off"
                             placeholder="שם החלל"
                         />
@@ -68,7 +74,7 @@ const CreateMeeting = (props) => {
                             type="text"
                             className='inputStyle'
                             style={{ width: "95%" }}
-                            value={props.CreateMeetingStore.fallenDate}        
+                            value={props.CreateMeetingStore.fallenDate}
                             autoComplete="off"
                             placeholder="תאריך נפילה"
                         />
@@ -81,7 +87,7 @@ const CreateMeeting = (props) => {
                             width='95%'
                             className='inputStyle'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
-                        {props.CreateMeetingStore.meetingDetails.relationship === "אחר" &&<input
+                        {props.CreateMeetingStore.meetingDetails.relationship === "אחר" && <input
                             type="text"
                             className='inputStyle'
                             style={{ width: "95%" }}
