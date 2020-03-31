@@ -7,7 +7,7 @@ import Step3 from '../icons/step3.svg'
 import Step4 from '../icons/step4.svg'
 import Step5 from '../icons/step5.svg'
 import Step6 from '../icons/step6.svg'
-import Step7 from '../icons/step7.svg'
+import Step7 from '../icons/step7.png'
 
 
 class HowItWorks extends Component {
@@ -28,15 +28,15 @@ class HowItWorks extends Component {
                         </div>
                         <div className='containSteps'>
                             <div className='step'>
-                            <div className='containImageStep'>
+                                <div className='containImageStep'>
                                     <img src={Step1} width='100%' />
-                                    </div>
+                                </div>
                                 פותחים מפגש חדש
                                 </div>
                             <div className='step'>
-                            <div className='containImageStep'>
+                                <div className='containImageStep'>
                                     <img src={Step2} width='100%' />
-                                    </div>
+                                </div>
                                 משתפים את כולם
                                 </div>
                             <div className='step'>
@@ -54,22 +54,22 @@ class HowItWorks extends Component {
                         </div>
                         <div className='containSteps'>
                             <div className='step'>
-                            <div className='containImageStep'>
+                                <div className='containImageStep'>
                                     <img src={Step4} width='100%' />
-                                    </div>
+                                </div>
                                 מחפשים מפגש מתאים
 
                                 </div>
                             <div className='step'>
-                            <div className='containImageStep'>
+                                <div className='containImageStep'>
                                     <img src={Step5} width='100%' />
-                                    </div>
+                                </div>
                                 נרשמים באתר
                                 </div>
                             <div className='step'>
-                            <div className='containImageStep'>
+                                <div className='containImageStep'>
                                     <img src={Step6} width='100%' />
-                                    </div>
+                                </div>
                                 משתפים חברים
                                 </div>
 
@@ -85,10 +85,12 @@ class HowItWorks extends Component {
                         <div className='coverBig'>
                             <div className='arrow-left-gray'></div>
                         </div>
-                        שלב 1 <br /><br />
-                        שלב 1 <br /><br />
-                        שלב 1 <br /><br />
-
+                        <div className='resultText'>
+                            מתחברים לקישור של Zoom,<br />
+                        מסדרים את המצלמה
+                      </div>
+                        <div className='containImageStep'><img src={Step7} /></div>
+                        <div>זוכרים.</div>
                     </div>
                 </div>
 
