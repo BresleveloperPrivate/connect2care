@@ -39,8 +39,6 @@ class HowItWorks extends Component {
         }else{
             this.setState({ image })
         }
-
-
         window.addEventListener('resize', this.onResize);
 
     }
@@ -49,7 +47,6 @@ class HowItWorks extends Component {
         if (window.innerWidth <= 550) {
             let image = this.state.image
             image = image.slice(0, 10)
-            console.log(image)
             this.setState({ image })
         } else {
             this.setState({ image })

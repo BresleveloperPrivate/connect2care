@@ -89,8 +89,10 @@ class HowItWorks extends Component {
                             מתחברים לקישור של Zoom,<br />
                         מסדרים את המצלמה
                       </div>
-                        <div className='containImageStep'><img src={Step7} /></div>
-                        <div>זוכרים.</div>
+                        <div style={{flexGrow:1 , display:'flex' , justifyContent:'center' , alignItems:'center'}}>
+                            <div className='containImageStep'><img width='100%' src={Step7} /></div>
+                        </div>
+                        <div className='remember'>זוכרים.</div>
                     </div>
                 </div>
 

@@ -33,10 +33,10 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }}>
-            <NavBar
+            {/* <NavBar
                 history={props.history}
                 className={'navbar-opening'}
-            />
+            /> */}
 
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>

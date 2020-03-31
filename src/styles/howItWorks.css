@@ -35,11 +35,13 @@
 .result{
     position: relative;
     border-radius: 5px;
-    background-color: var(--custom-blue);
+    background-color: var(--custom-dark-blue);
 	width: 30%;
     margin-right: 10px;
     height: 100%;
-    
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
 }
 
 .arrow-left-gray {
@@ -121,10 +123,18 @@
   }
 
   .resultText{
+      padding-top: 2vw;
       text-align: right;
       font-size: 2vw;
       color: white;
       font-weight: 300;
+  }
+
+  .remember{
+      color: white;
+      font-weight: 600;
+      font-size: 5vw;
+      text-align: left;
   }
 
   
@@ -167,7 +177,6 @@
     .result{
         position: relative;
         border-radius: 0px;
-        background-color: var(--custom-blue);
         width: 100%;
         margin-right: 0px;
         margin-top: 5px;
