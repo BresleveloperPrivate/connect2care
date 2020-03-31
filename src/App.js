@@ -8,6 +8,7 @@ import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 
 const Home = loadable(() => import('./components/Home.js'));
+const Success = loadable(() => import('./components/Success.jsx'));
 const Meeting = loadable(() => import('./components/Meeting.jsx'));
 const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
@@ -26,6 +27,7 @@ class App extends Component {
                         <Route path="/(meeting|create-meeting|share|meetings)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
+                            <Route path="/success" exact component={Success} />
                             <Route path="/" exact render={props => <Home {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser {...props} />} />
