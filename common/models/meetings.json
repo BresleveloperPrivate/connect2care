@@ -1,0 +1,214 @@
+{
+    "name": "meetings",
+    "http": {
+        "path": "meetings"
+    },
+    "mixins": {
+        "FilesHandler": true
+    },
+    "crud": {
+        "tableActions": {
+            "addNewRow": true,
+            "deleteRow": true,
+            "editRow": true
+        }
+    },
+    "options": {
+        "idInjection": false,
+        "mysql": {
+            "schema": "ourBro",
+            "table": "meetings"
+        }
+    },
+    "relations": {
+        "meetingOwner": {
+            "type": "belongsTo",
+            "model": "meetingOwner",
+            "foreignKey": "owner"
+        },
+        "zoom": {
+            "type": "belongsTo",
+            "model": "zoom",
+            "foreignKey": "zoomId"
+        },
+        "fallens_meetings": {
+            "type": "hasMany",
+            "model": "fallens_meetings",
+            "foreignKey": "meeting"
+        },
+        "fallens": {
+            "type": "hasMany",
+            "model": "fallens",
+            "foreignKey": "meeting",
+            "keyThrough": "fallen",
+            "through": "fallens_meetings"
+        },
+        "users_meetings": {
+            "type": "hasMany",
+            "model": "users_meetings",
+            "foreignKey": "meeting"
+        },
+        "CustomUser": {
+            "type": "hasMany",
+            "model": "CustomUser",
+            "foreignKey": "meeting",
+            "keyThrough": "user",
+            "through": "users_meetings"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": 10,
+            "scale": 0,
+            "generated": true,
+            "id": 1,
+            "mysql": {
+                "columnName": "id",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "nullable": "N"
+            }
+        },
+        "name": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "name",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "description": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "description",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
+        },
+        "relatoinship": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "relatoinship",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
+        },
+        "owner": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "owner",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "language": {
+            "type": "String",
+            "required": false,
+            "length": 10,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "language",
+                "dataType": "ENUM",
+                "dataLength": 10,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "isOpen": {
+            "type": "Boolean",
+            "required": true,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "isOpen",
+                "dataType": "tinyint",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "date": {
+            "type": "String",
+            "required": false,
+            "length": 10,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "date",
+                "dataType": "ENUM",
+                "dataLength": 10,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "time": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "relatoinship",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "zoomId": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "zoomId",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        }
+    },
+    "acls": []
+}

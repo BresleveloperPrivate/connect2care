@@ -1,0 +1,80 @@
+{
+    "name": "zoom",
+    "http": {
+        "path": "zoom"
+    },
+    "mixins": {
+        "FilesHandler": true
+    },
+    "crud": {
+        "tableActions": {
+            "addNewRow": true,
+            "deleteRow": true,
+            "editRow": true
+        }
+    },
+    "options": {
+        "idInjection": false,
+        "mysql": {
+            "schema": "ourBro",
+            "table": "zoom"
+        }
+    },
+    "relations": {
+        "meetings": {
+            "type": "hasOne",
+            "model": "meetings",
+            "foreignKey": "zoomId"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": 10,
+            "scale": 0,
+            "generated": true,
+            "id": 1,
+            "mysql": {
+                "columnName": "id",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "nullable": "N"
+            }
+        },
+        "link": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "link",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "time": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "time",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        }
+    },
+    "acls": []
+}

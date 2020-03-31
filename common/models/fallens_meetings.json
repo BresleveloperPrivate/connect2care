@@ -1,0 +1,85 @@
+{
+    "name": "fallens_meetings",
+    "http": {
+        "path": "fallens_meetings"
+    },
+    "mixins": {
+        "FilesHandler": true
+    },
+    "crud": {
+        "tableActions": {
+            "addNewRow": true,
+            "deleteRow": true,
+            "editRow": true
+        }
+    },
+    "options": {
+        "idInjection": false,
+        "mysql": {
+            "schema": "ourBro",
+            "table": "fallens_meetings"
+        }
+    },
+    "relations": {
+        "fallens": {
+            "type": "belongsTo",
+            "model": "fallens",
+            "foreignKey": "fallen"
+        },
+        "meetings": {
+            "type": "belongsTo",
+            "model": "meetings",
+            "foreignKey": "meeting"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": 10,
+            "scale": 0,
+            "generated": true,
+            "id": 1,
+            "mysql": {
+                "columnName": "id",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "nullable": "N"
+            }
+        },
+        "fallen": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "fallen",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "meeting": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "meeting",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        }
+    },
+    "acls": []
+}

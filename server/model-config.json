@@ -141,5 +141,25 @@
   "Stop": {
     "public": false,
     "dataSource": "msql"
+  },
+  "meetings": {
+    "public": true,
+    "dataSource": "msql"
+  },
+  "fallens": {
+    "public": true,
+    "dataSource": "msql"
+  },
+  "fallens_meetings": {
+    "public": true,
+    "dataSource": "msql"
+  },
+  "users_meetings": {
+    "public": true,
+    "dataSource": "msql"
+  },
+  "zoom": {
+    "public": true,
+    "dataSource": "msql"
   }
 }
