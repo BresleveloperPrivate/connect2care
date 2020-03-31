@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/animations.scss'
-import NavBar from './NavBar'
+// import NavBar from './NavBar'
 import OpeningImage from './OpeningImage'
 import Explanation from './Explanation'
 import HowItWorks from './HowItWorks'
@@ -17,10 +17,10 @@ class Home extends Component {
         return (
             <div>
 
-                <NavBar
+                {/* <NavBar
                     history={this.props.history}
                     className={'navbar-opening'}
-                />
+                /> */}
 
                 <OpeningImage />
 

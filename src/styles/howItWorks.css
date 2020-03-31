@@ -120,8 +120,15 @@
       align-items: center;
   }
 
+  .resultText{
+      text-align: right;
+      font-size: 2vw;
+      color: white;
+      font-weight: 300;
+  }
+
   
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 550px){
 
     .howItWorksTitle{
         font-size: 4.5vw;

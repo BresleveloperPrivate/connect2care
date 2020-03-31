@@ -3,13 +3,14 @@ import '../styles/navbar.scss'
 import ourBrothers from '../icons/ourBrothers.png'
 import menu from '../icons/menu.svg'
 import SideNavBar from './SidaNavBar'
+import { withRouter } from 'react-router-dom';
 
 
 const Options =
     [{ option: 'רשימת המפגשים', push: '/1' },
     { option: 'מי אנחנו', push: '/2' },
-    { option: 'תרמו לנו', push: '/3' },
-    { option: 'צור קשר', push: '/4' }]
+    { option: 'תרמו לנו', push: 'https://ourbrothers.co.il/donate', open: true },
+    { option: 'צור קשר', push: '/3' }]
 
 class NavBar extends Component {
     constructor(props) {
@@ -27,8 +28,8 @@ class NavBar extends Component {
     };
 
     render() {
+        // console.log("this.props.history", window.open("https://ourbrothers.co.il/donat"))
         return (
-
             <div className={'navbar ' + this.props.className}>
                 <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%"}} />
 
@@ -37,7 +38,9 @@ class NavBar extends Component {
                         return (
                             <div key={index}
                                 onClick={() => {
-                                    this.props.history.push(value.push)
+                                    !value.open ?
+                                        this.props.history.push(value.push) :
+                                        window.open(value.push)
                                 }}
                                 className='optionInNavbar grow-bold pointer'
                             >
@@ -59,4 +62,4 @@ class NavBar extends Component {
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
