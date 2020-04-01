@@ -5,7 +5,6 @@ import lock from '../../icons/lock.svg';
 
 const MeetingsList = (props) => {
 
-
     return (
         <div>
             <table className="allTableStyle">
@@ -21,13 +20,26 @@ const MeetingsList = (props) => {
                         <th></th>
                         <th></th>
                     </tr>
-                    {props.ManagerStore.meetings ?
+                    {!props.ManagerStore.meetings ?
+                        props.ManagerStore.loading ?
+                            <tr className='headLine'>
+                                <td colSpan="9" className='noRes'>
+                                    <div className="spinner-border" role="status">
+                                        <span className="sr-only">טוען...</span>
+                                    </div>
+                                </td>
+                            </tr> :
+                            <tr className='headLine'>
+                                <td colSpan="9" className='noRes'>אירעה שגיאה, נסה שנית מאוחר יותר</td>
+                            </tr> :
                         (!props.ManagerStore.meetings.length ?
-                            <div className='headLine'>לא נמצאו תוצאות</div> :
+                            <tr className='headLine'>
+                                <td colSpan="9" className='noRes'>לא נמצאו תוצאות</td>
+                            </tr> :
 
                             props.ManagerStore.meetings.map((meeting, index) =>
                                 <tr key={index} className="tableBodyStyle">
-                                    <td className='date'>{meeting.date}</td>
+                                    <td className='date'>{meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen'>
                                         {meeting.fallens && meeting.fallens.map((fallen, index) =>
@@ -57,7 +69,7 @@ const MeetingsList = (props) => {
                                 </tr>
                             )
                         )
-                        : null}
+                    }
                 </tbody>
             </table>
 

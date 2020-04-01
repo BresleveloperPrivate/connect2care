@@ -24,7 +24,7 @@
     text-align: -webkit-center;
 }
 
-.allTableStyle tr td:last-child{
+.allTableStyle tr td:last-child:not(.noRes){
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -43,4 +43,14 @@
     margin-bottom: 2%;
     font-size: 1.43em;
     font-weight: 600;
+}
+
+.noRes{
+    padding: 5vh;
+    text-align: center;
+}
+
+.spinner-border{
+    border: 0.45vh solid currentColor;
+    border-right-color: transparent;
 }

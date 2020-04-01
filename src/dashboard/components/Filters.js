@@ -13,10 +13,10 @@ const Filters = (props) => {
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
     const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
-    const DATES = [{ option: 'בחר' }, { option: '26.04 - יום ראשון' }, { option: '27.04 - ערב יום הזכרון' }, { option: '28.04 - יום הזכרון' }, { option: '29.04- יום רביעי' }]
-    const RELATIONSHIPS = [{ option: 'בחר' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
-    const IS_OPEN_ARR = [{ option: 'בחר' }, { option: 'פתוח' }, { option: 'סגור' }]
-    const PARTICIPANTS_NUM = [{ option: 'בחר' }, { option: '20 - 0' }, { option: '100 - 20' }, { option: '100+' }]
+    const DATES = [{ option: 'הכל' }, { option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
+    const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
+    const IS_OPEN_ARR = [{ option: 'הכל' }, { option: 'פתוח' }, { option: 'סגור' }]
+    const PARTICIPANTS_NUM = [{ option: 'הכל' }, { option: '20 - 0' }, { option: '100 - 20' }, { option: '100+' }]
 
     return (
         <div className='filters'>
@@ -28,10 +28,10 @@ const Filters = (props) => {
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
                             color='#A5A4BF'
-                            selectTextDefault='בחר'
+                            selectTextDefault='הכל'
                             arr={DATES}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "בחר" ? setSelectedDate("") : setSelectedDate(value.option) }}
+                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedDate("") : setSelectedDate(value.option) }}
                         />
                     </div>
                     <div className='filterItem'>
@@ -39,10 +39,10 @@ const Filters = (props) => {
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
                             color='#A5A4BF'
-                            selectTextDefault='בחר'
+                            selectTextDefault='הכל'
                             arr={IS_OPEN_ARR}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "בחר" ? setSelectedIsOpen("") : setSelectedIsOpen(value.option === 'פתוח') }}
+                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedIsOpen("") : setSelectedIsOpen(value.option === 'פתוח') }}
                         />
                     </div>
 
@@ -51,10 +51,10 @@ const Filters = (props) => {
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
                             color='#A5A4BF'
-                            selectTextDefault='בחר'
+                            selectTextDefault='הכל'
                             arr={RELATIONSHIPS}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "בחר" ? setSelectedRelationship("") : setSelectedRelationship(value.option) }}
+                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedRelationship("") : setSelectedRelationship(value.option) }}
                         />
                     </div>
 
@@ -63,10 +63,10 @@ const Filters = (props) => {
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
                             color='#A5A4BF'
-                            selectTextDefault='בחר'
+                            selectTextDefault='הכל'
                             arr={PARTICIPANTS_NUM}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "בחר" ? setSlectedParticipants("") : setSlectedParticipants(value.option) }}
+                            onChoseOption={(value) => { value.option === "הכל" ? setSlectedParticipants("") : setSlectedParticipants(value.option) }}
                         />
                     </div>
                 </div>
@@ -149,7 +149,7 @@ const Filters = (props) => {
                             if (inputFallen !== '') filters.fallen = inputFallen
                             if (inputOwner !== '') filters.owner = inputOwner
                             if (inputMeetingName !== '') filters.name = inputMeetingName
-                            if (slectedDate !== '') filters.date = slectedDate.slice(0, 5)
+                            if (slectedDate !== '') filters.date = slectedDate
                             if (slectedIsOpen !== '') filters.isOpen = slectedIsOpen
                             if (slectedRelationship !== '') filters.relationship = slectedRelationship
                             if (slectedParticipants !== '') {
