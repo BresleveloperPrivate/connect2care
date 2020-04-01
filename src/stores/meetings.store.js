@@ -1,5 +1,6 @@
 import { observable, decorate, action } from 'mobx';
 import Auth from '../modules/auth/Auth'
+import { tickStep } from 'd3';
 
 class MeetingsStore {
 
@@ -11,11 +12,16 @@ class MeetingsStore {
     lastId = 0
     loadMoreButton = false
     meetings = false
+    time = false
 
     changeSearchInput = (event) => {
         ////if match...
 
         this.searchInput = event.target.value
+    }
+
+    changeMeetingTime = (time) => {
+        this.time = time
     }
 
     changeFallenRelative = (relative) => {
@@ -65,7 +71,7 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter , time: this.time || [] })
         })
         if (err) {
             console.log(err)
@@ -98,6 +104,7 @@ class MeetingsStore {
 decorate(MeetingsStore, {
     loadMoreButton: observable,
     search: action,
+    time: observable,
     searchInput: observable,
     fallenRelative: observable,
     prevSearchInput: observable,
@@ -109,6 +116,7 @@ decorate(MeetingsStore, {
     changeMeetingLanguage: action,
     changeMeetingDate: action,
     meetings: observable,
+    changeMeetingTime: action
 });
 
 export default new MeetingsStore();

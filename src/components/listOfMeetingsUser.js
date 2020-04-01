@@ -16,6 +16,13 @@ const ListOfMeetingsUser = (props) => {
     const myCloseToTheFallen = ["הכל", "אח", "הורים", "קרובי משפחה", "חבר"]
     const meetingLanguage = ['כל השפות', 'עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
     const meetingDate = ['כל התאריכים', 'יום ראשון, ב באייר, 26.04', 'יום שני, ג באייר, 27.04', 'יום שלישי, ד באייר, 28.04', 'יום רביעי, ה באייר, 29.04']
+    const meetingTime = [
+        {option:'כל השעות', data: false},
+        {option:'12:00 - 09:00', data: [900 , 1200]},
+        {option:'15:00 - 12:00', data: [1200 , 1500]},
+        {option:'18:00 - 15:00', data: [1500 , 1800]},
+        {option:'21:00 - 18:00', data: [1800 , 2100]},
+        {option:'00:00 - 21:00', data: [2100 , 2400]}]
 
     useEffect(() => {
         (async () => {
@@ -72,12 +79,17 @@ const ListOfMeetingsUser = (props) => {
                     <Select
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='שעה'
-                        arr={meetingDate.map((name) => {
-                            return { option: name }
+                        arr={meetingTime.map((name) => {
+                            return { option: name.option }
                         })}
                         // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='input-meetings filter-meeting'
-                        onChoseOption={(value) => { props.MeetingsStore.changeMeetingDate(value.option) }}
+                        onChoseOption={(value) => { 
+                            props.MeetingsStore.changeMeetingTime(
+                                meetingTime.find(val => val.option ===  value.option).data
+                                ) 
+                        }}
+
                     />
 
                     <Select
@@ -213,7 +225,7 @@ const ListOfMeetingsUser = (props) => {
                     onClick={() => {
                         props.MeetingsStore.search(true, false)
                     }}
-                    className="loadMore-meetings">טען עוד</div>
+                    className="loadMore-meetings grow">טען עוד</div>
                     </div>}
             </div>
             {/* <input
