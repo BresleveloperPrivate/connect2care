@@ -10,6 +10,56 @@ module.exports = function (meetings) {
     }
 
 
+    meetings.getMeetingsUser = (search, filters, options, cb) => {
+
+        let resArray = []
+        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }]}, (err, response) => {
+            if (err) {
+                return cb(err)
+            } else {
+                if (response.length) {
+                    for (let i = 0; i < response.length; i++) {
+                        let res = JSON.parse(JSON.stringify(response[i]))
+                        if (search) {
+                            if (res.name.includes(search) || search.includes(res.name)) {
+                                resArray.push(res)
+                            }
+                            else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
+                                resArray.push(res)
+                            }
+                            else if (res.fallens.length && (res.fallens).some(fallen => (fallen.first_name + ' ' + fallen.last_name).includes(search))) {
+                                resArray.push(res)
+                            }
+                            else if (res.fallens.length) {
+                                for (let fallen in res.fallens) {
+                                    if (search.includes(fallen.first_name) || search.includes(fallen.last_name)) {
+                                        resArray.push(res)
+                                        return
+                                    }
+                                }
+                            }
+                            if (resArray.length >= 5 || i === response.length - 1) {
+                                return cb(null, resArray)
+                            }
+
+
+                        }
+                        else {
+                            return cb(null, response.slice(0, 5))
+                        }
+                    }
+                } else {
+                    return cb(null, response)
+                }
+
+            }
+
+        })
+        // })()
+
+    }
+
+
     meetings.createMeeting = (data, options, cb) => {
         (async () => {
             const people = meetings.app.models.people
@@ -104,6 +154,17 @@ module.exports = function (meetings) {
     meetings.remoteMethod('getMeetingsDashboard', {
         http: { verb: 'post' },
         accepts: [
+            { arg: 'filters', type: 'object' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
+
+    meetings.remoteMethod('getMeetingsUser', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
