@@ -1,5 +1,7 @@
 'use strict';
 
+const sendEmail = require('../../server/email.js');
+
 module.exports = function (meetings) {
 
     const to = (promise) => {
@@ -83,14 +85,15 @@ module.exports = function (meetings) {
                 console.log("err2", err2)
                 return cb(err2)
             }
-
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            for (let fallen of data.fallens) {
-                let fallenMeeting = { fallen: fallen, meeting: meeting.id }
-                let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
-                if (err3) {
-                    console.log("err3", err3)
-                    return cb(err3)
+            if (data.fallens) {
+                const fallens_meetings = meetings.app.models.fallens_meetings
+                for (let fallen of data.fallens) {
+                    let fallenMeeting = { fallen: fallen, meeting: meeting.id }
+                    let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
+                    if (err3) {
+                        console.log("err3", err3)
+                        return cb(err3)
+                    }
                 }
             }
             console.log(meeting)
@@ -114,6 +117,7 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
+            console.log(filters.relationship)
             if (filters.relationship && filters.relationship !== 'אחר') {
                 filtersOfMeetting.relationship = filters.relationship
             }
@@ -125,7 +129,7 @@ module.exports = function (meetings) {
             }
             let allMeetings = JSON.parse(JSON.stringify(res))
             if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length < filters.participants.max) && (meeting.people.length > filters.participants.min))
+                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
             }
             if (filters.relationship && filters.relationship === 'אחר') {
                 allMeetings = allMeetings.filter((meeting) =>
@@ -189,5 +193,21 @@ module.exports = function (meetings) {
         accepts: [{ arg: "meetingId", type: "string", required: true, http: { source: 'path' } }],
         returns: { type: "object", root: true },
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
+    });
+
+    meetings.SendShareEmail = (senderName, sendOptions, cb) => {
+        (async () => {
+            console.log("senderName, sendOptions",senderName, sendOptions)
+            let res = sendEmail(senderName, sendOptions);
+            cb(null, { res: res })
+        })();
+    }
+
+    meetings.remoteMethod('SendShareEmail', {
+        description: "Get House Id by Access Token",
+        accepts: [
+            { arg: 'senderName', type: 'string', required: true },
+            { arg: 'sendOptions', type: 'object', required: true }],
+        returns: { type: "object", root: true },
     });
 };

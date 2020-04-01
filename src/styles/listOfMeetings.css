@@ -1,6 +1,6 @@
 .input-meetings{
     color: #4D4F5C;
-    font-size: 2vh;
+    font-size: 2.3vh;
     border: 0.8px solid var(--custom-light-blue);
     border-radius: 4px;
     outline: none;
@@ -27,7 +27,7 @@
 .button-meetings{
     background-color: var(--custom-light-blue);
     padding: 0.2vh 3vh;
-    font-size: 2.5vh;
+    font-size: 2.8vh;
     color: white;
     border-radius: 50px;
     width: fit-content;
