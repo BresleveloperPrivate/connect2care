@@ -149,6 +149,11 @@
     margin-top: 0rem;
 }
 @media only screen and (max-width: 768px) {
+    .backArrow{
+        margin-bottom: 0;
+        padding-top: 2rem;
+    }
+
     .bigContainer{
         margin-right: 1rem;
         margin-left: 0;
