@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from './NavBar.js'
+// import NavBar from './NavBar.js'
 import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import blueCandle from '../icons/candle-blue.svg'
