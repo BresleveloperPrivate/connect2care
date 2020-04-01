@@ -1,5 +1,5 @@
 .thanks{
-    background: var(--custom-yellow);
+    background: var(--custom-green);
     width: 100vw;
     height: 10vh;
     position: relative;
@@ -7,15 +7,16 @@
     align-items: center;
     padding-right: 10vw;
     font-size: 4vh;
+    color: white;
 }
 
 
-.arrow-bottom-yellow {
+.arrow-bottom-green {
     position: absolute;
     width: 150px;
     height: 150px;
     left: 30px;
-    background: var(--custom-yellow);
+    background: var(--custom-green);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 	border-radius: 5px;
@@ -49,7 +50,7 @@
 
   @media screen and (max-width: 550px){
     .thanks{
-        background: var(--custom-yellow);
+        background: var(--custom-green);
         width: 100vw;
         height: 5vh;
         position: relative;
