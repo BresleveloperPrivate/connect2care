@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 class containOptions extends Component {
 
     render() {
-        console.log("this.props", this.props)
         return (
 
             <div className={this.props.className}>

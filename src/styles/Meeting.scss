@@ -1,6 +1,6 @@
 $darkBlue: #082551;
-$lightBlue: #3586b1;
-$meetinngPageLeftWidth: 400px;
+$lightBlue: #19a099;
+$meetinngPageLeftWidth: 444px;
 $navBarMargin: 10vh;
 
 #meetingPage {
@@ -13,7 +13,8 @@ $navBarMargin: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: calc(100vw - 400px);
+    // left Width
+    width: calc(100vw - 444px);
 
     #meetingMainMain {
         padding-left: 162px;
@@ -39,7 +40,7 @@ $navBarMargin: 10vh;
             #meetingOwner {
                 font-size: 32px;
                 text-align: right;
-                color: $lightBlue;
+                color: $darkBlue;
             }
 
             #meetingDescription {
@@ -85,7 +86,6 @@ $navBarMargin: 10vh;
                         color: $darkBlue;
                     }
                 }
-
             }
         }
     }
@@ -125,15 +125,41 @@ $navBarMargin: 10vh;
 }
 
 #meetingPageLeft {
+    overflow: auto;
+    padding: $navBarMargin + 4vh 76px 4vh 116px;
     position: fixed;
     height: 100%;
     left: 0;
     top: 0;
     width: $meetinngPageLeftWidth;
     background-color: $darkBlue;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-#meetingBlankLeft {
-    height: 100%;
-    width: $meetinngPageLeftWidth;
+    #meetingLeftCandle {
+        width: 52px;
+    }
+
+    #meetingLeftTitle {
+        margin-top: 25px;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: right;
+        color: white;
+    }
+
+    #meetingLeftDescription {
+        font-size: 24px;
+        text-align: right;
+        color: white;
+    }
+
+    #meetingErrorMsg {
+        margin-top: 10px;
+        margin-right: 3px;
+        color: red;
+        font-size: 16px;
+    }
 }

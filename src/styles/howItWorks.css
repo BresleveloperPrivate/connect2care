@@ -139,7 +139,8 @@
   @media screen and (max-width: 550px){
 
     .howItWorksTitle{
-        font-size: 4.5vw;
+        padding-right: 6vw;
+        font-size: 6vw;
     }
 
     .containHowItWorks{
@@ -149,7 +150,7 @@
 
     .containSteps{
         margin: 4vw 6vw 0 6vw;
-        font-size: 2.5vw;
+        font-size: 3.5vw;
     }
 
     .containImageStep{
@@ -232,7 +233,7 @@
         margin: 0 5vw;
         padding-right: 4vw;
         padding-top: 2.5vh;
-        font-size: 3.5vw;
+        font-size: 5vw;
         border-bottom: 0.7px solid white;
     }
 
