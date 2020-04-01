@@ -8,9 +8,9 @@ import { withRouter } from 'react-router-dom';
 
 const Options =
     [{ option: 'רשימת המפגשים', path: '/meetings' },
-    { option: 'מי אנחנו', path: '/2' },
+    { option: 'מי אנחנו', path: 'https://ourbrothers.co.il/about', open: true },
     { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
-    { option: 'צור קשר', path: '/3' }]
+    { option: 'צור קשר', path: 'https://ourbrothers.co.il/contact', open: true }]
 
 class NavBar extends Component {
     constructor(props) {
@@ -30,9 +30,9 @@ class NavBar extends Component {
     render() {
         return (
             <div className={'navbar ' + this.props.className}>
-                    <div className='containMenu'>
-                        <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%"}} />
-                        </div>
+                <div className='containMenu'>
+                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
+                </div>
 
                 <div className='navbarOptions'>
                     {Options.map((value, index) => {
@@ -57,10 +57,10 @@ class NavBar extends Component {
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}
-                 toggleDrawer={this.toggleDrawer} 
-                 options={Options}
-                 right={this.state.right}
-                 />
+                    toggleDrawer={this.toggleDrawer}
+                    options={Options}
+                    right={this.state.right}
+                />
             </div>
 
 
