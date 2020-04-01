@@ -35,14 +35,15 @@ module.exports = function (meetings) {
                 console.log("err2", err2)
                 return cb(err2)
             }
-
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            for (let fallen of data.fallens) {
-                let fallenMeeting = { fallen: fallen, meeting: meeting.id }
-                let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
-                if (err3) {
-                    console.log("err3", err3)
-                    return cb(err3)
+            if (data.fallens) {
+                const fallens_meetings = meetings.app.models.fallens_meetings
+                for (let fallen of data.fallens) {
+                    let fallenMeeting = { fallen: fallen, meeting: meeting.id }
+                    let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
+                    if (err3) {
+                        console.log("err3", err3)
+                        return cb(err3)
+                    }
                 }
             }
             console.log(meeting)
