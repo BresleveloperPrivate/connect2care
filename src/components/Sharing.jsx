@@ -9,8 +9,14 @@ import facebookIcon from '../icons/facebook.svg';
 import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 
+//pass me this: styleObject = {
+    //buttonWidth: '?rem'
+    //fontSize: '?rem'
+    //imageWidth: '?px'
+    //imageHeight: '?px'
+//} Make sure these are strings!
 
-export default function Sharing() {
+export default function Sharing(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -21,11 +27,13 @@ export default function Sharing() {
     setAnchorEl(null);
   };
 
+  const styleObject = props;
+
   return (
     <div>
-      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{width: styleObject.buttonWidth, fontSize: styleObject.fontSize}}>
       {/* <div className="sharingBox"> */}
-        <img src={shareIt} width="30px" height="30px" />
+        <img src={shareIt} width={styleObject.imageWidth} height={styleObject.imageHeight} />
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
       </Button>
