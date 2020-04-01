@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import person from '../icons/person.png'
+import tell from '../icons/tell.svg'
 import Select from './Select.js'
 import Auth from '../modules/auth/Auth'
 import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
+import clock from '../icons/clock.svg'
 
 const ListOfMeetingsUser = (props) => {
 
@@ -22,7 +23,7 @@ const ListOfMeetingsUser = (props) => {
     }, []);
 
     return (
-        <div className='navBarMargin'>
+        <div className='navBarMargin' style={{paddingBottom:'7vh'}}>
 
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
@@ -52,6 +53,31 @@ const ListOfMeetingsUser = (props) => {
                 <div className='containFilters'>
 
                     <div className='filterBy'>סנן לפי:</div>
+                    <Select
+                        width='25%'
+                        fetch={props.MeetingsStore.search}
+                        selectTextDefault='תאריך המפגש'
+                        arr={meetingDate.map((name) => {
+                            return { option: name }
+                        })}
+                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                        className='input-meetings filter-meeting mr-0'
+                        onChoseOption={(value) => {
+                            if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
+                            props.MeetingsStore.changeMeetingDate(value.option)
+                        }}
+                    />
+
+                    <Select
+                        fetch={props.MeetingsStore.search}
+                        selectTextDefault='שעה'
+                        arr={meetingDate.map((name) => {
+                            return { option: name }
+                        })}
+                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                        className='input-meetings filter-meeting'
+                        onChoseOption={(value) => { props.MeetingsStore.changeMeetingDate(value.option) }}
+                    />
 
                     <Select
                         fetch={props.MeetingsStore.search}
@@ -60,7 +86,7 @@ const ListOfMeetingsUser = (props) => {
                             return { option: name }
                         })}
                         // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
-                        className='input-meetings filter-meeting mr-0'
+                        className='input-meetings filter-meeting'
                         onChoseOption={
 
                             (value) => {
@@ -84,32 +110,7 @@ const ListOfMeetingsUser = (props) => {
                         }}
                     />
 
-                    <Select
-                        width='25%'
-                        fetch={props.MeetingsStore.search}
-                        selectTextDefault='תאריך המפגש'
-                        arr={meetingDate.map((name) => {
-                            return { option: name }
-                        })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                        className='input-meetings filter-meeting'
-                        onChoseOption={(value) => {
-                            if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
-                            props.MeetingsStore.changeMeetingDate(value.option)
-                        }}
-                    />
-
-                    <Select
-                        fetch={props.MeetingsStore.search}
-                        selectTextDefault='תאריך מפגש'
-                        arr={meetingDate.map((name) => {
-                            return { option: name }
-                        })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                        className='input-meetings filter-meeting'
-                        onChoseOption={(value) => { props.MeetingsStore.changeMeetingDate(value.option) }}
-                    />
-
+                 
                     {/* <div
                         style={{ marginRight: '2vw' }}
                         className='button-meetings'
@@ -129,21 +130,32 @@ const ListOfMeetingsUser = (props) => {
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div>
-                                <ImageOfFallen className='imageOfFallen'
+                            <div   onClick={meeting.isOpen ? ()=>{
+                                    props.history.push(`/meeting/${meeting.id}`)
+                                }: ()=>{}}>
+                                <ImageOfFallen
+                               
+                                className='imageOfFallen'
                                     array={['https://www.ynet.co.il/PicServer5/2019/03/28/9151154/915115101000889801302no.jpg',
                                         'https://img.mako.co.il/2011/05/23/567895_c.jpg',
                                         'https://img.mako.co.il/2011/05/23/567895_c.jpg',
                                     ]} />
                             </div>
-                            <div className='meetingCard'>
+                            <div
+                             className='meetingCard'
+                             onClick={meeting.isOpen ? ()=>{
+                                props.history.push(`/meeting/${meeting.id}`)
+                            }: ()=>{}}
+                             >
 
                                 <div className='meetingCardContent'>
                                     <div className='meetingName'>
                                         {meeting.name}
                                     </div>
                                     <div className='meetingFor'>
-                                        <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'1vw'}}><img src={candle} height='100%' /></div>
+                                        <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'1vw'}}>
+                                            <img src={candle} height='100%' />
+                                            </div>
                                         <div>{meeting.fallens.map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
@@ -166,13 +178,20 @@ const ListOfMeetingsUser = (props) => {
                                         })}</div>
                                     </div>
                                     <div className='meetingDate'>
-
+                                    <div style={{height:'1.4vw' ,marginBottom: '0.5vw', marginLeft:'0.5vw'}}>
+                                        <img src={clock} height='100%' />
+                                        </div>
+                                        {meeting.date} | {meeting.time}
                                     </div>
                                     <div className='meetingOwner'>
-
-                                    </div>
+                                        
+                                         <div style={{height:'1.4vw' ,marginBottom: '0.7vw', marginLeft:'0.5vw'}}>
+                                        <img src={tell} height='100%' />
+                                        </div>
+                                       {meeting.meetingOwner.name}  | {meeting.relationship}
+                                         </div>
                                     <div className='meetingDescription'>
-
+{meeting.description}
                                     </div>
                                 </div>
                                 <div>
@@ -187,11 +206,14 @@ const ListOfMeetingsUser = (props) => {
 
 
 
-                {props.MeetingsStore.loadMoreButton && <div
+                {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings &&
+                <div style={{display:'flex' , justifyContent:'flex-end'}}>
+                     <div
                     onClick={() => {
                         props.MeetingsStore.search(true, false)
                     }}
-                    className="createMeetingButton">טען עוד</div>}
+                    className="loadMore-meetings">טען עוד</div>
+                    </div>}
             </div>
             {/* <input
                         type="time"
