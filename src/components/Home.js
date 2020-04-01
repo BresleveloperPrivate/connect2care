@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../styles/animations.scss'
 // import NavBar from './NavBar'
 import OpeningImage from './OpeningImage'
 import Explanation from './Explanation'

@@ -4,6 +4,7 @@ import ourBrothers from '../icons/ourBrothers.png'
 import menu from '../icons/menu.png'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
+import '../styles/animations.scss'
 
 
 const Options =
