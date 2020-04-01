@@ -139,7 +139,8 @@
   @media screen and (max-width: 550px){
 
     .howItWorksTitle{
-        font-size: 4.5vw;
+        padding-right: 6vw;
+        font-size: 6vw;
     }
 
     .containHowItWorks{

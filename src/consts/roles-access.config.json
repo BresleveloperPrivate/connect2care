@@ -1,5 +1,7 @@
 {
-"ADMIN":{"comps":["DashboardMain","AnotherComponent"]},
-"SUPERADMIN":{"comps":["DashboardMain","AnotherComponent"]},
-"SIMPLEUSER":{"comps":["AnotherComponent"],"defaultHomePage":"SimpleUserHome"}
+    "SUPERADMIN": {
+        "comps": [
+            "DashboardMain"
+        ]
+    }
 }

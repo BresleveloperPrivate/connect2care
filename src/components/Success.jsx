@@ -56,7 +56,7 @@ class Success extends Component {
     }
 
     render() {
-        return (<div>
+        return (<div className="navBarMargin">
             {this.state.isMeetingOpen !== null ?
                 <div>
                     <div className="sucessPage">

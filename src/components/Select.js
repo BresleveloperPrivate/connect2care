@@ -11,14 +11,14 @@ const Select = (props) => {
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
-        <div className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
-            <div className='selectContainer' onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}>
-                <div className='d-flex select align-items-center h-100'>
-                    <div style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
-                    <img src={DownArrow} alt='arrow' />
+        <div onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)} className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
+            <div className='selectContainer' >
+                <div className='d-flex select align-items-center h-100' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
+                    <div className="selectInput" style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
+                    <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' />
                 </div>
                 {isSelectOpen &&
-                    <div className='optionsContainer'>
+                    <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
                         {props.arr && props.arr.map((value, index) =>
                             <div
                                 className='selectOption'
@@ -26,8 +26,11 @@ const Select = (props) => {
                                 onClick={() => {
                                     props.onChoseOption(value)
                                     setSelectedOption(value.option)
+                                    if (props.fetch) {
+                                        props.fetch()
+                                    }
                                 }}>
-                                <div style={{ margin: '1vh 2vh' }}>
+                                <div style={{ padding: '1vh 2vh' }}>
                                     {value.option}
                                 </div>
                             </div>
