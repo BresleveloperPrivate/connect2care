@@ -10,8 +10,14 @@ import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 
+//pass me this: styleObject = {
+    //buttonWidth: '?rem'
+    //fontSize: '?rem'
+    //imageWidth: '?px'
+    //imageHeight: '?px'
+//} Make sure these are strings!
 
-export default function Sharing() {
+export default function Sharing(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -21,6 +27,8 @@ export default function Sharing() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { styleObject } = props;
 
   const copyToClipboard = (str) => {
     // Create new element
@@ -50,7 +58,7 @@ export default function Sharing() {
 
   const shareWithEmail = async () => {
     let senderName = "מתחברים וזוכרים"
-    let sendOptions=  { to: 'reshit@carmel6000.amitnet.org', subject: 'dsfdsfds', html: '<h1>בדיקה</h1>' }
+    let sendOptions = { to: 'reshit@carmel6000.amitnet.org', subject: 'dsfdsfds', html: '<h1>בדיקה</h1>' }
     let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -59,13 +67,19 @@ export default function Sharing() {
       })
     })
     console.log(res, err)
+    handleClose();
+  };
+
+  const shareWithFaceBook = async () => {
+    window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
+    handleClose();
   };
 
   return (
     <div>
-      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        {/* <div className="sharingBox"> */}
-        <img src={shareIt} width="30px" height="30px" />
+      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{width: styleObject.buttonWidth, fontSize: styleObject.fontSize}}>
+      {/* <div className="sharingBox"> */}
+        <img src={shareIt} width={styleObject.imageWidth} height={styleObject.imageHeight} />
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
       </Button>
@@ -77,7 +91,7 @@ export default function Sharing() {
         onClose={handleClose}
       >
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
-        <MenuItem onClick={handleClose}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
+        <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={shareWithEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
         <MenuItem onClick={copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
 

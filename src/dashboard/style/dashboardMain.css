@@ -4,13 +4,14 @@
 
 .tableHead th{
     background-color: var(--custom-table-gray);
+    /* color: white; */
     padding-top: 1% !important;
     padding-bottom: 1% !important;
 }
 
 .allTableStyle{
-    width: 80%;
-    margin: auto;
+    width: 80vw;
+    margin: 0 10vw;
     background-color: white;
     color: var(--custom-gray);
     border-radius: 7px;
@@ -24,7 +25,7 @@
     text-align: -webkit-center;
 }
 
-.allTableStyle tr td:last-child{
+.allTableStyle tr td:last-child:not(.noRes){
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -43,4 +44,14 @@
     margin-bottom: 2%;
     font-size: 1.43em;
     font-weight: 600;
+}
+
+.noRes{
+    padding: 5vh;
+    text-align: center;
+}
+
+.spinner-border{
+    border: 0.45vh solid currentColor;
+    border-right-color: transparent;
 }
