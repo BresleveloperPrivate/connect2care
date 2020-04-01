@@ -14,12 +14,12 @@ class MeetingsStore {
 
     changeSearchInput = (event) => {
         ////if match...
-    
+
         this.searchInput = event.target.value
     }
 
     changeFallenRelative = (relative) => {
-        if (relative === 'הכל') {
+        if (relative === 'קרבה לחלל') {
             this.fallenRelative = false
             return
         }
@@ -27,7 +27,7 @@ class MeetingsStore {
     }
 
     changeMeetingLanguage = (language) => {
-        if (language === 'כל השפות') {
+        if (language === 'שפת המפגש') {
             this.language = false
             return
         }
@@ -35,16 +35,16 @@ class MeetingsStore {
     }
 
     changeMeetingDate = (date) => {
-        if (date === 'כל התאריכים') {
+        if (date === 'תאריך המפגש') {
             this.date = false
             return
         }
-        this.date = date.split(" ")[0]
+        this.date = date
     }
 
-    search = async (getMore , searchButton) => {
+    search = async (getMore, searchButton) => {
 
-        if(searchButton){
+        if (searchButton) {
             this.prevSearchInput = this.searchInput
         }
 
@@ -54,24 +54,28 @@ class MeetingsStore {
         }
 
         let filter = {
-                and: [
-                    getMore ? { id: { gt: this.lastId } } : {},
-                    this.language ? { language: this.language } : {},
-                    this.date ? { date: this.date } : {},
-                    this.fallenRelative ? { relationship: this.fallenRelative } : {}
-                ]
+            and: [
+                getMore ? { id: { gt: this.lastId } } : {},
+                this.language ? { language: this.language } : {},
+                this.date ? { date: this.date } : {},
+                this.fallenRelative ? { relationship: this.fallenRelative } : {}
+            ]
         }
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({search: this.prevSearchInput, filters: filter })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter })
         })
         if (err) {
             console.log(err)
         } else {
+            console.log(meetings)
             let id;
-            if (!meetings.length) return
+            if (!meetings.length) {
+                this.loadMoreButton = false
+                return
+            }
             if (meetings.length <= 4) {
                 this.loadMoreButton = false
                 id = meetings[meetings.length - 1].id
@@ -82,10 +86,10 @@ class MeetingsStore {
             this.lastId = id
             if (!this.meetings) {
                 console.log('aaaaaaaaa')
-                this.meetings = meetings.slice(0,4)
+                this.meetings = meetings.slice(0, 4)
                 return
             }
-            this.meetings = this.meetings.concat(meetings.slice(0,4))
+            this.meetings = this.meetings.concat(meetings.slice(0, 4))
         }
     }
 
@@ -96,7 +100,7 @@ decorate(MeetingsStore, {
     search: action,
     searchInput: observable,
     fallenRelative: observable,
-    prevSearchInput:observable,
+    prevSearchInput: observable,
     language: observable,
     date: observable,
     lastId: observable,

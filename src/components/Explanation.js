@@ -9,7 +9,7 @@ class Explanation extends Component {
             <div className={this.props.explanation === 1 ? ' containFirstExplanation containExplanation' : 'containExplanation'} >
 
                 {this.props.explanation === 1 ?
-                    <div className='explanation firstExplanation'>
+                    <div className='explanation'>
                         חלקנו, מחכים למפגש יום הזיכרון כל השנה.<br />
                     אחרים, הופכים שמיים וארץ, רק לא לוותר.<br />
                         <strong>והשנה? נמשיך בדיוק כך.</strong><br /><br />

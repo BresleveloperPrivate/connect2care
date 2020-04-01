@@ -15,7 +15,7 @@ module.exports = function (meetings) {
     meetings.getMeetingsUser = (search, filters, options, cb) => {
 
         let resArray = []
-        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }]}, (err, response) => {
+        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
@@ -117,7 +117,6 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
-            console.log(filters.relationship)
             if (filters.relationship && filters.relationship !== 'אחר') {
                 filtersOfMeetting.relationship = filters.relationship
             }
@@ -178,7 +177,7 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'zoom', 'fallens_meetings', 'fallens', 'people_meetings', 'people'] });
+                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'fallens'] });
                 if (!meeting) { cb({ error: "no meeting" }, null); return; }
                 cb(null, meeting);
             } catch (err) {
@@ -189,15 +188,50 @@ module.exports = function (meetings) {
     }
 
     meetings.remoteMethod('GetMeetingInfo', {
-        description: "Get House Id by Access Token",
+        description: "Get Meeting Info",
         accepts: [{ arg: "meetingId", type: "string", required: true, http: { source: 'path' } }],
         returns: { type: "object", root: true },
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, cb) => {
+        (async () => {
+            try {
+                const { people, people_meetings } = meetings.app.models;
+                const meeting = await meetings.findById(meetingId);
+
+                if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
+                const { max_participants, participants_num } = meeting;
+                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "הפגישה מלאה" }, null); return; }
+
+                const person = await people.create({ name, email, phone });
+                await people_meetings.create({ person: person.id, meeting: meetingId });
+                const participantsNum = participants_num ? participants_num + 1 : 1;
+                await meetings.upsert({ id: meetingId, participants_num: participantsNum });
+
+                cb(null, { participantsNum });
+            } catch (err) {
+                console.log(err);
+                cb(err, null);
+            }
+        })();
+    }
+
+    meetings.remoteMethod('AddPersonToMeeting', {
+        description: "Add Person To Meeting",
+        accepts: [
+            { arg: "meetingId", type: "string", required: true, http: { source: 'path' } },
+            { arg: "name", type: "string", required: true },
+            { arg: "email", type: "string", required: true },
+            { arg: "phone", type: "string", required: true }
+        ],
+        returns: { type: "object", root: true },
+        http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }
+    });
+
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            console.log("senderName, sendOptions",senderName, sendOptions)
+            console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();

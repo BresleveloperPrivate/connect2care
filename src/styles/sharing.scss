@@ -1,10 +1,11 @@
 #sharingBox{
-    background: #F5C508;
+    background: #0A2D63;
     border-radius: 30px;
-    width: 20rem;
+    width: 14rem;
     font-size: 1.3rem;
     font-weight: bold;
-    color: #082551;
+    color: white;
+    padding: 0.7rem;
 }
 
 .inviteSpan{
@@ -22,4 +23,9 @@
 
 #platformName{
     text-align: right;
+}
+
+.invalidEmail{
+    color: red;
+    text-align: center;
 }

@@ -1,5 +1,5 @@
 .sucessPage{
-    background: #082551;
+    background: #00726B;
 }
 
 .sucessHeadline{
@@ -20,7 +20,7 @@
 
 .backArrow{
     text-align: right;
-    margin-top: 3rem;
+    padding-top: 3rem;
     margin-bottom: 2rem;
 }
 
@@ -48,10 +48,14 @@
 
 .relationDiv{
     margin-top: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.2rem;
 }
 
 .annonymousPerson{
+    margin-left: 0.4rem;
+}
+
+.whiteCandle{
     margin-left: 0.4rem;
 }
 
@@ -64,6 +68,7 @@
     display: flex;
     text-align: right;
     flex-direction: column;
+    margin-right: 2rem;
 }
 
 .bigContainer{
@@ -82,10 +87,11 @@
 }
 
 .isMeetingOpen{
+    margin-top: 0.5rem;
     color: white;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    width: 5rem;
+    width: 93px;
     &:hover{
         background-color: white;
         color: #082551;
@@ -101,6 +107,8 @@
     padding-bottom: 2.5rem;
     text-align: center;
     margin-right: 0.5rem;
+    position: relative;
+    right: -30.5rem;
 }
 
 
@@ -129,6 +137,51 @@
     color: #082551;
 
 }
-@media only screen and (min-width: 768px) {
 
+.flexImage{
+    display: flex;
+    flex-direction: column;
+}
+
+#divider{
+    color:white;
+    border-top: 1px solid #ffffff;
+    margin-top: 0rem;
+}
+
+#sendButton{
+    justify-content: center;
+}
+@media only screen and (max-width: 768px) {
+    .backArrow{
+        margin-bottom: 0;
+        padding-top: 2rem;
+    }
+
+    .bigContainer{
+        margin-right: 1rem;
+        margin-left: 0;
+    }
+
+    .additionalInfo{
+        margin-right: 1rem;
+        margin-left: 0;
+    }
+
+    .meetingInfo{
+        margin-right: 0;
+        width: 30vh;
+    }
+
+    .detailsInfo{
+        width: 30vh;
+    }
+
+    .shareWith{
+        right: 0;
+    }
+
+    #sharingBox{
+        right: -4rem;
+    }
 }

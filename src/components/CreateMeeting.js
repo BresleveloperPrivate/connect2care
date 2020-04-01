@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import grayCandle from '../icons/gray-candle.svg'
 import person from '../icons/person.svg'
-import clock from '../icons/clock.svg'
+import clock from '../icons/whiteClock.svg'
 import candleWhiteGray from '../icons/candleWhiteGray.svg'
 import lock from '../icons/lock.svg'
 import lockWhite from '../icons/lock-white.svg'

@@ -1,37 +1,45 @@
+
 .input-meetings{
     color: #4D4F5C;
-    font-size: 2.3vh;
+    font-size: 1.3em;
     border: 0.8px solid var(--custom-light-blue);
     border-radius: 4px;
     outline: none;
     width: 55%;
     padding: 0.5vh 0;
+    text-align: right;
+    
 }
 
-.input-meetings:not(.filter){
-    padding: 0.5vh 1vw;
+.input-meetings:not(.filter-meeting){
+    padding: 0.5vh 1em;
 }
 
-.filter{
-    width: 20%;
-    margin-right: 4%;
+.selectInput{
+    padding: 0 1em;
+}
+
+
+.filter-meeting{
+    width: 18%;
+    margin-right: 3%;
 }
 
 .filterBy{
     flex-grow: 1;
     color: #4D4F5C;
-    font-size: 80%;
+    font-size: 1.5em;
     text-align: right;
 }
 
 .button-meetings{
     background-color: var(--custom-light-blue);
-    padding: 0.2vh 3vh;
-    font-size: 2.8vh;
+    padding: 0.2em 1em;
+    font-size: 1.5em;
     color: white;
     border-radius: 50px;
     width: fit-content;
-    /* width: 7vw; */
+    /* width: 7em; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,14 +55,110 @@
 }
 
 .containFilters , .containSearch{
-    margin-top: 3vh;
+    margin-top: 2em;
     display: flex;
     align-items: center;
     width: 100%;
 }
 
 .mainPage-meetings{
-    width: 75vw;
-    margin-right: 4vw;
+    width: 85em;
+    margin-right: 6em;
+}
 
+.containMeetingCard{
+    width: 100%;
+    display: flex;
+    margin-top: 2.3em;
+}
+
+.meetingCard{
+    box-shadow: 0px 3px 3px #00000029;
+    border-radius: 3px;
+    flex-grow: 1;
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+.imageOfFallen{
+    box-shadow: 0px 3px 3px #00000029;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.meetingCardContent{
+    width: 70%;
+    padding-right: 2em;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.meetingName{
+    padding-top: 1em;
+    text-align: right;
+    color: var(--custom-blue);
+    font-weight: 700;
+    font-size: 2.2em;
+}
+
+.meetingFor{
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: var(--custom-blue);
+    font-weight: 700;
+    font-size: 1.4em;
+    border-bottom: 0.75px solid var(--custom-blue);
+}
+
+.meetingDate{
+    margin-right: -0.2em;
+    display: flex;
+    align-items: center;
+    padding-top: 0.5em;
+    color: var(--custom-dark-green);
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.meetingOwner{
+    padding-top: 0.3em;
+    display: flex;
+    align-items: center;
+    color: var(--custom-blue);
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.meetingDescription{
+    padding-top: 0.3em;
+    text-align: right;
+    color: var(--custom-blue);
+    font-size: 1.2em;
+    height: 4em;
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+
+.loadMore-meetings{
+    background-color: var(--custom-blue);
+    padding: 0.2em 1em;
+    font-size: 1.7em;
+    border-radius: 50px;
+    font-weight: 600;
+    width: fit-content;
+    color: white;
+    box-shadow: 0px 3px 6px #00000029;
+    margin-top: 2em;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 800px){
+    .mainPage-meetings{
+        width: 75em;
+        margin-right: 4em;
+    }    
 }

@@ -10,8 +10,8 @@ import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 
 const Home = loadable(() => import('./components/Home.js'));
+const Meeting = loadable(() => import('./components/Meeting/Meeting'));
 const Success = loadable(() => import('./components/Success.jsx'));
-const Meeting = loadable(() => import('./components/Meeting.jsx'));
 const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
@@ -38,7 +38,7 @@ class App extends Component {
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/share" exact component={Share} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <PrivateRoute path="/dashboard" compName='DashboardMain' component={DashboardMain} />
+                            <PrivateRoute path="/dashboard" compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
                         </Switch>
                     </div>
                 </Router>
