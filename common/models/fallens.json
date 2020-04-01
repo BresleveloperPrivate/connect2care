@@ -97,6 +97,21 @@
                 "nullable": "Y"
             }
         },
+        "heb_falling_date": {
+            "type": "String",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "heb_falling_date",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
+        },
         "image_link": {
             "type": "String",
             "required": false,

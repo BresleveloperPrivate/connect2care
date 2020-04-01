@@ -7,7 +7,7 @@
 .select, .optionsContainer{
     background-color: var(--custom-background-light-blue);
     border-radius: 5px;
-    margin-bottom: 3px;
+    /* margin-bottom: 3px; */
 }
 
 .optionsContainer{
