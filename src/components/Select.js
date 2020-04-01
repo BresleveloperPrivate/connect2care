@@ -11,11 +11,11 @@ const Select = (props) => {
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
-        <div className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
-            <div className='selectContainer' onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}>
+        <div onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)} className={"cursor " + props.className} style={{ width: props.width }} ref={ref}>
+            <div className='selectContainer' >
                 <div className='d-flex select align-items-center h-100' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
                     <div className="selectInput" style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
-                    <img className="arrowInput" src={DownArrow} alt='arrow' />
+                    <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' />
                 </div>
                 {isSelectOpen &&
                     <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
@@ -26,6 +26,9 @@ const Select = (props) => {
                                 onClick={() => {
                                     props.onChoseOption(value)
                                     setSelectedOption(value.option)
+                                    if (props.fetch) {
+                                        props.fetch()
+                                    }
                                 }}>
                                 <div style={{ padding: '1vh 2vh' }}>
                                     {value.option}

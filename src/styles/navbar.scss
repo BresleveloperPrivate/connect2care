@@ -14,10 +14,16 @@
     --custom-light-blue: #3586B1;
     --custom-yellow: #F5C508;
     --custom-green: #19A099;
+    --custom-dark-green:#00726B;
 }
 
 .pointer{
     cursor: pointer;
+}
+
+.object-fit-cover-top{
+    object-fit: cover;
+    object-position: top;
 }
 
 .containMenu{
