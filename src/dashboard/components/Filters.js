@@ -3,9 +3,11 @@ import { inject, observer } from 'mobx-react';
 import '../style/filters.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Select from '../../components/Select'
+import DownArrow from '../../icons/Icon awesome-chevron-down.svg'
 
 const Filters = (props) => {
 
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
     const [inputFallen, setInputFallen] = useState("")
     const [inputOwner, setInputOwner] = useState("")
     const [inputMeetingName, setInputMeetingName] = useState("")
@@ -20,8 +22,11 @@ const Filters = (props) => {
 
     return (
         <div className='filters'>
-            <div className='headLine'>סנן לפי</div>
-            <div className="filtersContainer">
+            <div style={{ margin: 'unset', padding: '4vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
+                סנן לפי
+                <img style={{ width: '2.5vh', marginRight: '60vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
+            </div>
+            <div className="filtersContainer" style={isFilterOpen ? { height: '35vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
                 <div style={{ width: '50%' }}>
                     <div className='filterItem'>
                         <div className='textFilter'>תאריך</div>

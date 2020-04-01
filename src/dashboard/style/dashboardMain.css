@@ -4,13 +4,14 @@
 
 .tableHead th{
     background-color: var(--custom-table-gray);
+    /* color: white; */
     padding-top: 1% !important;
     padding-bottom: 1% !important;
 }
 
 .allTableStyle{
-    width: 80%;
-    margin: auto;
+    width: 80vw;
+    margin: 0 10vw;
     background-color: white;
     color: var(--custom-gray);
     border-radius: 7px;

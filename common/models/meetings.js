@@ -67,7 +67,6 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
-            console.log(filters.relationship)
             if (filters.relationship && filters.relationship !== 'אחר') {
                 filtersOfMeetting.relationship = filters.relationship
             }
