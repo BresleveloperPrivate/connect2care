@@ -36,21 +36,32 @@ const CssTimePicker = withStyles({
 })(TimePicker);
 
 const CreateMeeting = (props) => {
-    const [selectedArea, setSelectedArea] = useState("")
     const [pressOnCancel, setPressOnCancel] = useState(false)
     const [error, setError] = useState()
     const [timeValue, setTimeValue] = useState()
 
     const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"]
     const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = ["26.04 - יום ראשון", "27.04 - ערב יום הזכרון", "28.04 - יום הזכרון", "29.04- יום רביעי"]
+    const meetingDate = [
+        { name: "26.04 - יום ראשון", option: "26.04" },
+        { name: "27.04 - ערב יום הזכרון", option: "27.04" },
+        { name: "28.04 - יום הזכרון", option: "28.04" },
+        { name: "29.04- יום רביעי", option: "2p.04" }]
 
     useEffect(() => {
-        getTimeValue()
+        (async () => {
+            let path = props.history.location.pathname.split("/")
+            let meetingId = path[path.length - 1]
+            props.CreateMeetingStore.setMeetingId(meetingId)
+            await props.CreateMeetingStore.getMeetingDetails()
+            getTimeValue()
+
+            console.log("meetingDetails", props.CreateMeetingStore.meetingDetails)
+        })()
     }, [props.CreateMeetingStore.meetingDetails.time]);
 
     const searchFallen = () => {
-        
+
     }
 
     const getTimeValue = () => {
@@ -62,7 +73,7 @@ const CreateMeeting = (props) => {
 
     return (
         <div style={{ textAlign: "right" }} className="CreateMeeting">
-            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>יצירת המפגש</div>
+            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
                 <input
@@ -110,7 +121,7 @@ const CreateMeeting = (props) => {
                             })}
                             selectedText={props.CreateMeetingStore.meetingDetails.relationship}
                             width='95%'
-                            className='inputStyle'
+                            className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
 
                         {(props.CreateMeetingStore.meetingDetails.relationship !== "אח" &&
@@ -121,7 +132,7 @@ const CreateMeeting = (props) => {
                                 type="text"
                                 className='inputStyle'
                                 style={{ width: "95%" }}
-                                // value={props.CreateMeetingStore.fallenName}        
+                                value={props.CreateMeetingStore.meetingDetails.relationship}
                                 autoComplete="off"
                                 placeholder="קרבה שלי אל החלל"
                             />}
@@ -130,7 +141,7 @@ const CreateMeeting = (props) => {
                         <img src={grayCandle} alt="grayCandle" style={{ height: "13vh" }} />
                     </div>
                 </div>
-                
+
                 <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "2vh" }}>
                     <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
                     <div className="inputDetail">פרטי יוצר המפגש:</div>
@@ -161,6 +172,8 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="טלפון"
                 />
+                {console.log("props.CreateMeetingStore.meetingDetails.language", props.CreateMeetingStore.meetingDetails.language)}
+                {console.log("meetingLanguage", meetingLanguage, meetingLanguage[0]===props.CreateMeetingStore.meetingDetails.language)}
 
                 <Select
                     selectTextDefault='שפת המפגש'
@@ -169,7 +182,7 @@ const CreateMeeting = (props) => {
                     })}
                     width='65%'
                     selectedText={props.CreateMeetingStore.meetingDetails.language}
-                    className='inputStyle margin-right-text '
+                    className='inputStyle margin-right-text p-0 '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
 
                 <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
@@ -182,12 +195,12 @@ const CreateMeeting = (props) => {
                     <Select
                         selectTextDefault='תאריך'
                         arr={meetingDate.map((name) => {
-                            return { option: name }
+                            return { option: name.name }
                         })}
                         width='80%'
                         selectedText={props.CreateMeetingStore.meetingDetails.date}
-                        className='inputStyle'
-                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
+                        className='inputStyle p-0'
+                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option, meetingDate) }} />
 
                     <div className='inputStyle d-flex align-items-center' style={{ marginRight: "2vh" }}>
                         <div style={{ marginLeft: "2vh" }}>
@@ -217,12 +230,12 @@ const CreateMeeting = (props) => {
                     placeholder="מספר משתתפים מקסימלי"
                 />
                 <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-end">
-                    <div  onClick={()=>props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
+                    <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
 
             {!pressOnCancel && <div className="position-fixed containInputTextSide">
-                <img src={cancel} alt="cancel pointer" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "24%", top: "14vh" }} />
+                <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "24%", top: "14vh", cursor: "pointer" }} />
                 <br />
                 <img src={Business} alt="Business" style={{ marginBottom: "8vh" }} />
                 <div className="textSide">

@@ -6,7 +6,7 @@
 }
 
 .createMeetingSecondSentence{
-    font: normal 35px/46px Assistant;
+    font: normal 30px/40px Assistant;
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
@@ -36,6 +36,7 @@ input[type=radio] {
     background: url("../icons/checkbox_off_light.svg") no-repeat center center;
     padding: 0.5em;
     margin-left: 1vh;
+    cursor: pointer;
     -webkit-appearance: none;
 }
 
@@ -63,6 +64,7 @@ input[type=radio]:focus {
     color: white;
     font: Bold 25px/33px Assistant;
     padding: 1vh;
+    cursor: pointer;
     width: 23vh;
     margin-bottom: 20vh;
     text-align: center;
@@ -98,9 +100,9 @@ input[type=radio]:focus {
     color: #FBF1EC !important;
 }
   
-  .MuiPickersToolbarText-toolbarBtnSelected{
+.MuiPickersToolbarText-toolbarBtnSelected{
     color: #FBF1EC !important;
-  }
+}
   
 .MuiPickersModal-dialogRoot {
     border-radius: 20px !important;
@@ -117,10 +119,11 @@ input[type=radio]:focus {
 }
 .inputStyle .MuiInputBase-input {
     color: #157492 !important;
+    cursor: pointer;
     -webkit-text-fill-color: #157492 !important;
     padding: 0 ;
 }
-  
+
 .inputStyle .MuiInputBase-input.Mui-disabled {
     color: #157492 !important;
     -webkit-text-fill-color: #157492 !important;
@@ -128,6 +131,13 @@ input[type=radio]:focus {
 
 .MuiInput-underline:hover:not(.Mui-disabled):before{
     border-bottom: none;
+}
+.CreateMeeting .selectInput{
+    margin: 1vh 2vh;
+}
+
+.CreateMeeting .arrrowInput{
+    margin-left: 2vh;
 }
 
 .MuiInput-underline:after{

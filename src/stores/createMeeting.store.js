@@ -4,7 +4,7 @@ import Auth from '../modules/auth/Auth'
 class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
-    meetingDetails = {
+    meetingDetailsOriginal = {
         name: null,
         description: null,
         relationship: null,
@@ -23,20 +23,61 @@ class CreateMeetingStore {
         error: null
     }
 
+    meetingDetails = {
+        name: null,
+        description: null,
+        relationship: null,
+        owner: {
+            name: null,
+            phone: null,
+            email: null
+        },
+        language: null,
+        isOpen: null,
+        date: null,
+        time: "00:00",
+        maxParticipants: null,
+        fallens: null,
+        zoomId: 0,
+        error: null
+    }
+    otherRelationship = null;
+    meetingId = -1;
+
     changeMeetingName = (e) => {
         this.meetingDetails.name = e.target.value
     }
 
+    setMeetingId = (meetingId) => {
+        this.meetingId = meetingId
+    }
+
     //changeFallens = (index)=>{
-      //  this.fallens =
+    //  this.fallens =
     //}
+
+
 
     changeShortDescription = (e) => {
         this.meetingDetails.description = e.target.value
     }
 
-    changeMeetingDate = (option) => {
-        this.meetingDetails.date = option
+    changeMeetingDate = (date, array = null) => {
+
+        if (array !== null) {
+            for (let i in array) {
+                if (array[1].name === date) {
+                    this.meetingDetails.date = array[1].option
+                    return
+                }
+            }
+        }
+        else
+            this.meetingDetails.date = date
+    }
+
+    setOtherRelationship = (e) => {
+        this.otherRelationShip = e.target.value
     }
 
     changeFallenName = (e) => {
@@ -74,6 +115,59 @@ class CreateMeetingStore {
         this.meetingDetails.maxParticipants = e.target.value
     }
 
+    changeDetailsObjFunc = (object) => {
+        if (object.fallens && object.fallens.length) {
+            this.fallenDetails = null;
+            this.fallenName = null;
+        }
+        this.meetingDetailsOriginal = {
+            name: object.name,
+            description: object.description,
+            relationship: object.relationship,
+            owner: {
+                name: object.meetingOwner.name,
+                phone: object.meetingOwner.phone,
+                email: object.meetingOwner.email
+            },
+            language: object.language,
+            isOpen: object.isOpen,
+            date: object.date,
+            time: object.time,
+            maxParticipants: null,
+            fallens: object.fallens,
+            zoomId: 0,
+        }
+        this.meetingDetails = {
+            name: object.name,
+            description: object.description,
+            relationship: object.relationship,
+            owner: {
+                name: object.meetingOwner.name,
+                phone: object.meetingOwner.phone,
+                email: object.meetingOwner.email
+            },
+            language: object.language,
+            isOpen: object.isOpen,
+            date: object.date,
+            time: object.time,
+            maxParticipants: null,
+            fallens: object.fallens,
+            zoomId: 0,
+        }
+    }
+
+    getMeetingDetails = async () => {
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
+
+        console.log("success", success)
+        if (err) {
+            this.error = err
+        }
+        if (success) {
+            this.changeDetailsObjFunc(success[0])
+        }
+    }
+
     changeMeetingTime = (event) => {
         this.meetingDetails.time = (event.getHours() < 10 ? '0' : '') + event.getHours() + ":" + (event.getMinutes() < 10 ? '0' : '') + event.getMinutes()
     }
@@ -83,7 +177,7 @@ class CreateMeetingStore {
             this.meetingDetails.date = this.meetingDetails.date.split(" ")[0]
 
         let [success, err] = await Auth.superAuthFetch(
-            `/api/meetings/createMeeting`,
+            `/api/meetings/createMeeting/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -100,11 +194,14 @@ decorate(CreateMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
     meetingDetails: observable,
+    meetingId: observable,
+    setMeetingId: action,
     changeNumberOfParticipants: action,
     changeMeetingTime: action,
     changeMeetingOpenOrClose: action,
     changeMeetingFacilitatorPhoneNumber: action,
     changeFallenRelative: action,
+    getMeetingDetails: action,
     changeMeetingLanguage: action,
     changeMeetingFacilitatorEmail: action,
     changeMeetingFacilitatorName: action,
