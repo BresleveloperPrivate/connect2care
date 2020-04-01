@@ -134,8 +134,8 @@ module.exports = function (meetings) {
     });
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
-        console.log("senderName, sendOptions",senderName, sendOptions)
         (async () => {
+            console.log("senderName, sendOptions",senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
