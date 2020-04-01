@@ -191,7 +191,7 @@ const ListOfMeetingsUser = (props) => {
                                        {meeting.meetingOwner.name}  | {meeting.relationship}
                                          </div>
                                     <div className='meetingDescription'>
-
+{meeting.description}
                                     </div>
                                 </div>
                                 <div>
