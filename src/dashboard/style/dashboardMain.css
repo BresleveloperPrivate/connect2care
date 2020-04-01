@@ -1,3 +1,46 @@
 .textStyle, input::placeholder{
     color: var(--custom-gray);
 }
+
+.tableHead th{
+    background-color: var(--custom-table-gray);
+    padding-top: 1% !important;
+    padding-bottom: 1% !important;
+}
+
+.allTableStyle{
+    width: 80%;
+    margin: auto;
+    background-color: white;
+    color: var(--custom-gray);
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.tableBodyStyle td{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 2vh;
+    text-align: -webkit-center;
+}
+
+.allTableStyle tr td:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: fit-content;
+    margin:  0 1vw 0 0.5vw;
+}
+
+.allTableStyle tr:not(:last-child){
+    border-bottom: 1px solid var(--custom-table-gray);
+}
+
+.headLine{
+    text-align: right;
+    color: var(--custom-gray);
+    margin-right: 10%;
+    margin-bottom: 2%;
+    font-size: 1.43em;
+    font-weight: 600;
+}

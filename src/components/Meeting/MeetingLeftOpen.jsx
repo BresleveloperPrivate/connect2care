@@ -1,7 +1,6 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 
-import { createMuiTheme, ThemeProvider, makeStyles, Popover, List, Button, ListItem, ListItemText } from '@material-ui/core';
-import { ExpandMore } from "@material-ui/icons";
+import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
 
 import Auth from '../../modules/auth/Auth';
 
@@ -21,16 +20,6 @@ const useStyles = makeStyles(theme => ({
         }
     },
 
-    select: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-
-        "&:hover": {
-            cursor: "pointer"
-        }
-    },
-
     sendButton: {
         marginTop: 20,
         borderRadius: "100vh",
@@ -45,52 +34,44 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const selectOptions = ['אח', 'הורים', 'קרובי משפחה', 'חבר', 'אחר'];
-
-const MeetingLeftOpen = ({ meetingId }) => {
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
-    const emailRef = useRef();
-    const phoneRef = useRef();
-    const [selectValue, setSelectValue] = useState(null);
-    const selectTarget = useRef();
-    const [selectOpen, setSelectOpen] = useState(false);
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const { input, select, sendButton, sendLabel } = useStyles();
-
-    useEffect(() => setErrorMsg(null), [selectValue]);
+    const { input, sendButton, sendLabel } = useStyles();
 
     const onSend = useCallback(async () => {
-        const firstName = firstNameRef.current.value;
-        const lastName = lastNameRef.current.value;
-        const email = emailRef.current.value;
-        const phone = phoneRef.current.value;
+        setLoading(true);
 
-        if (!!!firstName) { setErrorMsg('אנא מלא/י שם פרטי'); return; }
-        if (!!!lastName) { setErrorMsg('אנא מלא/י שם משפחה'); return; }
+        if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
-        if (!!!selectValue) { setErrorMsg('אנא מלא/י הקרבה אל הנופל'); return; }
 
-        if (/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { setErrorMsg('דואר אלקטרוני אינו תקין'); return; }
-        if (isNaN(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
-
-        let [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
+        const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ firstName, lastName, email, phone, relationship: selectValue })
+            body: JSON.stringify({ name, email, phone })
         });
-        if (error || response.error) { console.error('ERR:', error || response.error); return; }
 
-    }, [firstNameRef, lastNameRef, emailRef, phoneRef, selectValue, meetingId]);
+        setLoading(false);
+
+        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg); return; }
+
+        setName('');
+        setEmail('');
+        setPhone('');
+        alert('הוספת למפגש בהצלחה');
+        setNumOfPeople(response.participantsNum);
+    }, [name, email, phone, meetingId]);
 
     const inputs = useMemo(() => [
-        [firstNameRef, 'שם פרטי'],
-        [lastNameRef, 'שם משפחה'],
-        [emailRef, 'דואר אלקטרוני'],
-        [phoneRef, 'טלפון']
-    ], [firstNameRef, lastNameRef, emailRef, phoneRef]);
+        [name, setName, 'שם'],
+        [email, setEmail, 'דואר אלקטרוני'],
+        [phone, setPhone, 'טלפון']
+    ], [name, email, phone]);
 
     return (
         <div id="meetingPageLeft">
@@ -99,37 +80,12 @@ const MeetingLeftOpen = ({ meetingId }) => {
             <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת</div>
 
             <form>
-                {inputs.map(([ref, placeholder], index) => (
-                    <input key={index} ref={ref} placeholder={placeholder} type="text" className={input} onChange={() => setErrorMsg(null)} />
+                {inputs.map(([value, setValue, placeholder], index) => (
+                    <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                 ))}
-                <div ref={selectTarget} className={`${input} ${select}`} onClick={() => setSelectOpen(open => !open)}>
-                    <div>{selectValue || 'הקרבה שלי אל הנופל'}</div>
-                    <ExpandMore />
-                </div>
-                <Popover
-                    anchorEl={selectTarget.current}
-                    open={selectOpen}
-                    onClose={() => setSelectOpen(false)}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                >
-                    <List>
-                        {selectOptions.map(option => (
-                            <ListItem key={option} button onClick={() => { setSelectValue(option); setSelectOpen(false); }}>
-                                <ListItemText primary={option} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Popover>
             </form>
             {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-            <Button onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
+            <Button disabled={loading} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
         </div>
     );
 }

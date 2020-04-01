@@ -10,6 +10,7 @@ import MeetingBottom from './MeetingBottom';
 import MeetingTop from './MeetingTop';
 import MeetingLeftOpen from './MeetingLeftOpen';
 import MeetingLeftClosed from './MeetingLeftClosed';
+import Sharing from '../Sharing';
 
 const useStyles = makeStyles(theme => ({
     arrowButton: {
@@ -43,7 +44,8 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [fallens, setFallens] = useState([]);
-    const [numOfPeople, setNumOfPeople] = useState('');
+    const [numOfPeople, setNumOfPeople] = useState(null);
+    const [maxNum, setMaxNum] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -57,10 +59,10 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                 setDate('');
                 setTime('');
                 setFallens([]);
-                setNumOfPeople('');
+                setNumOfPeople(null);
                 return;
             }
-            const { name, meetingOwner, description, isOpen, date, time, fallens, people } = res;
+            const { name, meetingOwner, description, isOpen, date, time, fallens, participants_num, max_participants } = res;
             setName(name);
             setOwner(meetingOwner ? meetingOwner.name : "");
             setDescription(description);
@@ -68,7 +70,8 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
             setDate(date);
             setTime(time);
             setFallens(fallens);
-            setNumOfPeople(people.length)
+            setNumOfPeople(participants_num || 0);
+            setMaxNum(max_participants)
         })();
     }, [meetingId]);
 
@@ -82,6 +85,7 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                     <div id="meetingButtons">
                         <IconButton className={arrowButton} onClick={goBack}><ArrowForward /></IconButton>
                         <Button variant="contained" className={shareButton} classes={{ label: shareButtonLabel }} startIcon={<Share color="primary" />}>הזמינו למפגש</Button>
+                        <Sharing styleObject={{ buttonWidth: '', fontSize: '16px', imageWidth: '', imageHeight: '' }} />
                     </div>
 
                     <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />
@@ -99,13 +103,13 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                 <MeetingBottom numOfPeople={numOfPeople} />
 
             </div>
-            {isOpen !== null && isOpen !== undefined && isOpen ? (
-                <MeetingLeftOpen isOpen={isOpen} meetingId={meetingId} />
+            {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
+                <MeetingLeftOpen setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
-                    <MeetingLeftClosed />
+                    <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />
                 )
-            }
+            )}
         </div>
     );
 }

@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fallenImage from '../icons/515374.png';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 import Sharing from './Sharing.jsx';
+import candle from '../icons/candle-white.svg';
+import Divider from '@material-ui/core/Divider';
+
 
 
 class Success extends Component {
@@ -37,9 +40,10 @@ class Success extends Component {
         const meetingDate = "יום שני | ג' באייר | 27 באפריל";
         const meetingHour = "20:30"
         const isMeetingOpen = true;
+        const name = "דוד גרניט"
         this.setState({
             dateOfDeath, relation, meetingDate, meetingHour, meetingStarter,
-            meetingStory, isMeetingOpen
+            meetingStory, isMeetingOpen, name
         })
     }
 
@@ -52,7 +56,7 @@ class Success extends Component {
     }
 
     render() {
-        return (<div>
+        return (<div className="navBarMargin">
             {this.state.isMeetingOpen !== null ?
                 <div>
                     <div className="sucessPage">
@@ -61,27 +65,34 @@ class Success extends Component {
                             <div className="sucessHeadline">מצויין יצרת מפגש</div>
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
-                                <img className="fallenImage" src={fallenImage} width="93px" height="123px" />
+                                <div className="flexImage">
+                                    <img className="fallenImage" src={fallenImage} width="93px" height="123px" />
+                                    <div className="isMeetingOpen">{this.state.isMeetingOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
+                                </div>
                                 <div className="meetingInfo">
                                     <div className="deathTime">{this.state.dateOfDeath}</div>
                                     {/* <div className="relationInfo"> */}
+                                    <div className="fallenName">
+                                        <img className="whiteCandle" src={candle} height="15px" width="10px" />
+                                        <span className="exactDate">לזכר {this.state.name} ז"ל</span>
+                                        <hr id="divider" />
+                                    </div>
+                                    <div className="meetingDate">
+                                        <FontAwesomeIcon icon="clock" color="#ffffff" />
+                                        <span className="exactDate">{this.state.meetingDate} {this.state.meetingHour}</span>
+                                    </div>
                                     <div className="relationDiv">
                                         <img className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
                                         <span className="relationInfo">{this.state.meetingStarter}, {this.state.relation}</span>
                                     </div>
                                     <div className="detailsInfo">{this.state.meetingStory}</div>
                                     {/* </div> */}
-                                    <div className="meetingDate">
-                                        <FontAwesomeIcon icon="clock" color="#ffffff" />
-                                        <span className="exactDate">{this.state.meetingDate} {this.state.meetingHour}</span>
-                                    </div>
-                                    <div className="isMeetingOpen">{this.state.isMeetingOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
                                 </div>
                             </div>
                             <div className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
-                    <div className="sharingComponent"><Sharing /></div>
+                    <div className="sharingComponent"><Sharing styleObject={{buttonWidth: '14rem', fontSize:'1.3rem', imageWidth: '30px', imageHeight: '30px'}}/></div>
                     <div className="whiteFutter">
                         <div className="additionalInfo">
                             <div>*קישור למפגש מחכה לך בתיבת המייל</div>
