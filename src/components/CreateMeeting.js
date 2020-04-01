@@ -50,13 +50,12 @@ const CreateMeeting = (props) => {
 
     useEffect(() => {
         (async () => {
-            let path = props.history.location.pathname.split("/")
-            let meetingId = path[path.length - 1]
-            props.CreateMeetingStore.setMeetingId(meetingId)
-            await props.CreateMeetingStore.getMeetingDetails()
+            // let path = props.history.location.pathname.split("/")
+            // let meetingId = path[path.length - 1]
+            // props.CreateMeetingStore.setMeetingId(meetingId)
+            // await props.CreateMeetingStore.getMeetingDetails()
             getTimeValue()
 
-            console.log("meetingDetails", props.CreateMeetingStore.meetingDetails)
         })()
     }, [props.CreateMeetingStore.meetingDetails.time]);
 
@@ -119,7 +118,7 @@ const CreateMeeting = (props) => {
                             arr={myCloseToTheFallen.map((name) => {
                                 return { option: name }
                             })}
-                            selectedText={props.CreateMeetingStore.meetingDetails.relationship}
+                            // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
                             width='95%'
                             className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
@@ -172,8 +171,6 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="טלפון"
                 />
-                {console.log("props.CreateMeetingStore.meetingDetails.language", props.CreateMeetingStore.meetingDetails.language)}
-                {console.log("meetingLanguage", meetingLanguage, meetingLanguage[0]===props.CreateMeetingStore.meetingDetails.language)}
 
                 <Select
                     selectTextDefault='שפת המפגש'
@@ -181,7 +178,7 @@ const CreateMeeting = (props) => {
                         return { option: name }
                     })}
                     width='65%'
-                    selectedText={props.CreateMeetingStore.meetingDetails.language}
+                    // selectedText={props.CreateMeetingStore.meetingDetails.language}
                     className='inputStyle margin-right-text p-0 '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
 
@@ -198,7 +195,7 @@ const CreateMeeting = (props) => {
                             return { option: name.name }
                         })}
                         width='80%'
-                        selectedText={props.CreateMeetingStore.meetingDetails.date}
+                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='inputStyle p-0'
                         onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option, meetingDate) }} />
 

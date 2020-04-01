@@ -21,10 +21,36 @@ export default function Sharing() {
     setAnchorEl(null);
   };
 
+  const copyToClipboard = (str) => {
+    // Create new element
+    let el = document.createElement('textarea');
+    // Set value (string to be copied)
+    el.value = str;
+    // Set non-editable to avoid focus and move outside of view
+    el.setAttribute('readonly', '');
+    el.style = { position: 'absolute', left: '-9999px' };
+    document.body.appendChild(el);
+    // Select text inside element
+    el.select();
+    // Copy text to clipboard
+    document.execCommand('copy');
+    // Remove temporary element
+    document.body.removeChild(el);
+  }
+
+  const shareWithWhatsApp = async () => {
+    const text = `הי, נרשמתי למאגר מתנדבים של המדינה. עושים הכל לסייע בתקופה של הקורונה, זה מהיר ונגיש לכל העמותות כך שלא צריך להרשם במליון מקומות… תצטרף גם? מצא 20 חברים ושלח להם את הקישור הבא:`
+    // const linkText = text + " " + this.state.inviteLink;
+    const linkText = text + " " + "https://github.com/";
+    const href = `whatsapp://send?text=${linkText}`;
+    window.location.href = href;
+    handleClose();
+  };
+
   return (
     <div>
       <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-      {/* <div className="sharingBox"> */}
+        {/* <div className="sharingBox"> */}
         <img src={shareIt} width="30px" height="30px" />
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
@@ -36,10 +62,11 @@ export default function Sharing() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem  onClick={handleClose}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon"/> <span id="platformName">Whatsapp</span> </MenuItem>
-        <MenuItem  onClick={handleClose}><img width="20px" height="20px" src={facebookIcon} id="platformIcon"/> <span id="platformName">Facebook</span></MenuItem>
-        <MenuItem  onClick={handleClose}><img width="20px" height="20px" src={emailIcon} id="platformIcon"/> <span id="platformName">דואר אלקטרוני</span></MenuItem>
-        <MenuItem  onClick={handleClose}><img width="20px" height="20px" src={linkIcon} id="platformIcon"/> <span id="platformName">העתק קישור</span></MenuItem>      
+        <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
+        <MenuItem onClick={handleClose}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
+        <MenuItem onClick={handleClose}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
+        <MenuItem onClick={copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
+
       </Menu>
     </div>
   );

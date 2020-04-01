@@ -369,6 +369,7 @@ CREATE TABLE `fallens` (
   `last_name` varchar(512) NOT NULL,
   `falling_date` datetime DEFAULT NULL,
   `image_link` varchar(512) DEFAULT NULL,
+  `heb_falling_date` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -582,4 +583,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-31 13:18:13
+-- Dump completed on 2020-03-31 18:36:15
