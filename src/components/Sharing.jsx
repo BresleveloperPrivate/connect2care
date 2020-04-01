@@ -55,7 +55,7 @@ export default function Sharing() {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        senderName, sendOptions
+        senderName: senderName, sendOptions: sendOptions
       })
     })
     console.log(res, err)
