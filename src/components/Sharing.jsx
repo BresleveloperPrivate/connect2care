@@ -49,8 +49,8 @@ export default function Sharing() {
   };
 
   const shareWithEmail = async () => {
-    let senderName = "senderName"
-    let sendOptions=  { to: 'maayan456332gmail.com', subject: 'dsfdsfds', html: '<h1></h1>' }
+    let senderName = "מתחברים וזוכרים"
+    let sendOptions=  { to: 'reshit@carmel6000.amitnet.org', subject: 'dsfdsfds', html: '<h1>בדיקה</h1>' }
     let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },

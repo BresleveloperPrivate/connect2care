@@ -135,11 +135,11 @@ module.exports = function (meetings) {
     });
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
-        console.log("senderName, sendOptions", senderName, sendOptions)
-            (async () => {
-                let res = sendEmail(senderName, sendOptions);
-                cb(null, { res: res })
-            })();
+        (async () => {
+            console.log("senderName, sendOptions",senderName, sendOptions)
+            let res = sendEmail(senderName, sendOptions);
+            cb(null, { res: res })
+        })();
     }
 
     meetings.remoteMethod('SendShareEmail', {
