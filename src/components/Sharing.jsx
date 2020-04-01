@@ -28,7 +28,7 @@ export default function Sharing(props) {
     setAnchorEl(null);
   };
 
-  const styleObject = props;
+  const { styleObject } = props;
 
   const copyToClipboard = (str) => {
     // Create new element
