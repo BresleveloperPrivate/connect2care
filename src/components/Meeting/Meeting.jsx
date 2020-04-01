@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { IconButton, ThemeProvider, createMuiTheme, makeStyles, Button } from '@material-ui/core';
-import { ArrowForward, Share } from "@material-ui/icons";
+import { IconButton, ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core';
+import { ArrowForward } from "@material-ui/icons";
 
 import Auth from '../../modules/auth/Auth';
 
@@ -16,21 +16,6 @@ const useStyles = makeStyles(theme => ({
     arrowButton: {
         color: theme.palette.primary.main,
         outline: "none !important"
-    },
-
-    shareButton: {
-        background: '#F5C508',
-        borderRadius: '100vh',
-        outline: "none !important",
-
-        '&:hover': {
-            background: '#d9ae04'
-        }
-    },
-
-    shareButtonLabel: {
-        color: theme.palette.primary.main,
-        fontWeight: 'bold'
     }
 }));
 
@@ -50,32 +35,13 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
     useEffect(() => {
         (async () => {
             const [res, error] = await Auth.superAuthFetch(`/api/meetings/GetMeetingInfo/${meetingId}`);
-            if (error || res.error) {
-                console.log("woo too bad: ", error);
-                setName('');
-                setOwner('');
-                setDescription('');
-                setIsOpen(null);
-                setDate('');
-                setTime('');
-                setFallens([]);
-                setNumOfPeople(null);
-                return;
-            }
+            if (error || res.error) { console.log("woo too bad: ", error); setName(''); setOwner(''); setDescription(''); setIsOpen(null); setDate(''); setTime(''); setFallens([]); setNumOfPeople(null); return; }
             const { name, meetingOwner, description, isOpen, date, time, fallens, participants_num, max_participants } = res;
-            setName(name);
-            setOwner(meetingOwner ? meetingOwner.name : "");
-            setDescription(description);
-            setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1);
-            setDate(date);
-            setTime(time);
-            setFallens(fallens);
-            setNumOfPeople(participants_num || 0);
-            setMaxNum(max_participants)
+            setName(name); setOwner(meetingOwner ? meetingOwner.name : ""); setDescription(description); setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1); setDate(date); setTime(time); setFallens(fallens); setNumOfPeople(participants_num || 0); setMaxNum(max_participants)
         })();
     }, [meetingId]);
 
-    const { arrowButton, shareButton, shareButtonLabel } = useStyles();
+    const { arrowButton } = useStyles();
 
     return (
         <div id="meetingPage">
@@ -83,9 +49,8 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                 <div id="meetingMainMain">
 
                     <div id="meetingButtons">
-                        <IconButton className={arrowButton} onClick={goBack}><ArrowForward /></IconButton>
-                        <Button variant="contained" className={shareButton} classes={{ label: shareButtonLabel }} startIcon={<Share color="primary" />}>הזמינו למפגש</Button>
-                        <Sharing styleObject={{ buttonWidth: '', fontSize: '16px', imageWidth: '', imageHeight: '' }} />
+                        <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="large" /></IconButton>
+                        <Sharing styleObject={{ fontSize: '18px', imageHeight: '24px' }} />
                     </div>
 
                     <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />

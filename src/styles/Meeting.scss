@@ -5,6 +5,7 @@ $navBarMargin: 10vh;
 
 #meetingPage {
     display: flex;
+    flex-direction: column;
 }
 
 #meetingPageMain {
@@ -161,5 +162,37 @@ $navBarMargin: 10vh;
         margin-right: 3px;
         color: red;
         font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #meetingPage {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+    }
+
+    #meetingPageMain {
+        width: 100%;
+        min-height: 0;
+
+        #meetingMainMain {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        #meetingPageBottom {
+            margin-top: 2rem;
+            padding-left: 0;
+            padding-right: 0;
+            justify-content: center;
+        }
+    }
+
+    #meetingPageLeft {
+        padding: 4rem 2rem;
+        width: 100%;
+        overflow: initial;
+        position: initial;
     }
 }
