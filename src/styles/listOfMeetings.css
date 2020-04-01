@@ -1,26 +1,33 @@
 .input-meetings{
     color: #4D4F5C;
-    font-size: 2.3vh;
+    font-size: 1.3vw;
     border: 0.8px solid var(--custom-light-blue);
     border-radius: 4px;
     outline: none;
     width: 55%;
     padding: 0.5vh 0;
+    text-align: right;
+    
 }
 
-.input-meetings:not(.filter){
+.input-meetings:not(.filter-meeting){
     padding: 0.5vh 1vw;
 }
 
-.filter{
-    width: 20%;
-    margin-right: 4%;
+.selectInput{
+    padding: 0 1vw;
+}
+
+
+.filter-meeting{
+    width: 18%;
+    margin-right: 3%;
 }
 
 .filterBy{
     flex-grow: 1;
     color: #4D4F5C;
-    font-size: 80%;
+    font-size: 1.5vw;
     text-align: right;
 }
 
@@ -47,7 +54,7 @@
 }
 
 .containFilters , .containSearch{
-    margin-top: 3vh;
+    margin-top: 2vw;
     display: flex;
     align-items: center;
     width: 100%;
@@ -57,4 +64,46 @@
     width: 75vw;
     margin-right: 4vw;
 
+}
+
+.containMeetingCard{
+    width: 100%;
+    display: flex;
+    margin-top: 2.3vw;
+}
+
+.meetingCard{
+    box-shadow: 0px 3px 3px #00000029;
+    border-radius: 3px;
+    flex-grow: 1;
+    margin-right: 2vw;
+}
+
+.imageOfFallen{
+    box-shadow: 0px 3px 3px #00000029;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.meetingCardContent{
+    width: 70%;
+    padding-right: 2vw;
+}
+
+.meetingName{
+    padding-top: 1vw;
+    text-align: right;
+    color: var(--custom-blue);
+    font-weight: 700;
+    font-size: 2.2vw;
+}
+
+.meetingFor{
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: var(--custom-blue);
+    font-weight: 700;
+    font-size: 1.4vw;
+    border-bottom: 0.75px solid var(--custom-blue);
 }

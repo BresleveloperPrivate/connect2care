@@ -38,7 +38,7 @@ class App extends Component {
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/share" exact component={Share} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <PrivateRoute path="/dashboard" compName='DashboardMain' component={DashboardMain} />
+                            <PrivateRoute path="/dashboard" compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
                         </Switch>
                     </div>
                 </Router>

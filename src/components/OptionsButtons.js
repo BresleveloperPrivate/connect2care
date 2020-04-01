@@ -15,7 +15,9 @@ class containOptions extends Component {
                         this.props && this.props.history.push("/create-meeting")
                     }}
                 >אני רוצה ליזום מפגש</div>
-                <div className='pointer grow secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
+                <div onClick={()=>{
+                    this.props.history.push('/meetings')
+                }} className='pointer grow secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
             </div>
 
         );

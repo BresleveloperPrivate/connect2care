@@ -24,13 +24,16 @@ const Select = (props) => {
                                 className='selectOption'
                                 key={index}
                                 onClick={() => {
-                                    props.onChoseOption(value)
-                                    setSelectedOption(value.option)
-                                    if (props.fetch) {
-                                        props.fetch()
+                                    if (value.option !== selectedOption) {
+                                        props.onChoseOption(value)
+                                        setSelectedOption(value.option)
+                                        if (props.fetch) {
+                                            props.fetch()
+                                        }
                                     }
+
                                 }}>
-                                <div style={{ padding: '1vh 2vh' }}>
+                                <div className='optionInSelect'>
                                     {value.option}
                                 </div>
                             </div>

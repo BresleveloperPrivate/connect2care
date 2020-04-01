@@ -3,15 +3,17 @@
     border-radius: 7px;
     box-shadow: 0px 2px 6px #0000000A;
     margin: auto;
+    margin-top: 6vh;
     background-color: white;
     margin-bottom: 20px; 
     text-align: right;
-    padding:  4vh 5vw;
 }
 
 .filtersContainer{
     display: flex;
     align-self: center;
+    transition: height 0.3s ease;
+    padding:  0 5vw 4vh ;
 }
 
 .filterItem{
@@ -90,7 +92,7 @@
 .searchBtn {
     width: fit-content;
     padding: 0.5vh 5vw;
-    background-color: #0A2D63;
+    background-color: var(--custom-blue);
     color: white;
     border-radius: 5px;
     margin-top: 3vh;
