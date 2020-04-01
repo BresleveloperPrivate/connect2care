@@ -19,7 +19,7 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
-        if (relative === 'הכל') {
+        if (relative === 'קרבה לחלל') {
             this.fallenRelative = false
             return
         }
@@ -27,7 +27,7 @@ class MeetingsStore {
     }
 
     changeMeetingLanguage = (language) => {
-        if (language === 'כל השפות') {
+        if (language === 'שפת המפגש') {
             this.language = false
             return
         }
@@ -35,11 +35,11 @@ class MeetingsStore {
     }
 
     changeMeetingDate = (date) => {
-        if (date === 'כל התאריכים') {
+        if (date === 'תאריך המפגש') {
             this.date = false
             return
         }
-        this.date = date.split(" ")[0]
+        this.date = date
     }
 
     search = async (getMore , searchButton) => {
@@ -70,6 +70,7 @@ class MeetingsStore {
         if (err) {
             console.log(err)
         } else {
+            console.log(meetings)
             let id;
             if (!meetings.length) return
             if (meetings.length <= 4) {
