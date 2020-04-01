@@ -6,7 +6,9 @@ class Image extends Component {
     render() {
         return (
 
-            <div className = {this.props.className}>
+            <div  
+            style={{cursor: this.props.isOpen ? 'pointer' : 'auto'}}
+            className = {this.props.className}>
 
                 {this.props.array.length === 1 ?
 
