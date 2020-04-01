@@ -8,6 +8,7 @@ import whatsappIcon from '../icons/whatsapp.svg';
 import facebookIcon from '../icons/facebook.svg';
 import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
+import Auth from '../modules/auth/Auth';
 
 
 export default function Sharing() {
@@ -47,6 +48,19 @@ export default function Sharing() {
     handleClose();
   };
 
+  const shareWithEmail = async () => {
+    let senderName = "senderName"
+    let sendOptions=  { to: 'maayan456332gmail.com', subject: 'dsfdsfds', html: '<h1></h1>' }
+    let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        senderName, sendOptions
+      })
+    })
+    console.log(res, err)
+  };
+
   return (
     <div>
       <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -64,7 +78,7 @@ export default function Sharing() {
       >
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={handleClose}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
-        <MenuItem onClick={handleClose}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
+        <MenuItem onClick={shareWithEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
         <MenuItem onClick={copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
 
       </Menu>

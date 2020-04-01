@@ -1,5 +1,7 @@
 'use strict';
 
+const sendEmail = require('../../server/email.js');
+
 module.exports = function (meetings) {
 
     const to = (promise) => {
@@ -128,5 +130,20 @@ module.exports = function (meetings) {
         accepts: [{ arg: "meetingId", type: "string", required: true, http: { source: 'path' } }],
         returns: { type: "object", root: true },
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
+    });
+
+    meetings.SendShareEmail = (senderName, sendOptions, cb) => {
+        (async () => {
+            let res = sendEmail(senderName, sendOptions);
+            cb(null, { res: res })
+        })();
+    }
+
+    meetings.remoteMethod('SendShareEmail', {
+        description: "Get House Id by Access Token",
+        accepts: [
+            { arg: 'senderName', type: 'string', required: true },
+            { arg: 'sendOptions', type: 'object', required: true }],
+        returns: { type: "object", root: true },
     });
 };
