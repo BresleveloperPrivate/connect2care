@@ -37,7 +37,7 @@ class CreateMeetingStore {
         date: null,
         time: "00:00",
         maxParticipants: null,
-        fallens: null,
+        fallens: [1],
         zoomId: 0,
         error: null
     }
@@ -50,6 +50,18 @@ class CreateMeetingStore {
 
     setMeetingId = (meetingId) => {
         this.meetingId = meetingId
+    }
+
+    changeFallenDetails = (fallen) => {
+        let id = fallen.id
+        if (!this.fallenDetails) {
+            this.fallenDetails = {}
+            this.fallenDetails[id] = {}
+        }
+        this.fallenDetails[id].name = fallen.first_name + " " + fallen.last_name
+        this.fallenDetails[id].fallingDate = fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date
+        this.fallenDetails[id].image = fallen.image_link
+        this.fallenDetails[id].meetings = fallen.meetings
     }
 
     changeFallens = (index, number = null) => {
@@ -69,18 +81,8 @@ class CreateMeetingStore {
         this.meetingDetails.description = e.target.value
     }
 
-    changeMeetingDate = (date, array = null) => {
-
-        if (array !== null) {
-            for (let i in array) {
-                if (array[1].name === date) {
-                    this.meetingDetails.date = array[1].option
-                    return
-                }
-            }
-        }
-        else
-            this.meetingDetails.date = date
+    changeMeetingDate = (date) => {
+        this.meetingDetails.date = date
     }
 
     setOtherRelationship = (e) => {
@@ -197,6 +199,10 @@ class CreateMeetingStore {
         console.log("success", success)
         console.log("this.meetingDetails", this.meetingDetails)
     }
+
+    setError = (error) => {
+        this.error = error
+    }
 }
 
 decorate(CreateMeetingStore, {
@@ -205,9 +211,13 @@ decorate(CreateMeetingStore, {
     otherRelationship: observable,
     meetingDetails: observable,
     meetingId: observable,
+    error: observable,
     setMeetingId: action,
+    changeFallenDetails: action,
     changeFallens: action,
     changeNumberOfParticipants: action,
+    setError: action,
+    changeMeetingDate: action,
     changeMeetingTime: action,
     changeMeetingOpenOrClose: action,
     changeMeetingFacilitatorPhoneNumber: action,
