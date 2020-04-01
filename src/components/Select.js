@@ -27,7 +27,7 @@ const Select = (props) => {
                                     props.onChoseOption(value)
                                     setSelectedOption(value.option)
                                 }}>
-                                <div style={{ margin: '1vh 2vh' }}>
+                                <div style={{ padding: '1vh 2vh' }}>
                                     {value.option}
                                 </div>
                             </div>

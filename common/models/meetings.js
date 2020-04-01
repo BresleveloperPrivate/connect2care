@@ -67,6 +67,7 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
+            console.log(filters.relationship)
             if (filters.relationship && filters.relationship !== 'אחר') {
                 filtersOfMeetting.relationship = filters.relationship
             }
@@ -78,7 +79,7 @@ module.exports = function (meetings) {
             }
             let allMeetings = JSON.parse(JSON.stringify(res))
             if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max) )
+                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
             }
             if (filters.relationship && filters.relationship === 'אחר') {
                 allMeetings = allMeetings.filter((meeting) =>
@@ -134,11 +135,11 @@ module.exports = function (meetings) {
     });
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
-        console.log("senderName, sendOptions",senderName, sendOptions)
-        (async () => {
-            let res = sendEmail(senderName, sendOptions);
-            cb(null, { res: res })
-        })();
+        console.log("senderName, sendOptions", senderName, sendOptions)
+            (async () => {
+                let res = sendEmail(senderName, sendOptions);
+                cb(null, { res: res })
+            })();
     }
 
     meetings.remoteMethod('SendShareEmail', {

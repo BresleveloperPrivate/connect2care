@@ -208,6 +208,36 @@
                 "dataScale": null,
                 "nullable": "N"
             }
+        },
+        "max_participants": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "max_participants",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "participants_num": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "participants_num",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
         }
     },
     "acls": []
