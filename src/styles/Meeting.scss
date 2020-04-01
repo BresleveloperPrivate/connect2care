@@ -1,15 +1,198 @@
+$darkBlue: #082551;
+$lightBlue: #19a099;
+$meetinngPageLeftWidth: 444px;
+$navBarMargin: 10vh;
+
 #meetingPage {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    height: 100%;
-    grid-template-areas:
-        "meetingPageMain meetingPageLeft";
+    display: flex;
+    flex-direction: column;
 }
 
 #meetingPageMain {
-    grid-area: meetingPageMain;
+    padding-top: $navBarMargin + 7vh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // left Width
+    width: calc(100vw - 444px);
+
+    #meetingMainMain {
+        padding-left: 162px;
+        padding-right: 162px;
+
+        #meetingButtons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #meetingTop {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+
+            #meetingName {
+                text-align: right;
+                font-size: 40px;
+                color: $darkBlue;
+                font-weight: bold;
+            }
+            #meetingOwner {
+                font-size: 32px;
+                text-align: right;
+                color: $darkBlue;
+            }
+
+            #meetingDescription {
+                text-align: right;
+                font-size: 20px;
+                margin-top: 24px;
+                color: #707070;
+                width: auto;
+            }
+
+            #meetingDateTime {
+                text-align: right;
+                color: $darkBlue;
+                font-weight: bold;
+                font-size: 20px;
+            }
+        }
+
+        #meetingFallenList {
+            margin: 40px 0;
+
+            .meetingFallen {
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-end;
+                margin-bottom: 24px;
+
+                .meetingFallenDescription {
+                    text-align: right;
+
+                    .fallenCandle {
+                        height: 24px;
+                    }
+
+                    .fallenName {
+                        font-size: 24px;
+                        color: $darkBlue;
+                        font-weight: bold;
+                    }
+
+                    .fallenDate {
+                        font-size: 20px;
+                        color: $darkBlue;
+                    }
+                }
+            }
+        }
+    }
+
+    #meetingPageBottom {
+        background: $lightBlue;
+        padding: 22px;
+        padding-right: 264px;
+        display: flex;
+        align-items: center;
+
+        #peopleCircle {
+            border: white 2px solid;
+            border-radius: 100vh;
+            width: 56px;
+            height: 56px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+
+            #peopleCircleNum {
+                margin-top: -5px;
+                color: white;
+                font-size: 28px;
+            }
+        }
+
+        #peopleCircleText {
+            color: white;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+    }
 }
 
 #meetingPageLeft {
-    grid-area: meetingPageLeft;
+    overflow: auto;
+    padding: $navBarMargin + 10vh 76px 4vh 116px;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: $meetinngPageLeftWidth;
+    background-color: $darkBlue;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    #meetingLeftCandle {
+        width: 52px;
+    }
+
+    #meetingLeftTitle {
+        margin-top: 25px;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: right;
+        color: white;
+    }
+
+    #meetingLeftDescription {
+        font-size: 24px;
+        text-align: right;
+        color: white;
+    }
+
+    #meetingErrorMsg {
+        margin-top: 10px;
+        margin-right: 3px;
+        color: red;
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    #meetingPage {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+    }
+
+    #meetingPageMain {
+        width: 100%;
+        min-height: 0;
+
+        #meetingMainMain {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        #meetingPageBottom {
+            margin-top: 2rem;
+            padding-left: 0;
+            padding-right: 0;
+            justify-content: center;
+        }
+    }
+
+    #meetingPageLeft {
+        padding: 4rem 2rem;
+        width: 100%;
+        overflow: initial;
+        position: initial;
+    }
 }
