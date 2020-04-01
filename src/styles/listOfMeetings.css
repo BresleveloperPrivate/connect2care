@@ -62,9 +62,8 @@
 }
 
 .mainPage-meetings{
-    width: 75em;
-    margin-right: 4em;
-
+    width: 85em;
+    margin-right: 6em;
 }
 
 .containMeetingCard{
@@ -157,3 +156,9 @@
     cursor: pointer;
 }
 
+@media screen and (max-width: 800px){
+    .mainPage-meetings{
+        width: 75em;
+        margin-right: 4em;
+    }    
+}
