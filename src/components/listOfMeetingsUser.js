@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import person from '../icons/person.png'
+import person from '../icons/person.svg'
 import Select from './Select.js'
 import Auth from '../modules/auth/Auth'
 

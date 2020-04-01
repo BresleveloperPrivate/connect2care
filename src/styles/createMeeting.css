@@ -10,7 +10,7 @@
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
-    color: #3586B1;
+    color: #19A099;
     padding-bottom: 5vh;
 }
 
@@ -26,9 +26,7 @@
 
 .textSide{
     text-align: right;
-    font: normal 30px/30px Assistant;
-    letter-spacing: 0.5px;
-    color: #082551;
+    font: normal 30px Assistant;
 }
 
 input[type=radio] {
@@ -49,10 +47,12 @@ input[type=radio]:focus {
 }
 
 .containInputTextSide{
-    background-color: rgb(25, 160, 153);
-    padding: 8vh 10vh;
+    background: #19A099 0% 0% no-repeat padding-box;
+    box-shadow: 5px 3px 6px #00000029;
+    padding: 6vh 7vh;
     top: 10vh;
     left: 0px;
+    color: white;
     height: 90vh;
     width: 27%;
 }
@@ -81,7 +81,7 @@ input[type=radio]:focus {
 .inputDetail{
     font: Bold 18px/13px Assistant;
     letter-spacing: 0;
-    color: #0A2D63;
+    color: #00726B;
 }
 
 .MuiPickersBasePicker-pickerView, .MuiPickersBasePicker-pickerViewLandscape,.MuiPickersModal-withAdditionalAction {
@@ -129,7 +129,7 @@ input[type=radio]:focus {
     -webkit-text-fill-color: #157492 !important;
 }
 
-.MuiInput-underline:hover:not(.Mui-disabled):before{
+.MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after{
     border-bottom: none;
 }
 .CreateMeeting .selectInput{
@@ -140,11 +140,31 @@ input[type=radio]:focus {
     margin-left: 2vh;
 }
 
-.MuiInput-underline:after{
-    border-bottom: none;
-}
 .MuiPickersModal-withAdditionalAction > *:first-child{
     cursor: not-allowed;
     pointer-events: none;
 }
-  
+
+.searchButton{
+    width: fit-content;
+    margin-right: auto;
+    margin-left: 5%;
+    margin-bottom: 1vh;
+    background-color: #19A099;
+    color: white;
+    font-weight: bold;
+    border-radius: 11px;
+    padding: 0.5vh 1vh;
+}
+
+.addFallen{
+    border: 2px solid #3586B1;
+    border-radius: 20px;
+    color: #3586B1;
+    background-color: white;
+    padding: 0.5vh 2vh;
+    margin-right: 6vw;
+    margin-bottom: 2vh;
+    cursor: pointer;
+    width: fit-content;
+}

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from './NavBar.js'
 import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import blueCandle from '../icons/candle-blue.svg'
 import grayCandle from '../icons/gray-candle.svg'
-import person from '../icons/person.png'
+import person from '../icons/person.svg'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
 import cancel from '../icons/cancel.svg'
 import Business from '../icons/business.svg'
+import Auth from '../modules/auth/Auth'
+
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
@@ -42,11 +43,7 @@ const CreateMeeting = (props) => {
 
     const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"]
     const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = [
-        { name: "26.04 - יום ראשון", option: "26.04" },
-        { name: "27.04 - ערב יום הזכרון", option: "27.04" },
-        { name: "28.04 - יום הזכרון", option: "28.04" },
-        { name: "29.04- יום רביעי", option: "2p.04" }]
+    const meetingDate = [{ option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
 
     useEffect(() => {
         (async () => {
@@ -57,11 +54,22 @@ const CreateMeeting = (props) => {
             getTimeValue()
 
         })()
-    }, [props.CreateMeetingStore.meetingDetails.time]);
+    }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.meetingDetails.fallens]);
 
-    const searchFallen = () => {
+    const searchFallen = async () => {
+        let id = 1
+        let [success, err] = await Auth.superAuthFetch(`/api/fallens?filter={"where":{"id":${id}}, "include":"meetings"}`);
 
+        console.log("success", success)
+        //if (err) {
+        //  this.error = err
+        //}
+        //if (success) {
+        //  this.changeDetailsObjFunc(success[0])
+        //}
     }
+
+
 
     const getTimeValue = () => {
         let time = new Date()
@@ -70,28 +78,12 @@ const CreateMeeting = (props) => {
         setTimeValue(time)
     }
 
-    return (
-        <div style={{ textAlign: "right" }} className="CreateMeeting">
-            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
-            <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
-            <div>
-                <input
-                    type="text"
-                    className='inputStyle margin-right-text'
-                    onChange={props.CreateMeetingStore.changeMeetingName}
-                    value={props.CreateMeetingStore.meetingDetails.name}
-                    autoComplete="off"
-                    placeholder="שם המפגש"
-                />
-                <textarea className='inputStyle textAreaStyle margin-right-text'
-                    onChange={props.CreateMeetingStore.changeShortDescription}
-                    value={props.CreateMeetingStore.meetingDetails.description}
-                    rows="2"
-                    autoComplete="off"
-                    placeholder="תאור קצר"
-                />
-
-                <div className="margin-right-text d-flex align-items-start" style={{ width: "65%" }}>
+    const showFallens = () => {
+        if (!props.CreateMeetingStore.meetingDetails.fallens)
+            props.CreateMeetingStore.changeFallens(0)
+        return <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
+            props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
+                return <div key={index} className="margin-right-text d-flex align-items-start" style={{ width: "65%", marginBottom: "4vh" }}>
                     <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
                     <div style={{ width: "70%" }}>
                         <input
@@ -131,15 +123,46 @@ const CreateMeeting = (props) => {
                                 type="text"
                                 className='inputStyle'
                                 style={{ width: "95%" }}
-                                value={props.CreateMeetingStore.meetingDetails.relationship}
+                                value={props.CreateMeetingStore.otherRelationship}
+                                onChange={props.CreateMeetingStore.setOtherRelationship}
                                 autoComplete="off"
                                 placeholder="קרבה שלי אל החלל"
                             />}
                     </div>
-                    <div style={{ backgroundColor: "#EEEEEE", padding: "6.8vh", borderRadius: "4px" }} >
+
+                    <div style={{ backgroundColor: "#EEEEEE", padding: "5.8vh", borderRadius: "4px" }} >
                         <img src={grayCandle} alt="grayCandle" style={{ height: "13vh" }} />
                     </div>
                 </div>
+            })
+        }
+            <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
+        </div>
+
+    }
+
+    return (
+        <div style={{ textAlign: "right" }} className="CreateMeeting">
+            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
+            <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
+            <div>
+                <input
+                    type="text"
+                    className='inputStyle margin-right-text'
+                    onChange={props.CreateMeetingStore.changeMeetingName}
+                    value={props.CreateMeetingStore.meetingDetails.name}
+                    autoComplete="off"
+                    placeholder="שם המפגש"
+                />
+                <textarea className='inputStyle textAreaStyle margin-right-text'
+                    onChange={props.CreateMeetingStore.changeShortDescription}
+                    value={props.CreateMeetingStore.meetingDetails.description}
+                    rows="2"
+                    autoComplete="off"
+                    placeholder="תאור קצר"
+                />
+
+                {showFallens()}
 
                 <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "2vh" }}>
                     <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
@@ -234,14 +257,17 @@ const CreateMeeting = (props) => {
             {!pressOnCancel && <div className="position-fixed containInputTextSide">
                 <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "24%", top: "14vh", cursor: "pointer" }} />
                 <br />
-                <img src={Business} alt="Business" style={{ marginBottom: "8vh" }} />
-                <div className="textSide">
-                    ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים <br /><br />
-                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong><br />
-                    <br />
-                 האחים שלנו כאן בשבילכם,
-                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.
+                <img src={Business} alt="Business" style={{ marginBottom: "5vh" }} />
+                {false ? <div className="textSide">
+                    <div style={{ marginBottom: "2vh" }}>                    ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
+                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
+                    <div style={{ marginTop: "2vh" }}>                 האחים שלנו כאן בשבילכם,
+                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
                 </div>
+
+                    : <div>
+                        קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenName}</strong>
+                    </div>}
             </div>}
         </div>
     );

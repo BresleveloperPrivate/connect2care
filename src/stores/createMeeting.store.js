@@ -52,10 +52,17 @@ class CreateMeetingStore {
         this.meetingId = meetingId
     }
 
-    //changeFallens = (index)=>{
-    //  this.fallens =
-    //}
+    changeFallens = (index, number = null) => {
+        console.log("this.meetingDetails.fallens", this.meetingDetails.fallens)
+        if (this.meetingDetails.fallens === null) {
+            this.meetingDetails.fallens = [index]
+        }
+        else if (this.meetingDetails.fallens.length >= index) {
+            this.meetingDetails.fallens[index] = number
+        }
+        else this.meetingDetails.fallens.push(index)
 
+    }
 
 
     changeShortDescription = (e) => {
@@ -175,6 +182,8 @@ class CreateMeetingStore {
     createNewMeetingPost = async () => {
         if (this.meetingDetails.date)
             this.meetingDetails.date = this.meetingDetails.date.split(" ")[0]
+        if (this.otherRelationship)
+            this.meetingDetails.relationship = this.otherRelationship
 
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
@@ -193,15 +202,18 @@ class CreateMeetingStore {
 decorate(CreateMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
+    otherRelationship: observable,
     meetingDetails: observable,
     meetingId: observable,
     setMeetingId: action,
+    changeFallens: action,
     changeNumberOfParticipants: action,
     changeMeetingTime: action,
     changeMeetingOpenOrClose: action,
     changeMeetingFacilitatorPhoneNumber: action,
     changeFallenRelative: action,
     getMeetingDetails: action,
+    setOtherRelationship: action,
     changeMeetingLanguage: action,
     changeMeetingFacilitatorEmail: action,
     changeMeetingFacilitatorName: action,
