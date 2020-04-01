@@ -1,6 +1,5 @@
 import React, { Component, Suspense } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import Login from "./modules/auth/Login";
 import { PrivateRoute } from './modules/auth/PrivateRoute';
 
 import './App.scss';

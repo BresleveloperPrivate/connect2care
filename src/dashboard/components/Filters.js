@@ -11,17 +11,17 @@ const Filters = (props) => {
     const [inputMeetingName, setInputMeetingName] = useState("")
     const [slectedDate, setSelectedDate] = useState("")
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
-    const [slectedRelastionship, setSelectedRelastionship] = useState("")
+    const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
     const DATES = [{ option: 'בחר' }, { option: '26.04 - יום ראשון' }, { option: '27.04 - ערב יום הזכרון' }, { option: '28.04 - יום הזכרון' }, { option: '29.04- יום רביעי' }]
-    const RELARIONSHIPS = [{ option: 'בחר' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
+    const RELATIONSHIPS = [{ option: 'בחר' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
     const IS_OPEN_ARR = [{ option: 'בחר' }, { option: 'פתוח' }, { option: 'סגור' }]
     const PARTICIPANTS_NUM = [{ option: 'בחר' }, { option: '20 - 0' }, { option: '100 - 20' }, { option: '100+' }]
 
     return (
         <div className='filters'>
+            <div className='headLine'>סנן לפי</div>
             <div className="filtersContainer">
-
                 <div style={{ width: '50%' }}>
                     <div className='filterItem'>
                         <div className='textFilter'>תאריך</div>
@@ -52,9 +52,9 @@ const Filters = (props) => {
                             backgroundColor='var(--custom-background-light-blue)'
                             color='#A5A4BF'
                             selectTextDefault='בחר'
-                            arr={RELARIONSHIPS}
+                            arr={RELATIONSHIPS}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "בחר" ? setSelectedRelastionship("") : setSelectedRelastionship(value.option) }}
+                            onChoseOption={(value) => { value.option === "בחר" ? setSelectedRelationship("") : setSelectedRelationship(value.option) }}
                         />
                     </div>
 
@@ -151,7 +151,7 @@ const Filters = (props) => {
                             if (inputMeetingName !== '') filters.name = inputMeetingName
                             if (slectedDate !== '') filters.date = slectedDate.slice(0, 5)
                             if (slectedIsOpen !== '') filters.isOpen = slectedIsOpen
-                            if (slectedRelastionship !== '') filters.Relastionship = slectedRelastionship
+                            if (slectedRelationship !== '') filters.relationship = slectedRelationship
                             if (slectedParticipants !== '') {
                                 let splited = slectedParticipants.split(' ')
                                 filters.participants = {}

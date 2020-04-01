@@ -35,3 +35,12 @@
 .allTableStyle tr:not(:last-child){
     border-bottom: 1px solid var(--custom-table-gray);
 }
+
+.headLine{
+    text-align: right;
+    color: var(--custom-gray);
+    margin-right: 10%;
+    margin-bottom: 2%;
+    font-size: 1.43em;
+    font-weight: 600;
+}

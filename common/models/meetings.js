@@ -1,5 +1,7 @@
 'use strict';
 
+const sendEmail = require('../../server/email.js');
+
 module.exports = function (meetings) {
 
     const to = (promise) => {
@@ -7,6 +9,56 @@ module.exports = function (meetings) {
             return [null, data];
         })
             .catch(err => [err]);
+    }
+
+
+    meetings.getMeetingsUser = (search, filters, options, cb) => {
+
+        let resArray = []
+        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }]}, (err, response) => {
+            if (err) {
+                return cb(err)
+            } else {
+                if (response.length) {
+                    for (let i = 0; i < response.length; i++) {
+                        let res = JSON.parse(JSON.stringify(response[i]))
+                        if (search) {
+                            if (res.name.includes(search) || search.includes(res.name)) {
+                                resArray.push(res)
+                            }
+                            else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
+                                resArray.push(res)
+                            }
+                            else if (res.fallens.length && (res.fallens).some(fallen => (fallen.first_name + ' ' + fallen.last_name).includes(search))) {
+                                resArray.push(res)
+                            }
+                            else if (res.fallens.length) {
+                                for (let fallen in res.fallens) {
+                                    if (search.includes(fallen.first_name) || search.includes(fallen.last_name)) {
+                                        resArray.push(res)
+                                        return
+                                    }
+                                }
+                            }
+                            if (resArray.length >= 5 || i === response.length - 1) {
+                                return cb(null, resArray)
+                            }
+
+
+                        }
+                        else {
+                            return cb(null, response.slice(0, 5))
+                        }
+                    }
+                } else {
+                    return cb(null, response)
+                }
+
+            }
+
+        })
+        // })()
+
     }
 
 
@@ -65,6 +117,7 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
+            console.log(filters.relationship)
             if (filters.relationship && filters.relationship !== 'אחר') {
                 filtersOfMeetting.relationship = filters.relationship
             }
@@ -76,7 +129,7 @@ module.exports = function (meetings) {
             }
             let allMeetings = JSON.parse(JSON.stringify(res))
             if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max) )
+                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
             }
             if (filters.relationship && filters.relationship === 'אחר') {
                 allMeetings = allMeetings.filter((meeting) =>
@@ -111,6 +164,17 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     })
 
+
+    meetings.remoteMethod('getMeetingsUser', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'search', type: 'string' },
+            { arg: 'filters', type: 'object' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
@@ -129,5 +193,21 @@ module.exports = function (meetings) {
         accepts: [{ arg: "meetingId", type: "string", required: true, http: { source: 'path' } }],
         returns: { type: "object", root: true },
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
+    });
+
+    meetings.SendShareEmail = (senderName, sendOptions, cb) => {
+        (async () => {
+            console.log("senderName, sendOptions",senderName, sendOptions)
+            let res = sendEmail(senderName, sendOptions);
+            cb(null, { res: res })
+        })();
+    }
+
+    meetings.remoteMethod('SendShareEmail', {
+        description: "Get House Id by Access Token",
+        accepts: [
+            { arg: 'senderName', type: 'string', required: true },
+            { arg: 'sendOptions', type: 'object', required: true }],
+        returns: { type: "object", root: true },
     });
 };
