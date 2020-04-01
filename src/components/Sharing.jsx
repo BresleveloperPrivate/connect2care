@@ -71,7 +71,7 @@ export default function Sharing(props) {
   };
 
   const shareWithFaceBook = async () => {
-    window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
+    window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com&picture=http://placekitten.com/500/500', '_blank');
     handleClose();
   };
 

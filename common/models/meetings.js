@@ -15,7 +15,7 @@ module.exports = function (meetings) {
     meetings.getMeetingsUser = (search, filters, options, cb) => {
 
         let resArray = []
-        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }]}, (err, response) => {
+        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
@@ -146,9 +146,7 @@ module.exports = function (meetings) {
                     meeting.meetingOwner.name.includes(filters.owner)
                 )
             }
-            let size = allMeetings.length
             allMeetings = allMeetings.slice(filters.from, filters.from + 20)
-            allMeetings.push(size)
             return cb(null, allMeetings)
         })()
 
@@ -196,7 +194,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            console.log("senderName, sendOptions",senderName, sendOptions)
+            console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();

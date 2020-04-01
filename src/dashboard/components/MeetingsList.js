@@ -72,8 +72,9 @@ const MeetingsList = (props) => {
                     }
                 </tbody>
             </table>
-
-
+            <div>
+                קרא עוד
+            </div>
         </div>
     )
 }
