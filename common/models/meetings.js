@@ -146,7 +146,9 @@ module.exports = function (meetings) {
                     meeting.meetingOwner.name.includes(filters.owner)
                 )
             }
+            let size = allMeetings.length
             allMeetings = allMeetings.slice(filters.from, filters.from + 20)
+            allMeetings.push(size)
             return cb(null, allMeetings)
         })()
 
