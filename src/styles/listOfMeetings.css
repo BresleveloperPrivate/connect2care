@@ -1,9 +1,7 @@
 
-
-
 .input-meetings{
     color: #4D4F5C;
-    font-size: 1.3rem;
+    font-size: 1.3em;
     border: 0.8px solid var(--custom-light-blue);
     border-radius: 4px;
     outline: none;
@@ -14,11 +12,11 @@
 }
 
 .input-meetings:not(.filter-meeting){
-    padding: 0.5vh 1rem;
+    padding: 0.5vh 1em;
 }
 
 .selectInput{
-    padding: 0 1rem;
+    padding: 0 1em;
 }
 
 
@@ -30,18 +28,18 @@
 .filterBy{
     flex-grow: 1;
     color: #4D4F5C;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     text-align: right;
 }
 
 .button-meetings{
     background-color: var(--custom-light-blue);
-    padding: 0.2rem 1rem;
-    font-size: 1.5rem;
+    padding: 0.2em 1em;
+    font-size: 1.5em;
     color: white;
     border-radius: 50px;
     width: fit-content;
-    /* width: 7rem; */
+    /* width: 7em; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,29 +55,29 @@
 }
 
 .containFilters , .containSearch{
-    margin-top: 2rem;
+    margin-top: 2em;
     display: flex;
     align-items: center;
     width: 100%;
 }
 
 .mainPage-meetings{
-    width: 75rem;
-    margin-right: 4rem;
+    width: 75em;
+    margin-right: 4em;
 
 }
 
 .containMeetingCard{
     width: 100%;
     display: flex;
-    margin-top: 2.3rem;
+    margin-top: 2.3em;
 }
 
 .meetingCard{
     box-shadow: 0px 3px 3px #00000029;
     border-radius: 3px;
     flex-grow: 1;
-    margin-right: 2rem;
+    margin-right: 2em;
     cursor: pointer;
 }
 
@@ -92,18 +90,18 @@
 
 .meetingCardContent{
     width: 70%;
-    padding-right: 2rem;
+    padding-right: 2em;
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 .meetingName{
-    padding-top: 1rem;
+    padding-top: 1em;
     text-align: right;
     color: var(--custom-blue);
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 2.2em;
 }
 
 .meetingFor{
@@ -112,50 +110,50 @@
     text-align: right;
     color: var(--custom-blue);
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 1.4em;
     border-bottom: 0.75px solid var(--custom-blue);
 }
 
 .meetingDate{
-    margin-right: -0.2rem;
+    margin-right: -0.2em;
     display: flex;
     align-items: center;
-    padding-top: 0.5rem;
+    padding-top: 0.5em;
     color: var(--custom-dark-green);
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.2em;
 }
 
 .meetingOwner{
-    padding-top: 0.3rem;
+    padding-top: 0.3em;
     display: flex;
     align-items: center;
     color: var(--custom-blue);
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.2em;
 }
 
 .meetingDescription{
-    padding-top: 0.3rem;
+    padding-top: 0.3em;
     text-align: right;
     color: var(--custom-blue);
-    font-size: 1.2rem;
-    height: 4rem;
-    margin-bottom: 1rem;
+    font-size: 1.2em;
+    height: 4em;
+    margin-bottom: 1em;
     overflow: hidden;
 }
 
 
 .loadMore-meetings{
     background-color: var(--custom-blue);
-    padding: 0.2rem 1rem;
-    font-size: 1.7rem;
+    padding: 0.2em 1em;
+    font-size: 1.7em;
     border-radius: 50px;
     font-weight: 600;
     width: fit-content;
     color: white;
     box-shadow: 0px 3px 6px #00000029;
-    margin-top: 2rem;
+    margin-top: 2em;
     cursor: pointer;
 }
 
