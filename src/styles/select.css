@@ -30,3 +30,11 @@
 .cursor{
     cursor: pointer;
 }
+
+.optionInSelect{
+    padding: 1vh 2vh;
+}
+
+.optionInSelect:hover{
+    background-color: rgb(235, 235, 235);
+}

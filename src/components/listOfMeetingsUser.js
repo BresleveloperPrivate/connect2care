@@ -6,14 +6,15 @@ import { inject, observer, PropTypes } from 'mobx-react';
 import person from '../icons/person.png'
 import Select from './Select.js'
 import Auth from '../modules/auth/Auth'
-
+import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
+import candle from '../icons/candle-dark-blue.svg'
 
 const ListOfMeetingsUser = (props) => {
 
     const myCloseToTheFallen = ["הכל", "אח", "הורים", "קרובי משפחה", "חבר"]
     const meetingLanguage = ['כל השפות', 'עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = ['כל התאריכים', "26.04 - יום ראשון", "27.04 - ערב יום הזכרון", "28.04 - יום הזכרון", "29.04- יום רביעי"]
+    const meetingDate = ['כל התאריכים', 'יום ראשון, ב באייר, 26.04', 'יום שני, ג באייר, 27.04', 'יום שלישי, ד באייר, 28.04', 'יום רביעי, ה באייר, 29.04']
 
     useEffect(() => {
         (async () => {
@@ -60,8 +61,13 @@ const ListOfMeetingsUser = (props) => {
                             return { option: name }
                         })}
                         // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
-                        className='input-meetings filter mr-0'
-                        onChoseOption={(value) => { props.MeetingsStore.changeFallenRelative(value.option) }}
+                        className='input-meetings filter-meeting mr-0'
+                        onChoseOption={
+
+                            (value) => {
+                                if (value.option === 'הכל') value.option = 'קרבה לחלל'
+                                props.MeetingsStore.changeFallenRelative(value.option)
+                            }}
                     />
 
 
@@ -72,8 +78,26 @@ const ListOfMeetingsUser = (props) => {
                             return { option: name }
                         })}
                         // selectedText={props.CreateMeetingStore.meetingDetails.language}
-                        className='input-meetings filter'
-                        onChoseOption={(value) => { props.MeetingsStore.changeMeetingLanguage(value.option) }}
+                        className='input-meetings filter-meeting'
+                        onChoseOption={(value) => {
+                            if (value.option === 'כל השפות') value.option = 'שפת המפגש'
+                            props.MeetingsStore.changeMeetingLanguage(value.option)
+                        }}
+                    />
+
+                    <Select
+                        width='25%'
+                        fetch={props.MeetingsStore.search}
+                        selectTextDefault='תאריך המפגש'
+                        arr={meetingDate.map((name) => {
+                            return { option: name }
+                        })}
+                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                        className='input-meetings filter-meeting'
+                        onChoseOption={(value) => {
+                            if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
+                            props.MeetingsStore.changeMeetingDate(value.option)
+                        }}
                     />
 
                     <Select
@@ -83,18 +107,7 @@ const ListOfMeetingsUser = (props) => {
                             return { option: name }
                         })}
                         // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                        className='input-meetings filter'
-                        onChoseOption={(value) => { props.MeetingsStore.changeMeetingDate(value.option) }}
-                    />
-
-                    <Select
-                        fetch={props.MeetingsStore.search}
-                        selectTextDefault='תאריך מפגש'
-                        arr={meetingDate.map((name) => {
-                            return { option: name }
-                        })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                        className='input-meetings filter'
+                        className='input-meetings filter-meeting'
                         onChoseOption={(value) => { props.MeetingsStore.changeMeetingDate(value.option) }}
                     />
 
@@ -115,7 +128,62 @@ const ListOfMeetingsUser = (props) => {
 
 
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
-                    return (<div>{meeting.name}</div>)
+                    return (
+                        <div key={index} className='containMeetingCard'>
+                            <div>
+                                <ImageOfFallen className='imageOfFallen'
+                                    array={['https://www.ynet.co.il/PicServer5/2019/03/28/9151154/915115101000889801302no.jpg',
+                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
+                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
+                                    ]} />
+                            </div>
+                            <div className='meetingCard'>
+
+                                <div className='meetingCardContent'>
+                                    <div className='meetingName'>
+                                        {meeting.name}
+                                    </div>
+                                    <div className='meetingFor'>
+                                        <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'1vw'}}><img src={candle} height='100%' /></div>
+                                        <div>{meeting.fallens.map((fallen, index) => {
+                                            if (index === 0) {
+                                                return (
+                                                    <span>לזכר {fallen.first_name} {fallen.last_name} ז"ל</span>
+                                                )
+                                            }
+
+                                            else if (index === meeting.fallens.length - 1) {
+                                                return (
+                                                    <span> ו{fallen.first_name} {fallen.last_name} ז"ל</span>
+                                                )
+                                            }
+
+                                            else{
+                                                return (
+                                                    <span>, {fallen.first_name} {fallen.last_name} ז"ל</span>
+                                                )
+
+                                            }
+                                        })}</div>
+                                    </div>
+                                    <div className='meetingDate'>
+
+                                    </div>
+                                    <div className='meetingOwner'>
+
+                                    </div>
+                                    <div className='meetingDescription'>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    {/* //div -> image
+// join */}
+                                </div>
+
+                            </div>
+                        </div>
+                    )
                 }) : null}
 
 

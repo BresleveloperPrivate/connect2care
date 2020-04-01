@@ -17,7 +17,7 @@ class Partners extends Component {
                 <div className='thanks'>
                     תודה לשותפים שלנו
                         <div className='cover'>
-                        <div className='arrow-bottom-yellow'></div>
+                        <div className='arrow-bottom-green'></div>
                     </div>
 
                 </div>
