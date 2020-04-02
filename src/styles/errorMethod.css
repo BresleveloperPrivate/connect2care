@@ -1,0 +1,17 @@
+.errorMsg {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.452);
+    border-radius: 7px;
+    padding: 7px 12px;
+    color: #FBF1EC;
+    z-index: 15;
+    right: 10px;
+    bottom: 3vh;    
+
+}
+
+.errorMsgIcon{
+    direction: rtl;
+    font-size: 13px;
+    margin-left: 8px
+}

@@ -62,16 +62,17 @@ const FallenDetails = (props) => {
                     })}
                     // selectedText={CreateMeetingStore.meetingDetails.relationship}
                     width='95%'
-                    className='inputStyle p-0'
+                    className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.fallens || !CreateMeetingStore.fallens[props.index] || !CreateMeetingStore.fallens[props.index].relative) ? "error" : "")}
                     onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
 
                 {(CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "אח" &&
                     CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "הורים" &&
                     CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "קרובי משפחה" &&
                     CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "חבר" &&
-                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== null) && <input
+                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== null) &&
+                    <input
                         type="text"
-                        className='inputStyle'
+                        className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
                         value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length >= props.index ? CreateMeetingStore.otherRelationship[props.index].relative : ""}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.fallen.id)}
