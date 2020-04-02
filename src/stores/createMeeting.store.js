@@ -10,14 +10,14 @@ class CreateMeetingStore {
         relationship: null,
         owner: {
             name: null,
-            phone: null,
+            phone: "",
             email: null
         },
         language: null,
         isOpen: null,
         date: null,
         time: "00:00",
-        maxParticipants: null,
+        maxParticipants: "",
         fallens: null,
         zoomId: 0,
         error: null
@@ -29,14 +29,14 @@ class CreateMeetingStore {
         relationship: null,
         owner: {
             name: null,
-            phone: null,
+            phone: "",
             email: null
         },
         language: null,
         isOpen: null,
         date: null,
         time: "00:00",
-        maxParticipants: null,
+        maxParticipants: "",
         fallens: [1],
         zoomId: 0,
         error: null
@@ -65,7 +65,6 @@ class CreateMeetingStore {
     }
 
     changeFallens = (index, number = null) => {
-        console.log("this.meetingDetails.fallens", this.meetingDetails.fallens)
         if (this.meetingDetails.fallens === null) {
             this.meetingDetails.fallens = [index]
         }
@@ -73,7 +72,6 @@ class CreateMeetingStore {
             this.meetingDetails.fallens[index] = number
         }
         else this.meetingDetails.fallens.push(index)
-
     }
 
 
@@ -106,6 +104,9 @@ class CreateMeetingStore {
     }
 
     changeMeetingFacilitatorPhoneNumber = (e) => {
+        if (e.target.value.match(/[^0-9-]/g) || e.target.value.length > 11) {
+            return
+        }
         this.meetingDetails.owner.phone = e.target.value
     }
 
@@ -118,9 +119,9 @@ class CreateMeetingStore {
     }
 
     changeNumberOfParticipants = (e) => {
-        console.log("e.target.value.match(/[0-9]/g)", e.target.value.match(/[0-9]/g))
-        console.log("e.target.value", e.target.value)
-        if (e.target.value.match(/[^0-9]/g)) return
+        if (e.target.value.match(/[^0-9]/g) || e.target.value.length > 6) {
+            return
+        }
         this.meetingDetails.maxParticipants = e.target.value
     }
 
@@ -142,7 +143,7 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            maxParticipants: null,
+            maxParticipants: "",
             fallens: object.fallens,
             zoomId: 0,
         }
@@ -159,7 +160,7 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            maxParticipants: null,
+            maxParticipants: "",
             fallens: object.fallens,
             zoomId: 0,
         }
