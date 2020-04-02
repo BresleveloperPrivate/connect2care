@@ -28,12 +28,6 @@ const ListOfMeetingsUser = (props) => {
         { option: '21:00 - 18:00', data: [1800, 2100] },
         { option: '00:00 - 21:00', data: [2100, 2400] }]
 
-    const language = useRef(null)
-    const date = useRef(null)
-    const time = useRef(null)
-    const relationship = useRef(null)
-
-
     useEffect(() => {
         (async () => {
             await props.MeetingsStore.search()
@@ -51,9 +45,7 @@ const ListOfMeetingsUser = (props) => {
                         style={{ flexGrow: 1 }}
                         type="text"
                         className='input-meetings'
-
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        // value={}
                         placeholder="חיפוש"
                     />
                     <div
@@ -78,7 +70,6 @@ const ListOfMeetingsUser = (props) => {
                         arr={meetingDate.map((name) => {
                             return { option: name }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
                             if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
@@ -94,7 +85,6 @@ const ListOfMeetingsUser = (props) => {
                         arr={meetingTime.map((name) => {
                             return { option: name.option }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
                             if (value.option === 'כל השעות') {
@@ -114,7 +104,6 @@ const ListOfMeetingsUser = (props) => {
                         arr={myCloseToTheFallen.map((name) => {
                             return { option: name }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
                         className='input-meetings filter-meeting'
                         onChoseOption={
 
@@ -241,7 +230,7 @@ const ListOfMeetingsUser = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {!meeting.isOpen ? 'מפגש סגור' : meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : 'הצטרף למפגש' }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}
@@ -278,27 +267,6 @@ const ListOfMeetingsUser = (props) => {
                             className="loadMore-meetings grow">טען עוד</div>
                     </div>}
             </div>
-            {/* <input
-                        type="time"
-                        className='inputStyle'
-                        style={{ marginRight: "2vh" }}
-                        // onChange={props.CreateMeetingStore.changeMeetingTime}
-                        // value={props.CreateMeetingStore.meetingDetails.time}
-                        autoComplete="off"
-                        placeholder="שעה"
-                    /> */}
-
-            {/* <input
-                type="text"
-                className='inputStyle margin-right-text'
-                onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                value={props.CreateMeetingStore.meetingDetails.maxParticipants}
-                autoComplete="off"
-                placeholder="מספר משתתפים מקסימלי"
-            /> */}
-
-
-
         </div>
 
     );
