@@ -111,6 +111,7 @@ module.exports = function (meetings) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let fallen of data.fallens) {
                     let fallenMeeting = { fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }
+                    console.log("fallenMeeting", fallenMeeting)
                     let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
                     if (err3) {
                         console.log("err3", err3)
