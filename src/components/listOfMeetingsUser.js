@@ -155,10 +155,7 @@ const ListOfMeetingsUser = (props) => {
                             } : () => { }}>
                                 <ImageOfFallen
                                     className='imageOfFallen'
-                                    array={['https://www.ynet.co.il/PicServer5/2019/03/28/9151154/915115101000889801302no.jpg',
-                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
-                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
-                                    ]}
+                                    array={meeting.fallens}
 
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
