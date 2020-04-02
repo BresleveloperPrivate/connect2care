@@ -261,7 +261,7 @@ input[type=radio]:focus {
 .dateContainer{
     color: #4d4f5c73 !important;
     border: 2px solid #cccccc7d;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .containFallenDetailsSide{
