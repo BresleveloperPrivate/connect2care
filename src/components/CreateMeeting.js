@@ -203,7 +203,12 @@ const CreateMeeting = (props) => {
                 />
 
                 <div className="containCreateMettingButton">
-                    <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
+                    <div onClick={async() => {
+                        let success = await props.CreateMeetingStore.createNewMeetingPost()
+                        if(success){
+                            console.log('yes')
+                        }
+                        }} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
 
