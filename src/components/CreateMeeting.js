@@ -115,8 +115,9 @@ const CreateMeeting = (props) => {
                                 {props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
                                 <input
                                     type="text"
-                                    className='inputStyle'
-                                    style={{ width: "95%" }}
+                                    className='inputStyle dateContainer'
+                                    disabled
+                                    style={{ width: "95%", backgroundColor:"white" }}
                                     value={props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate}
                                     autoComplete="off"
                                     placeholder="תאריך נפילה"
