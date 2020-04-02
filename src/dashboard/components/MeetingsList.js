@@ -42,12 +42,14 @@ const MeetingsList = (props) => {
                                     <td className='date'>{meeting.date && meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen'>
-                                        {meeting.fallens && meeting.fallens.map((fallen, index) =>
-                                            <span key={index}>{fallen.name + (index === (meeting.fallens.length - 1) ? '' : ', ')}</span>
+                                        {meeting.fallens_meetings && meeting.fallens_meetings.map((fallenMeeting, index) =>
+                                            <span key={index}>{fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')}</span>
                                         )}
                                     </td>
                                     <td className='owner'>{meeting.meetingOwner && meeting.meetingOwner.name}</td>
-                                    <td className='relationship'>{meeting.relationship}</td>
+                                    <td className='relationship'>{meeting.fallens_meetings && meeting.fallens_meetings.map((fallenMeeting, index) =>
+                                        <span key={index}>{fallenMeeting.relationship + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')}</span>
+                                    )}{meeting.relationship}</td>
                                     <td className='name'>{meeting.name}</td>
                                     <td className='peopleNum'>{meeting.people && meeting.people.length}</td>
                                     <td className='isOpen'>
@@ -73,13 +75,13 @@ const MeetingsList = (props) => {
                 </tbody>
             </table>
             {props.ManagerStore.readMore ?
-                <div 
-                className='readMore'
-                onClick={() => {
-                    (async () => {
-                        await props.ManagerStore.fetchMeetingsDashboard({}, true)
-                    })()
-                }}>
+                <div
+                    className='readMore'
+                    onClick={() => {
+                        (async () => {
+                            await props.ManagerStore.fetchMeetingsDashboard({}, true)
+                        })()
+                    }}>
                     טען עוד
                 </div> : null
             }

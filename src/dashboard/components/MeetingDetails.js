@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles/createMeeting.css'
+import '../style/meetingInfo.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import blueCandle from '../../icons/candle-blue.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -99,7 +99,6 @@ const CreateMeeting = (props) => {
                             <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
                                 <input
                                     type="text"
-
                                     style={{ all: "unset", width: "calc(100% - 20px)" }}
                                     onChange={props.CreateMeetingStore.changeFallenName}
                                     value={props.CreateMeetingStore.fallenName}
@@ -164,19 +163,22 @@ const CreateMeeting = (props) => {
     }
 
     return (
-        <div className="CreateMeeting">
+        <div className="meetingDetails">
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
-                {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
-                <input
-                    type="text"
-                    className='inputStyle margin-right-text'
-                    onChange={props.CreateMeetingStore.changeMeetingName}
-                    value={props.CreateMeetingStore.meetingDetails.name}
-                    autoComplete="off"
-                    placeholder="שם המפגש"
-                />
+
+                <div className='position-relative'>
+                    {props.CreateMeetingStore.meetingDetails.name && <div style={{ position: 'absolute', top: '-17px' }} className="textAboveInput  margin-right-text">שם המפגש</div>}
+                    <input
+                        type="text"
+                        className='inputStyle margin-right-text'
+                        onChange={props.CreateMeetingStore.changeMeetingName}
+                        value={props.CreateMeetingStore.meetingDetails.name}
+                        autoComplete="off"
+                        placeholder="שם המפגש"
+                    />
+                </div>
 
                 <div className='position-relative'>
                     {props.CreateMeetingStore.meetingDetails.description && <div style={{ position: 'absolute', top: '-17px' }} className="textAboveInput  margin-right-text">תאור קצר</div>}
@@ -240,11 +242,11 @@ const CreateMeeting = (props) => {
                 <div className="margin-right-text d-flex align-items-center radioButtonContainer" style={{ marginBottom: "2vh" }}>
                     <div className="d-flex align-items-center">
                         <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                        <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
+                        <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
                     </div>
                     <div className="d-flex align-items-center">
                         <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                        <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                        <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                     </div>
                 </div>
                 <div className="containDateAndTime">
@@ -293,57 +295,8 @@ const CreateMeeting = (props) => {
                     <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
-
-
-
-            {(!pressOnCancel || dataForFallen) && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
-                <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }} />
-                <div id="containDetailsSideBar">
-                    <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: window.innerWidth > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
-
-                    {!dataForFallen ? <div className="textSide">
-                        <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
-                        <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
-                        <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
-                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
-                    </div>
-
-                        : <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
-                            if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
-                                return (
-                                    <div>
-                                        <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
-                                            קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
-                                        </div>
-                                        {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
-                                            props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
-
-                                                return (
-                                                    <div className="containFallenDetailsSide">
-                                                        <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                        <div >מנחה: {meeting.meetingOwner.name}</div>
-                                                        <div style={{ fontSize: "18px" }} className="d-flex">
-                                                            <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
-                                                            <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
-                                                        </div>
-                                                        <div className="divIsOpen">
-                                                            {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
-                                                        </div>
-                                                    </div>
-                                                )
-
-                                            })
-                                        }
-
-                                    </div>)
-                        })
-                        }
-                            <div className="gotItButton pointer" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }}>הבנתי</div>
-                        </div>}
-                </div>
-            </div>}
         </div >
     );
 }
 
-export default inject('CreateMeetingStore')(observer(CreateMeeting));
+export default inject('ManagerStore')(observer(CreateMeeting));
