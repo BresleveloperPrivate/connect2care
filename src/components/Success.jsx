@@ -13,9 +13,10 @@ class Success extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            meetingId : null,
             image: null,
             dateOfDeath: null,
-            name: null,
+            fallens: null,
             relation: null,
             meetingStarter: null,
             meetingStory: null,
@@ -33,6 +34,7 @@ class Success extends Component {
     //כמו כן להחליף את fallenImage במשהו מהפרופס
 
     getPlaceholderInfo = () => {
+        const meetingId = 2
         const dateOfDeath = "מרץ 07 צנחנים";
         const relation = "אח";
         const meetingStarter = "משה לוי"
@@ -40,10 +42,10 @@ class Success extends Component {
         const meetingDate = "יום שני | ג' באייר | 27 באפריל";
         const meetingHour = "20:30"
         const isMeetingOpen = true;
-        const name = "דוד גרניט"
+        const fallens =[{name: 'דוד'} , {name: 'משה'}, {name: 'ישראל'}]
         this.setState({
             dateOfDeath, relation, meetingDate, meetingHour, meetingStarter,
-            meetingStory, isMeetingOpen, name
+            meetingStory, isMeetingOpen, fallens , meetingId
         })
     }
 
@@ -92,7 +94,11 @@ class Success extends Component {
                             <div className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
-                    <div className="sharingComponent"><Sharing styleObject={{buttonWidth: '14rem', fontSize:'1.3rem', imageWidth: '30px', imageHeight: '30px'}}/></div>
+                    <div className="sharingComponent"><Sharing 
+                    data={this.state}
+                    styleObject={{buttonWidth: '14rem', fontSize:'1.3rem', imageWidth: '30px', imageHeight: '30px'}}
+                    
+                    /></div>
                     <div className="whiteFutter">
                         <div className="additionalInfo">
                             <div>*קישור למפגש מחכה לך בתיבת המייל</div>
