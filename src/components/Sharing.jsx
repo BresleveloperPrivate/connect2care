@@ -146,7 +146,7 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'http://lohamim.carmel6000.com/#/',
+          'og:url': 'https://lohamim.carmel6000.com/#/',
         }
       })
     })
