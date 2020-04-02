@@ -44,9 +44,9 @@ class App extends Component {
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <Route path="/not-found" render={(props) => <NotFound {...props} />} />
                             <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
                             <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={MeetingInfo} />
+                            <Route exact render={(props) => <NotFound {...props} />} />
 
                         </Switch>
                     </div>
