@@ -6,13 +6,13 @@ import throttle from 'lodash/throttle';
 
 import Auth from '../modules/auth/Auth';
 
-import { useCreateMeeting } from '../stores/createMeeting.store';
+import { useCreateMeetingStore } from '../stores/createMeeting.store';
 
 const SearchFallen = () => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState([]);
 
-    const createMeetingStore = useCreateMeeting();
+    const createMeetingStore = useCreateMeetingStore();
 
     const onChange = useCallback(event => {
         setSearchValue(event.target.value);

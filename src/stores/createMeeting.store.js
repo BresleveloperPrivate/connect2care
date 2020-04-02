@@ -310,6 +310,6 @@ export const CreateMeetingProvider = ({ children }) => (
     </CreateMeetingContext.Provider>
 );
 
-export const useCreateMeeting = () => useContext(CreateMeetingContext);
+export const useCreateMeetingStore = () => useContext(CreateMeetingContext);
 
 export default createMeetingStore;
