@@ -18,6 +18,8 @@
 --
 -- Table structure for table `ACL`
 --
+CREATE Database ourBro;
+use ourBro;
 
 DROP TABLE IF EXISTS `ACL`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -66,6 +68,7 @@ CREATE TABLE `AccessToken` (
 
 LOCK TABLES `AccessToken` WRITE;
 /*!40000 ALTER TABLE `AccessToken` DISABLE KEYS */;
+INSERT INTO `AccessToken` VALUES ('aVBdh46ZiOed5JK84Lhr8AKmkIwNJDNOVX25Kg9pSBput2fnPUhNSb7Cr5F9vE3d',18000,'2020-04-02 07:10:11',1,NULL),('hRBcZ2KXIvP7QBlxO0lhk9udWEmRxspx0fxWEDhdd4HHhUHwZB7pGRwpF9RKUWZu',18000,'2020-04-01 20:23:16',1,NULL),('MYt6qawrVy3DXRYGafTnCVhlv7MckahoVphfXkHwt5eJUxm7Cs03du3EIR6Xhi9U',18000,'2020-04-02 06:18:46',1,NULL),('nGLdiyephHysbxMHw5RW7LUFgrxAYW1J5Ag44EOA8FzDDSGimSemV9OtS7fBI4YZ',18000,'2020-04-01 14:08:37',1,NULL),('TkqYClhity1VOfjhT43jFCAHmKaLrvLdFDybBiNIV1N6L4ZEPR5NbwRbddYW5fRW',18000,'2020-04-01 14:59:34',1,NULL);
 /*!40000 ALTER TABLE `AccessToken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,13 +368,12 @@ DROP TABLE IF EXISTS `fallens`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fallens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(512) NOT NULL,
-  `last_name` varchar(512) NOT NULL,
+  `name` varchar(512) NOT NULL,
   `falling_date` datetime DEFAULT NULL,
   `image_link` varchar(512) DEFAULT NULL,
   `heb_falling_date` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,7 +382,7 @@ CREATE TABLE `fallens` (
 
 LOCK TABLES `fallens` WRITE;
 /*!40000 ALTER TABLE `fallens` DISABLE KEYS */;
-INSERT INTO `fallens` VALUES (1,'אהרון','הרשלר','1873-01-05 00:00:00','','ו בטבת  תרל\"ג'),(2,'ישראל-חיים','שעהנבוים עץ-הדר','1881-04-09 00:00:00','','י בניסן  תרמ\"א'),(3,'רחל','חדד הלוי','1886-04-02 00:00:00','','כ\"ו באדר ב תרמ\"ו'),(4,'אברהם','ילובסקי','1887-12-25 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505868.jpg','י בטבת  תרמ\"ח'),(5,'ישראל','רוזמן מוגילביץ','1890-08-13 00:00:00','','כ\"ז באב   תר\"ן '),(6,'בכור','מושין','1900-01-01 00:00:00','','א בשבט  תר\"ס '),(7,'יעקב','אברמוביץ','1902-09-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505266.jpg','כ\"ב באלול  תרס\"ב'),(8,'יצחק','כהן','1903-11-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505901.jpg','ה בכסלו  תרס\"ד'),(9,'ישראל','קורנגולד','1909-04-12 00:00:00','','כ\"א בניסן  תרס\"ט'),(10,'שמעון','מלמד','1909-04-12 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/506083.jpg','כ\"א בניסן  תרס\"ט'),(11,'אהרון','הרשלר','1873-01-05 00:00:00','','ו\' בטבת  תרל\"ג'),(12,'ישראל-חיים','שעהנבוים עץ-הדר','1881-04-09 00:00:00','','י\' בניסן  תרמ\"א'),(13,'רחל','חדד הלוי','1886-04-02 00:00:00','','כ\"ו באדר ב\' תרמ\"ו'),(14,'אברהם','ילובסקי','1887-12-25 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505868.jpg','י\' בטבת  תרמ\"ח'),(15,'ישראל','רוזמן מוגילביץ','1890-08-13 00:00:00','','כ\"ז באב   תר\"ן '),(16,'בכור','מושין','1900-01-01 00:00:00','','א\' בשבט  תר\"ס '),(17,'יעקב','אברמוביץ','1902-09-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505266.jpg','כ\"ב באלול  תרס\"ב'),(18,'יצחק','כהן','1903-11-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505901.jpg','ה\' בכסלו  תרס\"ד'),(19,'ישראל','קורנגולד','1909-04-12 00:00:00','','כ\"א בניסן  תרס\"ט'),(20,'שמעון','מלמד','1909-04-12 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/506083.jpg','כ\"א בניסן  תרס\"ט');
+INSERT INTO `fallens` VALUES (1,'אהרון','1873-01-05 00:00:00','','ו בטבת  תרל\"ג'),(2,'ישראל-חיים','1881-04-09 00:00:00','','י בניסן  תרמ\"א'),(3,'רחל','1886-04-02 00:00:00','','כ\"ו באדר ב תרמ\"ו'),(4,'אברהם','1887-12-25 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505868.jpg','י בטבת  תרמ\"ח'),(5,'ישראל','1890-08-13 00:00:00','','כ\"ז באב   תר\"ן '),(6,'בכור','1900-01-01 00:00:00','','א בשבט  תר\"ס '),(7,'יעקב','1902-09-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505266.jpg','כ\"ב באלול  תרס\"ב'),(8,'יצחק','1903-11-24 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/505901.jpg','ה בכסלו  תרס\"ד'),(9,'ישראל','1909-04-12 00:00:00','','כ\"א בניסן  תרס\"ט'),(10,'שמעון','1909-04-12 00:00:00','https://izkorcdn.azureedge.net/Data/korot/Image/506083.jpg','כ\"א בניסן  תרס\"ט');
 /*!40000 ALTER TABLE `fallens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,8 +397,9 @@ CREATE TABLE `fallens_meetings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fallen` int(11) unsigned NOT NULL,
   `meeting` int(11) unsigned NOT NULL,
+  `relationship` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,7 +408,7 @@ CREATE TABLE `fallens_meetings` (
 
 LOCK TABLES `fallens_meetings` WRITE;
 /*!40000 ALTER TABLE `fallens_meetings` DISABLE KEYS */;
-INSERT INTO `fallens_meetings` VALUES (1,1,2);
+INSERT INTO `fallens_meetings` VALUES (1,1,2,'אח'),(2,3,2,'חבר'),(3,5,3,'אחר'),(4,5,1,'בן דוד שני');
 /*!40000 ALTER TABLE `fallens_meetings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,7 +456,6 @@ CREATE TABLE `meetings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(512) NOT NULL,
   `description` varchar(512) DEFAULT NULL,
-  `relationship` varchar(512) DEFAULT NULL,
   `owner` int(11) unsigned NOT NULL,
   `language` enum('עברית','English','français','العربية','русский','አማርኛ','español') DEFAULT 'עברית',
   `isOpen` tinyint(1) DEFAULT '0',
@@ -463,7 +465,7 @@ CREATE TABLE `meetings` (
   `max_participants` int(11) unsigned DEFAULT NULL,
   `date` enum('יום ראשון, ב באייר, 26.04','יום שני, ג באייר, 27.04','יום שלישי, ד באייר, 28.04','יום רביעי, ה באייר, 29.04') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,7 +474,7 @@ CREATE TABLE `meetings` (
 
 LOCK TABLES `meetings` WRITE;
 /*!40000 ALTER TABLE `meetings` DISABLE KEYS */;
-INSERT INTO `meetings` VALUES (1,'meeting','string','string',4,'עברית',1,'14:00',0,0,NULL,'יום ראשון, ב באייר, 26.04'),(2,'meeting','string','string',4,'עברית',1,'14:00',0,0,NULL,'יום ראשון, ב באייר, 26.04');
+INSERT INTO `meetings` VALUES (1,'meeting','string',4,'עברית',1,'14:00',0,0,NULL,'יום ראשון, ב באייר, 26.04'),(2,'meeting','string',4,'עברית',1,'14:00',0,0,NULL,'יום ראשון, ב באייר, 26.04'),(3,'string','string',1,'עברית',1,'string',0,0,0,'יום רביעי, ה באייר, 29.04');
 /*!40000 ALTER TABLE `meetings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -554,30 +556,6 @@ LOCK TABLES `records_permissions` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users_meetings`
---
-
-DROP TABLE IF EXISTS `users_meetings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_meetings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` int(11) unsigned NOT NULL,
-  `meeting` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users_meetings`
---
-
-LOCK TABLES `users_meetings` WRITE;
-/*!40000 ALTER TABLE `users_meetings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_meetings` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `zoom`
 --
 
@@ -610,4 +588,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-01 13:35:35
+-- Dump completed on 2020-04-02 13:05:34

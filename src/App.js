@@ -8,6 +8,7 @@ import './styles/animations.scss'
 
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
+import NotFound from './components/NotFound';
 
 const Home = loadable(() => import('./components/Home.js'));
 const Meeting = loadable(() => import('./components/Meeting/Meeting'));
@@ -36,8 +37,10 @@ class App extends Component {
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
+                            <Route path="/not-found" render={(props) => <NotFound {...props} />} />
                             <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
                             <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={MeetingInfo} />
+                            
                         </Switch>
                     </div>
                 </Router>

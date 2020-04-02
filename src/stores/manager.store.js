@@ -32,7 +32,6 @@ class ManagerStore {
         this.loading = false
         if (err) {
             console.log(err)
-            // this.setError("לא הצלחנו להביא את התקופות המבוקשות")
             return
         }
         this.readMore = (Math.ceil(meetings.pop() / 20) - this.page) > 0

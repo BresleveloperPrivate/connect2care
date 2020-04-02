@@ -84,7 +84,8 @@
 }
 
 .containIconNavbar{
-    height: 80%;
+    height: 7vh;
+    margin-left: 5%;
 }
 
 .optionInNavbar{
@@ -102,9 +103,7 @@
     .navbarOptions{
         width: 70%;
     }
-    .containIconNavbar{
-        height: 60%;
-    }
+
     .containMenu{
         visibility: visible;
     }
@@ -113,17 +112,6 @@
     }
 }
 
-@media screen and (max-width: 370px){
-    .navbarIcon{
-        width: 25%;
-    }
-    .navbarOptions{
-        width: 75%;
-    }
-    .containIconNavbar{
-        height: 50%;
-    }
-}
 
 @media screen and (max-width: 850px){
    

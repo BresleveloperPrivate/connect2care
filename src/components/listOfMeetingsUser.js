@@ -35,18 +35,21 @@ const ListOfMeetingsUser = (props) => {
     }, []);
 
     return (
-        <div className='navBarMargin' style={{ paddingBottom: '7vh' }}>
-
+        <div className='meetingsFullPage'>
+        <div className='buttonOnMeetings grow' onClick={()=>{
+            props.history.push('/create-meeting')
+        }} >אני רוצה ליזום מפגש</div>
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
-                <div >משפט כלשהו... </div>
+                <div className='meetings-second-title'>משפט כלשהו... </div>
                 <div className='containSearch'>
                     <input
                         style={{ flexGrow: 1 }}
                         type="text"
+                        value={props.MeetingsStore.searchInput}
                         className='input-meetings'
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        placeholder="חיפוש"
+                        placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
                     />
                     <div
                         style={{ marginRight: '2vw' }}
@@ -132,7 +135,7 @@ const ListOfMeetingsUser = (props) => {
                     />
                     <div className='availableOnly'>
                         <div
-                        style={{height: '1.5em' , width: '1.5em' , display:'flex' , marginLeft:'0.3em'}}
+                        style={{height: '1.5em' , width: '1.5em' , display:'flex' , marginLeft:'0.3em' , cursor:'pointer'}}
                         onClick={()=>{
                             props.MeetingsStore.changeAvailableOnly(!props.MeetingsStore.availableOnly)
                             props.MeetingsStore.search()

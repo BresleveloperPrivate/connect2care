@@ -17,11 +17,12 @@ class MeetingsStore {
 
     changeSearchInput = (event) => {
         ////if match...
-
-        this.searchInput = event.target.value
+        if (event.target.value.match('^([^0-9#*/$%^&@!;=+]*)$')) {
+            this.searchInput = event.target.value
+        }
     }
 
-    changeAvailableOnly = (isAvailable)=>{
+    changeAvailableOnly = (isAvailable) => {
         this.availableOnly = isAvailable
     }
 
@@ -76,7 +77,7 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter , time: this.time || [] , isAvailable: this.availableOnly})
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, time: this.time || [], isAvailable: this.availableOnly })
         })
         if (err) {
             console.log(err)
@@ -110,7 +111,7 @@ class MeetingsStore {
 decorate(MeetingsStore, {
     loadMoreButton: observable,
     search: action,
-    availableOnly:observable,
+    availableOnly: observable,
     time: observable,
     searchInput: observable,
     fallenRelative: observable,
@@ -124,7 +125,7 @@ decorate(MeetingsStore, {
     changeMeetingDate: action,
     meetings: observable,
     changeMeetingTime: action,
-    changeAvailableOnly:action,
+    changeAvailableOnly: action,
 });
 
 export default new MeetingsStore();

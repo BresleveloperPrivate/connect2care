@@ -21,7 +21,7 @@
     outline: none;
     width: 65%;
     padding: 1vh 2vh;
-    margin-bottom: 2vh;
+    margin-bottom: 3vh;
 }
 
 .textSide{
@@ -147,8 +147,16 @@ input[type=radio]:focus {
     border-radius: 4px;
 }
 
+::placeholder, ::-moz-placeholder, :-moz-placeholder,  :-ms-input-placeholder, ::-webkit-input-placeholder{
+    color: var(--custom-gray)
+}
+
 .CreateMeeting .arrowInput{
     margin-left: 2vh !important;
+}
+
+.CreateMeeting .selectContainer{
+    color: var(--custom-gray) !important;
 }
 
 .MuiPickersModal-withAdditionalAction > *:first-child{
@@ -178,11 +186,6 @@ input[type=radio]:focus {
     font-size: 18px;
 }
 
-.containFallenDetails{
-    padding: 2vh 0;
-    border-bottom: 1px white solid;
-    font-size: 20px;
-}
 
 .addFallen{
     border: 2px solid #3586B1;
@@ -254,6 +257,19 @@ input[type=radio]:focus {
 .containFallenDetails{
     margin-bottom: 4vh
 }
+
+.dateContainer{
+    color: #4d4f5c73 !important;
+    border: 2px solid #cacbce;
+    opacity: 0.5;
+}
+
+.containFallenDetailsSide{
+    padding: 2vh 0;
+    border-bottom: 1px white solid;
+    font-size: 20px;
+}
+
 
 @media screen and (min-width: 551px){
     .containFallenDetails{

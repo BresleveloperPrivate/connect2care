@@ -1,7 +1,8 @@
 {
     "SUPERADMIN": {
         "comps": [
-            "DashboardMain"
+            "DashboardMain",
+            "MeetingInfo"
         ]
     }
 }
