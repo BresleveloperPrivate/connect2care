@@ -1,4 +1,5 @@
 import { observable, decorate, action } from 'mobx';
+import React, { createContext, useContext } from 'react';
 import Auth from '../modules/auth/Auth'
 
 
@@ -299,4 +300,16 @@ decorate(CreateMeetingStore, {
     changeMeetingName: action
 });
 
-export default new CreateMeetingStore();
+const createMeetingStore = new CreateMeetingStore();
+
+export const CreateMeetingContext = createContext();
+
+export const CreateMeetingProvider = ({ children }) => (
+    <CreateMeetingContext.Provider value={createMeetingStore}>
+        {children}
+    </CreateMeetingContext.Provider>
+);
+
+export const useCreateMeeting = () => useContext(CreateMeetingContext);
+
+export default createMeetingStore;
