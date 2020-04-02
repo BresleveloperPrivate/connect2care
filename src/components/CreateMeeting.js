@@ -259,10 +259,10 @@ const CreateMeeting = (props) => {
                             className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
                     </div>
-                    <div style={window.innerWidth > 550 ? { width: "30%" } : {}}>
+                    <div style={window.innerWidth > 550 ? { width: "30%", marginRight: "2vh" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
 
-                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { marginRight: "2vh", width: "calc(100% - 2vh)" } : {}}>
+                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { width: "calc(100% - 2vh)" } : {}}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <CssTimePicker
                                     clearable
@@ -296,7 +296,7 @@ const CreateMeeting = (props) => {
 
 
             {(!pressOnCancel || dataForFallen) && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
-                <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { setPressOnCancel(true);setDataForFallen(false) }} />
+                <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }} />
                 <div id="containDetailsSideBar">
                     <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: window.innerWidth > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
 
