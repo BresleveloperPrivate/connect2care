@@ -33,23 +33,6 @@
         }
     },
     "properties": {
-        "id": {
-            "type": "Number",
-            "required": false,
-            "length": null,
-            "precision": 10,
-            "scale": 0,
-            "generated": true,
-            "id": 1,
-            "mysql": {
-                "columnName": "id",
-                "dataType": "int",
-                "dataLength": null,
-                "dataPrecision": 10,
-                "dataScale": 0,
-                "nullable": "N"
-            }
-        },
         "person": {
             "type": "Number",
             "required": false,
