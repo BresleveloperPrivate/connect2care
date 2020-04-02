@@ -158,10 +158,10 @@ export default function Sharing(props) {
       display: 'popup',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'https://lohamim.carmel6000.com/#/',
-          'og:title': 'crap in pita',
-          'og:description': 'not tasty',
-          'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+          'og:url': 'https://lohamim.carmel6000.com/#/?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
+          // 'og:title': 'crap in pita',
+          // 'og:description': 'not tasty',
+          // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
         }
       })
     }, function(response) {
