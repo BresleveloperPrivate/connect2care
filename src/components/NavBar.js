@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/navbar.scss'
-import ourBrothers from '../icons/ourBrothers.png'
+import ourBrothers from '../icons/logo.svg'
 import menu from '../icons/menu.png'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
