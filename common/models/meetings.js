@@ -24,15 +24,15 @@ module.exports = function (meetings) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time.length) {                      
+                            if (time.length) {
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if(!search && !isAvailable){
+                                        if (!search && !isAvailable) {
                                             resArray.push(res)
                                             moveToSearch = false
                                         }
-                                        else if(!search && isAvailable){
-                                            if(res.participants_num < res.max_participants){
+                                        else if (!search && isAvailable) {
+                                            if (res.participants_num < res.max_participants) {
                                                 resArray.push(res)
                                             }
                                         }
@@ -44,17 +44,17 @@ module.exports = function (meetings) {
                                     console.log(err)
                                 }
                             }
-                            else if(isAvailable){
-                                console.log(res.participants_num , res.max_participants)
-                                if(!search){
-                                    if(res.participants_num < res.max_participants){
+                            else if (isAvailable) {
+                                console.log(res.participants_num, res.max_participants)
+                                if (!search) {
+                                    if (res.participants_num < res.max_participants) {
                                         resArray.push(res)
                                     }
-                                }else{
+                                } else {
                                     moveToSearch = false
                                 }
-                                
-                                
+
+
                             }
                             if (search && moveToSearch) {
                                 if (res.name.includes(search) || search.includes(res.name)) {
@@ -110,7 +110,7 @@ module.exports = function (meetings) {
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let fallen of data.fallens) {
-                    let fallenMeeting = { fallen: fallen, meeting: meeting.id }
+                    let fallenMeeting = { fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }
                     let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
                     if (err3) {
                         console.log("err3", err3)
