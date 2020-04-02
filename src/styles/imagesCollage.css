@@ -84,7 +84,7 @@
       background-color: rgba(255, 255, 255, 0.11);
   }
 
-  @media screen and (max-width: 550px){
+  @media screen and (max-width: 800px){
     .container {
         padding: 0;
         grid-template-rows:  14vw 14vw 16vw 19vw;

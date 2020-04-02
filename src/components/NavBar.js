@@ -4,6 +4,7 @@ import ourBrothers from '../icons/ourBrothers.png'
 import menu from '../icons/menu.png'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
+import '../styles/animations.scss'
 
 
 const Options =
@@ -53,7 +54,7 @@ class NavBar extends Component {
                 </div>
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
-                        <img src={ourBrothers} height='100%' />
+                        <img alt="alt" src={ourBrothers} height='100%' />
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}

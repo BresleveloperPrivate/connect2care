@@ -39,17 +39,17 @@ const MeetingsList = (props) => {
 
                             props.ManagerStore.meetings.map((meeting, index) =>
                                 <tr key={index} className="tableBodyStyle">
-                                    <td className='date'>{meeting.date.split(', ')[2]}</td>
+                                    <td className='date'>{meeting.date && meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen'>
                                         {meeting.fallens && meeting.fallens.map((fallen, index) =>
-                                            <span key={index}>{fallen.first_name + ' ' + fallen.last_name + (index === (meeting.fallens.length - 1) ? '' : ', ')}</span>
+                                            <span key={index}>{fallen.name + (index === (meeting.fallens.length - 1) ? '' : ', ')}</span>
                                         )}
                                     </td>
-                                    <td className='owner'>{meeting.meetingOwner.name}</td>
+                                    <td className='owner'>{meeting.meetingOwner && meeting.meetingOwner.name}</td>
                                     <td className='relationship'>{meeting.relationship}</td>
                                     <td className='name'>{meeting.name}</td>
-                                    <td className='peopleNum'>{meeting.people.length}</td>
+                                    <td className='peopleNum'>{meeting.people && meeting.people.length}</td>
                                     <td className='isOpen'>
                                         {meeting.isOpen ? '' :
                                             <div
@@ -64,7 +64,7 @@ const MeetingsList = (props) => {
                                         }
                                     </td>
                                     <td className='edit'>
-                                        <img src={pen} />
+                                        <img alt="alt" src={pen} />
                                     </td>
                                 </tr>
                             )
@@ -72,8 +72,17 @@ const MeetingsList = (props) => {
                     }
                 </tbody>
             </table>
-
-
+            {props.ManagerStore.readMore ?
+                <div 
+                className='readMore'
+                onClick={() => {
+                    (async () => {
+                        await props.ManagerStore.fetchMeetingsDashboard({}, true)
+                    })()
+                }}>
+                    טען עוד
+                </div> : null
+            }
         </div>
     )
 }

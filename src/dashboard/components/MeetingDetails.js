@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/createMeeting.css'
+import '../../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import blueCandle from '../icons/candle-blue.svg'
+import blueCandle from '../../icons/candle-blue.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import grayCandle from '../icons/gray-candle.svg'
-import person from '../icons/person.svg'
-import clock from '../icons/whiteClock.svg'
-import candleWhiteGray from '../icons/candleWhiteGray.svg'
-import lock from '../icons/lock.svg'
-import lockWhite from '../icons/lock-white.svg'
-import Select from './Select.js'
-import cancel from '../icons/cancel.svg'
-import Business from '../icons/business.svg'
-import Auth from '../modules/auth/Auth'
+import grayCandle from '../../icons/gray-candle.svg'
+import person from '../../icons/person.svg'
+import clock from '../../icons/whiteClock.svg'
+import candleWhiteGray from '../../icons/candleWhiteGray.svg'
+import lock from '../../icons/lock.svg'
+import lockWhite from '../../icons/lock-white.svg'
+import Select from '../../components/Select'
+import cancel from '../../icons/cancel.svg'
+import Business from '../../icons/business.svg'
+import Auth from '../../modules/auth/Auth'
 
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
@@ -88,93 +88,86 @@ const CreateMeeting = (props) => {
         if (!props.CreateMeetingStore.meetingDetails.fallens)
             props.CreateMeetingStore.changeFallens(0)
 
-        return (
-            <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
-                props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
-                    return (
-                        <div key={index} className="containFallenDetails">
-                            {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
-                            <div style={window.innerWidth <= 550 ? {} : { width: "70%" }}>
-
-                                {props.CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
-                                <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
-                                    <input
-                                        type="text"
-                                        style={{ all: "unset", width: "calc(100% - 20px)" }}
-                                        onChange={props.CreateMeetingStore.changeFallenName}
-                                        value={props.CreateMeetingStore.fallenName}
-                                        autoComplete="off"
-                                        placeholder="שם החלל"
-                                    />
-                                    <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
-                                </div>
-
-                                <div className="searchButton pointer" onClick={() => searchFallen(Number(fallen))}>חפש</div>
-
-                                {props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+        return <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
+            props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
+                let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
+                return <div key={index} className="containFallenDetails">
+                    {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+                    <div style={window.innerWidth <= 550 ? {} : { width: "70%" }}>
+                        <div className='position-relative'>
+                            {props.CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%", position: 'absolute', top: '-17px' }}>שם החלל</div>}
+                            <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
                                 <input
                                     type="text"
-                                    className='inputStyle'
-                                    style={{ width: "95%" }}
-                                    value={props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate}
+
+                                    style={{ all: "unset", width: "calc(100% - 20px)" }}
+                                    onChange={props.CreateMeetingStore.changeFallenName}
+                                    value={props.CreateMeetingStore.fallenName}
                                     autoComplete="off"
-                                    placeholder="תאריך נפילה"
+                                    placeholder="שם החלל"
                                 />
-
-                                {props.CreateMeetingStore.meetingDetails.relationship && <div className="textAboveInput">קרבה שלי אל החלל</div>}
-                                <Select
-                                    selectTextDefault='קרבה שלי אל החלל'
-
-                                    arr={myCloseToTheFallen.map((name) => {
-                                        return { option: name }
-                                    })}
-                                    // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
-                                    width='95%'
-                                    className='inputStyle p-0'
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
-
-                                {(props.CreateMeetingStore.meetingDetails.relationship !== "אח" &&
-                                    props.CreateMeetingStore.meetingDetails.relationship !== "הורים" &&
-                                    props.CreateMeetingStore.meetingDetails.relationship !== "קורבי משפחה" &&
-                                    props.CreateMeetingStore.meetingDetails.relationship !== "חבר" &&
-                                    props.CreateMeetingStore.meetingDetails.relationship !== null) && <input
-                                        type="text"
-                                        className='inputStyle'
-                                        style={{ width: "95%" }}
-                                        value={props.CreateMeetingStore.otherRelationship}
-                                        onChange={props.CreateMeetingStore.setOtherRelationship}
-                                        autoComplete="off"
-                                        placeholder="קרבה שלי אל החלל"
-                                    />}
-                            </div>
-
-                            <div className={findImage && dissmisedPic ? "position-relative" : "candleImg"} >
-
-                                <img src={findImage && dissmisedPic ? props.CreateMeetingStore.fallenDetails[fallen].image : grayCandle}
-                                    alt="grayCandle" style={
-                                        findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
-                                {findImage && dissmisedPic && <FontAwesomeIcon
-                                    color="#812863"
-                                    className={"pointer cancelPicture"}
-                                    onClick={() => setDissmisedPic(false)}
-                                    icon={["fas", "times-circle"]}
-                                />}
+                                <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
                             </div>
                         </div>
-                    )
-                })
-            }
-                <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
-            </div>)
+                        <div className="searchButton pointer" onClick={() => searchFallen(Number(fallen))}>חפש</div>
+                        {props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                        <input
+                            type="text"
+                            className='inputStyle'
+                            style={{ width: "95%" }}
+                            value={props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate}
+                            autoComplete="off"
+                            placeholder="תאריך נפילה"
+                        />
+                        {props.CreateMeetingStore.meetingDetails.relationship && <div className="textAboveInput">קרבה שלי אל החלל</div>}
+                        <Select
+                            selectTextDefault='קרבה שלי אל החלל'
+
+                            arr={myCloseToTheFallen.map((name) => {
+                                return { option: name }
+                            })}
+                            // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
+                            width='95%'
+                            className='inputStyle p-0'
+                            onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
+
+                        {(props.CreateMeetingStore.meetingDetails.relationship === "אחר") &&
+                            <input
+                                type="text"
+                                className='inputStyle'
+                                style={{ width: "95%" }}
+                                value={props.CreateMeetingStore.otherRelationship}
+                                onChange={props.CreateMeetingStore.setOtherRelationship}
+                                autoComplete="off"
+                                placeholder="קרבה שלי אל החלל"
+                            />}
+                    </div>
+
+                    <div className={findImage && dissmisedPic ? "position-relative" : "candleImg"} >
+
+                        <img src={findImage && dissmisedPic ? props.CreateMeetingStore.fallenDetails[fallen].image : grayCandle}
+                            alt="grayCandle" style={
+                                findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
+                        {findImage && dissmisedPic && <FontAwesomeIcon
+                            color="#812863"
+                            className={"pointer cancelPicture"}
+                            onClick={() => setDissmisedPic(false)}
+                            icon={["fas", "times-circle"]}
+                        />}
+                    </div>
+                </div>
+            })
+        }
+            <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
+        </div>
+
     }
 
     return (
-        <div style={{ textAlign: "right" }} className="CreateMeeting">
+        <div className="CreateMeeting">
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
-
                 {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
                 <input
                     type="text"
@@ -185,14 +178,16 @@ const CreateMeeting = (props) => {
                     placeholder="שם המפגש"
                 />
 
-                {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">תאור קצר</div>}
-                <textarea className='inputStyle textAreaStyle margin-right-text'
-                    onChange={props.CreateMeetingStore.changeShortDescription}
-                    value={props.CreateMeetingStore.meetingDetails.description}
-                    rows="2"
-                    autoComplete="off"
-                    placeholder="תאור קצר"
-                />
+                <div className='position-relative'>
+                    {props.CreateMeetingStore.meetingDetails.description && <div style={{ position: 'absolute', top: '-17px' }} className="textAboveInput  margin-right-text">תאור קצר</div>}
+                    <textarea className='inputStyle textAreaStyle margin-right-text'
+                        onChange={props.CreateMeetingStore.changeShortDescription}
+                        value={props.CreateMeetingStore.meetingDetails.description}
+                        rows="2"
+                        autoComplete="off"
+                        placeholder="תאור קצר"
+                    />
+                </div>
 
                 {showFallens()}
 
@@ -242,13 +237,16 @@ const CreateMeeting = (props) => {
                     className='inputStyle margin-right-text p-0 '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
 
-                <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                    <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
-                    <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                <div className="margin-right-text d-flex align-items-center radioButtonContainer" style={{ marginBottom: "2vh" }}>
+                    <div className="d-flex align-items-center">
+                        <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
+                        <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
+                    </div>
+                    <div className="d-flex align-items-center">
+                        <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
+                        <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                    </div>
                 </div>
-
                 <div className="containDateAndTime">
                     <div style={window.innerWidth > 550 ? { width: "80%" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
@@ -262,11 +260,10 @@ const CreateMeeting = (props) => {
                             className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
                     </div>
-
-                    <div style={window.innerWidth > 550 ? { width: "30%", marginRight: "2vh" } : {}}>
-
+                    <div style={window.innerWidth > 550 ? { width: "30%" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
-                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { width: "calc(100% - 2vh)" } : {}}>
+
+                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { marginRight: "2vh", width: "calc(100% - 2vh)" } : {}}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <CssTimePicker
                                     clearable
@@ -282,8 +279,8 @@ const CreateMeeting = (props) => {
                         </div>
                     </div>
                 </div>
-
                 {props.CreateMeetingStore.meetingDetails.maxParticipants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
+
                 <input
                     type="text"
                     className='inputStyle margin-right-text'
@@ -292,11 +289,11 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-
                 <div className="containCreateMettingButton">
                     <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
+
 
 
             {(!pressOnCancel || dataForFallen) && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
@@ -308,48 +305,45 @@ const CreateMeeting = (props) => {
                         <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
                         <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
                         <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
-                            לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
-                    </div> :
+                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
+                    </div>
 
-                        <div>
-                            {props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
-                                if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
-                                    return (
-                                        <div>
-                                            <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
-                                                קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
-                                            </div>
-                                            {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
-                                                props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
-
-                                                    return (
-                                                        <div className="containFallenDetailsSide">
-                                                            <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                            <div >מנחה: {meeting.meetingOwner.name}</div>
-                                                            <div style={{ fontSize: "18px" }} className="d-flex">
-                                                                <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
-                                                                <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
-                                                            </div>
-                                                            <div className="divIsOpen">
-                                                                {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
-                                                            </div>
-                                                        </div>
-                                                    )
-
-                                                })
-                                            }
-
+                        : <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
+                            if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
+                                return (
+                                    <div>
+                                        <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
+                                            קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
                                         </div>
-                                    )
-                            })}
-                            <div className="gotItButton pointer" onClick={() => setPressOnCancel(true)}>הבנתי</div>
-                        </div>
-                    }
-                </div>
-            </div>
-            }
+                                        {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
+                                            props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
 
-        </div>)
+                                                return (
+                                                    <div className="containFallenDetailsSide">
+                                                        <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
+                                                        <div >מנחה: {meeting.meetingOwner.name}</div>
+                                                        <div style={{ fontSize: "18px" }} className="d-flex">
+                                                            <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
+                                                            <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
+                                                        </div>
+                                                        <div className="divIsOpen">
+                                                            {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                        </div>
+                                                    </div>
+                                                )
+
+                                            })
+                                        }
+
+                                    </div>)
+                        })
+                        }
+                            <div className="gotItButton pointer" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }}>הבנתי</div>
+                        </div>}
+                </div>
+            </div>}
+        </div >
+    );
 }
 
 export default inject('CreateMeetingStore')(observer(CreateMeeting));
