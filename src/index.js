@@ -15,6 +15,7 @@ import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/styles';
 import { Provider } from 'mobx-react';
 import stores from './stores';
+import { CreateMeetingProvider } from './stores/createMeeting.store';
 
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
@@ -22,11 +23,13 @@ library.add(fas)
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(
-<Provider {...stores}>
-	<StylesProvider jss={jss}>
-        <App />
-	</StylesProvider>
-</Provider>
+    <Provider {...stores}>
+        <CreateMeetingProvider>
+            <StylesProvider jss={jss}>
+                <App />
+            </StylesProvider>
+        </CreateMeetingProvider>
+    </Provider>
     , document.getElementById('root'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

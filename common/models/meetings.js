@@ -13,26 +13,27 @@ module.exports = function (meetings) {
 
 
     meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
-
+console.log(filters)
         let resArray = []
-        meetings.find({ where: filters, include: [{ relation: "fallens" }, { relation: "meetingOwner" }] }, (err, response) => {
+        meetings.find({ where: filters,  include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
+                console.log(response)
                 if (response.length) {
                     if (search || time.length || isAvailable) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time.length) {                      
+                            if (time.length) {
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if(!search && !isAvailable){
+                                        if (!search && !isAvailable) {
                                             resArray.push(res)
                                             moveToSearch = false
                                         }
-                                        else if(!search && isAvailable){
-                                            if(res.participants_num < res.max_participants){
+                                        else if (!search && isAvailable) {
+                                            if (res.participants_num < res.max_participants) {
                                                 resArray.push(res)
                                             }
                                         }
@@ -44,17 +45,17 @@ module.exports = function (meetings) {
                                     console.log(err)
                                 }
                             }
-                            else if(isAvailable){
-                                console.log(res.participants_num , res.max_participants)
-                                if(!search){
-                                    if(res.participants_num < res.max_participants){
+                            else if (isAvailable) {
+                                console.log(res.participants_num, res.max_participants)
+                                if (!search) {
+                                    if (res.participants_num < res.max_participants) {
                                         resArray.push(res)
                                     }
-                                }else{
+                                } else {
                                     moveToSearch = false
                                 }
-                                
-                                
+
+
                             }
                             if (search && moveToSearch) {
                                 if (res.name.includes(search) || search.includes(res.name)) {
@@ -63,7 +64,7 @@ module.exports = function (meetings) {
                                 else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
                                     resArray.push(res)
                                 }
-                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.name).includes(search))) {
+                                else if (res.fallens_meetings.length && (res.fallens_meetings).some(fallen => (fallen.fallens.name).includes(search))) {
                                     resArray.push(res)
                                 }
                             }
@@ -110,16 +111,31 @@ module.exports = function (meetings) {
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let fallen of data.fallens) {
-                    let fallenMeeting = { fallen: fallen, meeting: meeting.id }
+                    let fallenMeeting = { fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }
                     let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
                     if (err3) {
                         console.log("err3", err3)
                         return cb(err3)
                     }
+                    if (res) {
+                        console.log("res", res)
+                        //let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ["fallens", "meetingOwner"] }))
+//                        if (err4) {
+  //                          console.log("err4", err4)
+    //                        return cb(err4)
+      ///                  }
+         ///               if (userMeeting) {
+            //                console.log("userMeeting", userMeeting)
+              //              return cb(null, userMeeting)
+
+                //        }
+                    }
                 }
             }
-            console.log(meeting)
-            return cb(null, meeting)
+           // else {
+             //   console.log(meeting)
+                return cb(null, meeting)
+           // }
         })()
 
     }
@@ -166,7 +182,7 @@ module.exports = function (meetings) {
             if (filters.fallen) {
                 allMeetings = allMeetings.filter((meeting) =>
                     meeting.fallens_meetings.some((fallen_maating) =>
-                    fallen_maating.fallens.name.includes(filters.fallen))
+                        fallen_maating.fallens.name.includes(filters.fallen))
                 )
             }
             if (filters.owner) {
