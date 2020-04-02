@@ -1,16 +1,23 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 
-import { TextField, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
 
 import Auth from '../modules/auth/Auth';
 
+import { useCreateMeeting } from '../stores/createMeeting.store';
+
 const SearchFallen = () => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState([]);
 
-    const onChange = useCallback(event => setSearchValue(event.target.value), []);
+    const createMeetingStore = useCreateMeeting();
+
+    const onChange = useCallback(event => {
+        setSearchValue(event.target.value);
+        createMeetingStore.changeFallenName(event);
+    }, []);
 
     const fetch = useMemo(() => throttle(async (value, callback) => {
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/SearchFallen`, {
@@ -41,21 +48,31 @@ const SearchFallen = () => {
         };
     }, [searchValue, fetch]);
 
-    console.log(options);
-
     return (
-        <>
+        <div>
             <TextField
                 value={searchValue}
                 onChange={onChange}
-                label="שם החלל"
+                placeholder="שם החלל"
                 variant="outlined"
                 color="primary"
                 InputProps={{
                     endAdornment: <Search color="primary" />
                 }}
             />
-        </>
+            <div>
+                <List>
+                    {options.map(fallen => (
+                        <ListItem button key={fallen.id}>
+                            <ListItemAvatar>
+                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} />
+                            </ListItemAvatar>
+                            <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
+                        </ListItem>
+                    ))}
+                </List>
+            </div>
+        </div>
     );
 };
 

@@ -6,6 +6,7 @@ import blueCandle from '../icons/candle-blue.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import grayCandle from '../icons/gray-candle.svg'
 import Auth from '../modules/auth/Auth'
+import SearchFallen from './SearchFallen.jsx';
 
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
@@ -33,17 +34,8 @@ const FallenDetails = (props) => {
             <div style={window.innerWidth <= 550 ? {} : { width: "70%" }}>
 
                 {props.CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
-                <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
-                    <input
-                        type="text"
-                        style={{ all: "unset", width: "calc(100% - 20px)" }}
-                        onChange={props.CreateMeetingStore.changeFallenName}
-                        value={props.CreateMeetingStore.fallenName}
-                        autoComplete="off"
-                        placeholder="שם החלל"
-                    />
-                    <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
-                </div>
+
+                <SearchFallen />
 
                 <div className="searchButton pointer" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div>
 
