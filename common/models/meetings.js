@@ -197,12 +197,22 @@ module.exports = function (meetings) {
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, cb) => {
         (async () => {
             try {
+                if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
+                if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+
+                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num } = meeting;
-                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "הפגישה מלאה" }, null); return; }
+                const { max_participants, participants_num, isOpen } = meeting;
+
+                if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
+                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
 
                 const person = await people.create({ name, email, phone });
                 await people_meetings.create({ person: person.id, meeting: meetingId });
