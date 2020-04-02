@@ -51,7 +51,7 @@ const MeetingsList = (props) => {
                                         <span key={index}>{fallenMeeting.relationship + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')}</span>
                                     )}{meeting.relationship}</td>
                                     <td className='name'>{meeting.name}</td>
-                                    <td className='peopleNum'>{meeting.people && meeting.people.length}</td>
+                                    <td className='peopleNum'>{meeting.participants_num}</td>
                                     <td className='isOpen'>
                                         {meeting.isOpen ? '' :
                                             <div
