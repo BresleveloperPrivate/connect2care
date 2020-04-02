@@ -147,8 +147,16 @@ input[type=radio]:focus {
     border-radius: 4px;
 }
 
+::placeholder, ::-moz-placeholder, :-moz-placeholder,  :-ms-input-placeholder, ::-webkit-input-placeholder{
+    color: var(--custom-gray)
+}
+
 .CreateMeeting .arrowInput{
     margin-left: 2vh !important;
+}
+
+.CreateMeeting .selectContainer{
+    color: var(--custom-gray) !important;
 }
 
 .MuiPickersModal-withAdditionalAction > *:first-child{
@@ -178,11 +186,6 @@ input[type=radio]:focus {
     font-size: 18px;
 }
 
-.containFallenDetails{
-    padding: 2vh 0;
-    border-bottom: 1px white solid;
-    font-size: 20px;
-}
 
 .addFallen{
     border: 2px solid #3586B1;
@@ -222,7 +225,9 @@ input[type=radio]:focus {
 }
 
 #containDetailsSideBar{
-    padding:2vh
+    padding: 2vh;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .cancelSideButton{
@@ -242,17 +247,29 @@ input[type=radio]:focus {
     border-radius: 20px;
     font: Bold 25px Assistant;
     letter-spacing: 0;
-    bottom: 6vh;
-    width: -moz-fit-content;
+    bottom: 3vh;
     width: fit-content;
     color: #082551;
     padding: 0.2vh 1vh;
-    left: 7vh;
+    left: 4vh;
 }
 
 .containFallenDetails{
     margin-bottom: 4vh
 }
+
+.dateContainer{
+    color: #4d4f5c73 !important;
+    border: 2px solid #cacbce;
+    opacity: 0.5;
+}
+
+.containFallenDetailsSide{
+    padding: 2vh 0;
+    border-bottom: 1px white solid;
+    font-size: 20px;
+}
+
 
 @media screen and (min-width: 551px){
     .containFallenDetails{
@@ -333,7 +350,7 @@ input[type=radio]:focus {
     .containInputTextSide{
         min-height: 60vh;
         max-height: 60vh;
-        width: unset;
+        min-width: calc(100vw - 4vh);
         overflow-y: auto;
         top: 26vh;
         text-align: center;
@@ -357,7 +374,6 @@ input[type=radio]:focus {
 
     #containDetailsSideBar{
         max-height: 50vh;
-        overflow-y: auto;
     }
 
     .textSide{

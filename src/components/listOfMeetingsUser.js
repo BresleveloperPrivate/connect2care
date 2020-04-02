@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 import { inject, observer, PropTypes } from 'mobx-react';
@@ -11,8 +11,11 @@ import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
+import checkboxOn from '../icons/checkbox_on_light.svg'
+import checkboxOff from '../icons/checkbox_off_light.svg'
 
 const ListOfMeetingsUser = (props) => {
+
 
     const myCloseToTheFallen = ["הכל", "אח", "הורים", "קרובי משפחה", "חבר"]
     const meetingLanguage = ['כל השפות', 'עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
@@ -32,20 +35,21 @@ const ListOfMeetingsUser = (props) => {
     }, []);
 
     return (
-        <div className='navBarMargin' style={{ paddingBottom: '7vh' }}>
-
+        <div className='meetingsFullPage'>
+        <div className='buttonOnMeetings grow' onClick={()=>{
+            props.history.push('/create-meeting')
+        }} >אני רוצה ליזום מפגש</div>
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
-                <div >משפט כלשהו... </div>
+                <div className='meetings-second-title'>משפט כלשהו... </div>
                 <div className='containSearch'>
                     <input
                         style={{ flexGrow: 1 }}
                         type="text"
+                        value={props.MeetingsStore.searchInput}
                         className='input-meetings'
-
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        // value={}
-                        placeholder="חיפוש"
+                        placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
                     />
                     <div
                         style={{ marginRight: '2vw' }}
@@ -63,18 +67,19 @@ const ListOfMeetingsUser = (props) => {
 
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
-                        width='25%'
+                        width='20%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
                         arr={meetingDate.map((name) => {
                             return { option: name }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
                             if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
                             props.MeetingsStore.changeMeetingDate(value.option)
                         }}
+                        changeBackground={true}
+
                     />
 
                     <Select
@@ -83,14 +88,17 @@ const ListOfMeetingsUser = (props) => {
                         arr={meetingTime.map((name) => {
                             return { option: name.option }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                         className='input-meetings filter-meeting'
-                        onChoseOption={(value) => {
-                            props.MeetingsStore.changeMeetingTime(
-                                meetingTime.find(val => val.option === value.option).data
-                            )
+                        onChoseOption={(value) => { 
+                            if (value.option === 'כל השעות') {
+                                value.option = 'שעה'
+                                props.MeetingsStore.changeMeetingTime(false)
+                            }else{
+                                props.MeetingsStore.changeMeetingTime(
+                                meetingTime.find(val => val.option ===  value.option).data
+                        )}
                         }}
-
+                        changeBackground={true}
                     />
 
                     <Select
@@ -99,7 +107,6 @@ const ListOfMeetingsUser = (props) => {
                         arr={myCloseToTheFallen.map((name) => {
                             return { option: name }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
                         className='input-meetings filter-meeting'
                         onChoseOption={
 
@@ -107,6 +114,8 @@ const ListOfMeetingsUser = (props) => {
                                 if (value.option === 'הכל') value.option = 'קרבה לחלל'
                                 props.MeetingsStore.changeFallenRelative(value.option)
                             }}
+                            changeBackground={true}
+
                     />
 
 
@@ -116,14 +125,25 @@ const ListOfMeetingsUser = (props) => {
                         arr={meetingLanguage.map((name) => {
                             return { option: name }
                         })}
-                        // selectedText={props.CreateMeetingStore.meetingDetails.language}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
-                            if (value.option === 'כל השפות') value.option = 'שפת המפגש'
+                            if (value.option === 'כל השפות') {
+                                value.option = 'שפת המפגש'}
                             props.MeetingsStore.changeMeetingLanguage(value.option)
                         }}
+                        changeBackground={true}
                     />
-
+                    <div className='availableOnly'>
+                        <div
+                        style={{height: '1.5em' , width: '1.5em' , display:'flex' , marginLeft:'0.3em' , cursor:'pointer'}}
+                        onClick={()=>{
+                            props.MeetingsStore.changeAvailableOnly(!props.MeetingsStore.availableOnly)
+                            props.MeetingsStore.search()
+                        }}>
+                            <img height='100%' width='100%s' src={props.MeetingsStore.availableOnly ? checkboxOn : checkboxOff} />
+                            </div>
+                    הצג מפגשים זמינים בלבד
+                    </div>
                 </div>
 
 
@@ -138,10 +158,7 @@ const ListOfMeetingsUser = (props) => {
                             } : () => { }}>
                                 <ImageOfFallen
                                     className='imageOfFallen'
-                                    array={['https://www.ynet.co.il/PicServer5/2019/03/28/9151154/915115101000889801302no.jpg',
-                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
-                                        'https://img.mako.co.il/2011/05/23/567895_c.jpg',
-                                    ]}
+                                    array={meeting.fallens}
 
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
@@ -159,7 +176,7 @@ const ListOfMeetingsUser = (props) => {
                                         {meeting.name}
                                     </div>
                                     <div className='meetingFor'>
-                                        <div style={{ height: '1.7vw', marginLeft: '0.5vw', marginBottom: '1vw' }}>
+                                        <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'0.5em'}}>
                                             <img src={candle} height='100%' />
                                         </div>
                                         <div>{meeting.fallens.map((fallen, index) => {
@@ -207,16 +224,16 @@ const ListOfMeetingsUser = (props) => {
                                         <img width='100%' height='100%' src={participants} />
                                         <div className='numberOfParticipants'>{meeting.participants_num}</div>
                                     </div>
-                                    <div className={!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 'meetingIsCloseBtn' : 'joinMeetingBtn grow'}>
-                                        {!meeting.isOpen || meeting.participants_num >= meeting.max_participants ?
-                                            <div style={{ height: '0.9em', width: '0.9em', marginLeft: '0.4em', display: 'flex' }}>
-                                                <img height='100%' width='100%' src={lock} />
-                                            </div>
-                                            : null}
-                                        {!meeting.isOpen ? 'מפגש סגור' : meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : 'הצטרף למפגש'}
-
-                                    </div>
-                                    {!meeting.isOpen && meeting.participants_num < meeting.max_participants && <div className='comment'> ניתן לבקש להצטרף למפגש </div>}
+                                    <div className={!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 
+                                    {!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 
+                                    <div style={{height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}}>
+                                        <img height='100%' width='100%' src={lock}/>
+                                    </div> 
+                                    : null }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
+                                     
+                                      </div>
+                                     {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}
                                 </div>
 
                             </div>
@@ -227,7 +244,19 @@ const ListOfMeetingsUser = (props) => {
                     )
                 }) : null}
 
-
+                    {!props.MeetingsStore.meetings ?
+                     <div style={{marginTop: '10vw'}}>
+                        <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                     : !props.MeetingsStore.meetings.length ?
+                     <div  style={{marginTop: '10vw' , color:'var(--custom-blue)' , fontSize:'2em'}}>
+                         לא נמצאו מפגשים המתאימים לחיפוש שלך
+                      </div>
+                     
+                      :null
+                     }
 
                 {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings &&
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -238,27 +267,6 @@ const ListOfMeetingsUser = (props) => {
                             className="loadMore-meetings grow">טען עוד</div>
                     </div>}
             </div>
-            {/* <input
-                        type="time"
-                        className='inputStyle'
-                        style={{ marginRight: "2vh" }}
-                        // onChange={props.CreateMeetingStore.changeMeetingTime}
-                        // value={props.CreateMeetingStore.meetingDetails.time}
-                        autoComplete="off"
-                        placeholder="שעה"
-                    /> */}
-
-            {/* <input
-                type="text"
-                className='inputStyle margin-right-text'
-                onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                value={props.CreateMeetingStore.meetingDetails.maxParticipants}
-                autoComplete="off"
-                placeholder="מספר משתתפים מקסימלי"
-            /> */}
-
-
-
         </div>
 
     );

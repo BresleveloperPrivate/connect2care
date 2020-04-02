@@ -12,7 +12,7 @@ module.exports = function (meetings) {
     }
 
 
-    meetings.getMeetingsUser = (search, filters, time, options, cb) => {
+    meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
 
         let resArray = []
         meetings.find({ where: filters, include: [{ relation: "fallens" }, { relation: "meetingOwner" }] }, (err, response) => {
@@ -20,17 +20,21 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
                 if (response.length) {
-                    if (search || time.length) {
+                    if (search || time.length || isAvailable) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time.length) {
-                                console.log(time[0], Number(res.time.replace(':', '')))
+                            if (time.length) {                      
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if (!search) {
+                                        if(!search && !isAvailable){
                                             resArray.push(res)
                                             moveToSearch = false
+                                        }
+                                        else if(!search && isAvailable){
+                                            if(res.participants_num < res.max_participants){
+                                                resArray.push(res)
+                                            }
                                         }
 
                                     } else {
@@ -39,6 +43,18 @@ module.exports = function (meetings) {
                                 } catch (err) {
                                     console.log(err)
                                 }
+                            }
+                            else if(isAvailable){
+                                console.log(res.participants_num , res.max_participants)
+                                if(!search){
+                                    if(res.participants_num < res.max_participants){
+                                        resArray.push(res)
+                                    }
+                                }else{
+                                    moveToSearch = false
+                                }
+                                
+                                
                             }
                             if (search && moveToSearch) {
                                 if (res.name.includes(search) || search.includes(res.name)) {
@@ -182,6 +198,7 @@ module.exports = function (meetings) {
             { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
             { arg: 'time', type: 'array' },
+            { arg: 'isAvailable', type: 'boolean' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }

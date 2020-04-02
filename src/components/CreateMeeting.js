@@ -88,84 +88,86 @@ const CreateMeeting = (props) => {
         if (!props.CreateMeetingStore.meetingDetails.fallens)
             props.CreateMeetingStore.changeFallens(0)
 
-        return <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
-            props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
-                return <div key={index} className="margin-right-text d-flex align-items-start" style={{ width: "65%", marginBottom: "4vh" }}>
-                    <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
-                    <div style={{ width: "70%" }}>
-                        {props.CreateMeetingStore.fallenName && <div className="textAboveInput" styel={{ width: "95%" }}>שם החלל</div>}
-                        <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
-                            <input
-                                type="text"
+        return (
+            <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
+                props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
+                    let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
+                    return (
+                        <div key={index} className="containFallenDetails">
+                            {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+                            <div style={window.innerWidth <= 550 ? {} : { width: "70%" }}>
 
-                                style={{ all: "unset", width: "calc(100% - 20px)" }}
-                                onChange={props.CreateMeetingStore.changeFallenName}
-                                value={props.CreateMeetingStore.fallenName}
-                                autoComplete="off"
-                                placeholder="שם החלל"
-                            />
-                            <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
+                                {props.CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
+                                <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
+                                    <input
+                                        type="text"
+                                        style={{ all: "unset", width: "calc(100% - 20px)" }}
+                                        onChange={props.CreateMeetingStore.changeFallenName}
+                                        value={props.CreateMeetingStore.fallenName}
+                                        autoComplete="off"
+                                        placeholder="שם החלל"
+                                    />
+                                    <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
+                                </div>
+
+                                <div className="searchButton pointer" onClick={() => searchFallen(Number(fallen))}>חפש</div>
+
+                                {props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                                <input
+                                    type="text"
+                                    className='inputStyle dateContainer'
+                                    disabled
+                                    style={{ width: "95%", backgroundColor:"white" }}
+                                    value={props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate}
+                                    autoComplete="off"
+                                    placeholder="תאריך נפילה"
+                                />
+
+                                {props.CreateMeetingStore.meetingDetails.relationship && <div className="textAboveInput">קרבה שלי אל החלל</div>}
+                                <Select
+                                    selectTextDefault='קרבה שלי אל החלל'
+
+                                    arr={myCloseToTheFallen.map((name) => {
+                                        return { option: name }
+                                    })}
+                                    // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
+                                    width='95%'
+                                    className='inputStyle p-0'
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
+
+                                {(props.CreateMeetingStore.meetingDetails.relationship !== "אח" &&
+                                    props.CreateMeetingStore.meetingDetails.relationship !== "הורים" &&
+                                    props.CreateMeetingStore.meetingDetails.relationship !== "קורבי משפחה" &&
+                                    props.CreateMeetingStore.meetingDetails.relationship !== "חבר" &&
+                                    props.CreateMeetingStore.meetingDetails.relationship !== null) && <input
+                                        type="text"
+                                        className='inputStyle'
+                                        style={{ width: "95%" }}
+                                        value={props.CreateMeetingStore.otherRelationship}
+                                        onChange={props.CreateMeetingStore.setOtherRelationship}
+                                        autoComplete="off"
+                                        placeholder="קרבה שלי אל החלל"
+                                    />}
+                            </div>
+
+                            <div className={findImage && dissmisedPic ? "position-relative" : "candleImg"} >
+
+                                <img src={findImage && dissmisedPic ? props.CreateMeetingStore.fallenDetails[fallen].image : grayCandle}
+                                    alt="grayCandle" style={
+                                        findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
+                                {findImage && dissmisedPic && <FontAwesomeIcon
+                                    color="#812863"
+                                    className={"pointer cancelPicture"}
+                                    onClick={() => setDissmisedPic(false)}
+                                    icon={["fas", "times-circle"]}
+                                />}
+                            </div>
                         </div>
-                        <div className="searchButton pointer" onClick={() => searchFallen(Number(fallen))}>חפש</div>
-                        {props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
-                        <input
-                            type="text"
-                            className='inputStyle'
-                            style={{ width: "95%" }}
-                            value={props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].fallingDate}
-                            autoComplete="off"
-                            placeholder="תאריך נפילה"
-                        />
-                        {props.CreateMeetingStore.meetingDetails.relationship && <div className="textAboveInput">קרבה שלי אל החלל</div>}
-                        <Select
-                            selectTextDefault='קרבה שלי אל החלל'
-
-                            arr={myCloseToTheFallen.map((name) => {
-                                return { option: name }
-                            })}
-                            // selectedText={props.CreateMeetingStore.meetingDetails.relationship}
-                            width='95%'
-                            className='inputStyle p-0'
-                            onChoseOption={(value) => { props.CreateMeetingStore.changeFallenRelative(value.option) }} />
-
-                        {(props.CreateMeetingStore.meetingDetails.relationship !== "אח" &&
-                            props.CreateMeetingStore.meetingDetails.relationship !== "הורים" &&
-                            props.CreateMeetingStore.meetingDetails.relationship !== "קורבי משפחה" &&
-                            props.CreateMeetingStore.meetingDetails.relationship !== "חבר" &&
-                            props.CreateMeetingStore.meetingDetails.relationship !== null) && <input
-                                type="text"
-                                className='inputStyle'
-                                style={{ width: "95%" }}
-                                value={props.CreateMeetingStore.otherRelationship}
-                                onChange={props.CreateMeetingStore.setOtherRelationship}
-                                autoComplete="off"
-                                placeholder="קרבה שלי אל החלל"
-                            />}
-                    </div>
-
-                    <div style={findImage && dissmisedPic ? { position: "relative" } : {
-                        backgroundColor: "#EEEEEE",
-                        padding: "5.8vh",
-                        borderRadius: "4px"
-                    }} >
-
-                        <img src={findImage && dissmisedPic ? props.CreateMeetingStore.fallenDetails[fallen].image : grayCandle}
-                            alt="grayCandle" style={
-                                findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
-                        {findImage && dissmisedPic && <FontAwesomeIcon
-                            color="#812863"
-                            className={"pointer cancelPicture"}
-                            onClick={() => setDissmisedPic(false)}
-                            icon={["fas", "times-circle"]}
-                        />}
-                    </div>
-                </div>
-            })
-        }
-            <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
-        </div>
-
+                    )
+                })
+            }
+                <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
+            </div>)
     }
 
     return (
@@ -173,6 +175,7 @@ const CreateMeeting = (props) => {
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
+
                 {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
                 <input
                     type="text"
@@ -246,8 +249,9 @@ const CreateMeeting = (props) => {
                     <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                     <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                 </div>
-                <div style={{ width: "65%" }} className="d-flex margin-right-text align-items-end justify-content-between">
-                    <div style={{ width: "80%" }}>
+
+                <div className="containDateAndTime">
+                    <div style={window.innerWidth > 550 ? { width: "80%" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                         <Select
                             selectTextDefault='תאריך'
@@ -259,10 +263,11 @@ const CreateMeeting = (props) => {
                             className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
                     </div>
-                    <div style={{ width: "30%" }}>
-                        {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
 
-                        <div className='inputStyle d-flex align-items-center' style={{ marginRight: "2vh", width: "calc(100% - 2vh)" }}>
+                    <div style={window.innerWidth > 550 ? { width: "30%", marginRight: "2vh" } : {}}>
+
+                        {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
+                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { width: "calc(100% - 2vh)" } : {}}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <CssTimePicker
                                     clearable
@@ -278,8 +283,8 @@ const CreateMeeting = (props) => {
                         </div>
                     </div>
                 </div>
-                {props.CreateMeetingStore.meetingDetails.maxParticipants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
 
+                {props.CreateMeetingStore.meetingDetails.maxParticipants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
                 <input
                     type="text"
                     className='inputStyle margin-right-text'
@@ -288,16 +293,17 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-                <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-end">
+
+                <div className="containCreateMettingButton">
                     <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
 
-            {!pressOnCancel &&
-                <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
-                    <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "23%", top: "14vh", cursor: "pointer" }} />
-                    <br />
-                    <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: "55px" } : { marginBottom: "5vh" }} />
+
+            {(!pressOnCancel || dataForFallen) && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
+                <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }} />
+                <div id="containDetailsSideBar">
+                    <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: window.innerWidth > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
 
                     {!dataForFallen ? <div className="textSide">
                         <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
@@ -328,11 +334,6 @@ const CreateMeeting = (props) => {
                                                             <div className="divIsOpen">
                                                                 {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
                                                             </div>
-                                                            {/* </div> */}
-                                                            <div className="divIsOpen">
-                                                                {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
-                                                            </div>
-
                                                         </div>
                                                     )
 
@@ -346,9 +347,10 @@ const CreateMeeting = (props) => {
                         </div>
                     }
                 </div>
+            </div>
             }
-        </div>
-    );
+
+        </div>)
 }
 
 export default inject('CreateMeetingStore')(observer(CreateMeeting));

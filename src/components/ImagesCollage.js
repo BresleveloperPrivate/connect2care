@@ -19,7 +19,7 @@ class HowItWorks extends Component {
 
     componentDidMount = async () => {
 
-        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"32"}', {
+        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
             method: 'GET',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
@@ -28,11 +28,11 @@ class HowItWorks extends Component {
         } else {
             let i = 0
             let meeting = 0
-            while (i < 32) {
+            while (constImages.length < 32) {
                 if (meetings[meeting]) {
                     for (let j = 0; j < meetings[meeting].fallens.length; j++) {
 
-                        if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id)) {
+                        if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id) && meetings[meeting].fallens[j].image_link) {
                             constImages.push(
                                 {
                                     meetingId: meetings[meeting].id,
@@ -41,14 +41,14 @@ class HowItWorks extends Component {
                                     alt: meetings[meeting].fallens[j].firstName
                                 }
                             )
-                            i++
+                            // i++
                         }
                     }
                     meeting++
                 }
                 else {
                     constImages.push(null)
-                    i++
+                    // i++
                 }
             }
 
