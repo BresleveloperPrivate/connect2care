@@ -10,6 +10,7 @@ import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
+import greenBackground from '../icons/greenBackground.png'
 
 //pass me this: styleObject = {
 //buttonWidth: '?rem'
@@ -19,6 +20,8 @@ import SendEmail from './sendEmail.jsx';
 //} Make sure these are strings!
 
 export default function Sharing(props) {
+
+  console.log(props.data)
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [openEmail, setOpenEmail] = React.useState(false);
@@ -60,7 +63,12 @@ export default function Sharing(props) {
   }
 
   const shareWithWhatsApp = async () => {
-    const text = `הי, נרשמתי למאגר מתנדבים של המדינה. עושים הכל לסייע בתקופה של הקורונה, זה מהיר ונגיש לכל העמותות כך שלא צריך להרשם במליון מקומות… תצטרף גם? מצא 20 חברים ושלח להם את הקישור הבא:`
+    let name = 'דוד'
+    const text = 
+
+    `
+היי, אתה מוזמן למפגש Zoom לזכרו של ${props.data.name} ז"ל
+    `
     // const linkText = text + " " + this.state.inviteLink;
     const linkText = text +  "https://github.com/";
     const href = `whatsapp://send?text=${linkText}`;
@@ -71,7 +79,50 @@ export default function Sharing(props) {
   const shareWithEmail = async (passedEmail) => {
     console.log('CHECK: ', passedEmail);
     let senderName = "מתחברים וזוכרים"
-    let sendOptions = { to: passedEmail, subject: 'dsfdsfds', html: '<h1>בדיקה</h1>' }
+    let string = `הוזמנת להשתתף במפגש Zoom - מתחברים וזוכרים`
+    let fallens = ''
+    for (let i = 0 ; i< props.data.fallens.length ; i++){
+      if(i === 0){
+        fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`
+      }
+      else if(i=== props.data.fallens.length - 1){
+        fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`
+      }
+      else{
+        fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`
+      }
+    }
+    let sendOptions = { to: passedEmail, subject: string, html: 
+    `
+    <div style='width: 100%; max-width: 400px; height: fit-content ;  padding-bottom: 30px;
+     background-color: #082551; direction: rtl'>
+    <div style='display: flex ; width: 100%' >
+      <div style='width: 100%;' >
+        <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+      </div>
+      <div style='width: 30%;' >
+        <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+      </div>
+    </div>
+    <div style='color: white; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; text-align: center;'> 
+    היי, מחכים לך במפגש Zoom שלנו לזכר <br>
+    <div style='font-size: 27px'><strong>${fallens}. </strong></div>
+    </div>
+
+    <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting/${props.data.meetingId}' >
+     <div style=' margin: auto;
+      width: fit-content;
+       background-color: #19A099 ;
+        padding: 5px 15px;
+         border-radius: 100px ;
+          font-size: 15px;
+           color: white;
+           margin-top: 40px;
+           '  >לפרטים נוספים והצטרפות למפגש </div>
+      </a>
+    
+    </div>
+    ` }
     let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
