@@ -13,11 +13,16 @@ class MeetingsStore {
     loadMoreButton = false
     meetings = false
     time = false
+    availableOnly = false
 
     changeSearchInput = (event) => {
         ////if match...
 
         this.searchInput = event.target.value
+    }
+
+    changeAvailableOnly = (isAvailable)=>{
+        this.availableOnly = isAvailable
     }
 
     changeMeetingTime = (time) => {
@@ -71,7 +76,7 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter , time: this.time || [] })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter , time: this.time || [] , isAvailable: this.availableOnly})
         })
         if (err) {
             console.log(err)
@@ -80,6 +85,7 @@ class MeetingsStore {
             let id;
             if (!meetings.length) {
                 this.loadMoreButton = false
+                this.meetings = []
                 return
             }
             if (meetings.length <= 4) {
@@ -104,6 +110,7 @@ class MeetingsStore {
 decorate(MeetingsStore, {
     loadMoreButton: observable,
     search: action,
+    availableOnly:observable,
     time: observable,
     searchInput: observable,
     fallenRelative: observable,
@@ -116,7 +123,8 @@ decorate(MeetingsStore, {
     changeMeetingLanguage: action,
     changeMeetingDate: action,
     meetings: observable,
-    changeMeetingTime: action
+    changeMeetingTime: action,
+    changeAvailableOnly:action,
 });
 
 export default new MeetingsStore();
