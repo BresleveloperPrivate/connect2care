@@ -43,7 +43,7 @@ const MeetingsList = (props) => {
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen'>
                                         {meeting.fallens && meeting.fallens.map((fallen, index) =>
-                                            <span key={index}>{fallen.first_name + ' ' + fallen.last_name + (index === (meeting.fallens.length - 1) ? '' : ', ')}</span>
+                                            <span key={index}>{fallen.name + (index === (meeting.fallens.length - 1) ? '' : ', ')}</span>
                                         )}
                                     </td>
                                     <td className='owner'>{meeting.meetingOwner && meeting.meetingOwner.name}</td>
@@ -73,7 +73,9 @@ const MeetingsList = (props) => {
                 </tbody>
             </table>
             {props.ManagerStore.readMore ?
-                <div onClick={() => {
+                <div 
+                className='readMore'
+                onClick={() => {
                     (async () => {
                         await props.ManagerStore.fetchMeetingsDashboard({}, true)
                     })()

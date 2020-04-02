@@ -15,6 +15,7 @@ const Filters = (props) => {
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
     const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
+    
     const DATES = [{ option: 'הכל' }, { option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
     const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
     const IS_OPEN_ARR = [{ option: 'הכל' }, { option: 'פתוח' }, { option: 'סגור' }]
@@ -22,7 +23,7 @@ const Filters = (props) => {
 
     return (
         <div className='filters'>
-            <div style={{ margin: 'unset', padding: '4vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
+            <div style={{ margin: 'unset', padding: '2vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
                 סנן לפי
                 <img style={{ width: '2.5vh', marginRight: '60vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
             </div>
@@ -167,6 +168,7 @@ const Filters = (props) => {
                                     filters.participants.max = splited[0]
                                 }
                             }
+                            setIsFilterOpen(false)
                             props.ManagerStore.fetchMeetingsDashboard(filters)
                         }}>חפש</div>
                 </div>

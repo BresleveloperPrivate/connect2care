@@ -17,6 +17,7 @@ const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
 
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
+const MeetingInfo = loadable(() => import('./dashboard/components/MeetingInfo'));
 const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
 
 class App extends Component {
@@ -38,7 +39,8 @@ class App extends Component {
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/share" exact component={Share} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <PrivateRoute path="/dashboard" compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
+                            <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
+                            <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={MeetingInfo} />
                         </Switch>
                     </div>
                 </Router>

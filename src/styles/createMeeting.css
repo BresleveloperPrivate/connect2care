@@ -15,7 +15,7 @@
 }
 
 .inputStyle{
-    color: #4D4F5C;
+    color: var(--custom-gray);
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
@@ -25,12 +25,11 @@
 }
 
 .textSide{
-    text-align: right;
-    font: normal 30px Assistant;
+    font: normal 25px Assistant;
 }
 
 input[type=radio] {
-    border: 1px solid #4D4F5C;
+    border: 1px solid var(--custom-gray);
     background: url("../icons/checkbox_off_light.svg") no-repeat center center;
     padding: 0.5em;
     margin-left: 1vh;
@@ -49,11 +48,12 @@ input[type=radio]:focus {
 .containInputTextSide{
     background: #19A099 0% 0% no-repeat padding-box;
     box-shadow: 5px 3px 6px #00000029;
-    padding: 6vh 9vh;
+    padding: 4vh 5vh;
     top: 10vh;
     left: 0px;
     color: white;
     height: 90vh;
+    min-width: 340px;
     width: 27%;
 }
 
@@ -132,12 +132,23 @@ input[type=radio]:focus {
 .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after{
     border-bottom: none;
 }
+
 .CreateMeeting .selectInput{
     margin: 1vh 2vh;
 }
 
+.CreateMeeting{
+    text-align: right
+}
+
+.candleImg{
+    background-color: #EEEEEE;
+    padding: 5.8vh;
+    border-radius: 4px;
+}
+
 .CreateMeeting .arrowInput{
-    margin-left: 2vh;
+    margin-left: 2vh !important;
 }
 
 .MuiPickersModal-withAdditionalAction > *:first-child{
@@ -203,6 +214,27 @@ input[type=radio]:focus {
     border-radius: 100%;
 }
 
+.containCreateMettingButton{
+    display: flex;
+    margin-right: 6vw;
+    justify-content: flex-end;
+    width: 65%;
+}
+
+#containDetailsSideBar{
+    padding:2vh
+}
+
+.cancelSideButton{
+    /* position: fixed; */
+    width: 2.5vh;
+    display: block;
+    /* left: 23%; */
+    /* top: 14vh; */
+    cursor: pointer;
+    /* margin-bottom: 2vh; */
+}
+
 .gotItButton{
     background: #FFFFFF 0% 0% no-repeat padding-box;
     position: fixed;
@@ -215,5 +247,120 @@ input[type=radio]:focus {
     width: fit-content;
     color: #082551;
     padding: 0.2vh 1vh;
-    left: 9vh;
+    left: 7vh;
+}
+
+.containFallenDetails{
+    margin-bottom: 4vh
+}
+
+@media screen and (min-width: 551px){
+    .containFallenDetails{
+        display: flex;
+        align-items: flex-start;
+        width: 65%;
+        margin-right: 6vw;
+    }
+
+    .containDateAndTime{
+        width: 65%;
+        display: flex;
+        margin-right: 6vw;
+        align-items: flex-end;
+        justify-content: space-between; 
+    }
+}
+
+@media screen and (max-width: 550px){
+    .createMeetingHeadLine{
+        font: Bold 25px/33px Assistant;
+    }
+    .createMeetingSecondSentence{
+        margin: 0 6vw;
+        font: normal 20px/26px Assistant;
+        max-width: calc( 100% - 12vw);
+    }
+
+    .candleImg{
+        width: fit-content;
+        margin-right: 6vw;
+    }
+    
+    .inputStyle{
+        width: calc( 100% - 12vw) !important;
+        margin-left: 6vw;
+        font-size: 18px;
+        margin-right: 6vw;
+    }
+
+    .containFallenDetailsSide{
+        width: 100%;
+    }
+
+    .searchButton{
+        margin-left: 6vw;
+    }
+
+    .radioButtonContainer{
+        margin-left: 6vw;
+        justify-content: space-around;
+    }
+    
+    input[type=radio]{
+        margin-left: 2vh;
+    }
+
+    .createMeetingButton{
+        width: 30vh;
+        margin-bottom: 8vh;
+    }
+
+    .containCreateMettingButton{
+        justify-content: center;
+        width: unset;
+        margin-right: unset;
+    }
+
+    .containDateAndTime .textAboveInput, .containFallenDetails .textAboveInput{
+        margin-right: 6vw;
+    }
+
+    .gotItButton{
+        bottom: 16vh;
+        left: 5vh;
+    }
+
+    .containInputTextSide{
+        min-height: 60vh;
+        max-height: 60vh;
+        width: unset;
+        overflow-y: auto;
+        top: 26vh;
+        text-align: center;
+        padding: 5vh 6vh;
+        right: 2vh;
+        left: 2vh;
+    }
+
+    .containFallenDetailsSide{
+        font-size: 18px;
+        text-align: right;
+        padding: 1vh 0;
+    }
+
+    .cancelSideButton{
+        left: unset;
+        right: 5vh;
+        top: 29vh;
+        width: 2.5vh;
+    }
+
+    #containDetailsSideBar{
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    .textSide{
+        font: normal 18px Assistant;
+    }
 }

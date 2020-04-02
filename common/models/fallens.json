@@ -52,29 +52,14 @@
                 "nullable": "N"
             }
         },
-        "first_name": {
+        "name": {
             "type": "String",
             "required": false,
             "length": 50,
             "precision": null,
             "scale": null,
             "mysql": {
-                "columnName": "first_name",
-                "dataType": "varchar",
-                "dataLength": 50,
-                "dataPrecision": null,
-                "dataScale": null,
-                "nullable": "N"
-            }
-        },
-        "last_name": {
-            "type": "String",
-            "required": false,
-            "length": 50,
-            "precision": null,
-            "scale": null,
-            "mysql": {
-                "columnName": "last_name",
+                "columnName": "name",
                 "dataType": "varchar",
                 "dataLength": 50,
                 "dataPrecision": null,
