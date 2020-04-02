@@ -19,10 +19,19 @@
     padding: 0 1em;
 }
 
+.availableOnly{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 2%;
+    color: #4D4F5C;
+    font-size: 1.2em;
+}
+
 
 .filter-meeting{
-    width: 18%;
-    margin-right: 3%;
+    width: 15%;
+    margin-right: 2.3%;
 }
 
 .filterBy{
@@ -205,10 +214,10 @@
     border: 1px solid var(--custom-blue);
 }
 
-.comment{
+/* .comment{
     color: var(--custom-blue);
     padding-top: 0.3em;
-}
+} */
 
 @media screen and (max-width: 800px){
     .mainPage-meetings{
