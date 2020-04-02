@@ -15,7 +15,7 @@ const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
         <div className="meetingFallen">
             <Avatar src={image_link} className={avatar} variant="square" />
             <div className="meetingFallenDescription">
-                <img src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
+                <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
                 <div className="fallenDate">{falling_date}</div>
             </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
 import Button from '@material-ui/core/Button';
@@ -12,10 +12,10 @@ import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
 
 //pass me this: styleObject = {
-    //buttonWidth: '?rem'
-    //fontSize: '?rem'
-    //imageWidth: '?px'
-    //imageHeight: '?px'
+//buttonWidth: '?rem'
+//fontSize: '?rem'
+//imageWidth: '?px'
+//imageHeight: '?px'
 //} Make sure these are strings!
 
 export default function Sharing(props) {
@@ -28,9 +28,9 @@ export default function Sharing(props) {
     setOpenEmail(true);
   };
 
-  const handleCloseEmail = () => {
-    setOpenEmail(false);
-  };
+  // const handleCloseEmail = () => {
+  //   setOpenEmail(false);
+  // };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,14 +62,14 @@ export default function Sharing(props) {
   const shareWithWhatsApp = async () => {
     const text = `הי, נרשמתי למאגר מתנדבים של המדינה. עושים הכל לסייע בתקופה של הקורונה, זה מהיר ונגיש לכל העמותות כך שלא צריך להרשם במליון מקומות… תצטרף גם? מצא 20 חברים ושלח להם את הקישור הבא:`
     // const linkText = text + " " + this.state.inviteLink;
-    const linkText = text + " " + "https://github.com/";
+    const linkText = text +  "https://github.com/";
     const href = `whatsapp://send?text=${linkText}`;
     window.location.href = href;
     handleClose();
   };
 
   const shareWithEmail = async (passedEmail) => {
-      console.log('CHECK: ', passedEmail);
+    console.log('CHECK: ', passedEmail);
     let senderName = "מתחברים וזוכרים"
     let sendOptions = { to: passedEmail, subject: 'dsfdsfds', html: '<h1>בדיקה</h1>' }
     let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
@@ -91,10 +91,10 @@ export default function Sharing(props) {
   };
 
   return (
-    <div>
-      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{width: styleObject.buttonWidth, fontSize: styleObject.fontSize}}>
-      {/* <div className="sharingBox"> */}
-        <img src={shareIt} width={styleObject.imageWidth} height={styleObject.imageHeight} />
+    <div className="pointer">
+      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{ width: styleObject.buttonWidth, fontSize: styleObject.fontSize }}>
+        {/* <div className="sharingBox"> */}
+        <img src={shareIt}  alt="alt" width={styleObject.imageWidth} height={styleObject.imageHeight} />
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
       </Button>
@@ -109,13 +109,13 @@ export default function Sharing(props) {
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
         <MenuItem onClick={copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
-        
+
         <SendEmail openEmail={openEmail}
-      setOpenEmail={setOpenEmail}
-      shareWithEmail={shareWithEmail}/>
+          setOpenEmail={setOpenEmail}
+          shareWithEmail={shareWithEmail} />
       </Menu>
 
-     
+
     </div>
   );
 }

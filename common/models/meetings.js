@@ -24,15 +24,8 @@ module.exports = function (meetings) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time) {
-                                console.log('time', time)
-                                ///אם אין חיפוש והזמן תואם  
-
-                                ///פילטר איפה שהזמן תורם
-
-                                //אם יש לי זמן ואין לי חיפוש אז תעשה פוש למערך התוצאות עם return
-                                //אם יש לי זמן ויש לי חיפוש 
-                                console.log(time[0], Number(res.time.replace(':', '')))
+                            if (time.length) {                      
+                                console.log(time[0] , Number(res.time.replace(':', '')))
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
                                         if (!search) {
@@ -211,12 +204,22 @@ module.exports = function (meetings) {
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, cb) => {
         (async () => {
             try {
+                if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
+                if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+
+                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num } = meeting;
-                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "הפגישה מלאה" }, null); return; }
+                const { max_participants, participants_num, isOpen } = meeting;
+
+                if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
+                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
 
                 const person = await people.create({ name, email, phone });
                 await people_meetings.create({ person: person.id, meeting: meetingId });

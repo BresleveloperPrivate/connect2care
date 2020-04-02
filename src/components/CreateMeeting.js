@@ -293,52 +293,61 @@ const CreateMeeting = (props) => {
                 </div>
             </div>
 
-            {!pressOnCancel && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
-                <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "23%", top: "14vh", cursor: "pointer" }} />
-                <br />
-                <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: "55px" } : { marginBottom: "5vh" }} />
+            {!pressOnCancel &&
+                <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
+                    <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "23%", top: "14vh", cursor: "pointer" }} />
+                    <br />
+                    <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: "55px" } : { marginBottom: "5vh" }} />
 
-                {!dataForFallen ? <div className="textSide">
-                    <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
-                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
-                    <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
-                 לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
-                </div>
+                    {!dataForFallen ? <div className="textSide">
+                        <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
+                        <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
+                        <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
+                            לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
+                    </div> :
 
-                    : <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
-                        if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
-                            return (
-                                <div>
-                                    <div style={{ fontSize: "30px" }}>
-                                        קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
-                                    </div>
-                                    {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
-                                        props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
+                        <div>
+                            {props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
+                                if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
+                                    return (
+                                        <div>
+                                            <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
+                                                קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
+                                            </div>
+                                            {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
+                                                props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
 
-                                            return (
-                                                <div className="containFallenDetails">
-                                                    <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                    <div >מנחה: {meeting.meetingOwner.name}</div>
-                                                    <div style={{ fontSize: "18px" }} className="d-flex">
-                                                        <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
-                                                        <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
-                                                    </div>
-                                                    <div className="divIsOpen">
-                                                        {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
-                                                    </div>
-                                                </div>
-                                            )
+                                                    return (
+                                                        <div className="containFallenDetailsSide">
+                                                            <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
+                                                            <div >מנחה: {meeting.meetingOwner.name}</div>
+                                                            <div style={{ fontSize: "18px" }} className="d-flex">
+                                                                <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
+                                                                <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
+                                                            </div>
+                                                            <div className="divIsOpen">
+                                                                {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                            </div>
+                                                            {/* </div> */}
+                                                            <div className="divIsOpen">
+                                                                {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                            </div>
 
-                                        })
-                                    }
+                                                        </div>
+                                                    )
 
-                                </div>)
-                    })
+                                                })
+                                            }
+
+                                        </div>
+                                    )
+                            })}
+                            <div className="gotItButton pointer" onClick={() => setPressOnCancel(true)}>הבנתי</div>
+                        </div>
                     }
-                        <div className="gotItButton pointer" onClick={() => setPressOnCancel(true)}>הבנתי</div>
-                    </div>}
-            </div>}
-        </div >
+                </div>
+            }
+        </div>
     );
 }
 
