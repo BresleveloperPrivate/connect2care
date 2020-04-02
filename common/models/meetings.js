@@ -24,14 +24,7 @@ module.exports = function (meetings) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time) {
-                                console.log('time' , time)
-                                ///אם אין חיפוש והזמן תואם  
-
-                                ///פילטר איפה שהזמן תורם
-
-                                //אם יש לי זמן ואין לי חיפוש אז תעשה פוש למערך התוצאות עם return
-                                //אם יש לי זמן ויש לי חיפוש 
+                            if (time.length) {                      
                                 console.log(time[0] , Number(res.time.replace(':', '')))
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {

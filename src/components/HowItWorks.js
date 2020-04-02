@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/howItWorks.css'
 
-import candle from '../icons/candle.svg' 
+import candle from '../icons/candle.svg'
 import Step1 from '../icons/step1.svg'
 import Step2 from '../icons/step2.svg'
 import Step3 from '../icons/step3.svg'
@@ -30,19 +30,19 @@ class HowItWorks extends Component {
                         <div className='containSteps'>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step1} width='100%' />
+                                    <img alt="alt" src={Step1} width='100%' />
                                 </div>
                                 פותחים מפגש חדש
                                 </div>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step2} width='100%' />
+                                    <img alt="alt" src={Step2} width='100%' />
                                 </div>
                                 משתפים את כולם
                                 </div>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step3} width='100%' />
+                                    <img alt="alt" src={Step3} width='100%' />
                                 </div>
                                 משתתפים במפגש הכנה עם
                                 <strong>האחים שלנו</strong>
@@ -56,20 +56,20 @@ class HowItWorks extends Component {
                         <div className='containSteps'>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step4} width='100%' />
+                                    <img  alt="alt"src={Step4} width='100%' />
                                 </div>
                                 מחפשים מפגש מתאים
 
                                 </div>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step5} width='100%' />
+                                    <img alt="alt" src={Step5} width='100%' />
                                 </div>
                                 נרשמים באתר
                                 </div>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img src={Step6} width='100%' />
+                                    <img alt="alt" src={Step6} width='100%' />
                                 </div>
                                 משתפים חברים
                                 </div>
@@ -87,7 +87,7 @@ class HowItWorks extends Component {
                             <div className='arrow-left-gray'></div>
                         </div>
                         <div style={{ flexGrow: 0.8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <div className='containImageStep'><img width='100%' src={Step7} /></div>
+                            <div className='containImageStep'><img alt="alt" width='100%' src={Step7} /></div>
                         </div>
                         <div className='resultText'>
                             מתחברים לקישור של Zoom,<br />
@@ -95,8 +95,8 @@ class HowItWorks extends Component {
                       </div>
                         <div className='remember'>וזוכרים.</div>
 
-                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' , marginTop:'2vh' }}>
-                            <div className='containImageStep'><img width='40%' src={candle} /></div>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2vh' }}>
+                            <div className='containImageStep'><im alt="alt" width='40%' src={candle} /></div>
                         </div>
                     </div>
                 </div>

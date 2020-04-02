@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import person from '../icons/person.svg'
+import lock from '../icons/blue-lock.svg'
 import tell from '../icons/tell.svg'
 import Select from './Select.js'
 import Auth from '../modules/auth/Auth'
@@ -10,6 +10,7 @@ import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
+import participants from '../icons/participants.png'
 
 const ListOfMeetingsUser = (props) => {
 
@@ -123,17 +124,6 @@ const ListOfMeetingsUser = (props) => {
                         }}
                     />
 
-                 
-                    {/* <div
-                        style={{ marginRight: '2vw' }}
-                        className='button-meetings'
-                        onClick={() => {
-                            props.MeetingsStore.search()
-                        }}>
-                        סנן
-                    </div> */}
-
-
                 </div>
 
 
@@ -143,20 +133,23 @@ const ListOfMeetingsUser = (props) => {
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div   onClick={meeting.isOpen ? ()=>{
+                            <div   onClick={ meeting.participants_num < meeting.max_participants ? ()=>{
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }: ()=>{}}>
                                 <ImageOfFallen
-                               
                                 className='imageOfFallen'
                                     array={['https://www.ynet.co.il/PicServer5/2019/03/28/9151154/915115101000889801302no.jpg',
                                         'https://img.mako.co.il/2011/05/23/567895_c.jpg',
                                         'https://img.mako.co.il/2011/05/23/567895_c.jpg',
-                                    ]} />
+                                    ]}
+                                    
+                                    isOpen = {meeting.participants_num < meeting.max_participants}
+                                    />
                             </div>
                             <div
+                            style={{cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto'}}
                              className='meetingCard'
-                             onClick={meeting.isOpen ? ()=>{
+                             onClick={meeting.participants_num < meeting.max_participants  ? ()=>{
                                 props.history.push(`/meeting/${meeting.id}`)
                             }: ()=>{}}
                              >
@@ -204,15 +197,32 @@ const ListOfMeetingsUser = (props) => {
                                        {meeting.meetingOwner.name}  | {meeting.relationship}
                                          </div>
                                     <div className='meetingDescription'>
-{meeting.description}
+                                            {meeting.description}
                                     </div>
                                 </div>
-                                <div>
-                                    {/* //div -> image
-// join */}
+                              
+                                <div className='leftPartOfMeetingCard'>
+                                    
+                                    <div className='participants'>
+                                        <img width='100%' height='100%' src={participants} />
+                                        <div className='numberOfParticipants'>{meeting.participants_num}</div>
+                                    </div>
+                                    <div className={!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 
+                                    {!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 
+                                    <div style={{height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}}>
+                                        <img height='100%' width='100%' src={lock}/>
+                                    </div> 
+                                    : null }
+                                    {!meeting.isOpen ? 'מפגש סגור' : meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : 'הצטרף למפגש' }
+                                     
+                                      </div>
+                                     {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>}
                                 </div>
 
                             </div>
+
+
+
                         </div>
                     )
                 }) : null}
