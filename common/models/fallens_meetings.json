@@ -33,16 +33,15 @@
         }
     },
     "properties": {
-        "id": {
+        "fallen": {
             "type": "Number",
             "required": false,
             "length": null,
             "precision": 10,
             "scale": 0,
-            "generated": true,
             "id": 1,
             "mysql": {
-                "columnName": "id",
+                "columnName": "fallen",
                 "dataType": "int",
                 "dataLength": null,
                 "dataPrecision": 10,
@@ -50,33 +49,19 @@
                 "nullable": "N"
             }
         },
-        "fallen": {
-            "type": "Number",
-            "required": false,
-            "length": null,
-            "precision": null,
-            "scale": null,
-            "mysql": {
-                "columnName": "fallen",
-                "dataType": "int",
-                "dataLength": null,
-                "dataPrecision": null,
-                "dataScale": null,
-                "nullable": "N"
-            }
-        },
         "meeting": {
             "type": "Number",
             "required": false,
             "length": null,
-            "precision": null,
-            "scale": null,
+            "precision": 10,
+            "scale": 0,
+            "id": 1,
             "mysql": {
                 "columnName": "meeting",
                 "dataType": "int",
                 "dataLength": null,
-                "dataPrecision": null,
-                "dataScale": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
                 "nullable": "N"
             }
         },

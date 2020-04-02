@@ -47,6 +47,7 @@ class MeetingsStore {
     }
 
     changeMeetingDate = (date) => {
+        console.log(date)
         if (date === 'תאריך המפגש') {
             this.date = false
             return
@@ -65,6 +66,8 @@ class MeetingsStore {
             this.meetings = false
         }
 
+        console.log(getMore)
+
         let filter = {
             and: [
                 getMore ? { id: { gt: this.lastId } } : {},
@@ -73,6 +76,8 @@ class MeetingsStore {
                 this.fallenRelative ? { relationship: this.fallenRelative } : {}
             ]
         }
+
+        console.log(filter)
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',

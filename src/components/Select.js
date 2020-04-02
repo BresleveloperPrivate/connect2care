@@ -33,7 +33,7 @@ const Select = (props) => {
                                         props.onChoseOption(value)
                                         setSelectedOption(value.option)
                                         if (props.fetch) {
-                                            props.fetch(value)
+                                            props.fetch()
                                         }
                                     }
 

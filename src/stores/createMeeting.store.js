@@ -1,13 +1,13 @@
 import { observable, decorate, action } from 'mobx';
 import Auth from '../modules/auth/Auth'
 
+
 class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
     meetingDetailsOriginal = {
         name: null,
         description: null,
-        relationship: null,
         owner: {
             name: null,
             phone: "",
@@ -18,15 +18,13 @@ class CreateMeetingStore {
         date: null,
         time: "00:00",
         maxParticipants: "",
-        fallens: null,
+        fallens: [{ id: 1, relative: null }],
         zoomId: 0,
-        error: null
     }
 
     meetingDetails = {
         name: null,
         description: null,
-        relationship: null,
         owner: {
             name: null,
             phone: "",
@@ -37,11 +35,11 @@ class CreateMeetingStore {
         date: null,
         time: "00:00",
         maxParticipants: "",
-        fallens: [1],
+        fallens: [{ id: 1, relative: null }],
         zoomId: 0,
-        error: null
     }
-    otherRelationship = null;
+    error = null;
+    otherRelationship = [{ id: 1, relative: null }];
     meetingId = -1;
 
     changeMeetingName = (e) => {
@@ -66,14 +64,18 @@ class CreateMeetingStore {
 
     changeFallens = (index, number = null) => {
         if (this.meetingDetails.fallens === null) {
-            this.meetingDetails.fallens = [index]
+            this.meetingDetails.fallens = [{ id: index, relative: null }]
+            this.otherRelationShip = [{ id: index, relative: null }]
         }
         else if (this.meetingDetails.fallens.length >= index) {
-            this.meetingDetails.fallens[index] = number
+            this.meetingDetails.fallens[index] = { id: number, relative: null }
+            this.otherRelationShip = [{ id: number, relative: null }]
         }
-        else this.meetingDetails.fallens.push(index)
+        else {
+            this.meetingDetails.fallens.push({ id: number, relative: null })
+            this.otherRelationShip.push({ id: number, relative: null })
+        }
     }
-
 
     changeShortDescription = (e) => {
         this.meetingDetails.description = e.target.value
@@ -83,16 +85,30 @@ class CreateMeetingStore {
         this.meetingDetails.date = date
     }
 
-    setOtherRelationship = (e) => {
-        this.otherRelationShip = e.target.value
+    setOtherRelationship = (e, idFallen) => {
+        if (!this.otherRelationShip || this.otherRelationShip && !this.otherRelationShip.length) {
+            this.otherRelationShip = [{ id: idFallen, relative: e.target.value }]
+            return
+        }
+        else {
+            for (let i = 0; i < this.otherRelationShip.length; i++) {
+                if (this.otherRelationShip[i].id === idFallen)
+                    this.otherRelationShip[i].relative = e.target.value
+            }
+        }
     }
 
     changeFallenName = (e) => {
         this.fallenName = e.target.value
     }
 
-    changeFallenRelative = (option) => {
-        this.meetingDetails.relationship = option
+    changeFallenRelative = (option, index) => {
+        if (this.meetingDetails.fallens) {
+            for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
+                if (this.meetingDetails.fallens[i].id === index)
+                    this.meetingDetails.fallens[i].relative = option
+            }
+        }
     }
 
     changeMeetingFacilitatorName = (e) => {
@@ -133,7 +149,6 @@ class CreateMeetingStore {
         this.meetingDetailsOriginal = {
             name: object.name,
             description: object.description,
-            relationship: object.relationship,
             owner: {
                 name: object.meetingOwner.name,
                 phone: object.meetingOwner.phone,
@@ -150,7 +165,6 @@ class CreateMeetingStore {
         this.meetingDetails = {
             name: object.name,
             description: object.description,
-            relationship: object.relationship,
             owner: {
                 name: object.meetingOwner.name,
                 phone: object.meetingOwner.phone,
@@ -174,6 +188,7 @@ class CreateMeetingStore {
             this.error = err
         }
         if (success) {
+
             this.changeDetailsObjFunc(success[0])
         }
     }
@@ -182,23 +197,73 @@ class CreateMeetingStore {
         this.meetingDetails.time = (event.getHours() < 10 ? '0' : '') + event.getHours() + ":" + (event.getMinutes() < 10 ? '0' : '') + event.getMinutes()
     }
 
-    createNewMeetingPost = async () => {
-        if (this.meetingDetails.date)
-            this.meetingDetails.date = this.meetingDetails.date.split(" ")[0]
-        if (this.otherRelationship)
-            this.meetingDetails.relationship = this.otherRelationship
+    equals = (obj1, obj2) => {
+        if ((obj1 && !obj2) || (!obj1 && obj2)) return false
+        if (obj1 && obj2 && Object.keys(obj1).length !== Object.keys(obj2).length) {
+            return false
+        }
+        for (let i in obj1) {
+            if (typeof obj1[i] === 'object' && typeof obj2[i] === 'object') {
+                if (!this.equals(obj1[i], obj2[i])) return false
+            }
+            else if (obj1[i] !== obj2[i]) return false
+        }
+        return true
+    }
+
+    whatDidntChange = (objToPost, objOriginal) => {
+        let objToreturn = {}
+        for (let i in objToPost) {
+            if (objToPost[i] && objOriginal[i] && typeof objToPost[i] === 'object' && typeof objOriginal[i] === 'object') {
+                if (this.equals(objToPost[i], objOriginal[i])) objToreturn[i] = objToPost[i]
+            }
+            else if (objToPost[i] === objOriginal[i]) objToreturn[i] = objToPost[i]
+        }
+        return objToreturn
+    }
+
+    createNewMeetingPost = async (history) => {
+        let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+        if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
+            beforePostJSON.fallens.filter((fallen) => {
+                checkOtherRelation.filter((other) => {
+                    if (other.id === fallen.id) {
+                        fallen.relative = other.relative
+                    }
+                })
+            })
+        }
+        let zoomId = beforePostJSON.zoomId
+        delete beforePostJSON.zoomId
+        delete this.meetingDetailsOriginal.zoomId
+        let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
+        let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        if (whatDidntChange.length && whatDidntChange1.length) {
+            this.setError("כל השדות צריכים להיות מלאים")
+            return
+        }
+        beforePostJSON.zoomId = zoomId
 
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: this.meetingDetails })
+                body: JSON.stringify({ data: beforePostJSON })
             }, true);
-        if (err)
+        if (err || !success) {
             this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+            return
+        }
         console.log("success", success)
-        console.log("this.meetingDetails", this.meetingDetails)
+        if (history)
+            history.push("/success")
+        //this.successObject = {
+        //  meetingStarter: success.meetingOwner.name,
+        //meetingStory: success.meetingOwner.name,
+        //meetingDate: success.date.
+        //}
     }
 
     setError = (error) => {
