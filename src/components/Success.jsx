@@ -5,7 +5,7 @@ import fallenImage from '../icons/515374.png';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
 
 
 
@@ -66,14 +66,14 @@ class Success extends Component {
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
-                                    <img className="fallenImage" src={fallenImage} width="93px" height="123px" />
+                                    <img alt="alt" className="fallenImage" src={fallenImage} width="93px" height="123px" />
                                     <div className="isMeetingOpen">{this.state.isMeetingOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
                                 </div>
                                 <div className="meetingInfo">
                                     <div className="deathTime">{this.state.dateOfDeath}</div>
                                     {/* <div className="relationInfo"> */}
                                     <div className="fallenName">
-                                        <img className="whiteCandle" src={candle} height="15px" width="10px" />
+                                        <img alt="alt" className="whiteCandle" src={candle} height="15px" width="10px" />
                                         <span className="exactDate">לזכר {this.state.name} ז"ל</span>
                                         <hr id="divider" />
                                     </div>
@@ -82,7 +82,7 @@ class Success extends Component {
                                         <span className="exactDate">{this.state.meetingDate} {this.state.meetingHour}</span>
                                     </div>
                                     <div className="relationDiv">
-                                        <img className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
+                                        <img alt="alt" className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
                                         <span className="relationInfo">{this.state.meetingStarter}, {this.state.relation}</span>
                                     </div>
                                     <div className="detailsInfo">{this.state.meetingStory}</div>

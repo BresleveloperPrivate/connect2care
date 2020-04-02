@@ -12,16 +12,15 @@ import NavBar from './components/NavBar'
 const Home = loadable(() => import('./components/Home.js'));
 const Meeting = loadable(() => import('./components/Meeting/Meeting'));
 const Success = loadable(() => import('./components/Success.jsx'));
-const Share = loadable(() => import('./components/Share.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
 
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
+const MeetingInfo = loadable(() => import('./dashboard/components/MeetingInfo'));
 const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
 
 class App extends Component {
     render() {
-        console.log("sdfsadf", this.props.history)
         return (
             <Suspense fallback={<div>Loading...</div>}>
                 <Router>
@@ -30,15 +29,15 @@ class App extends Component {
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
-                            <Route path="/success" exact component={Success} />
+                            <Route path="/success" exact render={props => <Success {...props} />} />
                             <Route path="/" exact render={props => <Home {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser {...props} />} />
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
-                            <Route path="/share" exact component={Share} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <PrivateRoute path="/dashboard" compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
+                            <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
+                            <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={MeetingInfo} />
                         </Switch>
                     </div>
                 </Router>
