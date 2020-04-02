@@ -2,6 +2,7 @@ import { observable, decorate, action } from 'mobx';
 import React, { createContext, useContext } from 'react';
 import Auth from '../modules/auth/Auth'
 
+
 class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
@@ -74,7 +75,6 @@ class CreateMeetingStore {
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
             this.otherRelationShip.push({ id: number, relative: null })
-
         }
     }
 
@@ -104,17 +104,11 @@ class CreateMeetingStore {
     }
 
     changeFallenRelative = (option, index) => {
-        console.log("option", option)
-        console.log("index", index)
         if (this.meetingDetails.fallens) {
-            console.log("before       fallens", this.meetingDetails.fallens)
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
-                console.log("fallens[i],", this.meetingDetails.fallens[i])
                 if (this.meetingDetails.fallens[i].id === index)
                     this.meetingDetails.fallens[i].relative = option
-
             }
-            console.log("after       fallens", this.meetingDetails.fallens)
         }
     }
 
@@ -195,6 +189,7 @@ class CreateMeetingStore {
             this.error = err
         }
         if (success) {
+
             this.changeDetailsObjFunc(success[0])
         }
     }
@@ -228,47 +223,48 @@ class CreateMeetingStore {
         return objToreturn
     }
 
-    createNewMeetingPost = async () => {
-        console.log("this.otherRelationShip    before", this.otherRelationShip)
+    createNewMeetingPost = async (history) => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        console.log("beforePostJSON", beforePostJSON)
-        if (this.otherRelationship && this.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
-            console.log("innnnn    iffffff")
-
-           /* for (let i = 0; i < beforePostJSON.fallens.length; i++) {
-                console.log("beforePostJSON.fallens[i]", beforePostJSON.fallens[i])
-                for (let j = 0; j < this.otherRelationship.length; j++) {
-                    console.log("this.meetingDetails.fallens[j]", beforePostJSON.fallens[j])
-                    if (beforePostJSON.fallens[i].id === this.otherRelationship[j].id && this.meetingDetails.fallens[i].relative === "אחר") {
-                        //console.log("equal", this.otherRelationship.fallens[j], beforePostJSON.fallens[i])
-                        beforePostJSON.fallens[i].relative = this.otherRelationship[j].relative
-                        console.log("equal", beforePostJSON.fallens[i])
+        if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
+            beforePostJSON.fallens.filter((fallen) => {
+                checkOtherRelation.filter((other) => {
+                    if (other.id === fallen.id) {
+                        fallen.relative = other.relative
                     }
-                }
-            }}*/
+                })
+            })
         }
-        //console.log("this.otherRelationShip    after", this.otherRelationShip, "this.meetingDetails.fallens", beforePostJSON.fallens)
+        let zoomId = beforePostJSON.zoomId
+        delete beforePostJSON.zoomId
+        delete this.meetingDetailsOriginal.zoomId
+        let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
+        let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        if (whatDidntChange.length && whatDidntChange1.length) {
+            this.setError("כל השדות צריכים להיות מלאים")
+            return
+        }
+        beforePostJSON.zoomId = zoomId
 
-        console.log("this.meetingDetails.fallens", this.meetingDetails.fallens)
-            let whatDidntChange = this.whatDidntChange(this.meetingDetails, this.meetingDetailsOriginal)
-          let whatDidntChange1 = this.whatDidntChange(this.meetingDetails.owner, this.meetingDetailsOriginal.owner)
-        console.log("whatDidntChange", whatDidntChange)
-        console.log("whatDidntChange1", whatDidntChange1)
-           if (whatDidntChange.length && whatDidntChange1.length) {
-             this.setError("כל השדות צריכים להיות מלאים")
-        }
         let [success, err] = await Auth.superAuthFetch(
-          `/api/meetings/createMeeting/`,
-        {
-          method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                   body: JSON.stringify({ data: this.meetingDetails })
-             }, true);
-        if (err)
-          this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+            `/api/meetings/createMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: beforePostJSON })
+            }, true);
+        if (err || !success) {
+            this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+            return
+        }
         console.log("success", success)
-        console.log("this.meetingDetails", this.meetingDetails)
-
+        if (history)
+            history.push("/success")
+        //this.successObject = {
+        //  meetingStarter: success.meetingOwner.name,
+        //meetingStory: success.meetingOwner.name,
+        //meetingDate: success.date.
+        //}
     }
 
     setError = (error) => {

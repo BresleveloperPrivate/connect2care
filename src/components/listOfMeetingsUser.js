@@ -41,7 +41,7 @@ const ListOfMeetingsUser = (props) => {
         }} >אני רוצה ליזום מפגש</div>
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
-                <div className='meetings-second-title'>משפט כלשהו... </div>
+                <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן. </div>
                 <div className='containSearch'>
                     <input
                         style={{ flexGrow: 1 }}
@@ -147,9 +147,6 @@ const ListOfMeetingsUser = (props) => {
                 </div>
 
 
-
-
-
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
@@ -158,7 +155,7 @@ const ListOfMeetingsUser = (props) => {
                             } : () => { }}>
                                 <ImageOfFallen
                                     className='imageOfFallen'
-                                    array={meeting.fallens}
+                                    array={meeting.fallens_meetings}
 
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
@@ -179,22 +176,22 @@ const ListOfMeetingsUser = (props) => {
                                         <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'0.5em'}}>
                                             <img src={candle} height='100%' />
                                         </div>
-                                        <div>{meeting.fallens.map((fallen, index) => {
+                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
-                                                    <span>לזכר {fallen.name} ז"ל</span>
+                                                    <span>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
 
-                                            else if (index === meeting.fallens.length - 1) {
+                                            else if (index === meeting.fallens_meetings.length - 1) {
                                                 return (
-                                                    <span> ו{fallen.name} ז"ל</span>
+                                                    <span> ו{fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
 
                                             else {
                                                 return (
-                                                    <span>, {fallen.name} ז"ל</span>
+                                                    <span>, {fallen.fallens.name} ז"ל</span>
                                                 )
 
                                             }
@@ -211,7 +208,7 @@ const ListOfMeetingsUser = (props) => {
                                         <div style={{ height: '1.4vw', marginBottom: '0.7vw', marginLeft: '0.5vw' }}>
                                             <img src={tell} height='100%' />
                                         </div>
-                                        {meeting.meetingOwner && meeting.meetingOwner.name}  | {meeting.relationship}
+                                       מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
                                     <div className='meetingDescription'>
                                         {meeting.description}
