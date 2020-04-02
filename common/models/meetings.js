@@ -13,12 +13,13 @@ module.exports = function (meetings) {
 
 
     meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
-
+console.log(filters)
         let resArray = []
         meetings.find({ where: filters,  include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
+                console.log(response)
                 if (response.length) {
                     if (search || time.length || isAvailable) {
                         for (let i = 0; i < response.length; i++) {
