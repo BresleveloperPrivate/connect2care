@@ -64,13 +64,13 @@ export default function Sharing(props) {
 
   const shareWithWhatsApp = async () => {
     let name = 'דוד'
-    const text = 
+    const text =
 
-    `
+      `
 היי, אתה מוזמן למפגש Zoom לזכרו של ${props.data.name} ז"ל
     `
     // const linkText = text + " " + this.state.inviteLink;
-    const linkText = text +  "https://github.com/";
+    const linkText = text + "https://github.com/";
     const href = `whatsapp://send?text=${linkText}`;
     window.location.href = href;
     handleClose();
@@ -81,19 +81,20 @@ export default function Sharing(props) {
     let senderName = "מתחברים וזוכרים"
     let string = `הוזמנת להשתתף במפגש Zoom - מתחברים וזוכרים`
     let fallens = ''
-    for (let i = 0 ; i< props.data.fallens.length ; i++){
-      if(i === 0){
+    for (let i = 0; i < props.data.fallens.length; i++) {
+      if (i === 0) {
         fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`
       }
-      else if(i=== props.data.fallens.length - 1){
+      else if (i === props.data.fallens.length - 1) {
         fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`
       }
-      else{
+      else {
         fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`
       }
     }
-    let sendOptions = { to: passedEmail, subject: string, html: 
-    `
+    let sendOptions = {
+      to: passedEmail, subject: string, html:
+        `
     <div style='width: 100%; max-width: 400px; height: fit-content ;  padding-bottom: 30px;
      background-color: #082551; direction: rtl'>
     <div style='display: flex ; width: 100%' >
@@ -140,25 +141,42 @@ export default function Sharing(props) {
 
   const shareWithFaceBook = async () => {
 
-    // FB.ui({
+    // window.FB.ui({
     //   method: 'share_open_graph',
     //   action_type: 'og.shares',
     //   action_properties: JSON.stringify({
-    //       object: {
-    //           'og:url': 'http://lohamim.carmel6000.com/#/' ,
-             
+    //     object: {
+    //       'og:url': 'https://lohamim.carmel6000.com/#/+?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
+    //       // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
 
-    //       }
+    //     }
     //   })
-    window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
+    // })
+    window.FB.ui({
+      method: 'share_open_graph',
+      action_type: 'og.shares',
+      display: 'popup',
+      action_properties: JSON.stringify({
+        object: {
+          'og:url': 'https://lohamim.carmel6000.com/#/?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
+          'og:title': 'crap in pita',
+          'og:description': 'not tasty',
+          'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+        }
+      })
+    }, function(response) {
+      // Action after response
+      console.log("res fb",response)
+    });
+    // window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
     handleClose();
   };
 
   return (
     <div className="pointer">
-      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, fontSize: styleObject.fontSize , transition: 'transform 0.5s ease'}}>
+      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, fontSize: styleObject.fontSize, transition: 'transform 0.5s ease' }}>
         {/* <div className="sharingBox"> */}
-        <img src={shareIt}  alt="alt" width={styleObject.imageWidth} height={styleObject.imageHeight} />
+        <img src={shareIt} alt="alt" width={styleObject.imageWidth} height={styleObject.imageHeight} />
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
       </Button>
