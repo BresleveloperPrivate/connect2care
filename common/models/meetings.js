@@ -12,7 +12,7 @@ module.exports = function (meetings) {
     }
 
 
-    meetings.getMeetingsUser = (search, filters, time, options, cb) => {
+    meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
 
         let resArray = []
         meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }] }, (err, response) => {
@@ -20,17 +20,21 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
                 if (response.length) {
-                    if (search || time.length) {
+                    if (search || time.length || isAvailable) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
                             if (time.length) {                      
-                                console.log(time[0] , Number(res.time.replace(':', '')))
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if(!search){
+                                        if(!search && !isAvailable){
                                             resArray.push(res)
                                             moveToSearch = false
+                                        }
+                                        else if(!search && isAvailable){
+                                            if(res.participants_num < res.max_participants){
+                                                resArray.push(res)
+                                            }
                                         }
 
                                     } else {
@@ -40,6 +44,18 @@ module.exports = function (meetings) {
                                     console.log(err)
                                 }
                             }
+                            else if(isAvailable){
+                                console.log(res.participants_num , res.max_participants)
+                                if(!search){
+                                    if(res.participants_num < res.max_participants){
+                                        resArray.push(res)
+                                    }
+                                }else{
+                                    moveToSearch = false
+                                }
+                                
+                                
+                            }
                             if (search && moveToSearch) {
                                 if (res.name.includes(search) || search.includes(res.name)) {
                                     resArray.push(res)
@@ -47,16 +63,8 @@ module.exports = function (meetings) {
                                 else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
                                     resArray.push(res)
                                 }
-                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.first_name + ' ' + fallen.last_name).includes(search))) {
+                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.name).includes(search))) {
                                     resArray.push(res)
-                                }
-                                else if (res.fallens.length) {
-                                    for (let fallen in res.fallens) {
-                                        if (search.includes(fallen.first_name) || search.includes(fallen.last_name)) {
-                                            resArray.push(res)
-                                            return
-                                        }
-                                    }
                                 }
                             }
 
@@ -152,7 +160,7 @@ module.exports = function (meetings) {
             if (filters.fallen) {
                 allMeetings = allMeetings.filter((meeting) =>
                     meeting.fallens.some((fallen) =>
-                        (fallen.first_name + ' ' + fallen.last_name).includes(filters.fallen))
+                        fallen.name.includes(filters.fallen))
                 )
             }
             if (filters.owner) {
@@ -184,6 +192,7 @@ module.exports = function (meetings) {
             { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
             { arg: 'time', type: 'array' },
+            { arg: 'isAvailable', type: 'boolean' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -212,12 +221,22 @@ module.exports = function (meetings) {
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, cb) => {
         (async () => {
             try {
+                if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
+                if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+
+                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num } = meeting;
-                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "הפגישה מלאה" }, null); return; }
+                const { max_participants, participants_num, isOpen } = meeting;
+
+                if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
+                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
 
                 const person = await people.create({ name, email, phone });
                 await people_meetings.create({ person: person.id, meeting: meetingId });
