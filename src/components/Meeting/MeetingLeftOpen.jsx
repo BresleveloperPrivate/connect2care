@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: 20,
         padding: "6.4px 12px",
         borderRadius: 4,
+        fontSize: '2em',
 
         "&::placeholder": {
             color: theme.palette.primary.main
