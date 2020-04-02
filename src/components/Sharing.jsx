@@ -146,8 +146,8 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'https://lohamim.carmel6000.com/#/',
-          'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+          'og:url': 'https://lohamim.carmel6000.com/#/+?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
+          // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
 
         }
       })
