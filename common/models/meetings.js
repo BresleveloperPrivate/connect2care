@@ -116,10 +116,25 @@ module.exports = function (meetings) {
                         console.log("err3", err3)
                         return cb(err3)
                     }
+                    if (res) {
+                        console.log("res", res)
+                        //let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ["fallens", "meetingOwner"] }))
+//                        if (err4) {
+  //                          console.log("err4", err4)
+    //                        return cb(err4)
+      ///                  }
+         ///               if (userMeeting) {
+            //                console.log("userMeeting", userMeeting)
+              //              return cb(null, userMeeting)
+
+                //        }
+                    }
                 }
             }
-            console.log(meeting)
-            return cb(null, meeting)
+           // else {
+             //   console.log(meeting)
+                return cb(null, meeting)
+           // }
         })()
 
     }
@@ -166,7 +181,7 @@ module.exports = function (meetings) {
             if (filters.fallen) {
                 allMeetings = allMeetings.filter((meeting) =>
                     meeting.fallens_meetings.some((fallen_maating) =>
-                    fallen_maating.fallens.name.includes(filters.fallen))
+                        fallen_maating.fallens.name.includes(filters.fallen))
                 )
             }
             if (filters.owner) {
