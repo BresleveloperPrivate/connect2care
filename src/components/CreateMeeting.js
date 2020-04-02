@@ -91,10 +91,10 @@ const CreateMeeting = (props) => {
         return <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
             props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
                 let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
-                return <div key={index} className="margin-right-text d-flex align-items-start" style={{ width: "65%", marginBottom: "4vh" }}>
-                    <img alt="alt" style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
-                    <div style={{ width: "70%" }}>
-                        {props.CreateMeetingStore.fallenName && <div className="textAboveInput" styel={{ width: "95%" }}>שם החלל</div>}
+                return <div key={index} className="containFallenDetails">
+                    {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+                    <div style={window.innerWidth <= 550 ? {} : { width: "70%" }}>
+                        {props.CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
                         <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
                             <input
                                 type="text"
@@ -144,11 +144,7 @@ const CreateMeeting = (props) => {
                             />}
                     </div>
 
-                    <div style={findImage && dissmisedPic ? { position: "relative" } : {
-                        backgroundColor: "#EEEEEE",
-                        padding: "5.8vh",
-                        borderRadius: "4px"
-                    }} >
+                    <div className={findImage && dissmisedPic ? "position-relative" : "candleImg"} >
 
                         <img src={findImage && dissmisedPic ? props.CreateMeetingStore.fallenDetails[fallen].image : grayCandle}
                             alt="grayCandle" style={
@@ -169,7 +165,7 @@ const CreateMeeting = (props) => {
     }
 
     return (
-        <div style={{ textAlign: "right" }} className="CreateMeeting">
+        <div className="CreateMeeting">
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
             <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
             <div>
@@ -240,14 +236,18 @@ const CreateMeeting = (props) => {
                     className='inputStyle margin-right-text p-0 '
                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
 
-                <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                    <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
-                    <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="close" className="mb-0"><img alt="alt" src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                <div className="margin-right-text d-flex align-items-center radioButtonContainer" style={{ marginBottom: "2vh" }}>
+                    <div className="d-flex align-items-center">
+                        <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
+                        <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
+                    </div>
+                    <div className="d-flex align-items-center">
+                        <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
+                        <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                    </div>
                 </div>
-                <div style={{ width: "65%" }} className="d-flex margin-right-text align-items-end justify-content-between">
-                    <div style={{ width: "80%" }}>
+                <div className="containDateAndTime">
+                    <div style={window.innerWidth > 550 ? { width: "80%" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                         <Select
                             selectTextDefault='תאריך'
@@ -259,10 +259,10 @@ const CreateMeeting = (props) => {
                             className='inputStyle p-0'
                             onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
                     </div>
-                    <div style={{ width: "30%" }}>
+                    <div style={window.innerWidth > 550 ? { width: "30%" } : {}}>
                         {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
 
-                        <div className='inputStyle d-flex align-items-center' style={{ marginRight: "2vh", width: "calc(100% - 2vh)" }}>
+                        <div className='inputStyle d-flex align-items-center' style={window.innerWidth > 550 ? { marginRight: "2vh", width: "calc(100% - 2vh)" } : {}}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <CssTimePicker
                                     clearable
@@ -288,55 +288,58 @@ const CreateMeeting = (props) => {
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />
-                <div style={{ width: "65%" }} className="d-flex margin-right-text justify-content-end">
+                <div className="containCreateMettingButton">
                     <div onClick={() => props.CreateMeetingStore.createNewMeetingPost()} className="createMeetingButton">צור מפגש</div>
                 </div>
             </div>
 
-            {!pressOnCancel && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
-                <img src={cancel} alt="cancel" onClick={() => { setPressOnCancel(true) }} className="position-fixed" style={{ width: "2.5vh", left: "23%", top: "14vh", cursor: "pointer" }} />
-                <br />
-                <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: "55px" } : { marginBottom: "5vh" }} />
 
-                {!dataForFallen ? <div className="textSide">
-                    <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
-                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
-                    <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
+
+            {(!pressOnCancel || dataForFallen) && <div className="position-fixed containInputTextSide" style={dataForFallen ? { backgroundColor: "#082551" } : {}}>
+                <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { setPressOnCancel(true);setDataForFallen(false) }} />
+                <div id="containDetailsSideBar">
+                    <img src={dataForFallen ? candleWhiteGray : Business} alt="Business" style={dataForFallen ? { marginBottom: "3vh", width: window.innerWidth > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
+
+                    {!dataForFallen ? <div className="textSide">
+                        <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
+                        <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
+                        <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
                  לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
+                    </div>
+
+                        : <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
+                            if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
+                                return (
+                                    <div>
+                                        <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
+                                            קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
+                                        </div>
+                                        {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
+                                            props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
+
+                                                return (
+                                                    <div className="containFallenDetailsSide">
+                                                        <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
+                                                        <div >מנחה: {meeting.meetingOwner.name}</div>
+                                                        <div style={{ fontSize: "18px" }} className="d-flex">
+                                                            <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
+                                                            <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
+                                                        </div>
+                                                        <div className="divIsOpen">
+                                                            {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                        </div>
+                                                    </div>
+                                                )
+
+                                            })
+                                        }
+
+                                    </div>)
+                        })
+                        }
+                            <div className="gotItButton pointer" onClick={() => { setPressOnCancel(true); setDataForFallen(false) }}>הבנתי</div>
+                        </div>}
                 </div>
-
-                    : <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
-                        if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId])
-                            return (
-                                <div>
-                                    <div style={{ fontSize: "30px" }}>
-                                        קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId].name}</strong>
-                                    </div>
-                                    {props.CreateMeetingStore.fallenDetails[fallenId].meetings && props.CreateMeetingStore.fallenDetails[fallenId].meetings.length &&
-                                        props.CreateMeetingStore.fallenDetails[fallenId].meetings.map((meeting) => {
-
-                                            return (
-                                                <div className="containFallenDetails">
-                                                    <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                    <div >מנחה: {meeting.meetingOwner.name}</div>
-                                                    <div style={{ fontSize: "18px" }} className="d-flex">
-                                                        <img alt="alt" src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
-                                                        <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
-                                                    </div>
-                                                    <div className="divIsOpen">
-                                                        {!meeting.isOpen ? "מפגש פתוח" : <div><img src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
-                                                    </div>
-                                                </div>
-                                            )
-
-                                        })
-                                    }
-
-                                </div>)
-                    })
-                    }
-                        <div className="gotItButton pointer" onClick={() => setPressOnCancel(true)}>הבנתי</div>
-                    </div>}
             </div>}
         </div >
     );
