@@ -75,7 +75,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
 
     return (
         <div id="meetingPageLeft">
-            <img src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
+            <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
             <div id="meetingLeftTitle">הצטרף למפגש</div>
             <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת</div>
 

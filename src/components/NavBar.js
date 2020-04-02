@@ -53,7 +53,7 @@ class NavBar extends Component {
                 </div>
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
-                        <img src={ourBrothers} height='100%' />
+                        <img alt="alt" src={ourBrothers} height='100%' />
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}

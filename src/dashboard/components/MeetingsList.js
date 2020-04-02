@@ -64,7 +64,7 @@ const MeetingsList = (props) => {
                                         }
                                     </td>
                                     <td className='edit'>
-                                        <img src={pen} />
+                                        <img alt="alt" src={pen} />
                                     </td>
                                 </tr>
                             )

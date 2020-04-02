@@ -92,7 +92,7 @@ const CreateMeeting = (props) => {
             props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
                 let findImage = props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallen] && props.CreateMeetingStore.fallenDetails[fallen].image && props.CreateMeetingStore.fallenDetails[fallen].image !== ""
                 return <div key={index} className="margin-right-text d-flex align-items-start" style={{ width: "65%", marginBottom: "4vh" }}>
-                    <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
+                    <img alt="alt" style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />
                     <div style={{ width: "70%" }}>
                         {props.CreateMeetingStore.fallenName && <div className="textAboveInput" styel={{ width: "95%" }}>שם החלל</div>}
                         <div className='inputStyle d-flex align-items-center' style={{ width: "95%" }}>
@@ -244,7 +244,7 @@ const CreateMeeting = (props) => {
                     <input type="radio" id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                     <label for="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
                     <input type="radio" id="close" name="meeting" value={false} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                    <label for="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                    <label for="close" className="mb-0"><img alt="alt" src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                 </div>
                 <div style={{ width: "65%" }} className="d-flex margin-right-text align-items-end justify-content-between">
                     <div style={{ width: "80%" }}>
@@ -320,7 +320,7 @@ const CreateMeeting = (props) => {
                                                     <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
                                                     <div >מנחה: {meeting.meetingOwner.name}</div>
                                                     <div style={{ fontSize: "18px" }} className="d-flex">
-                                                        <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
+                                                        <img alt="alt" src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
                                                         <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
                                                     </div>
                                                     <div className="divIsOpen">
