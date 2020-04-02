@@ -20,7 +20,6 @@ const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
 
 class App extends Component {
     render() {
-        console.log("sdfsadf", this.props.history)
         return (
             <Suspense fallback={<div>Loading...</div>}>
                 <Router>
@@ -29,7 +28,7 @@ class App extends Component {
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
-                            <Route path="/success" exact component={Success} />
+                            <Route path="/success" exact render={props => <Success {...props} />} />
                             <Route path="/" exact render={props => <Home {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser {...props} />} />
