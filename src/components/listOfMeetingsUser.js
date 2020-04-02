@@ -36,7 +36,9 @@ const ListOfMeetingsUser = (props) => {
 
     return (
         <div className='meetingsFullPage'>
-        <div className='buttonOnMeetings grow'>אני רוצה ליזום מפגש</div>
+        <div className='buttonOnMeetings grow' onClick={()=>{
+            props.history.push('/create-meeting')
+        }} >אני רוצה ליזום מפגש</div>
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
                 <div className='meetings-second-title'>משפט כלשהו... </div>
@@ -44,6 +46,7 @@ const ListOfMeetingsUser = (props) => {
                     <input
                         style={{ flexGrow: 1 }}
                         type="text"
+                        value={props.MeetingsStore.searchInput}
                         className='input-meetings'
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
                         placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
