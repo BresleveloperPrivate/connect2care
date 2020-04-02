@@ -33,7 +33,7 @@
         }
     },
     "properties": {
-        "id": {
+        "person": {
             "type": "Number",
             "required": false,
             "length": null,
@@ -42,7 +42,7 @@
             "generated": true,
             "id": 1,
             "mysql": {
-                "columnName": "id",
+                "columnName": "person",
                 "dataType": "int",
                 "dataLength": null,
                 "dataPrecision": 10,
@@ -50,33 +50,20 @@
                 "nullable": "N"
             }
         },
-        "person": {
-            "type": "Number",
-            "required": false,
-            "length": null,
-            "precision": null,
-            "scale": null,
-            "mysql": {
-                "columnName": "person",
-                "dataType": "int",
-                "dataLength": null,
-                "dataPrecision": null,
-                "dataScale": null,
-                "nullable": "N"
-            }
-        },
         "meeting": {
             "type": "Number",
             "required": false,
             "length": null,
-            "precision": null,
-            "scale": null,
+            "precision": 10,
+            "scale": 0,
+            "generated": true,
+            "id": 1,
             "mysql": {
                 "columnName": "meeting",
                 "dataType": "int",
                 "dataLength": null,
-                "dataPrecision": null,
-                "dataScale": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
                 "nullable": "N"
             }
         }

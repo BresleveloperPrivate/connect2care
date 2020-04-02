@@ -15,7 +15,7 @@ module.exports = function (meetings) {
     meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
 
         let resArray = []
-        meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }] }, (err, response) => {
+        meetings.find({ where: filters, include: [{ relation: "fallens" }, { relation: "meetingOwner" }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
@@ -139,11 +139,8 @@ module.exports = function (meetings) {
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
-            if (filters.relationship && filters.relationship !== 'אחר') {
-                filtersOfMeetting.relationship = filters.relationship
-            }
 
-            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['people', 'meetingOwner', 'fallens'] }))
+            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
             if (err) {
                 console.log("err", err)
                 return cb(err)
@@ -152,15 +149,24 @@ module.exports = function (meetings) {
             if (filters.participants) {
                 allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
             }
-            if (filters.relationship && filters.relationship === 'אחר') {
+            if (filters.relationship) {
                 allMeetings = allMeetings.filter((meeting) =>
-                    meeting.relationship !== ('אח' || 'הורים' || 'קרובי משפחה' || 'חבר')
+                    meeting.fallens_meetings.some((fallen) => {
+                        if (filters.relationship === 'אחר') {
+                            return (
+                                fallen.relationship !== 'אח' &&
+                                fallen.relationship !== 'הורים' &&
+                                fallen.relationship !== 'קרובי משפחה' &&
+                                fallen.relationship !== 'חבר')
+                        }
+                        else return fallen.relationship === filters.relationship
+                    })
                 )
             }
             if (filters.fallen) {
                 allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens.some((fallen) =>
-                        fallen.name.includes(filters.fallen))
+                    meeting.fallens_meetings.some((fallen_maating) =>
+                    fallen_maating.fallens.name.includes(filters.fallen))
                 )
             }
             if (filters.owner) {
