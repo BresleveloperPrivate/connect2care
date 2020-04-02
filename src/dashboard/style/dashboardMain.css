@@ -4,7 +4,6 @@
 
 .tableHead th{
     background-color: var(--custom-table-gray);
-    /* color: white; */
     padding-top: 1% !important;
     padding-bottom: 1% !important;
 }
@@ -54,4 +53,14 @@
 .spinner-border{
     border: 0.45vh solid currentColor;
     border-right-color: transparent;
+}
+
+.readMore{
+    color: var(--custom-blue);
+    border-bottom: 2px var(--custom-blue) solid;
+    width: fit-content;
+    float: left;
+    margin: 3vh 11vw;
+    font-weight: bold;
+    font-size: 2.3vh;
 }
