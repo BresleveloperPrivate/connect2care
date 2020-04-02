@@ -204,7 +204,13 @@ const CreateMeeting = (props) => {
                 />
 
                 <div className="containCreateMettingButton">
-                    <div onClick={() => { setIsSaved(true); props.CreateMeetingStore.createNewMeetingPost() }} className="createMeetingButton">{props.CreateMeetingStore.waitForData ?
+                    <div onClick={async() => {
+                        setIsSaved(true)
+                        let success = await props.CreateMeetingStore.createNewMeetingPost()
+                        if(success){
+                            console.log('yes')
+                        }
+                        }} className="createMeetingButton">{props.CreateMeetingStore.waitForData ?
                         <div className="spinner">
                             <div className="bounce1"></div>
                             <div className="bounce2"></div>

@@ -109,6 +109,8 @@ export default function Sharing(props) {
     <div style='font-size: 27px'><strong>${fallens}. </strong></div>
     </div>
 
+    <div>${props.data.meetingDate} | ${props.data.meetingHour}</div>
+
     <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting/${props.data.meetingId}' >
      <div style=' margin: auto;
       width: fit-content;
@@ -137,6 +139,17 @@ export default function Sharing(props) {
 
 
   const shareWithFaceBook = async () => {
+
+    // FB.ui({
+    //   method: 'share_open_graph',
+    //   action_type: 'og.shares',
+    //   action_properties: JSON.stringify({
+    //       object: {
+    //           'og:url': 'http://lohamim.carmel6000.com/#/' ,
+             
+
+    //       }
+    //   })
     window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
     handleClose();
   };

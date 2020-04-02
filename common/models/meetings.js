@@ -13,12 +13,13 @@ module.exports = function (meetings) {
 
 
     meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
-
+console.log(filters)
         let resArray = []
-        meetings.find({ where: filters, include: [{ relation: "fallens" }, { relation: "meetingOwner" }] }, (err, response) => {
+        meetings.find({ where: filters,  include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
+                console.log(response)
                 if (response.length) {
                     if (search || time.length || isAvailable) {
                         for (let i = 0; i < response.length; i++) {
@@ -63,7 +64,7 @@ module.exports = function (meetings) {
                                 else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
                                     resArray.push(res)
                                 }
-                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.name).includes(search))) {
+                                else if (res.fallens_meetings.length && (res.fallens_meetings).some(fallen => (fallen.fallens.name).includes(search))) {
                                     resArray.push(res)
                                 }
                             }
