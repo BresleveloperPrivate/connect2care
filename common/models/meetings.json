@@ -104,21 +104,6 @@
                 "nullable": "Y"
             }
         },
-        "relationship": {
-            "type": "String",
-            "required": false,
-            "length": 50,
-            "precision": null,
-            "scale": null,
-            "mysql": {
-                "columnName": "relationship",
-                "dataType": "varchar",
-                "dataLength": 50,
-                "dataPrecision": null,
-                "dataScale": null,
-                "nullable": "Y"
-            }
-        },
         "owner": {
             "type": "Number",
             "required": false,
