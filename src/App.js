@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { PrivateRoute } from './modules/auth/PrivateRoute';
+import { Helmet } from "react-helmet";
 
 import './App.scss';
 import './styles';
@@ -22,12 +23,18 @@ const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
 
 class App extends Component {
     render() {
-        return (
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const image = urlParams.get('image');
+        return (<>
+            <Helmet>
+                {image && <meta property="og:image" content={image} />}
+            </Helmet>
             <Suspense fallback={<div>Loading...</div>}>
                 <Router>
                     {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
                     <div className="App">
-                        <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings)/"  render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
+                        <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings)/" render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
                             <Route path="/success" exact render={props => <Success {...props} />} />
@@ -37,14 +44,15 @@ class App extends Component {
                             <Route path="/create-meeting" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting {...props} />} />
                             <Route path="/login" render={(props) => <DashLogin {...props} />} />
-                            <Route path="/not-found" render={(props) => <NotFound {...props} />} />
                             <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={DashboardMain} />
                             <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={MeetingInfo} />
-                            
+                            <Route exact render={(props) => <NotFound {...props} />} />
+
                         </Switch>
                     </div>
                 </Router>
             </Suspense>
+        </>
         );
     }
 }
