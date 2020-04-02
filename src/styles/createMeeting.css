@@ -10,12 +10,12 @@
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
-    color: #3586B1;
+    color: #19A099;
     padding-bottom: 5vh;
 }
 
 .inputStyle{
-    color: #4D4F5C;
+    color: var(--custom-gray);
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
@@ -25,14 +25,11 @@
 }
 
 .textSide{
-    text-align: right;
-    font: normal 30px/30px Assistant;
-    letter-spacing: 0.5px;
-    color: #082551;
+    font: normal 25px Assistant;
 }
 
 input[type=radio] {
-    border: 1px solid #4D4F5C;
+    border: 1px solid var(--custom-gray);
     background: url("../icons/checkbox_off_light.svg") no-repeat center center;
     padding: 0.5em;
     margin-left: 1vh;
@@ -49,11 +46,14 @@ input[type=radio]:focus {
 }
 
 .containInputTextSide{
-    background-color: rgb(25, 160, 153);
-    padding: 8vh 10vh;
+    background: #19A099 0% 0% no-repeat padding-box;
+    box-shadow: 5px 3px 6px #00000029;
+    padding: 4vh 5vh;
     top: 10vh;
     left: 0px;
+    color: white;
     height: 90vh;
+    min-width: 340px;
     width: 27%;
 }
 
@@ -81,7 +81,7 @@ input[type=radio]:focus {
 .inputDetail{
     font: Bold 18px/13px Assistant;
     letter-spacing: 0;
-    color: #0A2D63;
+    color: #00726B;
 }
 
 .MuiPickersBasePicker-pickerView, .MuiPickersBasePicker-pickerViewLandscape,.MuiPickersModal-withAdditionalAction {
@@ -129,22 +129,238 @@ input[type=radio]:focus {
     -webkit-text-fill-color: #157492 !important;
 }
 
-.MuiInput-underline:hover:not(.Mui-disabled):before{
+.MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after{
     border-bottom: none;
 }
+
 .CreateMeeting .selectInput{
     margin: 1vh 2vh;
 }
 
-.CreateMeeting .arrowInput{
-    margin-left: 2vh;
+.CreateMeeting{
+    text-align: right
 }
 
-.MuiInput-underline:after{
-    border-bottom: none;
+.candleImg{
+    background-color: #EEEEEE;
+    padding: 5.8vh;
+    border-radius: 4px;
 }
+
+.CreateMeeting .arrowInput{
+    margin-left: 2vh !important;
+}
+
 .MuiPickersModal-withAdditionalAction > *:first-child{
     cursor: not-allowed;
     pointer-events: none;
 }
-  
+
+.searchButton{
+    width: fit-content;
+    margin-right: auto;
+    margin-left: 5%;
+    margin-bottom: 1vh;
+    background-color: #19A099;
+    color: white;
+    font-weight: bold;
+    border-radius: 11px;
+    padding: 0.5vh 1vh;
+}
+
+.divIsOpen{
+    width: fit-content;
+    margin-right: auto;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    padding: 0px 7px;
+    margin-top: 2vh;;
+    font-size: 18px;
+}
+
+.containFallenDetails{
+    padding: 2vh 0;
+    border-bottom: 1px white solid;
+    font-size: 20px;
+}
+
+.addFallen{
+    border: 2px solid #3586B1;
+    border-radius: 20px;
+    color: #3586B1;
+    background-color: white;
+    padding: 0.5vh 2vh;
+    margin-right: 6vw;
+    margin-bottom: 2vh;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.textAboveInput{
+    text-align: right;
+    font: normal 13px/13px Assistant;
+    letter-spacing: 0;
+    color: #3586B1;
+    padding: 0 2vh 1vh 0;
+}
+
+.cancelPicture{
+    position: absolute;
+    left: 5px;
+    color: #19A099;
+    top: -5px;
+    box-shadow: 0px 3px 6px #00000029;
+    font-size: 20px;
+    border-radius: 100%;
+}
+
+.containCreateMettingButton{
+    display: flex;
+    margin-right: 6vw;
+    justify-content: flex-end;
+    width: 65%;
+}
+
+#containDetailsSideBar{
+    padding:2vh
+}
+
+.cancelSideButton{
+    /* position: fixed; */
+    width: 2.5vh;
+    display: block;
+    /* left: 23%; */
+    /* top: 14vh; */
+    cursor: pointer;
+    /* margin-bottom: 2vh; */
+}
+
+.gotItButton{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    position: fixed;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    font: Bold 25px Assistant;
+    letter-spacing: 0;
+    bottom: 6vh;
+    width: -moz-fit-content;
+    width: fit-content;
+    color: #082551;
+    padding: 0.2vh 1vh;
+    left: 7vh;
+}
+
+.containFallenDetails{
+    margin-bottom: 4vh
+}
+
+@media screen and (min-width: 551px){
+    .containFallenDetails{
+        display: flex;
+        align-items: flex-start;
+        width: 65%;
+        margin-right: 6vw;
+    }
+
+    .containDateAndTime{
+        width: 65%;
+        display: flex;
+        margin-right: 6vw;
+        align-items: flex-end;
+        justify-content: space-between; 
+    }
+}
+
+@media screen and (max-width: 550px){
+    .createMeetingHeadLine{
+        font: Bold 25px/33px Assistant;
+    }
+    .createMeetingSecondSentence{
+        margin: 0 6vw;
+        font: normal 20px/26px Assistant;
+        max-width: calc( 100% - 12vw);
+    }
+
+    .candleImg{
+        width: fit-content;
+        margin-right: 6vw;
+    }
+    
+    .inputStyle{
+        width: calc( 100% - 12vw) !important;
+        margin-left: 6vw;
+        font-size: 18px;
+        margin-right: 6vw;
+    }
+
+    .containFallenDetailsSide{
+        width: 100%;
+    }
+
+    .searchButton{
+        margin-left: 6vw;
+    }
+
+    .radioButtonContainer{
+        margin-left: 6vw;
+        justify-content: space-around;
+    }
+    
+    input[type=radio]{
+        margin-left: 2vh;
+    }
+
+    .createMeetingButton{
+        width: 30vh;
+        margin-bottom: 8vh;
+    }
+
+    .containCreateMettingButton{
+        justify-content: center;
+        width: unset;
+        margin-right: unset;
+    }
+
+    .containDateAndTime .textAboveInput, .containFallenDetails .textAboveInput{
+        margin-right: 6vw;
+    }
+
+    .gotItButton{
+        bottom: 16vh;
+        left: 5vh;
+    }
+
+    .containInputTextSide{
+        min-height: 60vh;
+        max-height: 60vh;
+        width: unset;
+        overflow-y: auto;
+        top: 26vh;
+        text-align: center;
+        padding: 5vh 6vh;
+        right: 2vh;
+        left: 2vh;
+    }
+
+    .containFallenDetailsSide{
+        font-size: 18px;
+        text-align: right;
+        padding: 1vh 0;
+    }
+
+    .cancelSideButton{
+        left: unset;
+        right: 5vh;
+        top: 29vh;
+        width: 2.5vh;
+    }
+
+    #containDetailsSideBar{
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    .textSide{
+        font: normal 18px Assistant;
+    }
+}

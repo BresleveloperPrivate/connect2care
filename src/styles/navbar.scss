@@ -1,11 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
 
 .mainPage-meetings{
-    font-size:1vw;
+    font-size:0.8vw;
     @media screen and (max-width: 800px){
         font-size: 1.2vw;
     }
 }
+
+.imageOfFallen{
+    font-size:1.2vw;
+    @media screen and (max-width: 800px){
+        font-size: 1.6vw;
+    }}
 
 .App{
     font-family: 'Assistant';
@@ -22,6 +28,7 @@
     --custom-yellow: #F5C508;
     --custom-green: #19A099;
     --custom-dark-green:#00726B;
+    --custom-gray: #4D4F5C;
 }
 
 .pointer{
@@ -88,7 +95,7 @@
     margin-top: auto;
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 800px){
     .navbarIcon{
         width: 30%;
     }

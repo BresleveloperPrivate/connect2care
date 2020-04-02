@@ -3,3 +3,5 @@
 3. git submodule update --init --recursive
 4. npm install
 5. npm run build
+
+There is a dump inside dumps/ourBro.dump.sql

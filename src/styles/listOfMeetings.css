@@ -62,9 +62,8 @@
 }
 
 .mainPage-meetings{
-    width: 75em;
-    margin-right: 4em;
-
+    width: 85em;
+    margin-right: 6em;
 }
 
 .containMeetingCard{
@@ -78,14 +77,13 @@
     border-radius: 3px;
     flex-grow: 1;
     margin-right: 2em;
-    cursor: pointer;
+    display: flex;
 }
 
 .imageOfFallen{
     box-shadow: 0px 3px 3px #00000029;
     border-radius: 3px;
     overflow: hidden;
-    cursor: pointer;
 }
 
 .meetingCardContent{
@@ -118,19 +116,19 @@
     margin-right: -0.2em;
     display: flex;
     align-items: center;
-    padding-top: 0.5em;
+    padding-top: 0.4em;
     color: var(--custom-dark-green);
-    font-weight: 600;
-    font-size: 1.2em;
+    font-weight: 700;
+    font-size: 1.4em;
 }
 
 .meetingOwner{
-    padding-top: 0.3em;
+    padding-top: 0.2em;
     display: flex;
     align-items: center;
     color: var(--custom-blue);
-    font-weight: 600;
-    font-size: 1.2em;
+    font-weight: 700;
+    font-size: 1.4em;
 }
 
 .meetingDescription{
@@ -141,6 +139,7 @@
     height: 4em;
     margin-bottom: 1em;
     overflow: hidden;
+    line-height: 1.2;
 }
 
 
@@ -157,3 +156,63 @@
     cursor: pointer;
 }
 
+.leftPartOfMeetingCard{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.participants{
+    width: 10em;
+    height: 10em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.numberOfParticipants{
+    color: var(--custom-green);
+    font-size: 5em;
+    font-weight: 300;
+    position: absolute;
+    line-height: 1.1em;
+}
+
+.joinMeetingBtn{
+    margin-top: 0.7em;
+    background-color: var(--custom-blue);
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 19px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    padding: 0.1em 1em;
+    font-size: 1.5em;
+}
+
+.meetingIsCloseBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.7em;
+    color: var(--custom-blue);
+    border-radius: 5px;
+    padding: 0.1em 1em;
+    font-size: 1.5em;
+    border: 1px solid var(--custom-blue);
+}
+
+.comment{
+    color: var(--custom-blue);
+    padding-top: 0.3em;
+}
+
+@media screen and (max-width: 800px){
+    .mainPage-meetings{
+        width: 75em;
+        margin-right: 4em;
+    }    
+}

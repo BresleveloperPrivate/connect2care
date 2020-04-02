@@ -12,7 +12,7 @@ module.exports = function (meetings) {
     }
 
 
-    meetings.getMeetingsUser = (search, filters, options, cb) => {
+    meetings.getMeetingsUser = (search, filters, time, options, cb) => {
 
         let resArray = []
         meetings.find({ where: filters, include: [{ "relation": "fallens" }, { "relation": "meetingOwner" }] }, (err, response) => {
@@ -20,45 +20,59 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
                 if (response.length) {
-                    for (let i = 0; i < response.length; i++) {
-                        let res = JSON.parse(JSON.stringify(response[i]))
-                        if (search) {
-                            if (res.name.includes(search) || search.includes(res.name)) {
-                                resArray.push(res)
+                    if (search || time.length) {
+                        for (let i = 0; i < response.length; i++) {
+                            let res = JSON.parse(JSON.stringify(response[i]))
+                            let moveToSearch = true
+                            if (time.length) {                      
+                                console.log(time[0] , Number(res.time.replace(':', '')))
+                                try {
+                                    if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
+                                        if(!search){
+                                            resArray.push(res)
+                                            moveToSearch = false
+                                        }
+
+                                    } else {
+                                        moveToSearch = false
+                                    }
+                                } catch (err) {
+                                    console.log(err)
+                                }
                             }
-                            else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
-                                resArray.push(res)
-                            }
-                            else if (res.fallens.length && (res.fallens).some(fallen => (fallen.first_name + ' ' + fallen.last_name).includes(search))) {
-                                resArray.push(res)
-                            }
-                            else if (res.fallens.length) {
-                                for (let fallen in res.fallens) {
-                                    if (search.includes(fallen.first_name) || search.includes(fallen.last_name)) {
-                                        resArray.push(res)
-                                        return
+                            if (search && moveToSearch) {
+                                if (res.name.includes(search) || search.includes(res.name)) {
+                                    resArray.push(res)
+                                }
+                                else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
+                                    resArray.push(res)
+                                }
+                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.first_name + ' ' + fallen.last_name).includes(search))) {
+                                    resArray.push(res)
+                                }
+                                else if (res.fallens.length) {
+                                    for (let fallen in res.fallens) {
+                                        if (search.includes(fallen.first_name) || search.includes(fallen.last_name)) {
+                                            resArray.push(res)
+                                            return
+                                        }
                                     }
                                 }
                             }
+
                             if (resArray.length >= 5 || i === response.length - 1) {
                                 return cb(null, resArray)
                             }
-
-
                         }
-                        else {
-                            return cb(null, response.slice(0, 5))
-                        }
+                    }
+                    else {
+                        return cb(null, response.slice(0, 5))
                     }
                 } else {
                     return cb(null, response)
                 }
-
             }
-
         })
-        // })()
-
     }
 
 
@@ -169,6 +183,7 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
+            { arg: 'time', type: 'array' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
