@@ -141,33 +141,33 @@ export default function Sharing(props) {
 
   const shareWithFaceBook = async () => {
 
-    // window.FB.ui({
-    //   method: 'share_open_graph',
-    //   action_type: 'og.shares',
-    //   action_properties: JSON.stringify({
-    //     object: {
-    //       'og:url': 'https://lohamim.carmel6000.com/#/+?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
-    //       // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
-
-    //     }
-    //   })
-    // })
     window.FB.ui({
       method: 'share_open_graph',
       action_type: 'og.shares',
-      display: 'popup',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'https://lohamim.carmel6000.com/#/?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
-          'og:title': 'crap in pita',
-          'og:description': 'not tasty',
-          'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+          'og:url': 'https://lohamim.carmel6000.com/#/',
+          // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+
         }
       })
-    }, function(response) {
-      // Action after response
-      console.log("res fb",response)
-    });
+    })
+    // window.FB.ui({
+    //   method: 'share_open_graph',
+    //   action_type: 'og.shares',
+    //   display: 'popup',
+    //   action_properties: JSON.stringify({
+    //     object: {
+    //       'og:url': 'https://lohamim.carmel6000.com/#/?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
+    //       'og:title': 'crap in pita',
+    //       'og:description': 'not tasty',
+    //       'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
+    //     }
+    //   })
+    // }, function(response) {
+    //   // Action after response
+    //   console.log("res fb",response)
+    // });
     // window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
     handleClose();
   };
