@@ -40,6 +40,7 @@ class CreateMeetingStore {
         zoomId: 0,
     }
     error = null;
+    waitForData = false;
     otherRelationship = [{ id: 1, relative: null }];
     meetingId = -1;
 
@@ -224,6 +225,7 @@ class CreateMeetingStore {
     }
 
     createNewMeetingPost = async (history) => {
+        this.waitForData = true
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
@@ -240,8 +242,9 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.zoomId
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
-        if (whatDidntChange.length && whatDidntChange1.length) {
+        if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
+            this.waitForData = false
             return
         }
         beforePostJSON.zoomId = zoomId
@@ -253,6 +256,7 @@ class CreateMeetingStore {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ data: beforePostJSON })
             }, true);
+        this.waitForData = false
         if (err || !success) {
             this.error = "משהו השתבש, נסה שנית מאוחר יותר"
             return
@@ -310,6 +314,6 @@ export const CreateMeetingProvider = ({ children }) => (
     </CreateMeetingContext.Provider>
 );
 
-export const useCreateMeeting = () => useContext(CreateMeetingContext);
+export const useCreateMeetingStore = () => useContext(CreateMeetingContext);
 
 export default createMeetingStore;
