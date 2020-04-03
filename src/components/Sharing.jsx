@@ -10,7 +10,7 @@ import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
-import greenBackground from '../icons/greenBackground.png'
+// import greenBackground from '../icons/greenBackground.png'
 
 //pass me this: styleObject = {
 //buttonWidth: '?rem'
@@ -47,6 +47,7 @@ export default function Sharing(props) {
 
   const copyToClipboard = (str) => {
     // Create new element
+    console.log("str", str)
     let el = document.createElement('textarea');
     // Set value (string to be copied)
     el.value = str;
@@ -190,7 +191,7 @@ export default function Sharing(props) {
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
-        <MenuItem onClick={copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem onClick={() => copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
 
         <SendEmail openEmail={openEmail}
           setOpenEmail={setOpenEmail}
