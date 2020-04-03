@@ -7,8 +7,6 @@ import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
 // import Divider from '@material-ui/core/Divider';
 
-
-
 class Success extends Component {
     constructor(props) {
         super(props);
