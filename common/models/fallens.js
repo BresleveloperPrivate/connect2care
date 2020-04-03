@@ -3,15 +3,15 @@
 module.exports = function (fallens) {
 
     fallens.SearchFallen = (value, cb) => {
-        (async () => {
-            try {
-                const fallen = await fallens.find({ where: { name: { regexp: `/${value}/` } } });
-                cb(null, fallen);
-            } catch (err) {
-                console.log(err);
-                cb(err, null);
+        fallens.dataSource.connector.query(`select *
+            from fallens
+            where match(fallens.name) against ('${value}')`, (err, res) => {
+            if (err) {
+                console.log(err)
+                return cb(err)
             }
-        })();
+            if (res) return cb(null, res);
+        })
     }
 
     fallens.remoteMethod('SearchFallen', {

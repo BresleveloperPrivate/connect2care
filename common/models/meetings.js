@@ -150,20 +150,47 @@ console.log(filters)
     });
 
     meetings.getMeetingsDashboard = (filters, options, cb) => {
+
+        // meetings.dataSource.connector.query(`select meetings.*, fallens.*
+ 
+        // from meetings, fallens, fallens_meetings
+         
+        // where match(fallens.name) against ('ישראל')
+         
+        // and fallens.id = fallens_meetings.fallen  
+         
+        // and meetings.id = fallens_meetings.meeting
+         
+        // LIMIT 0, 20`, (err, res) => {
+        //     if (err) { 
+        //         console.log("error setting points to 0")
+        //         return cb(true) 
+        //     }
+        //     let meetings = {}
+        //     if (res) {
+        //         for(let meeting of res){
+        //             console.log('meeting', meeting)
+        //             meeting.
+        //         }
+        //         return cb(null);
+        //     }
+        // })
+
+
         (async () => {
             let filtersOfMeetting = {}
             if (filters.date) filtersOfMeetting.date = filters.date
             if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
             if (filters.name) filtersOfMeetting.name = filters.name
 
-            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
             if (err) {
                 console.log("err", err)
                 return cb(err)
             }
             let allMeetings = JSON.parse(JSON.stringify(res))
             if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
+                allMeetings = allMeetings.filter((meeting) => (meeting.participants_num >= filters.participants.min) && (filters.participants.max && meeting.participants_num < filters.participants.max))
             }
             if (filters.relationship) {
                 allMeetings = allMeetings.filter((meeting) =>
