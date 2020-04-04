@@ -1,119 +1,134 @@
+
+
+
 .sucessPage{
     background: #00726B;
+    width: 100vw;
+    font-size: 1.5vh;
+    height: 70vh;
+
+    
+
+}
+
+
+.bigContainer{
+    margin-right: 10em;
+    margin-left: 15em;
+    width: fit-content;
 }
 
 .sucessHeadline{
     color: white;
     font-weight: bold;
     text-align: right;
-    font-size: 2rem;
+    font-size: 3.4em;
 
 }
 
 .sucessHeadline2{
     color: white;
     text-align: right;
-    font-size: 1.5rem;
-    margin-right: 0.8vw;
-
+    font-size: 2.4em;
+    line-height: 1em;
+    margin-bottom: 1em;
 }
 
 .backArrow{
     text-align: right;
-    padding-top: 3rem;
-    margin-bottom: 2rem;
+    padding-top: 1em;
+    font-size: 2em;
+    // margin-bottom: 1em;
 }
 
 .sucessInfo{
     display: flex;
-    margin-top: 2rem;
+    margin-top: 1em;
 }
 
-.deathTime{
-    color: white;
-    font-size: 1.2rem;
+
+.fallenName{
+    font-size: 2em;
+    width: 20em;
+    border-bottom: 0.7px solid white;
 }
 
 .fallenImage{
-    margin-left: 2rem;
+    margin-left: 2em;
 }
 
-.deathTime{
-    font-weight: bold;
-    font-size: 1.2rem;
-}
 .relationInfo{
     color: white;
 }
 
 .relationDiv{
-    margin-top: 0.5rem;
-    margin-bottom: 0.2rem;
+    font-size: 1.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
 }
 
 .annonymousPerson{
-    margin-left: 0.4rem;
+    margin-left: 0.4em;
 }
 
 .whiteCandle{
-    margin-left: 0.4rem;
+    margin-left: 0.4em;
 }
 
 .detailsInfo{
+    font-size: 1.3em;
     color: white;
-    width: 30rem;
+    // width: 30em;
 }
 
 .meetingInfo{
     display: flex;
     text-align: right;
     flex-direction: column;
-    margin-right: 2rem;
+    margin-right: 2em;
 }
 
-.bigContainer{
-    margin-right: 10rem;
-    margin-left: 15rem;
-}
 
 .exactDate{
     color: white;
-    margin-right: 0.4rem;
+    margin-right: 0.4em;
 }
 
 .meetingDate{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.5em;
+    margin-top: 1em;
 }
 
 .isMeetingOpen{
-    margin-top: 0.5rem;
+    margin-top: 0.5em;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    width: 93px;
-    &:hover{
-        background-color: white;
-        color: #082551;
-        transition: 1s;
-    }
+    // width: 11em;
+    // &:hover{
+    //     background-color: white;
+    //     color: #082551;
+    //     transition: 1s;
+    // }
 }
 
 .shareWith{
     color: white;
     font-weight: bold;
-    font-size: 1.3rem;
-    margin-top: 2.3rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-    margin-right: 0.5rem;
-    position: relative;
-    right: -30.5rem;
+    font-size: 2.6em;
+    margin-top: 1em;
+    padding-bottom: 2em;
+    text-align: right;
+    
 }
 
 
 #meetingStatus{
-    margin: 0.2rem;
+    // margin: 0.2em;
 }
 
 .whiteFutter{
@@ -122,15 +137,15 @@
 
 .sharingComponent{
     position: relative;
-    top: -1.5rem;
+    top: -1.5em;
     display: flex;
-    margin-right: 10rem;
-    margin-left: 15rem;
+    margin-right: 10em;
+    margin-left: 15em;
 }
 
 .additionalInfo{
-    margin-right: 10rem;
-    margin-left: 15rem;
+    font-size: 1em;
+    margin-right: 7em;
     display: flex;
     flex-direction: column;
     text-align: right;
@@ -146,7 +161,7 @@
 #divider{
     color:white;
     border-top: 1px solid #ffffff;
-    margin-top: 0rem;
+    margin-top: 0em;
 }
 
 #sendButton{
@@ -155,16 +170,16 @@
 @media only screen and (max-width: 768px) {
     .backArrow{
         margin-bottom: 0;
-        padding-top: 2rem;
+        padding-top: 2em;
     }
 
     .bigContainer{
-        margin-right: 1rem;
+        margin-right: 1em;
         margin-left: 0;
     }
 
     .additionalInfo{
-        margin-right: 1rem;
+        margin-right: 1em;
         margin-left: 0;
     }
 
@@ -182,6 +197,6 @@
     }
 
     #sharingBox{
-        right: -4rem;
+        right: -4em;
     }
 }
