@@ -131,8 +131,9 @@ function Success(props) {
                         <Sharing 
                         containImageClassName={'containSharingImage'}
                         myId={'sharingBox'}
-                    data={meeting}
-                    styleObject={{buttonWidth: 'fit-content'}}
+                        data={meeting}
+                        meetingId={meeting.id}
+                        styleObject={{buttonWidth: 'fit-content'}}
                     />
                     </div>
                     <div className="whiteFutter">

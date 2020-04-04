@@ -148,7 +148,7 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'https://lohamim.carmel6000.com/#/meeting/4',
+          'og:url': `https://lohamim.carmel6000.com/#/meeting/${props.meetingId}`,
           // 'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
 
         }
@@ -175,7 +175,7 @@ export default function Sharing(props) {
   };
 
   return (
-    <div className="pointer">
+    <div className="pointer containSharing">
       <Button id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
         {/* <div className="sharingBox"> */}
         <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>

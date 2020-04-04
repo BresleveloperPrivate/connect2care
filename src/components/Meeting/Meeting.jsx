@@ -56,7 +56,10 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                         <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
-                            styleObject={{ fontSize: '2em', imageHeight: '24px' }} />
+                            styleObject={{ fontSize: '2em', imageHeight: '24px' }}
+                            meetingId={meetingId}
+                            
+                            />
                     </div>
 
                     <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />

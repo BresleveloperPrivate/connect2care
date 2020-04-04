@@ -130,7 +130,9 @@
 
 .sharingComponent{
     position: relative;
-    top: -1.5em;
+    height: fit-content;
+    height: 8vh;
+    top: -4vh;
     display: flex;
     margin-right: 7em;
 }
@@ -234,7 +236,6 @@
 
     .sharingComponent{
         position: relative;
-        top: -1.5em;
         display: flex;
         margin: auto;
         justify-content: center;
