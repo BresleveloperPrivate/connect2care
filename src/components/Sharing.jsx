@@ -61,6 +61,7 @@ export default function Sharing(props) {
     document.execCommand('copy');
     // Remove temporary element
     document.body.removeChild(el);
+    console.log("str", str)
   }
 
   const shareWithWhatsApp = async () => {
