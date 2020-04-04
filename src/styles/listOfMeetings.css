@@ -1,7 +1,7 @@
 
 .meetingsFullPage{
     position: relative;
-    padding-bottom: 7vh;
+    padding-bottom: 2em;
     margin-top: 11vh;
 }
 
@@ -258,7 +258,7 @@
 
 @media screen and (max-width: 800px){
     .mainPage-meetings{
-        width: 75em;
-        margin-right: 4em;
+        width: 79em;
+        margin-right: 2em;
     }    
 }
