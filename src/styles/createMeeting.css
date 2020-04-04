@@ -66,7 +66,7 @@ input[type=radio]:focus {
     padding: 1vh;
     cursor: pointer;
     width: 23vh;
-    margin-bottom: 20vh;
+    margin-bottom: 5vh;
     text-align: center;
 }
 
@@ -122,6 +122,7 @@ input[type=radio]:focus {
     cursor: pointer;
     -webkit-text-fill-color: #157492 !important;
     padding: 0 ;
+    line-height: 13px !important;
 }
 
 .inputStyle .MuiInputBase-input.Mui-disabled {
@@ -164,13 +165,30 @@ input[type=radio]:focus {
     pointer-events: none;
 }
 
+.MuiList-padding{
+    padding: 0;
+}
+
+.MuiOutlinedInput-input{
+    padding: 1.3vh 2vh;
+}
+
+.MuiInputBase-root{
+    font-size: inherit;
+}
+
+.searchFallenInput{
+    width: 100%;
+}
+
 .searchButton{
     width: fit-content;
     margin-right: auto;
     margin-left: 5%;
-    margin-bottom: 1vh;
+    /* margin-bottom: 1vh; */
     background-color: #19A099;
     color: white;
+    height: fit-content;
     font-weight: bold;
     border-radius: 11px;
     padding: 0.5vh 1vh;

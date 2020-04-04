@@ -74,7 +74,7 @@ const CreateMeeting = (props) => {
                     return <FallenDetails isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
-                <div className="addFallen" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
+                <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
             </div>)
     }
 
@@ -210,7 +210,7 @@ const CreateMeeting = (props) => {
                         if(success){
                             console.log('yes')
                         }
-                        }} className="createMeetingButton">{props.CreateMeetingStore.waitForData ?
+                        }} className="createMeetingButton grow">{props.CreateMeetingStore.waitForData ?
                         <div className="spinner">
                             <div className="bounce1"></div>
                             <div className="bounce2"></div>

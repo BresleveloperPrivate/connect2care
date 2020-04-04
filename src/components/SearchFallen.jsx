@@ -49,8 +49,10 @@ const SearchFallen = () => {
     }, [searchValue, fetch]);
 
     return (
-        <div>
+        <div style={{height:'fit-content' , width:'100%' , marginLeft:'30px'}}>
             <TextField
+                
+                className='searchFallenInput'
                 value={searchValue}
                 onChange={onChange}
                 placeholder="שם החלל"

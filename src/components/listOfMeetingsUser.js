@@ -67,7 +67,7 @@ const ListOfMeetingsUser = (props) => {
 
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
-                        width='20%'
+                        width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
                         arr={meetingDate.map((name) => {
