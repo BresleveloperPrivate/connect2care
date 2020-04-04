@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import candle from '../icons/candle.svg'
 import '../styles/imagesCollage.css'
-import { imageSize } from 'image-size';
+// import { imageSize } from 'image-size';
 import Auth from '../modules/auth/Auth'
 
 
@@ -90,9 +90,9 @@ class HowItWorks extends Component {
 
                             if (val) {
                                 return (
-                                    <div style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
+                                    <div key={index} style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                         <img
-                                            onClick={()=>{
+                                            onClick={() => {
                                                 this.props.history.push(`/meeting/${val.meetingId}`)
                                             }}
                                             className='hoverImage pointer'
@@ -105,7 +105,7 @@ class HowItWorks extends Component {
                             }
                             else {
                                 return (
-                                    <div className='noImage' style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
+                                    <div key={index} className='noImage' style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                     </div>
                                 )
                             }
