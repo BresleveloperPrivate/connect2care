@@ -175,9 +175,9 @@ export default function Sharing(props) {
 
   return (
     <div className="pointer">
-      <Button id="sharingBox" aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, fontSize: styleObject.fontSize, transition: 'transform 0.5s ease' }}>
+      <Button id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
         {/* <div className="sharingBox"> */}
-        <img src={shareIt} alt="alt" width={styleObject.imageWidth} height={styleObject.imageHeight} />
+        <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
       </Button>

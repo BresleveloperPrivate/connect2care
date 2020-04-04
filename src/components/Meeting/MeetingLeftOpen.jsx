@@ -90,7 +90,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
                 ))}
             </form>
             {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-            <Button disabled={loading} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
+            <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease'}} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
         </div>
     );
 }

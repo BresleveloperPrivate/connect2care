@@ -1,21 +1,24 @@
 
-
-
 .sucessPage{
     background: #00726B;
     width: 100vw;
     font-size: 1.5vh;
-    height: 70vh;
+    flex-grow: 1;
+}
 
-    
-
+.whiteFutter{
+    font-size: 1.5vh;
+    background-color: white;
+    padding-bottom: 1em;
+    padding-right: 7em;
+    margin-left: 3em;
 }
 
 
 .bigContainer{
-    margin-right: 10em;
-    margin-left: 15em;
-    width: fit-content;
+    margin-right: 7em;
+    margin-left: 3em;
+    width: calc(100vw - 10em);
 }
 
 .sucessHeadline{
@@ -38,7 +41,6 @@
     text-align: right;
     padding-top: 1em;
     font-size: 2em;
-    // margin-bottom: 1em;
 }
 
 .sucessInfo{
@@ -48,8 +50,11 @@
 
 
 .fallenName{
+    color: white;
+    display: flex;
+    align-items: center;
     font-size: 2em;
-    width: 20em;
+    width: 100%;
     border-bottom: 0.7px solid white;
 }
 
@@ -62,6 +67,8 @@
 }
 
 .relationDiv{
+    display: flex;
+    align-items: center;
     font-size: 1.5em;
     margin-top: 0.2em;
     margin-bottom: 0.2em;
@@ -86,6 +93,7 @@
     text-align: right;
     flex-direction: column;
     margin-right: 2em;
+    min-width: 30%;
 }
 
 
@@ -108,12 +116,6 @@
     font-size: 1.6em;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    // width: 11em;
-    // &:hover{
-    //     background-color: white;
-    //     color: #082551;
-    //     transition: 1s;
-    // }
 }
 
 .shareWith{
@@ -126,35 +128,24 @@
     
 }
 
-
-#meetingStatus{
-    // margin: 0.2em;
-}
-
-.whiteFutter{
-    background-color: white;
-}
-
 .sharingComponent{
     position: relative;
     top: -1.5em;
     display: flex;
-    margin-right: 10em;
-    margin-left: 15em;
+    margin-right: 7em;
 }
 
 .additionalInfo{
-    font-size: 1em;
-    margin-right: 7em;
+    font-size: 1.4em;
     display: flex;
     flex-direction: column;
     text-align: right;
     color: #082551;
-
 }
 
 .flexImage{
     display: flex;
+    width: 11em;
     flex-direction: column;
 }
 
@@ -167,15 +158,56 @@
 #sendButton{
     justify-content: center;
 }
-@media only screen and (max-width: 768px) {
+
+
+@media screen and (max-width: 550px) {
+
+    .whiteFutter{
+        background-color: white;
+        padding-bottom: 1em;
+        padding-right: 1em;
+        margin-left: 1em;
+    }
+    
     .backArrow{
-        margin-bottom: 0;
-        padding-top: 2em;
+        padding-right: 1em;
+    }
+
+    .sucessPage{
+        height:fit-content;
+    }
+
+    .flexImage{
+        margin: auto;
+    }
+
+    .detailsInfo{
+        text-align: center;
+    }
+
+    .sucessHeadline{
+        text-align: center;
+        width: 100%;    
+    }
+    
+    .sucessHeadline2{
+       text-align: center;
+       width: 100%;  
+    }
+
+    .sucessInfo{
+        flex-direction: column;
+    }
+    
+    .fallenName{
+        width: fit-content
     }
 
     .bigContainer{
-        margin-right: 1em;
-        margin-left: 0;
+        width: 100vw;
+        padding-right: 1em;
+        padding-left: 1em;
+        margin: 0;
     }
 
     .additionalInfo{
@@ -185,18 +217,26 @@
 
     .meetingInfo{
         margin-right: 0;
-        width: 30vh;
+        padding-top: 3em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    .detailsInfo{
-        width: 30vh;
-    }
 
     .shareWith{
         right: 0;
+        margin: auto;
+        text-align: center;
+        padding-top: 1em;
     }
 
-    #sharingBox{
-        right: -4em;
+    .sharingComponent{
+        position: relative;
+        top: -1.5em;
+        display: flex;
+        margin: auto;
+        justify-content: center;
     }
 }

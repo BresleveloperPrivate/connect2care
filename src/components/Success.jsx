@@ -77,10 +77,10 @@ function Success(props) {
         return (
         meeting ?
         <div className="navBarMargin">
-                <div>
+                <div style={{height:'90vh' , display:'flex' , flexDirection:'column'}}>
                     <div className="sucessPage">
                         <div className="bigContainer">
-                            <div className="backArrow"><FontAwesomeIcon icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
+                            <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
                             <div className="sucessHeadline">מצויין יצרת מפגש</div>
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
@@ -90,9 +90,8 @@ function Success(props) {
                                 </div>
                                 <div className="meetingInfo">
                                     <div className="fallenName">
-                                        <img alt="alt" className="whiteCandle" src={candle} height="15px" width="10px" />
-                                        <span className="exactDate">
-                                        <span>{meeting.fallens_meetings.map((fallen, index) => {
+                                        <div style={{width: '1.1em' , height:'1.1em' , display:'flex'}}><img alt="alt" className="whiteCandle" src={candle} height="100%" width="100%" /></div>
+                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
                                                     <span>לזכר {fallen.fallens.name} ז"ל</span>
@@ -111,16 +110,14 @@ function Success(props) {
                                                 )
 
                                             }
-                                        })}</span>                                            
-                                            
-                                            </span>
+                                        })}</div>                                            
                                     </div>
                                     <div className="meetingDate">
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
                                         <span className="exactDate">{meeting.date} | {meeting.time}</span>
                                     </div>
                                     <div className="relationDiv">
-                                        <img alt="alt" className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
+                                    <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
                                         <span className="relationInfo"> מנחה: {meeting.meetingOwner.name}</span>
                                     </div>
                                     <div className="detailsInfo">{meeting.description}</div>
@@ -132,8 +129,10 @@ function Success(props) {
                     </div>
                     <div className="sharingComponent">
                         <Sharing 
+                        containImageClassName={'containSharingImage'}
+                        myId={'sharingBox'}
                     data={meeting}
-                    styleObject={{buttonWidth: 'fit-content', fontSize:'1.3em', imageWidth: '30px', imageHeight: '30px'}}
+                    styleObject={{buttonWidth: 'fit-content'}}
                     />
                     </div>
                     <div className="whiteFutter">

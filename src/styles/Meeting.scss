@@ -38,7 +38,7 @@ $navBarMargin: 10vh;
         }
 
         #meetingTop {
-            margin-top: 1vh;
+            // margin-top: 1vh;
             display: flex;
             flex-direction: column;
 
@@ -139,7 +139,7 @@ $navBarMargin: 10vh;
 
 #meetingPageLeft {
     overflow: auto;
-    padding: $navBarMargin + 5vh 3em 4vh 3em;
+    padding: $navBarMargin + 4vh 3em 2vh 3em;
     position: fixed;
     height: 100%;
     left: 0;
