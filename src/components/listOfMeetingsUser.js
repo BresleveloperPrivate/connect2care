@@ -52,7 +52,7 @@ const ListOfMeetingsUser = (props) => {
                         placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
                     />
                     <div
-                        style={{ marginRight: '2vw' }}
+                        style={{ marginRight: '2em' }}
                         className={props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
                             'button-meetings' : 'button-meetings disabled-button-meetings'}
                         onClick={props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
@@ -156,7 +156,8 @@ const ListOfMeetingsUser = (props) => {
                                 <ImageOfFallen
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}
-
+                                    width='15em'
+                                    height='100%'
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
                             </div>
@@ -173,7 +174,7 @@ const ListOfMeetingsUser = (props) => {
                                         {meeting.name}
                                     </div>
                                     <div className='meetingFor'>
-                                        <div style={{height:'1.7vw' , marginLeft:'0.5vw' , marginBottom:'0.5em'}}>
+                                        <div style={{height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
                                             <img src={candle} height='100%' />
                                         </div>
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
@@ -198,14 +199,14 @@ const ListOfMeetingsUser = (props) => {
                                         })}</div>
                                     </div>
                                     <div className='meetingDate'>
-                                        <div style={{ height: '1.4vw', marginBottom: '0.5vw', marginLeft: '0.5vw' }}>
+                                        <div style={{ height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                             <img src={clock} height='100%' />
                                         </div>
                                         {meeting.date} | {meeting.time}
                                     </div>
                                     <div className='meetingOwner'>
 
-                                        <div style={{ height: '1.4vw', marginBottom: '0.7vw', marginLeft: '0.5vw' }}>
+                                        <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                                             <img src={tell} height='100%' />
                                         </div>
                                        מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}
@@ -242,13 +243,13 @@ const ListOfMeetingsUser = (props) => {
                 }) : null}
 
                     {!props.MeetingsStore.meetings ?
-                     <div style={{marginTop: '10vw'}}>
+                     <div style={{marginTop: '10em'}}>
                         <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
                         <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                      : !props.MeetingsStore.meetings.length ?
-                     <div  style={{marginTop: '10vw' , color:'var(--custom-blue)' , fontSize:'2em'}}>
+                     <div  style={{marginTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
                          לא נמצאו מפגשים המתאימים לחיפוש שלך
                       </div>
                      

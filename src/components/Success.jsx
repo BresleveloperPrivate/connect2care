@@ -85,7 +85,7 @@ function Success(props) {
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
-                                    <ImageOfFallen array={meeting.fallens_meetings} />
+                                    <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
                                     <div className="isMeetingOpen">{meeting.isOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
                                 </div>
                                 <div className="meetingInfo">

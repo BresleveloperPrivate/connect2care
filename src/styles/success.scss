@@ -2,8 +2,21 @@
 .sucessPage{
     background: #00726B;
     width: 100vw;
-    font-size: 1.5vh;
+    font-size: 10px;
     flex-grow: 1;
+  
+
+    @media screen and(min-height: 700px){
+        font-size: 12px;
+    }
+
+    @media screen and(min-height: 850px){
+        font-size: 14.5px;
+    }
+
+    @media screen and(min-height: 1000px){
+        font-size: 17px;
+    }
 }
 
 .whiteFutter{

@@ -1,17 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
 
-.mainPage-meetings{
-    font-size:0.8vw;
+.mainPage-meetings , .imageOfFallen{
+    font-size:10px;
+    @media screen and (max-width: 900px){
+        font-size: 9px;
+    }
     @media screen and (max-width: 800px){
-        font-size: 1.2vw;
+        font-size: 8px;
+    }
+    @media screen and (max-width: 700px){
+        font-size: 7px;
+    }
+    @media screen and (max-width: 600px){
+        font-size: 6px;
+    }
+    @media screen and (max-width: 500px){
+        font-size: 5px;
+    }
+    @media screen and (max-width: 400px){
+        font-size: 4px;
+    }
+    @media screen and (max-width: 300px){
+        font-size: 3px;
     }
 }
 
-.imageOfFallen{
-    font-size:1.2vw;
-    @media screen and (max-width: 800px){
-        font-size: 1.6vw;
-    }}
 
 .App{
     font-family: 'Assistant';
