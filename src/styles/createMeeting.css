@@ -361,6 +361,19 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+    .containSelectTime{
+        width: 30%;
+        margin-right: 2vh;
+    }
+
+    .containDateInput{
+        width: 80%;
+    }
+
+    .inputStyleTime{
+        width: 100%;
+    }
+
     .containDateAndTime{
         width: 65%;
         display: flex;
@@ -382,6 +395,11 @@ input[type=radio]:focus {
 
     .candleImg{
         width: fit-content;
+        margin-right: 6vw;
+    }
+
+
+    .searchStyle{
         margin-right: 6vw;
     }
     

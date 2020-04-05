@@ -4,9 +4,10 @@ import Auth from '../modules/auth/Auth'
 
 class MeetingsStore {
 
+    error = false
     searchInput = ''
     prevSearchInput = ''
-    fallenRelative = false
+    fallenRelative = ''
     language = false
     date = false
     lastId = 0
@@ -32,7 +33,7 @@ class MeetingsStore {
 
     changeFallenRelative = (relative) => {
         if (relative === 'קרבה לחלל') {
-            this.fallenRelative = false
+            this.fallenRelative = ''
             return
         }
         this.fallenRelative = relative
@@ -73,7 +74,7 @@ class MeetingsStore {
                 getMore ? { id: { gt: this.lastId } } : {},
                 this.language ? { language: this.language } : {},
                 this.date ? { date: this.date } : {},
-                this.fallenRelative ? { relationship: this.fallenRelative } : {}
+                // this.fallenRelative ? { relationship: this.fallenRelative } : {}
             ]
         }
 
@@ -82,9 +83,10 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, time: this.time || [], isAvailable: this.availableOnly })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, time: this.time || [], isAvailable: this.availableOnly , relation: this.fallenRelative })
         })
         if (err) {
+            this.error = err
             console.log(err)
         } else {
             console.log(meetings)
@@ -131,6 +133,7 @@ decorate(MeetingsStore, {
     meetings: observable,
     changeMeetingTime: action,
     changeAvailableOnly: action,
+    error:observable,
 });
 
 export default new MeetingsStore();

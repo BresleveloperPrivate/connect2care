@@ -41,9 +41,9 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
 
-                <div style={{ display: 'flex', marginBottom: '3vh' }}>
+                <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen />
-                    <div style={{ marginTop: '0.6vh' }} className="searchButton pointer grow" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div>
+                    {/* <div style={{ marginTop: '0.6vh' }} className="searchButton pointer grow" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div> */}
                 </div>
 
                 {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
@@ -68,7 +68,7 @@ const FallenDetails = (props) => {
                     width='95%'
                     className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.fallens || !CreateMeetingStore.fallens[props.index] || !CreateMeetingStore.fallens[props.index].relative) ? "error" : "")}
                     onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
-                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble">
+                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : "-10px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute">
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
