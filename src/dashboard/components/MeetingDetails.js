@@ -177,9 +177,7 @@ const CreateMeeting = (props) => {
                             <div className='containSelectTime'>
 
                                 {props.ManagerMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
-                                <div className={'inputStyle d-flex align-items-center ' + (isSaved && (!props.ManagerMeetingStore.meetingDetails.time || (props.ManagerMeetingStore.meetingDetails.time && !props.ManagerMeetingStore.meetingDetails.time.length)) ? "error" : "")}
-                                 className='inputStyleTime'
-                                 >
+                                <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.ManagerMeetingStore.meetingDetails.time || (props.ManagerMeetingStore.meetingDetails.time && !props.ManagerMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <CssTimePicker
                                             clearable

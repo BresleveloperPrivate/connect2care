@@ -218,7 +218,7 @@ input[type=radio]:focus {
     background-color: white;
     padding: 0.5vh 2vh;
     margin-right: 6vw;
-    margin-bottom: 2vh;
+    margin-bottom: 3vh;
     cursor: pointer;
     width: fit-content;
 }
@@ -279,7 +279,7 @@ input[type=radio]:focus {
 }
 
 .containFallenDetails{
-    margin-bottom: 4vh
+    margin-bottom: 2vh
 }
 
 .error{

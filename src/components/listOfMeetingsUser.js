@@ -150,7 +150,7 @@ const ListOfMeetingsUser = (props) => {
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}
                                     width='15em'
-                                    height='100%'
+                                    height='21em'
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
                             </div>
@@ -172,17 +172,17 @@ const ListOfMeetingsUser = (props) => {
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
-                                                    <span>לזכר {fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
                                             else if (index === meeting.fallens_meetings.length - 1) {
                                                 return (
-                                                    <span> ו{fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
                                             else {
                                                 return (
-                                                    <span>, {fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}>, {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
                                         })}</div>
@@ -227,8 +227,8 @@ const ListOfMeetingsUser = (props) => {
 
                     {!props.MeetingsStore.meetings ?
                      <div style={{marginTop: '10em'}}>
-                        <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
-                        <span class="sr-only">Loading...</span>
+                        <div className="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
+                        <span className="sr-only">Loading...</span>
                         </div>
                     </div>
                      : !props.MeetingsStore.meetings.length ?

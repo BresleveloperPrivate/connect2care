@@ -72,6 +72,7 @@ function Success(props) {
         meeting ?
         <div className="navBarMargin">
                 <div style={{height:'90vh' , display:'flex' , flexDirection:'column'}}>
+                {/* <div>{props.t("sunday")}</div> */}
                     <div className="sucessPage">
                         <div className="bigContainer">
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
@@ -88,19 +89,19 @@ function Success(props) {
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
-                                                    <span>לזכר {fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
 
                                             else if (index === meeting.fallens_meetings.length - 1) {
                                                 return (
-                                                    <span> ו{fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
 
                                             else {
                                                 return (
-                                                    <span>, {fallen.fallens.name} ז"ל</span>
+                                                    <span key={index}>, {fallen.fallens.name} ז"ל</span>
                                                 )
 
                                             }
