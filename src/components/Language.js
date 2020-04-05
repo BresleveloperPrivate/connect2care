@@ -9,9 +9,9 @@ import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
 import heb from '../icons/heb.svg'
 import en from '../icons/en.svg'
-
+const useForceUpdate = () => useState()[1];
 const Language = (props) => {
-
+    const forceUpdate = useForceUpdate();
     // This function open the side nav bar or close it, depends of the situation
     // toggleDrawer = (open) => event => {
     //     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -60,6 +60,7 @@ const Language = (props) => {
                                     props.changeLanguage(value.short)
                                     //   this.setOptions()
                                     setSelectedIndex(index)
+                                    // forceUpdate()
                                 }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }} className='optionInSelect'>
                                     <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={value.img} /></div>

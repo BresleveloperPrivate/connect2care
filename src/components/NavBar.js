@@ -33,16 +33,21 @@ class NavBar extends Component {
             { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact', open: true }]
     }
 
+    changelng = (lng) => {
+        this.props.changeLanguage(lng);
+        this.setOptions()
+    }
+
     render() {
         return (
             <div className={'navbar ' + this.props.className}>
-                    <div className='containMenu'>
-                        <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
-                    </div>
-                    <div className='containLanguage'>
-                    <Language changeLanguage={this.props.changeLanguage} />
+                <div className='containMenu'>
+                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
                 </div>
-               
+                <div className='containLanguage'>
+                    <Language changeLanguage={this.changelng} />
+                </div>
+
 
                 <div className='navbarOptions'>
                     {this.options.map((value, index) => {
@@ -71,7 +76,7 @@ class NavBar extends Component {
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}
-                changeLanguage={this.props.changeLanguage}
+                    changeLanguage={this.props.changeLanguage}
                     toggleDrawer={this.toggleDrawer}
                     options={this.options}
                     right={this.state.right}
