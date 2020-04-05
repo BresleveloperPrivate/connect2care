@@ -13,7 +13,7 @@ class ExampleStore {
             { option: 'עברית', short: 'heb', img: heb },
         ]
 
-    selectedIndex = this.Options.findIndex(val => val.short === localStorage.getItem('lang'))
+    selectedIndex = this.Options.findIndex(val => val.short === localStorage.getItem('lang')) || 'heb'
     setSelectedIndex = (index) => {
         this.selectedIndex = index
     }

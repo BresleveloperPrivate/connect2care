@@ -1,29 +1,12 @@
-/* <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("heb"); this.setOptions() }} >עברית</div>
-    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >אנגלית</div>
-    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >רוסית</div> */
 
 import React, { useState, useRef } from 'react'
 import '../styles/animations.scss'
 import { inject, observer } from 'mobx-react';
-// import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
 
 const useForceUpdate = () => useState()[1];
 const Language = (props) => {
-    // This function open the side nav bar or close it, depends of the situation
-    // toggleDrawer = (open) => event => {
-    //     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    //         return;
-    //     }
-    //     this.setState({ right: open })
-    // };
-
-    // setOptions = () => {
-    
-    // }
-
-
 
     const ref = useRef()
 
@@ -40,7 +23,6 @@ const Language = (props) => {
                         <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={props.LanguageStore.Options[props.LanguageStore.selectedIndex].img} /></div>
                         {props.LanguageStore.Options[props.LanguageStore.selectedIndex].option}
                     </div>
-                    {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
                 </div>
                 {isSelectOpen &&
                     <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
