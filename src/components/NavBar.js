@@ -62,11 +62,12 @@ class NavBar extends Component {
 
                         )
                     })}
-                    <select className='optionInNavbar grow-bold pointer'>
+                    {/* <div className='optionInNavbar grow-bold pointer' onClick={() => { this.changeLanguage("heb") }} >english</div> */}
+                    {/* <select className='optionInNavbar grow-bold pointer'>
                         <option  onClick={() => { this.changeLanguage("heb") }}>עברית</option>
                         <option  onClick={() => { this.changeLanguage("en") }}>אנגלית</option>
                         <option  onClick={() => { this.changeLanguage("en") }}>רוסית</option>
-                    </select>
+                    </select> */}
                 </div>
 
                 <div className='navbarIcon'>
