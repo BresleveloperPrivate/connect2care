@@ -12,110 +12,229 @@ module.exports = function (meetings) {
     }
 
 
-    meetings.getMeetingsUser = (search, filters, time, isAvailable, relation, options, cb) => {
+    meetings.remoteMethod('getMeetingsUser', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'search', type: 'string' },
+            { arg: 'filters', type: 'object' },
+            // { arg: 'time', type: 'array' },
+            // { arg: 'isAvailable', type: 'boolean' },
+            // { arg: 'relation', type: 'string' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
+
+
+    meetings.getMeetingsUser = (search, filters, options, cb) => {
         console.log(filters)
-        let resArray = []
-        meetings.find({ where: filters, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
-            if (err) {
-                return cb(err)
-            } else {
-                console.log(response)
-                if (response.length) {
-                    if (search || time.length || isAvailable || relation) {
-                        for (let i = 0; i < response.length; i++) {
-                            let res = JSON.parse(JSON.stringify(response[i]))
-                            let moveToSearch = true
-                            let moveToTime = true
-                            if (relation) {
-                                if ((res.fallens_meetings).some(fallen => fallen.relationship === relation)) {
-                                    if (!time.length && !isAvailable && !search) {
-                                        resArray.push(res)
-                                        moveToTime = false
-                                    }
 
-                                } else {
-                                    moveToSearch = false
-                                    moveToTime = false
-                                }
-                            }
+        let sqlQuerySelect = `meetings.id`
+        let sqlQueryfrom = `meetings`
+        let sqlQueryWhere = ``
 
-                            if (time.length && moveToTime) {
-                                try {
-                                    if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if (!search && !isAvailable) {
-                                            resArray.push(res)
-                                            moveToSearch = false
-                                        }
-                                        else if (!search && isAvailable) {
-                                            if (res.participants_num < res.max_participants) {
-                                                resArray.push(res)
-                                            }
-                                        }
+        if (filters.date) {
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
+        }
 
-                                    } else {
-                                        moveToSearch = false
-                                    }
-                                } catch (err) {
-                                    console.log(err)
-                                }
-                            }
-                            else if (isAvailable) {
-                                console.log(res.participants_num, res.max_participants)
-                                if (!search) {
-                                    if (res.participants_num < res.max_participants) {
-                                        resArray.push(res)
-                                    }
-                                } else {
-                                    moveToSearch = false
-                                }
+        if (filters.language) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '${filters.language}'`
+        }
+
+        if (filters.time) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.time >= ${filters.time[0]} and meetings.time < ${filters.time[1]}`
+        }
+
+        // if (filters.isOpen !== (null || undefined))
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
+
+        // if (filters.name)
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `meetings.name = '${filters.name}'`
+
+        // if (filters.relationship || filters.fallen) {
+        //     sqlQueryfrom += `, fallens_meetings`
+        //     if (filters.relationship) {
+        //         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+        //     }
+        //     if (filters.fallen) {
+        //         sqlQueryfrom += `, fallens`
+        //         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+        //             `match(fallens.name) against ('${filters.fallen}')
+        //              and fallens.id = fallens_meetings.fallen`
+        //     }
+        //     sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+        // }
 
 
-                            }
-                            if (search && moveToSearch) {
-                                if (res.name.includes(search) || search.includes(res.name)) {
-                                    resArray.push(res)
-                                }
-                                else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
-                                    resArray.push(res)
-                                }
-                                else if (res.fallens_meetings.length && (res.fallens_meetings).some(fallen => (fallen.fallens.name).includes(search))) {
-                                    resArray.push(res)
-                                }
-                            }
+        // if (filters.owner) {
+        //     sqlQueryfrom += `, people`
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+        //         `people.name = '${filters.owner}'
+        //          and meetings.owner = people.id`
+        // }
+        if (filters.isAvailable) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
+        }
 
-                            if (resArray.length >= 5 || i === response.length - 1) {
-                                return cb(null, resArray)
-                            }
-                        }
-                    }
-                    else {
-                        return cb(null, response.slice(0, 5))
-                    }
-                } else {
-                    return cb(null, response)
-                }
+        if (filters.relationship) {
+            sqlQueryfrom += `, fallens_meetings`
+
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+        }
+
+        if (search) {
+            if (filters.relationship) {
+                sqlQueryfrom += ` , people , fallens`
             }
+            else { sqlQueryfrom += ` , people , fallens , fallens_meetings` }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                `(match(fallens.name) against('${search}') or match(meetings.name) against('${search}') or match(people.name) against('${search}')                 and meetings.owner = people.id
+                )
+                and fallens.id = fallens_meetings.fallen
+                and meetings.id = fallens_meetings.meeting
+                `
+        }
+
+        // sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+
+        console.log('query:  ',sqlQueryfrom)
+        console.log('where:  ', sqlQueryWhere)
+
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(res)
+                if (res.length !== 0) {
+                    let where = { or: [] }
+                    if (res.length === 1) {
+                        where = res[0]
+                    }
+                    else for (let i of res) {
+                        where.or.push(i)
+                    }
+                    console.log(where)
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                        if (err1) {
+                            console.log("err1", err1)
+                            return cb(err1)
+                        }
+                        let size = res1.length
+                        // res1 = res1.slice(filters.from, filters.from + 20)
+                        // res1.push(size)
+                        console.log(res1)
+                        return cb(null, res1);
+                    })
+                }
+                else return cb(null, [])
+            }
+
         })
+
+        // let resArray = []
+        // meetings.find({ where: filters, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
+        //     if (err) {
+        //         return cb(err)
+        //     } else {
+        //         console.log(response)
+        //         if (response.length) {
+        //             if (search || time.length || isAvailable || relation) {
+        //                 for (let i = 0; i < response.length; i++) {
+        //                     let res = JSON.parse(JSON.stringify(response[i]))
+        //                     let moveToSearch = true
+        //                     let moveToTime = true
+        //                     if (relation) {
+        //                         if ((res.fallens_meetings).some(fallen => fallen.relationship === relation)) {
+        //                             if (!time.length && !isAvailable && !search) {
+        //                                 resArray.push(res)
+        //                                 moveToTime = false
+        //                             }
+
+        //                         } else {
+        //                             moveToSearch = false
+        //                             moveToTime = false
+        //                         }
+        //                     }
+
+        //                     if (time.length && moveToTime) {
+        //                         try {
+        //                             if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
+        //                                 if (!search && !isAvailable) {
+        //                                     resArray.push(res)
+        //                                     moveToSearch = false
+        //                                 }
+        //                                 else if (!search && isAvailable) {
+        //                                     if (res.participants_num < res.max_participants) {
+        //                                         resArray.push(res)
+        //                                     }
+        //                                 }
+
+        //                             } else {
+        //                                 moveToSearch = false
+        //                             }
+        //                         } catch (err) {
+        //                             console.log(err)
+        //                         }
+        //                     }
+        //                     else if (isAvailable) {
+        //                         console.log(res.participants_num, res.max_participants)
+        //                         if (!search) {
+        //                             if (res.participants_num < res.max_participants) {
+        //                                 resArray.push(res)
+        //                             }
+        //                         } else {
+        //                             moveToSearch = false
+        //                         }
+
+
+        //                     }
+        //                     if (search && moveToSearch) {
+        //                         if (res.name.includes(search) || search.includes(res.name)) {
+        //                             resArray.push(res)
+        //                         }
+        //                         else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
+        //                             resArray.push(res)
+        //                         }
+        //                         else if (res.fallens_meetings.length && (res.fallens_meetings).some(fallen => (fallen.fallens.name).includes(search))) {
+        //                             resArray.push(res)
+        //                         }
+        //                     }
+
+        //                     if (resArray.length >= 5 || i === response.length - 1) {
+        //                         return cb(null, resArray)
+        //                     }
+        //                 }
+        //             }
+        //             else {
+        //                 return cb(null, response.slice(0, 5))
+        //             }
+        //         } else {
+        //             return cb(null, response)
+        //         }
+        //     }
+        // })
     }
 
 
     meetings.getMeetingsByUser = (obj, options, cb) => {
         (async () => {
 
-        const people = meetings.app.models.people
-        const people_meetings = meetings.app.models.people_meetings
+            const people = meetings.app.models.people
+            const people_meetings = meetings.app.models.people_meetings
 
-        let [err, user] = await to(people.findOne({ where: { email: obj.email, phone : obj.phone} }))
-        if(!user){
+            let [err, user] = await to(people.findOne({ where: { email: obj.email, phone: obj.phone } }))
+            if (!user) {
 
-        }else{
-            let [err1, meetingsICreated] = await to(meetings.find({where: {owner: user.id} , include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-            let [err2, meetingsIJoined] = await to(people_meetings.find({where: {person: user.id} , include: { relation: 'meetings' , scope: {include:['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }]}} }))
+            } else {
+                let [err1, meetingsICreated] = await to(meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+                let [err2, meetingsIJoined] = await to(people_meetings.find({ where: { person: user.id }, include: { relation: 'meetings', scope: { include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] } } }))
 
-            console.log(meetingsIJoined)
-            return cb(null , [meetingsIJoined , meetingsICreated])
-        }
-    })()
+                console.log(meetingsIJoined)
+                return cb(null, [meetingsIJoined, meetingsICreated])
+            }
+        })()
 
     }
 
@@ -233,7 +352,7 @@ module.exports = function (meetings) {
             if (filters.participants.max)
                 sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
         }
-        
+
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
             if (err) {
                 console.log(err)
@@ -275,19 +394,6 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     })
 
-
-    meetings.remoteMethod('getMeetingsUser', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'search', type: 'string' },
-            { arg: 'filters', type: 'object' },
-            { arg: 'time', type: 'array' },
-            { arg: 'isAvailable', type: 'boolean' },
-            { arg: 'relation', type: 'string' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
-        returns: { arg: 'res', type: 'object', root: true }
-    })
 
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {

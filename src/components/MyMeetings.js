@@ -110,12 +110,12 @@ const ListOfMeetingsUser = (props) => {
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings ? meeting.fallens_meetings : meeting.meetings.fallens_meetings}
                                     width='15em'
-                                    height='100%'
+                                    height='21em'
                                     isOpen={meeting.participants_num < meeting.max_participants}
                                 />
                             </div>
                             <div
-                                style={{ cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto' }}
+                            style={{ cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto' }}
                                 className='meetingCard'
                                 onClick={meeting.participants_num < meeting.max_participants ? () => {
                                     props.history.push(`/meeting/${meeting.id}`)
