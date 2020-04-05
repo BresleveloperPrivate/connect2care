@@ -27,11 +27,18 @@ const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
 
 
 class App extends Component {
-    
+    constructor(props) {
+        super(props)
+        this.state = {
+            update: true
+        }
+    }
+
     changeLanguage = async (lang) => {
         const { i18n } = this.props;
         await i18n.changeLanguage(lang);
         localStorage.setItem("lang", lang);
+        this.setState({ update: false })
         this.forceUpdate()
     }
 
@@ -43,7 +50,7 @@ class App extends Component {
             <Helmet>
                 {image && <meta property="og:image" content={image} />}
             </Helmet>
-            <Suspense fallback={<div>Loading...</div>}>
+            {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
                     {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
                     <div className="App">
@@ -64,7 +71,7 @@ class App extends Component {
                         </Switch>
                     </div>
                 </Router>
-            </Suspense>
+            </Suspense>}
         </>
         );
     }
