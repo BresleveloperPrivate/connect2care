@@ -5,6 +5,7 @@ import menu from '../icons/menu.png'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
+import Language from './Language';
 
 class NavBar extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class NavBar extends Component {
     };
 
     setOptions = () => {
-        
+
         this.options =
             [{ option: this.props.t("meetingsList"), path: '/meetings' },
             { option: this.props.t("myMeetings"), path: '/my-meetings' },
@@ -35,9 +36,13 @@ class NavBar extends Component {
     render() {
         return (
             <div className={'navbar ' + this.props.className}>
-                <div className='containMenu'>
-                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
+                    <div className='containMenu'>
+                        <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
+                    </div>
+                    <div className='containLanguage'>
+                    <Language changeLanguage={this.props.changeLanguage} />
                 </div>
+               
 
                 <div className='navbarOptions'>
                     {this.options.map((value, index) => {
@@ -56,9 +61,7 @@ class NavBar extends Component {
 
                         )
                     })}
-                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("heb"); this.setOptions() }} >עברית</div>
-                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >אנגלית</div>
-                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >רוסית</div>
+
 
                 </div>
 

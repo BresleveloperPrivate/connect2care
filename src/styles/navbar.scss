@@ -53,15 +53,25 @@
     object-position: center;
 }
 
-.containMenu{
+.containLanguage{
+    visibility: visible;
     display: flex;
-    text-align: right;
-    align-items: center;
+    z-index: 11;
+    position: fixed;
+    right: 0px;
+    top: 0;
+}
+
+.containMenu{
     z-index: 11;
     position: fixed;
     right: 20px;
+    align-items: center;
+    display: flex;
+    text-align: right;
     height: 10vh;
     visibility: hidden;
+    display: none;
 }
 
 .navbar{
@@ -118,9 +128,15 @@
 
     .containMenu{
         visibility: visible;
+        display: flex;
     }
     .optionInNavbar{
        display: none;
+    }
+
+    .containLanguage{
+        visibility: hidden;
+        display: none;
     }
 }
 
