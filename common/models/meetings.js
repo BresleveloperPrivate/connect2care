@@ -1,6 +1,9 @@
 'use strict';
 
 const sendEmail = require('../../server/email.js');
+const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
+const ValidateRules = require('../../server/lib/validateRules.js');
+
 
 module.exports = function (meetings) {
 
@@ -248,6 +251,14 @@ module.exports = function (meetings) {
                 return cb(err)
             }
             if (!user0) {
+                if (!!!data.owner.name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!data.owner.email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
+                if (!!!data.owner.phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+
+                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
                 let [err1, user] = await to(people.create(data.owner))
                 if (err1) {
                     console.log("err1", err1)
@@ -256,8 +267,17 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
-            console.log(data)
-            let [err2, meeting] = await to(meetings.create(data))
+            // security validate
+            data.max_participants = Number(data.max_participants)
+            data.isOpen = !!data.isOpen
+            let whitelist = {
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+            };
+            let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
+            if (!valid.success || valid.errors) {
+                return cb(valid.errors, null);
+            }
+            let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2)
@@ -265,8 +285,16 @@ module.exports = function (meetings) {
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let fallen of data.fallens) {
-                    let fallenMeeting = { fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }
-                    let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
+
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    let [err3, res] = await to(fallens_meetings.create(valid1.data))
                     if (err3) {
                         console.log("err3", err3)
                         return cb(err3)
@@ -381,8 +409,6 @@ module.exports = function (meetings) {
                 else return cb(null, [])
             }
         })
-
-
     }
 
     meetings.remoteMethod('getMeetingsDashboard', {

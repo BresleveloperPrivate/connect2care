@@ -227,13 +227,14 @@ input[type=radio]:focus {
 
 .cancelPicture{
     position: absolute;
-    left: 5px;
+    left: -7px;
     color: #19A099;
-    top: -5px;
+    top: -8px;
     box-shadow: 0px 3px 6px #00000029;
     font-size: 20px;
     border-radius: 100%;
 }
+
 
 .containCreateMettingButton{
     display: flex;
@@ -276,8 +277,9 @@ input[type=radio]:focus {
     margin-bottom: 4vh
 }
 
-.error{
-    border-color: red !important;
+.error, .errorSearch .MuiOutlinedInput-root{
+    border: 2px solid red !important;
+    border-radius: 5px;
 }
 
 .dateContainer{
@@ -314,6 +316,20 @@ input[type=radio]:focus {
 .cancelSpeakBooble{
     width: 1.75vh;
     margin-left: 2vh;
+}
+
+.exictingPic{
+    width: fit-content;
+    margin-right: 6vw;
+    position: relative;
+}
+
+.containNameExist{
+    display: flex;
+    padding: 1vh 2vh 0 0;
+    margin-bottom: 3vh;
+    color: #EC5A5A;
+    font: normal 13px/20px Assistant;
 }
   
 .spinner > div {

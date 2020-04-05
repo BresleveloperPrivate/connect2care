@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import whatsappIcon from '../icons/whatsapp.svg';
@@ -10,6 +10,7 @@ import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
+import { useCopyToClipboard } from 'react-use';
 // import greenBackground from '../icons/greenBackground.png'
 
 //pass me this: styleObject = {
@@ -25,6 +26,7 @@ export default function Sharing(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [openEmail, setOpenEmail] = React.useState(false);
+  const [, copyToClipboard] = useCopyToClipboard();
 
 
   const handleOpenEmail = () => {
@@ -44,25 +46,6 @@ export default function Sharing(props) {
   };
 
   const { styleObject } = props;
-
-  const copyToClipboard = (str) => {
-    // Create new element
-    console.log("str", str)
-    let el = document.createElement('textarea');
-    // Set value (string to be copied)
-    el.value = str;
-    // Set non-editable to avoid focus and move outside of view
-    el.setAttribute('readonly', '');
-    el.style = { position: 'absolute', left: '-9999px' };
-    document.body.appendChild(el);
-    // Select text inside element
-    el.select();
-    // Copy text to clipboard
-    document.execCommand('copy');
-    // Remove temporary element
-    document.body.removeChild(el);
-    console.log("str", str)
-  }
 
   const shareWithWhatsApp = async () => {
     let name = 'דוד'
@@ -191,7 +174,7 @@ export default function Sharing(props) {
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
-        <MenuItem onClick={() => copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard("aaaaaaaaa")} id="platformName">העתק קישור</span></MenuItem>
 
         <SendEmail openEmail={openEmail}
           setOpenEmail={setOpenEmail}

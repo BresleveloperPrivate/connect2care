@@ -12,8 +12,7 @@ const useStyles = makeStyles({
     inputWraper: {
         position: "relative",
         height: 'fit-content',
-        width: '100%',
-        marginRight: '30px'
+        width: window.innerWidth > 550 ? '95%' : 'calc( 100% - 6vw)'
     },
 
     list: {
@@ -35,7 +34,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchFallen = () => {
+const SearchFallen = (props) => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState(null);
     const [showOptions, setShowOptions] = useState(true);
@@ -48,7 +47,7 @@ const SearchFallen = () => {
         setOptions(null);
         setShowOptions(true);
         setSearchValue(event.target.value);
-        CreateMeetingStore.changeFallenName(event);
+        CreateMeetingStore.changeFallenName(event, props.index);
     }, []);
 
     const onFallenClick = useCallback(async fallen => {
@@ -57,7 +56,9 @@ const SearchFallen = () => {
 
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include": "meetings" }`);
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
-        CreateMeetingStore.changeFallenDetails(response);
+        CreateMeetingStore.changeFallenDetails(response, props.index);
+        if (response && response.messages && response.messages.length)
+            props.setDataForFallen(true)
     }, []);
 
     const fetch = useMemo(() => throttle(async (value, callback) => {
@@ -87,15 +88,14 @@ const SearchFallen = () => {
             active = false;
         };
     }, [searchValue, fetch]);
-
     return (
         <div className={inputWraper}>
             <TextField
-                className='searchFallenInput'
                 value={searchValue}
                 onChange={onChange}
                 placeholder="שם החלל"
                 variant="outlined"
+                className={'searchFallenInput ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id]) ? "errorSearch" : "")}
                 color="primary"
                 InputProps={{
                     endAdornment: <Search color="primary" />
@@ -112,12 +112,12 @@ const SearchFallen = () => {
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>
                     )) : (
-                        <div className={loadingOrNoResults}>לא נמצאו תוצאות</div>
-                    ) : (
-                        <div className={loadingOrNoResults}>
-                            <CircularProgress color="primary" value={70} />
-                        </div>
-                    )}
+                            <div className={loadingOrNoResults}>לא נמצאו תוצאות</div>
+                        ) : (
+                            <div className={loadingOrNoResults}>
+                                <CircularProgress color="primary" value={70} />
+                            </div>
+                        )}
                 </List>
             )}
         </div>
