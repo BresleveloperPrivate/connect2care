@@ -28,6 +28,10 @@ class MeetingsStore {
     }
 
     changeMeetingTime = (time) => {
+        if (time === 'שעה') {
+            this.time = false
+            return
+        }
         this.time = time
     }
 
@@ -70,12 +74,12 @@ class MeetingsStore {
         console.log(getMore)
 
         let filter = {
-            and: [
-                getMore ? { id: { gt: this.lastId } } : {},
-                this.language ? { language: this.language } : {},
-                this.date ? { date: this.date } : {},
-                // this.fallenRelative ? { relationship: this.fallenRelative } : {}
-            ]
+                id: this.lastId ,
+                language: this.language,
+                date: this.date,
+                relationship: this.fallenRelative,
+                time: this.time,
+                isAvailable: this.availableOnly,
         }
 
         console.log(filter)
@@ -83,7 +87,7 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, time: this.time || [], isAvailable: this.availableOnly , relation: this.fallenRelative })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter })
         })
         if (err) {
             this.error = err
@@ -133,7 +137,7 @@ decorate(MeetingsStore, {
     meetings: observable,
     changeMeetingTime: action,
     changeAvailableOnly: action,
-    error:observable,
+    error: observable,
 });
 
 export default new MeetingsStore();

@@ -5,6 +5,21 @@
     margin-top: 11vh;
 }
 
+.emailAndPhonePopup{
+    position: fixed;
+    padding: 3vw;
+    width: fit-content;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    background-color: var(--custom-dark-green);
+    color: white;
+    z-index: 20;
+}
+
 .input-meetings{
     color: #4D4F5C;
     font-size: 1.3em;
