@@ -23,22 +23,8 @@ class CreateMeetingStore {
         zoomId: 0,
     }
 
-    meetingDetails = {
-        name: null,
-        description: null,
-        owner: {
-            name: null,
-            phone: "",
-            email: null
-        },
-        language: null,
-        isOpen: null,
-        date: null,
-        time: "00:00",
-        maxParticipants: "",
-        fallens: [{ id: 1, relative: null }],
-        zoomId: 0,
-    }
+    meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+    
     error = null;
     waitForData = false;
     otherRelationship = [{ id: 1, relative: null }];
@@ -182,22 +168,7 @@ class CreateMeetingStore {
             fallens: object.fallens,
             zoomId: 0,
         }
-        this.meetingDetails = {
-            name: object.name,
-            description: object.description,
-            owner: {
-                name: object.meetingOwner.name,
-                phone: object.meetingOwner.phone,
-                email: object.meetingOwner.email
-            },
-            language: object.language,
-            isOpen: object.isOpen,
-            date: object.date,
-            time: object.time,
-            maxParticipants: "",
-            fallens: object.fallens,
-            zoomId: 0,
-        }
+        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
     getMeetingDetails = async () => {
