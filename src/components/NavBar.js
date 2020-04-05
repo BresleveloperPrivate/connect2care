@@ -28,6 +28,15 @@ class NavBar extends Component {
         this.setState({ right: open })
     };
 
+
+    changeLanguage = async (lang) => {
+        console.log("lang", lang)
+        const { i18n } = this.props;
+        await i18n.changeLanguage(lang);
+        localStorage.setItem("lang", lang);
+        this.forceUpdate()
+    }
+
     render() {
         return (
             <div className={'navbar ' + this.props.className}>
@@ -49,9 +58,16 @@ class NavBar extends Component {
                             >
                                 {value.option}
                             </div>
+
                         )
                     })}
+                    <select className='optionInNavbar grow-bold pointer'>
+                        <option  onClick={() => { this.changeLanguage("heb") }}>עברית</option>
+                        <option  onClick={() => { this.changeLanguage("en") }}>אנגלית</option>
+                        <option  onClick={() => { this.changeLanguage("en") }}>רוסית</option>
+                    </select>
                 </div>
+
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
                         <img alt="alt" src={ourBrothers} height='100%' />
