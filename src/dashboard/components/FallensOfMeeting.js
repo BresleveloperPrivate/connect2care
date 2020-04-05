@@ -6,7 +6,9 @@ import speachBooble from "../icons/speakBobble.svg"
 import { observer, PropTypes } from 'mobx-react';
 
 import blueCandle from '../icons/candle-blue.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import grayCandle from '../icons/gray-candle.svg'
+import Auth from '../modules/auth/Auth'
 import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 
@@ -14,21 +16,34 @@ const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
     const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
-    const CreateMeetingStore = useCreateMeetingStore();
-    useEffect(() => {
-    }, [CreateMeetingStore.meetingDetails.fallens,CreateMeetingStore.fallenName,  CreateMeetingStore.fallenDetails]);
 
+    const CreateMeetingStore = useCreateMeetingStore();
+
+    const searchFallen = async (id) => {
+        let [success, err] = await Auth.superAuthFetch(`/api/fallens?filter={"where": { "id": ${id}}, "include": { "relation": "meetings", "scope": { "include": "meetingOwner" } } }`);
+
+        console.log("success", success)
+
+        if (err || !success) {
+            CreateMeetingStore.setError(err)
+        }
+        if (success) {
+            await CreateMeetingStore.changeFallenDetails(success[0])
+            props.setDataForFallen(true)
+        }
+    }
 
     let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image && CreateMeetingStore.fallenDetails[props.fallen.id].image !== ""
     return (
         <div className="containFallenDetails">
             {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
-            <div style={{ width: window.innerWidth > 550 ? "70%" : "", position: "relative" }}>
+            <div style={{ width: window.innerWidth <= 550 ? "70%" : "", position: "relative" }}>
 
-                {((CreateMeetingStore.fallenName && CreateMeetingStore.fallenName[props.index]) || CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name) && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>שם החלל</div>}
+                {CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
 
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
-                    <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
+                    <SearchFallen />
+                    {/* <div style={{ marginTop: '0.6vh' }} className="searchButton pointer grow" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div> */}
                 </div>
 
                 {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
@@ -53,7 +68,7 @@ const FallenDetails = (props) => {
                     width='95%'
                     className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.fallens || !CreateMeetingStore.fallens[props.index] || !CreateMeetingStore.fallens[props.index].relative) ? "error" : "")}
                     onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
-                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
+                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : "-10px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute">
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
@@ -76,16 +91,16 @@ const FallenDetails = (props) => {
                     />}
             </div>
 
-            <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >
+            <div className={findImage && dissmisedPic ? "position-relative" : "candleImg"} >
 
                 <img src={findImage && dissmisedPic ? CreateMeetingStore.fallenDetails[props.fallen.id].image : grayCandle}
                     alt="grayCandle" style={
                         findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
-                {/* {findImage && dissmisedPic && <FontAwesomeIcon
+                {findImage && dissmisedPic && <FontAwesomeIcon
                     className={"pointer cancelPicture"}
                     onClick={() => setDissmisedPic(false)}
                     icon={["fas", "times-circle"]}
-                />} */}
+                />}
             </div>
         </div>
     )

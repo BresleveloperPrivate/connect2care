@@ -8,8 +8,6 @@ import lockWhite from '../icons/lock-white.svg'
 
 
 const TextSideDiv = (props) => {
-    const [dissmisedPic, setDissmisedPic] = useState(true)
-
     return (
         <div className="position-fixed containInputTextSide" style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />

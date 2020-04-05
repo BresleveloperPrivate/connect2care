@@ -25,10 +25,7 @@
 }
 
 .allTableStyle tr td:last-child:not(.noRes){
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: fit-content;
+    width: 10%;
     margin:  0 1vw 0 0.5vw;
 }
 

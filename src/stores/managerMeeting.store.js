@@ -6,30 +6,28 @@ import Auth from '../modules/auth/Auth'
 class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
-    nameMessage = "";
     meetingDetailsOriginal = {
-        name: "",
-        description: "",
+        name: null,
+        description: null,
         owner: {
-            name: "",
+            name: null,
             phone: "",
-            email: ""
+            email: null
         },
-        language: "",
-        isOpen: "",
-        date: "",
+        language: null,
+        isOpen: null,
+        date: null,
         time: "00:00",
-        max_participants: "",
-        fallens: null,
+        maxParticipants: "",
+        fallens: [{ id: 1, relative: null }],
         zoomId: 0,
     }
-    allMeetings = null;
 
     meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
-
+    
     error = null;
     waitForData = false;
-    otherRelationship = null;
+    otherRelationship = [{ id: 1, relative: null }];
     meetingId = -1;
 
     changeMeetingName = (e) => {
@@ -40,18 +38,18 @@ class CreateMeetingStore {
         this.meetingId = meetingId
     }
 
-    changeFallenDetails = (fallen, index) => {
+    changeFallenDetails = (fallen) => {
         let id = fallen.id
         if (!this.fallenDetails) {
             this.fallenDetails = {}
+            this.fallenDetails[id] = {}
         }
         this.fallenDetails[id] = {
             name: fallen.name,
-            fallingDate: fallen.falling_date.split("T")[0] + "| " + fallen.heb_falling_date,
+            fallingDate: fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date,
             image: fallen.image_link,
             meetings: fallen.meetings
         }
-        this.meetingDetails.fallens[index].id = fallen.id
     }
 
     changeFallens = (index, number = null) => {
@@ -90,19 +88,8 @@ class CreateMeetingStore {
         }
     }
 
-    changeFallenName = (e, index) => {
-        if (!this.fallenName) {
-            this.fallenName = []
-        }
-        if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
-        else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
-        else {
-            for (let i = this.fallenName.length; i < index; i++)
-                this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
-        }
+    changeFallenName = (e) => {
+        this.fallenName = e.target.value
     }
 
     changeFallenRelative = (option, index) => {
@@ -112,7 +99,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
 
                     }
                 }
@@ -149,21 +136,6 @@ class CreateMeetingStore {
         this.meetingDetails.language = option
     }
 
-    getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success)
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
-        }
-    }
-
     changeMeetingOpenOrClose = (e) => {
         this.meetingDetails.isOpen = e.target.value
     }
@@ -172,7 +144,7 @@ class CreateMeetingStore {
         if (e.target.value.match(/[^0-9]/g) || e.target.value.length > 6) {
             return
         }
-        this.meetingDetails.max_participants = e.target.value
+        this.meetingDetails.maxParticipants = e.target.value
     }
 
     changeDetailsObjFunc = (object) => {
@@ -192,7 +164,7 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            max_participants: "",
+            maxParticipants: "",
             fallens: object.fallens,
             zoomId: 0,
         }
@@ -297,7 +269,6 @@ class CreateMeetingStore {
 decorate(CreateMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
-    nameMessage: observable,
     otherRelationship: observable,
     meetingDetails: observable,
     meetingId: observable,
@@ -321,7 +292,6 @@ decorate(CreateMeetingStore, {
     changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
-    getAllMeetings: action,
     changeMeetingName: action
 });
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 
-import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-ui/core';
+import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
 
@@ -8,15 +8,57 @@ import Auth from '../modules/auth/Auth';
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
 
-const SearchFallen = () => {
-    const [searchValue, setSearchValue] = useState('');
-    const [options, setOptions] = useState([]);
+const useStyles = makeStyles({
+    inputWraper: {
+        position: "relative",
+        height: 'fit-content',
+        width: window.innerWidth > 550 ? '95%' : 'calc( 100% - 6vw)'
+    },
 
-    const createMeetingStore = useCreateMeetingStore();
+    list: {
+        position: "absolute",
+        backgroundColor: "white",
+        zIndex: "10",
+        maxHeight: "50vh",
+        overflow: "auto",
+        boxShadow: '0px 3px 6px #00000029',
+        top: "calc(100% + 5px)",
+        width: "100%"
+    },
+
+    loadingOrNoResults: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px"
+    }
+});
+
+const SearchFallen = (props) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [options, setOptions] = useState(null);
+    const [showOptions, setShowOptions] = useState(true);
+
+    const { inputWraper, list, loadingOrNoResults } = useStyles();
+
+    const CreateMeetingStore = useCreateMeetingStore();
 
     const onChange = useCallback(event => {
+        setOptions(null);
+        setShowOptions(true);
         setSearchValue(event.target.value);
-        createMeetingStore.changeFallenName(event);
+        CreateMeetingStore.changeFallenName(event, props.index);
+    }, []);
+
+    const onFallenClick = useCallback(async fallen => {
+        setShowOptions(false);
+        setSearchValue(fallen.name);
+
+        const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include": "meetings" }`);
+        if (error || response.error) { console.error('ERR:', error || response.error); return; }
+        CreateMeetingStore.changeFallenDetails(response, props.index);
+        if (response && response.messages && response.messages.length)
+            props.setDataForFallen(true)
     }, []);
 
     const fetch = useMemo(() => throttle(async (value, callback) => {
@@ -29,15 +71,14 @@ const SearchFallen = () => {
         if (error || response.error) { console.error('ERR:', error || response.error); setOptions([]); return; }
 
         callback(response);
-    }, 500), []);
+    }, 200), []);
 
     useEffect(() => {
+        if (!showOptions) { setOptions([]); return; }
+
         let active = true;
 
-        if (searchValue === '') {
-            setOptions([]);
-            return undefined;
-        }
+        if (searchValue === '') { setOptions([]); return undefined; }
 
         fetch(searchValue, options => {
             if (active) { setOptions(options || []); }
@@ -47,33 +88,38 @@ const SearchFallen = () => {
             active = false;
         };
     }, [searchValue, fetch]);
-
     return (
-        <div style={{ height: 'fit-content', width: window.innerWidth > 550 ? '95%' : 'calc( 100% - 6vw)' }}>
+        <div className={inputWraper}>
             <TextField
-
-                className='searchFallenInput'
                 value={searchValue}
                 onChange={onChange}
                 placeholder="שם החלל"
                 variant="outlined"
+                className={'searchFallenInput ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id]) ? "errorSearch" : "")}
                 color="primary"
                 InputProps={{
                     endAdornment: <Search color="primary" />
                 }}
             />
-            <div>
-                <List>
-                    {options.map(fallen => (
-                        <ListItem button key={fallen.id}>
+
+            {showOptions && searchValue.length > 0 && (
+                <List className={list}>
+                    {options ? options.length > 0 ? options.map(fallen => (
+                        <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>
-                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} />
+                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} variant="rounded" />
                             </ListItemAvatar>
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>
-                    ))}
+                    )) : (
+                            <div className={loadingOrNoResults}>לא נמצאו תוצאות</div>
+                        ) : (
+                            <div className={loadingOrNoResults}>
+                                <CircularProgress color="primary" value={70} />
+                            </div>
+                        )}
                 </List>
-            </div>
+            )}
         </div>
     );
 };
