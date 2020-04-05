@@ -295,6 +295,26 @@ input[type=radio]:focus {
 .spinner {
     text-align: center;
 }
+
+.speakBobble{
+    /* background: url("../icons/speakBobble.svg") no-repeat center center; */
+    position: absolute;
+    left: 7vh;
+    bottom: -10px;
+    color: white;
+    /* height: 50px;
+    width: 250px; */
+    font: 500 15px/20px Assistant;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.cancelSpeakBooble{
+    width: 1.75vh;
+    margin-left: 2vh;
+}
   
 .spinner > div {
     width: 10px;
@@ -339,6 +359,19 @@ input[type=radio]:focus {
         align-items: flex-start;
         width: 65%;
         margin-right: 6vw;
+    }
+
+    .containSelectTime{
+        width: 30%;
+        margin-right: 2vh;
+    }
+
+    .containDateInput{
+        width: 80%;
+    }
+
+    .inputStyleTime{
+        width: 100%;
     }
 
     .containDateAndTime{

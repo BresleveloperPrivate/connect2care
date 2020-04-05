@@ -112,7 +112,7 @@ function Success(props) {
                                     </div>
                                     <div className="relationDiv">
                                     <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
-                                        <span className="relationInfo"> מנחה: {meeting.meetingOwner.name}</span>
+                                        <span className="relationInfo"> מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
                                     <div className="detailsInfo">{meeting.description}</div>
                                     {/* </div> */}

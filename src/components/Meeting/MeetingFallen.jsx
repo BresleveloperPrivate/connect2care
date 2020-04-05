@@ -17,7 +17,7 @@ const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
             <div className="meetingFallenDescription">
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
-                <div className="fallenDate">{falling_date}</div>
+                <div className="fallenDate">{falling_date.split("T")[0]}</div>
             </div>
         </div>
     );

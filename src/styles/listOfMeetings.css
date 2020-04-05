@@ -113,6 +113,7 @@
 }
 
 .containMeetingCard{
+    position: relative;
     width: 100%;
     display: flex;
     margin-top: 2.3em;
@@ -250,6 +251,20 @@
     padding: 0.1em 1em;
     font-size: 1.5em;
     border: 1px solid var(--custom-blue);
+}
+
+.editTool{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--custom-blue);
+    border-radius: 50%;
+    left: -15px;
+    top: -10px;
+    cursor: pointer;
 }
 
 /* .comment{
