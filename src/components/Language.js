@@ -44,7 +44,7 @@ const Language = (props) => {
     return (
         <div style={{width:'fit-content'}} onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}
             ref={ref}>
-            <div className='selectContainer' style={{ width: '100px' }} >
+            <div className='selectContainer' style={{ width: '100px' , fontSize:'0.8em' }} >
                 <div className='d-flex select align-items-center h-100'>
                     <div className="selectInput" style={{ width: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer', padding: '1vh 2vh', color: props.mode2 ? 'white' : null }}>
                         <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={Options[selectedIndex].img} /></div>
