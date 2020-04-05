@@ -40,7 +40,6 @@ const FallenDetails = (props) => {
 
                 <div className='searchStyle' style={{display:'flex' , marginBottom: '3vh'}}>
                     <SearchFallen />
-                    <div style={{marginTop: '0.6vh'}} className="searchButton pointer grow" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div>
                 </div>
 
                 {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
@@ -49,7 +48,7 @@ const FallenDetails = (props) => {
                     className='inputStyle dateContainer'
                     disabled
                     style={{ width: "95%", backgroundColor: "white" }}
-                    value={CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate}
+                    value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                     autoComplete="off"
                     placeholder="תאריך נפילה"
                 />

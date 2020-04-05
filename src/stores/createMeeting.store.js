@@ -58,10 +58,12 @@ class CreateMeetingStore {
             this.fallenDetails = {}
             this.fallenDetails[id] = {}
         }
-        this.fallenDetails[id].name = fallen.name
-        this.fallenDetails[id].fallingDate = fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date
-        this.fallenDetails[id].image = fallen.image_link
-        this.fallenDetails[id].meetings = fallen.meetings
+        this.fallenDetails[id] = {
+            name: fallen.name,
+            fallingDate: fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date,
+            image: fallen.image_link,
+            meetings: fallen.meetings
+        }
     }
 
     changeFallens = (index, number = null) => {
