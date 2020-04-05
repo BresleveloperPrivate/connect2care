@@ -95,7 +95,7 @@ const SearchFallen = (props) => {
                 onChange={onChange}
                 placeholder="שם החלל"
                 variant="outlined"
-                className={'searchFallenInput ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id]) ? "errorSearch" : "")}
+                className={'searchFallenInput ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "errorSearch" : "")}
                 color="primary"
                 InputProps={{
                     endAdornment: <Search color="primary" />
