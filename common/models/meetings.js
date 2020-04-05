@@ -99,6 +99,27 @@ module.exports = function (meetings) {
     }
 
 
+    meetings.getMeetingsByUser = (obj, options, cb) => {
+        (async () => {
+
+        const people = meetings.app.models.people
+        const people_meetings = meetings.app.models.people_meetings
+
+        let [err, user] = await to(people.findOne({ where: { email: obj.email, phone : obj.phone} }))
+        if(!user){
+
+        }else{
+            let [err1, meetingsICreated] = await to(meetings.find({where: {owner: user.id} , include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+            let [err2, meetingsIJoined] = await to(people_meetings.find({where: {person: user.id} , include: { relation: 'meetings' , scope: {include:['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }]}} }))
+
+            console.log(meetingsIJoined)
+            return cb(null , [meetingsIJoined , meetingsICreated])
+        }
+    })()
+
+    }
+
+
     meetings.createMeeting = (data, options, cb) => {
         (async () => {
             const people = meetings.app.models.people
@@ -162,6 +183,16 @@ module.exports = function (meetings) {
         ],
         returns: { arg: 'res', type: 'object', root: true }
     });
+
+    meetings.remoteMethod('getMeetingsByUser', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'obj', type: 'object' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    });
+
 
     meetings.getMeetingsDashboard = (filters, options, cb) => {
 

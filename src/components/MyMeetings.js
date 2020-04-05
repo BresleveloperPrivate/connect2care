@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 // import { inject, observer, PropTypes } from 'mobx-react';
 import lock from '../icons/blue-lock.svg'
 import tell from '../icons/tell.svg'
-// import Select from './Select.js'
-// import Auth from '../modules/auth/Auth'
+import Auth from '../modules/auth/Auth'
 import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
-// import checkboxOn from '../icons/checkbox_on_light.svg'
-// import checkboxOff from '../icons/checkbox_off_light.svg'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ListOfMeetingsUser = (props) => {
 
-    const [myMeetings ,setMyMeeting] = useState(false)
+    const [myMeetings ,setMyMeetings] = useState(false)
+    const [option , setOption] = useState(0)
     const [error ,setError] = useState(false)
     const [email ,setEmail] = useState(false)
     const [phone ,setPhone] = useState(false)
@@ -34,30 +32,83 @@ const ListOfMeetingsUser = (props) => {
     //     { option: '21:00 - 18:00', data: [1800, 2100] },
     //     { option: '00:00 - 21:00', data: [2100, 2400] }]
 
-    useEffect(() => {
-        (async () => {
-            // await props.MeetingsStore.search()
-        })()
-    }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsByUser', {
+    //             method: 'POST',
+    //             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ obj: {email , phone , code} })
+    //         })
+
+    //         console.log(meetings)
+    //         setMyMeetings(meetings)
+
+    //     })()
+    // }, []);
 
     return (
+        <div>{!myMeetings ?
+            //  <div style={{marginTop: '10em'}}>
+            //     <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
+            //     <span class="sr-only">Loading...</span>
+            //     </div>
+            // </div>
+            <div className='emailAndPhonePopup'>
+
+            הכנס אימייל:
+            <input type='text' onChange={(e)=>{setEmail(e.target.value)}}/> <br/> <br/>
+            הכנס מספר טלפון:
+            <input type='phone' onChange={(e)=>{setPhone(e.target.value)}}/>
+            <div onClick={()=>{
+                (async () => {
+                    let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsByUser', {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ obj: {email , phone , code} })
+                    })
+        
+                    console.log(meetings)
+                    setMyMeetings(meetings)
+        
+                })()
+            }}>שלח לי קוד אימות</div>
+
+        </div>
+
+
+
+             : !myMeetings.length ?
+             <div  style={{marginTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
+                 לא נמצאו מפגשים
+              </div>
+             
+              :null
+             }
      <div className='meetingsFullPage'>
+
+
        {!error ? 
-            <div className='mainPage-meetings' style={{ width: '95%'}}>
+            <div className='mainPage-meetings' style={{ width: '85%'}}>
                 <div className='meetings-title'>רשימת המפגשים שלי</div>
-                {/* <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן. </div> */}
-                {myMeetings ? myMeetings.map((meeting, index) => {
+                <div className='meetings-second-title' onClick={()=>{
+                    setOption(0)
+                }} >מפגשים שהצטרפתי </div>
+                <div className='meetings-second-title' onClick={()=>{
+                    setOption(1)
+                }}>מפגשים שיזמתי </div>
+
+                {myMeetings ? myMeetings[option].map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div className='editTool grow'>
+                            {option && <div className='editTool grow'>
                             <FontAwesomeIcon icon={['fas', 'pen']} style={{ fontSize: '1rem' , color: 'white' }} />
-                            </div>
+                            </div>}
                             <div onClick={meeting.participants_num < meeting.max_participants ? () => {
                                 props.history.push(`/meeting/${meeting.id}`)
                             } : () => { }}>
                                 <ImageOfFallen
                                     className='imageOfFallen'
-                                    array={meeting.fallens_meetings}
+                                    array={meeting.fallens_meetings ? meeting.fallens_meetings : meeting.meetings.fallens_meetings}
                                     width='15em'
                                     height='100%'
                                     isOpen={meeting.participants_num < meeting.max_participants}
@@ -78,13 +129,13 @@ const ListOfMeetingsUser = (props) => {
                                         <div style={{height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
                                             <img src={candle} height='100%' />
                                         </div>
-                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
+                                        <div>{meeting.fallens_meetings ? meeting.fallens_meetings : meeting.meetings.fallens_meetings .map((fallen, index) => {
                                             if (index === 0) {
                                                 return (
                                                     <span>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
-                                            else if (index === meeting.fallens_meetings.length - 1) {
+                                            else if (index === meeting.fallens_meetings ? meeting.fallens_meetings : meeting.meetings.fallens_meetings .length - 1) {
                                                 return (
                                                     <span> ו{fallen.fallens.name} ז"ל</span>
                                                 )
@@ -133,29 +184,6 @@ const ListOfMeetingsUser = (props) => {
                         </div>
                     )
                 }) : null}
-
-                    {!myMeetings ?
-                     <div style={{marginTop: '10em'}}>
-                        <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
-                        <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                     : !myMeetings.length ?
-                     <div  style={{marginTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
-                         לא נמצאו מפגשים
-                      </div>
-                     
-                      :null
-                     }
-
-                {/* {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings &&
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <div
-                            onClick={() => {
-                                props.MeetingsStore.search(true, false)
-                            }}
-                            className="loadMore-meetings grow">טען עוד</div>
-                    </div>} */}
             </div>
                     :
                     <div className='mainPage-meetings'>
@@ -164,8 +192,11 @@ const ListOfMeetingsUser = (props) => {
                        </div>
                     </div> 
                 }
-        </div>
 
+
+                
+        </div>
+        </div>
     );
 }
 export default ListOfMeetingsUser;
