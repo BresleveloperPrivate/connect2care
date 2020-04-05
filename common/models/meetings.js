@@ -196,77 +196,73 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsDashboard = (filters, options, cb) => {
 
-        // meetings.dataSource.connector.query(`select meetings.*, fallens.*
+        let sqlQuerySelect = `meetings.id`
+        let sqlQueryfrom = `meetings`
+        let sqlQueryWhere = ``
 
-        // from meetings, fallens, fallens_meetings
+        if (filters.date)
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
 
-        // where match(fallens.name) against ('ישראל')
+        if (filters.isOpen !== (null || undefined))
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        // and fallens.id = fallens_meetings.fallen  
+        if (filters.name)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `meetings.name = '${filters.name}'`
 
-        // and meetings.id = fallens_meetings.meeting
-
-        // LIMIT 0, 20`, (err, res) => {
-        //     if (err) { 
-        //         console.log("error setting points to 0")
-        //         return cb(true) 
-        //     }
-        //     let meetings = {}
-        //     if (res) {
-        //         for(let meeting of res){
-        //             console.log('meeting', meeting)
-        //             meeting.
-        //         }
-        //         return cb(null);
-        //     }
-        // })
-
-
-        (async () => {
-            let filtersOfMeetting = {}
-            if (filters.date) filtersOfMeetting.date = filters.date
-            if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
-            if (filters.name) filtersOfMeetting.name = filters.name
-
-            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-            if (err) {
-                console.log("err", err)
-                return cb(err)
-            }
-            let allMeetings = JSON.parse(JSON.stringify(res))
-            if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.participants_num >= filters.participants.min) && (filters.participants.max && meeting.participants_num < filters.participants.max))
-            }
+        if (filters.relationship || filters.fallen) {
+            sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen) => {
-                        if (filters.relationship === 'אחר') {
-                            return (
-                                fallen.relationship !== 'אח' &&
-                                fallen.relationship !== 'הורים' &&
-                                fallen.relationship !== 'קרובי משפחה' &&
-                                fallen.relationship !== 'חבר')
-                        }
-                        else return fallen.relationship === filters.relationship
-                    })
-                )
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen_maating) =>
-                        fallen_maating.fallens.name.includes(filters.fallen))
-                )
+                sqlQueryfrom += `, fallens`
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                    `match(fallens.name) against ('${filters.fallen}')
+                     and fallens.id = fallens_meetings.fallen`
             }
-            if (filters.owner) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.meetingOwner.name.includes(filters.owner)
-                )
+            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+        }
+        if (filters.owner) {
+            sqlQueryfrom += `, people`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                `people.name = '${filters.owner}'
+                 and meetings.owner = people.id`
+        }
+        if (filters.participants) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            if (filters.participants.max)
+                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+        }
+        
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+            if (err) {
+                console.log(err)
+                return cb(err)
             }
-            let size = allMeetings.length
-            allMeetings = allMeetings.slice(filters.from, filters.from + 20)
-            allMeetings.push(size)
-            return cb(null, allMeetings)
-        })()
+            if (res) {
+                if (res.length !== 0) {
+                    let where = { or: [] }
+                    if (res.length === 1) {
+                        where = res[0]
+                    }
+                    else for (let i of res) {
+                        where.or.push({ id: i })
+                    }
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                        if (err1) {
+                            console.log("err1", err1)
+                            return cb(err1)
+                        }
+                        let size = res1.length
+                        res1 = res1.slice(filters.from, filters.from + 20)
+                        res1.push(size)
+                        return cb(null, res1);
+                    })
+                }
+                else return cb(null, [])
+            }
+        })
+
 
     }
 

@@ -52,7 +52,7 @@ const FallenDetails = (props) => {
                     className='inputStyle dateContainer'
                     disabled
                     style={{ width: "95%", backgroundColor: "white" }}
-                    value={CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate}
+                    value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                     autoComplete="off"
                     placeholder="תאריך נפילה"
                 />
