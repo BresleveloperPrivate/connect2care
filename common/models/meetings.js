@@ -176,7 +176,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
         if (filters.name)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `meetings.name = '${filters.name}'`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('${filters.name}')`
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
@@ -194,7 +194,7 @@ module.exports = function (meetings) {
         if (filters.owner) {
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                `people.name = '${filters.owner}'
+                ` match(people.name) against('${filters.owner}')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
@@ -202,7 +202,6 @@ module.exports = function (meetings) {
             if (filters.participants.max)
                 sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
         }
-        
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
             if (err) {
                 console.log(err)
@@ -215,7 +214,7 @@ module.exports = function (meetings) {
                         where = res[0]
                     }
                     else for (let i of res) {
-                        where.or.push({ id: i })
+                        where.or.push( i )
                     }
                     meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
                         if (err1) {

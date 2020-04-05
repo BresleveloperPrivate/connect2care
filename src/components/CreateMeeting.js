@@ -76,7 +76,23 @@ const CreateMeeting = (props) => {
                 })
             }
                 <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
-            </div>)
+            </div>
+        )
+    }
+
+    const emailValidate = (e) =>{
+        console.log(e.target.value)
+        let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+        if(!e.target.value.match(regex)){
+            console.log('dont match')
+        }
+    }
+    const phoneValidate = (e) =>{
+        console.log(e.target.value)
+        let regex = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
+        if(!e.target.value.match(regex)){
+            console.log('dont match')
+        }
     }
 
     return (
@@ -132,6 +148,7 @@ const CreateMeeting = (props) => {
                             value={props.CreateMeetingStore.meetingDetails.owner.email || ''}
                             autoComplete="off"
                             placeholder="דואר אלקטרוני"
+                            onBlur={emailValidate}
                         />
 
                         {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">טלפון</div>}
@@ -142,6 +159,7 @@ const CreateMeeting = (props) => {
                             value={props.CreateMeetingStore.meetingDetails.owner.phone}
                             autoComplete="off"
                             placeholder="טלפון"
+                            onBlur={phoneValidate}
                         />
 
                         {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">שפת המפגש</div>}
@@ -180,8 +198,8 @@ const CreateMeeting = (props) => {
 
                                 {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
                                 <div className={'inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}
-                                 className='inputStyleTime'
-                                 >
+                                    className='inputStyleTime'
+                                >
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <CssTimePicker
                                             clearable

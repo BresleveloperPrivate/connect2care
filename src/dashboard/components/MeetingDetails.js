@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../style/meetingInfo.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import ErrorMethod from './ErrorMethod';
-import Success from './Success.jsx'
+// import ErrorMethod from './ErrorMethod';
+import Success from '../../components/Success.jsx'
 import person from '../../icons/person.svg'
 
 import lock from '../../icons/lock.svg'
-import Select from './Select.js'
+import Select from '../../components/Select'
 
-import FallenOfMeeting from "./FallenOfMeeting"
+import FallensOfMeeting from "./FallensOfMeeting"
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import { withStyles } from "@material-ui/core/styles";
-import TextSIdeDiv from './TextSIdeDiv';
 
 const CssTimePicker = withStyles({
     root: {
@@ -72,7 +71,7 @@ const CreateMeeting = (props) => {
         return (
             <div>{props.ManagerMeetingStore.meetingDetails.fallens && props.ManagerMeetingStore.meetingDetails.fallens.length &&
                 props.ManagerMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    return <FallenOfMeeting key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
+                    return <FallensOfMeeting key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
                 <div className="addFallen grow" onClick={() => { props.ManagerMeetingStore.changeFallens(props.ManagerMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
@@ -85,8 +84,7 @@ const CreateMeeting = (props) => {
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.ManagerMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
                     <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
-                    <div>
-
+                    <div className='meetingDetailsDash'>
                         {props.ManagerMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
                         <input
                             type="text"
@@ -225,8 +223,7 @@ const CreateMeeting = (props) => {
 
                         </div>
                     </div>
-                    {props.ManagerMeetingStore.error && <ErrorMethod {...props} />}
-                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
+                    {/* {props.ManagerMeetingStore.error && <ErrorMethod {...props} />} */}
                 </div>
                 : <Success history={props.history} meeting={success} />
             }

@@ -17,7 +17,7 @@ const Filters = (props) => {
     const [slectedParticipants, setSlectedParticipants] = useState("")
     
     const DATES = [{ option: 'הכל' }, { option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
-    const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }, { option: 'אחר' }]
+    const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרוב משפחה' }]
     const IS_OPEN_ARR = [{ option: 'הכל' }, { option: 'פתוח' }, { option: 'סגור' }]
     const PARTICIPANTS_NUM = [{ option: 'הכל' }, { option: '20 - 0' }, { option: '100 - 20' }, { option: '100+' }]
 
@@ -103,7 +103,7 @@ const Filters = (props) => {
 
 
                     <div className='filterItem'>
-                        <div className='textFilter'>חיפוש לפי יוצר</div>
+                        <div className='textFilter'>חיפוש לפי מנחה</div>
                         <div className="searchInputContainer">
                             <input className='searchPlaceInput'
                                 type='text'

@@ -24,13 +24,14 @@ class CreateMeetingStore {
     }
 
     meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
-    
+
     error = null;
     waitForData = false;
     otherRelationship = [{ id: 1, relative: null }];
     meetingId = -1;
 
     changeMeetingName = (e) => {
+        if (e.length > 50) return
         this.meetingDetails.name = e.target.value
     }
 
@@ -68,6 +69,7 @@ class CreateMeetingStore {
     }
 
     changeShortDescription = (e) => {
+        if (e.length > 1000) return
         this.meetingDetails.description = e.target.value
     }
 
@@ -118,6 +120,7 @@ class CreateMeetingStore {
     }
 
     changeMeetingFacilitatorName = (e) => {
+        if (e.length > 100) return
         this.meetingDetails.owner.name = e.target.value
     }
 
