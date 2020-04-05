@@ -43,10 +43,7 @@ const FallenDetails = (props) => {
 
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen />
-<<<<<<< HEAD
-=======
                     {/* <div style={{ marginTop: '0.6vh' }} className="searchButton pointer grow" onClick={() => searchFallen(Number(props.fallen.id))}>חפש</div> */}
->>>>>>> dc51c65a0e44516a2bd917e6661abad50f91096f
                 </div>
 
                 {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
