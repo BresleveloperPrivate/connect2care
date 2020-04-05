@@ -346,6 +346,10 @@ input[type=radio]:focus {
         margin-right: 2vh;
     }
 
+    .containDateInput{
+        width: 80%;
+    }
+
     .inputStyleTime{
         width: 100%;
     }

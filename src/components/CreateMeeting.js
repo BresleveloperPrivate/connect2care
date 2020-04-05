@@ -163,7 +163,7 @@ const CreateMeeting = (props) => {
                         </div>
 
                         <div className="containDateAndTime">
-                            <div style={window.innerWidth > 550 ? { width: "80%" } : {}}>
+                            <div className='containDateInput'>
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                                 <Select
                                     selectTextDefault='תאריך'
