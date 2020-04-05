@@ -39,7 +39,7 @@ const CssTimePicker = withStyles({
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
-    const [error, setError] = useState()
+    const [errorEmail, setErrorEmail] = useState(false)
     const [timeValue, setTimeValue] = useState()
     const [dataForFallen, setDataForFallen] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
@@ -139,16 +139,30 @@ const CreateMeeting = (props) => {
                             autoComplete="off"
                             placeholder="השם המלא שלך - מנחה המפגש"
                         />
-
+                       
                         {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">דואר אלקטרוני</div>}
                         <input
                             type="text"
                             className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
+                            onBlur={() =>
+                                setErrorEmail(true)
+                            }
+
+                            onTouchEnd={() =>
+                                setErrorEmail(true)
+                            }
+                            style={errorEmail ? { marginBottom: "0" } : {}}
                             onChange={props.CreateMeetingStore.changeMeetingFacilitatorEmail}
                             value={props.CreateMeetingStore.meetingDetails.owner.email || ''}
                             autoComplete="off"
                             placeholder="דואר אלקטרוני"
                         />
+                         {errorEmail &&
+                            <div className="containNameExist margin-right-text">
+                                <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
+                                <div>אנא בדוק שכתובת האימייל הינה נכונה</div>
+                            </div>
+                        }
 
                         {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">טלפון</div>}
                         <input

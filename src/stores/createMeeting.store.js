@@ -112,7 +112,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
 
                     }
                 }
@@ -241,7 +241,7 @@ class CreateMeetingStore {
         return objToreturn
     }
 
-    createNewMeetingPost = async (history) => {
+    createNewMeetingPost = async () => {
         this.waitForData = true
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
@@ -275,18 +275,31 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err || !success) {
-            this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+            console.log("err", err)
+            if (err && err.error && err.error.isOpen)
+                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+            else if (err && err.error && err.error.max_participants)
+                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+            else if (err && err.error && err.error.name)
+                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+            else if (err && err.error && err.error.description)
+                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+            else if (err && err.error && err.error.language)
+                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+            else if (err && err.error && err.error.time)
+                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+            else if (err && err.error && err.error.date)
+                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+            else if (err && err.error && err.error.relationship)
+                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+            else if (err && err.error && err.error.msg)
+                this.error = err.error.msg
+            else
+                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
             return
         }
         console.log("success", success)
         return success
-        // if (history)
-        //     history.push("/success")
-        //this.successObject = {
-        //  meetingStarter: success.meetingOwner.name,
-        //meetingStory: success.meetingOwner.name,
-        //meetingDate: success.date.
-        //}
     }
 
     setError = (error) => {

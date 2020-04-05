@@ -115,9 +115,9 @@ module.exports = function (meetings) {
                 if (!!!data.owner.email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
                 if (!!!data.owner.phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
 
-                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
-                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                // if (!/^['"\u0590-\u05fe\s.-]*$/.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let [err1, user] = await to(people.create(data.owner))
                 if (err1) {
