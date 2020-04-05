@@ -9,9 +9,8 @@ import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
 import heb from '../icons/heb.svg'
 import en from '../icons/en.svg'
-const useForceUpdate = () => useState()[1];
+
 const Language = (props) => {
-    const forceUpdate = useForceUpdate();
     // This function open the side nav bar or close it, depends of the situation
     // toggleDrawer = (open) => event => {
     //     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -42,12 +41,12 @@ const Language = (props) => {
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
-        <div style={{width:'fit-content'}} onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}
+        <div style={{ width: 'fit-content' }} onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}
             ref={ref}>
-            <div className='selectContainer' style={{ width: '90px' , fontSize:'0.8em' }} >
+            <div className='selectContainer' style={{ width: '90px', fontSize: '0.8em' }} >
                 <div className='d-flex select align-items-center h-100'>
                     <div className="selectInput" style={{ width: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer', padding: '1vh 2vh', color: props.mode2 ? 'white' : null }}>
-                        <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={Options[selectedIndex].img} /></div>
+                        <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}>{Options[selectedIndex].img && <img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={Options[selectedIndex].img} />}</div>
                         {Options[selectedIndex].option}
                     </div>
                     {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
