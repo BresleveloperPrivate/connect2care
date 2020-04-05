@@ -46,11 +46,9 @@ module.exports = function (meetings) {
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
                     `(match(fallens.name) against('${search}') or 
-                    match(meetings.name) against('${search}') or 
-                    match(people.name) against('${search}')  and meetings.owner = people.id
-                )
-                and fallens.id = fallens_meetings.fallen
-                `
+                        match(meetings.name) against('${search}') or 
+                        match(people.name) against('${search}')  and meetings.owner = people.id)
+                    and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
