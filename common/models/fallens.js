@@ -5,7 +5,8 @@ module.exports = function (fallens) {
     fallens.SearchFallen = (value, cb) => {
         fallens.dataSource.connector.query(`select *
             from fallens
-            where match(fallens.name) against ('${value}')`, (err, res) => {
+            where match(fallens.name) against ('${value}')
+            limit 0, 20`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)

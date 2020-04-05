@@ -231,8 +231,6 @@ module.exports = function (meetings) {
                 else return cb(null, [])
             }
         })
-
-
     }
 
     meetings.remoteMethod('getMeetingsDashboard', {
