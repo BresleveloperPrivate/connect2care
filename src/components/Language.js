@@ -36,7 +36,9 @@ const Language = (props) => {
     const ref = useRef()
     useOnClickOutside(ref, () => setIsSelectOpen(false));
 
-    const [selectedIndex, setSelectedIndex] = useState(0)
+    const currentLang = Options.findIndex(val => val.short === localStorage.getItem('lang'))
+
+    const [selectedIndex, setSelectedIndex] = useState(currentLang)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
