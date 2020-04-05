@@ -65,7 +65,6 @@ const ListOfMeetingsUser = (props) => {
 
                 </div>
                 <div className='containFilters'>
-
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
                         width='23%'
@@ -82,7 +81,6 @@ const ListOfMeetingsUser = (props) => {
                         changeBackground={true}
 
                     />
-
                     <Select
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='שעה'
@@ -101,7 +99,6 @@ const ListOfMeetingsUser = (props) => {
                         }}
                         changeBackground={true}
                     />
-
                     <Select
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='קרבה לחלל'
@@ -116,10 +113,7 @@ const ListOfMeetingsUser = (props) => {
                                 props.MeetingsStore.changeFallenRelative(value.option)
                             }}
                             changeBackground={true}
-
                     />
-
-
                     <Select
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='שפת המפגש'
@@ -146,8 +140,6 @@ const ListOfMeetingsUser = (props) => {
                     הצג מפגשים זמינים בלבד
                     </div>
                 </div>
-
-
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
@@ -169,7 +161,6 @@ const ListOfMeetingsUser = (props) => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 } : () => { }}
                             >
-
                                 <div className='meetingCardContent'>
                                     <div className='meetingName'>
                                         {meeting.name}
@@ -184,18 +175,15 @@ const ListOfMeetingsUser = (props) => {
                                                     <span>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
-
                                             else if (index === meeting.fallens_meetings.length - 1) {
                                                 return (
                                                     <span> ו{fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
-
                                             else {
                                                 return (
                                                     <span>, {fallen.fallens.name} ז"ל</span>
                                                 )
-
                                             }
                                         })}</div>
                                     </div>
@@ -216,9 +204,7 @@ const ListOfMeetingsUser = (props) => {
                                         {meeting.description}
                                     </div>
                                 </div>
-
                                 <div className='leftPartOfMeetingCard'>
-
                                     <div className='participants'>
                                         <img width='100%' height='100%' src={participants} />
                                         <div className='numberOfParticipants'>{meeting.participants_num}</div>
@@ -234,11 +220,7 @@ const ListOfMeetingsUser = (props) => {
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}
                                 </div>
-
                             </div>
-
-
-
                         </div>
                     )
                 }) : null}

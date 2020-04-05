@@ -364,6 +364,11 @@ input[type=radio]:focus {
         width: fit-content;
         margin-right: 6vw;
     }
+
+
+    .searchStyle{
+        margin-right: 6vw;
+    }
     
     .inputStyle{
         width: calc( 100% - 12vw) !important;
