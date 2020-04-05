@@ -71,6 +71,7 @@ class NavBar extends Component {
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}
+                changeLanguage={this.props.changeLanguage}
                     toggleDrawer={this.toggleDrawer}
                     options={this.options}
                     right={this.state.right}
