@@ -10,6 +10,7 @@ import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
+import { useCopyToClipboard } from 'react-use';
 // import greenBackground from '../icons/greenBackground.png'
 
 //pass me this: styleObject = {
@@ -25,7 +26,8 @@ export default function Sharing(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [openEmail, setOpenEmail] = React.useState(false);
-  const el = document.createElement('textarea');
+  const [, copyToClipboard] = useCopyToClipboard();
+
 
   const handleOpenEmail = () => {
     setOpenEmail(true);
@@ -44,15 +46,6 @@ export default function Sharing(props) {
   };
 
   const { styleObject } = props;
-
-  const copyToClipboard = str => {
-    
-    el.value = str;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-  };
 
   const shareWithWhatsApp = async () => {
     let name = 'דוד'
@@ -138,7 +131,7 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': 'https://lohamim.carmel6000.com/#/meeting/4',
+          'og:url': `https://lohamim.carmel6000.com/#/meeting/${props.meetingId}?og_img=https://lohamim.carmel6000.com/connect.png`,
           'og:image': 'http://lohamim.carmel6000.com/connect.png'
         }
       })
@@ -164,13 +157,13 @@ export default function Sharing(props) {
   };
 
   return (
-    <div className="pointer">
-      <Button id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
+    <div className="pointer containSharing">
+      <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
         {/* <div className="sharingBox"> */}
         <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
         <span className="inviteSpan">הזמינו למפגש</span>
         {/* </div> */}
-      </Button>
+      </div>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}

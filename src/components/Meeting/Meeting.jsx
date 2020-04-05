@@ -23,6 +23,8 @@ const useStyles = makeStyles(theme => ({
 const Meeting = ({ match: { params }, history: { goBack } }) => {
     const { meetingId } = params;
 
+    const [meeting, setMeeting] = useState({});
+
     const [name, setName] = useState('');
     const [owner, setOwner] = useState('');
     const [description, setDescription] = useState('');
@@ -39,7 +41,7 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
             const [res, error] = await Auth.superAuthFetch(`/api/meetings/GetMeetingInfo/${meetingId}`);
             if (error || res.error) { console.log("woo too bad: ", error); setName(''); setOwner(''); setDescription(''); setIsOpen(null); setDate(''); setTime(''); setFallens([]); setNumOfPeople(null); setMeetingIdError(true); return; }
             const { name, meetingOwner, description, isOpen, date, time, fallens, participants_num, max_participants } = res;
-            setName(name); setOwner(meetingOwner ? meetingOwner.name : ""); setDescription(description); setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1); setDate(date); setTime(time); setFallens(fallens); setNumOfPeople(participants_num || 0); setMaxNum(max_participants); setMeetingIdError(false);
+            setMeeting({ meetingId, ...res }); setName(name); setOwner(meetingOwner ? meetingOwner.name : ""); setDescription(description); setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1); setDate(date); setTime(time); setFallens(fallens); setNumOfPeople(participants_num || 0); setMaxNum(max_participants); setMeetingIdError(false);
         })();
     }, [meetingId]);
 
@@ -56,7 +58,10 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                         <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
-                            styleObject={{ fontSize: '2em', imageHeight: '24px' }} />
+                            styleObject={{ fontSize: '2em', imageHeight: '24px' }}
+                            meetingId={meetingId}
+                            data={meeting}
+                        />
                     </div>
 
                     <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />

@@ -12,20 +12,34 @@ module.exports = function (meetings) {
     }
 
 
-    meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
-console.log(filters)
+    meetings.getMeetingsUser = (search, filters, time, isAvailable, relation, options, cb) => {
+        console.log(filters)
         let resArray = []
-        meetings.find({ where: filters,  include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
+        meetings.find({ where: filters, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, response) => {
             if (err) {
                 return cb(err)
             } else {
                 console.log(response)
                 if (response.length) {
-                    if (search || time.length || isAvailable) {
+                    if (search || time.length || isAvailable || relation) {
                         for (let i = 0; i < response.length; i++) {
                             let res = JSON.parse(JSON.stringify(response[i]))
                             let moveToSearch = true
-                            if (time.length) {
+                            let moveToTime = true
+                            if (relation) {
+                                if ((res.fallens_meetings).some(fallen => fallen.relationship === relation)) {
+                                    if (!time.length && !isAvailable && !search) {
+                                        resArray.push(res)
+                                        moveToTime = false
+                                    }
+
+                                } else {
+                                    moveToSearch = false
+                                    moveToTime = false
+                                }
+                            }
+
+                            if (time.length && moveToTime) {
                                 try {
                                     if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
                                         if (!search && !isAvailable) {
@@ -119,23 +133,23 @@ console.log(filters)
                     }
                     if (res) {
                         console.log("res", res)
-                        //let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ["fallens", "meetingOwner"] }))
-//                        if (err4) {
-  //                          console.log("err4", err4)
-    //                        return cb(err4)
-      ///                  }
-         ///               if (userMeeting) {
-            //                console.log("userMeeting", userMeeting)
-              //              return cb(null, userMeeting)
+                        let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+                        if (err4) {
+                            console.log("err4", err4)
+                            return cb(err4)
+                        }
+                        if (userMeeting) {
+                            console.log("userMeeting", userMeeting)
+                            return cb(null, userMeeting)
 
-                //        }
+                        }
                     }
                 }
             }
-           // else {
-             //   console.log(meeting)
-                return cb(null, meeting)
-           // }
+            // else {
+            //   console.log(meeting)
+            return cb(null, userMeeting)
+            // }
         })()
 
     }
@@ -151,77 +165,73 @@ console.log(filters)
 
     meetings.getMeetingsDashboard = (filters, options, cb) => {
 
-        // meetings.dataSource.connector.query(`select meetings.*, fallens.*
- 
-        // from meetings, fallens, fallens_meetings
-         
-        // where match(fallens.name) against ('ישראל')
-         
-        // and fallens.id = fallens_meetings.fallen  
-         
-        // and meetings.id = fallens_meetings.meeting
-         
-        // LIMIT 0, 20`, (err, res) => {
-        //     if (err) { 
-        //         console.log("error setting points to 0")
-        //         return cb(true) 
-        //     }
-        //     let meetings = {}
-        //     if (res) {
-        //         for(let meeting of res){
-        //             console.log('meeting', meeting)
-        //             meeting.
-        //         }
-        //         return cb(null);
-        //     }
-        // })
+        let sqlQuerySelect = `meetings.id`
+        let sqlQueryfrom = `meetings`
+        let sqlQueryWhere = ``
 
+        if (filters.date)
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
 
-        (async () => {
-            let filtersOfMeetting = {}
-            if (filters.date) filtersOfMeetting.date = filters.date
-            if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
-            if (filters.name) filtersOfMeetting.name = filters.name
+        if (filters.isOpen !== (null || undefined))
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-            if (err) {
-                console.log("err", err)
-                return cb(err)
-            }
-            let allMeetings = JSON.parse(JSON.stringify(res))
-            if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.participants_num >= filters.participants.min) && (filters.participants.max && meeting.participants_num < filters.participants.max))
-            }
+        if (filters.name)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `meetings.name = '${filters.name}'`
+
+        if (filters.relationship || filters.fallen) {
+            sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen) => {
-                        if (filters.relationship === 'אחר') {
-                            return (
-                                fallen.relationship !== 'אח' &&
-                                fallen.relationship !== 'הורים' &&
-                                fallen.relationship !== 'קרובי משפחה' &&
-                                fallen.relationship !== 'חבר')
-                        }
-                        else return fallen.relationship === filters.relationship
-                    })
-                )
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen_maating) =>
-                        fallen_maating.fallens.name.includes(filters.fallen))
-                )
+                sqlQueryfrom += `, fallens`
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                    `match(fallens.name) against ('${filters.fallen}')
+                     and fallens.id = fallens_meetings.fallen`
             }
-            if (filters.owner) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.meetingOwner.name.includes(filters.owner)
-                )
+            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+        }
+        if (filters.owner) {
+            sqlQueryfrom += `, people`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                `people.name = '${filters.owner}'
+                 and meetings.owner = people.id`
+        }
+        if (filters.participants) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            if (filters.participants.max)
+                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+        }
+        
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+            if (err) {
+                console.log(err)
+                return cb(err)
             }
-            let size = allMeetings.length
-            allMeetings = allMeetings.slice(filters.from, filters.from + 20)
-            allMeetings.push(size)
-            return cb(null, allMeetings)
-        })()
+            if (res) {
+                if (res.length !== 0) {
+                    let where = { or: [] }
+                    if (res.length === 1) {
+                        where = res[0]
+                    }
+                    else for (let i of res) {
+                        where.or.push({ id: i })
+                    }
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                        if (err1) {
+                            console.log("err1", err1)
+                            return cb(err1)
+                        }
+                        let size = res1.length
+                        res1 = res1.slice(filters.from, filters.from + 20)
+                        res1.push(size)
+                        return cb(null, res1);
+                    })
+                }
+                else return cb(null, [])
+            }
+        })
+
 
     }
 
@@ -242,6 +252,7 @@ console.log(filters)
             { arg: 'filters', type: 'object' },
             { arg: 'time', type: 'array' },
             { arg: 'isAvailable', type: 'boolean' },
+            { arg: 'relation', type: 'string' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }

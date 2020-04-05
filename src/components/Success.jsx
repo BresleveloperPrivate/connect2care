@@ -15,13 +15,7 @@ function Success(props) {
     useEffect(() => {
        
         (async () => {
-            let [meeting, err] = await Auth.superAuthFetch('/api/meetings?filter={"where": {"id": 2} , "include": [{ "relation": "meetingOwner"},{"relation": "fallens_meetings" , "scope": { "include" : [{"relation" : "fallens"}]}}]}', {
-                method: 'GET'
-            })
-            console.log(meeting)
-            console.log(err)
-            setMeeting(meeting[0])
-        
+            setMeeting(props.meeting)
         })()
     }, []);
 
@@ -86,7 +80,7 @@ function Success(props) {
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
-                                    <ImageOfFallen array={meeting.fallens_meetings} />
+                                    <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
                                     <div className="isMeetingOpen">{meeting.isOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
                                 </div>
                                 <div className="meetingInfo">
@@ -119,7 +113,7 @@ function Success(props) {
                                     </div>
                                     <div className="relationDiv">
                                     <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
-                                        <span className="relationInfo"> מנחה: {meeting.meetingOwner.name}</span>
+                                        <span className="relationInfo"> מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
                                     <div className="detailsInfo">{meeting.description}</div>
                                     {/* </div> */}
@@ -132,8 +126,9 @@ function Success(props) {
                         <Sharing 
                         containImageClassName={'containSharingImage'}
                         myId={'sharingBox'}
-                    data={meeting}
-                    styleObject={{buttonWidth: 'fit-content'}}
+                        data={meeting}
+                        meetingId={meeting.id}
+                        styleObject={{buttonWidth: 'fit-content'}}
                     />
                     </div>
                     <div className="whiteFutter">

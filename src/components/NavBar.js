@@ -9,6 +9,7 @@ import '../styles/animations.scss'
 
 const Options =
     [{ option: 'רשימת המפגשים', path: '/meetings' },
+    { option: 'המפגשים שלי', path: '/my-meetings' },
     { option: 'מי אנחנו', path: 'https://ourbrothers.co.il/about', open: true },
     { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
     { option: 'צור קשר', path: 'https://ourbrothers.co.il/contact', open: true }]

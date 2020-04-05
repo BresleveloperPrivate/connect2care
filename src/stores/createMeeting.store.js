@@ -58,10 +58,12 @@ class CreateMeetingStore {
             this.fallenDetails = {}
             this.fallenDetails[id] = {}
         }
-        this.fallenDetails[id].name = fallen.name
-        this.fallenDetails[id].fallingDate = fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date
-        this.fallenDetails[id].image = fallen.image_link
-        this.fallenDetails[id].meetings = fallen.meetings
+        this.fallenDetails[id] = {
+            name: fallen.name,
+            fallingDate: fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date,
+            image: fallen.image_link,
+            meetings: fallen.meetings
+        }
     }
 
     changeFallens = (index, number = null) => {
@@ -107,8 +109,24 @@ class CreateMeetingStore {
     changeFallenRelative = (option, index) => {
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
-                if (this.meetingDetails.fallens[i].id === index)
+                if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
+                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                        this.meetingDetails.fallens[i].needAlert = true
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+
+                    }
+                }
+            }
+        }
+    }
+
+    changeNeedAlert = (value, index) => {
+        if (this.meetingDetails.fallens) {
+            for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
+                if (this.meetingDetails.fallens[i].id === index) {
+                    this.meetingDetails.fallens[i].needAlert = value
+                }
             }
         }
     }
@@ -262,8 +280,9 @@ class CreateMeetingStore {
             return
         }
         console.log("success", success)
-        if (history)
-            history.push("/success")
+        return success
+        // if (history)
+        //     history.push("/success")
         //this.successObject = {
         //  meetingStarter: success.meetingOwner.name,
         //meetingStory: success.meetingOwner.name,
@@ -299,6 +318,7 @@ decorate(CreateMeetingStore, {
     changeMeetingFacilitatorEmail: action,
     changeMeetingFacilitatorName: action,
     changeFallenName: action,
+    changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
     changeMeetingName: action
