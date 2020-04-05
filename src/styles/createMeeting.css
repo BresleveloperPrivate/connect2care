@@ -341,6 +341,15 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+    .containSelectTime{
+        width: 30%;
+        margin-right: 2vh;
+    }
+
+    .inputStyleTime{
+        width: 100%;
+    }
+
     .containDateAndTime{
         width: 65%;
         display: flex;
