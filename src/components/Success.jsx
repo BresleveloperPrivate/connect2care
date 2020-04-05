@@ -15,13 +15,7 @@ function Success(props) {
     useEffect(() => {
        
         (async () => {
-            let [meeting, err] = await Auth.superAuthFetch('/api/meetings?filter={"where": {"id": 2} , "include": [{ "relation": "meetingOwner"},{"relation": "fallens_meetings" , "scope": { "include" : [{"relation" : "fallens"}]}}]}', {
-                method: 'GET'
-            })
-            console.log(meeting)
-            console.log(err)
-            setMeeting(meeting[0])
-        
+            setMeeting(props.meeting)
         })()
     }, []);
 

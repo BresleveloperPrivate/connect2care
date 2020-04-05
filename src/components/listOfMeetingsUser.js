@@ -35,10 +35,11 @@ const ListOfMeetingsUser = (props) => {
     }, []);
 
     return (
-        <div className='meetingsFullPage'>
-        <div className='buttonOnMeetings grow' onClick={()=>{
-            props.history.push('/create-meeting')
-        }} >אני רוצה ליזום מפגש</div>
+     <div className='meetingsFullPage'>
+         <div className='buttonOnMeetings grow' onClick={()=>{
+             props.history.push('/create-meeting')
+         }} >אני רוצה ליזום מפגש</div>
+       {!props.MeetingsStore.error ? 
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
                 <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן. </div>
@@ -265,6 +266,13 @@ const ListOfMeetingsUser = (props) => {
                             className="loadMore-meetings grow">טען עוד</div>
                     </div>}
             </div>
+                    :
+                    <div className='mainPage-meetings'>
+                    <div style={{paddingTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
+                        {props.MeetingsStore.error.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
+                       </div>
+                    </div> 
+                }
         </div>
 
     );

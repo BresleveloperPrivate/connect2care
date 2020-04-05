@@ -262,8 +262,9 @@ class CreateMeetingStore {
             return
         }
         console.log("success", success)
-        if (history)
-            history.push("/success")
+        return success
+        // if (history)
+        //     history.push("/success")
         //this.successObject = {
         //  meetingStarter: success.meetingOwner.name,
         //meetingStory: success.meetingOwner.name,
