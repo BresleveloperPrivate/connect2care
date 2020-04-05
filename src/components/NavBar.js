@@ -6,20 +6,13 @@ import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
 
-
-const Options =
-    [{ option: 'רשימת המפגשים', path: '/meetings' },
-    { option: 'המפגשים שלי', path: '/my-meetings' },
-    { option: 'מי אנחנו', path: 'https://ourbrothers.co.il/about', open: true },
-    { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
-    { option: 'צור קשר', path: 'https://ourbrothers.co.il/contact', open: true }]
-
 class NavBar extends Component {
     constructor(props) {
         super(props)
         this.state = {
             right: false
         }
+        this.setOptions()
     }
     // This function open the side nav bar or close it, depends of the situation
     toggleDrawer = (open) => event => {
@@ -29,13 +22,14 @@ class NavBar extends Component {
         this.setState({ right: open })
     };
 
-
-    changeLanguage = async (lang) => {
-        console.log("lang", lang)
-        const { i18n } = this.props;
-        await i18n.changeLanguage(lang);
-        localStorage.setItem("lang", lang);
-        this.forceUpdate()
+    setOptions = () => {
+        
+        this.options =
+            [{ option: this.props.t("meetingsList"), path: '/meetings' },
+            { option: this.props.t("myMeetings"), path: '/my-meetings' },
+            { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about', open: true },
+            { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate', open: true },
+            { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact', open: true }]
     }
 
     render() {
@@ -46,7 +40,7 @@ class NavBar extends Component {
                 </div>
 
                 <div className='navbarOptions'>
-                    {Options.map((value, index) => {
+                    {this.options.map((value, index) => {
                         return (
                             <div key={index}
                                 onClick={() => {
@@ -62,12 +56,10 @@ class NavBar extends Component {
 
                         )
                     })}
-                    {/* <div className='optionInNavbar grow-bold pointer' onClick={() => { this.changeLanguage("heb") }} >english</div> */}
-                    {/* <select className='optionInNavbar grow-bold pointer'>
-                        <option  onClick={() => { this.changeLanguage("heb") }}>עברית</option>
-                        <option  onClick={() => { this.changeLanguage("en") }}>אנגלית</option>
-                        <option  onClick={() => { this.changeLanguage("en") }}>רוסית</option>
-                    </select> */}
+                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("heb"); this.setOptions() }} >עברית</div>
+                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >אנגלית</div>
+                    <div className='optionInNavbar grow-bold pointer' onClick={() => { this.props.changeLanguage("en"); this.setOptions() }} >רוסית</div>
+
                 </div>
 
                 <div className='navbarIcon'>
@@ -77,7 +69,7 @@ class NavBar extends Component {
                 </div>
                 <SideNavBar history={this.props.history}
                     toggleDrawer={this.toggleDrawer}
-                    options={Options}
+                    options={this.options}
                     right={this.state.right}
                 />
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import whatsappIcon from '../icons/whatsapp.svg';

@@ -16,12 +16,12 @@ i18n
   .use(reactI18nextModule) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: sessionStorage.getItem("lang") || "heb",
-    fallbackLng: sessionStorage.getItem("lang") || "heb",
+    lng: localStorage.getItem("lang") || "heb",
+    fallbackLng: localStorage.getItem("lang") || "heb",
 
     interpolation: {
       escapeValue: false // react already safes from xss
     }
   });
 
-export default i18n;
+  export default i18n;
