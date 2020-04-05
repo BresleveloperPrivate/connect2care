@@ -49,9 +49,9 @@ const SearchFallen = () => {
     }, [searchValue, fetch]);
 
     return (
-        <div style={{height:'fit-content' , width:'100%' , marginLeft:'30px'}}>
+        <div style={{ height: 'fit-content', width: window.innerWidth > 550 ? '95%' : 'calc( 100% - 6vw)' }}>
             <TextField
-                
+
                 className='searchFallenInput'
                 value={searchValue}
                 onChange={onChange}

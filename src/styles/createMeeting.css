@@ -315,6 +315,14 @@ input[type=radio]:focus {
     width: 1.75vh;
     margin-left: 2vh;
 }
+
+.containNameExist{
+    display: flex;
+    padding: 1vh 2vh 0 0;
+    margin-bottom: 3vh;
+    color: #EC5A5A;
+    font: normal 13px/20px Assistant;
+}
   
 .spinner > div {
     width: 10px;

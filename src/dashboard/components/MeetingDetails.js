@@ -281,13 +281,13 @@ const CreateMeeting = (props) => {
                         </div>
                     </div>
                 </div>
-                {props.CreateMeetingStore.meetingDetails.maxParticipants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
+                {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
 
                 <input
                     type="text"
                     className='inputStyle margin-right-text'
                     onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                    value={props.CreateMeetingStore.meetingDetails.maxParticipants}
+                    value={props.CreateMeetingStore.meetingDetails.max_participants}
                     autoComplete="off"
                     placeholder="מספר משתתפים מקסימלי"
                 />

@@ -6,39 +6,41 @@ import Auth from '../modules/auth/Auth'
 class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
+    nameMessage = "";
     meetingDetailsOriginal = {
-        name: null,
-        description: null,
+        name: "",
+        description: "",
         owner: {
-            name: null,
+            name: "",
             phone: "",
-            email: null
+            email: ""
         },
-        language: null,
-        isOpen: null,
-        date: null,
+        language: "",
+        isOpen: "",
+        date: "",
         time: "00:00",
-        maxParticipants: "",
-        fallens: [{ id: 1, relative: null }],
+        max_participants: "",
+        fallens: [{ id: 19404, relative: null }],
         zoomId: 0,
     }
-
+    allMeetings = null;
     meetingDetails = {
         name: null,
         description: null,
         owner: {
-            name: null,
+            name: "",
             phone: "",
-            email: null
+            email: ""
         },
-        language: null,
-        isOpen: null,
-        date: null,
+        language: "",
+        isOpen: "",
+        date: "",
         time: "00:00",
-        maxParticipants: "",
-        fallens: [{ id: 1, relative: null }],
+        max_participants: "",
+        fallens: [{ id: 19404, relative: null }],
         zoomId: 0,
     }
+
     error = null;
     waitForData = false;
     otherRelationship = [{ id: 1, relative: null }];
@@ -56,8 +58,8 @@ class CreateMeetingStore {
         let id = fallen.id
         if (!this.fallenDetails) {
             this.fallenDetails = {}
-            this.fallenDetails[id] = {}
         }
+        this.fallenDetails[id] = {}
         this.fallenDetails[id].name = fallen.name
         this.fallenDetails[id].fallingDate = fallen.falling_date.split("T")[0] + ", " + fallen.heb_falling_date
         this.fallenDetails[id].image = fallen.image_link
@@ -148,6 +150,21 @@ class CreateMeetingStore {
         this.meetingDetails.language = option
     }
 
+    getAllMeetings = async () => {
+        if (!this.allMeetings) {
+            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+            if (err || !success)
+                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+            if (success)
+                this.allMeetings = success
+        }
+        this.nameMessage = ""
+        for (let i = 0; i < this.allMeetings.length; i++) {
+            if (this.allMeetings[i].name === this.meetingDetails.name)
+                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+        }
+    }
+
     changeMeetingOpenOrClose = (e) => {
         this.meetingDetails.isOpen = e.target.value
     }
@@ -156,7 +173,7 @@ class CreateMeetingStore {
         if (e.target.value.match(/[^0-9]/g) || e.target.value.length > 6) {
             return
         }
-        this.meetingDetails.maxParticipants = e.target.value
+        this.meetingDetails.max_participants = e.target.value
     }
 
     changeDetailsObjFunc = (object) => {
@@ -176,7 +193,7 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            maxParticipants: "",
+            max_participants: "",
             fallens: object.fallens,
             zoomId: 0,
         }
@@ -192,7 +209,7 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            maxParticipants: "",
+            max_participants: "",
             fallens: object.fallens,
             zoomId: 0,
         }
@@ -296,6 +313,7 @@ class CreateMeetingStore {
 decorate(CreateMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
+    nameMessage: observable,
     otherRelationship: observable,
     meetingDetails: observable,
     meetingId: observable,
@@ -319,6 +337,7 @@ decorate(CreateMeetingStore, {
     changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
+    getAllMeetings: action,
     changeMeetingName: action
 });
 

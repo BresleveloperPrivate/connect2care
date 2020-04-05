@@ -37,9 +37,9 @@ const FallenDetails = (props) => {
     return (
         <div className="containFallenDetails">
             {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
-            <div style={{ width: window.innerWidth <= 550 ? "70%" : "", position: "relative" }}>
+            <div style={{ width: window.innerWidth > 550 ? "70%" : "", position: "relative" }}>
 
-                {CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
+                {CreateMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>שם החלל</div>}
 
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen />

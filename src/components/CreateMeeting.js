@@ -4,6 +4,7 @@ import { inject, observer, PropTypes } from 'mobx-react';
 import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
+import materialInfo from '../icons/material-info.svg'
 
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
@@ -90,12 +91,26 @@ const CreateMeeting = (props) => {
                         {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
                         <input
                             type="text"
+                            onBlur={() =>
+                                props.CreateMeetingStore.getAllMeetings()
+                            }
+
+                            onTouchEnd={() =>
+                                props.CreateMeetingStore.getAllMeetings()
+                            }
+                            style={props.CreateMeetingStore.nameMessage !== "" ? { marginBottom: "0" } : {}}
                             className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                             onChange={props.CreateMeetingStore.changeMeetingName}
                             value={props.CreateMeetingStore.meetingDetails.name}
                             autoComplete="off"
                             placeholder="שם המפגש"
                         />
+                        {props.CreateMeetingStore.nameMessage !== "" &&
+                            <div className="containNameExist margin-right-text">
+                                <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
+                                <div >{props.CreateMeetingStore.nameMessage}</div>
+                            </div>
+                        }
 
                         {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">תאור קצר</div>}
                         <textarea
@@ -180,8 +195,8 @@ const CreateMeeting = (props) => {
 
                                 {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
                                 <div className={'inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}
-                                 className='inputStyleTime'
-                                 >
+                                    className='inputStyleTime'
+                                >
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <CssTimePicker
                                             clearable
@@ -198,12 +213,21 @@ const CreateMeeting = (props) => {
                             </div>
                         </div>
 
-                        {props.CreateMeetingStore.meetingDetails.maxParticipants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
+                        {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
                         <input
                             type="text"
-                            className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.maxParticipants || (props.CreateMeetingStore.meetingDetails.maxParticipants && !props.CreateMeetingStore.meetingDetails.maxParticipants.length)) ? "error" : "")}
+                            onBlur={() => {
+                                if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                            }}
+
+                            onTouchEnd={() => {
+                                if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                            }}
+                            className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
                             onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                            value={props.CreateMeetingStore.meetingDetails.maxParticipants}
+                            value={props.CreateMeetingStore.meetingDetails.max_participants}
                             autoComplete="off"
                             placeholder="מספר משתתפים מקסימלי"
                         />
@@ -230,7 +254,7 @@ const CreateMeeting = (props) => {
                 </div>
                 : <Success history={props.history} meeting={success} />
             }
-        </div>
+        </div >
 
     )
 }
