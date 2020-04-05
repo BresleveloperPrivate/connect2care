@@ -41,7 +41,7 @@ const MeetingsList = (props) => {
                                 <tr key={index} className="tableBodyStyle">
                                     <td className='date'>{meeting.date && meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
-                                    <td className='fallen'>
+                                    <td className='fallen' style={{ maxWidth: '5vw' }}>
                                         {meeting.fallens_meetings && meeting.fallens_meetings.map((fallenMeeting, index) =>
                                             <span key={index}>{fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')}</span>
                                         )}
