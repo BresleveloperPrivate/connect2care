@@ -107,8 +107,24 @@ class CreateMeetingStore {
     changeFallenRelative = (option, index) => {
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
-                if (this.meetingDetails.fallens[i].id === index)
+                if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
+                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                        this.meetingDetails.fallens[i].needAlert = true
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+
+                    }
+                }
+            }
+        }
+    }
+
+    changeNeedAlert = (value, index) => {
+        if (this.meetingDetails.fallens) {
+            for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
+                if (this.meetingDetails.fallens[i].id === index) {
+                    this.meetingDetails.fallens[i].needAlert = value
+                }
             }
         }
     }
@@ -299,6 +315,7 @@ decorate(CreateMeetingStore, {
     changeMeetingFacilitatorEmail: action,
     changeMeetingFacilitatorName: action,
     changeFallenName: action,
+    changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
     changeMeetingName: action
