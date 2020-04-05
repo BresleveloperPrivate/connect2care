@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import whatsappIcon from '../icons/whatsapp.svg';
@@ -174,7 +174,7 @@ export default function Sharing(props) {
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
-        <MenuItem onClick={() => copyToClipboard("sfsfsfsfsfsaf")}><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard("aaaaaaaaa")} id="platformName">העתק קישור</span></MenuItem>
 
         <SendEmail openEmail={openEmail}
           setOpenEmail={setOpenEmail}
