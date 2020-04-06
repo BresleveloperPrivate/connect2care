@@ -49,7 +49,7 @@ const FallenDetails = (props) => {
                         placeholder="תאריך נפילה"
                     />
                 </div>
-                
+
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
@@ -73,7 +73,8 @@ const FallenDetails = (props) => {
                 {CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" &&
                     <input
                         type="text"
-                        className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
+                        className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
+                            (CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship[props.index] && CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
                         value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}

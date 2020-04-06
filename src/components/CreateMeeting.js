@@ -71,9 +71,14 @@ const CreateMeeting = (props) => {
             // props.CreateMeetingStore.setMeetingId(meetingId)
             // await props.CreateMeetingStore.getMeetingDetails()
             getTimeValue()
-
         })()
     }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
+
+
+    useEffect(() => {
+        return () => props.CreateMeetingStore.resetAll()
+
+    }, [])
 
     const getTimeValue = () => {
         let time = new Date()
@@ -92,21 +97,20 @@ const CreateMeeting = (props) => {
                     return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
-                <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + הוסף נופל</div>
+                <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>
             </div>
         )
     }
 
     const emailValidate = (e) => {
-        console.log(e.target.value)
         let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
         if (!e.target.value.match(regex)) {
             setErrorEmail(true)
         }
         else setErrorEmail(false)
     }
+
     const phoneValidate = (e) => {
-        console.log(e.target.value)
         let regex = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
         if (!e.target.value.match(regex)) {
             setErrorPhone(true)
@@ -118,11 +122,11 @@ const CreateMeeting = (props) => {
         <div>
             {!success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
-                    <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}</div>
+                    <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createMeeting") : props.t("editMeeting")}</div>
                     <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
                     <div>
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">שם המפגש</div>}
+                            {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
                             <input
                                 type="text"
                                 onBlur={() => props.CreateMeetingStore.getAllMeetings()}
@@ -132,7 +136,7 @@ const CreateMeeting = (props) => {
                                 onChange={props.CreateMeetingStore.changeMeetingName}
                                 value={props.CreateMeetingStore.meetingDetails.name || ''}
                                 autoComplete="off"
-                                placeholder="שם המפגש"
+                                placeholder={props.t("meetingName")}
                             />
                             {props.CreateMeetingStore.nameMessage !== "" &&
                                 <div className="containNameExist margin-right-text">
@@ -143,14 +147,14 @@ const CreateMeeting = (props) => {
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">תאור קצר</div>}
+                            {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">{props.t("shortDescription")}</div>}
                             <textarea
                                 className={'inputStyle textAreaStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.description || (props.CreateMeetingStore.meetingDetails.description && !props.CreateMeetingStore.meetingDetails.description.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeShortDescription}
                                 value={props.CreateMeetingStore.meetingDetails.description || ''}
                                 rows="2"
                                 autoComplete="off"
-                                placeholder="תאור קצר"
+                                placeholder={props.t("shortDescription")}
                             />
                         </div>
 
@@ -158,23 +162,23 @@ const CreateMeeting = (props) => {
 
                         <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "4vh" }}>
                             <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
-                            <div className="inputDetail">פרטי יוצר המפגש:</div>
+                            <div className="inputDetail">{props.t("ownerDetails")}:</div>
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">השם המלא שלך - מנחה המפגש</div>}
+                            {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">{props.t("ownerFullName")}</div>}
                             <input
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorName}
                                 value={props.CreateMeetingStore.meetingDetails.owner.name || ''}
                                 autoComplete="off"
-                                placeholder="השם המלא שלך - מנחה המפגש"
+                                placeholder={props.t("ownerFullName")}
                             />
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">דואר אלקטרוני</div>}
+                            {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">{props.t("email")}</div>}
                             <input
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
@@ -182,42 +186,42 @@ const CreateMeeting = (props) => {
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorEmail}
                                 value={props.CreateMeetingStore.meetingDetails.owner.email || ''}
                                 autoComplete="off"
-                                placeholder="דואר אלקטרוני"
+                                placeholder={props.t("email")}
                                 onBlur={emailValidate}
                                 onFocus={() => setErrorEmail(false)}
                             />
                             {errorEmail &&
                                 <div className="containNameExist margin-right-text">
                                     <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
-                                    <div>אנא בדוק שכתובת האימייל הינה נכונה</div>
+                                    <div>{props.t("pleaseCheckThatTheEmailAddressCorrect")}</div>
                                 </div>
                             }
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">טלפון</div>}
+                            {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">{props.t("phone")}</div>}
                             <input
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                 value={props.CreateMeetingStore.meetingDetails.owner.phone}
                                 autoComplete="off"
-                                placeholder="טלפון"
+                                placeholder={props.t("phone")}
                                 onBlur={phoneValidate}
                                 onFocus={() => setErrorPhone(false)}
                             />
                             {errorPhone &&
                                 <div className="containNameExist margin-right-text">
                                     <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
-                                    <div>המספר אינו תקין</div>
+                                    <div>{props.t("numberNotCorrect")}</div>
                                 </div>
                             }
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">שפת המפגש</div>}
+                            {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">{props.t("meetingLanguage")}</div>}
                             <Select
-                                selectTextDefault='שפת המפגש'
+                                selectTextDefault={props.t("meetingLanguage")}
                                 arr={meetingLanguage}
                                 width='65%'
                                 // selectedText={props.CreateMeetingStore.meetingDetails.language}
@@ -227,16 +231,16 @@ const CreateMeeting = (props) => {
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                             <input type="radio" className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                            <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>מפגש פתוח</label>
+                            <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</label>
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                            <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
+                            <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
+                                {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                 <Select
-                                    selectTextDefault='תאריך'
+                                    selectTextDefault={props.t("date")}
                                     arr={meetingDate}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -246,7 +250,7 @@ const CreateMeeting = (props) => {
 
                             <div className='containSelectTime position-relative'>
 
-                                {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
+                                {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">{props.t("time")}</div>}
                                 <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <CssTimePicker
@@ -300,14 +304,14 @@ const CreateMeeting = (props) => {
 
                         <div
                             className="containCreateMettingButton"
-                            onClick={async () => {
+                            >
+                            <div className="createMeetingButton grow" onClick={async () => {
                                 setIsSaved(true)
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
                                 if (meeting) {
                                     setSuccess(meeting[0])
                                 }
                             }}>
-                            <div className="createMeetingButton grow">
                                 {props.CreateMeetingStore.waitForData ?
                                     <div className="spinner">
                                         <div className="bounce1"></div>
