@@ -221,8 +221,8 @@ input[type=radio]:focus {
     font: normal 13px/13px Assistant;
     color: #3586B1;
     padding: 0 2vh 1vh 0;
-    /* position: absolute; */
-    /* top: -15px; */
+    position: absolute;
+    top: -15px;
 }
 
 .cancelPicture{
@@ -278,7 +278,7 @@ input[type=radio]:focus {
 }
 
 .error, .errorSearch .MuiOutlinedInput-root{
-    border: 2px solid red !important;
+    border: 2px solid #EC5A5A !important;
     border-radius: 5px;
 }
 
@@ -330,8 +330,8 @@ input[type=radio]:focus {
     margin: 0 7vw;
     color: #EC5A5A;
     font: normal 13px/20px Assistant;
-    /* position: absolute; */
-    margin-bottom: 3vh;
+    position: absolute;
+    bottom: 3vh;
     background-color: white;
 }
   

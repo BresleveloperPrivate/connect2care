@@ -127,8 +127,7 @@ const CreateMeeting = (props) => {
                             <input
                                 type="text"
                                 onBlur={() => props.CreateMeetingStore.getAllMeetings()}
-                                style={props.CreateMeetingStore.nameMessage !== "" ?
-                                    { marginBottom: "0" } : {}}
+
                                 onTouchEnd={() => props.CreateMeetingStore.getAllMeetings()}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingName}
@@ -184,8 +183,6 @@ const CreateMeeting = (props) => {
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorEmail}
                                 value={props.CreateMeetingStore.meetingDetails.owner.email || ''}
                                 autoComplete="off"
-                                style={errorEmail ?
-                                    { marginBottom: "0" } : {}}
                                 placeholder="דואר אלקטרוני"
                                 onBlur={emailValidate}
                                 onFocus={() => setErrorEmail(false)}
@@ -206,8 +203,6 @@ const CreateMeeting = (props) => {
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                 value={props.CreateMeetingStore.meetingDetails.owner.phone}
                                 autoComplete="off"
-                                style={errorPhone ?
-                                    { marginBottom: "0" } : {}}
                                 placeholder="טלפון"
                                 onBlur={phoneValidate}
                                 onFocus={() => setErrorPhone(false)}
@@ -228,7 +223,7 @@ const CreateMeeting = (props) => {
                                 width='65%'
                                 // selectedText={props.CreateMeetingStore.meetingDetails.language}
                                 className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.language || (props.CreateMeetingStore.meetingDetails.language && !props.CreateMeetingStore.meetingDetails.language.length)) ? "error" : "")}
-                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.data) }} />
+                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
                         </div>
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
@@ -237,9 +232,9 @@ const CreateMeeting = (props) => {
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />מפגש סגור</label>
                         </div>
-
+                        <br />
                         <div className="containDateAndTime">
-                            <div className='containDateInput'>
+                            <div className='containDateInput position-relative'>
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                                 <Select
                                     selectTextDefault='תאריך'
@@ -247,10 +242,10 @@ const CreateMeeting = (props) => {
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
                             </div>
 
-                            <div className='containSelectTime'>
+                            <div className='containSelectTime position-relative'>
 
                                 {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
                                 <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
@@ -258,8 +253,8 @@ const CreateMeeting = (props) => {
                                         <CssTimePicker
                                             clearable
                                             ampm={false}
-                                            okLabel={"אישור"}
-                                            cancelLabel="ביטול"
+                                            okLabel={props.t("approve")}
+                                            cancelLabel={props.t("cancel")}
                                             clearLabel={null}
                                             value={timeValue}
                                             onChange={props.CreateMeetingStore.changeMeetingTime}
@@ -269,39 +264,40 @@ const CreateMeeting = (props) => {
                                 </div>
                             </div>
                         </div>
+                        <div className="position-relative">
+                            {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
+                            <input
+                                type="text"
+                                onBlur={() => {
+                                    if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
+                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
+                                }}
 
-                        {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
-                        <input
-                            type="text"
-                            onBlur={() => {
-                                if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                    setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
-                                else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                    setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
-                            }}
-
-                            onTouchEnd={() => {
-                                if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                    setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
-                                else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                    setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
-                            }}
-                            onFocus={() => setErrorMaxParticipants(false)}
-                            className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
-                            onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                            style={errorMaxParticipants ?
-                                { marginBottom: "0" } : {}}
-                            value={props.CreateMeetingStore.meetingDetails.max_participants}
-                            autoComplete="off"
-                            placeholder="מספר משתתפים מקסימלי"
-                        />
-                        {
-                            errorMaxParticipants && errorMaxParticipants !== "" &&
-                            <div className="containNameExist margin-right-text">
-                                <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
-                                <div>{errorMaxParticipants}</div>
-                            </div>
-                        }
+                                onTouchEnd={() => {
+                                    if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
+                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
+                                }}
+                                onFocus={() => setErrorMaxParticipants(false)}
+                                className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
+                                onChange={props.CreateMeetingStore.changeNumberOfParticipants}
+                                // style={errorMaxParticipants ?
+                                //     { marginBottom: "0" } : {}}
+                                value={props.CreateMeetingStore.meetingDetails.max_participants}
+                                autoComplete="off"
+                                placeholder="מספר משתתפים מקסימלי"
+                            />
+                            {
+                                errorMaxParticipants &&
+                                <div className="containNameExist margin-right-text">
+                                    <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
+                                    <div>{errorMaxParticipants}</div>
+                                </div>
+                            }
+                        </div>
 
                         <div className="containCreateMettingButton">
                             <div onClick={async () => {
