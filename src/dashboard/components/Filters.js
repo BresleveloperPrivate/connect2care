@@ -15,7 +15,7 @@ const Filters = (props) => {
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
     const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
-    
+
     const DATES = [{ option: 'הכל' }, { option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
     const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרובי משפחה' }]
     const IS_OPEN_ARR = [{ option: 'הכל' }, { option: 'פתוח' }, { option: 'סגור' }]
@@ -33,6 +33,7 @@ const Filters = (props) => {
                         <div className='textFilter'>תאריך</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={DATES}
@@ -44,6 +45,7 @@ const Filters = (props) => {
                         <div className='textFilter'>פתוח / סגור</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={IS_OPEN_ARR}
@@ -56,6 +58,7 @@ const Filters = (props) => {
                         <div className='textFilter'>קרבה</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={RELATIONSHIPS}
@@ -68,6 +71,7 @@ const Filters = (props) => {
                         <div className='textFilter'>מספר משתתפים</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={PARTICIPANTS_NUM}
