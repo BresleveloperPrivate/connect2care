@@ -13,7 +13,12 @@ import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
-    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
+    const myCloseToTheFallen = [
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
     const CreateMeetingStore = useCreateMeetingStore();
     useEffect(() => {
     }, [CreateMeetingStore.meetingDetails.fallens, CreateMeetingStore.fallenName, CreateMeetingStore.fallenDetails]);
