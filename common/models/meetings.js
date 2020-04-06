@@ -39,7 +39,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
         }
 
-        if (filters.relationship || filters.relationship) {
+        if (filters.relationship || search) {
             sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
@@ -48,14 +48,14 @@ module.exports = function (meetings) {
             if (search) {
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `(match(fallens.name) against('${search}') or 
-                        match(meetings.name) against('${search}') or 
-                        (match(people.name) against('${search}') and meetings.owner = people.id))
+                    `(match(fallens.name) against('"${search}"') or 
+                        match(meetings.name) against('"${search}"') or 
+                        (match(people.name) against('"${search}"') and meetings.owner = people.id))
                     and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
 
             if (err) {
@@ -229,7 +229,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
         if (filters.name)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('${filters.name}')`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${filters.name}"')`
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
@@ -239,7 +239,7 @@ module.exports = function (meetings) {
             if (filters.fallen) {
                 sqlQueryfrom += `, fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `match(fallens.name) against ('${filters.fallen}')
+                    `match(fallens.name) against ('"${filters.fallen}"')
                      and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
@@ -247,7 +247,7 @@ module.exports = function (meetings) {
         if (filters.owner) {
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                ` match(people.name) against('${filters.owner}')
+                ` match(people.name) against('"${filters.owner}"')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
