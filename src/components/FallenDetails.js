@@ -41,7 +41,6 @@ const FallenDetails = (props) => {
                     autoComplete="off"
                     placeholder="תאריך נפילה"
                 />
-                {console.log("")}
                 {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                 <Select
                     selectTextDefault='קרבה שלי אל החלל'
@@ -71,8 +70,8 @@ const FallenDetails = (props) => {
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
-                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length >= props.index ? CreateMeetingStore.otherRelationship[props.index].relative : ""}
-                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.fallen.id)}
+                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
+                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}

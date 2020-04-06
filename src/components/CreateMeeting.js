@@ -139,7 +139,7 @@ const CreateMeeting = (props) => {
                             autoComplete="off"
                             placeholder="השם המלא שלך - מנחה המפגש"
                         />
-                       
+
                         {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">דואר אלקטרוני</div>}
                         <input
                             type="text"
@@ -157,7 +157,7 @@ const CreateMeeting = (props) => {
                             autoComplete="off"
                             placeholder="דואר אלקטרוני"
                         />
-                         {errorEmail &&
+                        {errorEmail &&
                             <div className="containNameExist margin-right-text">
                                 <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
                                 <div>אנא בדוק שכתובת האימייל הינה נכונה</div>
@@ -232,18 +232,30 @@ const CreateMeeting = (props) => {
                             onBlur={() => {
                                 if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                     props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
                             }}
 
                             onTouchEnd={() => {
                                 if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                     props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
                             }}
                             className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
                             onChange={props.CreateMeetingStore.changeNumberOfParticipants}
+                            style={(props.CreateMeetingStore.error === "שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים" || props.CreateMeetingStore.error === "שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה") ?
+                                { marginBottom: "0" } : {}}
                             value={props.CreateMeetingStore.meetingDetails.max_participants}
                             autoComplete="off"
                             placeholder="מספר משתתפים מקסימלי"
                         />
+                        {(props.CreateMeetingStore.error === "שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים" || props.CreateMeetingStore.error === "שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה") &&
+                            <div className="containNameExist margin-right-text">
+                                <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
+                                <div>{props.CreateMeetingStore.error}</div>
+                            </div>
+                        }
 
                         <div className="containCreateMettingButton">
                             <div onClick={async () => {
@@ -262,7 +274,8 @@ const CreateMeeting = (props) => {
 
                         </div>
                     </div>
-                    {props.CreateMeetingStore.error && <ErrorMethod {...props} />}
+                    {props.CreateMeetingStore.error && props.CreateMeetingStore.error !== "שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים" && props.CreateMeetingStore.error !== "שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה" &&
+                        <ErrorMethod {...props} />}
                     {(!pressOnCancel || dataForFallen) && <TextSIdeDiv setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                 </div>
                 : <Success history={props.history} meeting={success} />

@@ -31,8 +31,8 @@ module.exports = function (meetings) {
 
 
     meetings.getMeetingsUser = (search, filters, options, cb) => {
-        console.log(filters)
-
+        console.log("filters", filters)
+        console.log("search", search)
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
@@ -87,6 +87,9 @@ module.exports = function (meetings) {
         }
 
         if (search) {
+            if (search.length > 100)
+                return cb("משהו השתבש, אורך החיפוש חייב להיות קטן מ100 תווים")
+
             if (filters.relationship) {
                 sqlQueryfrom += ` , people , fallens`
             }
@@ -101,7 +104,7 @@ module.exports = function (meetings) {
 
         // sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
 
-        console.log('query:  ',sqlQueryfrom)
+        console.log('query:  ', sqlQueryfrom)
         console.log('where:  ', sqlQueryWhere)
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
@@ -419,7 +422,6 @@ module.exports = function (meetings) {
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
-
 
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {

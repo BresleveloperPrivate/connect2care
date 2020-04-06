@@ -74,12 +74,12 @@ class MeetingsStore {
         console.log(getMore)
 
         let filter = {
-                id: this.lastId ,
-                language: this.language,
-                date: this.date,
-                relationship: this.fallenRelative,
-                time: this.time,
-                isAvailable: this.availableOnly,
+            id: this.lastId,
+            language: this.language,
+            date: this.date,
+            relationship: this.fallenRelative,
+            time: this.time,
+            isAvailable: this.availableOnly,
         }
 
         console.log(filter)
