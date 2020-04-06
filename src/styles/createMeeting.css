@@ -278,7 +278,7 @@ input[type=radio]:focus {
 }
 
 .error, .errorSearch .MuiOutlinedInput-root{
-    border: 2px solid red !important;
+    border: 2px solid #EC5A5A !important;
     border-radius: 5px;
 }
 

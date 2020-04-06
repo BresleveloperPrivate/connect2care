@@ -71,7 +71,7 @@ module.exports = {
         },
         max_participants: {
             type: "number",
-            numericality: { greaterThan: 9 }
+            numericality: { greaterThan: 9, lessThanOrEqualTo: 3000  }
         },
         date: {
             type: "string",

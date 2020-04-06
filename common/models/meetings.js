@@ -15,7 +15,6 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, options, cb) => {
-
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
@@ -291,7 +290,6 @@ module.exports = function (meetings) {
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
-
 
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
