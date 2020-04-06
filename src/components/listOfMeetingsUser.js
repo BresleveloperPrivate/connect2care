@@ -26,7 +26,7 @@ const ListOfMeetingsUser = (props) => {
             {width > 550 ?
                 <CompList t={props.t} />
                 :
-                <PhoneList t={props.t}/>
+                <PhoneList t={props.t} history={props.history} />
             }
         </div>
 
