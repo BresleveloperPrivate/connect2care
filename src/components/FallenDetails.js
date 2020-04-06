@@ -41,32 +41,30 @@ const FallenDetails = (props) => {
                     autoComplete="off"
                     placeholder="תאריך נפילה"
                 />
-                {console.log("")}
-                {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
-                <Select
-                    selectTextDefault='קרבה שלי אל החלל'
 
-                    arr={myCloseToTheFallen.map((name) => {
-                        return { option: name }
-                    })}
-                    // selectedText={CreateMeetingStore.meetingDetails.relationship}
-                    width='95%'
-                    className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
-                    onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                <div className='position-relative'>
+                    {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
+                    <Select
+                        selectTextDefault='קרבה שלי אל החלל'
+
+                        arr={myCloseToTheFallen.map((name) => {
+                            return { option: name }
+                        })}
+                        // selectedText={CreateMeetingStore.meetingDetails.relationship}
+                        width='95%'
+                        className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
+                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                </div>
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute">
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
-                    חשוב שלכל מפגש תזמנו בן משפחה
+                        חשוב שלכל מפגש תזמנו בן משפחה
                     </div>
                 </div> : null}
 
-                {(CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "אח" &&
-                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "הורים" &&
-                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "קרובי משפחה" &&
-                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== "חבר" &&
-                    CreateMeetingStore.meetingDetails.fallens[props.index].relative !== null) &&
+                {CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" &&
                     <input
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}

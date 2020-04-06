@@ -3,7 +3,7 @@ import React, { createContext, useContext } from 'react';
 import Auth from '../modules/auth/Auth'
 
 
-class CreateMeetingStore {
+class ManagerMeetingStore {
     fallenDetails = null;
     fallenName = null;
     meetingDetailsOriginal = {
@@ -266,7 +266,7 @@ class CreateMeetingStore {
     }
 }
 
-decorate(CreateMeetingStore, {
+decorate(ManagerMeetingStore, {
     fallenDetails: observable,
     fallenName: observable,
     otherRelationship: observable,
@@ -295,16 +295,16 @@ decorate(CreateMeetingStore, {
     changeMeetingName: action
 });
 
-const createMeetingStore = new CreateMeetingStore();
+// const managerMeetingStore = new ManagerMeetingStore();
 
-export const CreateMeetingContext = createContext();
+// export const ManagerMeetingStoreContext = createContext();
 
-export const CreateMeetingProvider = ({ children }) => (
-    <CreateMeetingContext.Provider value={createMeetingStore}>
-        {children}
-    </CreateMeetingContext.Provider>
-);
+// export const ManagerCreateMeetingProvider = ({ children }) => (
+//     <ManagerMeetingStoreContext.Provider value={managerMeetingStore}>
+//         {children}
+//     </ManagerMeetingStoreContext.Provider>
+// );
 
-export const useCreateMeetingStore = () => useContext(CreateMeetingContext);
+// export const useManagerMeetingStore = () => useContext(ManagerMeetingStoreContext);
 
-export default createMeetingStore;
+export default new ManagerMeetingStore();
