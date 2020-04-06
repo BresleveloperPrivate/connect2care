@@ -31,17 +31,19 @@ const FallenDetails = (props) => {
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
 
-                {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
-                <input
-                    type="text"
-                    className='inputStyle dateContainer'
-                    disabled
-                    style={{ width: "95%", backgroundColor: "white" }}
-                    value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
-                    autoComplete="off"
-                    placeholder="תאריך נפילה"
-                />
-
+                <div className='position-relative'>
+                    {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                    <input
+                        type="text"
+                        className='inputStyle dateContainer'
+                        disabled
+                        style={{ width: "95%", backgroundColor: "white" }}
+                        value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
+                        autoComplete="off"
+                        placeholder="תאריך נפילה"
+                    />
+                </div>
+                
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select

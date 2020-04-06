@@ -74,7 +74,6 @@ const CreateMeeting = (props) => {
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    console.log("fallen", fallen)
                     return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
@@ -170,7 +169,7 @@ const CreateMeeting = (props) => {
                                 autoComplete="off"
                                 placeholder="דואר אלקטרוני"
                                 onBlur={emailValidate}
-                                onFocus={()=>setErrorEmail(false)}
+                                onFocus={() => setErrorEmail(false)}
                             />
                             {errorEmail &&
                                 <div className="containNameExist margin-right-text">
@@ -190,7 +189,7 @@ const CreateMeeting = (props) => {
                                 autoComplete="off"
                                 placeholder="טלפון"
                                 onBlur={phoneValidate}
-                                onFocus={()=>setErrorPhone(false)}
+                                onFocus={() => setErrorPhone(false)}
                             />
                             {errorPhone &&
                                 <div className="containNameExist margin-right-text">
@@ -236,20 +235,22 @@ const CreateMeeting = (props) => {
 
                             <div className='containSelectTime'>
 
-                                {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
-                                <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <CssTimePicker
-                                            clearable
-                                            ampm={false}
-                                            okLabel={"אישור"}
-                                            cancelLabel="ביטול"
-                                            clearLabel={null}
-                                            value={timeValue}
-                                            onChange={props.CreateMeetingStore.changeMeetingTime}
-                                            style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
-                                        />
-                                    </MuiPickersUtilsProvider>
+                                <div className='position-relative'>
+                                    {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
+                                    <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <CssTimePicker
+                                                clearable
+                                                ampm={false}
+                                                okLabel={"אישור"}
+                                                cancelLabel="ביטול"
+                                                clearLabel={null}
+                                                value={timeValue}
+                                                onChange={props.CreateMeetingStore.changeMeetingTime}
+                                                style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,21 +274,25 @@ const CreateMeeting = (props) => {
                             placeholder="מספר משתתפים מקסימלי"
                         />
 
-                        <div className="containCreateMettingButton">
-                            <div onClick={async () => {
+                        <div
+                            className="containCreateMettingButton"
+                            onClick={async () => {
                                 setIsSaved(true)
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
                                 if (meeting) {
                                     setSuccess(meeting[0])
                                 }
-                            }} className="createMeetingButton grow">{props.CreateMeetingStore.waitForData ?
-                                <div className="spinner">
-                                    <div className="bounce1"></div>
-                                    <div className="bounce2"></div>
-                                    <div className="bounce3"></div>
-                                </div>
-                                : <div>צור מפגש</div>}</div>
-
+                            }}>
+                            <div className="createMeetingButton grow">
+                                {props.CreateMeetingStore.waitForData ?
+                                    <div className="spinner">
+                                        <div className="bounce1"></div>
+                                        <div className="bounce2"></div>
+                                        <div className="bounce3"></div>
+                                    </div>
+                                    : <div>צור מפגש</div>
+                                }
+                            </div>
                         </div>
                     </div>
                     {props.CreateMeetingStore.error && <ErrorMethod {...props} />}
