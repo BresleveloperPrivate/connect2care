@@ -6,24 +6,17 @@ import PhoneList from './MeetingsListPhone'
 
 const ListOfMeetingsUser = (props) => {
 
-    const [width, setWidth] = useState(false)
-
     useEffect(() => {
         (async () => {
-            window.addEventListener('resize', onResize, false)
             await props.MeetingsStore.search()
 
         })()
     }, []);
 
-    const onResize = (e) => {
-        setWidth(e.target.innerWidth)
-        console.log(e.target.innerWidth)
-    }
 
     return (
         <div>
-            {width > 550 ?
+            {props.LanguageStore.width > 550 ?
                 <CompList t={props.t} />
                 :
                 <PhoneList t={props.t}/>
@@ -32,4 +25,4 @@ const ListOfMeetingsUser = (props) => {
 
     );
 }
-export default inject('MeetingsStore')(observer(ListOfMeetingsUser));
+export default inject('MeetingsStore' , 'LanguageStore')(observer(ListOfMeetingsUser));

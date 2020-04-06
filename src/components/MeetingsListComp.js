@@ -56,7 +56,7 @@ const ComputerList = (props) => {
        {!props.MeetingsStore.error ? 
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
-                <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן. </div>
+                <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                 <div className='containSearch'>
                     <input
                         style={{ flexGrow: 1 }}
@@ -139,23 +139,22 @@ const ComputerList = (props) => {
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div onClick={meeting.participants_num < meeting.max_participants ? () => {
+                            <div onClick={() => {
                                 props.history.push(`/meeting/${meeting.id}`)
-                            } : () => { }}>
+                            }}>
                                 <ImageOfFallen
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}
                                     width='15em'
                                     height='21em'
-                                    isOpen={meeting.participants_num < meeting.max_participants}
                                 />
                             </div>
                             <div
                                 style={{ cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto' }}
                                 className='meetingCard'
-                                onClick={meeting.participants_num < meeting.max_participants ? () => {
+                                onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
-                                } : () => { }}
+                                }}
                             >
                                 <div className='meetingCardContent'>
                                     <div className='meetingName'>

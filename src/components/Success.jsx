@@ -107,7 +107,7 @@ function Success(props) {
                                             }
                                         })}</div>                                            
                                     </div>
-                                    <div className="meetingDate">
+                                    <div className="meetingDateSuccess">
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
                                         <span className="exactDate">{meeting.date} | {meeting.time}</span>
                                     </div>
