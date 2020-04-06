@@ -58,15 +58,15 @@ class CreateMeetingStore {
     changeFallens = (index, number = null) => {
         if (this.meetingDetails.fallens === null) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            this.otherRelationShip = [{ id: index, relative: null }]
+            this.otherRelationShip = [{ id: index, relative: "" }]
         }
         else if (this.meetingDetails.fallens.length >= index) {
             this.meetingDetails.fallens[index] = { id: number, relative: null }
-            this.otherRelationShip = [{ id: number, relative: null }]
+            this.otherRelationShip[index] = { id: number, relative: "" }
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            this.otherRelationShip.push({ id: number, relative: null })
+            this.otherRelationShip.push({ id: number, relative: "" })
         }
     }
 
@@ -79,16 +79,17 @@ class CreateMeetingStore {
         this.meetingDetails.date = date
     }
 
-    setOtherRelationship = (e, idFallen) => {
-        if (!this.otherRelationShip || this.otherRelationShip && !this.otherRelationShip.length) {
-            this.otherRelationShip = [{ id: idFallen, relative: e.target.value }]
+    setOtherRelationship = (e, index) => {
+        if (!this.otherRelationShip || (this.otherRelationShip && !this.otherRelationShip.length)) {
+            this.otherRelationShip = [{ id: null, relative: e.target.value }]
             return
         }
         else {
-            for (let i = 0; i < this.otherRelationShip.length; i++) {
-                if (this.otherRelationShip[i].id === idFallen)
-                    this.otherRelationShip[i].relative = e.target.value
-            }
+            if (this.otherRelationShip[index])
+                this.otherRelationShip[index].relative = e.target.value
+            else
+                this.otherRelationShip[index].relative = { id: null, relative: e.target.value }
+
         }
     }
 
@@ -115,7 +116,6 @@ class CreateMeetingStore {
                     if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
                         setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
-
                     }
                 }
             }
@@ -245,7 +245,6 @@ class CreateMeetingStore {
     }
 
     createNewMeetingPost = async () => {
-        this.waitForData = true
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
@@ -264,11 +263,12 @@ class CreateMeetingStore {
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
-            this.waitForData = false
             return
         }
         beforePostJSON.zoomId = zoomId
 
+        this.waitForData = true
+        console.log(this.waitForData)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
             {
@@ -318,6 +318,7 @@ decorate(CreateMeetingStore, {
     meetingDetails: observable,
     meetingId: observable,
     error: observable,
+    waitForData: observable,
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,

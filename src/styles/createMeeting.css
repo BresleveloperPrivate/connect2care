@@ -135,7 +135,7 @@ input[type=radio]:focus {
 }
 
 .CreateMeeting .selectInput{
-    margin: 1vh 2vh;
+    margin: 1vh 0;
 }
 
 .CreateMeeting{
@@ -278,7 +278,7 @@ input[type=radio]:focus {
 }
 
 .error, .errorSearch .MuiOutlinedInput-root{
-    border: 2px solid red !important;
+    border: 2px solid #EC5A5A !important;
     border-radius: 5px;
 }
 

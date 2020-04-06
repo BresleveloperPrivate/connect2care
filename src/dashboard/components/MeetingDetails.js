@@ -176,8 +176,8 @@ const CreateMeeting = (props) => {
                                         <CssTimePicker
                                             clearable
                                             ampm={false}
-                                            okLabel={"אישור"}
-                                            cancelLabel="ביטול"
+                                            okLabel={props.t("approve")}
+                                            cancelLabel={props.t("cancel")}
                                             clearLabel={null}
                                             value={timeValue}
                                             onChange={props.ManagerMeetingStore.changeMeetingTime}

@@ -15,7 +15,6 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, options, cb) => {
-
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
@@ -292,7 +291,6 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     })
 
-
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
@@ -319,10 +317,10 @@ module.exports = function (meetings) {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-                const validateName = /^['"\u0590-\u05fe\s.-]*$/
+                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 

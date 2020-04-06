@@ -18,6 +18,7 @@ const FallenDetails = (props) => {
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
+        { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
     useEffect(() => {
@@ -36,17 +37,19 @@ const FallenDetails = (props) => {
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
 
-                {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
-                <input
-                    type="text"
-                    className='inputStyle dateContainer'
-                    disabled
-                    style={{ width: "95%", backgroundColor: "white" }}
-                    value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
-                    autoComplete="off"
-                    placeholder="תאריך נפילה"
-                />
-
+                <div className='position-relative'>
+                    {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                    <input
+                        type="text"
+                        className='inputStyle dateContainer'
+                        disabled
+                        style={{ width: "95%", backgroundColor: "white" }}
+                        value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
+                        autoComplete="off"
+                        placeholder="תאריך נפילה"
+                    />
+                </div>
+                
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
@@ -72,8 +75,8 @@ const FallenDetails = (props) => {
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
-                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length >= props.index ? CreateMeetingStore.otherRelationship[props.index].relative : ""}
-                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.fallen.id)}
+                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
+                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}
