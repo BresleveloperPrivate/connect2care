@@ -21,7 +21,7 @@ class Home extends Component {
                     className={'navbar-opening'}
                 /> */}
 
-                <OpeningImage />
+                <OpeningImage t={this.props.t}/>
 
                 <Explanation explanation={1} />
 

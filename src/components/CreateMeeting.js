@@ -259,12 +259,12 @@ const CreateMeeting = (props) => {
                             type="text"
                             onBlur={() => {
                                 if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המינימאלי חייב להיות 10 משתתפים ומעלה")
                             }}
 
                             onTouchEnd={() => {
                                 if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                    props.CreateMeetingStore.setError("שימו לב! מספר המשתתפים המינימאלי חייב להיות 10 משתתפים ומעלה")
                             }}
                             className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
                             onChange={props.CreateMeetingStore.changeNumberOfParticipants}
