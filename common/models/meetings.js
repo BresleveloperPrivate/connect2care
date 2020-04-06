@@ -38,13 +38,6 @@ module.exports = function (meetings) {
 
         if (filters.relationship || filters.relationship) {
             sqlQueryfrom += `, fallens_meetings`
-<<<<<<< HEAD
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
-        }
-
-        if (search) {
-=======
->>>>>>> 231ec8f8ecf5f64d59c4c304c5412125519945e6
             if (filters.relationship) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
