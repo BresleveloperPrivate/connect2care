@@ -18,6 +18,7 @@ const FallenDetails = (props) => {
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
+        { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
     useEffect(() => {
@@ -74,8 +75,8 @@ const FallenDetails = (props) => {
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
-                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length >= props.index ? CreateMeetingStore.otherRelationship[props.index].relative : ""}
-                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.fallen.id)}
+                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
+                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}

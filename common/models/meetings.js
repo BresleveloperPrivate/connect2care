@@ -15,13 +15,16 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, options, cb) => {
-
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
+        if (filters.id) {
+            sqlQueryWhere += `meetings.id > '${filters.id}'`
+        }
+
         if (filters.date) {
-            sqlQueryWhere += `meetings.date = '${filters.date}'`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
         }
 
         if (filters.language) {
@@ -141,8 +144,8 @@ module.exports = function (meetings) {
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
-                if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (!validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let [err1, user] = await to(people.create(data.owner))
                 if (err1) {
@@ -291,7 +294,6 @@ module.exports = function (meetings) {
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
-
 
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
