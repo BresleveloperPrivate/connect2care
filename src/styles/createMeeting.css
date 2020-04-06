@@ -136,6 +136,7 @@ input[type=radio]:focus {
 
 .CreateMeeting .selectInput{
     margin: 1vh 0;
+    padding: 0 2vh;
 }
 
 .CreateMeeting{
@@ -175,10 +176,6 @@ input[type=radio]:focus {
 
 .MuiInputBase-root{
     font-size: inherit;
-}
-
-.searchFallenInput{
-    width: 100%;
 }
 
 .searchButton{
