@@ -21,7 +21,7 @@
     outline: none;
     width: 65%;
     padding: 1vh 2vh;
-    margin-bottom: 3vh;
+    margin-bottom: 4vh;
 }
 
 .textSide{
@@ -212,17 +212,17 @@ input[type=radio]:focus {
     background-color: white;
     padding: 0.5vh 2vh;
     margin-right: 6vw;
-    margin-bottom: 2vh;
+    margin-bottom: 3vh;
     cursor: pointer;
     width: fit-content;
 }
 
 .textAboveInput{
-    text-align: right;
     font: normal 13px/13px Assistant;
-    letter-spacing: 0;
     color: #3586B1;
     padding: 0 2vh 1vh 0;
+    position: absolute;
+    top: -15px;
 }
 
 .cancelPicture{
@@ -274,7 +274,7 @@ input[type=radio]:focus {
 }
 
 .containFallenDetails{
-    margin-bottom: 4vh
+    margin-bottom: 1vh
 }
 
 .error, .errorSearch .MuiOutlinedInput-root{
@@ -326,10 +326,13 @@ input[type=radio]:focus {
 
 .containNameExist{
     display: flex;
-    padding: 1vh 2vh 0 0;
-    margin-bottom: 3vh;
+    padding: 0vh 2vh;
+    margin: 0 7vw;
     color: #EC5A5A;
     font: normal 13px/20px Assistant;
+    /* position: absolute; */
+    margin-bottom: 3vh;
+    background-color: white;
 }
   
 .spinner > div {

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+import { withNamespaces } from 'react-i18next'
 import '../styles/explanation.css'
 
 class Explanation extends Component {
@@ -37,4 +39,5 @@ class Explanation extends Component {
     }
 }
 
-export default Explanation;
+// export default Explanation;
+export default inject('i18n')(observer(withNamespaces()(Explanation)));

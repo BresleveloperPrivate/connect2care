@@ -28,35 +28,18 @@ class MeetingsStore {
     }
 
     changeMeetingTime = (time) => {
-        if (time === 'שעה') {
-            this.time = false
-            return
-        }
         this.time = time
     }
 
     changeFallenRelative = (relative) => {
-        if (relative === 'קרבה לחלל') {
-            this.fallenRelative = ''
-            return
-        }
         this.fallenRelative = relative
     }
 
     changeMeetingLanguage = (language) => {
-        if (language === 'שפת המפגש') {
-            this.language = false
-            return
-        }
         this.language = language
     }
 
     changeMeetingDate = (date) => {
-        console.log(date)
-        if (date === 'תאריך המפגש') {
-            this.date = false
-            return
-        }
         this.date = date
     }
 

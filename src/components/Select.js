@@ -31,10 +31,12 @@ const Select = (props) => {
                                 onClick={() => {
                                     if (value.option !== selectedOption) {
                                         props.onChoseOption(value)
-                                        setSelectedOption(value.option)
-                                        if (props.fetch) {
-                                            props.fetch()
+                                        if(value.data){
+                                            setSelectedOption(value.option)
+                                        }else{
+                                            setSelectedOption(props.selectTextDefault)
                                         }
+                                      
                                     }
 
                                 }}>
