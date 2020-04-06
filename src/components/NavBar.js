@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/logo.svg'
 import menu from '../icons/menu.png'
@@ -6,6 +7,7 @@ import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
 import Language from './Language';
+
 
 class NavBar extends Component {
     constructor(props) {
@@ -15,6 +17,15 @@ class NavBar extends Component {
         }
         this.setOptions()
     }
+
+    componentDidMount=()=>{
+        window.addEventListener('resize', this.onResize, false)
+    }
+
+    onResize = (e) => {
+        this.props.LanguageStore.setWidth(e.target.innerWidth)
+    }
+
     // This function open the side nav bar or close it, depends of the situation
     toggleDrawer = (open) => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -88,4 +99,5 @@ class NavBar extends Component {
     }
 }
 
-export default withRouter(NavBar);
+// export default withRouter(NavBar);
+export default inject('LanguageStore')(observer(withRouter(NavBar)));

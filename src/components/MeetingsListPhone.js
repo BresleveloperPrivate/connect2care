@@ -56,7 +56,7 @@ const PhoneList = (props) => {
        {!props.MeetingsStore.error ? 
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>
-                <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן. </div>
+                <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                 <div className='containSearch'>
                     <input
                         style={{ flexGrow: 1 }}
