@@ -4,6 +4,12 @@ import en from '../icons/en.svg'
 
 class ExampleStore {
 
+    width = 0
+
+    setWidth = (width)=>{
+        this.width = width
+    }
+
     Options =
         [
             { option: 'עברית', short: 'heb', img: heb },
@@ -22,7 +28,10 @@ class ExampleStore {
 decorate(ExampleStore, {
     Options: observable,
     selectedIndex: observable,
-    setSelectedIndex: action
+    setSelectedIndex: action,
+    width: observable,
+    setWidth:action
+    
 });
 
 export default new ExampleStore();

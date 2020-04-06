@@ -7,7 +7,7 @@ function Image(props) {
     return (
 
         <div
-            style={{ cursor: props.isOpen ? 'pointer' : 'auto' }}
+            style={{ cursor: 'pointer' }}
             className={props.className}>
 
             {props.array.length === 1 ?

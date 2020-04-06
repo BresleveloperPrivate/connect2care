@@ -90,7 +90,7 @@
 
 .button-meetings{
     background-color: var(--custom-light-blue);
-    padding: 0.2em 1em;
+    padding: 0.2em 1.7em;
     font-size: 1.5em;
     color: white;
     border-radius: 50px;
@@ -105,10 +105,10 @@
     transition: background-color 0.3s ease;
 }
 
-.disabled-button-meetings{
+/* .disabled-button-meetings{
     background-color: var(--custom-gray-1);
     cursor: auto;
-}
+} */
 
 .containFilters , .containSearch{
     margin-top: 2em;
@@ -119,7 +119,7 @@
 
 .mainPage-meetings{
     width: 85em;
-    margin-right: 6em;
+    margin-right: 6vw;
 }
 
 .containMeetingCard{
@@ -247,8 +247,8 @@
     border-radius: 19px;
     color: rgb(255, 255, 255);
     font-weight: 600;
-    padding: 0.1em 1em;
-    font-size: 1.5em;
+    padding: 0.2em 1.2em;
+    font-size: 1.7em;
 }
 
 .meetingIsCloseBtn{
@@ -312,6 +312,6 @@
 @media screen and (max-width: 800px){
     .mainPage-meetings{
         width: 79em;
-        margin-right: 2em;
+        margin-right: 6vw;
     }    
 }
