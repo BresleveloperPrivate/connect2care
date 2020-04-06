@@ -144,8 +144,8 @@ module.exports = function (meetings) {
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
-                if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (!validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let [err1, user] = await to(people.create(data.owner))
                 if (err1) {
