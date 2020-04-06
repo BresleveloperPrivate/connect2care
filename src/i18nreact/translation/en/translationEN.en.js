@@ -1,9 +1,12 @@
 const translationEN = {
-    "meetingsList": "meetingsList",
-    "myMeetings": "myMeetings",
-    "whoWeAre": "whoWeAre",
-    "donate": "donate",
-    "contactUs": "contactUs"
+    "meetingsList": "Meetings List",
+    "myMeetings": "My Meetings",
+    "whoWeAre": "Who We Are",
+    "donate": "Donate",
+    "contactUs": "Contact Us",
+
+
+    'sunday': 'Sunday, 26.04'
 }
 
 export default translationEN;

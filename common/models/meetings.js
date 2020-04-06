@@ -49,40 +49,12 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.time >= ${filters.time[0]} and meetings.time < ${filters.time[1]}`
         }
 
-        // if (filters.isOpen !== (null || undefined))
-        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
-
-        // if (filters.name)
-        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `meetings.name = '${filters.name}'`
-
-        // if (filters.relationship || filters.fallen) {
-        //     sqlQueryfrom += `, fallens_meetings`
-        //     if (filters.relationship) {
-        //         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
-        //     }
-        //     if (filters.fallen) {
-        //         sqlQueryfrom += `, fallens`
-        //         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-        //             `match(fallens.name) against ('${filters.fallen}')
-        //              and fallens.id = fallens_meetings.fallen`
-        //     }
-        //     sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
-        // }
-
-
-        // if (filters.owner) {
-        //     sqlQueryfrom += `, people`
-        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-        //         `people.name = '${filters.owner}'
-        //          and meetings.owner = people.id`
-        // }
         if (filters.isAvailable) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
         }
 
         if (filters.relationship) {
             sqlQueryfrom += `, fallens_meetings`
-
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
         }
 
@@ -99,12 +71,7 @@ module.exports = function (meetings) {
                 `
         }
 
-        // sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
-
-        console.log('query:  ',sqlQueryfrom)
-        console.log('where:  ', sqlQueryWhere)
-
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
 
             if (err) {
                 console.log(err)

@@ -45,8 +45,21 @@ const CreateMeeting = (props) => {
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
 
-    const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = [{ option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
+    const meetingLanguage = [
+        { option: 'עברית', data: 'עברית' },
+        { option: 'English', data: 'English' },
+        { option: 'français', data: 'français' },
+        { option: 'العربية', data: 'العربية' },
+        { option: 'русский', data: 'русский' },
+        { option: 'አማርኛ', data: 'አማርኛ' },
+        { option: 'español', data: 'español' },
+    ]
+    const meetingDate = [
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: 'יום שני, ג באייר, 27.04', data: 'יום שני, ג באייר, 27.04' },
+        { option: 'יום שלישי, ד באייר, 28.04', data: 'יום שלישי, ד באייר, 28.04' },
+        { option: 'יום רביעי, ה באייר, 29.04', data: 'יום רביעי, ה באייר, 29.04' }
+    ]
 
     useEffect(() => {
         (async () => {
@@ -139,7 +152,7 @@ const CreateMeeting = (props) => {
                             autoComplete="off"
                             placeholder="השם המלא שלך - מנחה המפגש"
                         />
-                       
+
                         {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">דואר אלקטרוני</div>}
                         <input
                             type="text"
@@ -157,7 +170,7 @@ const CreateMeeting = (props) => {
                             autoComplete="off"
                             placeholder="דואר אלקטרוני"
                         />
-                         {errorEmail &&
+                        {errorEmail &&
                             <div className="containNameExist margin-right-text">
                                 <img src={materialInfo} alt="materialInfo" style={{ marginLeft: "1vh" }} />
                                 <div>אנא בדוק שכתובת האימייל הינה נכונה</div>
