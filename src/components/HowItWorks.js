@@ -25,7 +25,7 @@ class HowItWorks extends Component {
                     <div className='levels'>
 
                         <div className='howItWorksOption'>
-                            יוצר מפגש
+                            מארח/ת המפגש
                         </div>
                         <div className='containSteps'>
                             <div className='step'>

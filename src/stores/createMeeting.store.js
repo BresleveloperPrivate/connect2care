@@ -143,7 +143,7 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
                         // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }

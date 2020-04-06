@@ -17,7 +17,7 @@ const ComputerList = (props) => {
 
     const myCloseToTheFallen = [
         { option: 'הכל', data: false },
-        { option: 'אח', data: 'אח' },
+        { option: 'אח/ות', data: 'אח/ות' },
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
@@ -64,7 +64,7 @@ const ComputerList = (props) => {
                         value={props.MeetingsStore.searchInput}
                         className='input-meetings'
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
+                        placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
                     />
                     <div
                         style={{ marginRight: '2em' }}
@@ -197,7 +197,7 @@ const ComputerList = (props) => {
                                         <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                                             <img src={tell} height='100%' />
                                         </div>
-                                       מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}
+                                        מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
                                     <div className='meetingDescription'>
                                         {meeting.description}

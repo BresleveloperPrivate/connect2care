@@ -13,7 +13,7 @@ const MeetingsList = (props) => {
                         <th>תאריך</th>
                         <th>שעה</th>
                         <th>חללים</th>
-                        <th>שם המנחה</th>
+                        <th>שם המארח/ת</th>
                         <th>קרבה</th>
                         <th>שם המפגש</th>
                         <th></th>

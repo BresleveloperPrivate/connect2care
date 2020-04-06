@@ -160,7 +160,7 @@ const ListOfMeetingsUser = (props) => {
                                         <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                                             <img src={tell} height='100%' />
                                         </div>
-                                       מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}
+                                        מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
                                     <div className='meetingDescription'>
                                         {meeting.description}
