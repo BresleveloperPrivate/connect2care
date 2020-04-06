@@ -245,7 +245,6 @@ class CreateMeetingStore {
     }
 
     createNewMeetingPost = async () => {
-        this.waitForData = true
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
@@ -264,11 +263,12 @@ class CreateMeetingStore {
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
-            this.waitForData = false
             return
         }
         beforePostJSON.zoomId = zoomId
 
+        this.waitForData = true
+        console.log(this.waitForData)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
             {
@@ -318,6 +318,7 @@ decorate(CreateMeetingStore, {
     meetingDetails: observable,
     meetingId: observable,
     error: observable,
+    waitForData: observable,
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,

@@ -46,8 +46,21 @@ const CreateMeeting = (props) => {
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
 
-    const meetingLanguage = ['עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = [{ option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
+    const meetingLanguage = [
+        { option: 'עברית', data: 'עברית' },
+        { option: 'English', data: 'English' },
+        { option: 'français', data: 'français' },
+        { option: 'العربية', data: 'العربية' },
+        { option: 'русский', data: 'русский' },
+        { option: 'አማርኛ', data: 'አማርኛ' },
+        { option: 'español', data: 'español' },
+    ]
+    const meetingDate = [
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
 
     useEffect(() => {
         (async () => {
@@ -74,7 +87,6 @@ const CreateMeeting = (props) => {
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    console.log("fallen", fallen)
                     return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
@@ -170,7 +182,7 @@ const CreateMeeting = (props) => {
                                 autoComplete="off"
                                 placeholder="דואר אלקטרוני"
                                 onBlur={emailValidate}
-                                onFocus={()=>setErrorEmail(false)}
+                                onFocus={() => setErrorEmail(false)}
                             />
                             {errorEmail &&
                                 <div className="containNameExist margin-right-text">
@@ -190,7 +202,7 @@ const CreateMeeting = (props) => {
                                 autoComplete="off"
                                 placeholder="טלפון"
                                 onBlur={phoneValidate}
-                                onFocus={()=>setErrorPhone(false)}
+                                onFocus={() => setErrorPhone(false)}
                             />
                             {errorPhone &&
                                 <div className="containNameExist margin-right-text">
@@ -204,13 +216,11 @@ const CreateMeeting = (props) => {
                             {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">שפת המפגש</div>}
                             <Select
                                 selectTextDefault='שפת המפגש'
-                                arr={meetingLanguage.map((name) => {
-                                    return { option: name }
-                                })}
+                                arr={meetingLanguage}
                                 width='65%'
                                 // selectedText={props.CreateMeetingStore.meetingDetails.language}
                                 className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.language || (props.CreateMeetingStore.meetingDetails.language && !props.CreateMeetingStore.meetingDetails.language.length)) ? "error" : "")}
-                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
+                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.data) }} />
                         </div>
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
@@ -225,31 +235,31 @@ const CreateMeeting = (props) => {
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                                 <Select
                                     selectTextDefault='תאריך'
-                                    arr={meetingDate.map((name) => {
-                                        return { option: name.option }
-                                    })}
+                                    arr={meetingDate}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
 
                             <div className='containSelectTime'>
 
-                                {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
-                                <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <CssTimePicker
-                                            clearable
-                                            ampm={false}
-                                            okLabel={"אישור"}
-                                            cancelLabel="ביטול"
-                                            clearLabel={null}
-                                            value={timeValue}
-                                            onChange={props.CreateMeetingStore.changeMeetingTime}
-                                            style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
-                                        />
-                                    </MuiPickersUtilsProvider>
+                                <div className='position-relative'>
+                                    {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">שעה</div>}
+                                    <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <CssTimePicker
+                                                clearable
+                                                ampm={false}
+                                                okLabel={"אישור"}
+                                                cancelLabel="ביטול"
+                                                clearLabel={null}
+                                                value={timeValue}
+                                                onChange={props.CreateMeetingStore.changeMeetingTime}
+                                                style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,21 +283,25 @@ const CreateMeeting = (props) => {
                             placeholder="מספר משתתפים מקסימלי"
                         />
 
-                        <div className="containCreateMettingButton">
-                            <div onClick={async () => {
+                        <div
+                            className="containCreateMettingButton"
+                            onClick={async () => {
                                 setIsSaved(true)
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
                                 if (meeting) {
                                     setSuccess(meeting[0])
                                 }
-                            }} className="createMeetingButton grow">{props.CreateMeetingStore.waitForData ?
-                                <div className="spinner">
-                                    <div className="bounce1"></div>
-                                    <div className="bounce2"></div>
-                                    <div className="bounce3"></div>
-                                </div>
-                                : <div>צור מפגש</div>}</div>
-
+                            }}>
+                            <div className="createMeetingButton grow">
+                                {props.CreateMeetingStore.waitForData ?
+                                    <div className="spinner">
+                                        <div className="bounce1"></div>
+                                        <div className="bounce2"></div>
+                                        <div className="bounce3"></div>
+                                    </div>
+                                    : <div>צור מפגש</div>
+                                }
+                            </div>
                         </div>
                     </div>
                     {props.CreateMeetingStore.error && <ErrorMethod {...props} />}

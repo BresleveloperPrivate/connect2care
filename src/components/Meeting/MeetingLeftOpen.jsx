@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "100vh",
         outline: "none !important",
         padding: "6px 20px",
-        alignSelf: "flex-end"
+        alignSelf: "flex-end",
+        fontSize: '1.5em'
     },
 
     sendLabel: {
@@ -68,7 +69,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
         setName('');
         setEmail('');
         setPhone('');
-        alert('הוספת למפגש בהצלחה');
+        alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, meetingId]);
 

@@ -141,7 +141,7 @@ input[type=radio]:focus {
 }
 
 .CreateMeeting .selectInput{
-    margin: 1vh 2vh;
+    margin: 1vh 0;
 }
 
 .CreateMeeting{

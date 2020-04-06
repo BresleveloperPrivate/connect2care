@@ -17,16 +17,38 @@ import checkboxOff from '../icons/checkbox_off_light.svg'
 const ListOfMeetingsUser = (props) => {
 
 
-    const myCloseToTheFallen = ["הכל", "אח", "הורים", "קרובי משפחה", "חבר"]
-    const meetingLanguage = ['כל השפות', 'עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    const meetingDate = ['כל התאריכים', 'יום ראשון, ב באייר, 26.04', 'יום שני, ג באייר, 27.04', 'יום שלישי, ד באייר, 28.04', 'יום רביעי, ה באייר, 29.04']
-    const meetingTime = [
+    const myCloseToTheFallen = [
+        { option: 'הכל', data: false },
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
+    const meetingLanguage = [
+        { option: 'כל השפות', data: false },
+        { option: 'עברית', data: 'עברית' },
+        { option: 'English', data: 'English' },
+        { option: 'français', data: 'français' },
+        { option: 'العربية', data: 'العربية' },
+        { option: 'русский', data: 'русский' },
+        { option: 'አማርኛ', data: 'አማርኛ' },
+        { option: 'español', data: 'español' },
+    ]
+    const meetingDate = [
+        { option: 'כל התאריכים', data: false },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
+        const meetingTime = [
         { option: 'כל השעות', data: false },
         { option: '12:00 - 09:00', data: [900, 1200] },
         { option: '15:00 - 12:00', data: [1200, 1500] },
         { option: '18:00 - 15:00', data: [1500, 1800] },
         { option: '21:00 - 18:00', data: [1800, 2100] },
-        { option: '00:00 - 21:00', data: [2100, 2400] }]
+        { option: '00:00 - 21:00', data: [2100, 2400] },
+    ]
 
     useEffect(() => {
         (async () => {
@@ -70,61 +92,42 @@ const ListOfMeetingsUser = (props) => {
                         width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
-                        arr={meetingDate.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={meetingDate}
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
-                            if (value.option === 'כל התאריכים') value.option = 'תאריך המפגש'
-                            props.MeetingsStore.changeMeetingDate(value.option)
+                            props.MeetingsStore.changeMeetingDate(value.data)
                         }}
                         changeBackground={true}
 
                     />
                     <Select
-                        fetch={props.MeetingsStore.search}
                         selectTextDefault='שעה'
-                        arr={meetingTime.map((name) => {
-                            return { option: name.option }
-                        })}
+                        arr={meetingTime}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
-                            if (value.option === 'כל השעות') {
-                                value.option = 'שעה'
-                                props.MeetingsStore.changeMeetingTime(false)
-                            }else{
-                                props.MeetingsStore.changeMeetingTime(
-                                meetingTime.find(val => val.option ===  value.option).data
-                        )}
+                            props.MeetingsStore.changeMeetingTime(value.data)
+                            props.MeetingsStore.search()
                         }}
                         changeBackground={true}
                     />
                     <Select
-                        fetch={props.MeetingsStore.search}
                         selectTextDefault='קרבה לחלל'
-                        arr={myCloseToTheFallen.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={myCloseToTheFallen}
                         className='input-meetings filter-meeting'
                         onChoseOption={
-
                             (value) => {
-                                if (value.option === 'הכל') value.option = 'קרבה לחלל'
-                                props.MeetingsStore.changeFallenRelative(value.option)
+                                props.MeetingsStore.changeFallenRelative(value.data)
+                                props.MeetingsStore.search()
                             }}
                             changeBackground={true}
                     />
                     <Select
-                        fetch={props.MeetingsStore.search}
                         selectTextDefault='שפת המפגש'
-                        arr={meetingLanguage.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={meetingLanguage}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
-                            if (value.option === 'כל השפות') {
-                                value.option = 'שפת המפגש'}
-                            props.MeetingsStore.changeMeetingLanguage(value.option)
+                            props.MeetingsStore.changeMeetingLanguage(value.data)
+                            props.MeetingsStore.search()
                         }}
                         changeBackground={true}
                     />

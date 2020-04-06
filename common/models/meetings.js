@@ -53,8 +53,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -320,10 +319,10 @@ module.exports = function (meetings) {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-                const validateName = /^['"\u0590-\u05fe\s.-]*$/
+                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
