@@ -5,14 +5,7 @@ import menu from '../icons/menu.png'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
-
-
-const Options =
-    [{ option: 'רשימת המפגשים', path: '/meetings' },
-    { option: 'המפגשים שלי', path: '/my-meetings' },
-    { option: 'מי אנחנו', path: 'https://ourbrothers.co.il/about', open: true },
-    { option: 'תרמו לנו', path: 'https://ourbrothers.co.il/donate', open: true },
-    { option: 'צור קשר', path: 'https://ourbrothers.co.il/contact', open: true }]
+import Language from './Language';
 
 class NavBar extends Component {
     constructor(props) {
@@ -20,6 +13,7 @@ class NavBar extends Component {
         this.state = {
             right: false
         }
+        this.setOptions()
     }
     // This function open the side nav bar or close it, depends of the situation
     toggleDrawer = (open) => event => {
@@ -29,15 +23,34 @@ class NavBar extends Component {
         this.setState({ right: open })
     };
 
+    setOptions = () => {
+
+        this.options =
+            [{ option: this.props.t("meetingsList"), path: '/meetings' },
+            { option: this.props.t("myMeetings"), path: '/my-meetings' },
+            { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about', open: true },
+            { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate', open: true },
+            { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact', open: true }]
+    }
+
+    changelng = (lng) => {
+        this.props.changeLanguage(lng);
+        this.setOptions()
+    }
+
     render() {
         return (
             <div className={'navbar ' + this.props.className}>
                 <div className='containMenu'>
                     <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
                 </div>
+                <div className='containLanguage'>
+                    <Language changeLanguage={this.changelng} />
+                </div>
+
 
                 <div className='navbarOptions'>
-                    {Options.map((value, index) => {
+                    {this.options.map((value, index) => {
                         return (
                             <div key={index}
                                 onClick={() => {
@@ -50,17 +63,22 @@ class NavBar extends Component {
                             >
                                 {value.option}
                             </div>
+
                         )
                     })}
+
+
                 </div>
+
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
                         <img alt="alt" src={ourBrothers} height='100%' />
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}
+                    changeLanguage={this.props.changeLanguage}
                     toggleDrawer={this.toggleDrawer}
-                    options={Options}
+                    options={this.options}
                     right={this.state.right}
                 />
             </div>

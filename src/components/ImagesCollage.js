@@ -53,7 +53,7 @@ class HowItWorks extends Component {
             }
 
             if (window.innerWidth <= 800) {
-                this.setState({ images: constImages.slice(0, 10) })
+                this.setState({ images: constImages.slice(0, 12) })
             } else {
                 this.setState({ images: constImages })
             }
@@ -67,7 +67,7 @@ class HowItWorks extends Component {
     onResize = () => {
         if (window.innerWidth <= 800) {
             let images = this.state.images
-            images = constImages.slice(0, 10)
+            images = constImages.slice(0, 12)
             this.setState({ images })
         } else {
             this.setState({ images: constImages })
