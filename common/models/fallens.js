@@ -3,6 +3,7 @@
 module.exports = function (fallens) {
 
     fallens.SearchFallen = (value, cb) => {
+        if (value.length > 100) return cb(null, null)
         fallens.dataSource.connector.query(`select *
             from fallens
             where match(fallens.name) against ('${value}')

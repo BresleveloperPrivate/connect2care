@@ -89,7 +89,6 @@ const CreateMeeting = (props) => {
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    console.log("fallen", fallen)
                     return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
@@ -299,21 +298,25 @@ const CreateMeeting = (props) => {
                             }
                         </div>
 
-                        <div className="containCreateMettingButton">
-                            <div onClick={async () => {
+                        <div
+                            className="containCreateMettingButton"
+                            onClick={async () => {
                                 setIsSaved(true)
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
                                 if (meeting) {
                                     setSuccess(meeting[0])
                                 }
-                            }} className="createMeetingButton grow">{props.CreateMeetingStore.waitForData ?
-                                <div className="spinner">
-                                    <div className="bounce1"></div>
-                                    <div className="bounce2"></div>
-                                    <div className="bounce3"></div>
-                                </div>
-                                : <div>צור מפגש</div>}</div>
-
+                            }}>
+                            <div className="createMeetingButton grow">
+                                {props.CreateMeetingStore.waitForData ?
+                                    <div className="spinner">
+                                        <div className="bounce1"></div>
+                                        <div className="bounce2"></div>
+                                        <div className="bounce3"></div>
+                                    </div>
+                                    : <div>צור מפגש</div>
+                                }
+                            </div>
                         </div>
                     </div >
                     {

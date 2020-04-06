@@ -31,16 +31,16 @@ const Filters = (props) => {
         { option: 'חבר', data: 'חבר' },
     ]
     const IS_OPEN_ARR = [
-        { option: 'הכל' }, { data: 'הכל' },
-        { option: 'פתוח' }, { data: 'פתוח' },
-        { option: 'סגור' }, { data: 'סגור' }
+        { option: 'הכל', data: 'הכל' },
+        { option: 'פתוח', data: 'פתוח' },
+        { option: 'סגור', data: 'סגור' }
 
     ]
     const PARTICIPANTS_NUM = [
-        { option: 'הכל' }, { data: 'הכל' },
-        { option: '20 - 0' }, { data: '20 - 0' },
-        { option: '100 - 20' }, { data: '100 - 20' },
-        { option: '100+' }, { data: '100+' }
+        { option: 'הכל', data: 'הכל' },
+        { option: '20 - 0', data: '20 - 0' },
+        { option: '100 - 20', data: '100 - 20' },
+        { option: '100+', data: '100+' }
     ]
 
     return (
@@ -55,6 +55,7 @@ const Filters = (props) => {
                         <div className='textFilter'>תאריך</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={DATES}
@@ -66,6 +67,7 @@ const Filters = (props) => {
                         <div className='textFilter'>פתוח / סגור</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={IS_OPEN_ARR}
@@ -78,6 +80,7 @@ const Filters = (props) => {
                         <div className='textFilter'>קרבה</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={RELATIONSHIPS}
@@ -90,6 +93,7 @@ const Filters = (props) => {
                         <div className='textFilter'>מספר משתתפים</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
                             arr={PARTICIPANTS_NUM}
