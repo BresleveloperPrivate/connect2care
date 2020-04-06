@@ -66,7 +66,7 @@ const FallenDetails = (props) => {
                     // selectedText={props.ManagerMeetingStore.meetingDetails.relationship}
                     width='95%'
                     className={'inputStyle p-0 ' + (props.isSaved && (!props.ManagerMeetingStore.fallens || !props.ManagerMeetingStore.fallens[props.index] || !props.ManagerMeetingStore.fallens[props.index].relative) ? "error" : "")}
-                    onChoseOption={(value) => { props.ManagerMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                    onChoseOption={(value) => { props.ManagerMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                 {props.ManagerMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: props.ManagerMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : "-10px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute">
