@@ -19,8 +19,12 @@ module.exports = function (meetings) {
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
+        if (filters.id) {
+            sqlQueryWhere += `meetings.id > '${filters.id}'`
+        }
+
         if (filters.date) {
-            sqlQueryWhere += `meetings.date = '${filters.date}'`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
         }
 
         if (filters.language) {
