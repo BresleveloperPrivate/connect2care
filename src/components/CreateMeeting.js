@@ -57,9 +57,9 @@ const CreateMeeting = (props) => {
     ]
     const meetingDate = [
         { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: 'יום שני, ג באייר, 27.04', data: 'יום שני, ג באייר, 27.04' },
-        { option: 'יום שלישי, ד באייר, 28.04', data: 'יום שלישי, ד באייר, 28.04' },
-        { option: 'יום רביעי, ה באייר, 29.04', data: 'יום רביעי, ה באייר, 29.04' }
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     useEffect(() => {
@@ -217,9 +217,7 @@ const CreateMeeting = (props) => {
                             {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">שפת המפגש</div>}
                             <Select
                                 selectTextDefault='שפת המפגש'
-                                arr={meetingLanguage.map((name) => {
-                                    return { option: name }
-                                })}
+                                arr={meetingLanguage}
                                 width='65%'
                                 // selectedText={props.CreateMeetingStore.meetingDetails.language}
                                 className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.language || (props.CreateMeetingStore.meetingDetails.language && !props.CreateMeetingStore.meetingDetails.language.length)) ? "error" : "")}
@@ -238,9 +236,7 @@ const CreateMeeting = (props) => {
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                                 <Select
                                     selectTextDefault='תאריך'
-                                    arr={meetingDate.map((name) => {
-                                        return { option: name.option }
-                                    })}
+                                    arr={meetingDate}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}

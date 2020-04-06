@@ -37,9 +37,9 @@ const ListOfMeetingsUser = (props) => {
     const meetingDate = [
         { option: 'כל התאריכים', data: false },
         { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: 'יום שני, ג באייר, 27.04', data: 'יום שני, ג באייר, 27.04' },
-        { option: 'יום שלישי, ד באייר, 28.04', data: 'יום שלישי, ד באייר, 28.04' },
-        { option: 'יום רביעי, ה באייר, 29.04', data: 'יום רביעי, ה באייר, 29.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
         const meetingTime = [
         { option: 'כל השעות', data: false },
