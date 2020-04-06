@@ -35,7 +35,7 @@ const CssTimePicker = withStyles({
     },
 })(TimePicker);
 
-const CreateMeeting = (props) => {
+const MeetingDetails = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
     const [error, setError] = useState()
     const [timeValue, setTimeValue] = useState()
@@ -224,4 +224,4 @@ const CreateMeeting = (props) => {
     )
 }
 
-export default inject('ManagerMeetingStore')(observer(CreateMeeting));
+export default inject('ManagerMeetingStore')(observer(MeetingDetails));
