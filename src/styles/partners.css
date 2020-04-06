@@ -35,7 +35,7 @@
 
   .containPartners{
       width: 100vw;
-      padding: 5vw 10vw;
+      padding: 5vw;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -62,7 +62,7 @@
 
     .partner{
       height: 12vw;
-      margin: 4vw;
+      margin: 4vw 2vw;
     }
 
       .cover {

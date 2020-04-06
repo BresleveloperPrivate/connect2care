@@ -145,7 +145,9 @@ const ComputerList = (props) => {
                         <div key={index} className='containMeetingCard'>
                             <div onClick={() => {
                                 props.history.push(`/meeting/${meeting.id}`)
-                            }}>
+                            }}
+                            style={{ cursor: 'pointer' }}
+                            >
                                 <ImageOfFallen
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}
