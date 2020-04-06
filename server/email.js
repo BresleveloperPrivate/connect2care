@@ -29,3 +29,24 @@ const sendEmail = (senderName, options) => {
 };
 
 module.exports = sendEmail;
+
+const sendGridEmail = async (receiver) => {
+
+    // using Twilio SendGrid's v3 Node.js Library
+    // https://github.com/sendgrid/sendgrid-nodejs
+    const sgMail = require('@sendgrid/mail');
+    const SENDGRID_API_KEY = `${process.env.REACT_APP_SENDGRID_API_KEY}`
+
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    await sgMail.setApiKey(SENDGRID_API_KEY);
+
+    const msg = {
+        to: receiver.email,
+        from: 'subteachersystem@gmail.com',
+        subject: 'הודעה חדשה ממערכת מורה להחלפה',
+        // text: this.tplPersonalContent,
+        html: this.tplPersonalContent
+    };
+    try { await sgMail.send(msg); }
+    catch (err) { logNotification("Could not send email with err", err); }
+}
