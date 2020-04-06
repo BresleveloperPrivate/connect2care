@@ -19,7 +19,8 @@
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
-    width: 65%;
+    width: calc(73% - 12vw);
+    /* width: 65%; */
     padding: 1vh 2vh;
     margin-bottom: 4vh;
 }
@@ -136,6 +137,8 @@ input[type=radio]:focus {
 
 .CreateMeeting .selectInput{
     margin: 1vh 0;
+    opacity: 0.8;
+    padding: 0 2vh;
 }
 
 .CreateMeeting{
@@ -149,6 +152,12 @@ input[type=radio]:focus {
 }
 
 ::placeholder, ::-moz-placeholder, :-moz-placeholder,  :-ms-input-placeholder, ::-webkit-input-placeholder{
+    color: black
+}
+
+.inputStyle::placeholder, .inputStyle input::placeholder{
+    /* color: black; */
+    opacity: 0.8 !important;
     color: var(--custom-gray)
 }
 
@@ -175,10 +184,6 @@ input[type=radio]:focus {
 
 .MuiInputBase-root{
     font-size: inherit;
-}
-
-.searchFallenInput{
-    width: 100%;
 }
 
 .searchButton{
@@ -240,11 +245,12 @@ input[type=radio]:focus {
     display: flex;
     margin-right: 6vw;
     justify-content: flex-end;
-    width: 65%;
+    width: calc(73% - 12vw);
+    /* width: 65%; */
 }
 
 #containDetailsSideBar{
-    padding: 2vh;
+    padding: 2vh 0;
     max-height: 80vh;
     overflow-y: auto;
 }
@@ -320,8 +326,9 @@ input[type=radio]:focus {
 
 .exictingPic{
     width: fit-content;
-    margin-right: 6vw;
     position: relative;
+    border-radius: 4px;
+
 }
 
 .containNameExist{
@@ -376,7 +383,8 @@ input[type=radio]:focus {
     .containFallenDetails{
         display: flex;
         align-items: flex-start;
-        width: 65%;
+        width: calc(73% - 12vw);
+        /* width: 65%; */
         margin-right: 6vw;
     }
 
@@ -394,7 +402,8 @@ input[type=radio]:focus {
     }
 
     .containDateAndTime{
-        width: 65%;
+        width: calc(73% - 12vw);
+        /* width: 65%; */
         display: flex;
         margin-right: 6vw;
         align-items: flex-end;
@@ -418,9 +427,9 @@ input[type=radio]:focus {
     }
 
 
-    .searchStyle{
+    /* .searchStyle{
         margin-right: 6vw;
-    }
+    } */
     
     .inputStyle{
         width: calc( 100% - 12vw) !important;

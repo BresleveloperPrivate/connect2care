@@ -96,6 +96,7 @@ const ListOfMeetingsUser = (props) => {
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
                             props.MeetingsStore.changeMeetingDate(value.data)
+                            props.MeetingsStore.search()
                         }}
                         changeBackground={true}
 

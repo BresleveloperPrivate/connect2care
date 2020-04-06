@@ -78,7 +78,7 @@ class CreateMeetingStore {
         }
         this.fallenDetails[id] = {
             name: fallen.name,
-            fallingDate: fallen.falling_date.split("T")[0] + "| " + fallen.heb_falling_date,
+            fallingDate: fallen.falling_date.split("T")[0] + " | " + fallen.heb_falling_date,
             image: fallen.image_link,
             meetings: fallen.meetings
         }
@@ -145,7 +145,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }

@@ -8,11 +8,11 @@ import '../styles/sharing.scss';
 
 
 export default function AlertDialog(props) {
-  const {openEmail, setOpenEmail} =  props;
+  const { openEmail, setOpenEmail } = props;
   const [email, setEmail] = React.useState(null);
   const [isEmailNotLegal, setIsEmailNotLegal] = React.useState(false);
   const regex = RegExp(/^(.+)@(.+){2,}.(.+){2,}$/);
-  const {shareWithEmail} = props;
+  const { shareWithEmail } = props;
 
 
 
@@ -22,23 +22,23 @@ export default function AlertDialog(props) {
 
   const changeEmail = (event) => {
     const tagName = event.target.value;
-   setEmail(tagName);
+    setEmail(tagName);
     console.log('PIKA PI: ', tagName);
     console.log('OVED?', regex.test(email))
-}
+  }
 
-const checkEmail = () => {
-    if (regex.test(email) === true){
-        //סגור חלון
-        setIsEmailNotLegal(false);
-        shareWithEmail(email);
-        handleCloseEmail();
-        alert('המייל נשלח!');
-    } else{
-        //הצג ארור
-        setIsEmailNotLegal(true);
+  const checkEmail = () => {
+    if (regex.test(email) === true) {
+      //סגור חלון
+      setIsEmailNotLegal(false);
+      shareWithEmail(email);
+      handleCloseEmail();
+      alert('המייל נשלח!');
+    } else {
+      //הצג ארור
+      setIsEmailNotLegal(true);
     }
-}
+  }
 
 
   return (
@@ -49,16 +49,17 @@ const checkEmail = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
+        <DialogContent className='popupSendEmail'
+        >
           <DialogContentText id="alert-dialog-description">
-          <input type="text" name="sendEmail" placeholder={"מייל לשליחה"} value={email} onChange={changeEmail}/>
-          {isEmailNotLegal && <div className="invalidEmail">אנא הכנס מייל חוקי</div> }
+            <input type="text" className='emailInputSharing' name="sendEmail" placeholder={"מייל לשליחה"} value={email} onChange={changeEmail} />
+            {isEmailNotLegal && <div className="invalidEmail">אנא הכנס מייל חוקי</div>}
           </DialogContentText>
-        </DialogContent>
-        <DialogActions id="sendButton">
-          <Button onClick={checkEmail} color="primary" autoFocus>
+        </DialogContent >
+        <DialogActions className='popupSendEmail' id="sendButton">
+          <div className='sendBtnSendEmail grow' onClick={checkEmail}  autoFocus>
             שלח
-          </Button>
+          </div>
         </DialogActions>
       </Dialog>
     </div>

@@ -7,7 +7,7 @@ const sendEmail = require('../email');
 
 module.exports = function (app) {
     const dates = validateRules.meetings.date.format.pattern.split("(").join("").split(")").join("").split("^").join("").split("|");
-    
+
     dates.forEach(date => {
 
         const [dayDate, month] = date.split(" ")[date.split(" ").length - 1].split(".");
@@ -24,18 +24,23 @@ module.exports = function (app) {
 
         schedule.scheduleJob(rule, () => {
             (async () => {
-                const meetings = await app.models.meetings.find({ where: { date }, include: "people" });
+                try {
+                    const meetings = await app.models.meetings.find({ where: { date }, include: "people" });
 
-                meetings.forEach(meeting => { 
-                    meeting.people.filter(({ email }) => !!email).forEach(({ email, name }) => {
-                        const options = { 
-                            to: email, 
-                            subject: 'תזכורת למפגש מתחברים וזוכרים', 
-                            html: `<h1>הי ${name}, תזכורת: יש לך מפגש היום בשעה ${meeting.time}</h1>` 
-                        }
-                        sendEmail("מתחברים וזוכרים", options);
+                    meetings.forEach(meeting => {
+
+                        JSON.parse(JSON.stringify(meeting)).people.filter(({ email }) => !!email).forEach(({ email, name }) => {
+                            const options = {
+                                to: email,
+                                subject: 'תזכורת למפגש מתחברים וזוכרים',
+                                html: `<h1>הי ${name}, תזכורת: יש לך מפגש היום בשעה ${meeting.time}</h1>`
+                            }
+                            sendEmail("מתחברים וזוכרים", options);
+                        });
                     });
-                });
+                } catch (err) {
+                    console.error(err);
+                }
             })();
         });
     });

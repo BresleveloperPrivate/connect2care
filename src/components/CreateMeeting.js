@@ -122,7 +122,7 @@ const CreateMeeting = (props) => {
         <div>
             {!success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
-                    <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createMeeting") : props.t("editMeeting")}</div>
+                    <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}</div>
                     <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
                     <div>
                         <div className='position-relative'>
@@ -223,10 +223,11 @@ const CreateMeeting = (props) => {
                             <Select
                                 selectTextDefault={props.t("meetingLanguage")}
                                 arr={meetingLanguage}
-                                width='65%'
+                                width="calc(73% - 12vw)"
+
                                 // selectedText={props.CreateMeetingStore.meetingDetails.language}
                                 className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.language || (props.CreateMeetingStore.meetingDetails.language && !props.CreateMeetingStore.meetingDetails.language.length)) ? "error" : "")}
-                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.option) }} />
+                                onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.data) }} />
                         </div>
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
@@ -245,7 +246,7 @@ const CreateMeeting = (props) => {
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.option) }} />
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
 
                             <div className='containSelectTime position-relative'>
@@ -268,21 +269,21 @@ const CreateMeeting = (props) => {
                             </div>
                         </div>
                         <div className="position-relative">
-                            {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">מספר משתתפים מקסימלי</div>}
+                            {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">{props.t("maxParticipationNumber")}</div>}
                             <input
                                 type="text"
                                 onBlur={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
                                     else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan3000Participants"))
                                 }}
 
                                 onTouchEnd={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
-                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות 10 משתתפים ומעלה")
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
                                     else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                        setErrorMaxParticipants("שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים")
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan3000Participants"))
                                 }}
                                 onFocus={() => setErrorMaxParticipants(false)}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
@@ -291,7 +292,7 @@ const CreateMeeting = (props) => {
                                 //     { marginBottom: "0" } : {}}
                                 value={props.CreateMeetingStore.meetingDetails.max_participants}
                                 autoComplete="off"
-                                placeholder="מספר משתתפים מקסימלי"
+                                placeholder={props.t("maxParticipationNumber")}
                             />
                             {
                                 errorMaxParticipants &&
@@ -304,7 +305,7 @@ const CreateMeeting = (props) => {
 
                         <div
                             className="containCreateMettingButton"
-                            >
+                        >
                             <div className="createMeetingButton grow" onClick={async () => {
                                 setIsSaved(true)
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
@@ -318,7 +319,7 @@ const CreateMeeting = (props) => {
                                         <div className="bounce2"></div>
                                         <div className="bounce3"></div>
                                     </div>
-                                    : <div>צור מפגש</div>
+                                    : <div>{props.t("createMeeting")}</div>
                                 }
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
@@ -7,12 +7,15 @@ import throttle from 'lodash/throttle';
 import Auth from '../modules/auth/Auth';
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import useOnClickOutside from './UseOnClickOutside'
 
 const useStyles = makeStyles({
     inputWraper: {
         position: "relative",
         height: 'fit-content',
-        width: window.innerWidth > 550 ? '95%' : 'calc( 100% - 6vw)'
+        width: window.innerWidth > 550 ? '95%' : '100%'
     },
 
     list: {
@@ -21,9 +24,10 @@ const useStyles = makeStyles({
         zIndex: "10",
         maxHeight: "50vh",
         overflow: "auto",
-        boxShadow: '0px 3px 6px #00000029',
-        top: "calc(100% + 5px)",
-        width: "100%"
+        boxShadow: '-3px 4px 15px rgba(185, 188, 199, 0.795)',
+        borderRadius: '5px',
+        width: window.innerWidth > 550 ? "100%" : "calc(100% - 12vw)",
+        marginLeft: window.innerWidth > 550 ? 0 : '6vw'
     },
 
     loadingOrNoResults: {
@@ -42,6 +46,8 @@ const SearchFallen = (props) => {
     const { inputWraper, list, loadingOrNoResults } = useStyles();
 
     const CreateMeetingStore = useCreateMeetingStore();
+    const ref = useRef()
+    useOnClickOutside(ref, () => setShowOptions(false));
 
     const onChange = useCallback(event => {
         setOptions(null);
@@ -89,18 +95,22 @@ const SearchFallen = (props) => {
         };
     }, [searchValue, fetch]);
     return (
-        <div className={inputWraper}>
-            <TextField
-                value={searchValue}
-                onChange={onChange}
-                placeholder="שם החלל"
-                variant="outlined"
-                className={'searchFallenInput ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "errorSearch" : "")}
-                color="primary"
-                InputProps={{
-                    endAdornment: <Search color="primary" />
-                }}
-            />
+        <div className={inputWraper} ref={ref}>
+
+            <div
+                className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
+                style={{ width: "100%", marginBottom: '0' }}>
+                <input
+                    type="text"
+                    style={{ all: "unset", width: "calc(100% - 20px)" }}
+                    onChange={onChange}
+                    value={searchValue}
+                    autoComplete="off"
+                    placeholder="שם החלל"
+                    onClick={() => setShowOptions(true)}
+                />
+                <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
+            </div>
 
             {showOptions && searchValue.length > 0 && (
                 <List className={list}>

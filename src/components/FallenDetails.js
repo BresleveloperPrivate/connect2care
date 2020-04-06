@@ -64,7 +64,7 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />
-                    <div className="position-absolute">
+                    <div className="position-absolute" style={{ paddingTop: "1vh" }}>
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
                         חשוב שלכל מפגש תזמנו בן משפחה
                     </div>
@@ -87,7 +87,7 @@ const FallenDetails = (props) => {
 
                 <img src={findImage && dissmisedPic ? CreateMeetingStore.fallenDetails[props.fallen.id].image : grayCandle}
                     alt="grayCandle" style={
-                        findImage && dissmisedPic ? { height: "24vh" } : { height: "13vh" }} />
+                        findImage && dissmisedPic ? { height: "24vh", borderRadius: "4px" } : { height: "13vh" }} />
                 {/* {findImage && dissmisedPic && <FontAwesomeIcon
                     className={"pointer cancelPicture"}
                     onClick={() => setDissmisedPic(false)}

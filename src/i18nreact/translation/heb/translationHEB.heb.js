@@ -11,7 +11,7 @@ const translationHEB = {
     "cancel": "ביטול",
     "addFallen": "הוסף נופל",
     "meetingName": "שם המפגש",
-    "createMeeting": "יצירת המפגש",
+    "createTheMeeting": "יצירת המפגש",
     "editMeeting": "עריכת המפגש",
     "shortDescription": "תאור קצר",
     "ownerDetails": "פרטי יוצר המפגש",
@@ -24,8 +24,12 @@ const translationHEB = {
     "meetingIsOpen": "מפגש פתוח",
     "meetingIsClosed": "מפגש סגור",
     "date": "תאריך",
-    "time":"שעה",
-    "maxParticipationNumber":"מספר משתתפים מקסימלי",
+    "time": "שעה",
+    "maxParticipationNumber": "מספר משתתפים מקסימלי",
+    "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "שימו לב! מספר המשתתפים המינימלי חייב להיות 10 משתתפים ומעלה",
+    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים",
+    "createMeeting": "צור מפגש",
+
 
     'sunday': 'יום ראשון, ב באייר, 26.04',
     'monday': 'יום שני, ג באייר, 27.04',

@@ -9,6 +9,7 @@ import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
+import Dialog from '@material-ui/core/Dialog';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -17,49 +18,50 @@ const ListOfMeetingsUser = (props) => {
     const [myMeetings ,setMyMeetings] = useState(false)
     const [option , setOption] = useState(0)
     const [error ,setError] = useState(false)
+
+    const [open ,setOpen] = useState(true)
+    const [level ,setlevel] = useState(1)
+    const [type ,setType] = useState(false)
     const [email ,setEmail] = useState(false)
     const [phone ,setPhone] = useState(false)
     const [code ,setCode] = useState(false)
 
-    // const myCloseToTheFallen = ["הכל", "אח", "הורים", "קרובי משפחה", "חבר"]
-    // const meetingLanguage = ['כל השפות', 'עברית', 'English', 'français', 'العربية', 'русский', 'አማርኛ', 'español']
-    // const meetingDate = ['כל התאריכים', 'יום ראשון, ב באייר, 26.04', 'יום שני, ג באייר, 27.04', 'יום שלישי, ד באייר, 28.04', 'יום רביעי, ה באייר, 29.04']
-    // const meetingTime = [
-    //     { option: 'כל השעות', data: false },
-    //     { option: '12:00 - 09:00', data: [900, 1200] },
-    //     { option: '15:00 - 12:00', data: [1200, 1500] },
-    //     { option: '18:00 - 15:00', data: [1500, 1800] },
-    //     { option: '21:00 - 18:00', data: [1800, 2100] },
-    //     { option: '00:00 - 21:00', data: [2100, 2400] }]
-
-    // useEffect(() => {
-    //     (async () => {
-    //         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsByUser', {
-    //             method: 'POST',
-    //             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ obj: {email , phone , code} })
-    //         })
-
-    //         console.log(meetings)
-    //         setMyMeetings(meetings)
-
-    //     })()
-    // }, []);
-
     return (
         <div>{!myMeetings ?
-            //  <div style={{marginTop: '10em'}}>
-            //     <div class="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
-            //     <span class="sr-only">Loading...</span>
-            //     </div>
-            // </div>
-            <div className='emailAndPhonePopup'>
 
-            הכנס אימייל:
-            <input type='text' onChange={(e)=>{setEmail(e.target.value)}}/> <br/> <br/>
-            הכנס מספר טלפון:
-            <input type='phone' onChange={(e)=>{setPhone(e.target.value)}}/>
-            <div onClick={()=>{
+            <Dialog
+            style={{zIndex:'5'}}
+            open={open}
+            // onClose={handleCloseEmail}
+            >
+      {level === 1? 
+        <div className='emailAndPhonePopup'>
+איפה נשלח לך קוד אימות?
+        <div style={{width:'100%' , display:'flex' , justifyContent:'center' , alignItems:'center'}}>
+           <div className='BtnsConfirmPopup grow' onClick={()=>{setType(1); setlevel(2)}}>
+            SMS
+          </div>
+          <div className='BtnsConfirmPopup grow' onClick={()=>{setType(2) ; setlevel(2)}}>
+            Email
+          </div> 
+        </div>  
+        </div>
+:
+
+
+        <div className='emailAndPhonePopup'>
+            <div style={{position:'absolute' , top: '10px' , right: '10px'}} ><FontAwesomeIcon className='pointer grow' icon="arrow-right" color="#ffffff" onClick={()=>setlevel(1)} /></div>
+            <div style={{marginTop:'2vw'}}>
+           {type === 2 ? 
+            <input type='text' className='InputConfirmPopup' placeholder='הכנס אימייל'  onChange={(e)=>{setEmail(e.target.value)}}/> 
+           :
+            <input type='phone' className='InputConfirmPopup' placeholder='הכנס מספר טלפון' onChange={(e)=>{setPhone(e.target.value)}}/>
+           }
+           </div>
+            
+            <div 
+            className='BtnsConfirmPopup grow'
+            onClick={()=>{
                 (async () => {
                     let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsByUser', {
                         method: 'POST',
@@ -72,9 +74,9 @@ const ListOfMeetingsUser = (props) => {
         
                 })()
             }}>שלח לי קוד אימות</div>
+        </div>}
 
-        </div>
-
+        </Dialog>
 
 
              : !myMeetings.length ?

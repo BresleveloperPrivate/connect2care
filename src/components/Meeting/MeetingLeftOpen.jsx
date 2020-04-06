@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -82,16 +82,20 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople }) => {
     return (
         <div id="meetingPageLeft">
             <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            <div id="meetingLeftTitle">הצטרף למפגש</div>
-            <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת</div>
+            <div id="meetingLeftTitle">{available ? 'הצטרף למפגש' : 'לא ניתן להצטרף למפגש'}</div>
+            <div id="meetingLeftDescription">{available ? 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת'  : 'אין עוד מקומות פנויים במפגש זה'}</div>
 
-            <form>
+            {available &&
+             <div>
+                 <form>
                 {inputs.map(([value, setValue, placeholder], index) => (
                     <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                 ))}
             </form>
             {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
             <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease'}} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
+            </div>
+            }
         </div>
     );
 }
