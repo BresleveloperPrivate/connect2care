@@ -20,6 +20,7 @@ class NavBar extends Component {
 
     componentDidMount=()=>{
         window.addEventListener('resize', this.onResize, false)
+        this.props.LanguageStore.setWidth(window.innerWidth)
     }
 
     onResize = (e) => {

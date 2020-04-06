@@ -306,7 +306,7 @@
 }
 
 .InputConfirmPopup::placeholder{
-    color: rgba(255, 255, 255, 0.493);
+    /* color: rgba(255, 255, 255, 0.493); */
 }
 
 /* .comment{

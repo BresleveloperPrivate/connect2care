@@ -37,8 +37,8 @@ const FallenDetails = (props) => {
     let findImage = props.ManagerMeetingStore.fallenDetails && props.ManagerMeetingStore.fallenDetails[props.fallen.id] && props.ManagerMeetingStore.fallenDetails[props.fallen.id].image && props.ManagerMeetingStore.fallenDetails[props.fallen.id].image !== ""
     return (
         <div className="containFallenDetails">
-            {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
-            <div style={{ width: window.innerWidth <= 550 ? "70%" : "", position: "relative" }}>
+            {props.LanguageStore.width > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+            <div style={{ width: props.LanguageStore.width <= 550 ? "70%" : "", position: "relative" }}>
 
                 {props.ManagerMeetingStore.fallenName && <div className="textAboveInput" style={{ width: "95%" }}>שם החלל</div>}
 
@@ -105,4 +105,4 @@ const FallenDetails = (props) => {
     )
 }
 
-export default inject('ManagerMeetingStore')(observer(FallenDetails))
+export default inject('ManagerMeetingStore', 'LanguageStore')(observer(FallenDetails))

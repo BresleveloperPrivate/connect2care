@@ -37,6 +37,36 @@ class CreateMeetingStore {
         this.meetingDetails.name = e.target.value
     }
 
+    resetAll = () => {
+        this.fallenDetails = null;
+        this.fallenName = null;
+        this.nameMessage = "";
+        this.meetingDetailsOriginal = {
+            name: "",
+            description: "",
+            owner: {
+                name: "",
+                phone: "",
+                email: ""
+            },
+            language: "",
+            isOpen: "",
+            date: "",
+            time: "00:00",
+            max_participants: "",
+            fallens: null,
+            zoomId: 0,
+        }
+        this.allMeetings = null;
+
+        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+
+        this.error = null;
+        this.waitForData = false;
+        this.otherRelationship = null;
+        this.meetingId = -1;
+    }
+
     setMeetingId = (meetingId) => {
         this.meetingId = meetingId
     }
@@ -48,7 +78,7 @@ class CreateMeetingStore {
         }
         this.fallenDetails[id] = {
             name: fallen.name,
-            fallingDate: fallen.falling_date.split("T")[0] + "| " + fallen.heb_falling_date,
+            fallingDate: fallen.falling_date.split("T")[0] + " | " + fallen.heb_falling_date,
             image: fallen.image_link,
             meetings: fallen.meetings
         }
@@ -115,7 +145,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -155,8 +185,10 @@ class CreateMeetingStore {
     getAllMeetings = async () => {
         if (!this.allMeetings) {
             let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success)
+            if (err || !success) {
                 this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                return
+            }
             if (success)
                 this.allMeetings = success
         }
@@ -205,7 +237,6 @@ class CreateMeetingStore {
     getMeetingDetails = async () => {
         let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
 
-        console.log("success", success)
         if (err) {
             this.error = err
         }
@@ -268,7 +299,6 @@ class CreateMeetingStore {
         beforePostJSON.zoomId = zoomId
 
         this.waitForData = true
-        console.log(this.waitForData)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
             {
@@ -285,6 +315,8 @@ class CreateMeetingStore {
                 this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
             else if (err && err.error && err.error.name)
                 this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+            else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+                this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
             else if (err && err.error && err.error.description)
                 this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
             else if (err && err.error && err.error.language)
@@ -301,7 +333,6 @@ class CreateMeetingStore {
                 this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
             return
         }
-        console.log("success", success)
         return success
     }
 
@@ -330,6 +361,7 @@ decorate(CreateMeetingStore, {
     changeMeetingFacilitatorPhoneNumber: action,
     changeFallenRelative: action,
     getMeetingDetails: action,
+    resetAll: action,
     setOtherRelationship: action,
     changeMeetingLanguage: action,
     changeMeetingFacilitatorEmail: action,

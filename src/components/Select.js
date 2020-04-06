@@ -20,7 +20,8 @@ const Select = (props) => {
                         backgroundColor: props.backgroundColor ? props.backgroundColor : props.changeBackground && props.selectTextDefault !== selectedOption && selectedOption ? 'rgb(238, 238, 238)' : 'white',
                         color: props.color || 'unset'
                     }}>
-                    <div className="selectInput" style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
+                    <div className={"selectInput " + (!selectedOption && props.selectTextDefault ? "changeDefauleSelectOpacity" : "")} style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
+                    {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
                     <FontAwesomeIcon className="arrowInput"
                         icon={["fas", "chevron-down"]} />
                 </div>

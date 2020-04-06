@@ -143,7 +143,7 @@ module.exports = function (meetings) {
                 // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
@@ -158,6 +158,7 @@ module.exports = function (meetings) {
             // security validate
             data.max_participants = Number(data.max_participants)
             data.isOpen = !!data.isOpen
+            console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
             };
@@ -170,8 +171,11 @@ module.exports = function (meetings) {
                 console.log("err2", err2)
                 return cb(err2)
             }
+
+            console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
+                let count = 1
                 for (let fallen of data.fallens) {
 
                     let whitelist1 = {
@@ -188,17 +192,19 @@ module.exports = function (meetings) {
                         return cb(err3)
                     }
                     if (res) {
-                        console.log("res", res)
-                        let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-                        if (err4) {
-                            console.log("err4", err4)
-                            return cb(err4)
-                        }
-                        if (userMeeting) {
-                            console.log("userMeeting", userMeeting)
-                            return cb(null, userMeeting)
+                        if (count === data.fallens.length) {
+                            let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+                            if (err4) {
+                                console.log("err4", err4)
+                                return cb(err4)
+                            }
+                            if (userMeeting) {
+                                console.log("userMeeting", userMeeting)
+                                return cb(null, userMeeting)
 
+                            }
                         }
+                        else count++
                     }
                 }
             }
