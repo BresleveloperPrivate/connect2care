@@ -4,7 +4,7 @@ import hilma from '../icons/hilma.png'
 import can from '../icons/can.png'
 import amit from '../icons/amit.png'
 import facebook from '../icons/facebook.png'
-
+import synamedia from '../icons/Synamedia.png'
 
 
 class Partners extends Component {
@@ -24,9 +24,10 @@ class Partners extends Component {
 
                 <div className='containPartners'>
                     <div className='partner'><img src={can} height='110%' /></div>
-                    <div className='partner'><img src={facebook} height='100%' /></div>
-                    <div className='partner'><img src={amit} height='100%' /></div>
-                    <div className='partner'><img src={hilma} height='80%' /></div>
+                    <div className='partner'><img src={amit} height='110%' /></div>
+                    <div className='partner'><img src={synamedia} height='130%' /></div>
+                    <div className='partner'><img src={facebook} height='90%' /></div>
+                    <div className='partner'><img src={hilma} height='70%' /></div>
 
                 </div>
 

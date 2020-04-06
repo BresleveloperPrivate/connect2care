@@ -12,9 +12,18 @@
 .lightBlueBackground{
     position: absolute;
     width: 50vw;
-    right: 10%;
+    right: 3%;
     bottom: 15%;
 
+}
+
+.whiteLine{
+    width: 2px; 
+    background-color: white;
+    height: 60vh;
+    position: absolute;
+    top: 5vh;
+    right: 5%;
 }
 
 
@@ -182,5 +191,9 @@
         width: 100vw;
     }
     
+
+    .lightBlueBackground{
+        width: 70vw;
+    }
 
 }

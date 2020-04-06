@@ -18,7 +18,7 @@ class MeetingsStore {
 
     changeSearchInput = (event) => {
         ////if match...
-        if (event.target.value.match('^([^0-9#*/$%^&@!;=+]*)$')) {
+        if (event.target.value.match('^([^#/$%^&@!;=+]*)$')) {
             this.searchInput = event.target.value
         }
     }
@@ -93,7 +93,6 @@ class MeetingsStore {
             }
             this.lastId = id
             if (!this.meetings) {
-                console.log('aaaaaaaaa')
                 this.meetings = meetings.slice(0, 4)
                 return
             }

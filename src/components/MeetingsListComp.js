@@ -143,9 +143,11 @@ const ComputerList = (props) => {
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div onClick={() => {
+                            <div  onClick={() => {
                                 props.history.push(`/meeting/${meeting.id}`)
-                            }}>
+                            }}
+                            style={{ cursor: 'pointer' }}
+                            >
                                 <ImageOfFallen
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}

@@ -6,13 +6,13 @@
 
 
 .createMeetingHeadLine{
-    font: Bold 40px/52px Assistant;
+    font: Bold 35px Assistant;
     letter-spacing: 0;
     color: #0A2D63;
 }
 
 .createMeetingSecondSentence{
-    font: normal 30px/40px Assistant;
+    font: normal 28px Assistant;
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
@@ -291,7 +291,7 @@ input[type=radio]:focus {
 
 .containNameExist{
     display: flex;
-    padding: 0vh 2vh;
+    padding: 0vh 1vh;
     margin: 0 7vw;
     color: #EC5A5A;
     font: normal 13px/20px Assistant;
@@ -369,11 +369,11 @@ input[type=radio]:focus {
 
 @media screen and (max-width: 550px){
     .createMeetingHeadLine{
-        font: Bold 25px/33px Assistant;
+        font: Bold 28px Assistant;
     }
     .createMeetingSecondSentence{
         margin: 0 6vw;
-        font: normal 20px/26px Assistant;
+        font: normal 20px Assistant;
         max-width: calc( 100% - 12vw);
     }
 
