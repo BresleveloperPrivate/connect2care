@@ -462,10 +462,6 @@ input[type=radio]:focus {
         width: 80%;
     }
 
-    .containSearchFallen{
-        width: 100% !important;
-    }
-
     .containFallenDetailsSide{
         width: 100%;
     }

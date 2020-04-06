@@ -98,8 +98,8 @@ const SearchFallen = (props) => {
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
             <div
-                className={'inputStyle containSearchFallen d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
-                style={{ width: "100%", margin: '0' }}>
+                className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
+                style={{ width: "100%", marginBottom: '0' }}>
                 <input
                     type="text"
                     style={{ all: "unset", width: "calc(100% - 20px)" }}
