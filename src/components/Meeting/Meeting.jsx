@@ -53,7 +53,7 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
         <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-
+{console.log(meeting)}
                     <div id="meetingButtons">
                         <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
                         <Sharing myId={'sharingBoxMeeting'}
