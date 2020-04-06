@@ -47,9 +47,7 @@ const FallenDetails = (props) => {
                     <Select
                         selectTextDefault='קרבה שלי אל החלל'
 
-                        arr={myCloseToTheFallen.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}

@@ -14,8 +14,12 @@ import { inject, observer } from 'mobx-react';
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
-    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
-
+    const myCloseToTheFallen = [
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
     const searchFallen = async (id) => {
         let [success, err] = await Auth.superAuthFetch(`/api/fallens?filter={"where": { "id": ${id}}, "include": { "relation": "meetings", "scope": { "include": "meetingOwner" } } }`);
 
@@ -58,9 +62,7 @@ const FallenDetails = (props) => {
                 <Select
                     selectTextDefault='קרבה שלי אל החלל'
 
-                    arr={myCloseToTheFallen.map((name) => {
-                        return { option: name }
-                    })}
+                    arr={myCloseToTheFallen}
                     // selectedText={props.ManagerMeetingStore.meetingDetails.relationship}
                     width='95%'
                     className={'inputStyle p-0 ' + (props.isSaved && (!props.ManagerMeetingStore.fallens || !props.ManagerMeetingStore.fallens[props.index] || !props.ManagerMeetingStore.fallens[props.index].relative) ? "error" : "")}
