@@ -1,52 +1,31 @@
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 /**
  * @param {string} senderName what the reciever sees as the name;
  * @param {Object} options { to: '', subject: '', html: '<h1></h1>' };
 */
 
-const sendEmail = (senderName, options) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: "carmel6000dev@gmail.com",
-            pass: "uhWFoFK$97r"
-        }
-    });
-
-    const mailOptions = { from: `${senderName} <carmel6000dev@gmail.com>`, ...options };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error)
-            return error;
-        }
-        else {
-            console.log('Email sent: ' + info.response)
-            return info.response
-        };
-    });
-};
-
-module.exports = sendEmail;
-
-const sendGridEmail = async (receiver) => {
+const sendGridEmail = async (senderName, options) => {
 
     // using Twilio SendGrid's v3 Node.js Library
     // https://github.com/sendgrid/sendgrid-nodejs
     const sgMail = require('@sendgrid/mail');
-    const SENDGRID_API_KEY = `${process.env.REACT_APP_SENDGRID_API_KEY}`
+    const SENDGRID_API_KEY = "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"
 
     // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     await sgMail.setApiKey(SENDGRID_API_KEY);
 
     const msg = {
-        to: receiver.email,
-        from: 'subteachersystem@gmail.com',
-        subject: 'הודעה חדשה ממערכת מורה להחלפה',
+        to: options.to,
+        // from: 'mitchabrim@zochrim.info',
+        from: 'carmel6000israel@gmail.com',
+        subject: options.subject,
         // text: this.tplPersonalContent,
-        html: this.tplPersonalContent
+        html: options.html
     };
     try { await sgMail.send(msg); }
-    catch (err) { logNotification("Could not send email with err", err); }
+    catch (err) { console.log("Could not send email with err", err); }
 }
+
+module.exports = sendGridEmail;
+
