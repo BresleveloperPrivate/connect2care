@@ -13,7 +13,13 @@ import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
-    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
+    const myCloseToTheFallen = [
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+        { option: 'אחר', data: 'אחר' },
+    ]
     const CreateMeetingStore = useCreateMeetingStore();
     useEffect(() => {
     }, [CreateMeetingStore.meetingDetails.fallens, CreateMeetingStore.fallenName, CreateMeetingStore.fallenDetails]);
@@ -31,29 +37,29 @@ const FallenDetails = (props) => {
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
 
-                {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
-                <input
-                    type="text"
-                    className='inputStyle dateContainer'
-                    disabled
-                    style={{ width: "95%", backgroundColor: "white" }}
-                    value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
-                    autoComplete="off"
-                    placeholder="תאריך נפילה"
-                />
-
+                <div className='position-relative'>
+                    {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                    <input
+                        type="text"
+                        className='inputStyle dateContainer'
+                        disabled
+                        style={{ width: "95%", backgroundColor: "white" }}
+                        value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
+                        autoComplete="off"
+                        placeholder="תאריך נפילה"
+                    />
+                </div>
+                
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
                         selectTextDefault='קרבה שלי אל החלל'
 
-                        arr={myCloseToTheFallen.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
-                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                 </div>
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
@@ -69,8 +75,8 @@ const FallenDetails = (props) => {
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (!CreateMeetingStore.fallens[props.index].relative || (CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
-                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length >= props.index ? CreateMeetingStore.otherRelationship[props.index].relative : ""}
-                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.fallen.id)}
+                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
+                        onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}

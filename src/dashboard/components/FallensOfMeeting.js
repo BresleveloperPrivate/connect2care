@@ -14,8 +14,12 @@ import { inject, observer } from 'mobx-react';
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
-    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
-
+    const myCloseToTheFallen = [
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
     const searchFallen = async (id) => {
         let [success, err] = await Auth.superAuthFetch(`/api/fallens?filter={"where": { "id": ${id}}, "include": { "relation": "meetings", "scope": { "include": "meetingOwner" } } }`);
 
@@ -58,13 +62,11 @@ const FallenDetails = (props) => {
                 <Select
                     selectTextDefault='קרבה שלי אל החלל'
 
-                    arr={myCloseToTheFallen.map((name) => {
-                        return { option: name }
-                    })}
+                    arr={myCloseToTheFallen}
                     // selectedText={props.ManagerMeetingStore.meetingDetails.relationship}
                     width='95%'
                     className={'inputStyle p-0 ' + (props.isSaved && (!props.ManagerMeetingStore.fallens || !props.ManagerMeetingStore.fallens[props.index] || !props.ManagerMeetingStore.fallens[props.index].relative) ? "error" : "")}
-                    onChoseOption={(value) => { props.ManagerMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                    onChoseOption={(value) => { props.ManagerMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                 {props.ManagerMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: props.ManagerMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : "-10px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute">

@@ -53,7 +53,6 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
         <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-
                     <div id="meetingButtons">
                         <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
                         <Sharing myId={'sharingBoxMeeting'}
@@ -80,7 +79,7 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
 
             </div>
             {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+                <MeetingLeftOpen available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
                     <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />

@@ -3,9 +3,11 @@
 module.exports = function (fallens) {
 
     fallens.SearchFallen = (value, cb) => {
+        if (value.length > 100) return cb(null, null)
         fallens.dataSource.connector.query(`select *
             from fallens
-            where match(fallens.name) against ('${value}')
+            where match(fallens.name) against ('"${value}"')
+            order by fallens.falling_date desc
             limit 0, 20`, (err, res) => {
             if (err) {
                 console.log(err)

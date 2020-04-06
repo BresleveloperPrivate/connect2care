@@ -35,7 +35,7 @@ const CssTimePicker = withStyles({
     },
 })(TimePicker);
 
-const CreateMeeting = (props) => {
+const MeetingDetails = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
     const [error, setError] = useState()
     const [timeValue, setTimeValue] = useState()
@@ -145,13 +145,10 @@ const CreateMeeting = (props) => {
                         {props.ManagerMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">שפת המפגש</div>}
                         <Select
                             selectTextDefault='שפת המפגש'
-                            arr={meetingLanguage.map((name) => {
-                                return { option: name }
-                            })}
+                            arr={meetingLanguage}
                             width='65%'
-                            // selectedText={props.ManagerMeetingStore.meetingDetails.language}
                             className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.ManagerMeetingStore.meetingDetails.language || (props.ManagerMeetingStore.meetingDetails.language && !props.ManagerMeetingStore.meetingDetails.language.length)) ? "error" : "")}
-                            onChoseOption={(value) => { props.ManagerMeetingStore.changeMeetingLanguage(value.option) }} />
+                            onChoseOption={(value) => { props.ManagerMeetingStore.changeMeetingLanguage(value.data) }} />
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                             <input type="radio" className={(isSaved && !props.ManagerMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.ManagerMeetingStore.changeMeetingOpenOrClose} />
@@ -165,13 +162,10 @@ const CreateMeeting = (props) => {
                                 {props.ManagerMeetingStore.meetingDetails.date && <div className="textAboveInput">תאריך</div>}
                                 <Select
                                     selectTextDefault='תאריך'
-                                    arr={meetingDate.map((name) => {
-                                        return { option: name.option }
-                                    })}
+                                    arr={meetingDate}
                                     width='100%'
-                                    // selectedText={props.ManagerMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.ManagerMeetingStore.meetingDetails.date || (props.ManagerMeetingStore.meetingDetails.date && !props.ManagerMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.ManagerMeetingStore.changeMeetingDate(value.option) }} />
+                                    onChoseOption={(value) => { props.ManagerMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
 
                             <div className='containSelectTime'>
@@ -182,8 +176,8 @@ const CreateMeeting = (props) => {
                                         <CssTimePicker
                                             clearable
                                             ampm={false}
-                                            okLabel={"אישור"}
-                                            cancelLabel="ביטול"
+                                            okLabel={props.t("approve")}
+                                            cancelLabel={props.t("cancel")}
                                             clearLabel={null}
                                             value={timeValue}
                                             onChange={props.ManagerMeetingStore.changeMeetingTime}
@@ -230,4 +224,4 @@ const CreateMeeting = (props) => {
     )
 }
 
-export default inject('ManagerMeetingStore')(observer(CreateMeeting));
+export default inject('ManagerMeetingStore')(observer(MeetingDetails));
