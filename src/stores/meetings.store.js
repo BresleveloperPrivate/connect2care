@@ -32,6 +32,7 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
+        console.log(relative)
         this.fallenRelative = relative
     }
 
@@ -58,10 +59,10 @@ class MeetingsStore {
 
         let filter = {
             id: this.lastId,
-            language: this.language,
-            date: this.date,
-            relationship: this.fallenRelative,
-            time: this.time,
+            language: this.language.data,
+            date: this.date.data,
+            relationship: this.fallenRelative.data,
+            time: this.time.data,
             isAvailable: this.availableOnly,
         }
 

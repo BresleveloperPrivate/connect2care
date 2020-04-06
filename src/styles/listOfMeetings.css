@@ -105,6 +105,11 @@
     transition: background-color 0.3s ease;
 }
 
+.mainPage-meetings .arrowInput{
+    margin-left: 5px;
+    color: rgb(182, 181, 181);
+}
+
 /* .disabled-button-meetings{
     background-color: var(--custom-gray-1);
     cursor: auto;

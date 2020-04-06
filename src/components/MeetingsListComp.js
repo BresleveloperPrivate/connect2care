@@ -81,45 +81,49 @@ const ComputerList = (props) => {
                 <div className='containFilters'>
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
+                        default={props.MeetingsStore.date.option}
                         width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
                         arr={meetingDate}
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
-                            props.MeetingsStore.changeMeetingDate(value.data)
+                            props.MeetingsStore.changeMeetingDate(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
 
                     />
                     <Select
+                        default={props.MeetingsStore.time.option}
                         selectTextDefault='שעה'
                         arr={meetingTime}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
-                            props.MeetingsStore.changeMeetingTime(value.data)
+                            props.MeetingsStore.changeMeetingTime(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
                     />
                     <Select
+                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative.option : false}
                         selectTextDefault='קרבה לחלל'
                         arr={myCloseToTheFallen}
                         className='input-meetings filter-meeting'
                         onChoseOption={
                             (value) => {
-                                props.MeetingsStore.changeFallenRelative(value.data)
+                                props.MeetingsStore.changeFallenRelative(value)
                                 props.MeetingsStore.search()
                             }}
                             changeBackground={true}
                     />
                     <Select
+                        default={props.MeetingsStore.language.option}
                         selectTextDefault='שפת המפגש'
                         arr={meetingLanguage}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
-                            props.MeetingsStore.changeMeetingLanguage(value.data)
+                            props.MeetingsStore.changeMeetingLanguage(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
@@ -150,7 +154,7 @@ const ComputerList = (props) => {
                                 />
                             </div>
                             <div
-                                style={{ cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto' }}
+                                style={{ cursor:'pointer' }}
                                 className='meetingCard'
                                 onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
