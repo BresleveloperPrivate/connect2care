@@ -137,8 +137,11 @@ input[type=radio]:focus {
 
 .CreateMeeting .selectInput{
     margin: 1vh 0;
-    opacity: 0.8;
     padding: 0 2vh;
+}
+
+.CreateMeeting .changeDefauleSelectOpacity{
+    opacity: 0.8;
 }
 
 .CreateMeeting{
@@ -388,6 +391,14 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+    .listSearch{
+        width: 100%;
+    }
+
+    .fallenSearchDiv{
+        width: 95%;
+    }
+
     .containSelectTime{
         width: 30%;
         margin-right: 2vh;
@@ -426,6 +437,15 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+
+    .fallenSearchDiv{
+        width: 100%;
+    }
+
+    .listSearch{
+        width: calc(100% - 12vw);
+        margin-right: 6vw;
+    }
 
     /* .searchStyle{
         margin-right: 6vw;
@@ -476,11 +496,11 @@ input[type=radio]:focus {
     }
 
     .containInputTextSide{
-        min-height: 60vh;
+        min-height: 435px;
         max-height: 60vh;
         min-width: calc(100vw - 4vh);
         overflow-y: auto;
-        top: 26vh;
+        top: 20vh;
         text-align: center;
         padding: 5vh 6vh;
         right: 2vh;
@@ -502,6 +522,7 @@ input[type=radio]:focus {
 
     #containDetailsSideBar{
         max-height: 50vh;
+        min-height: 345px;
     }
 
     .textSide{

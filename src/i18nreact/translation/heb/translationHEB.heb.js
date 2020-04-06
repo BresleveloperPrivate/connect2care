@@ -26,8 +26,8 @@ const translationHEB = {
     "date": "תאריך",
     "time": "שעה",
     "maxParticipationNumber": "מספר משתתפים מקסימלי",
-    "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "שימו לב! מספר המשתתפים המינימלי חייב להיות 10 משתתפים ומעלה",
-    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "שימו לב! מספר המשתתפים המקסימלי חייב להיות פחות מ3000 משתתפים",
+    "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "מספר המשתתפים חייב להיות יותר מ-10",
+    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "מספר המשתתפים חייב להיות פחות מ-3000",
     "createMeeting": "צור מפגש",
 
 

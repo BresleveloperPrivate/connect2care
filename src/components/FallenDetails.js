@@ -3,7 +3,7 @@ import Select from './Select.js'
 import cancel from '../icons/cancel.svg'
 
 import speachBooble from "../icons/speakBobble.svg"
-import { observer, PropTypes } from 'mobx-react';
+import { observer, PropTypes, inject } from 'mobx-react';
 
 import blueCandle from '../icons/candle-blue.svg'
 import grayCandle from '../icons/gray-candle.svg'
@@ -28,8 +28,8 @@ const FallenDetails = (props) => {
     let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image && CreateMeetingStore.fallenDetails[props.fallen.id].image !== ""
     return (
         <div className="containFallenDetails">
-            {window.innerWidth > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
-            <div style={{ width: window.innerWidth > 550 ? "70%" : "", position: "relative" }}>
+            {props.LanguageStore.width > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+            <div style={{ width: props.LanguageStore.width > 550 ? "70%" : "", position: "relative" }}>
 
                 {((CreateMeetingStore.fallenName && CreateMeetingStore.fallenName[props.index]) || CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name) && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>שם החלל</div>}
 
@@ -62,7 +62,7 @@ const FallenDetails = (props) => {
                         onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                 </div>
 
-                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
+                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />
                     <div className="position-absolute" style={{ paddingTop: "1vh" }}>
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
@@ -97,5 +97,4 @@ const FallenDetails = (props) => {
         </div>
     )
 }
-
-export default observer(FallenDetails);
+export default inject('LanguageStore')(observer(FallenDetails))

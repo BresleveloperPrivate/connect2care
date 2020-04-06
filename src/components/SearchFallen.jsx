@@ -7,15 +7,16 @@ import throttle from 'lodash/throttle';
 import Auth from '../modules/auth/Auth';
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
+import { useLanguageStore } from '../stores/language.store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useOnClickOutside from './UseOnClickOutside'
 
+// const LanguageStore = useLanguageStore();
 const useStyles = makeStyles({
     inputWraper: {
         position: "relative",
         height: 'fit-content',
-        width: window.innerWidth > 550 ? '95%' : '100%'
     },
 
     list: {
@@ -26,8 +27,7 @@ const useStyles = makeStyles({
         overflow: "auto",
         boxShadow: '-3px 4px 15px rgba(185, 188, 199, 0.795)',
         borderRadius: '5px',
-        width: window.innerWidth > 550 ? "100%" : "calc(100% - 12vw)",
-        marginLeft: window.innerWidth > 550 ? 0 : '6vw'
+        
     },
 
     loadingOrNoResults: {
@@ -95,7 +95,7 @@ const SearchFallen = (props) => {
         };
     }, [searchValue, fetch]);
     return (
-        <div className={inputWraper} ref={ref}>
+        <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
             <div
                 className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
@@ -113,7 +113,7 @@ const SearchFallen = (props) => {
             </div>
 
             {showOptions && searchValue.length > 0 && (
-                <List className={list}>
+                <List className={list+" listSearch"}>
                     {options ? options.length > 0 ? options.map(fallen => (
                         <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>

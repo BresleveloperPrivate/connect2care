@@ -12,7 +12,7 @@ const TextSideDiv = (props) => {
         <div className="position-fixed containInputTextSide" style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />
             <div id="containDetailsSideBar">
-                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: window.innerWidth > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
+                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
 
                 {!props.dataForFallen ? <div className="textSide">
                     <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
@@ -26,7 +26,7 @@ const TextSideDiv = (props) => {
                             if (props.CreateMeetingStore.fallenDetails && props.CreateMeetingStore.fallenDetails[fallenId.id])
                                 return (
                                     <div key={index}>
-                                        <div style={{ fontSize: window.innerWidth > 550 ? "30px" : "20px" }}>
+                                        <div style={{ fontSize: props.LanguageStore.width > 550 ? "30px" : "20px" }}>
                                             קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId.id].name}</strong>
                                         </div>
                                         {props.CreateMeetingStore.fallenDetails[fallenId.id].meetings && props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.length &&
@@ -58,4 +58,4 @@ const TextSideDiv = (props) => {
     )
 }
 
-export default inject('CreateMeetingStore')(observer(TextSideDiv))
+export default inject('ManagerMeetingStore', 'LanguageStore')(observer(TextSideDiv))

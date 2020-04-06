@@ -1,12 +1,14 @@
 import { observable, decorate, action } from 'mobx';
+import React, { createContext, useContext } from 'react';
+
 import heb from '../icons/heb.svg'
 import en from '../icons/en.svg'
 
-class ExampleStore {
+class LanguageStore {
 
     width = 0
 
-    setWidth = (width)=>{
+    setWidth = (width) => {
         this.width = width
     }
 
@@ -25,14 +27,25 @@ class ExampleStore {
     }
 }
 
-decorate(ExampleStore, {
+decorate(LanguageStore, {
     Options: observable,
     selectedIndex: observable,
     setSelectedIndex: action,
     width: observable,
-    setWidth:action
-    
+    setWidth: action
+
 });
 
-export default new ExampleStore();
+const languageStore = new LanguageStore();
 
+export const LanguageContext = createContext();
+
+export const LanguageProvider = ({ children }) => (
+    <LanguageContext.Provider value={languageStore}>
+        {children}
+    </LanguageContext.Provider>
+);
+
+export const useLanguageStore = () => useContext(LanguageContext);
+
+export default languageStore;
