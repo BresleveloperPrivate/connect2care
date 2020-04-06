@@ -458,6 +458,10 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+    .containFallenDetails{
+        width: 80%;
+    }
+
     .containFallenDetailsSide{
         width: 100%;
     }

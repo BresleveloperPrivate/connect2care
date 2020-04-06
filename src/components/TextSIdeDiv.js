@@ -58,4 +58,4 @@ const TextSideDiv = (props) => {
     )
 }
 
-export default inject('ManagerMeetingStore', 'LanguageStore')(observer(TextSideDiv))
+export default inject('CreateMeetingStore', 'LanguageStore')(observer(TextSideDiv))

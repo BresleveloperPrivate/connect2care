@@ -79,7 +79,7 @@
     width: 100vw;
     height: 10vh !important;
     box-shadow: 0px 3px 6px #00000029;
-    position: fixed !important;
+    // position: fixed !important;
     top: 0 !important;
     display: flex;
 }
@@ -119,6 +119,11 @@
 }
 
 @media screen and (max-width: 800px){
+    .navbar{
+        position: fixed !important;
+        top: 0 !important;
+    }
+
     .navbarIcon{
         width: 30%;
     }
