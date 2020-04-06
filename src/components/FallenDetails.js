@@ -42,17 +42,17 @@ const FallenDetails = (props) => {
                     placeholder="תאריך נפילה"
                 />
 
-                {/* <div className='position-relative'> */}
-                    {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
-                    <Select
-                        selectTextDefault='קרבה שלי אל החלל'
+                <div className='position-relative'>
+                {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
+                <Select
+                    selectTextDefault='קרבה שלי אל החלל'
 
-                        arr={myCloseToTheFallen}
-                        // selectedText={CreateMeetingStore.meetingDetails.relationship}
-                        width='95%'
-                        className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
-                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
-                {/* </div> */}
+                    arr={myCloseToTheFallen}
+                    // selectedText={CreateMeetingStore.meetingDetails.relationship}
+                    width='95%'
+                    className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
+                    onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
+                </div>
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />

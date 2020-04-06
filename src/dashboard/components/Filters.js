@@ -15,11 +15,33 @@ const Filters = (props) => {
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
     const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
-    
-    const DATES = [{ option: 'הכל' }, { option: 'יום ראשון, ב באייר, 26.04' }, { option: 'יום שני, ג באייר, 27.04' }, { option: 'יום שלישי, ד באייר, 28.04' }, { option: 'יום רביעי, ה באייר, 29.04' }]
-    const RELATIONSHIPS = [{ option: 'הכל' }, { option: 'אח' }, { option: 'הורים' }, { option: 'חבר' }, { option: 'קרובי משפחה' }]
-    const IS_OPEN_ARR = [{ option: 'הכל' }, { option: 'פתוח' }, { option: 'סגור' }]
-    const PARTICIPANTS_NUM = [{ option: 'הכל' }, { option: '20 - 0' }, { option: '100 - 20' }, { option: '100+' }]
+
+    const DATES = [
+        { option: 'הכל', data: 'הכל' },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
+    const RELATIONSHIPS = [
+        { option: 'הכל', data: 'הכל' },
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
+    const IS_OPEN_ARR = [
+        { option: 'הכל' }, { data: 'הכל' },
+        { option: 'פתוח' }, { data: 'פתוח' },
+        { option: 'סגור' }, { data: 'סגור' }
+
+    ]
+    const PARTICIPANTS_NUM = [
+        { option: 'הכל' }, { data: 'הכל' },
+        { option: '20 - 0' }, { data: '20 - 0' },
+        { option: '100 - 20' }, { data: '100 - 20' },
+        { option: '100+' }, { data: '100+' }
+    ]
 
     return (
         <div className='filters'>
@@ -48,7 +70,7 @@ const Filters = (props) => {
                             selectTextDefault='הכל'
                             arr={IS_OPEN_ARR}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedIsOpen("") : setSelectedIsOpen(value.option === 'פתוח') }}
+                            onChoseOption={(value) => { value.data === "הכל" ? setSelectedIsOpen("") : setSelectedIsOpen(value.data === 'פתוח') }}
                         />
                     </div>
 
@@ -60,7 +82,7 @@ const Filters = (props) => {
                             selectTextDefault='הכל'
                             arr={RELATIONSHIPS}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedRelationship("") : setSelectedRelationship(value.option) }}
+                            onChoseOption={(value) => { value.data === "הכל" ? setSelectedRelationship("") : setSelectedRelationship(value.data) }}
                         />
                     </div>
 
@@ -72,7 +94,7 @@ const Filters = (props) => {
                             selectTextDefault='הכל'
                             arr={PARTICIPANTS_NUM}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "הכל" ? setSlectedParticipants("") : setSlectedParticipants(value.option) }}
+                            onChoseOption={(value) => { value.data === "הכל" ? setSlectedParticipants("") : setSlectedParticipants(value.data) }}
                         />
                     </div>
                 </div>

@@ -221,8 +221,8 @@ input[type=radio]:focus {
     font: normal 13px/13px Assistant;
     color: #3586B1;
     padding: 0 2vh 1vh 0;
-    position: absolute;
-    top: -15px;
+    /* position: absolute; */
+    /* top: -15px; */
 }
 
 .cancelPicture{
