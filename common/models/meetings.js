@@ -53,8 +53,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
 
             if (err) {
                 console.log(err)

@@ -95,7 +95,7 @@ export default function Sharing(props) {
     <div style='font-size: 27px'><strong>${fallens}. </strong></div>
     </div>
 
-    <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'>${props.data.meetingDate} | ${props.data.meetingHour}</div>
+    <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'>${props.data.date} | ${props.data.time}</div>
 
     <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting/${props.data.meetingId}' >
      <div style=' margin: auto;

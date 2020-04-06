@@ -13,7 +13,12 @@ import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
-    const myCloseToTheFallen = ["אח", "הורים", "קרובי משפחה", "חבר", "אחר"];
+    const myCloseToTheFallen = [
+        { option: 'אח', data: 'אח' },
+        { option: 'הורים', data: 'הורים' },
+        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר', data: 'חבר' },
+    ]
     const CreateMeetingStore = useCreateMeetingStore();
     useEffect(() => {
     }, [CreateMeetingStore.meetingDetails.fallens, CreateMeetingStore.fallenName, CreateMeetingStore.fallenDetails]);
@@ -49,13 +54,11 @@ const FallenDetails = (props) => {
                     <Select
                         selectTextDefault='קרבה שלי אל החלל'
 
-                        arr={myCloseToTheFallen.map((name) => {
-                            return { option: name }
-                        })}
+                        arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
-                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.option, props.fallen.id) }} />
+                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                 </div>
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : window.innerWidth > 550 ? "-10px" : "-30px" }}>
