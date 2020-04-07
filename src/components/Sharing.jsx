@@ -21,8 +21,6 @@ import { useCopyToClipboard } from 'react-use';
 //} Make sure these are strings!
 
 export default function Sharing(props) {
-
-  console.log(props.data)
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [openEmail, setOpenEmail] = React.useState(false);
@@ -48,16 +46,31 @@ export default function Sharing(props) {
   const { styleObject } = props;
 
   const shareWithWhatsApp = async () => {
-    let name = 'דוד'
-    const text =
-
-      `
-היי, אתה מוזמן למפגש Zoom לזכרו של ${props.data.name} ז"ל
-    `
-    // const linkText = text + " " + this.state.inviteLink;
-    const linkText = text + "https://github.com/";
-    const href = `whatsapp://send?text=${linkText}`;
-    window.location.href = href;
+    console.log("props.data", props.data.fallens)
+    let text = null;
+    if (props.data.fallens.length === 1)
+      text = `הצטרפו אלינו למפגש zoom לזכרו של ${props.data.fallens[0].name} ז"ל`
+    else {
+      text = `הצטרפו אלינו למפגש zoom לזכרם של `
+      props.data.fallens.map((x, index) => {
+        if (index === 0) {
+          text = text + `${x.name}`
+        }
+        else {
+          if (index === props.data.fallens.length - 1) {
+            text = text + ` ו${x.name}`
+          }
+          else {
+            text = text + ` ,${x.name},`
+          }
+        }
+      })
+    }
+    const linkText = text + ":" + "http://lohamim.carmel6000.com/" + "#" + "/meeting/" + `${props.meetingId}`;
+    const href = `https://api.whatsapp.com/send?text="https://lohamim.carmel6000.com/?/meeting/4"`;
+    // const href = `https://web.whatsapp.com/send?text=${linkText}`;
+    window.location.assign(href);
+    // window.open(href, '_blank');
     handleClose();
   };
 
@@ -157,6 +170,7 @@ export default function Sharing(props) {
   };
 
   return (
+
     <div className="pointer containSharing">
       <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
         {/* <div className="sharingBox"> */}

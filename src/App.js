@@ -43,6 +43,10 @@ class App extends Component {
     }
 
     render() {
+        console.log("this.props.history",this.props.history)
+        if(window.location.search==="?meeting/4"){
+            // str.replace("?", "#");
+        }
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const image = urlParams.get('image');

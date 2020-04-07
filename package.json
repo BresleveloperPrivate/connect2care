@@ -64,6 +64,7 @@
     "jest-resolve": "24.8.0",
     "jest-watch-typeahead": "0.3.1",
     "jquery": "^3.4.1",
+    "jsonwebtoken": "^8.5.1",
     "jss-rtl": "^0.2.3",
     "loopback": "^3.22.0",
     "loopback-boot": "^2.6.5",
