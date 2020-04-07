@@ -2,6 +2,8 @@ import React from 'react';
 import Login from '../../modules/auth/Login'
 import Auth from "../../modules/auth/Auth";
 import GenericTools from '../../modules/tools/GenericTools'
+import logo from '../../icons/logo.svg'
+import '../style/login.css'
 
 class DashLogin extends Login {
 
@@ -57,12 +59,11 @@ class DashLogin extends Login {
         Auth.isAuthenticated() && this.redirect();
         return (
             <div className='loginPage'>
-                <div className="topBar d-flex align-items-center" style={{ width: '100vw' }}>
-                </div>
-                <div style={{ height: "7vh" }}></div>
                 <div className='containLoginMain'>
-                    <div>
+                    <div className='borderLoginMain'>
                         <form>
+                            <img src={logo} alt='logo' className='logo' />
+                            <div className='loginText'>מערכת ניהול</div>
                             <div>
                                 <input className="loginInput"
                                     type='email'
