@@ -245,14 +245,17 @@ class CreateMeetingStore {
             for (let i = 0; i < object.fallens.length; i++) {
                 this.changeFallenDetails(object.fallens[i], i)
                 this.changeFallenName(object.fallens[i].name, i)
-                // let obj = {}
-                // obj.index = i
-                // obj.relative = object.fallens[i].relationship
-                // if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
-                //     obj.relative = 'אחר'
-                //     obj.otherRelative = object.fallens[i].relationship
-                // }
-                // this.meetingDetails.fallens[i] = obj
+                let obj = {}
+                obj.id = object.fallens[i].id
+                obj.relative = object.fallens[i].relationship
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                    obj.relative = 'אחר'
+                    if (!this.otherRelationship) this.otherRelationship = {}
+                    if (!this.otherRelationship[i]) this.otherRelationship[i] = {}
+                    this.otherRelationship[i].relative = object.fallens[i].relationship
+                    this.otherRelationship[i].id = object.fallens[i].id
+                }
+                this.meetingDetails.fallens[i] = obj
             }
         }
         console.log(this.meetingDetails)

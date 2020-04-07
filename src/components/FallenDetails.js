@@ -21,7 +21,7 @@ const FallenDetails = (props) => {
         { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
-    
+
     useEffect(() => {
 
         props.LanguageStore.setWidth(window.innerWidth)
@@ -57,7 +57,7 @@ const FallenDetails = (props) => {
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
-                        selectTextDefault='קרבה שלי אל החלל'
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative !== '' ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
 
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
