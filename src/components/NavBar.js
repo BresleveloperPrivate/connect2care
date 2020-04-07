@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/logo.svg'
-import menu from '../icons/menu.png'
+import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
@@ -18,7 +18,7 @@ class NavBar extends Component {
         this.setOptions()
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         window.addEventListener('resize', this.onResize, false)
         this.props.LanguageStore.setWidth(window.innerWidth)
     }
@@ -38,7 +38,8 @@ class NavBar extends Component {
     setOptions = () => {
 
         this.options =
-            [{ option: this.props.t("meetingsList"), path: '/meetings' },
+            [{ option: this.props.t("homePage"), path: '/' },
+            { option: this.props.t("meetingsList"), path: '/meetings' },
             { option: this.props.t("myMeetings"), path: '/my-meetings' },
             { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about', open: true },
             { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate', open: true },
@@ -54,7 +55,7 @@ class NavBar extends Component {
         return (
             <div className={'navbar ' + this.props.className}>
                 <div className='containMenu'>
-                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
+                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
                 <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />

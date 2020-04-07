@@ -123,18 +123,18 @@ class CreateMeetingStore {
         }
     }
 
-    changeFallenName = (e, index) => {
+    changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
         }
         if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
+            this.fallenName.push(event)
         else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         else {
             for (let i = this.fallenName.length; i < index; i++)
                 this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         }
     }
 
@@ -143,7 +143,7 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
                         // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
@@ -183,19 +183,21 @@ class CreateMeetingStore {
     }
 
     getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success) {
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-                return
+        if (this.meetingDetails.name && this.meetingDetails.name !== "") {
+            if (!this.allMeetings) {
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                if (err || !success) {
+                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    return
+                }
+                if (success)
+                    this.allMeetings = success
             }
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            this.nameMessage = ""
+            for (let i = 0; i < this.allMeetings.length; i++) {
+                if (this.allMeetings[i].name === this.meetingDetails.name)
+                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            }
         }
     }
 
@@ -211,10 +213,16 @@ class CreateMeetingStore {
     }
 
     changeDetailsObjFunc = (object) => {
-        if (object.fallens && object.fallens.length) {
-            this.fallenDetails = null;
-            this.fallenName = null;
+        object.fallens = []
+        for (let i of object.fallens_meetings) {
+            let fallen = {}
+            for (let key in i.fallens) {
+                fallen[key] = i.fallens[key]
+            }
+            fallen.relationship = i.relationship
+            object.fallens.push(fallen)
         }
+
         this.meetingDetailsOriginal = {
             name: object.name,
             description: object.description,
@@ -227,21 +235,45 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            max_participants: "",
+            max_participants: object.max_participants || '',
             fallens: object.fallens,
             zoomId: 0,
         }
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+
+        if (object.fallens && object.fallens.length) {
+            for (let i = 0; i < object.fallens.length; i++) {
+                this.changeFallenDetails(object.fallens[i], i)
+                if (!this.fallenName) this.fallenName = []
+                this.fallenName.push(object.fallens[i].name)
+                console.log(object.fallens[i].name)
+                // this.changeFallenName(object.fallens[i].name, i)
+                let obj = {}
+                obj.id = object.fallens[i].id
+                obj.relative = object.fallens[i].relationship
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                    obj.relative = 'אחר'
+                    if (!this.otherRelationship) this.otherRelationship = {}
+                    if (!this.otherRelationship[i]) this.otherRelationship[i] = {}
+                    this.otherRelationship[i].relative = object.fallens[i].relationship
+                    this.otherRelationship[i].id = object.fallens[i].id
+                }
+                this.meetingDetails.fallens[i] = obj
+            }
+        }
+        console.log(this.meetingDetails)
     }
 
     getMeetingDetails = async () => {
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
+        if (this.meetingId === -1) return
+
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
 
         if (err) {
             this.error = err
         }
         if (success) {
-
+            // console.log(success[0])
             this.changeDetailsObjFunc(success[0])
         }
     }
@@ -334,6 +366,46 @@ class CreateMeetingStore {
             return
         }
         return success
+    }
+
+    updateMeeting = async () => {
+        let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+
+        this.waitForData = true
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/updateMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: beforePostJSON, id: this.meetingId })
+            }, true);
+        this.waitForData = false
+        if (err) {
+            console.log("err", err)
+            if (err && err.error && err.error.isOpen)
+                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+            else if (err && err.error && err.error.max_participants)
+                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+            else if (err && err.error && err.error.name)
+                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+            else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+                this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+            else if (err && err.error && err.error.description)
+                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+            else if (err && err.error && err.error.language)
+                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+            else if (err && err.error && err.error.time)
+                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+            else if (err && err.error && err.error.date)
+                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+            else if (err && err.error && err.error.relationship)
+                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+            else if (err && err.error && err.error.msg)
+                this.error = err.error.msg
+            else
+                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            return
+        }
     }
 
     setError = (error) => {

@@ -6,15 +6,24 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    margin-top: 5vh;
+    /* margin-top: 5vh; */
 }
 
 .lightBlueBackground{
     position: absolute;
     width: 50vw;
-    right: 10%;
+    right: 3%;
     bottom: 15%;
 
+}
+
+.whiteLine{
+    width: 2px; 
+    background-color: white;
+    height: 70%;
+    position: absolute;
+    top: 0;
+    right: 5%;
 }
 
 
@@ -120,6 +129,13 @@
 }
 }
 
+@media screen and (max-width: 800px){
+    .openingImage{
+        margin-top: 5vh;
+    }
+    
+}
+
 
 
 
@@ -182,5 +198,9 @@
         width: 100vw;
     }
     
+
+    .lightBlueBackground{
+        width: 70vw;
+    }
 
 }

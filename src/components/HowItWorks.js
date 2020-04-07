@@ -25,7 +25,7 @@ class HowItWorks extends Component {
                     <div className='levels'>
 
                         <div className='howItWorksOption'>
-                            יוצר מפגש
+                            מארח/ת המפגש
                         </div>
                         <div className='containSteps'>
                             <div className='step'>
@@ -56,7 +56,7 @@ class HowItWorks extends Component {
                         <div className='containSteps'>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img  alt="alt"src={Step4} width='100%' />
+                                    <img alt="alt" src={Step4} width='100%' />
                                 </div>
                                 מחפשים מפגש מתאים
 
@@ -86,17 +86,18 @@ class HowItWorks extends Component {
                         <div className='coverBig'>
                             <div className='arrow-left-gray'></div>
                         </div>
-                        <div style={{ flexGrow: 0.8, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <div className='containImageStep'><img alt="alt" width='100%' src={Step7} /></div>
-                        </div>
                         <div className='resultText'>
                             מתחברים לקישור של Zoom,<br />
                         מסדרים את המצלמה,
                       </div>
+                        <div style={{ padding: '20px 0px 10px 0px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div className='containImageStep'><img alt="alt" width='100%' src={Step7} /></div>
+                        </div>
+
                         <div className='remember'>וזוכרים.</div>
 
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2vh' }}>
-                            <div className='containImageStep'><im alt="alt" width='40%' src={candle} /></div>
+                            <div className='containImageStep'><img alt="alt" width='40%' src={candle} /></div>
                         </div>
                     </div>
                 </div>

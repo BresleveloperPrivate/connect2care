@@ -6,7 +6,7 @@ const translationHEB = {
     "contactUs": "צרו קשר",
     "text": "אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />את 'האחים שלנו' הקמנו אנחנו, האחים השכולים,<br />כדי להמשיך ולדבר על החיים איתם. מהזווית שלנו.<br /><br />על הצחוקים, השטויות, הריבים, השיחות. כל מה שהיה בינינו ונגמר.<br />הקהילה שלנו עוצמתית, מכילה, מחבקת ושמחה.<br />אנחנו ממשיכים לחגוג את החיים, ולחיות לצד השכול.<br /><br />המטרה שלנו היא להזכיר ולזכור את האחים הפרטיים שלנו<br />ובאותה נשימה, ליצור תנועה ארצית ועולמית של זיכרון והנצחה.<br />",
 
-
+    'homePage':'דף הבית',
     "approve": "אישור",
     "cancel": "ביטול",
     "addFallen": "הוסף נופל",
@@ -14,8 +14,8 @@ const translationHEB = {
     "createTheMeeting": "יצירת המפגש",
     "editMeeting": "עריכת המפגש",
     "shortDescription": "תאור קצר",
-    "ownerDetails": "פרטי יוצר המפגש",
-    "ownerFullName": "השם המלא שלך - מנחה המפגש",
+    "ownerDetails": "פרטי מארח/ת המפגש",
+    "ownerFullName": "השם המלא שלך - מארח/ת המפגש",
     "email": "דואר אלקטרוני",
     "pleaseCheckThatTheEmailAddressCorrect": "אנא בדוק שכתובת האימייל הינה נכונה",
     "phone": "טלפון",
@@ -30,6 +30,14 @@ const translationHEB = {
     "maximumNumberOfParticipantsMustBeLessThan3000Participants": "מספר המשתתפים חייב להיות פחות מ-3000",
     "createMeeting": "צור מפגש",
 
+    "wantToHelpUsKeepRemembering": "רוצה לעזור לנו להמשיך לזכור?",
+    "toDonateToTheNonprofit": "לתרומה לעמותה",
+
+    "someOfUsWaitingForTheMemorialDayMeetingAllYear": "חלקנו, מחכים למפגש יום הזיכרון כל השנה",
+    "othersBecomeSkyAndEarthJustNotToGiveUp": "אחרים, הופכים שמיים וארץ, רק לא לוותר",
+    "andThisYearWellContinueJustLikeThat": "והשנה? נמשיך בדיוק כך",
+    "memoryMeetingsCorona2020WereReady": "מפגשי זיכרון, קורונה 2020 – אנחנו מוכנים",
+    "weHavePreparedForYouAllYouNeedToLookEachOtherInTheEye": "הכנו עבורכם את כל מה שצריך כדי להסתכל האחד לשני בעיניים",
 
     'sunday': 'יום ראשון, ב באייר, 26.04',
     'monday': 'יום שני, ג באייר, 27.04',

@@ -330,7 +330,7 @@ const CreateMeeting = (props) => {
                     }
                     {(!pressOnCancel || dataForFallen) && <TextSIdeDiv setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                 </div >
-                : <Success history={props.history} meeting={success} />
+                : <Success history={props.history} meeting={success} t={props.t} />
             }
         </div >
 

@@ -17,14 +17,14 @@ module.exports = function (meetings) {
             .catch(err => [err]);
     }
 
-    meetings.getMeetingsUser = (search, filters, options, cb) => {
+    meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
-        if (filters.id) {
-            sqlQueryWhere += `meetings.id > '${filters.id}'`
-        }
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
+        // }
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -58,7 +58,8 @@ module.exports = function (meetings) {
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -92,43 +93,11 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
-            // { arg: 'time', type: 'array' },
-            // { arg: 'isAvailable', type: 'boolean' },
-            // { arg: 'relation', type: 'string' },
+            { arg: 'limit', type: 'object' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
-
-
-    meetings.getMeetingsByUser = (obj, options, cb) => {
-        (async () => {
-
-            const people = meetings.app.models.people
-            const people_meetings = meetings.app.models.people_meetings
-
-            let [err, user] = await to(people.findOne({ where: { email: obj.email, phone: obj.phone } }))
-            if (!user) {
-
-            } else {
-                let [err1, meetingsICreated] = await to(meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-                let [err2, meetingsIJoined] = await to(people_meetings.find({ where: { person: user.id }, include: { relation: 'meetings', scope: { include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] } } }))
-
-                console.log(meetingsIJoined)
-                return cb(null, [meetingsIJoined, meetingsICreated])
-            }
-        })()
-
-    }
-
-    meetings.remoteMethod('getMeetingsByUser', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'obj', type: 'object' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
-        returns: { arg: 'res', type: 'object', root: true }
-    });
 
 
     meetings.createMeeting = (data, options, cb) => {
@@ -160,7 +129,10 @@ module.exports = function (meetings) {
             else data.owner = user0.id
             // security validate
             data.max_participants = Number(data.max_participants)
-            data.isOpen = !!data.isOpen
+            if (data.isOpen === "true")
+                data.isOpen = true
+            else if (data.isOpen === "false")
+                data.isOpen = false
             console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
@@ -228,11 +200,11 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
 
+            const fallens_meetings = meetings.app.models.fallens_meetings
             if (data.fallensToDelete) {
-                const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToDelete) {
                     if (typeof i === 'number') {
-                        let [err1, res] = await to(fallens_meetings.destroy({ where: { fallen: i, meeting: id } }))
+                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
                         if (err1) {
                             console.log(err1)
                             return cb(err1)
@@ -243,7 +215,6 @@ module.exports = function (meetings) {
             }
 
             if (data.fallensToAdd) {
-                const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToAdd) {
                     let whitelist1 = {
                         fallen: true, meeting: true, relationship: true
@@ -260,6 +231,27 @@ module.exports = function (meetings) {
                     }
                 }
                 delete data.fallensToAdd
+            }
+
+            if (data.fallensToChange) {
+                for (let i of data.fallensToChange) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                        if (err3) {
+                            console.log("err3", err3)
+                            return cb(err3)
+                        }
+                    })
+
+                }
+                delete data.fallensToChange
             }
 
             // security validate
@@ -408,7 +400,7 @@ module.exports = function (meetings) {
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
@@ -419,8 +411,18 @@ module.exports = function (meetings) {
 
                 if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
-
-                const person = await people.create({ name, email, phone });
+                let person;
+                let [err, user0] = await to(people.findOne({ where: { email: email } }))
+                if (err) {
+                    console.log("err", err)
+                    return cb(err)
+                }
+                if (!user0) {
+                    person = await people.create({ name, email, phone });
+                }
+                else {
+                    person = user0
+                }
                 await people_meetings.create({ person: person.id, meeting: meetingId });
                 const participantsNum = participants_num ? participants_num + 1 : 1;
                 await meetings.upsert({ id: meetingId, participants_num: participantsNum });

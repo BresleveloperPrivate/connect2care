@@ -35,13 +35,13 @@ const TextSideDiv = (props) => {
                                                 return (
                                                     <div key={index} className="containFallenDetailsSide">
                                                         <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                        <div >מנחה: {meeting.meetingOwner.name}</div>
+                                                        <div >מארח/ת: {meeting.meetingOwner.name}</div>
                                                         <div style={{ fontSize: "18px" }} className="d-flex">
                                                             <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
                                                             <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
                                                         </div>
                                                         <div className="divIsOpen">
-                                                            {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                            {!meeting.isOpen ? props.t("meetingIsOpen") : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> {props.t("meetingIsClosed")}</div>}
                                                         </div>
                                                     </div>
                                                 )

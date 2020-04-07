@@ -10,12 +10,12 @@ const MeetingsList = (props) => {
             <table className="allTableStyle">
                 <tbody>
                     <tr className="tableHead">
-                        <th>תאריך</th>
-                        <th>שעה</th>
+                        <th>{props.t("date")}</th>
+                        <th>{props.t("time")}</th>
                         <th>חללים</th>
-                        <th>שם המנחה</th>
+                        <th>שם המארח/ת</th>
                         <th>קרבה</th>
-                        <th>שם המפגש</th>
+                        <th>{props.t("meetingName")}</th>
                         <th></th>
                         <th></th>
                         <th></th>

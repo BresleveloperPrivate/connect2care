@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props ,t }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -50,7 +50,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
 
-        if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
+        // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
         if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
         if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
 
@@ -75,8 +75,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
 
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
-        [email, setEmail, 'דואר אלקטרוני'],
-        [phone, setPhone, 'טלפון']
+        [email, setEmail, t("email")],
+        [phone, setPhone, t("phone")]
     ], [name, email, phone]);
 
     return (
