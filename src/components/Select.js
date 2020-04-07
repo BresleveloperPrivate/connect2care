@@ -13,7 +13,7 @@ const Select = (props) => {
 
     return (
         <div onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)} className={"cursor " + props.className}
-            style={{ width: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor :
+            style={{  width: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor :
                 props.changeBackground && selectedOption && selectedOption.data ? 'rgb(238, 238, 238)' : 'white', }} ref={ref}>
             <div className={'selectContainer'}  >
                 <div className='d-flex select align-items-center h-100'
@@ -24,7 +24,6 @@ const Select = (props) => {
                         color: props.color || 'unset'
                     }}>
                     <div className={"selectInput " + (!selectedOption && props.selectTextDefault ? "changeDefauleSelectOpacity" : "")} style={{ width: '100%' }}>
-                        {console.log(selectedOption)}
                         {selectedOption && selectedOption.data ? selectedOption.option : props.selectTextDefault || 'בחר'}
                         
                         </div>
@@ -41,11 +40,7 @@ const Select = (props) => {
                                 onClick={() => {
                                     if (value.option !== selectedOption) {
                                         props.onChoseOption(value)
-                                        console.log(value)
-                                            setSelectedOption(value)
-                                    
-                                        console.log(selectedOption , props.selectTextDefault)
-
+                                        setSelectedOption(value)
                                     }
 
                                 }}>
