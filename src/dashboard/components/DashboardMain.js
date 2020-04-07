@@ -18,7 +18,7 @@ const DashboardMain = (props) => {
             <TopBarManager />
             <Filters t={props.t} />
             <div className="textStyle" style={{ margin: '4vh 15vw 4vh 0px', width: 'fit-content', fontSize: "3vh", fontWeight: "bold" }}>מאגר מפגשים</div>
-            <MeetingsList t={props.t} />
+            <MeetingsList t={props.t} history={props.history} />
         </div>
     )
 }

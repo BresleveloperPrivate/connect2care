@@ -17,12 +17,12 @@
 .borderLoginMain{
     width: fit-content;
     height: fit-content;
-    padding: 8vh 10vw;
+    padding: 6vh 8vw;
     border: #F0F0F7 solid 2px;
 }
 
 .loginPage .logo{
-    width: 20vw;
+    width: 18vw;
     margin-bottom: 2vh;
 }
 
@@ -55,4 +55,11 @@
     margin-bottom: 2vh;
     font-weight: bold;
     color: #182750;
+}
+
+.loginError{
+    position: absolute;
+    bottom: -5px;
+    text-align: center;
+    width: 100%;
 }

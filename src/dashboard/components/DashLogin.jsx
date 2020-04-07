@@ -64,23 +64,30 @@ class DashLogin extends Login {
                         <form>
                             <img src={logo} alt='logo' className='logo' />
                             <div className='loginText'>מערכת ניהול</div>
-                            <div>
-                                <input className="loginInput"
-                                    type='email'
-                                    ref='email'
-                                    onKeyDown={this._handleKeyDown}
-                                    onFocus={this.onFocus}
-                                    placeholder='אימייל'
-                                    required />
-                            </div>
-                            <div>
-                                <input className="loginInput"
-                                    type='password'
-                                    ref='pw'
-                                    onKeyDown={this._handleKeyDown}
-                                    onFocus={this.onFocus}
-                                    placeholder='סיסמא'
-                                    required />
+                            <div className='position-relative'>
+                                <div>
+                                    <input className="loginInput"
+                                        type='email'
+                                        ref='email'
+                                        onKeyDown={this._handleKeyDown}
+                                        onFocus={this.onFocus}
+                                        placeholder='אימייל'
+                                        required />
+                                </div>
+                                <div>
+                                    <input className="loginInput"
+                                        type='password'
+                                        ref='pw'
+                                        onKeyDown={this._handleKeyDown}
+                                        onFocus={this.onFocus}
+                                        placeholder='סיסמא'
+                                        required />
+                                </div>
+                                <div className='loginError'
+                                    style={{ opacity: this.state.error ? '1' : '0' }}
+                                >
+                                    {this.state.error}
+                                </div>
                             </div>
                             {this.state.isLoading ?
                                 <div className='loginBtn'  >
@@ -96,13 +103,6 @@ class DashLogin extends Login {
                                 </div>
                             }
                         </form>
-                        <div style={{ position: 'relative' }}>
-                            <div className='loginError'
-                                style={{ opacity: this.state.error ? '1' : '0' }}
-                            >
-                                {this.state.error}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
