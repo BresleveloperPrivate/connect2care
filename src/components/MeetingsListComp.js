@@ -165,7 +165,7 @@ const ComputerList = (props) => {
                     :
                     <div className='mainPage-meetings'>
                     <div style={{paddingTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
-                        {props.MeetingsStore.error.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
+                        {props.MeetingsStore.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
                        </div>
                     </div> 
                 }

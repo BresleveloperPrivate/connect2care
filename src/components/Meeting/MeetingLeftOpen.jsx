@@ -36,12 +36,13 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props ,t }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [readBylaw, setReadBylaw] = useState(false)
 
     const { input, sendButton, sendLabel } = useStyles();
 
@@ -49,6 +50,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props ,t }) =>
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
+        if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
         // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
         if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
@@ -83,18 +85,23 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props ,t }) =>
         <div id="meetingPageLeft">
             <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
             <div id="meetingLeftTitle">{available ? 'הצטרף למפגש' : 'לא ניתן להצטרף למפגש'}</div>
-            <div id="meetingLeftDescription">{available ? 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת'  : 'אין עוד מקומות פנויים במפגש זה'}</div>
+            <div id="meetingLeftDescription">{available ? 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת' : 'אין עוד מקומות פנויים במפגש זה'}</div>
 
             {available &&
-             <div>
-                 <form>
-                {inputs.map(([value, setValue, placeholder], index) => (
-                    <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
-                ))}
-            </form>
-            {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-            <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease'}} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
-            </div>
+                <div>
+                    <form>
+                        {inputs.map(([value, setValue, placeholder], index) => (
+                            <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                        ))}
+                        <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                            <input type="radio" className={(!readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
+                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "2vh" }}>קראתי את התקנון</label>
+                        </div>
+
+                    </form>
+                    {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
+                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
+                </div>
             }
         </div>
     );
