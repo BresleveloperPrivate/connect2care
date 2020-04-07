@@ -244,7 +244,7 @@ class CreateMeetingStore {
         if (object.fallens && object.fallens.length) {
             for (let i = 0; i < object.fallens.length; i++) {
                 this.changeFallenDetails(object.fallens[i], i)
-                if(!this.fallenName)this.fallenName = []
+                if (!this.fallenName) this.fallenName = []
                 this.fallenName.push(object.fallens[i].name)
                 console.log(object.fallens[i].name)
                 // this.changeFallenName(object.fallens[i].name, i)
@@ -366,6 +366,46 @@ class CreateMeetingStore {
             return
         }
         return success
+    }
+
+    updateMeeting = async () => {
+        let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+
+        this.waitForData = true
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/updateMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: beforePostJSON, id: this.meetingId })
+            }, true);
+        this.waitForData = false
+        if (err) {
+            console.log("err", err)
+            if (err && err.error && err.error.isOpen)
+                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+            else if (err && err.error && err.error.max_participants)
+                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+            else if (err && err.error && err.error.name)
+                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+            else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+                this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+            else if (err && err.error && err.error.description)
+                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+            else if (err && err.error && err.error.language)
+                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+            else if (err && err.error && err.error.time)
+                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+            else if (err && err.error && err.error.date)
+                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+            else if (err && err.error && err.error.relationship)
+                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+            else if (err && err.error && err.error.msg)
+                this.error = err.error.msg
+            else
+                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            return
+        }
     }
 
     setError = (error) => {
