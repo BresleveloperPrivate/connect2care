@@ -157,18 +157,18 @@ const MeetingDetails = (props) => {
 
                         <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "4vh" }}>
                             <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
-                            <div className="inputDetail">פרטי יוצר המפגש:</div>
+                            <div className="inputDetail">פרטי מארח/ת המפגש:</div>
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">השם המלא שלך - מנחה המפגש</div>}
+                            {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">השם המלא שלך - מארח/ת המפגש</div>}
                             <input
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorName}
                                 value={props.CreateMeetingStore.meetingDetails.owner.name || ''}
                                 autoComplete="off"
-                                placeholder="השם המלא שלך - מנחה המפגש"
+                                placeholder="השם המלא שלך - מארח/ת המפגש"
                             />
                         </div>
 

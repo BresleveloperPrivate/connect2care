@@ -46,7 +46,7 @@ function Success(props) {
     // getPlaceholderInfo = () => {
     //     const meetingId = 2
     //     const dateOfDeath = "מרץ 07 צנחנים";
-    //     const relation = "אח";
+    //     const relation = "אח/ות";
     //     const meetingStarter = "משה לוי"
     //     const meetingStory = "אנחנו הולכים להיפגש, אבל קצת אחרת. נפגשים בבית, על הספה, לבד אבל ביחד, עם מצלמה דולקת ולב פתוח וחיבוק כל כך חזק שירגישו אותו גם מבעד למסך";
     //     const meetingDate = "יום שני | ג' באייר | 27 באפריל";
@@ -113,7 +113,7 @@ function Success(props) {
                                     </div>
                                     <div className="relationDiv">
                                     <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
-                                        <span className="relationInfo"> מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
+                                        <span className="relationInfo"> מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
                                     <div className="detailsInfo">{meeting.description}</div>
                                     {/* </div> */}

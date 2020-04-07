@@ -143,7 +143,7 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
                         // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
@@ -183,19 +183,21 @@ class CreateMeetingStore {
     }
 
     getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success) {
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-                return
+        if (this.meetingDetails.name && this.meetingDetails.name !== "") {
+            if (!this.allMeetings) {
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                if (err || !success) {
+                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    return
+                }
+                if (success)
+                    this.allMeetings = success
             }
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            this.nameMessage = ""
+            for (let i = 0; i < this.allMeetings.length; i++) {
+                if (this.allMeetings[i].name === this.meetingDetails.name)
+                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            }
         }
     }
 

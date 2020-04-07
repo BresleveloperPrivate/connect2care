@@ -14,7 +14,7 @@ const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
     const myCloseToTheFallen = [
-        { option: 'אח', data: 'אח' },
+        { option: 'אח/ות', data: 'אח/ות' },
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
