@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
 
-.mainPage-meetings , .imageOfFallen{
+.mainPage-meetings , .imageOfFallen {
     font-size:10px;
     @media screen and (max-width: 900px){
         font-size: 9px;
@@ -79,7 +79,7 @@
     width: 100vw;
     height: 10vh !important;
     box-shadow: 0px 3px 6px #00000029;
-    position: fixed !important;
+    // position: fixed !important;
     top: 0 !important;
     display: flex;
 }
@@ -119,6 +119,11 @@
 }
 
 @media screen and (max-width: 800px){
+    .navbar{
+        position: fixed !important;
+        top: 0 !important;
+    }
+
     .navbarIcon{
         width: 30%;
     }

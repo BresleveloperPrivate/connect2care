@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/logo.svg'
-import menu from '../icons/menu.png'
+import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
@@ -20,6 +20,7 @@ class NavBar extends Component {
 
     componentDidMount=()=>{
         window.addEventListener('resize', this.onResize, false)
+        this.props.LanguageStore.setWidth(window.innerWidth)
     }
 
     onResize = (e) => {
@@ -53,7 +54,7 @@ class NavBar extends Component {
         return (
             <div className={'navbar ' + this.props.className}>
                 <div className='containMenu'>
-                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "70%" }} />
+                    <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
                 <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />

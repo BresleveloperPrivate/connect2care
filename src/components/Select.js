@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react'
 import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Select = (props) => {
     const ref = useRef()
     useOnClickOutside(ref, () => setIsSelectOpen(false));
 
-    const [selectedOption, setSelectedOption] = useState(null)
+    const [selectedOption, setSelectedOption] = useState(props.default || null)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
@@ -20,7 +21,9 @@ const Select = (props) => {
                         color: props.color || 'unset'
                     }}>
                     <div className={"selectInput " + (!selectedOption && props.selectTextDefault ? "changeDefauleSelectOpacity" : "")} style={{ width: '100%' }}>{selectedOption || props.selectTextDefault || 'בחר'}</div>
-                    <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' />
+                    {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
+                    <FontAwesomeIcon className="arrowInput"
+                        icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&
                     <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>

@@ -13,11 +13,11 @@ import participants from '../icons/participants.png'
 import checkboxOn from '../icons/checkbox_on_light.svg'
 import checkboxOff from '../icons/checkbox_off_light.svg'
 
-const PhoneList = (props) => {
+const ComputerList = (props) => {
 
     const myCloseToTheFallen = [
         { option: 'הכל', data: false },
-        { option: 'אח', data: 'אח' },
+        { option: 'אח/ות', data: 'אח/ות' },
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
@@ -64,7 +64,7 @@ const PhoneList = (props) => {
                         value={props.MeetingsStore.searchInput}
                         className='input-meetings'
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        placeholder="חיפוש שם נופל, שם מפגש, שם מנחה"
+                        placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
                     />
                     <div
                         style={{ marginRight: '2em' }}
@@ -81,45 +81,49 @@ const PhoneList = (props) => {
                 <div className='containFilters'>
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
+                        default={props.MeetingsStore.date.option}
                         width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
                         arr={meetingDate}
                         className='input-meetings filter-meeting mr-0'
                         onChoseOption={(value) => {
-                            props.MeetingsStore.changeMeetingDate(value.data)
+                            props.MeetingsStore.changeMeetingDate(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
 
                     />
                     <Select
+                        default={props.MeetingsStore.time.option}
                         selectTextDefault='שעה'
                         arr={meetingTime}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
-                            props.MeetingsStore.changeMeetingTime(value.data)
+                            props.MeetingsStore.changeMeetingTime(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
                     />
                     <Select
+                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative.option : false}
                         selectTextDefault='קרבה לחלל'
                         arr={myCloseToTheFallen}
                         className='input-meetings filter-meeting'
                         onChoseOption={
                             (value) => {
-                                props.MeetingsStore.changeFallenRelative(value.data)
+                                props.MeetingsStore.changeFallenRelative(value)
                                 props.MeetingsStore.search()
                             }}
                             changeBackground={true}
                     />
                     <Select
+                        default={props.MeetingsStore.language.option}
                         selectTextDefault='שפת המפגש'
                         arr={meetingLanguage}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
-                            props.MeetingsStore.changeMeetingLanguage(value.data)
+                            props.MeetingsStore.changeMeetingLanguage(value)
                             props.MeetingsStore.search()
                         }}
                         changeBackground={true}
@@ -139,23 +143,24 @@ const PhoneList = (props) => {
                 {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                     return (
                         <div key={index} className='containMeetingCard'>
-                            <div onClick={meeting.participants_num < meeting.max_participants ? () => {
+                            <div onClick={() => {
                                 props.history.push(`/meeting/${meeting.id}`)
-                            } : () => { }}>
+                            }}
+                            style={{ cursor: 'pointer' }}
+                            >
                                 <ImageOfFallen
                                     className='imageOfFallen'
                                     array={meeting.fallens_meetings}
                                     width='15em'
                                     height='21em'
-                                    isOpen={meeting.participants_num < meeting.max_participants}
                                 />
                             </div>
                             <div
-                                style={{ cursor: meeting.participants_num < meeting.max_participants ? 'pointer' : 'auto' }}
+                                style={{ cursor:'pointer' }}
                                 className='meetingCard'
-                                onClick={meeting.participants_num < meeting.max_participants ? () => {
+                                onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
-                                } : () => { }}
+                                }}
                             >
                                 <div className='meetingCardContent'>
                                     <div className='meetingName'>
@@ -194,7 +199,7 @@ const PhoneList = (props) => {
                                         <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                                             <img src={tell} height='100%' />
                                         </div>
-                                       מנחה: {meeting.meetingOwner && meeting.meetingOwner.name}
+                                        מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
                                     <div className='meetingDescription'>
                                         {meeting.description}
@@ -255,4 +260,4 @@ const PhoneList = (props) => {
 
     );
 }
-export default inject('MeetingsStore')(observer(PhoneList));
+export default inject('MeetingsStore')(observer(ComputerList));

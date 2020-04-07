@@ -55,7 +55,7 @@
             "length": null,
             "precision": 10,
             "scale": 0,
-            "id": 1,
+            "id": 2,
             "mysql": {
                 "columnName": "meeting",
                 "dataType": "int",

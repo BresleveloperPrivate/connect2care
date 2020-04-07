@@ -25,7 +25,7 @@ const Filters = (props) => {
     ]
     const RELATIONSHIPS = [
         { option: 'הכל', data: 'הכל' },
-        { option: 'אח', data: 'אח' },
+        { option: 'אח/ות', data: 'אח/ות' },
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
@@ -129,7 +129,7 @@ const Filters = (props) => {
 
 
                     <div className='filterItem'>
-                        <div className='textFilter'>חיפוש לפי מנחה</div>
+                        <div className='textFilter'>חיפוש לפי מארח/ת</div>
                         <div className="searchInputContainer">
                             <input className='searchPlaceInput'
                                 type='text'

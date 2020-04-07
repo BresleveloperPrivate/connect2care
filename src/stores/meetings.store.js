@@ -18,7 +18,7 @@ class MeetingsStore {
 
     changeSearchInput = (event) => {
         ////if match...
-        if (event.target.value.match('^([^0-9#*/$%^&@!;=+]*)$')) {
+        if (event.target.value.match('^([^#/$%^&@!;=+]*)$')) {
             this.searchInput = event.target.value
         }
     }
@@ -32,6 +32,7 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
+        console.log(relative)
         this.fallenRelative = relative
     }
 
@@ -58,10 +59,10 @@ class MeetingsStore {
 
         let filter = {
             id: this.lastId,
-            language: this.language,
-            date: this.date,
-            relationship: this.fallenRelative,
-            time: this.time,
+            language: this.language.data,
+            date: this.date.data,
+            relationship: this.fallenRelative.data,
+            time: this.time.data,
             isAvailable: this.availableOnly,
         }
 
@@ -92,7 +93,6 @@ class MeetingsStore {
             }
             this.lastId = id
             if (!this.meetings) {
-                console.log('aaaaaaaaa')
                 this.meetings = meetings.slice(0, 4)
                 return
             }

@@ -17,9 +17,9 @@ const ListOfMeetingsUser = (props) => {
     return (
         <div>
             {props.LanguageStore.width > 550 ?
-                <CompList t={props.t} />
+                <CompList history={props.history} t={props.t} />
                 :
-                <PhoneList t={props.t}/>
+                <PhoneList t={props.t} history={props.history} />
             }
         </div>
 

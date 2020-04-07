@@ -1,6 +1,6 @@
 .containExplanation{
     width: 100vw;
-    padding: 5vw;
+    padding: 5vw calc(10vw - 20px) 5vw 5vw;
 }
 
 .explanation{

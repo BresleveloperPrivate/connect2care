@@ -55,11 +55,11 @@ module.exports = function (meetings) {
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
 
             if (err) {
                 console.log(err)
+                return cb(err)
             } else {
                 if (res.length !== 0) {
                     let where = { or: [] }
@@ -225,6 +225,100 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
+    meetings.updateMeeting = (data, id, options, cb) => {
+        (async () => {
+
+            const fallens_meetings = meetings.app.models.fallens_meetings
+            if (data.fallensToDelete) {
+                for (let i of data.fallensToDelete) {
+                    if (typeof i === 'number') {
+                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
+                        if (err1) {
+                            console.log(err1)
+                            return cb(err1)
+                        }
+                    }
+                }
+                delete data.fallensToDelete
+            }
+
+            if (data.fallensToAdd) {
+                for (let i of data.fallensToAdd) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    let [err3, res1] = await to(fallens_meetings.create(valid1.data))
+                    if (err3) {
+                        console.log("err3", err3)
+                        return cb(err3)
+                    }
+                }
+                delete data.fallensToAdd
+            }
+
+            if (data.fallensToChange) {
+                for (let i of data.fallensToChange) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                        if (err3) {
+                            console.log("err3", err3)
+                            return cb(err3)
+                        }
+                    })
+
+                }
+                delete data.fallensToChange
+            }
+
+            // security validate
+            if (data.max_participants) data.max_participants = Number(data.max_participants)
+
+            if (data.isOpen) data.isOpen = !!data.isOpen
+
+            let whitelist = {
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+            };
+            let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
+            if (!valid.success || valid.errors) {
+                return cb(valid.errors, null);
+            }
+
+            if (Object.keys(valid.data).length !== 0) {
+                let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
+                if (err2) {
+                    console.log("err2", err2)
+                    return cb(err2)
+                }
+            }
+
+            return cb(null, true)
+        })()
+
+    }
+
+    meetings.remoteMethod('updateMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'data', type: 'object', required: true },
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    });
+
+
     meetings.getMeetingsDashboard = (filters, options, cb) => {
 
         let sqlQuerySelect = `meetings.id`
@@ -345,8 +439,18 @@ module.exports = function (meetings) {
 
                 if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
-
-                const person = await people.create({ name, email, phone });
+                let person;
+                let [err, user0] = await to(people.findOne({ where: { email: email } }))
+                if (err) {
+                    console.log("err", err)
+                    return cb(err)
+                }
+                if (!user0) {
+                    person = await people.create({ name, email, phone });
+                }
+                else {
+                    person = user0
+                }
                 await people_meetings.create({ person: person.id, meeting: meetingId });
                 const participantsNum = participants_num ? participants_num + 1 : 1;
                 await meetings.upsert({ id: meetingId, participants_num: participantsNum });
