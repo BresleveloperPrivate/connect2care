@@ -231,9 +231,9 @@ const MeetingDetails = (props) => {
                         </div>
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                            <input type="radio" className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} checked={props.CreateMeetingStore.meetingDetails.isOpen}/>
+                            <input type="radio" className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} checked={props.CreateMeetingStore.meetingDetails.isOpen} />
                             <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</label>
-                            <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} checked={!props.CreateMeetingStore.meetingDetails.isOpen}/>
+                            <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} checked={!props.CreateMeetingStore.meetingDetails.isOpen} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
                         <br />
@@ -307,9 +307,14 @@ const MeetingDetails = (props) => {
                             className="containCreateMettingButton"
                             onClick={async () => {
                                 setIsSaved(true)
-                                let meeting = await props.CreateMeetingStore.createNewMeetingPost()
-                                if (meeting) {
-                                    setSuccess(meeting[0])
+                                if (props.CreateMeetingStore.meetingId === -1) {
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    if (meeting) {
+                                        setSuccess(meeting[0])
+                                    }
+                                }
+                                else {
+                                    await props.CreateMeetingStore.updateMeeting()
                                 }
                             }}>
                             <div className="createMeetingButton grow">
