@@ -41,7 +41,7 @@ const TextSideDiv = (props) => {
                                                             <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
                                                         </div>
                                                         <div className="divIsOpen">
-                                                            {!meeting.isOpen ? "מפגש פתוח" : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> מפגש סגור</div>}
+                                                            {!meeting.isOpen ? props.t("meetingIsOpen") : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> {props.t("meetingIsClosed")}</div>}
                                                         </div>
                                                     </div>
                                                 )

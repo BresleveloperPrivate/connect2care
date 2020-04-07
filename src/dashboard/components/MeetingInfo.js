@@ -12,7 +12,7 @@ const MeetingInfo = (props) => {
     return (
         <div style={{ height: '100vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
             <TopBarManager />
-            <MeetingDetails t={props.t}/>
+            <MeetingDetails t={props.t} history={props.history} />
         </div>
     )
 }

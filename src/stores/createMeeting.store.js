@@ -123,18 +123,18 @@ class CreateMeetingStore {
         }
     }
 
-    changeFallenName = (e, index) => {
+    changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
         }
         if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
+            this.fallenName.push(event)
         else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         else {
             for (let i = this.fallenName.length; i < index; i++)
                 this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         }
     }
 
@@ -213,10 +213,16 @@ class CreateMeetingStore {
     }
 
     changeDetailsObjFunc = (object) => {
-        if (object.fallens && object.fallens.length) {
-            this.fallenDetails = null;
-            this.fallenName = null;
+        object.fallens = []
+        for (let i of object.fallens_meetings) {
+            let fallen = {}
+            for (let key in i.fallens) {
+                fallen[key] = i.fallens[key]
+            }
+            fallen.relationship = i.relationship
+            object.fallens.push(fallen)
         }
+
         this.meetingDetailsOriginal = {
             name: object.name,
             description: object.description,
@@ -229,21 +235,45 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            max_participants: "",
+            max_participants: object.max_participants || '',
             fallens: object.fallens,
             zoomId: 0,
         }
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+
+        if (object.fallens && object.fallens.length) {
+            for (let i = 0; i < object.fallens.length; i++) {
+                this.changeFallenDetails(object.fallens[i], i)
+                if(!this.fallenName)this.fallenName = []
+                this.fallenName.push(object.fallens[i].name)
+                console.log(object.fallens[i].name)
+                // this.changeFallenName(object.fallens[i].name, i)
+                let obj = {}
+                obj.id = object.fallens[i].id
+                obj.relative = object.fallens[i].relationship
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                    obj.relative = 'אחר'
+                    if (!this.otherRelationship) this.otherRelationship = {}
+                    if (!this.otherRelationship[i]) this.otherRelationship[i] = {}
+                    this.otherRelationship[i].relative = object.fallens[i].relationship
+                    this.otherRelationship[i].id = object.fallens[i].id
+                }
+                this.meetingDetails.fallens[i] = obj
+            }
+        }
+        console.log(this.meetingDetails)
     }
 
     getMeetingDetails = async () => {
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
+        if (this.meetingId === -1) return
+
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
 
         if (err) {
             this.error = err
         }
         if (success) {
-
+            // console.log(success[0])
             this.changeDetailsObjFunc(success[0])
         }
     }

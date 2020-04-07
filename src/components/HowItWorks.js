@@ -97,7 +97,7 @@ class HowItWorks extends Component {
                         <div className='remember'>וזוכרים.</div>
 
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2vh' }}>
-                            <div className='containImageStep'><im alt="alt" width='40%' src={candle} /></div>
+                            <div className='containImageStep'><img alt="alt" width='40%' src={candle} /></div>
                         </div>
                     </div>
                 </div>

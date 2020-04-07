@@ -52,7 +52,7 @@ const Filters = (props) => {
             <div className="filtersContainer" style={isFilterOpen ? { height: '35vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
                 <div style={{ width: '50%' }}>
                     <div className='filterItem'>
-                        <div className='textFilter'>תאריך</div>
+                        <div className='textFilter'>{props.t("date")}</div>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
                             className='selectBorder'

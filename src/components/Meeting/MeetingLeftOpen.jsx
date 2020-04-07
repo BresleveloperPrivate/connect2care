@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -75,8 +75,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
 
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
-        [email, setEmail, 'דואר אלקטרוני'],
-        [phone, setPhone, 'טלפון']
+        [email, setEmail, props.t("email")],
+        [phone, setPhone, props.t("phone")]
     ], [name, email, phone]);
 
     return (

@@ -27,7 +27,7 @@ const useStyles = makeStyles({
         overflow: "auto",
         boxShadow: '-3px 4px 15px rgba(185, 188, 199, 0.795)',
         borderRadius: '5px',
-        
+
     },
 
     loadingOrNoResults: {
@@ -53,7 +53,7 @@ const SearchFallen = (props) => {
         setOptions(null);
         setShowOptions(true);
         setSearchValue(event.target.value);
-        CreateMeetingStore.changeFallenName(event, props.index);
+        CreateMeetingStore.changeFallenName(event.target.value, props.index);
     }, []);
 
     const onFallenClick = useCallback(async fallen => {
@@ -94,6 +94,14 @@ const SearchFallen = (props) => {
             active = false;
         };
     }, [searchValue, fetch]);
+
+    useEffect(() => {
+        if (CreateMeetingStore.fallenDetails) {
+            setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
+            setShowOptions(false)
+        }
+    }, [CreateMeetingStore.fallenDetails])
+
     return (
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
@@ -113,7 +121,7 @@ const SearchFallen = (props) => {
             </div>
 
             {showOptions && searchValue.length > 0 && (
-                <List className={list+" listSearch"}>
+                <List className={list + " listSearch"}>
                     {options ? options.length > 0 ? options.map(fallen => (
                         <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>
