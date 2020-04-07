@@ -95,7 +95,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
                         ))}
                         <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
                             <input type="radio" className={(!readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
-                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "2vh" }}>קראתי את התקנון</label>
+                            <label htmlFor="readBylaw" className="mb-0" style={{  }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
                         </div>
 
                     </form>

@@ -304,7 +304,7 @@ const CreateMeeting = (props) => {
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                                 <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
-                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>קראתי את התקנון</label>
+                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
                             </div>
                         </div>
 
