@@ -20,16 +20,13 @@ module.exports = function (Codes) {
                     return cb(err)
                 }
             })
-            let res = await sendEmail('senderName',
+            await sendEmail('senderName',
                 {
                     to: email,
                     subject: 'מתחברים וזוכרים - אימות זהות',
                     html: code
                 });
-            if (!res) {
-                return cb(err)
-            }
-            return cb(null, res)
+            return cb(null, 'yay')
         })();
     }
 
@@ -42,36 +39,43 @@ module.exports = function (Codes) {
             const people = Codes.app.models.people
             const people_meetings = Codes.app.models.people_meetings
 
-            await Codes.findOne({ code: code }, (err, res) => {
+            await Codes.find({ code: code }, (err, res) => {
                 if (err) {
                     console.log(err)
                     return cb(err)
                 } else {
-                    console.log(res)
-                    if (res.userId === email) {
-                        (async () => {
-
-                            await people.findOne({ where: { email: email } }, (err, user) => {
-
-                                console.log(user)
-                                if (!user) {
-                                    return cb({error: 'user doesnt exist'})
-                                } else {
-                                    meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, meetingsICreated) => {
-                                        if (meetingsICreated) {
-                                            people_meetings.find({ where: { person: user.id }, include: { relation: 'meetings', scope: { include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] } } }, (err, meetingsIJoined) => {
-                                                if (meetingsIJoined) {
-                                                    return cb(null, [meetingsIJoined, meetingsICreated])
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })
-                        })();
-                    } else {
-                        return cb({error: 'incorrect code'})
+                    if(!res.length){
+                        return cb('incorrect code')
                     }
+                    if(res.length){
+                        res = res[res.length-1]
+                        console.log(res)
+                        if (res.userId === email) {
+                            (async () => {
+    
+                                await people.findOne({ where: { email: email } }, (err, user) => {
+    
+                                    console.log(user)
+                                    if (!user) {
+                                        return cb({error: 'user doesnt exist'})
+                                    } else {
+                                        meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, meetingsICreated) => {
+                                            if (meetingsICreated) {
+                                                people_meetings.find({ where: { person: user.id }, include: { relation: 'meetings', scope: { include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] } } }, (err, meetingsIJoined) => {
+                                                    if (meetingsIJoined) {
+                                                        return cb(null, [meetingsIJoined, meetingsICreated])
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            })();
+                        } else {
+                            return cb({error: 'incorrect code'})
+                        }
+                    }
+              
                 }
             })
         })();

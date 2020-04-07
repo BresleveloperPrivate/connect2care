@@ -13,6 +13,8 @@ import ContainFilters from './ContainFilters'
 import filter1 from '../icons/filter1.svg'
 import filter2 from '../icons/filter2.svg'
 import search from '../icons/search.svg'
+import MeetingCardPhone from './MeetingCardPhone'
+
 
 const PhoneList = (props) => {
 
@@ -84,85 +86,8 @@ const PhoneList = (props) => {
                     <ContainFilters className={filter ? 'containFilters' : 'containFilters containFiltersClose'} t={props.t} />
 
 
-
                     {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
-                        return (
-                            <div key={index} className='containMeetingCard'>
-                     
-                                <div
-                                    style={{ cursor:'pointer' }}
-                                    className='meetingCard'
-                                    onClick={() => {
-                                        props.history.push(`/meeting/${meeting.id}`)
-                                    }}
-                                >
-
-                                    <div className='participants'>
-                                        <img width='100%' height='100%' src={participants} />
-                                        <div className='numberOfParticipants'>{meeting.participants_num}</div>
-                                    </div>
-
-                                <div>
-                                    <ImageOfFallen
-                                        className='imageOfFallen'
-                                        array={meeting.fallens_meetings}
-                                        width={props.LanguageStore.width > 300 ? '12em' : '10em'}
-                                        height={props.LanguageStore.width > 300 ? '17em' : '15em'}
-                                    />
-                                </div>
-                                    <div className='meetingCardContent'>
-                                        <div className='meetingName'>
-                                            {meeting.name}
-                                        </div>
-                                        <div className='meetingFor'>
-                                            <div style={{height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
-                                                <img src={candle} height='100%' />
-                                            </div>
-                                            <div>{meeting.fallens_meetings.map((fallen, index) => {
-                                                if (index === 0) {
-                                                    return (
-                                                        <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
-                                                    )
-                                                }
-                                                else if (index === meeting.fallens_meetings.length - 1) {
-                                                    return (
-                                                        <span key={index}> ו{fallen.fallens.name} ז"ל</span>
-                                                    )
-                                                }
-                                                else {
-                                                    return (
-                                                        <span key={index}>, {fallen.fallens.name} ז"ל</span>
-                                                    )
-                                                }
-                                            })}</div>
-                                        </div>
-                                        <div className='meetingDate'>
-                                            {props.LanguageStore.width > 300 ?<div style={{ height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
-                                                <img src={clock} height='100%' />
-                                            </div> : null}
-                                            {meeting.date} | {meeting.time}
-                                        </div>
-                                        <div className='meetingOwner'>
-
-                                            <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
-                                                <img src={tell} height='100%' />
-                                            </div>
-                                            מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}
-                                        </div>
-                                        <div style={{width:'100%' , display:'flex' , justifyContent:'flex-end'}}>
-                                        <div className={!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 
-                                        {!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 
-                                        <div style={{height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}}>
-                                            <img height='100%' width='100%' src={lock}/>
-                                        </div> 
-                                        : null }
-                                        {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
-                                          </div>
-                                          </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
+                        return (<MeetingCardPhone key={index} history={props.history} index={index} meeting={meeting} />)
                     }) : null}
 
                     {!props.MeetingsStore.meetings ?
