@@ -244,7 +244,10 @@ class CreateMeetingStore {
         if (object.fallens && object.fallens.length) {
             for (let i = 0; i < object.fallens.length; i++) {
                 this.changeFallenDetails(object.fallens[i], i)
-                this.changeFallenName(object.fallens[i].name, i)
+                if(!this.fallenName)this.fallenName = []
+                this.fallenName.push(object.fallens[i].name)
+                console.log(object.fallens[i].name)
+                // this.changeFallenName(object.fallens[i].name, i)
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
