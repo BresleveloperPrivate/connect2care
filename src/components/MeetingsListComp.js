@@ -81,7 +81,7 @@ const ComputerList = (props) => {
                 <div className='containFilters'>
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
-                        default={props.MeetingsStore.date.option}
+                        default={props.MeetingsStore.date}
                         width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
@@ -95,8 +95,8 @@ const ComputerList = (props) => {
 
                     />
                     <Select
-                        default={props.MeetingsStore.time.option}
-                        selectTextDefault='שעה'
+                        default={props.MeetingsStore.time}
+                        selectTextDefault={props.t("time")}
                         arr={meetingTime}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
@@ -106,7 +106,7 @@ const ComputerList = (props) => {
                         changeBackground={true}
                     />
                     <Select
-                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative.option : false}
+                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                         selectTextDefault='קרבה לחלל'
                         arr={myCloseToTheFallen}
                         className='input-meetings filter-meeting'
@@ -118,8 +118,8 @@ const ComputerList = (props) => {
                             changeBackground={true}
                     />
                     <Select
-                        default={props.MeetingsStore.language.option}
-                        selectTextDefault='שפת המפגש'
+                        default={props.MeetingsStore.language}
+                        selectTextDefault={props.t("meetingLanguage")}
                         arr={meetingLanguage}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
@@ -216,7 +216,7 @@ const ComputerList = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}

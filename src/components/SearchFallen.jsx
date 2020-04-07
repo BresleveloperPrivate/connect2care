@@ -53,7 +53,7 @@ const SearchFallen = (props) => {
         setOptions(null);
         setShowOptions(true);
         setSearchValue(event.target.value);
-        CreateMeetingStore.changeFallenName(event, props.index);
+        CreateMeetingStore.changeFallenName(event.target.value, props.index);
     }, []);
 
     const onFallenClick = useCallback(async fallen => {

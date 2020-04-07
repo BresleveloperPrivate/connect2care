@@ -173,7 +173,7 @@ export default function Sharing(props) {
       >
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
-        <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">דואר אלקטרוני</span></MenuItem>
+        <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
         <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard("aaaaaaaaa")} id="platformName">העתק קישור</span></MenuItem>
 
         <SendEmail openEmail={openEmail}

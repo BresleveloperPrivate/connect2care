@@ -30,6 +30,14 @@ const translationHEB = {
     "maximumNumberOfParticipantsMustBeLessThan3000Participants": "מספר המשתתפים חייב להיות פחות מ-3000",
     "createMeeting": "צור מפגש",
 
+    "wantToHelpUsKeepRemembering": "רוצה לעזור לנו להמשיך לזכור?",
+    "toDonateToTheNonprofit": "לתרומה לעמותה",
+
+    "someOfUsWaitingForTheMemorialDayMeetingAllYear": "חלקנו, מחכים למפגש יום הזיכרון כל השנה",
+    "othersBecomeSkyAndEarthJustNotToGiveUp": "אחרים, הופכים שמיים וארץ, רק לא לוותר",
+    "andThisYearWellContinueJustLikeThat": "והשנה? נמשיך בדיוק כך",
+    "memoryMeetingsCorona2020WereReady": "מפגשי זיכרון, קורונה 2020 – אנחנו מוכנים",
+    "weHavePreparedForYouAllYouNeedToLookEachOtherInTheEye": "הכנו עבורכם את כל מה שצריך כדי להסתכל האחד לשני בעיניים",
 
     'sunday': 'יום ראשון, ב באייר, 26.04',
     'monday': 'יום שני, ג באייר, 27.04',

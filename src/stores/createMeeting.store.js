@@ -123,18 +123,18 @@ class CreateMeetingStore {
         }
     }
 
-    changeFallenName = (e, index) => {
+    changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
         }
         if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
+            this.fallenName.push(event)
         else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         else {
             for (let i = this.fallenName.length; i < index; i++)
                 this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         }
     }
 
@@ -183,19 +183,21 @@ class CreateMeetingStore {
     }
 
     getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success) {
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-                return
+        if (this.meetingDetails.name && this.meetingDetails.name !== "") {
+            if (!this.allMeetings) {
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                if (err || !success) {
+                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    return
+                }
+                if (success)
+                    this.allMeetings = success
             }
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            this.nameMessage = ""
+            for (let i = 0; i < this.allMeetings.length; i++) {
+                if (this.allMeetings[i].name === this.meetingDetails.name)
+                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            }
         }
     }
 
@@ -211,10 +213,16 @@ class CreateMeetingStore {
     }
 
     changeDetailsObjFunc = (object) => {
-        if (object.fallens_meetings && object.fallens_meetings.length) {
-            this.fallenDetails = null;
-            this.fallenName = null;
+        object.fallens = []
+        for (let i of object.fallens_meetings) {
+            let fallen = {}
+            for (let key in i.fallens) {
+                fallen[key] = i.fallens[key]
+            }
+            fallen.relationship = i.relationship
+            object.fallens.push(fallen)
         }
+
         this.meetingDetailsOriginal = {
             name: object.name,
             description: object.description,
@@ -227,11 +235,27 @@ class CreateMeetingStore {
             isOpen: object.isOpen,
             date: object.date,
             time: object.time,
-            max_participants: "",
+            max_participants: object.max_participants || '',
             fallens: object.fallens,
             zoomId: 0,
         }
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+
+        if (object.fallens && object.fallens.length) {
+            for (let i = 0; i < object.fallens.length; i++) {
+                this.changeFallenDetails(object.fallens[i], i)
+                this.changeFallenName(object.fallens[i].name, i)
+                // let obj = {}
+                // obj.index = i
+                // obj.relative = object.fallens[i].relationship
+                // if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                //     obj.relative = 'אחר'
+                //     obj.otherRelative = object.fallens[i].relationship
+                // }
+                // this.meetingDetails.fallens[i] = obj
+            }
+        }
+        console.log(this.meetingDetails)
     }
 
     getMeetingDetails = async () => {
@@ -243,8 +267,8 @@ class CreateMeetingStore {
             this.error = err
         }
         if (success) {
-            console.log(success[0])
-            // this.changeDetailsObjFunc(success[0])
+            // console.log(success[0])
+            this.changeDetailsObjFunc(success[0])
         }
     }
 

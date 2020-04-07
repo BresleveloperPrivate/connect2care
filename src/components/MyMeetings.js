@@ -177,7 +177,7 @@ const ListOfMeetingsUser = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}

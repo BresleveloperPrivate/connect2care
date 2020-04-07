@@ -157,7 +157,10 @@ module.exports = function (meetings) {
             else data.owner = user0.id
             // security validate
             data.max_participants = Number(data.max_participants)
-            data.isOpen = !!data.isOpen
+            if (data.isOpen === "true")
+                data.isOpen = true
+            else if (data.isOpen === "false")
+                data.isOpen = false
             console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
