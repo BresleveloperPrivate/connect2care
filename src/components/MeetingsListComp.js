@@ -13,6 +13,12 @@ import ContainFilters from './ContainFilters'
 
 const ComputerList = (props) => {
 
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            props.MeetingsStore.search(false, true)
+        }
+    }
+
     return (
      <div className='meetingsFullPage'>
          <div className='buttonOnMeetings grow' onClick={()=>{
@@ -24,6 +30,7 @@ const ComputerList = (props) => {
                 <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                 <div className='containSearch'>
                     <input
+                        onKeyDown={onKeyDown}
                         style={{ flexGrow: 1 }}
                         type="text"
                         value={props.MeetingsStore.searchInput}

@@ -19,12 +19,12 @@ $navBarMargin: 10vh;
 }
 
 #meetingPageMain {
-    padding-top: calc(10vh + 2vw);
+    padding-top:  2vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    // left Width
+    padding-top: calc(10vh + 2vw);
     width: calc(100vw - 40em);
 
     #meetingMainMain {
@@ -33,7 +33,7 @@ $navBarMargin: 10vh;
 
         #meetingButtons {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
         }
 
@@ -179,6 +179,7 @@ $navBarMargin: 10vh;
 }
 
 @media screen and (max-width: 800px) {
+
     #meetingPage {
         display: flex;
         flex-direction: column;

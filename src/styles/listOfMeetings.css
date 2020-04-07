@@ -2,9 +2,11 @@
 .meetingsFullPage{
     position: relative;
     padding-bottom: 2em;
-}
+    margin-top: 11vh;
 
-.emailAndPhonePopup{
+}   
+
+/* .emailAndPhonePopup{
     position: relative;
     padding: 3vw;
     background-color: var(--custom-dark-blue);
@@ -12,7 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 
 .input-meetings{
     color: #4D4F5C;
@@ -64,7 +66,7 @@
 }
 
 .meetings-second-title{
-    color: var(--custom-green);
+    color: var(--custom-light-blue);
     font: Normal 28px Assistant;
     text-align: right;
 }
@@ -275,7 +277,7 @@
     border: 1px solid var(--custom-blue);
 }
 
-.editTool{
+/* .editTool{
     position: absolute;
     width: 40px;
     height: 40px;
@@ -287,9 +289,9 @@
     left: -15px;
     top: -10px;
     cursor: pointer;
-}
+} */
 
-.BtnsConfirmPopup{
+/* .BtnsConfirmPopup{
     background-color: white;
     color: var(--custom-blue);
     border-radius: 50px;
@@ -299,9 +301,9 @@
     cursor: pointer;
     width: fit-content;
     margin: 15px 5px 0px 5px;
-}
+} */
 
-.InputConfirmPopup{
+/* .InputConfirmPopup{
     padding: 3px 7px;
     outline: none;
     border: 1px solid var(--custom-dark-blue);
@@ -310,11 +312,11 @@
     border-radius: 50px;
     width: 280px;
     text-align: center;
-}
+} */
 
-.InputConfirmPopup::placeholder{
+/* .InputConfirmPopup::placeholder{
     color: rgba(255, 255, 255, 0.493);
-}
+} */
 
 /* .comment{
     color: var(--custom-blue);
@@ -325,10 +327,7 @@
 
 @media screen and (max-width: 800px){
 
-   
-    .meetingsFullPage{
-        margin-top: 11vh;
-    }
+
     .mainPage-meetings{
         width: 79em;
         margin-right: 6vw;
@@ -344,10 +343,12 @@
 
     .meetings-title{
         font: Bold 28px Assistant;
+        padding: 0 5vw;
     }
     
     .meetings-second-title{
         font: Normal 20px Assistant;
+        padding: 0 5vw;
     }
     
      .containSearch{
@@ -440,6 +441,17 @@
 
     }
 
+    .input-meetings:not(.filter-meeting){
+        padding: 0.5vh 0.6em;
+    }
+
+    .inputPhoneView{
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #4D4F5C;
+    }
+
     .overflow-visible{
         overflow: visible;
     }
@@ -466,6 +478,7 @@
 
     .input-meetings{
         padding: 1vh 0;
+        width: 100%;
     }
 
     .filter-meeting{

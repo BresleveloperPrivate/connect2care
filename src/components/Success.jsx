@@ -127,6 +127,7 @@ function Success(props) {
                         containImageClassName={'containSharingImage'}
                         myId={'sharingBox'}
                         data={meeting}
+                        t={props.t}
                         meetingId={meeting.id}
                         styleObject={{buttonWidth: 'fit-content'}}
                     />
