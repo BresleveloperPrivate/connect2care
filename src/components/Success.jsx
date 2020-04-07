@@ -81,7 +81,7 @@ function Success(props) {
                             <div className="sucessInfo">
                                 <div className="flexImage">
                                     <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
-                                    <div className="isMeetingOpen">{meeting.isOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
+                                    <div className="isMeetingOpen">{meeting.isOpen === true ? <span id="meetingStatus">{props.t("meetingIsOpen")}</span> : <span id="meetingStatus">{props.t("meetingIsClosed")}</span>}</div>
                                 </div>
                                 <div className="meetingInfo">
                                     <div className="fallenName">

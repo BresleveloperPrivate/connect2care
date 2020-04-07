@@ -96,7 +96,7 @@ const ComputerList = (props) => {
                     />
                     <Select
                         default={props.MeetingsStore.time.option}
-                        selectTextDefault='שעה'
+                        selectTextDefault={props.t("time")}
                         arr={meetingTime}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => { 
@@ -119,7 +119,7 @@ const ComputerList = (props) => {
                     />
                     <Select
                         default={props.MeetingsStore.language.option}
-                        selectTextDefault='שפת המפגש'
+                        selectTextDefault={props.t("meetingLanguage")}
                         arr={meetingLanguage}
                         className='input-meetings filter-meeting'
                         onChoseOption={(value) => {
@@ -216,7 +216,7 @@ const ComputerList = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}

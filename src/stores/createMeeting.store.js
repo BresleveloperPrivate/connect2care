@@ -123,18 +123,18 @@ class CreateMeetingStore {
         }
     }
 
-    changeFallenName = (e, index) => {
+    changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
         }
         if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
+            this.fallenName.push(event)
         else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         else {
             for (let i = this.fallenName.length; i < index; i++)
                 this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         }
     }
 
@@ -214,8 +214,10 @@ class CreateMeetingStore {
 
     changeDetailsObjFunc = (object) => {
         if (object.fallens && object.fallens.length) {
-            this.fallenDetails = null;
-            this.fallenName = null;
+            for (let i = 0; i < object.fallens.length; i++){
+                this.changeFallenDetails(object.fallens[i], i)
+                this.changeFallenName(object.fallens[i].name, i)
+            }
         }
         this.meetingDetailsOriginal = {
             name: object.name,
