@@ -65,7 +65,7 @@ const SearchFallen = (props) => {
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include": "meetings" }`);
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
-        CreateMeetingStore.addFallen(fallen)
+        CreateMeetingStore.addFallenToArr(fallen)
         if (response && response.messages && response.messages.length)
             props.setDataForFallen(true)
     }, []);

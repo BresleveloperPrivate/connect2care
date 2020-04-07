@@ -89,13 +89,17 @@ class CreateMeetingStore {
     }
 
     deleteFallenToArr = (fallenId) => {
-        let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === fallenId)
-        if (indexOriginalFallen !== -1) this.fallensToDelete.push(fallenId)
+        if (this.meetingDetailsOriginal.fallens) {
+            let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === fallenId)
+            if (indexOriginalFallen !== -1) this.fallensToDelete.push(fallenId)
+        }
     }
 
     addFallenToArr = (fallen) => {
-        let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallenOriginal => fallenOriginal.id === fallen.id)
-        if (indexOriginalFallen === -1) this.fallensToAdd.push({ fallen: fallen.id, relationship: fallen.relative })
+        if (this.meetingDetailsOriginal.fallens) {
+            let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallenOriginal => fallenOriginal.id === fallen.id)
+            if (indexOriginalFallen === -1) this.fallensToAdd.push({ fallen: fallen.id, relationship: fallen.relative })
+        }
     }
 
     changeFallenToArr = (fallen) => {
