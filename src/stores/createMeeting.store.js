@@ -211,7 +211,7 @@ class CreateMeetingStore {
     }
 
     changeDetailsObjFunc = (object) => {
-        if (object.fallens && object.fallens.length) {
+        if (object.fallens_meetings && object.fallens_meetings.length) {
             this.fallenDetails = null;
             this.fallenName = null;
         }
@@ -235,14 +235,16 @@ class CreateMeetingStore {
     }
 
     getMeetingDetails = async () => {
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
+        if (this.meetingId === -1) return
+
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
 
         if (err) {
             this.error = err
         }
         if (success) {
-
-            this.changeDetailsObjFunc(success[0])
+            console.log(success[0])
+            // this.changeDetailsObjFunc(success[0])
         }
     }
 

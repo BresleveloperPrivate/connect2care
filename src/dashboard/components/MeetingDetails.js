@@ -14,6 +14,7 @@ import FallenDetails from "../../components/FallenDetails"
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import { withStyles } from "@material-ui/core/styles";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CssTimePicker = withStyles({
     root: {
@@ -38,6 +39,7 @@ const CssTimePicker = withStyles({
 })(TimePicker);
 
 const MeetingDetails = (props) => {
+
     const [pressOnCancel, setPressOnCancel] = useState(false)
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPhone, setErrorPhone] = useState(false)
@@ -63,16 +65,17 @@ const MeetingDetails = (props) => {
         { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
+
     useEffect(() => {
         (async () => {
-            // let path = props.history.location.pathname.split("/")
-            // let meetingId = path[path.length - 1]
-            // props.CreateMeetingStore.setMeetingId(meetingId)
-            // await props.CreateMeetingStore.getMeetingDetails()
+            let path = props.history.location.pathname.split("/")
+            let meetingId = path[path.length - 1]
+            props.CreateMeetingStore.setMeetingId(meetingId)
+            await props.CreateMeetingStore.getMeetingDetails()
             getTimeValue()
-
         })()
-    }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
+    }, []);
+
 
     const getTimeValue = () => {
         let time = new Date()
@@ -117,7 +120,7 @@ const MeetingDetails = (props) => {
             {!success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div className="headLine" style={{ marginTop: "6vh", fontSize: '3.5vh' }}>
-                        {props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}
+                        <FontAwesomeIcon className='pointer ml-3' icon="arrow-right" color="var(--custom-gray)" onClick={props.history.goBack} /> {props.CreateMeetingStore.meetingId === -1 ? "יצירת המפגש" : "עריכת המפגש"}
                     </div>
                     {/* <div className="headLine" style={{ fontSize: '2vh' }}>*שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div> */}
                     <div className='meetingDetailsDash'>
@@ -163,6 +166,7 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">השם המלא שלך - מארח/ת המפגש</div>}
                             <input
+                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorName}
@@ -175,6 +179,7 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">דואר אלקטרוני</div>}
                             <input
+                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
                                 onTouchEnd={() => setErrorEmail(true)}
@@ -196,6 +201,7 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">טלפון</div>}
                             <input
+                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
