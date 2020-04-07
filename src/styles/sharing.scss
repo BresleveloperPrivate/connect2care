@@ -1,11 +1,43 @@
+.containSharing{
+    font-size: 1.5vh;
+}
+
+
 #sharingBox{
     background: #0A2D63;
-    border-radius: 30px;
-    width: 14rem;
-    font-size: 1.3rem;
+    border-radius: 300px;
+    width: fit-content;
+    font-size: 3vh;
     font-weight: bold;
     color: white;
-    padding: 0.7rem;
+    padding: 0.5em 1.3em;
+    display: flex;
+    height: 8vh;
+}
+
+.containSharingImage{
+    display: flex;
+    height: 4vh;
+    width: 4vh;
+}
+
+.containSharingImageMeeting{
+    display: flex;
+    height: 3vh;
+    width: 3vh;
+}
+
+
+#sharingBoxMeeting{
+    background: #0A2D63;
+    border-radius: 100px;
+    width: fit-content;
+    font-size: 2vh;
+    font-weight: bold;
+    color: white;
+    padding: 0.5em 1.3em;
+    display: flex;
+    height: fit-content;
 }
 
 .inviteSpan{
@@ -28,4 +60,35 @@
 .invalidEmail{
     color: red;
     text-align: center;
+    font-size: 10px;
+}
+
+.emailInputSharing{
+    padding: 3px 7px;
+    outline: none;
+    border: 1px solid var(--custom-dark-blue);
+    background-color: rgba(255, 255, 255, 0.158);
+    color: white;
+    border-radius: 50px;
+    width: 280px;
+}
+
+.emailInputSharing::placeholder{
+    color: rgba(255, 255, 255, 0.493);
+}
+
+.popupSendEmail{
+    background-color: var(--custom-dark-blue);
+    display: flex;
+    justify-content: center;
+}
+
+.sendBtnSendEmail{
+    background-color: white;
+    color: var(--custom-dark-blue);
+    border-radius: 50px;
+    padding: 2px 10px;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    cursor: pointer;
 }

@@ -1,187 +1,256 @@
+
 .sucessPage{
     background: #00726B;
+    width: 100vw;
+    font-size: 10px;
+    flex-grow: 1;
+  
+
+    @media screen and(min-height: 700px){
+        font-size: 12px;
+    }
+
+    @media screen and(min-height: 850px){
+        font-size: 14.5px;
+    }
+
+    @media screen and(min-height: 1000px){
+        font-size: 17px;
+    }
+}
+
+.whiteFutter{
+    font-size: 1.5vh;
+    background-color: white;
+    padding-bottom: 1em;
+    padding-right: 7em;
+    margin-left: 3em;
+}
+
+
+.bigContainer{
+    margin-right: 7em;
+    margin-left: 3em;
+    width: calc(100vw - 10em);
 }
 
 .sucessHeadline{
     color: white;
     font-weight: bold;
     text-align: right;
-    font-size: 2rem;
+    font-size: 3.4em;
 
 }
 
 .sucessHeadline2{
     color: white;
     text-align: right;
-    font-size: 1.5rem;
-    margin-right: 0.8vw;
-
+    font-size: 2.4em;
+    line-height: 1em;
+    margin-bottom: 1em;
 }
 
 .backArrow{
     text-align: right;
-    padding-top: 3rem;
-    margin-bottom: 2rem;
+    padding-top: 1em;
+    font-size: 2em;
 }
 
 .sucessInfo{
     display: flex;
-    margin-top: 2rem;
+    margin-top: 1em;
 }
 
-.deathTime{
+
+.fallenName{
     color: white;
-    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    font-size: 2em;
+    width: 100%;
+    border-bottom: 0.7px solid white;
 }
 
 .fallenImage{
-    margin-left: 2rem;
+    margin-left: 2em;
 }
 
-.deathTime{
-    font-weight: bold;
-    font-size: 1.2rem;
-}
 .relationInfo{
     color: white;
 }
 
 .relationDiv{
-    margin-top: 0.5rem;
-    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
 }
 
 .annonymousPerson{
-    margin-left: 0.4rem;
+    margin-left: 0.4em;
 }
 
 .whiteCandle{
-    margin-left: 0.4rem;
+    margin-left: 0.4em;
 }
 
 .detailsInfo{
+    font-size: 1.3em;
     color: white;
-    width: 30rem;
+    // width: 30em;
 }
 
 .meetingInfo{
     display: flex;
     text-align: right;
     flex-direction: column;
-    margin-right: 2rem;
+    margin-right: 2em;
+    min-width: 30%;
 }
 
-.bigContainer{
-    margin-right: 10rem;
-    margin-left: 15rem;
-}
 
 .exactDate{
     color: white;
-    margin-right: 0.4rem;
+    margin-right: 0.4em;
 }
 
-.meetingDate{
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+.meetingDateSuccess{
+    font-size: 1.5em;
+    margin-top: 1em;
 }
 
 .isMeetingOpen{
-    margin-top: 0.5rem;
+    margin-top: 0.5em;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
-    width: 93px;
-    &:hover{
-        background-color: white;
-        color: #082551;
-        transition: 1s;
-    }
 }
 
 .shareWith{
     color: white;
     font-weight: bold;
-    font-size: 1.3rem;
-    margin-top: 2.3rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-    margin-right: 0.5rem;
-    position: relative;
-    right: -30.5rem;
-}
-
-
-#meetingStatus{
-    margin: 0.2rem;
-}
-
-.whiteFutter{
-    background-color: white;
+    font-size: 2.6em;
+    margin-top: 1em;
+    padding-bottom: 2em;
+    text-align: right;
+    
 }
 
 .sharingComponent{
     position: relative;
-    top: -1.5rem;
+    height: fit-content;
+    height: 8vh;
+    top: -4vh;
     display: flex;
-    margin-right: 10rem;
-    margin-left: 15rem;
+    margin-right: 7em;
 }
 
 .additionalInfo{
-    margin-right: 10rem;
-    margin-left: 15rem;
+    font-size: 1.4em;
     display: flex;
     flex-direction: column;
     text-align: right;
     color: #082551;
-
 }
 
 .flexImage{
     display: flex;
+    width: 11em;
     flex-direction: column;
 }
 
 #divider{
     color:white;
     border-top: 1px solid #ffffff;
-    margin-top: 0rem;
+    margin-top: 0em;
 }
 
 #sendButton{
     justify-content: center;
 }
-@media only screen and (max-width: 768px) {
+
+
+@media screen and (max-width: 550px) {
+
+    .whiteFutter{
+        background-color: white;
+        padding-bottom: 1em;
+        padding-right: 1em;
+        margin-left: 1em;
+    }
+    
     .backArrow{
-        margin-bottom: 0;
-        padding-top: 2rem;
+        padding-right: 1em;
+    }
+
+    .sucessPage{
+        height:fit-content;
+    }
+
+    .flexImage{
+        margin: auto;
+    }
+
+    .detailsInfo{
+        text-align: center;
+    }
+
+    .sucessHeadline{
+        text-align: center;
+        width: 100%;    
+    }
+    
+    .sucessHeadline2{
+       text-align: center;
+       width: 100%;  
+    }
+
+    .sucessInfo{
+        flex-direction: column;
+    }
+    
+    .fallenName{
+        width: fit-content
     }
 
     .bigContainer{
-        margin-right: 1rem;
-        margin-left: 0;
+        width: 100vw;
+        padding-right: 1em;
+        padding-left: 1em;
+        margin: 0;
     }
 
     .additionalInfo{
-        margin-right: 1rem;
+        margin-right: 1em;
         margin-left: 0;
     }
 
     .meetingInfo{
         margin-right: 0;
-        width: 30vh;
+        padding-top: 3em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    .detailsInfo{
-        width: 30vh;
-    }
 
     .shareWith{
         right: 0;
+        margin: auto;
+        text-align: center;
+        padding-top: 1em;
     }
 
-    #sharingBox{
-        right: -4rem;
+    .sharingComponent{
+        position: relative;
+        display: flex;
+        margin: auto;
+        justify-content: center;
     }
 }

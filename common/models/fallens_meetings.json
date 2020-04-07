@@ -55,7 +55,7 @@
             "length": null,
             "precision": 10,
             "scale": 0,
-            "id": 1,
+            "id": 2,
             "mysql": {
                 "columnName": "meeting",
                 "dataType": "int",
@@ -63,21 +63,6 @@
                 "dataPrecision": 10,
                 "dataScale": 0,
                 "nullable": "N"
-            }
-        },
-        "relationship": {
-            "type": "String",
-            "required": false,
-            "length": 50,
-            "precision": null,
-            "scale": null,
-            "mysql": {
-                "columnName": "relationship",
-                "dataType": "varchar",
-                "dataLength": 50,
-                "dataPrecision": null,
-                "dataScale": null,
-                "nullable": "Y"
             }
         },
         "relationship": {

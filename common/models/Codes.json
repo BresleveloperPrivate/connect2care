@@ -1,0 +1,71 @@
+{
+    "name": "Codes",
+    "http": {
+        "path": "Codes"
+    },
+    "mixins": {
+        "FilesHandler": true
+    },
+    "crud": {
+        "tableActions": {
+            "addNewRow": true,
+            "deleteRow": true,
+            "editRow": true
+        }
+    },
+    "options": {
+        "idInjection": false,
+        "mysql": {
+            "schema": "ourBro",
+            "table": "Codes"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "String",
+            "required": true,
+            "length": 255,
+            "precision": 10,
+            "scale": 0,
+            "mysql": {
+                "columnName": "id",
+                "dataType": "varchar",
+                "dataLength": 255,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "nullable": "N"
+            }
+        },
+        "ttl": {
+            "type": "Number",
+            "required": false,
+            "length": 50,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "ttl",
+                "dataType": "int",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "userId": {
+            "type": "String",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "userId",
+                "dataType": "varchar",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        }
+    },
+    "acls": []
+}

@@ -1,29 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/success.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import fallenImage from '../icons/515374.png';
+import ImageOfFallen from './ImageOfFallen';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
+import Auth from '../modules/auth/Auth'
 // import Divider from '@material-ui/core/Divider';
 
+function Success(props) {
+
+    const [meeting, setMeeting] = useState(false)
+
+    useEffect(() => {
+       
+        (async () => {
+            setMeeting(props.meeting)
+        })()
+    }, []);
+
+    // let meeting = props.meeting
 
 
-class Success extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            image: null,
-            dateOfDeath: null,
-            name: null,
-            relation: null,
-            meetingStarter: null,
-            meetingStory: null,
-            meetingDate: null,
-            meetingHour: null,
-            isMeetingOpen: null
-        }
-    }
+   
+            // meetingId : null,
+            // image: null,
+            // dateOfDeath: null,
+            // fallens: null,
+            // relation: null,
+            // meetingStarter: null,
+            // meetingStory: null,
+            // meetingDate: null,
+            // meetingHour: null,
+            // isMeetingOpen: null
+        
+    
     //READ ME!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //הקומפוננטה כרגע בנויה עם קומפוננט דיד מאונט שמעביר לסטייט מידע
     //לכן ברנדר יש שאילתה - אם הקומפוננטה רק התחילה והכל בסטייט הוא נאל
@@ -32,76 +43,104 @@ class Success extends Component {
     //לפרופס ולהוריד את השאילתה מהרנדר
     //כמו כן להחליף את fallenImage במשהו מהפרופס
 
-    getPlaceholderInfo = () => {
-        const dateOfDeath = "מרץ 07 צנחנים";
-        const relation = "אח";
-        const meetingStarter = "משה לוי"
-        const meetingStory = "אנחנו הולכים להיפגש, אבל קצת אחרת. נפגשים בבית, על הספה, לבד אבל ביחד, עם מצלמה דולקת ולב פתוח וחיבוק כל כך חזק שירגישו אותו גם מבעד למסך";
-        const meetingDate = "יום שני | ג' באייר | 27 באפריל";
-        const meetingHour = "20:30"
-        const isMeetingOpen = true;
-        const name = "דוד גרניט"
-        this.setState({
-            dateOfDeath, relation, meetingDate, meetingHour, meetingStarter,
-            meetingStory, isMeetingOpen, name
-        })
+    // getPlaceholderInfo = () => {
+    //     const meetingId = 2
+    //     const dateOfDeath = "מרץ 07 צנחנים";
+    //     const relation = "אח/ות";
+    //     const meetingStarter = "משה לוי"
+    //     const meetingStory = "אנחנו הולכים להיפגש, אבל קצת אחרת. נפגשים בבית, על הספה, לבד אבל ביחד, עם מצלמה דולקת ולב פתוח וחיבוק כל כך חזק שירגישו אותו גם מבעד למסך";
+    //     const meetingDate = "יום שני | ג' באייר | 27 באפריל";
+    //     const meetingHour = "20:30"
+    //     const isMeetingOpen = true;
+    //     const fallens =[{name: 'דוד'} , {name: 'משה'}, {name: 'ישראל'}]
+    //     this.setState({
+    //         dateOfDeath, relation, meetingDate, meetingHour, meetingStarter,
+    //         meetingStory, isMeetingOpen, fallens , meetingId
+    //     })
+    // }
+
+    let pageBack = () => {
+        props.history.goBack();
     }
 
-    pageBack = () => {
-        this.props.history.goBack();
-    }
+    // componentDidMount = () => {
+    //     this.getPlaceholderInfo();
+    // }
 
-    componentDidMount = () => {
-        this.getPlaceholderInfo();
-    }
 
-    render() {
-        return (<div className="navBarMargin">
-            {this.state.isMeetingOpen !== null ?
-                <div>
+        return (
+        meeting ?
+        <div className="navBarMargin">
+                <div style={{height:'90vh' , display:'flex' , flexDirection:'column'}}>
+                {/* <div>{props.t("sunday")}</div> */}
                     <div className="sucessPage">
                         <div className="bigContainer">
-                            <div className="backArrow"><FontAwesomeIcon icon="arrow-right" color="#ffffff" onClick={this.pageBack} /></div>
+                            <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
                             <div className="sucessHeadline">מצויין יצרת מפגש</div>
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
-                                    <img alt="alt" className="fallenImage" src={fallenImage} width="93px" height="123px" />
-                                    <div className="isMeetingOpen">{this.state.isMeetingOpen === true ? <span id="meetingStatus">מפגש פתוח</span> : <span id="meetingStatus">מפגש סגור</span>}</div>
+                                    <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
+                                    <div className="isMeetingOpen">{meeting.isOpen === true ? <span id="meetingStatus">{props.t("meetingIsOpen")}</span> : <span id="meetingStatus">{props.t("meetingIsClosed")}</span>}</div>
                                 </div>
                                 <div className="meetingInfo">
-                                    <div className="deathTime">{this.state.dateOfDeath}</div>
-                                    {/* <div className="relationInfo"> */}
                                     <div className="fallenName">
-                                        <img alt="alt" className="whiteCandle" src={candle} height="15px" width="10px" />
-                                        <span className="exactDate">לזכר {this.state.name} ז"ל</span>
-                                        <hr id="divider" />
+                                        <div style={{width: '1.1em' , height:'1.1em' , display:'flex'}}><img alt="alt" className="whiteCandle" src={candle} height="100%" width="100%" /></div>
+                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
+                                            if (index === 0) {
+                                                return (
+                                                    <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
+                                                )
+                                            }
+
+                                            else if (index === meeting.fallens_meetings.length - 1) {
+                                                return (
+                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                                )
+                                            }
+
+                                            else {
+                                                return (
+                                                    <span key={index}>, {fallen.fallens.name} ז"ל</span>
+                                                )
+
+                                            }
+                                        })}</div>                                            
                                     </div>
-                                    <div className="meetingDate">
+                                    <div className="meetingDateSuccess">
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
-                                        <span className="exactDate">{this.state.meetingDate} {this.state.meetingHour}</span>
+                                        <span className="exactDate">{meeting.date} | {meeting.time}</span>
                                     </div>
                                     <div className="relationDiv">
-                                        <img alt="alt" className="annonymousPerson" src={annonymousPerson} height="15px" width="10px" />
-                                        <span className="relationInfo">{this.state.meetingStarter}, {this.state.relation}</span>
+                                    <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
+                                        <span className="relationInfo"> מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
-                                    <div className="detailsInfo">{this.state.meetingStory}</div>
+                                    <div className="detailsInfo">{meeting.description}</div>
                                     {/* </div> */}
                                 </div>
                             </div>
                             <div className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
-                    <div className="sharingComponent"><Sharing styleObject={{buttonWidth: '14rem', fontSize:'1.3rem', imageWidth: '30px', imageHeight: '30px'}}/></div>
+                    <div className="sharingComponent">
+                        <Sharing 
+                        containImageClassName={'containSharingImage'}
+                        myId={'sharingBox'}
+                        data={meeting}
+                        t={props.t}
+                        meetingId={meeting.id}
+                        styleObject={{buttonWidth: 'fit-content'}}
+                    />
+                    </div>
                     <div className="whiteFutter">
                         <div className="additionalInfo">
                             <div>*קישור למפגש מחכה לך בתיבת המייל</div>
                             <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
                         </div>
                     </div>
-                </div> : <div>טוען...</div>}
-        </div>);
-    }
+                </div>
+        </div> : null)
+    
 }
 
 export default Success;

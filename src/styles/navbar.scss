@@ -1,17 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
 
-.mainPage-meetings{
-    font-size:0.8vw;
-    @media screen and (max-width: 800px){
-        font-size: 1.2vw;
+.mainPage-meetings , .imageOfFallen {
+    font-size:10px;
+    @media screen and (max-width: 900px){
+        font-size: 9px;
     }
+    @media screen and (max-width: 800px){
+        font-size: 8px;
+    }
+    @media screen and (max-width: 700px){
+        font-size: 7px;
+    }
+    @media screen and (max-width: 600px){
+        font-size: 6px;
+    }
+
 }
 
-.imageOfFallen{
-    font-size:1.2vw;
-    @media screen and (max-width: 800px){
-        font-size: 1.6vw;
-    }}
 
 .App{
     font-family: 'Assistant';
@@ -37,19 +42,28 @@
 
 .object-fit-cover-top{
     object-fit: cover;
-    object-position: top;
+    object-position: center;
+}
+
+.containLanguage{
+    visibility: visible;
+    display: flex;
+    z-index: 11;
+    position: fixed;
+    right: 0px;
+    top: 0;
 }
 
 .containMenu{
-    display: flex;
-    text-align: right;
-    align-items: center;
     z-index: 11;
     position: fixed;
     right: 20px;
-    top: calc(5vh - 5vw);
-    height: 10vw;
+    align-items: center;
+    display: flex;
+    text-align: right;
+    height: 10vh;
     visibility: hidden;
+    display: none;
 }
 
 .navbar{
@@ -69,14 +83,14 @@
 }
 
 .navbarOptions{
-    width: 50%;
+    width: 75%;
     height: 100%;
     display: flex;
     justify-content: flex-end;
 }
 
 .navbarIcon{
-    width: 40%;
+    width: 25%;
     height: 100%;
     display: flex;
     justify-content: flex-end;
@@ -97,6 +111,11 @@
 }
 
 @media screen and (max-width: 800px){
+    .navbar{
+        position: fixed !important;
+        top: 0 !important;
+    }
+
     .navbarIcon{
         width: 30%;
     }
@@ -106,9 +125,15 @@
 
     .containMenu{
         visibility: visible;
+        display: flex;
     }
     .optionInNavbar{
        display: none;
+    }
+
+    .containLanguage{
+        visibility: hidden;
+        display: none;
     }
 }
 

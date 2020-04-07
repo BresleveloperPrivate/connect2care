@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+import { withNamespaces } from 'react-i18next'
 import '../styles/explanation.css'
 
 class Explanation extends Component {
@@ -10,17 +12,17 @@ class Explanation extends Component {
 
                 {this.props.explanation === 1 ?
                     <div className='explanation'>
-                        חלקנו, מחכים למפגש יום הזיכרון כל השנה.<br />
-                    אחרים, הופכים שמיים וארץ, רק לא לוותר.<br />
-                        <strong>והשנה? נמשיך בדיוק כך.</strong><br /><br />
-                    מפגשי זיכרון, קורונה 2020 – אנחנו מוכנים.<br /><br />
-                    הכנו עבורכם את כל מה שצריך כדי להסתכל האחד לשני בעיניים.<br />
+                        {this.props.t("someOfUsWaitingForTheMemorialDayMeetingAllYear")}.<br />
+                        {this.props.t("othersBecomeSkyAndEarthJustNotToGiveUp")}.<br />
+                        <strong>{this.props.t("andThisYearWellContinueJustLikeThat")}.</strong><br /><br />
+                        {this.props.t("memoryMeetingsCorona2020WereReady")}.<br /><br />
+                        {this.props.t("weHavePreparedForYouAllYouNeedToLookEachOtherInTheEye")}.<br />
                     לספר שוב את אותו הסיפור שכולם מכירים.<br />
                     לפתוח עוד בירה. <br />
                     לצחוק. לבכות. לזכור.
                </div> :
                     <div className='explanation'>
-                       אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />
+                        אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />
                         את 'האחים שלנו' הקמנו אנחנו, האחים השכולים,<br />
                          כדי להמשיך ולדבר על החיים איתם. מהזווית שלנו.<br /><br />
                           על הצחוקים, השטויות, הריבים, השיחות. כל מה שהיה בינינו ונגמר.<br />
@@ -28,7 +30,7 @@ class Explanation extends Component {
                             אנחנו ממשיכים לחגוג את החיים, ולחיות לצד השכול.<br /><br />
                              המטרה שלנו היא להזכיר ולזכור את האחים הפרטיים שלנו<br />
                               ובאותה נשימה, ליצור תנועה ארצית ועולמית של זיכרון והנצחה.<br />
-          </div>
+                    </div>
                 }
 
             </div>
@@ -37,4 +39,5 @@ class Explanation extends Component {
     }
 }
 
-export default Explanation;
+// export default Explanation;
+export default inject('i18n')(observer(withNamespaces()(Explanation)));

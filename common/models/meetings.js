@@ -1,6 +1,9 @@
 'use strict';
 
 const sendEmail = require('../../server/email.js');
+const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
+const ValidateRules = require('../../server/lib/validateRules.js');
+
 
 module.exports = function (meetings) {
 
@@ -11,77 +14,87 @@ module.exports = function (meetings) {
             .catch(err => [err]);
     }
 
+    meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
+        let sqlQuerySelect = `meetings.id`
+        let sqlQueryfrom = `meetings`
+        let sqlQueryWhere = ``
 
-    meetings.getMeetingsUser = (search, filters, time, isAvailable, options, cb) => {
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
+        // }
 
-        let resArray = []
-        meetings.find({ where: filters, include: [{ relation: "fallens" }, { relation: "meetingOwner" }] }, (err, response) => {
+        if (filters.date) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
+        }
+
+        if (filters.language) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '${filters.language}'`
+        }
+
+        if (filters.time) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.time >= ${filters.time[0]} and meetings.time < ${filters.time[1]}`
+        }
+
+        if (filters.isAvailable) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
+        }
+
+        if (filters.relationship || search) {
+            sqlQueryfrom += `, fallens_meetings`
+            if (filters.relationship) {
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+            }
+
+            if (search) {
+                sqlQueryfrom += ` , people , fallens`
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                    `(match(fallens.name) against('"${search}"') or 
+                        match(meetings.name) against('"${search}"') or 
+                        (match(people.name) against('"${search}"') and meetings.owner = people.id))
+                    and fallens.id = fallens_meetings.fallen`
+            }
+            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+        }
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`, (err, res) => {
+
             if (err) {
+                console.log(err)
                 return cb(err)
             } else {
-                if (response.length) {
-                    if (search || time.length || isAvailable) {
-                        for (let i = 0; i < response.length; i++) {
-                            let res = JSON.parse(JSON.stringify(response[i]))
-                            let moveToSearch = true
-                            if (time.length) {
-                                try {
-                                    if (time[0] <= Number(res.time.replace(':', '')) && time[1] > Number(res.time.replace(':', ''))) {
-                                        if (!search && !isAvailable) {
-                                            resArray.push(res)
-                                            moveToSearch = false
-                                        }
-                                        else if (!search && isAvailable) {
-                                            if (res.participants_num < res.max_participants) {
-                                                resArray.push(res)
-                                            }
-                                        }
-
-                                    } else {
-                                        moveToSearch = false
-                                    }
-                                } catch (err) {
-                                    console.log(err)
-                                }
-                            }
-                            else if (isAvailable) {
-                                console.log(res.participants_num, res.max_participants)
-                                if (!search) {
-                                    if (res.participants_num < res.max_participants) {
-                                        resArray.push(res)
-                                    }
-                                } else {
-                                    moveToSearch = false
-                                }
-
-
-                            }
-                            if (search && moveToSearch) {
-                                if (res.name.includes(search) || search.includes(res.name)) {
-                                    resArray.push(res)
-                                }
-                                else if (res.meetingOwner && (res.meetingOwner.name.includes(search) || search.includes(res.meetingOwner.name))) {
-                                    resArray.push(res)
-                                }
-                                else if (res.fallens.length && (res.fallens).some(fallen => (fallen.name).includes(search))) {
-                                    resArray.push(res)
-                                }
-                            }
-
-                            if (resArray.length >= 5 || i === response.length - 1) {
-                                return cb(null, resArray)
-                            }
+                if (res.length !== 0) {
+                    let where = { or: [] }
+                    if (res.length === 1) {
+                        where = res[0]
+                    }
+                    else for (let i of res) {
+                        where.or.push(i)
+                    }
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                        if (err1) {
+                            console.log("err1", err1)
+                            return cb(err1)
                         }
-                    }
-                    else {
-                        return cb(null, response.slice(0, 5))
-                    }
-                } else {
-                    return cb(null, response)
+                        return cb(null, res1);
+                    })
                 }
+                else return cb(null, [])
             }
+
         })
+
     }
+
+    meetings.remoteMethod('getMeetingsUser', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'search', type: 'string' },
+            { arg: 'filters', type: 'object' },
+            { arg: 'limit', type: 'object' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
 
 
     meetings.createMeeting = (data, options, cb) => {
@@ -93,6 +106,16 @@ module.exports = function (meetings) {
                 return cb(err)
             }
             if (!user0) {
+                if (!!!data.owner.name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!data.owner.email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
+                if (!!!data.owner.phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
+                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
                 let [err1, user] = await to(people.create(data.owner))
                 if (err1) {
                     console.log("err1", err1)
@@ -101,25 +124,63 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
-            console.log(data)
-            let [err2, meeting] = await to(meetings.create(data))
+            // security validate
+            data.max_participants = Number(data.max_participants)
+            if (data.isOpen === "true")
+                data.isOpen = true
+            else if (data.isOpen === "false")
+                data.isOpen = false
+            console.log("JS data", JSON.parse(JSON.stringify(data)))
+            let whitelist = {
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+            };
+            let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
+            if (!valid.success || valid.errors) {
+                return cb(valid.errors, null);
+            }
+            let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2)
             }
+
+            console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
+                let count = 1
                 for (let fallen of data.fallens) {
-                    let fallenMeeting = { fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }
-                    let [err3, res] = await to(fallens_meetings.create(fallenMeeting))
+
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    let [err3, res] = await to(fallens_meetings.create(valid1.data))
                     if (err3) {
                         console.log("err3", err3)
                         return cb(err3)
                     }
+                    if (res) {
+                        if (count === data.fallens.length) {
+                            let [err4, userMeeting] = await to(meetings.find({ where: { id: meeting.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
+                            if (err4) {
+                                console.log("err4", err4)
+                                return cb(err4)
+                            }
+                            if (userMeeting) {
+                                console.log("userMeeting", userMeeting)
+                                return cb(null, userMeeting)
+
+                            }
+                        }
+                        else count++
+                    }
                 }
             }
-            console.log(meeting)
-            return cb(null, meeting)
+            return cb(null, userMeeting)
         })()
 
     }
@@ -133,72 +194,174 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.getMeetingsDashboard = (filters, options, cb) => {
+    meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
-            let filtersOfMeetting = {}
-            if (filters.date) filtersOfMeetting.date = filters.date
-            if (filters.isOpen !== (null || undefined)) filtersOfMeetting.isOpen = filters.isOpen
-            if (filters.name) filtersOfMeetting.name = filters.name
 
-            let [err, res] = await to(meetings.find({ where: filtersOfMeetting, include: ['people', 'meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-            if (err) {
-                console.log("err", err)
-                return cb(err)
-            }
-            let allMeetings = JSON.parse(JSON.stringify(res))
-            if (filters.participants) {
-                allMeetings = allMeetings.filter((meeting) => (meeting.people.length >= filters.participants.min) && (filters.participants.max && meeting.people.length < filters.participants.max))
-            }
-            if (filters.relationship) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen) => {
-                        if (filters.relationship === 'אחר') {
-                            return (
-                                fallen.relationship !== 'אח' &&
-                                fallen.relationship !== 'הורים' &&
-                                fallen.relationship !== 'קרובי משפחה' &&
-                                fallen.relationship !== 'חבר')
+            const fallens_meetings = meetings.app.models.fallens_meetings
+            if (data.fallensToDelete) {
+                for (let i of data.fallensToDelete) {
+                    if (typeof i === 'number') {
+                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
+                        if (err1) {
+                            console.log(err1)
+                            return cb(err1)
                         }
-                        else return fallen.relationship === filters.relationship
+                    }
+                }
+                delete data.fallensToDelete
+            }
+
+            if (data.fallensToAdd) {
+                for (let i of data.fallensToAdd) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    let [err3, res1] = await to(fallens_meetings.create(valid1.data))
+                    if (err3) {
+                        console.log("err3", err3)
+                        return cb(err3)
+                    }
+                }
+                delete data.fallensToAdd
+            }
+
+            if (data.fallensToChange) {
+                for (let i of data.fallensToChange) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
+
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                        if (err3) {
+                            console.log("err3", err3)
+                            return cb(err3)
+                        }
                     })
-                )
+
+                }
+                delete data.fallensToChange
             }
-            if (filters.fallen) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.fallens_meetings.some((fallen_maating) =>
-                    fallen_maating.fallens.name.includes(filters.fallen))
-                )
+
+            // security validate
+            if (data.max_participants) data.max_participants = Number(data.max_participants)
+
+            if (data.isOpen) data.isOpen = !!data.isOpen
+
+            let whitelist = {
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+            };
+            let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
+            if (!valid.success || valid.errors) {
+                return cb(valid.errors, null);
             }
-            if (filters.owner) {
-                allMeetings = allMeetings.filter((meeting) =>
-                    meeting.meetingOwner.name.includes(filters.owner)
-                )
+
+            if (Object.keys(valid.data).length !== 0) {
+                let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
+                if (err2) {
+                    console.log("err2", err2)
+                    return cb(err2)
+                }
             }
-            let size = allMeetings.length
-            allMeetings = allMeetings.slice(filters.from, filters.from + 20)
-            allMeetings.push(size)
-            return cb(null, allMeetings)
+
+            return cb(null, true)
         })()
 
+    }
+
+    meetings.remoteMethod('updateMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'data', type: 'object', required: true },
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    });
+
+
+    meetings.getMeetingsDashboard = (filters, options, cb) => {
+
+        let sqlQuerySelect = `meetings.id`
+        let sqlQueryfrom = `meetings`
+        let sqlQueryWhere = ``
+
+        if (filters.date)
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
+
+        if (filters.isOpen !== (null || undefined))
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
+
+        if (filters.name)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${filters.name}"')`
+
+        if (filters.relationship || filters.fallen) {
+            sqlQueryfrom += `, fallens_meetings`
+            if (filters.relationship) {
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+            }
+            if (filters.fallen) {
+                sqlQueryfrom += `, fallens`
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                    `match(fallens.name) against ('"${filters.fallen}"')
+                     and fallens.id = fallens_meetings.fallen`
+            }
+            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
+        }
+        if (filters.owner) {
+            sqlQueryfrom += `, people`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
+                ` match(people.name) against('"${filters.owner}"')
+                 and meetings.owner = people.id`
+        }
+        if (filters.participants) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            if (filters.participants.max)
+                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+        }
+
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+            if (err) {
+                console.log(err)
+                return cb(err)
+            }
+            if (res) {
+                if (res.length !== 0) {
+                    let where = { or: [] }
+                    if (res.length === 1) {
+                        where = res[0]
+                    }
+                    else for (let i of res) {
+                        where.or.push(i)
+                    }
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                        if (err1) {
+                            console.log("err1", err1)
+                            return cb(err1)
+                        }
+                        let size = res1.length
+                        res1 = res1.slice(filters.from, filters.from + 20)
+                        res1.push(size)
+                        return cb(null, res1);
+                    })
+                }
+                else return cb(null, [])
+            }
+        })
     }
 
     meetings.remoteMethod('getMeetingsDashboard', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'filters', type: 'object' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
-        returns: { arg: 'res', type: 'object', root: true }
-    })
-
-
-    meetings.remoteMethod('getMeetingsUser', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'search', type: 'string' },
-            { arg: 'filters', type: 'object' },
-            { arg: 'time', type: 'array' },
-            { arg: 'isAvailable', type: 'boolean' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -230,10 +393,12 @@ module.exports = function (meetings) {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-
-                if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
-                if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
+                // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
@@ -243,8 +408,18 @@ module.exports = function (meetings) {
 
                 if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
-
-                const person = await people.create({ name, email, phone });
+                let person;
+                let [err, user0] = await to(people.findOne({ where: { email: email } }))
+                if (err) {
+                    console.log("err", err)
+                    return cb(err)
+                }
+                if (!user0) {
+                    person = await people.create({ name, email, phone });
+                }
+                else {
+                    person = user0
+                }
                 await people_meetings.create({ person: person.id, meeting: meetingId });
                 const participantsNum = participants_num ? participants_num + 1 : 1;
                 await meetings.upsert({ id: meetingId, participants_num: participantsNum });

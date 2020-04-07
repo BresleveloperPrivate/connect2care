@@ -13,11 +13,11 @@ const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
     const { avatar } = useStyles();
     return (
         <div className="meetingFallen">
-            <Avatar src={image_link || "./images/fallenFallback.jpeg"} fallBa className={avatar} variant="square" />
+            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} variant="square" />
             <div className="meetingFallenDescription">
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
-                <div className="fallenDate">{falling_date}</div>
+                <div className="fallenDate">{falling_date.split("T")[0]}</div>
             </div>
         </div>
     );

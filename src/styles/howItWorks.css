@@ -42,6 +42,8 @@
     padding: 2vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .arrow-left-gray {
@@ -123,13 +125,15 @@
   }
 
   .resultText{
+      text-align: right;
       padding-top: 2vw;
-      font-size: 2vw;
+      font-size: 1.5vw;
       color: white;
       font-weight: 300;
   }
 
   .remember{
+      text-align: right;
       color: white;
       font-weight: 600;
       font-size: 5vw;
@@ -238,7 +242,8 @@
     }
 
     .resultText{
-        font-size: 4vw;
+        font-size: 3.5vw;
+        text-align: center;
     }
   
     .remember{

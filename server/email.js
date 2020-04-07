@@ -1,31 +1,31 @@
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 /**
  * @param {string} senderName what the reciever sees as the name;
  * @param {Object} options { to: '', subject: '', html: '<h1></h1>' };
 */
 
-const sendEmail = (senderName, options) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: "carmel6000dev@gmail.com",
-            pass: "uhWFoFK$97r"
-        }
-    });
+const sendGridEmail = async (senderName, options) => {
 
-    const mailOptions = { from: `${senderName} <carmel6000dev@gmail.com>`, ...options };
+    // using Twilio SendGrid's v3 Node.js Library
+    // https://github.com/sendgrid/sendgrid-nodejs
+    const sgMail = require('@sendgrid/mail');
+    const SENDGRID_API_KEY = "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"
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error)
-            return error;
-        }
-        else {
-            console.log('Email sent: ' + info.response)
-            return info.response
-        };
-    });
-};
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    await sgMail.setApiKey(SENDGRID_API_KEY);
 
-module.exports = sendEmail;
+    const msg = {
+        to: options.to,
+        // from: 'mitchabrim@zochrim.info',
+        from: 'carmel6000israel@gmail.com',
+        subject: options.subject,
+        // text: this.tplPersonalContent,
+        html: options.html
+    };
+    try { await sgMail.send(msg); }
+    catch (err) { console.log("Could not send email with err", err); }
+}
+
+module.exports = sendGridEmail;
+

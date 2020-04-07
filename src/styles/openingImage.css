@@ -6,21 +6,25 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    margin-top: 5vh;
+    /* margin-top: 5vh; */
 }
 
 .lightBlueBackground{
     position: absolute;
     width: 50vw;
-    right: 10%;
+    right: 3%;
     bottom: 15%;
 
 }
 
-
-
-
-
+.whiteLine{
+    width: 2px; 
+    background-color: white;
+    height: 70%;
+    position: absolute;
+    top: 0;
+    right: 5%;
+}
 
 
 @media screen and (min-width: 551px){
@@ -38,7 +42,7 @@
     
     .firstOptionOpeningImage , .secondOptionOpeningImage{
         border-radius: 100px;
-        font-size: 2.2vw;
+        font-size: 2.4vw;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -64,8 +68,8 @@
     }
     
     .containOptionsBottom{
-        bottom: -2vw;
-        height: 4vw;
+        bottom: -3vw;
+        height: 6vw;
         display: flex;
         width: 100vw;
         padding-right: 10vw;
@@ -125,6 +129,13 @@
 }
 }
 
+@media screen and (max-width: 800px){
+    .openingImage{
+        margin-top: 5vh;
+    }
+    
+}
+
 
 
 
@@ -140,7 +151,7 @@
     .containOptions{
         padding: 0;
         position: absolute;
-        bottom: -16vw;
+        bottom: -19vw;
         /* height: 10vw; */
         display: flex;
         flex-direction: column;
@@ -151,14 +162,14 @@
     
     .firstOptionOpeningImage , .secondOptionOpeningImage{
         border-radius: 100px;
-        font-size: 3.5vw;
+        font-size: 4vw;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 0px 3vw;
         font-weight: 700;
-        width: 50vw;
-        height: 10vw;
+        width: 60vw;
+        height: 12vw;
     
     }
     
@@ -187,5 +198,9 @@
         width: 100vw;
     }
     
+
+    .lightBlueBackground{
+        width: 70vw;
+    }
 
 }

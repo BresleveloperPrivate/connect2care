@@ -6,18 +6,31 @@
   <link rel="shortcut icon" href="%PUBLIC_URL%/flower.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
- 
-  <meta property="og:image" content="http://izkorcdn.azureedge.net/Data/korot/Image/506083.jpg" />
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="האחים שלנו">
-  <meta property="og:description" content="description">
 
-  <meta name="description" content="Web site created using create-react-app" />
+  <meta property="og:image" content="http://lohamim.carmel6000.com/connect.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="מתחברים וזוכרים">
+  <meta property="og:description" content="מתחברים או יוצרים מפגשים און-ליין לזכר האוהבים שנפלו למען המדינה">
+  <!-- <meta property="og:url" content="https://lohamim.carmel6000.com/#/"> -->
+  <meta property="fb:app_id" content="144657046987927">
+
+  <meta name="description" content="מתחברים או יוצרים מפגשים און ליין לזכר האוהבים שנפלו למען המדינה" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139150985-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-139150985-1');
+  </script>
+
 
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -29,6 +42,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>מתחברים וזוכרים</title>
+  <script src="https://connect.facebook.net/en_US/all.js"></script>
+  <script>
+    FB.init({
+      appId: '144657046987927',
+      status: true,
+      cookie: true,
+      xfbml: true
+    });
+  </script>
 </head>
 
 <body dir="rtl">

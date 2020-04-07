@@ -165,5 +165,9 @@
   "people": {
     "public": true,
     "dataSource": "msql"
+  },
+  "Codes": {
+    "public": true,
+    "dataSource": "msql"
   }
 }
