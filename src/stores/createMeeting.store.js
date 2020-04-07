@@ -7,6 +7,9 @@ class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
+    fallensToDelete = []
+    fallensToAdd = []
+    fallensToChange = []
     meetingDetailsOriginal = {
         name: "",
         description: "",
@@ -83,6 +86,20 @@ class CreateMeetingStore {
             meetings: fallen.meetings
         }
         this.meetingDetails.fallens[index].id = fallen.id
+    }
+
+    deleteFallenToArr = (fallenId) => {
+        let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === fallenId)
+        if (indexOriginalFallen !== -1) this.fallensToDelete.push(fallenId)
+    }
+
+    addFallenToArr = (fallen) => {
+        let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallenOriginal => fallenOriginal.id === fallen.id)
+        if (indexOriginalFallen === -1) this.fallensToAdd.push({ fallen: fallen.id, relationship: fallen.relative })
+    }
+
+    changeFallenToArr = (fallen) => {
+
     }
 
     changeFallens = (index, number = null) => {
@@ -222,6 +239,7 @@ class CreateMeetingStore {
             fallen.relationship = i.relationship
             object.fallens.push(fallen)
         }
+        delete object.fallens_meetings
 
         this.meetingDetailsOriginal = {
             name: object.name,
@@ -246,8 +264,6 @@ class CreateMeetingStore {
                 this.changeFallenDetails(object.fallens[i], i)
                 if (!this.fallenName) this.fallenName = []
                 this.fallenName.push(object.fallens[i].name)
-                console.log(object.fallens[i].name)
-                // this.changeFallenName(object.fallens[i].name, i)
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
@@ -259,9 +275,9 @@ class CreateMeetingStore {
                     this.otherRelationship[i].id = object.fallens[i].id
                 }
                 this.meetingDetails.fallens[i] = obj
+                this.meetingDetailsOriginal.fallens[i] = obj
             }
         }
-        console.log(this.meetingDetails)
     }
 
     getMeetingDetails = async () => {
@@ -273,7 +289,6 @@ class CreateMeetingStore {
             this.error = err
         }
         if (success) {
-            // console.log(success[0])
             this.changeDetailsObjFunc(success[0])
         }
     }
@@ -303,6 +318,17 @@ class CreateMeetingStore {
                 if (this.equals(objToPost[i], objOriginal[i])) objToreturn[i] = objToPost[i]
             }
             else if (objToPost[i] === objOriginal[i]) objToreturn[i] = objToPost[i]
+        }
+        return objToreturn
+    }
+
+    whatChanged = (objToPost, objOriginal) => {
+        let objToreturn = {}
+        for (let i in objToPost) {
+            if (objToPost[i] && objOriginal[i] && typeof objToPost[i] === 'object' && typeof objOriginal[i] === 'object') {
+                if (!this.equals(objToPost[i], objOriginal[i])) objToreturn[i] = objToPost[i]
+            }
+            else if (objToPost[i] !== objOriginal[i]) objToreturn[i] = objToPost[i]
         }
         return objToreturn
     }
@@ -340,29 +366,7 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err || !success) {
-            console.log("err", err)
-            if (err && err.error && err.error.isOpen)
-                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
-            else if (err && err.error && err.error.max_participants)
-                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
-            else if (err && err.error && err.error.name)
-                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
-            else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
-                this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
-            else if (err && err.error && err.error.description)
-                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
-            else if (err && err.error && err.error.language)
-                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
-            else if (err && err.error && err.error.time)
-                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
-            else if (err && err.error && err.error.date)
-                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
-            else if (err && err.error && err.error.relationship)
-                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
-            else if (err && err.error && err.error.msg)
-                this.error = err.error.msg
-            else
-                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            this.postErr(err)
             return
         }
         return success
@@ -370,42 +374,52 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+        let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
-        this.waitForData = true
-        let [success, err] = await Auth.superAuthFetch(
-            `/api/meetings/updateMeeting/`,
-            {
-                method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: beforePostJSON, id: this.meetingId })
-            }, true);
-        this.waitForData = false
-        if (err) {
-            console.log("err", err)
-            if (err && err.error && err.error.isOpen)
-                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
-            else if (err && err.error && err.error.max_participants)
-                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
-            else if (err && err.error && err.error.name)
-                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
-            else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
-                this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
-            else if (err && err.error && err.error.description)
-                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
-            else if (err && err.error && err.error.language)
-                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
-            else if (err && err.error && err.error.time)
-                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
-            else if (err && err.error && err.error.date)
-                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
-            else if (err && err.error && err.error.relationship)
-                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
-            else if (err && err.error && err.error.msg)
-                this.error = err.error.msg
-            else
-                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
-            return
+        if (changedObj.fallens) {
+
         }
+        console.log(changedObj, this.fallensToAdd, this.fallensToDelete)
+
+        // this.waitForData = true
+        // let [success, err] = await Auth.superAuthFetch(
+        //     `/api/meetings/updateMeeting/`,
+        //     {
+        //         method: 'POST',
+        //         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({ data: beforePostJSON, id: this.meetingId })
+        //     }, true);
+        // this.waitForData = false
+        // if (err) {
+        //     this.postErr(err)
+        //     return
+        // }
+    }
+
+    postErr = (err) => {
+        console.log("err", err)
+        if (err && err.error && err.error.isOpen)
+            this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+        else if (err && err.error && err.error.max_participants)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+        else if (err && err.error && err.error.name)
+            this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+        else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+        else if (err && err.error && err.error.description)
+            this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+        else if (err && err.error && err.error.language)
+            this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+        else if (err && err.error && err.error.time)
+            this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+        else if (err && err.error && err.error.date)
+            this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+        else if (err && err.error && err.error.relationship)
+            this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+        else if (err && err.error && err.error.msg)
+            this.error = err.error.msg
+        else
+            this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
     }
 
     setError = (error) => {
@@ -425,6 +439,9 @@ decorate(CreateMeetingStore, {
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,
+    deleteFallenToArr: action,
+    addFallenToArr: action,
+    changeFallenToArr: action,
     changeNumberOfParticipants: action,
     setError: action,
     changeMeetingDate: action,
