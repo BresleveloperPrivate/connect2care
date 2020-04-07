@@ -81,7 +81,7 @@ const ComputerList = (props) => {
                 <div className='containFilters'>
                     <div className='filterBy'>סנן לפי:</div>
                     <Select
-                        default={props.MeetingsStore.date.option}
+                        default={props.MeetingsStore.date}
                         width='23%'
                         fetch={props.MeetingsStore.search}
                         selectTextDefault='תאריך המפגש'
@@ -95,7 +95,7 @@ const ComputerList = (props) => {
 
                     />
                     <Select
-                        default={props.MeetingsStore.time.option}
+                        default={props.MeetingsStore.time}
                         selectTextDefault='שעה'
                         arr={meetingTime}
                         className='input-meetings filter-meeting'
@@ -106,7 +106,7 @@ const ComputerList = (props) => {
                         changeBackground={true}
                     />
                     <Select
-                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative.option : false}
+                        default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                         selectTextDefault='קרבה לחלל'
                         arr={myCloseToTheFallen}
                         className='input-meetings filter-meeting'
@@ -118,7 +118,7 @@ const ComputerList = (props) => {
                             changeBackground={true}
                     />
                     <Select
-                        default={props.MeetingsStore.language.option}
+                        default={props.MeetingsStore.language}
                         selectTextDefault='שפת המפגש'
                         arr={meetingLanguage}
                         className='input-meetings filter-meeting'
