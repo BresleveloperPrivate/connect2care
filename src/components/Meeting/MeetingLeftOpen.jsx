@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
+    console.log("mailDetails", mailDetails)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -58,10 +59,34 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
 
         setLoading(true);
 
+        let text = null;
+        if (mailDetails.fallens.length === 1)
+            text = ` לזכרו של ${mailDetails.fallens[0].name} ז"ל`
+        else {
+            text = `לזכרם של `;
+            mailDetails.fallens.map((x, index) => {
+                if (index === 0) {
+                    text = text + `${x.name}`
+                }
+                else {
+                    if (index === mailDetails.fallens.length - 1) {
+                        text = text + ` ו${x.name}`
+                    }
+                    else {
+                        text = text + `, ${x.name}`
+                    }
+                }
+            })
+        }
+        console.log("text", text)
+
+        mailDetails.fallens = text;
+
+        console.log("text", mailDetails)
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ name, email, phone })
+            body: JSON.stringify({ name, email, phone, mailDetails })
         });
 
         setLoading(false);
