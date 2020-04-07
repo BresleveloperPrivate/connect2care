@@ -14,14 +14,14 @@ module.exports = function (meetings) {
             .catch(err => [err]);
     }
 
-    meetings.getMeetingsUser = (search, filters, options, cb) => {
+    meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
-        if (filters.id) {
-            sqlQueryWhere += `meetings.id > '${filters.id}'`
-        }
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
+        // }
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -55,7 +55,8 @@ module.exports = function (meetings) {
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT 5'}`, (err, res) => {
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -89,9 +90,7 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'search', type: 'string' },
             { arg: 'filters', type: 'object' },
-            // { arg: 'time', type: 'array' },
-            // { arg: 'isAvailable', type: 'boolean' },
-            // { arg: 'relation', type: 'string' },
+            { arg: 'limit', type: 'object' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }

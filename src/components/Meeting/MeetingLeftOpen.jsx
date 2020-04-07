@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available, props ,t }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
