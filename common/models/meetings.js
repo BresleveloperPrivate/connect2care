@@ -97,36 +97,6 @@ module.exports = function (meetings) {
     })
 
 
-    meetings.getMeetingsByUser = (obj, options, cb) => {
-        (async () => {
-
-            const people = meetings.app.models.people
-            const people_meetings = meetings.app.models.people_meetings
-
-            let [err, user] = await to(people.findOne({ where: { email: obj.email, phone: obj.phone } }))
-            if (!user) {
-
-            } else {
-                let [err1, meetingsICreated] = await to(meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }))
-                let [err2, meetingsIJoined] = await to(people_meetings.find({ where: { person: user.id }, include: { relation: 'meetings', scope: { include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] } } }))
-
-                console.log(meetingsIJoined)
-                return cb(null, [meetingsIJoined, meetingsICreated])
-            }
-        })()
-
-    }
-
-    meetings.remoteMethod('getMeetingsByUser', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'obj', type: 'object' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
-        returns: { arg: 'res', type: 'object', root: true }
-    });
-
-
     meetings.createMeeting = (data, options, cb) => {
         (async () => {
             const people = meetings.app.models.people
@@ -427,7 +397,7 @@ module.exports = function (meetings) {
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;

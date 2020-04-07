@@ -10,9 +10,8 @@ import Donate from './Donate'
 import Partners from './Partners'
 
 
-class Home extends Component {
+ const Home = (props) => {
 
-    render() {
         return (
             <div>
 
@@ -21,27 +20,27 @@ class Home extends Component {
                     className={'navbar-opening'}
                 /> */}
 
-                <OpeningImage t={this.props.t}/>
+                <OpeningImage t={props.t}/>
 
-                <Explanation explanation={1} />
+                <Explanation t={props.t} explanation={1} />
 
-                <HowItWorks />
+                <HowItWorks t={props.t} />
 
-                <Explanation explanation={2} />
+                <Explanation t={props.t} explanation={2} />
 
-                <OptionsButtons className='containOptionsBottom' />
+                <OptionsButtons t={props.t} className='containOptionsBottom' />
 
-                <ImagesCollage history={this.props.history} />
+                <ImagesCollage t={props.t} history={props.history} />
 
-                <Quote />
+                <Quote t={props.t}/>
 
-                <Donate />
+                <Donate t={props.t} />
 
-                <Partners />
+                <Partners t={props.t} />
 
             </div>
         );
-    }
+    
 }
 
 export default Home;

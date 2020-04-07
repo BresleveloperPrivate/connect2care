@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack } ,} ) => {
+const Meeting = ({ match: { params }, history: { goBack } , t} ) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});
@@ -54,12 +54,13 @@ const Meeting = ({ match: { params }, history: { goBack } ,} ) => {
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
                     <div id="meetingButtons">
-                        <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
+                        {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
                             styleObject={{ fontSize: '2em', imageHeight: '24px' }}
                             meetingId={meetingId}
                             data={meeting}
+                            t={t}
                         />
                     </div>
 
@@ -79,7 +80,7 @@ const Meeting = ({ match: { params }, history: { goBack } ,} ) => {
 
             </div>
             {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+                <MeetingLeftOpen t={t} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
                     <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />

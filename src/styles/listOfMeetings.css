@@ -2,7 +2,9 @@
 .meetingsFullPage{
     position: relative;
     padding-bottom: 2em;
-}
+    margin-top: 11vh;
+
+}   
 
 .emailAndPhonePopup{
     position: relative;
@@ -325,10 +327,7 @@
 
 @media screen and (max-width: 800px){
 
-   
-    .meetingsFullPage{
-        margin-top: 11vh;
-    }
+
     .mainPage-meetings{
         width: 79em;
         margin-right: 6vw;

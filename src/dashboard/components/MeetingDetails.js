@@ -329,7 +329,7 @@ const MeetingDetails = (props) => {
                         <ErrorMethod {...props} />
                     }
                 </div>
-                : <Success history={props.history} meeting={success} />
+                : <Success history={props.history} meeting={success} t={props.t} />
             }
         </div>
 

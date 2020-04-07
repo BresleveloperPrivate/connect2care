@@ -18,7 +18,7 @@ class NavBar extends Component {
         this.setOptions()
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         window.addEventListener('resize', this.onResize, false)
         this.props.LanguageStore.setWidth(window.innerWidth)
     }
@@ -38,7 +38,8 @@ class NavBar extends Component {
     setOptions = () => {
 
         this.options =
-            [{ option: this.props.t("meetingsList"), path: '/meetings' },
+            [{ option: this.props.t("homePage"), path: '/' },
+            { option: this.props.t("meetingsList"), path: '/meetings' },
             { option: this.props.t("myMeetings"), path: '/my-meetings' },
             { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about', open: true },
             { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate', open: true },
