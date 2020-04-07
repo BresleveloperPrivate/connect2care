@@ -427,6 +427,42 @@ module.exports = function (meetings) {
                 const participantsNum = participants_num ? participants_num + 1 : 1;
                 await meetings.upsert({ id: meetingId, participants_num: participantsNum });
 
+                let sendOptions = {
+                    to: email, subject: "הרשמתך למפגש התקבלה", html:
+                        `
+                  <div style='width: 100%; max-width: 400px; height: fit-content ;  padding-bottom: 30px;
+                   background-color: #082551; direction: rtl'>
+                  <div style='display: flex ; width: 100%' >
+                    <div style='width: 100%;' >
+                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                    </div>
+                    <div style='width: 30%;' >
+                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                    </div>
+                  </div>
+                  <div style='color: white; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; text-align: center;'> 
+                  היי, מחכים לך במפגש Zoom שלנו לזכר <br>
+                  <div style='font-size: 27px'></div>
+                  </div>
+              
+                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+              
+                  <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting' >
+                   <div style=' margin: auto;
+                    width: fit-content;
+                     background-color: #19A099 ;
+                      padding: 5px 15px;
+                       border-radius: 100px ;
+                        font-size: 15px;
+                         color: white;
+                         margin-top: 40px;
+                         '  >לפרטים נוספים והצטרפות למפגש </div>
+                    </a>
+                  
+                  </div>
+                  ` }
+
+                sendEmail("", sendOptions);
                 cb(null, { participantsNum });
             } catch (err) {
                 console.log(err);
