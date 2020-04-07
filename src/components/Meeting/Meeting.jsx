@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack } }) => {
+const Meeting = ({ match: { params }, history: { goBack } } ) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});

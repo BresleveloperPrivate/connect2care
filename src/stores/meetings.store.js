@@ -21,6 +21,9 @@ class MeetingsStore {
         if (event.target.value.match('^([^#/$%^&@!;=+]*)$')) {
             this.searchInput = event.target.value
         }
+        if(event.target.value === '' && this.prevSearchInput !== ''){
+            this.search(false,true)
+        }
     }
 
     changeAvailableOnly = (isAvailable) => {

@@ -12,11 +12,17 @@ import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import filter1 from '../icons/filter1.svg'
 import filter2 from '../icons/filter2.svg'
+import search from '../icons/search.svg'
 
 const PhoneList = (props) => {
 
     const [filter, setFilter] = useState(false)
-
+    
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            props.MeetingsStore.search(false, true)
+        }
+    }
 
     return (
         <div className='meetingsFullPage'>
@@ -26,15 +32,24 @@ const PhoneList = (props) => {
                     <div className='meetings-title'>רשימת המפגשים</div>
                     <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                     <div className='containSearch'>
-                        <input
+                        <div className='input-meetings' style={{display:'flex' , alignItems:'center'}}>
+                            <input
+                            onKeyDown={onKeyDown}
                             style={{ flexGrow: 1 }}
                             type="text"
                             value={props.MeetingsStore.searchInput}
-                            className='input-meetings'
+                            className='inputPhoneView'
                             onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
                             placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
                         />
-
+                         <div style={{ height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }}
+                            onClick={() => {
+                                props.MeetingsStore.search(false, true)
+                            }}
+                        >
+                            <img height='100%' width='100%' src={search} />
+                        </div>
+                        </div>
                         <div style={{ height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }}
                             onClick={() => {
                                 if(!filter){
@@ -44,8 +59,6 @@ const PhoneList = (props) => {
                                             filtersId.classList.add('overflow-visible')
                                         },1200)
                                     }
-                                }else{
-
                                 }
                                 setFilter(!filter)
 

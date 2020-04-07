@@ -64,7 +64,7 @@
 }
 
 .meetings-second-title{
-    color: var(--custom-green);
+    color: var(--custom-light-blue);
     font: Normal 28px Assistant;
     text-align: right;
 }
@@ -344,10 +344,12 @@
 
     .meetings-title{
         font: Bold 28px Assistant;
+        padding: 0 5vw;
     }
     
     .meetings-second-title{
         font: Normal 20px Assistant;
+        padding: 0 5vw;
     }
     
      .containSearch{
@@ -440,6 +442,17 @@
 
     }
 
+    .input-meetings:not(.filter-meeting){
+        padding: 0.5vh 0.6em;
+    }
+
+    .inputPhoneView{
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #4D4F5C;
+    }
+
     .overflow-visible{
         overflow: visible;
     }
@@ -466,6 +479,7 @@
 
     .input-meetings{
         padding: 1vh 0;
+        width: 100%;
     }
 
     .filter-meeting{
