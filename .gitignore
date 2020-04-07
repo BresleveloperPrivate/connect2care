@@ -24,3 +24,5 @@ yarn-error.log*
 
 # src/modules/*
 server/routes/
+
+server/datasources.json

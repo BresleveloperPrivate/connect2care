@@ -3,7 +3,10 @@
 const sendEmail = require('../../server/email.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-
+const http = require("https");
+const jwt = require('jsonwebtoken');
+// const config = require('./config');
+// const rp = require('request-promise');
 
 module.exports = function (meetings) {
 
@@ -449,6 +452,54 @@ module.exports = function (meetings) {
             console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
+
+            // const payload = {
+            //     iss: "bxkoUl94RgOEagOunvJnDA",
+            //     exp: ((new Date()).getTime() + 5000)
+            // };
+            // const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
+
+            // console.log("token", token)
+
+            // var options = {
+            //     "method": "POST",
+            //     "hostname": "api.zoom.us",
+            //     "port": null,
+            //     "path": "/v2/users?access_token=" + token,
+            //     "headers": {
+            //         "content-type": "application/json"
+            //     }
+            // };
+
+            // var req = http.request(options, function (res) {
+            //     var chunks = [];
+
+            //     res.on("data", function (chunk) {
+            //         chunks.push(chunk);
+            //     });
+
+            //     res.on("end", function () {
+            //         var body = Buffer.concat(chunks);
+            //         console.log(body.toString());
+            //     });
+            // });
+
+            // req.write(JSON.stringify({
+            //     action: 'create',
+            //     user_info:
+            //     {
+            //         email: 'maayan.lital@gmail.com',
+            //         type: 2,
+            //         first_name: 'maayan',
+            //         last_name: 'cohen',
+            //         password: 'Asdf1234!'
+            //     }
+            // }));
+
+            // req.end();
+            cb(null, {})
+
+
         })();
     }
 
