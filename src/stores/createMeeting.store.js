@@ -183,19 +183,21 @@ class CreateMeetingStore {
     }
 
     getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success) {
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-                return
+        if (this.meetingDetails.name && this.meetingDetails.name !== "") {
+            if (!this.allMeetings) {
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                if (err || !success) {
+                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    return
+                }
+                if (success)
+                    this.allMeetings = success
             }
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            this.nameMessage = ""
+            for (let i = 0; i < this.allMeetings.length; i++) {
+                if (this.allMeetings[i].name === this.meetingDetails.name)
+                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            }
         }
     }
 
