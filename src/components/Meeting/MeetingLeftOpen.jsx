@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useRef } from 'react';
 
 import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
 
@@ -42,7 +42,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
     const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
-    let readBylaw = false
+    const readBylawRef = useRef();
 
     const { input, sendButton, sendLabel } = useStyles();
 
@@ -50,11 +50,12 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
-        if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
+        console.log(readBylawRef)
+        if (!!!readBylawRef.current.checked) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
         // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
-        if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
-        if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
+        if (!(/^(.+)@(.+){2,}\.(.+){2,}$/).test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
+        if (!(/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/).test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
 
         setLoading(true);
 
@@ -71,6 +72,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
         setName('');
         setEmail('');
         setPhone('');
+        readBylawRef.current.checked = false
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, meetingId]);
@@ -94,7 +96,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t }) => 
                             <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                         ))}
                         <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
-                            <input type="radio" className={(!readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" onChange={() => readBylaw = true} />
+                            <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} />
                             <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
                         </div>
 
