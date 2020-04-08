@@ -45,9 +45,11 @@ const PhoneList = (props) => {
                             placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
                         />
                          <div style={{ height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }}
-                            onClick={() => {
-                                props.MeetingsStore.search(false, true)
-                            }}
+                            onClick={
+                                props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
+                                () => {
+                                    props.MeetingsStore.search(false, true)
+                                } : () => { }}
                         >
                             <img height='100%' width='100%' src={search} />
                         </div>
