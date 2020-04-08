@@ -46,7 +46,7 @@ const CreateMeeting = (props) => {
     const [dataForFallen, setDataForFallen] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
-
+    const [readBylaw, setReadBylaw] = useState(false)
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -301,6 +301,11 @@ const CreateMeeting = (props) => {
                                     <div>{errorMaxParticipants}</div>
                                 </div>
                             }
+
+                            <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
+                                <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
+                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
+                            </div>
                         </div>
 
                         <div
@@ -308,6 +313,10 @@ const CreateMeeting = (props) => {
                         >
                             <div className="createMeetingButton grow" onClick={async () => {
                                 setIsSaved(true)
+                                if (!readBylaw) {
+                                    props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
+                                    return
+                                }
                                 let meeting = await props.CreateMeetingStore.createNewMeetingPost()
                                 if (meeting) {
                                     setSuccess(meeting[0])

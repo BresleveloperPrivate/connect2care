@@ -66,7 +66,7 @@ const MeetingsList = (props) => {
                                         }
                                     </td>
                                     <td className='edit'>
-                                        <img alt="alt" src={pen} />
+                                        <img alt="alt" src={pen} onClick={()=>props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
                                     </td>
                                 </tr>
                             )

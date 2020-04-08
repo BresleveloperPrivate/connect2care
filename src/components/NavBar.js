@@ -40,10 +40,11 @@ class NavBar extends Component {
         this.options =
             [{ option: this.props.t("homePage"), path: '/' },
             { option: this.props.t("meetingsList"), path: '/meetings' },
-            { option: this.props.t("myMeetings"), path: '/my-meetings' },
-            { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about', open: true },
-            { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate', open: true },
-            { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact', open: true }]
+            // { option: this.props.t("myMeetings"), path: '/my-meetings' },
+            { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about?referer=connect-2-care', open: true },
+            { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
+            { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact?referer=connect-2-care', open: true },
+            { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }]
     }
 
     changelng = (lng) => {

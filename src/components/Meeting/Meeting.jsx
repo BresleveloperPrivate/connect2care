@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 
 import { IconButton, ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core';
-import { ArrowForward } from "@material-ui/icons";
+// import { ArrowForward } from "@material-ui/icons";
 
 import Auth from '../../modules/auth/Auth';
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack } , t} ) => {
+const Meeting = ({ match: { params }, history: { goBack }, t }) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});
@@ -80,7 +80,7 @@ const Meeting = ({ match: { params }, history: { goBack } , t} ) => {
 
             </div>
             {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen t={t} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+                <MeetingLeftOpen t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
                     <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />

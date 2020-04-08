@@ -21,11 +21,6 @@
         }
     },
     "relations": {
-        "meetings": {
-            "type": "hasOne",
-            "model": "meetings",
-            "foreignKey": "zoomId"
-        }
     },
     "properties": {
         "id": {

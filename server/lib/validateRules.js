@@ -62,8 +62,8 @@ module.exports = {
             length: { maximum: 7 }
         },
         zoomId: {
-            type: "number",
-            numericality: { greaterThan: -1 }
+            type: "string",
+            length: { maximum: 20 }
         },
         participants_num: {
             type: "number",

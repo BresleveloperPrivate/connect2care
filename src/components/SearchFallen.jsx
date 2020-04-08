@@ -57,12 +57,15 @@ const SearchFallen = (props) => {
     }, []);
 
     const onFallenClick = useCallback(async fallen => {
+        // if (Object.keys(CreateMeetingStore.fallenDetails).indexOf(fallen.id) === -1) { }
+        // else 
         setShowOptions(false);
         setSearchValue(fallen.name);
 
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include": "meetings" }`);
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
+        CreateMeetingStore.addFallenToArr(fallen)
         if (response && response.messages && response.messages.length)
             props.setDataForFallen(true)
     }, []);
@@ -96,7 +99,7 @@ const SearchFallen = (props) => {
     }, [searchValue, fetch]);
 
     useEffect(() => {
-        if (CreateMeetingStore.fallenDetails) {
+        if (CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]) {
             setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
             setShowOptions(false)
         }
@@ -109,6 +112,7 @@ const SearchFallen = (props) => {
                 className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
                 style={{ width: "100%", marginBottom: '0' }}>
                 <input
+                    disabled={CreateMeetingStore.meetingId !== -1}
                     type="text"
                     style={{ all: "unset", width: "calc(100% - 20px)" }}
                     onChange={onChange}
