@@ -35,7 +35,7 @@
 
   .containPartners{
       width: 100vw;
-      padding: 5vw;
+      padding: 4vw;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -46,6 +46,17 @@
     height: 7vw;
     display: flex;
     align-items: center;
+    margin: 3vw;
+  }
+
+  .hilmeCredit{
+    background-color: var(--custom-dark-blue);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.2vw;
+    padding: 1vh 3vw;
   }
 
   @media screen and (max-width: 550px){
@@ -61,8 +72,12 @@
     }
 
     .partner{
-      height: 12vw;
+      height: 8vw;
       margin: 4vw 2vw;
+    }
+
+    .hilmeCredit{
+      font-size: 2.8vw;
     }
 
       .cover {

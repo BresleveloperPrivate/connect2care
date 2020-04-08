@@ -20,7 +20,7 @@ const PhoneCard = (props) => {
                 style={{ cursor:'pointer' }}
                 className='meetingCard'
                 onClick={() => {
-                    props.history.push(`/props.meeting/${props.meeting.id}`)
+                    props.history.push(`/meeting/${props.meeting.id}`)
                 }}
             >
 

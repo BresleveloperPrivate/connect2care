@@ -1,6 +1,7 @@
 'use strict';
 
 const sendEmail = require('../../server/email.js');
+const createZoomUser = require('../../server/createZoomUser.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const http = require("https");
@@ -103,6 +104,10 @@ module.exports = function (meetings) {
     meetings.createMeeting = (data, options, cb) => {
         (async () => {
             const people = meetings.app.models.people
+            const emailowner = data.owner.email;
+            let newEmail = emailowner.replace("@", "+c2c@");
+            const nameOwner = data.owner.name;
+            console.log("emailowner", emailowner)
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err", err)
@@ -147,7 +152,7 @@ module.exports = function (meetings) {
                 return cb(err2)
             }
 
-            console.log("data.fallens", data.fallens.length)
+            // console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
@@ -174,6 +179,79 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
+                                createZoomUser(newEmail, nameOwner)
+                                let sendOptions = {
+                                    to: emailowner, subject: "המפגש נוצר בהצלחה", html:
+                                        `
+                                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+                                   background-color: #082551; direction: rtl'>
+                                  <div style='display: flex ; width: 100%' >
+                                    <div style='width: 100%;' >
+                                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                                    </div>
+                                    <div style='width: 30%;' >
+                                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                                    </div>
+                                  </div>
+                                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+                                  אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
+                                היוזמה שלקחת הופכת לעוד יותר משמעותית, לנוכח האתגרים היומיומיים מולם כולנו מתמודדים בתקופה האחרונה.<br>
+                                בזכותך, אנשים רבים יציינו את יום הזיכרון, יתחברו לרעיון ויגדילו את מעגל הנצחה.<br><br>
+
+                                חשוב לנו לציין, שביכולתך לפתוח יותר ממפגש אחד, ולייעד כל מפגש לקהל שונה. כך למשל, אפשר לפתוח מפגש אחד לציבור הכללי, ומפגש אחר סגור (לצוות או למשפחה, לדוגמא) כאשר לכל אחד מהם מטרה שונה ואופי ייחודי.<br><br>
+
+                                הכנו עבורך הנחיות ועצות, שיעזרו לך ליצור מפגש בלתי נשכח:<br><br>
+
+                                איך נכנסים למערכת ויוצרים מפגש?<br>
+                                בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
+                                יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
+                                איך תעשו זאת?<br>
+                                א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
+                                ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
+                                ג. לאחר בחירת הרשמה עם שם משתמש, תתבקש להזין את שמך הפרטי ושם משפחה, וכן סיסמא. הזן את שמך האמיתי. השתמש בסיסמא OurBrothers2020<br>
+                                איך יוצרים מפגש?<br>
+                                בימים הקרובים, אחרי ביצוע האקטיבציה, אנו נשלח לך אימייל נוסף, שיכיל קישור והוראות מדויקות לפתיחת מפגש הזום אותו אתה תנחה.<br>
+                                בכדי להתחבר ביום המפגש, יהיה עליך להשתמש בפרטים הבאים:<br>
+                                אימייל: ${newEmail}<br>
+                                סיסמא:  OurBrothers2020 .<br>
+                                אנא שמור אותם במקום נגיש.<br><br>
+
+                                איך יוצרים מפגש מוצלח, משמעותי ונטול מתחים?<br><br>
+
+                                א. סדנת הכנה וירטואלית <br><br>
+
+                                צוות ההדרכה שלנו עמל רבות, והכין עבורך סדנה מקצועית וירטואלית לניהול מפגש.<br>
+                                סדנת ההכנה תועבר בזמן אמת אונליין ב-ZOOM על ידי מרצים מומחים בתחומי התוכן והדיגיטל, במועדים הקבועים מראש. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. <br><br>
+
+                                הסדנה החווייתית תעזור לך להתכונן לקראת המפגש, והכלים הכלולים בה, בהם בין היתר עצות לתכנון זמן ועמידה מול קהל, יעזרו לך גם אחרי המפגש בחייך המקצועיים.<br><br>
+
+                                ב. ערכת הכנה לעיון<br><br>
+
+                                בנוסף לסדנא, הכנו עבורך ערכת תוכן ובה המלצות ושיטות עבודה לבניית מפגש מוצלח. אנו ממליצים בחום לגשת לערכה, לעיין בה וליישם את ההמלצות הכלולות בה. הערכה נמצאת בלינק: https://connect2care.ourbrothers.co.il/meetingContent.pdf<br><br>
+
+                                ג. הזמנת משתתפים מקרבה ראשונה<br><br>
+
+                                אחת העצות הטובות שניתן לך, היא הזמנת בני משפחה וחברים למפגש.<br>
+                                קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד :).<br><br>
+
+                                נעשה הכל כדי לעזור לך לנהל מפגש משמעותי ומהנה.<br>
+                                שאלות? התלבטויות? רעיונות? אנחנו כאן עבורך.<br><br>
+
+                                להתראות בקרוב,<br>
+                                צוות 'האחים שלנו'<br>
+                                  <div style='font-size: 27px'></div>
+                                  </div>
+                              
+                                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+                                  </div>
+                                  ` }
+
+                                sendEmail("", sendOptions);
+
+
+
+
+
                                 console.log("userMeeting", userMeeting)
                                 return cb(null, userMeeting)
 
@@ -390,8 +468,9 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, cb) => {
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, mailDetails, cb) => {
         (async () => {
+            console.log("mailDetails", mailDetails)
             try {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
@@ -426,7 +505,42 @@ module.exports = function (meetings) {
                 await people_meetings.create({ person: person.id, meeting: meetingId });
                 const participantsNum = participants_num ? participants_num + 1 : 1;
                 await meetings.upsert({ id: meetingId, participants_num: participantsNum });
+                let shalom = mailDetails
+                let sendOptions = {
+                    to: email, subject: "הרשמתך למפגש התקבלה", html:
+                        `
+                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+                   background-color: #082551; direction: rtl'>
+                  <div style='display: flex ; width: 100%' >
+                    <div style='width: 100%;' >
+                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                    </div>
+                    <div style='width: 30%;' >
+                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                    </div>
+                  </div>
+                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+                  שלום,<br>
+אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
+ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
+אז איך זה עובד?<br><br>
+בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallens} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
+ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
+כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
+יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
+אנחנו כאן כדי לעזור.<br><br>
+להתראות בקרוב,<br>
+צוות 'האחים שלנו'<br>
+                  
+                  <div style='font-size: 27px'></div>
+                  </div>
+              
+                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+                  </div>
+                  ` }
 
+                sendEmail("", sendOptions);
                 cb(null, { participantsNum });
             } catch (err) {
                 console.log(err);
@@ -441,7 +555,8 @@ module.exports = function (meetings) {
             { arg: "meetingId", type: "string", required: true, http: { source: 'path' } },
             { arg: "name", type: "string", required: true },
             { arg: "email", type: "string", required: true },
-            { arg: "phone", type: "string", required: true }
+            { arg: "phone", type: "string", required: true },
+            { arg: 'mailDetails', type: 'object', required: true }
         ],
         returns: { type: "object", root: true },
         http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }
@@ -452,54 +567,6 @@ module.exports = function (meetings) {
             console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
-
-            // const payload = {
-            //     iss: "bxkoUl94RgOEagOunvJnDA",
-            //     exp: ((new Date()).getTime() + 5000)
-            // };
-            // const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
-
-            // console.log("token", token)
-
-            // var options = {
-            //     "method": "POST",
-            //     "hostname": "api.zoom.us",
-            //     "port": null,
-            //     "path": "/v2/users?access_token=" + token,
-            //     "headers": {
-            //         "content-type": "application/json"
-            //     }
-            // };
-
-            // var req = http.request(options, function (res) {
-            //     var chunks = [];
-
-            //     res.on("data", function (chunk) {
-            //         chunks.push(chunk);
-            //     });
-
-            //     res.on("end", function () {
-            //         var body = Buffer.concat(chunks);
-            //         console.log(body.toString());
-            //     });
-            // });
-
-            // req.write(JSON.stringify({
-            //     action: 'create',
-            //     user_info:
-            //     {
-            //         email: 'maayan.lital@gmail.com',
-            //         type: 2,
-            //         first_name: 'maayan',
-            //         last_name: 'cohen',
-            //         password: 'Asdf1234!'
-            //     }
-            // }));
-
-            // req.end();
-            cb(null, {})
-
-
         })();
     }
 

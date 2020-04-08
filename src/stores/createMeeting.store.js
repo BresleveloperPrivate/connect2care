@@ -24,7 +24,7 @@ class CreateMeetingStore {
         time: "00:00",
         max_participants: "",
         fallens: null,
-        zoomId: 0,
+        zoomId: "",
     }
     allMeetings = null;
 
@@ -58,7 +58,7 @@ class CreateMeetingStore {
             time: "00:00",
             max_participants: "",
             fallens: null,
-            zoomId: 0,
+            zoomId: "",
         }
         this.allMeetings = null;
 
@@ -259,7 +259,7 @@ class CreateMeetingStore {
             time: object.time,
             max_participants: object.max_participants || '',
             fallens: object.fallens,
-            zoomId: 0,
+            zoomId: "",
         }
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
