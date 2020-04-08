@@ -3,9 +3,9 @@ import '../styles/partners.css'
 import hilma from '../icons/hilma.png'
 import can from '../icons/can.png'
 import amit from '../icons/amit.png'
-import facebook from '../icons/facebook.png'
+// import facebook from '../icons/facebook.png'
 import synamedia from '../icons/Synamedia.png'
-
+import zoom from '../icons/zoom.png'
 import hilmaWhite from '../icons/hilmaWhite.png'
 import logo1 from '../icons/logo1.jpg'
 import logo2 from '../icons/logo2.png'
@@ -38,18 +38,19 @@ class Partners extends Component {
                     <div className='partner'><img src={synamedia} height='130%' /></div>
                     <div className='partner'><img src={facebook} height='90%' /></div>
                     <div className='partner'><img src={hilma} height='70%' /></div> */}
-                    <div className='partner'><img src={hilma} height='70%' /></div>
+                    <div className='partner'><img src={hilma} height='60%' /></div>
                     <div className='partner'><img src={synamedia} height='150%' /></div>
-                    <div className='partner'><img src={amit} height='110%' /></div>
-                    <div className='partner'><img src={can} height='110%' /></div>
-                    <div className='partner'><img src={logo1} height='100%' /></div>
                     <div className='partner'><img src={logo2} height='60%' /></div>
-                    <div className='partner'><img src={logo3} height='100%' /></div>
-                    <div className='partner'><img src={logo4} height='100%' /></div>
-                    <div className='partner'><img src={logo5} height='100%' /></div>
-                    <div className='partner'><img src={logo6} height='80%' /></div>
-                    <div className='partner'><img src={logo7} height='100%' /></div>
-                    <div className='partner'><img src={logo8} height='50%' /></div>
+                    <div className='partner'><img src={can} height='110%' /></div>
+                    <div className='partner'><img src={amit} height='130%' /></div>
+                    <div className='partner'><img src={zoom} height='110%' /></div>
+                    <div className='partner'><img src={logo5} height='110%' /></div>
+                    <div className='partner'><img src={logo3} height='110%' /></div>
+                    <div className='partner'><img src={logo7} height='110%' /></div>
+                    <div className='partner'><img src={logo1} height='80%' /></div>
+                    <div className='partner'><img src={logo4} height='90%' /></div>
+                    <div className='partner'><img src={logo6} height='70%' /></div>
+                    <div className='partner'><img src={logo8} height='40%' /></div>
 
 
 
