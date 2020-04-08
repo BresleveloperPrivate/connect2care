@@ -43,7 +43,7 @@ class Partners extends Component {
                     <div className='partner'><img src={logo2} height='60%' /></div>
                     <div className='partner'><img src={can} height='110%' /></div>
                     <div className='partner'><img src={amit} height='130%' /></div>
-                    <div className='partner'><img src={zoom} height='110%' /></div>
+                    <div className='partner'><img src={zoom} height='90%' /></div>
                     <div className='partner'><img src={logo5} height='110%' /></div>
                     <div className='partner'><img src={logo3} height='110%' /></div>
                     <div className='partner'><img src={logo7} height='110%' /></div>
