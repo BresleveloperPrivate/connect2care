@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
-import ourBrothers from '../icons/logo.svg'
+import ourBrothers from '../icons/oblogo.png'
+import c2c from '../icons/logo.svg'
 import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
@@ -86,7 +87,10 @@ class NavBar extends Component {
 
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
-                        <img alt="alt" src={ourBrothers} height='100%' />
+                        <img alt="alt" src={ourBrothers} height='80%' className="oblogo" />
+                    </div>
+                    <div className='containIconNavbar'>
+                        <img alt="alt" src={c2c} height='100%' />
                     </div>
                 </div>
                 <SideNavBar history={this.props.history}
