@@ -14,7 +14,7 @@ const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
     const myCloseToTheFallen = [
-        { option: 'אח/ות', data: 'אח' },
+        { option: 'אח/ות', data: 'אח/ות' },
         { option: 'הורים', data: 'הורים' },
         { option: 'קרובי משפחה', data: 'קרובי משפחה' },
         { option: 'חבר', data: 'חבר' },
@@ -55,10 +55,10 @@ const FallenDetails = (props) => {
                 </div>
 
                 <div className='position-relative'>
+                    {console.log(CreateMeetingStore.meetingDetails.fallens[props.index].relative)}
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
-                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative !== '' ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
-
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
