@@ -3,6 +3,8 @@ import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
 
 import Auth from '../../modules/auth/Auth';
+import checkboxOnWhite from '../../icons/checkbox_on_light_white.svg'
+import checkboxOffWhite from '../../icons/checkbox_off_light_white.svg'
 
 const useStyles = makeStyles(theme => ({
     input: {
@@ -43,7 +45,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
     const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
-    const readBylawRef = useRef();
+    const [readBylaw,setReadBylaw] = useState(false)
+    // const readBylawRef = useRef();
 
     const { input, sendButton, sendLabel } = useStyles();
 
@@ -51,7 +54,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
-        if (!!!readBylawRef.current.checked) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
+        if (!!!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
         // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
         if (!(/^(.+)@(.+){2,}\.(.+){2,}$/).test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
@@ -96,7 +99,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         setName('');
         setEmail('');
         setPhone('');
-        readBylawRef.current.checked = false
+        setReadBylaw(false)
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, meetingId]);
@@ -104,8 +107,9 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
         [email, setEmail, t("email")],
-        [phone, setPhone, t("phone")]
-    ], [name, email, phone]);
+        [phone, setPhone, t("phone")],
+
+    ], [name, email, phone , readBylaw]);
 
     return (
         <div id="meetingPageLeft">
@@ -120,7 +124,11 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
                             <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                         ))}
                         <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
-                            <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} />
+                            <div>
+                            <img style={{cursor:'pointer'}} onClick={()=>setReadBylaw(!readBylaw)} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+
+                            </div>
+                            {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
                             <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
                         </div>
 

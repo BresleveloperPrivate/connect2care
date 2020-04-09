@@ -160,6 +160,7 @@ class CreateMeetingStore {
     }
 
     changeFallenRelative = (option, index) => {
+        console.log(option)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
