@@ -5,11 +5,11 @@ const useStyles = makeStyles({
     avatar: {
         height: 167,
         width: 132,
-        marginRight: 49
+        // marginRight: 49
     }
 });
 
-const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
+const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link } }) => {
     const { avatar } = useStyles();
     return (
         <div className="meetingFallen">
@@ -17,7 +17,7 @@ const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
             <div className="meetingFallenDescription">
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
-                <div className="fallenDate">{falling_date.split("T")[0]}</div>
+                <div className="fallenDate">{falling_date.split("T")[0].split('-')[2]}.{falling_date.split("T")[0].split('-')[1]}.{falling_date.split("T")[0].split('-')[0]} | {heb_falling_date}</div>
             </div>
         </div>
     );

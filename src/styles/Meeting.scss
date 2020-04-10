@@ -73,6 +73,7 @@ $navBarMargin: 10vh;
 
         #meetingFallenList {
             margin: 2vh 0;
+         
 
             .meetingFallen {
                 display: flex;
@@ -80,8 +81,11 @@ $navBarMargin: 10vh;
                 align-items: flex-end;
                 margin-bottom: 24px;
 
+                // flex-direction: column;
+
                 .meetingFallenDescription {
                     text-align: right;
+                    padding-right: 30px;
 
                     .fallenCandle {
                         height: 3em;
@@ -254,6 +258,42 @@ $navBarMargin: 10vh;
                      
     #meetingDateTime {
         font-size: 2.8em;
+    }
+
+    #meetingPageMain {
+        #meetingPageBottom{
+            #peopleCircleText {
+                margin: 10px 0 0 0;
+            }
+        }   
+    }
+
+    #meetingPageMain {
+        #meetingPageBottom{
+            flex-direction: column;
+        }
+    }
+
+    #meetingPageMain{
+        #meetingMainMain{
+             #meetingFallenList{
+
+                .meetingFallen {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 24px;
+
+                    flex-direction: column;
+
+                    .meetingFallenDescription {
+                        text-align: center;
+                        padding-right: 0px;
+                        padding-top: 10px;
+                    }
+                }
+            }
+        }
     }
  
 }
