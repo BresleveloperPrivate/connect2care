@@ -115,7 +115,7 @@ const PhoneList = (props) => {
                                 className="loadMore-meetings grow">טען עוד</div>}
                         <div className='buttonOnMeetings grow' onClick={() => {
                             props.history.push('/create-meeting')
-                        }} >אני רוצה ליזום מפגש</div>
+                        }} >{props.t('IWantToInitiateAMeeting')}</div>
                     </div>
 
 

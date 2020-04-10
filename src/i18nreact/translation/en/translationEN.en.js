@@ -44,14 +44,18 @@ const translationEN = {
     "quote":"The meetings enable a rare and unique glimpse of the brothers' downfall with the fall of their loved ones and enable the hearing of a story that has never been extensively told.",
     "partners":"Thanks to our partners",
 
+    "IWantToInitiateAMeeting":"I want to initiate a meeting",
+    "IWantToAttendAMeeting":"I want to attend a meeting",
+
     "step1":'Open a new meeting',
     "step2":'Share everyone',
-    "step3":'Participate in a prep meeting with Our Brothers.',
-    "step4":'Look for a suitable meeting.',
-    "step5":'',
-    "step6":'',
-    "step7":'',
-
+    "step3":'Participate in a prep meeting with Our Brothers',
+    "step4":'Look for a suitable meeting',
+    "step5":'Register to the site',
+    "step6":'Share with your friends',
+    "step7-1":"Connect to Zoom Link,",
+    "step7-2":"See if the camera's on",
+    "remember":"Remember.",
 
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',

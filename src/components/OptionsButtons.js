@@ -14,10 +14,10 @@ class containOptions extends Component {
                     onClick={() => {
                         this.props && this.props.history.push("/create-meeting")
                     }}
-                >אני רוצה ליזום מפגש</div>
+                >{this.props.t('IWantToInitiateAMeeting')}</div>
                 <div onClick={()=>{
                     this.props.history.push('/meetings')
-                }} className='pointer grow secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
+                }} className='pointer grow secondOptionOpeningImage'>{this.props.t('IWantToAttendAMeeting')}</div>
             </div>
 
         );
