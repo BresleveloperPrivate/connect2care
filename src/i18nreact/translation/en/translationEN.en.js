@@ -41,7 +41,7 @@ const translationEN = {
 
 
 
-    "quote":"The meetings enable a rare and unique glimpse of the brothers' downfall with the fall of their loved ones and enable the hearing of a story that has never been extensively told.",
+    "quote":"The meetings enable a rare and unique glimpse of the brothers' coping with the downfall of their loved ones and enable the hearing of a story that has never been extensively told.",
     "partners":"Thanks to our partners",
 
     "IWantToInitiateAMeeting":"I want to initiate a meeting",
@@ -56,6 +56,7 @@ const translationEN = {
     "step7-1":"Connect to Zoom Link,",
     "step7-2":"See if the camera's on",
     "remember":"Remember.",
+    "howItWorks":'how It Works?',
 
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',

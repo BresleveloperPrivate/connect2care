@@ -18,7 +18,7 @@ class HowItWorks extends Component {
 
             <div className='containHowItWorks'>
                 <div className='howItWorksTitle'>
-                    איך זה עובד?
+            {this.props.t('howItWorks')}
                 </div>
 
                 <div className='howItWorks'>
