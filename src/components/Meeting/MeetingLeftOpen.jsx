@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 let v = false;
 
 const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
-    // console.log("mailDetails", mailDetails)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -55,7 +54,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
     const { input, sendButton, sendLabel } = useStyles();
 
     const onSend = useCallback(async () => {
-        console.log("v", readBylaw)
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
@@ -87,13 +85,9 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
                     }
                 })
             }
-            mailDetails.fallens = text;
         }
-        console.log("text", text)
+        mailDetails.fallensText = text;
 
-
-
-        console.log("text", mailDetails)
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
@@ -101,8 +95,13 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         });
 
         setLoading(false);
-        if (error && error.code === "ER_DUP_ENTRY") { setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.'); return; }
-        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg); return; }
+
+        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg);
+        console.log(error)
+        if(error && error.error && error.error.code === "ER_DUP_ENTRY"){
+            setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
+        }
+        return; }
 
         setErrorMsg(null);
         setName('');
@@ -111,7 +110,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         setReadBylaw(false);
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone, meetingId, readBylaw]);
+    }, [name, email, phone, readBylaw, meetingId]);
 
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
@@ -134,7 +133,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
                         ))}
                         <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
                             <div>
-                                <img style={{ cursor: 'pointzer' }} onClick={() => { setReadBylaw(!readBylaw); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+                            <img style={{cursor:'pointer'}} onClick={()=>{setReadBylaw(!readBylaw); setErrorMsg(null);}} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
 
                             </div>
                             {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}

@@ -43,6 +43,7 @@
   }
 
   .partner{
+    cursor: pointer;
     height: 7vw;
     display: flex;
     align-items: center;

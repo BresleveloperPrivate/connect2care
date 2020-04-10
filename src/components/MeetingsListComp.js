@@ -23,7 +23,7 @@ const ComputerList = (props) => {
      <div className='meetingsFullPage'>
          <div className='buttonOnMeetings grow' onClick={()=>{
              props.history.push('/create-meeting')
-         }} >אני רוצה ליזום מפגש</div>
+         }} >{props.t('IWantToInitiateAMeeting')}</div>
        {!props.MeetingsStore.error ? 
             <div className='mainPage-meetings'>
                 <div className='meetings-title'>רשימת המפגשים</div>

@@ -23,6 +23,7 @@ module.exports = function (meetings) {
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
+        console.log(filters)
         // if (filters.id) {
         //     sqlQueryWhere += `meetings.id > '${filters.id}'`
         // }
@@ -36,11 +37,11 @@ module.exports = function (meetings) {
         }
 
         if (filters.time) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.time >= ${filters.time[0]} and meetings.time < ${filters.time[1]}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
         if (filters.isAvailable) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
         }
 
         if (filters.relationship || search) {
@@ -524,7 +525,7 @@ module.exports = function (meetings) {
 אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
 ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
 אז איך זה עובד?<br><br>
-בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallens} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
 רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
 ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
 כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>

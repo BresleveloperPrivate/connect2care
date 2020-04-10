@@ -69,6 +69,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
                     {fallens.length !== 0 && (
                         <div id="meetingFallenList">
                             {fallens.map((fallen, index) => (
+                                // console.log(fallen)
                                 <MeetingFallen key={index} fallen={fallen} />
                             ))}
                         </div>
