@@ -38,19 +38,22 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+let v = false;
+
 const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [readBylaw,setReadBylaw] = useState(false)
+    const [readBylaw, setReadBylaw] = useState(false)
     // const readBylawRef = useRef();
+
+
 
     const { input, sendButton, sendLabel } = useStyles();
 
     const onSend = useCallback(async () => {
-        console.log(mailDetails)
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
@@ -63,29 +66,28 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         setLoading(true);
 
         let text = null;
-        if (mailDetails.fallens.length === 1)
-            text = ` לזכרו של ${mailDetails.fallens[0].name} ז"ל`
-        else {
-            text = `לזכרם של `;
-            mailDetails.fallens.map((x, index) => {
-                if (index === 0) {
-                    text = text + `${x.name}`
-                }
-                else {
-                    if (index === mailDetails.fallens.length - 1) {
-                        text = text + ` ו${x.name}`
+        if (mailDetails.fallens && typeof mailDetails.fallens !== "string") {
+            if (mailDetails.fallens.length === 1)
+                text = ` לזכרו של ${mailDetails.fallens[0].name} ז"ל`
+            else {
+                text = `לזכרם של `;
+                mailDetails.fallens.map((x, index) => {
+                    if (index === 0) {
+                        text = text + `${x.name}`
                     }
                     else {
-                        text = text + `, ${x.name}`
+                        if (index === mailDetails.fallens.length - 1) {
+                            text = text + ` ו${x.name}`
+                        }
+                        else {
+                            text = text + `, ${x.name}`
+                        }
                     }
-                }
-            })
+                })
+            }
         }
-        console.log("text", text)
-
         mailDetails.fallensText = text;
 
-        console.log("text", mailDetails)
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
@@ -97,14 +99,15 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg);
         console.log(error)
         if(error && error.error && error.error.code === "ER_DUP_ENTRY"){
-            setErrorMsg('את/ה כבר נמצא/ת במפגש זה')
+            setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
         }
         return; }
 
+        setErrorMsg(null);
         setName('');
         setEmail('');
         setPhone('');
-        setReadBylaw(false)
+        setReadBylaw(false);
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, readBylaw, meetingId]);

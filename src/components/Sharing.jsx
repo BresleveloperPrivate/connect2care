@@ -25,7 +25,7 @@ export default function Sharing(props) {
 
   const [openEmail, setOpenEmail] = React.useState(false);
   const [, copyToClipboard] = useCopyToClipboard();
-
+  let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/${props.data.meetingId}`
 
   const handleOpenEmail = () => {
     setOpenEmail(true);
@@ -110,7 +110,7 @@ export default function Sharing(props) {
 
     <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'>${props.data.date} | ${props.data.time}</div>
 
-    <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting/${props.data.meetingId}' >
+    <a style='text-decoration: none;' href='${url}' >
      <div style=' margin: auto;
       width: fit-content;
        background-color: #19A099 ;
@@ -188,7 +188,7 @@ export default function Sharing(props) {
         <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
-        <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard("aaaaaaaaa")} id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
 
         <SendEmail openEmail={openEmail}
           setOpenEmail={setOpenEmail}
