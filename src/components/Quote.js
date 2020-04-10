@@ -8,7 +8,7 @@ class Quote extends Component {
 
             <div className='containQuote'>
                 <div className='quote'>
-                    "המפגשים מאפשרים הצצה נדירה וייחודית להתמודדות האחים עם נפילת יקיריהם ומאפשרים לשמוע סיפור שמעולם לא סופר בצורה נרחבת ורשמית"
+                   "{this.props.t('quote')}"
                </div>
 
 

@@ -25,7 +25,7 @@ class Partners extends Component {
             <div className='containThanks'>
 
                 <div className='thanks'>
-                    תודה לשותפים שלנו
+                    {this.props.t('partners')}
                         <div className='cover'>
                         <div className='arrow-bottom-green'></div>
                     </div>

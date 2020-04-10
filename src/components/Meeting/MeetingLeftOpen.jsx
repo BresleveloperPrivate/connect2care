@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
-    console.log("mailDetails", mailDetails)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -51,10 +50,11 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
     const { input, sendButton, sendLabel } = useStyles();
 
     const onSend = useCallback(async () => {
+        console.log(mailDetails)
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
-        if (!!!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
+        if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
         // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
         if (!(/^(.+)@(.+){2,}\.(.+){2,}$/).test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
@@ -83,7 +83,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         }
         console.log("text", text)
 
-        mailDetails.fallens = text;
+        mailDetails.fallensText = text;
 
         console.log("text", mailDetails)
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
@@ -94,7 +94,12 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
 
         setLoading(false);
 
-        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg); return; }
+        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg);
+        console.log(error)
+        if(error && error.error && error.error.code === "ER_DUP_ENTRY"){
+            setErrorMsg('את/ה כבר נמצא/ת במפגש זה')
+        }
+        return; }
 
         setName('');
         setEmail('');
@@ -102,14 +107,14 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         setReadBylaw(false)
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone, meetingId]);
+    }, [name, email, phone, readBylaw, meetingId]);
 
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
         [email, setEmail, t("email")],
         [phone, setPhone, t("phone")],
 
-    ], [name, email, phone , readBylaw]);
+    ], [name, email, phone]);
 
     return (
         <div id="meetingPageLeft">
@@ -125,7 +130,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
                         ))}
                         <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
                             <div>
-                            <img style={{cursor:'pointer'}} onClick={()=>setReadBylaw(!readBylaw)} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+                            <img style={{cursor:'pointer'}} onClick={()=>{setReadBylaw(!readBylaw); setErrorMsg(null);}} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
 
                             </div>
                             {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
