@@ -70,7 +70,7 @@ class MeetingsStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, limit: { min: this.lastId, max: this.lastId + 5 } })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, limit: { min: this.lastId, max: 5 } })
         })
         if (err) {
             this.error = err
