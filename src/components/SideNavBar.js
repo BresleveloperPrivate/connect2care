@@ -7,10 +7,11 @@ import '../styles/sideNavBar.css'
 import cancel from '../icons/cancel.svg'
 import Auth from '../modules/auth/Auth';
 import Language from './Language';
+import Lng from './Lng';
 
 // component show the side nav bar with all the options of the student
 const SideNavBar = (props) => {
-
+    console.log("options", props.options)
     return (
         <SwipeableDrawer
             anchor="right"
@@ -21,14 +22,15 @@ const SideNavBar = (props) => {
             <div
                 className="outerSidebarContainer"
                 role="presentation"
-                // onClick={props.toggleDrawer(false)}
-                // onKeyDown={props.toggleDrawer(false)}
+            // onClick={props.toggleDrawer(false)}
+            // onKeyDown={props.toggleDrawer(false)}
             >
 
                 <List className='sideOptionsContainer d-flex flex-column justify-content-around'>
                     <img className="cancelIcon" src={cancel} alt={cancel}
                         onClick={props.toggleDrawer(false)} />
-                     <div style={{width:'100%' , display:'flex' , justifyContent:'center'}}><Language changeLanguage={props.changeLanguage} mode2={true} /></div>
+                    {/* <div style={{width:'100%' , display:'flex' , justifyContent:'center'}}><Language changeLanguage={props.changeLanguage} mode2={true} /></div> */}
+
 
                     {props.options.map((text, index) => {
                         if (text === null) return null
@@ -43,7 +45,11 @@ const SideNavBar = (props) => {
                             </ListItem>
                         )
                     })}
-
+                    <ListItem button className='containSideListItem' onClick={() => {
+                        props.toggleDrawer(false)
+                    }}>
+                        <ListItemText disableTypography className='optionTextContainer' primary={<Lng changeLanguage={props.changeLanguage} />} />
+                    </ListItem>
                 </List>
             </div>
         </SwipeableDrawer>)

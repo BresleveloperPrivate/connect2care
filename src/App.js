@@ -43,9 +43,12 @@ class App extends Component {
     }
 
     render() {
-        console.log("this.props.history",this.props.history)
-        if(window.location.search==="?meeting/4"){
-            // str.replace("?", "#");
+        console.log("this.props.history", this.props.history)
+        if (window.location.search !== "" && window.location.search.includes("?id=")) {
+            let id = window.location.search.split("?id=");
+            console.log("id", id)
+            let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/` + id[1];
+            window.location.assign(url);
         }
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);

@@ -110,7 +110,7 @@ module.exports = function (meetings) {
             const emailowner = data.owner.email;
             let newEmail = emailowner.replace("@", "+c2c@");
             const nameOwner = data.owner.name;
-            console.log("emailowner", emailowner)
+
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err", err)
@@ -135,6 +135,8 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
+            
+            
             // security validate
             data.max_participants = Number(data.max_participants)
             if (data.isOpen === "true")
@@ -149,6 +151,8 @@ module.exports = function (meetings) {
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
+
+
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
                 console.log("err2", err2)
@@ -182,7 +186,10 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                createZoomUser(newEmail, nameOwner)
+                                
+                                // createZoomUser(newEmail, nameOwner)
+
+
                                 let sendOptions = {
                                     to: emailowner, subject: "המפגש נוצר בהצלחה", html:
                                         `

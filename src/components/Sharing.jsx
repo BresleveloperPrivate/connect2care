@@ -21,6 +21,7 @@ import { useCopyToClipboard } from 'react-use';
 //} Make sure these are strings!
 
 export default function Sharing(props) {
+  console.log("propsdata", props.data)
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [openEmail, setOpenEmail] = React.useState(false);
@@ -45,8 +46,14 @@ export default function Sharing(props) {
 
   const { styleObject } = props;
 
+  // const getViewport = () => {
+  //   let width = Math.max(document.documentElement.clientWidth, window.outerWidth || 0);
+  //   let height = Math.max(document.documentElement.clientHeight, window.outerHeight || 0);
+  //   if (width >= 490 && height >= 490) return true;
+  //   else return false;
+  // }
+
   const shareWithWhatsApp = async () => {
-    console.log("props.data", props.data.fallens)
     let text = null;
     if (props.data.fallens.length === 1)
       text = `הצטרפו אלינו למפגש zoom לזכרו של ${props.data.fallens[0].name} ז"ל`
@@ -66,11 +73,19 @@ export default function Sharing(props) {
         }
       })
     }
-    const linkText = text + ":" + "http://lohamim.carmel6000.com/" + "#" + "/meeting/" + `${props.meetingId}`;
-    const href = `https://api.whatsapp.com/send?text="https://lohamim.carmel6000.com/?/meeting/4"`;
-    // const href = `https://web.whatsapp.com/send?text=${linkText}`;
-    window.location.assign(href);
-    // window.open(href, '_blank');
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      //whats app web:
+      let linkText = text + ":" + url;
+      let href = `https://web.whatsapp.com/send?text=${linkText}`;
+      window.open(href, '_blank');
+    } else {
+      //whatsapp App:
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let linkText = text + ":" + urlApp;
+      let href = `whatsapp://send?text=${linkText}`;
+      window.location.assign(href);
+    }
     handleClose();
   };
 
@@ -144,8 +159,8 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': `https://lohamim.carmel6000.com/#/meeting/${props.meetingId}?og_img=https://lohamim.carmel6000.com/connect.png`,
-          'og:image': 'http://lohamim.carmel6000.com/connect.png'
+          'og:url': url,
+          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.png`
         }
       })
     })

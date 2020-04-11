@@ -7,14 +7,15 @@ import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
-import Language from './Language';
+// import Language from './Language';
+import Lng from './Lng';
 
 
 class NavBar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            right: false
+            right: false,
         }
         this.setOptions()
     }
@@ -37,7 +38,6 @@ class NavBar extends Component {
     };
 
     setOptions = () => {
-
         this.options =
             [{ option: this.props.t("homePage"), path: '/' },
             { option: this.props.t("meetingsList"), path: '/meetings' },
@@ -51,6 +51,7 @@ class NavBar extends Component {
     changelng = (lng) => {
         this.props.changeLanguage(lng);
         this.setOptions()
+        this.forceUpdate()
     }
 
     render() {
@@ -59,12 +60,13 @@ class NavBar extends Component {
                 <div className='containMenu'>
                     <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
-                <div className='containLanguage'>
+                {/* <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />
-                </div>
-
-
-                <div className='navbarOptions'>
+                </div> */}
+                {this.options && <div className='navbarOptions'>
+                    <div className='optionInNavbar lngNB pointer'>
+                        <Lng changeLanguage={this.changelng} />
+                    </div>
                     {this.options.map((value, index) => {
                         return (
                             <div key={index}
@@ -83,7 +85,7 @@ class NavBar extends Component {
                     })}
 
 
-                </div>
+                </div>}
 
                 <div className='navbarIcon'>
                     <div className='containIconNavbar'>
@@ -93,8 +95,9 @@ class NavBar extends Component {
                         <img alt="alt" src={c2c} height='100%' />
                     </div>
                 </div>
-                <SideNavBar history={this.props.history}
-                    changeLanguage={this.props.changeLanguage}
+                <SideNavBar
+                    history={this.props.history}
+                    changeLanguage={this.changelng}
                     toggleDrawer={this.toggleDrawer}
                     options={this.options}
                     right={this.state.right}
