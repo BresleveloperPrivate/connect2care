@@ -54,6 +54,18 @@
     top: 0;
 }
 
+.lngNB{
+    margin-left: 10vw !important;
+
+    border: 1px solid var(--custom-blue) !important;
+    border-radius: 100px;
+}
+
+.lgnP{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .containMenu{
     z-index: 11;
     position: fixed;

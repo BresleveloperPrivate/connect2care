@@ -137,7 +137,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
 
                             </div>
                             {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
-                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>קראתי את <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">התקנון</a> ואני מסכים/ה לתנאי השימוש</label>
+                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
                         </div>
 
                     </form>
