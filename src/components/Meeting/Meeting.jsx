@@ -53,7 +53,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
         <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-                    <div id="meetingButtons">
+                    {isOpen !== null && isOpen !== undefined && isOpen &&<div id="meetingButtons">
                         {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
@@ -62,7 +62,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
                             data={meeting}
                             t={t}
                         />
-                    </div>
+                    </div>}
 
                     <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />
 
