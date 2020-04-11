@@ -139,7 +139,7 @@ const ComputerList = (props) => {
                     )
                 }) : null}
 
-                    {!props.MeetingsStore.meetings ?
+                    {!props.MeetingsStore.meetings  || props.MeetingsStore.loading ?
                      <div style={{marginTop: '10em'}}>
                         <div className="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
                         <span className="sr-only">Loading...</span>
@@ -153,7 +153,7 @@ const ComputerList = (props) => {
                       :null
                      }
 
-                {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings &&
+                {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <div
                             onClick={() => {

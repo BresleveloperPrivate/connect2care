@@ -92,7 +92,7 @@ const PhoneList = (props) => {
                         return (<MeetingCardPhone key={index} history={props.history} index={index} meeting={meeting} />)
                     }) : null}
 
-                    {!props.MeetingsStore.meetings ?
+                    {!props.MeetingsStore.meetings || props.MeetingsStore.loading ?
                         <div style={{ marginTop: '1em' }}>
                             <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
                                 <span className="sr-only">Loading...</span>
@@ -107,7 +107,7 @@ const PhoneList = (props) => {
                     }
 
                     <div style={{ display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth:'50vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }}>
-                        {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings &&
+                        {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
                             <div
                                 onClick={() => {
                                     props.MeetingsStore.search(true, false)
