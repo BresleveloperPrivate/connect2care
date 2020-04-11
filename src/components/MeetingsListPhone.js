@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 import { inject, observer, PropTypes } from 'mobx-react';
-import lock from '../icons/blue-lock.svg'
-import tell from '../icons/tell.svg'
-import ImageOfFallen from './ImageOfFallen'
+// import lock from '../icons/blue-lock.svg'
+// import tell from '../icons/tell.svg'
+// import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
-import candle from '../icons/candle-dark-blue.svg'
-import clock from '../icons/clock.svg'
+// import candle from '../icons/candle-dark-blue.svg'
+// import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import filter1 from '../icons/filter1.svg'
@@ -30,9 +30,9 @@ const PhoneList = (props) => {
         <div className='meetingsFullPage'>
 
             {!props.MeetingsStore.error ?
-                <div className='mainPage-meetings'>
-                    <div className='meetings-title'>רשימת המפגשים</div>
-                    <div className='meetings-second-title'>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
+                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>רשימת המפגשים</div>
+                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                     <div className='containSearch'>
                         <div className='input-meetings' style={{display:'flex' , alignItems:'center'}}>
                             <input
@@ -121,7 +121,7 @@ const PhoneList = (props) => {
 
                 </div>
                 :
-                <div className='mainPage-meetings'>
+                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
                     <div style={{ paddingTop: '10em', color: 'var(--custom-blue)', fontSize: '3em' }}>
                         {props.MeetingsStore.error.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
                     </div>

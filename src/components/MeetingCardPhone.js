@@ -14,20 +14,17 @@ const PhoneCard = (props) => {
 
     return (
 
-        <div key={props.index} className='containMeetingCard'>
+        <div key={props.index}  className={localStorage.getItem('lang') !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard' }>
 
             <div
                 style={{ cursor:'pointer' }}
-                className='meetingCard'
+                className={localStorage.getItem('lang') !== 'heb' ? 'meetingCard fdrr' :  'meetingCard' }
                 onClick={() => {
                     props.history.push(`/meeting/${props.meeting.id}`)
                 }}
             >
 
-                <div className='participants'>
-                    <img width='100%' height='100%' src={participants} />
-                    <div className='numberOfParticipants'>{props.meeting.participants_num}</div>
-                </div>
+                
 
             <div>
                 <ImageOfFallen
@@ -38,11 +35,17 @@ const PhoneCard = (props) => {
                 />
             </div>
                 <div className='meetingCardContent'>
-                    <div className='meetingName'>
+                <div className={localStorage.getItem('lang') !== 'heb' ? 'participants participants-right' : 'participants participants-left'}>
+                    <img width='100%' height='100%' src={participants} />
+                    <div className='numberOfParticipants'>{props.meeting.participants_num}</div>
+                </div>
+                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetingName tal' : 'meetingName tar' }>
                         {props.meeting.name}
                     </div>
                     <div className='meetingFor'>
-                        <div style={{height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
+                        <div style={localStorage.getItem('lang')!== 'heb' ? 
+                        {height:'1.7em' , marginRight:'0.5em' , marginBottom:'0.5em'}:
+                        {height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
                             <img src={candle} height='100%' />
                         </div>
                         <div>{props.meeting.fallens_meetings.map((fallen, index) => {
@@ -64,19 +67,31 @@ const PhoneCard = (props) => {
                         })}</div>
                     </div>
                     <div className='meetingDate'>
-                        {props.LanguageStore.width > 300 ?<div style={{ height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
-                            <img src={clock} height='100%' />
+                        {props.LanguageStore.width > 300 ?
+                    <div style={
+                        localStorage.getItem('lang')!== 'heb' ? 
+                        { height: '1.3em', marginBottom: '0.5em', marginRight: '0.5em' }:
+                        { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
+                                    <img src={clock} height='100%' />
                         </div> : null}
                         {props.meeting.date} | {props.meeting.time}
                     </div>
                     <div className='meetingOwner'>
 
-                        <div style={{ height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
+                        <div style={
+                            localStorage.getItem('lang')!== 'heb' ? 
+                            { height: '1.3em', marginBottom: '0.6em', marginRight: '0.5em' }:
+                            { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                             <img src={tell} height='100%' />
                         </div>
                         מארח/ת: {props.meeting.meetingOwner && props.meeting.meetingOwner.name}
                     </div>
-                    <div style={{width:'100%' , display:'flex' , justifyContent:'flex-end'}}>
+                    <div style={
+                        localStorage.getItem('lang')!== 'heb' ? 
+                        {width:'100%' , display:'flex' ,flexDirection:'row-reverse' , justifyContent:'flex-end'}
+:
+                        {width:'100%' , display:'flex' , justifyContent:'flex-end'}
+                        }>
                     <div className={!props.meeting.isOpen || props.meeting.participants_num >= props.meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 
                     {!props.meeting.isOpen || props.meeting.participants_num >= props.meeting.max_participants ? 
                     <div style={{height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}}>
