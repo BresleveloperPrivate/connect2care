@@ -58,8 +58,6 @@ class MeetingsStore {
             this.meetings = false
         }
 
-        console.log(getMore)
-
         let filter = {
             // id: this.lastId,
             language: this.language.data,
@@ -68,8 +66,6 @@ class MeetingsStore {
             time: this.time.data,
             isAvailable: this.availableOnly,
         }
-
-        console.log(filter)
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
@@ -80,7 +76,6 @@ class MeetingsStore {
             this.error = err
             console.log(err)
         } else {
-            let id;
             if (!meetings.length) {
                 this.loadMoreButton = false
                 this.meetings = []
