@@ -86,6 +86,7 @@ class MeetingsStore {
             } else {
                 this.loadMoreButton = true
             }
+            console.log(meetings)
             if (!this.meetings) {
                 this.meetings = meetings.slice(0, 4)
 

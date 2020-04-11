@@ -63,7 +63,7 @@ module.exports = function (meetings) {
 
         
         console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'order by meetings.id LIMIT ' + limit.min + ' , ' + limit.max}`, (err, res) => {
 
             if (err) {
                 console.log(err)
