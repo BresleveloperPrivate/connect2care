@@ -222,7 +222,7 @@ const MeetingDetails = (props) => {
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                             <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: true } })}>
-                                <div className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""}>
+                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null||props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
                                     {Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                         <img src={checkbox_on_light} /> :
                                         <img src={checkbox_off_light} />
@@ -231,7 +231,7 @@ const MeetingDetails = (props) => {
                                 <div style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
                             </div>
                             <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
-                                <div className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""}>
+                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null||props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
                                     {!Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                         <img src={checkbox_on_light} /> :
                                         <img src={checkbox_off_light} />
@@ -261,21 +261,21 @@ const MeetingDetails = (props) => {
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">שעה (שעון ישראל):</div>}
                                 <Select
-                                    selectTextDefault="דקות"
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "שעות"}
                                     arr={meetingTimeMinute}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                                    className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
+                                    className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
 
                                 <div className="timeDot">:</div>
                                 <Select
-                                    selectTextDefault="שעות"
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : "דקות"}
                                     arr={meetingTimeHour}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
                             </div>
 
                         </div>
