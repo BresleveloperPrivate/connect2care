@@ -589,7 +589,7 @@ module.exports = function (meetings) {
         returns: { type: "object", root: true },
     });
 
-    meetings.deleteMeeting = (id, options, cb) => {
+    meetings.deleteMeeting = (id, cb) => {
         (async () => {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
@@ -640,9 +640,9 @@ module.exports = function (meetings) {
             }
 
             let [err7, res5] = await to(meetings.destroyById(id))
-            if (err5) {
-                console.log(err6)
-                return cb(err6)
+            if (err7) {
+                console.log(err7)
+                return cb(err7)
             }
             return cb(null, true)
         })()
@@ -650,10 +650,7 @@ module.exports = function (meetings) {
 
     meetings.remoteMethod('deleteMeeting', {
         http: { verb: 'post' },
-        accepts: [
-            { arg: 'id', type: 'number' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
+        accepts: { arg: 'id', type: 'number' },
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 };
