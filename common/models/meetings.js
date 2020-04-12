@@ -136,8 +136,10 @@ module.exports = function (meetings) {
             data.max_participants = Number(data.max_participants)
             if (data.isOpen === "true")
                 data.isOpen = true
-            else if (data.isOpen === "false")
+            else if (data.isOpen === "false"){
                 data.isOpen = false
+                data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
+            }
             console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
