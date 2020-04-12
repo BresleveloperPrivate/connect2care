@@ -122,8 +122,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
     return (
         <div id="meetingPageLeft">
             <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            <div id="meetingLeftTitle">{available ? 'הצטרף למפגש' : 'לא ניתן להצטרף למפגש'}</div>
-            <div id="meetingLeftDescription">{available ? 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת' : 'אין עוד מקומות פנויים במפגש זה'}</div>
+            <div id="meetingLeftTitle">הצטרף למפגש</div>
+            <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת </div>
 
             {available &&
                 <div>

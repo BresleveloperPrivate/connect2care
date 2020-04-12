@@ -111,6 +111,7 @@ const SearchFallen = (props) => {
                 className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
                 style={{ width: "100%", marginBottom: '0' }}>
                 <input
+                    disabled={CreateMeetingStore.meetingId !== -1}
                     type="text"
                     style={{ all: "unset", width: "calc(100% - 20px)" }}
                     onChange={onChange}
