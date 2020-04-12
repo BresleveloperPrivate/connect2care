@@ -71,7 +71,7 @@ module.exports = {
         },
         max_participants: {
             type: "number",
-            numericality: { greaterThan: 9, lessThanOrEqualTo: 3000  }
+            numericality: { greaterThan: 9, lessThanOrEqualTo: 3000 }
         },
         code: {
             type: "number",
@@ -85,6 +85,31 @@ module.exports = {
             }
         }, //enum  
     },
+    // people: {
+    //     name: {
+    //         type: "string",
+    //         format: {
+    //             pattern: '^[\u0590-\u05fe \' \" ]+ [\u0590-\u05fe \' \" ]+$',
+    //             message: "invalid realm"
+    //         }
+    //     },
+    //     email: {
+    //         type: "string",
+    //         format: {
+    //             pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*().~`\[\]{}\|\\-_=+<>:"?]{6,}$/',
+    //             message: "invalid password",
+    //             flags: ""
+    //         }
+    //     },
+    //     phone: {
+    //         type: "string",
+    //         format: {
+    //             pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*().~`\[\]{}\|\\-_=+<>:"?]{6,}$/',
+    //             message: "invalid password",
+    //             flags: ""
+    //         }
+    //     }
+    // },
 
     fallens_meetings: {
         fallen: {

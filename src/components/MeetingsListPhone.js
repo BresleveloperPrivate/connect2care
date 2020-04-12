@@ -30,9 +30,9 @@ const PhoneList = (props) => {
         <div className='meetingsFullPage'>
 
             {!props.MeetingsStore.error ?
-                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
-                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>רשימת המפגשים</div>
-                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>רשימת המפגשים</div>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
                     <div className='containSearch'>
                         <div className='input-meetings' style={{display:'flex' , alignItems:'center'}}>
                             <input
@@ -44,7 +44,12 @@ const PhoneList = (props) => {
                             onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
                             placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
                         />
-                         <div style={{ height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }}
+                         <div style={
+                            props.LanguageStore.lang !== 'heb' ?
+                            { height: '1.8em', width: '1em', display: 'flex', marginLeft: '0.8em' }
+                            : 
+                           { height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }
+                            }
                             onClick={
                                 props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
                                 () => {
@@ -54,7 +59,12 @@ const PhoneList = (props) => {
                             <img height='100%' width='100%' src={search} />
                         </div>
                         </div>
-                        <div style={{ height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }}
+                        <div style={
+                            props.LanguageStore.lang !== 'heb' ? 
+                            { height: '2em', width: '1.5em', display: 'flex', marginLeft: '0.8em' }
+:
+                            { height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }
+                        }
                             onClick={() => {
                                 if(!filter){
                                     let filtersId = document.getElementById('filtersId')
@@ -106,7 +116,9 @@ const PhoneList = (props) => {
                             : null
                     }
 
-                    <div style={{ display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth:'50vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }}>
+                    <div style={
+                        { display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth: props.LanguageStore.width > 550 ? '30vw' : '40vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }
+                    }>
                         {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
                             <div
                                 onClick={() => {
@@ -121,7 +133,7 @@ const PhoneList = (props) => {
 
                 </div>
                 :
-                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
                     <div style={{ paddingTop: '10em', color: 'var(--custom-blue)', fontSize: '3em' }}>
                         {props.MeetingsStore.error.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
                     </div>

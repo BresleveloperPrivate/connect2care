@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { inject, observer } from 'mobx-react';
 
 import { IconButton, ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core';
 // import { ArrowForward } from "@material-ui/icons";
@@ -93,8 +94,8 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
 
 const theme = createMuiTheme({ direction: "rtl", palette: { primary: { main: "#082551" }, secondary: { main: "#3586B1" } } });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <Meeting {...props} />
     </ThemeProvider>
-);
+)));

@@ -21,7 +21,8 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: "",
-        time: "00:00",
+        timeHour: "",
+        timeMinute: "",
         max_participants: "",
         fallens: null,
         zoomId: "",
@@ -55,7 +56,8 @@ class CreateMeetingStore {
             language: "",
             isOpen: "",
             date: "",
-            time: "00:00",
+            timeHour: "",
+            timeMinute: "",
             max_participants: "",
             fallens: null,
             zoomId: "",
@@ -149,7 +151,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -227,6 +229,8 @@ class CreateMeetingStore {
             object.fallens.push(fallen)
         }
         delete object.fallens_meetings
+        let hour = object.time.split(":")[0]
+        let minute = object.time.split(":")[1]
 
         this.meetingDetailsOriginal = {
             name: object.name,
@@ -239,7 +243,8 @@ class CreateMeetingStore {
             language: object.language,
             isOpen: object.isOpen,
             date: object.date,
-            time: object.time,
+            timeHour: hour,
+            timeMinute: minute,
             max_participants: object.max_participants || '',
             fallens: object.fallens,
             zoomId: "",
@@ -280,8 +285,12 @@ class CreateMeetingStore {
         }
     }
 
-    changeMeetingTime = (event) => {
-        this.meetingDetails.time = (event.getHours() < 10 ? '0' : '') + event.getHours() + ":" + (event.getMinutes() < 10 ? '0' : '') + event.getMinutes()
+    changeMeetingTimeHour = (event) => {
+        this.meetingDetails.timeHour = event
+    }
+
+    changeMeetingTimeMinute = (event) => {
+        this.meetingDetails.timeMinute = event
     }
 
     equals = (obj1, obj2) => {
@@ -337,12 +346,24 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.zoomId
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
+            this.setError("כל השדות צריכים להיות מלאים")
+            return
+        }
+        console.log("beforePostJSON.fallens", beforePostJSON.fallens)
+        for (let i = 0; i < beforePostJSON.fallens.length; i++) {
+            console.log("beforePostJSON.fallens[i]", beforePostJSON.fallens[i])
+            if (!beforePostJSON.fallens[i] || !beforePostJSON.fallens[i].id || beforePostJSON.fallens[i].id === 0 || !beforePostJSON.fallens[i].relative) {
+                this.setError("כל השדות צריכים להיות מלאים")
+                return
+            }
+        }
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
         }
         beforePostJSON.zoomId = zoomId
-
+        beforePostJSON.time = this.meetingDetails.timeMinute + ":" + this.meetingDetails.timeHour
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
@@ -436,7 +457,8 @@ decorate(CreateMeetingStore, {
     changeNumberOfParticipants: action,
     setError: action,
     changeMeetingDate: action,
-    changeMeetingTime: action,
+    changeMeetingTimeHour: action,
+    changeMeetingTimeMinute: action,
     changeMeetingOpenOrClose: action,
     changeMeetingFacilitatorPhoneNumber: action,
     changeFallenRelative: action,
