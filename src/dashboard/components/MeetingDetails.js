@@ -222,7 +222,7 @@ const MeetingDetails = (props) => {
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                             <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: true } })}>
-                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null||props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
+                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
                                     {Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                         <img src={checkbox_on_light} /> :
                                         <img src={checkbox_off_light} />
@@ -231,7 +231,7 @@ const MeetingDetails = (props) => {
                                 <div style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
                             </div>
                             <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
-                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null||props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
+                                <div className={(isSaved && (props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined)) ? "error" : ""}>
                                     {!Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                         <img src={checkbox_on_light} /> :
                                         <img src={checkbox_off_light} />
