@@ -54,7 +54,7 @@ const ComputerList = (props) => {
                             () => {
                                 props.MeetingsStore.search(false, true)
                             } : () => { }}>
-                        חיפוש
+                        {props.LanguageStore.lang !== 'heb' ? 'Search' : 'חיפוש'}
                     </div>
 
                 </div>
