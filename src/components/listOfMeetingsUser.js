@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import CompList from './MeetingsListComp'
 import PhoneList from './MeetingsListPhone'
 

@@ -51,7 +51,7 @@ const meetingTime = [
                 fetch={props.MeetingsStore.search}
                 selectTextDefault='תאריך המפגש'
                 arr={meetingDate}
-                className={localStorage.getItem('lang') !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingDate(value)
                     props.MeetingsStore.search()
@@ -63,7 +63,7 @@ const meetingTime = [
                 default={props.MeetingsStore.time}
                 selectTextDefault='שעה'
                 arr={meetingTime}
-                className={localStorage.getItem('lang') !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingTime(value)
                     props.MeetingsStore.search()
@@ -75,7 +75,7 @@ const meetingTime = [
                 default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                 selectTextDefault='קרבה לחלל'
                 arr={myCloseToTheFallen}
-                className={localStorage.getItem('lang') !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={
                     (value) => {
                         props.MeetingsStore.changeFallenRelative(value)
@@ -87,7 +87,7 @@ const meetingTime = [
                 default={props.MeetingsStore.language}
                 selectTextDefault='שפת המפגש'
                 arr={meetingLanguage}
-                className={localStorage.getItem('lang') !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingLanguage(value)
                     props.MeetingsStore.search()

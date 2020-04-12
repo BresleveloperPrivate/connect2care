@@ -14,11 +14,11 @@ const PhoneCard = (props) => {
 
     return (
 
-        <div key={props.index}  className={localStorage.getItem('lang') !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard' }>
+        <div key={props.index}  className={props.LanguageStore.lang !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard' }>
 
             <div
                 style={{ cursor:'pointer' }}
-                className={localStorage.getItem('lang') !== 'heb' ? 'meetingCard fdrr' :  'meetingCard' }
+                className={props.LanguageStore.lang !== 'heb' ? 'meetingCard fdrr' :  'meetingCard' }
                 onClick={() => {
                     props.history.push(`/meeting/${props.meeting.id}`)
                 }}
@@ -35,11 +35,11 @@ const PhoneCard = (props) => {
                 />
             </div>
                 <div className='meetingCardContent'>
-                <div className={localStorage.getItem('lang') !== 'heb' ? 'participants participants-right' : 'participants participants-left'}>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'participants participants-right' : 'participants participants-left'}>
                     <img width='100%' height='100%' src={participants} />
                     <div className='numberOfParticipants'>{props.meeting.participants_num}</div>
                 </div>
-                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetingName tal' : 'meetingName tar' }>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetingName tal' : 'meetingName tar' }>
                         {props.meeting.name}
                     </div>
                     <div className='meetingFor'>
@@ -94,7 +94,12 @@ const PhoneCard = (props) => {
                         }>
                     <div className={!props.meeting.isOpen || props.meeting.participants_num >= props.meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 
                     {!props.meeting.isOpen || props.meeting.participants_num >= props.meeting.max_participants ? 
-                    <div style={{height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}}>
+                    <div style={
+                        props.LanguageStore.lang !== 'heb' ? 
+                        {height:'0.9em' , width: '0.9em' , marginRight:'0.4em' , display:'flex'}
+                        :
+                        {height:'0.9em' , width: '0.9em' , marginLeft:'0.4em' , display:'flex'}                        
+                        }>
                         <img height='100%' width='100%' src={lock}/>
                     </div> 
                     : null }

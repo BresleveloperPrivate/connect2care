@@ -11,7 +11,7 @@ class Explanation extends Component {
             <div className={this.props.explanation === 1 ? ' containFirstExplanation containExplanation' : 'containExplanation'} >
 
                 {this.props.explanation === 1 ?
-                    <div className='explanation'>
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? 'explanation-left': 'explanation-right'}>
                         {this.props.t("someOfUsWaitingForTheMemorialDayMeetingAllYear")}.<br />
                         {this.props.t("othersBecomeSkyAndEarthJustNotToGiveUp")}.<br />
                         <strong>{this.props.t("andThisYearWellContinueJustLikeThat")}.</strong><br /><br />
@@ -21,7 +21,7 @@ class Explanation extends Component {
                     לפתוח עוד בירה. <br />
                     לצחוק. לבכות. לזכור.
                </div> :
-                    <div className='explanation'>
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? 'explanation-left': 'explanation-right'}>
                         אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />
                         את 'האחים שלנו' הקמנו אנחנו, האחים השכולים,<br />
                          כדי להמשיך ולדבר על החיים איתם. מהזווית שלנו.<br /><br />
@@ -40,4 +40,5 @@ class Explanation extends Component {
 }
 
 // export default Explanation;
-export default inject('i18n')(observer(withNamespaces()(Explanation)));
+
+export default inject('i18n','LanguageStore')(observer(withNamespaces()(Explanation)));

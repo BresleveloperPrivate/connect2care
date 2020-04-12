@@ -60,7 +60,7 @@ class App extends Component {
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
                     {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
-                    <div className={localStorage.getItem('lang') !== 'heb' ? "App-ltr" : "App-rtl"}>
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"}>
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings|my-meetings)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
@@ -84,4 +84,4 @@ class App extends Component {
     }
 }
 
-export default inject('i18n')(observer(withNamespaces()(App)));
+export default inject('i18n','LanguageStore')(observer(withNamespaces()(App)));

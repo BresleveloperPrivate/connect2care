@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import '../styles/partners.css'
 import hilma from '../icons/hilma.png'
 import can from '../icons/can.png'
@@ -24,7 +25,7 @@ class Partners extends Component {
 
             <div className='containThanks'>
 
-                <div className='thanks'>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'thanks fdrr' : 'thanks'}>
                     {this.props.t('partners')}
                         <div className='cover'>
                         <div className='arrow-bottom-green'></div>
@@ -51,7 +52,7 @@ class Partners extends Component {
 
 
                 </div>
-                <div className='hilmeCredit'>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'hilmeCredit fdrr' : 'hilmeCredit'}>
                     האתר פותח כתרומה לחברה ע"י הילמה - הייטק למען החברה
                   <div style={{height:'1em' ,marginRight:'4vw' , display:'flex'}}><img src={hilmaWhite} height='100%' /></div> </div>
 
@@ -61,4 +62,4 @@ class Partners extends Component {
     }
 }
 
-export default Partners;
+export default inject('LanguageStore')(observer(Partners));

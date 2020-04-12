@@ -36,7 +36,7 @@
         height: 6vw;
         display: flex;
         width: 100vw;
-        padding-right: 10vw;
+        padding: 0 10vw;
     
     }
     
@@ -57,7 +57,10 @@
       background-color: var(--custom-blue);
       right: 20vw;
       color: white;
-      margin-left: 6vw;
+    }
+    
+    .ml6vw{
+        margin-left: 6vw;
     }
     
     .secondOptionOpeningImage{
@@ -72,7 +75,7 @@
         height: 6vw;
         display: flex;
         width: 100vw;
-        padding-right: 10vw;
+        padding: 0 10vw;
     }
     
 
@@ -89,7 +92,7 @@
     height: 4vw;
     display: flex;
     width: 100vw;
-    padding-right: 10vw;
+    padding: 0 10vw;
 
 }
 
@@ -110,7 +113,6 @@
   background-color: var(--custom-blue);
   right: 20vw;
   color: white;
-  margin-left: 6vw;
 }
 
 .secondOptionOpeningImage{
@@ -125,7 +127,7 @@
     height: 4vw;
     display: flex;
     width: 100vw;
-    padding-right: 10vw;
+    padding: 0 10vw;
 }
 }
 
@@ -154,7 +156,7 @@
         bottom: -19vw;
         /* height: 10vw; */
         display: flex;
-        flex-direction: column;
+        flex-direction: column !important;
         align-items: center;
         width: 100vw;
     

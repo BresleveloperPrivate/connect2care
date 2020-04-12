@@ -345,5 +345,4 @@ const CreateMeeting = (props) => {
 
     )
 }
-
-export default inject('CreateMeetingStore')(observer(CreateMeeting));
+export default inject('CreateMeetingStore','LanguageStore')(observer(CreateMeeting));

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { inject, observer } from 'mobx-react';
 
 import { IconButton, ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core';
 // import { ArrowForward } from "@material-ui/icons";

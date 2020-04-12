@@ -3,6 +3,7 @@ import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { inject, observer } from 'mobx-react';
 
 const Select = (props) => {
     const ref = useRef()
@@ -28,7 +29,7 @@ const Select = (props) => {
                         
                         </div>
                     {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
-                    <FontAwesomeIcon className= {localStorage.getItem('lang') !== 'heb' ?  "arrowInput-tal" : 'arrowInput-tar'}
+                    <FontAwesomeIcon className= {props.LanguageStore.lang !== 'heb' ?  "arrowInput-tal" : 'arrowInput-tar'}
                         icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&
@@ -56,4 +57,4 @@ const Select = (props) => {
     )
 }
 
-export default Select
+export default inject('LanguageStore')(observer(Select));
