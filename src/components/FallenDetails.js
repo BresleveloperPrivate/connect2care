@@ -31,7 +31,7 @@ const FallenDetails = (props) => {
     }, []);
 
 
-    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image && CreateMeetingStore.fallenDetails[props.fallen.id].image !== ""
+    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image
     return (
         <div className="containFallenDetails">
             {props.LanguageStore.width > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
@@ -91,7 +91,7 @@ const FallenDetails = (props) => {
 
             <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >
 
-                <img src={findImage && dissmisedPic ? CreateMeetingStore.fallenDetails[props.fallen.id].image : grayCandle}
+                <img src={findImage && dissmisedPic ? CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" ? CreateMeetingStore.fallenDetails[props.fallen.id].image : "./images/fallenFallback.jpeg" : grayCandle}
                     alt="grayCandle" style={
                         findImage && dissmisedPic ? { height: "24vh", borderRadius: "4px" } : { height: "13vh" }} />
                 {/* {findImage && dissmisedPic && <FontAwesomeIcon

@@ -312,14 +312,16 @@ const CreateMeeting = (props) => {
                             className="containCreateMettingButton"
                         >
                             <div className="createMeetingButton grow" onClick={async () => {
-                                setIsSaved(true)
-                                if (!readBylaw) {
-                                    props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
-                                    return
-                                }
-                                let meeting = await props.CreateMeetingStore.createNewMeetingPost()
-                                if (meeting) {
-                                    setSuccess(meeting[0])
+                                if (!props.CreateMeetingStore.waitForData) {
+                                    setIsSaved(true)
+                                    if (!readBylaw) {
+                                        props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
+                                        return
+                                    }
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    if (meeting) {
+                                        setSuccess(meeting[0])
+                                    }
                                 }
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
