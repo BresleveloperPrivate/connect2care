@@ -131,7 +131,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
                         {inputs.map(([value, setValue, placeholder], index) => (
                             <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                         ))}
-                        <div className="margin-right-text d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
                             <div>
                             <img style={{cursor:'pointer'}} onClick={()=>{setReadBylaw(!readBylaw); setErrorMsg(null);}} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
 
