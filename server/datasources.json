@@ -4,13 +4,14 @@
     "connector": "memory"
   },
   "msql": {
-    "host": "localhost",
+    "host": "ourbrotherdb.mysql.database.azure.com",
     "port": 3306,
     "database": "ourBro",
-    "password": "z10mz10m",
+    "password": "Grth@Grth123",
     "name": "msql",
-    "user": "root",
-    "connector": "mysql"
+    "user": "hilmauser@ourbrotherdb",
+    "connector": "mysql",
+    "ssl": true
   },
   "myEmailDataSource": {
     "connector": "mail",
@@ -32,5 +33,3 @@
     ]
   }
 }
-
-
