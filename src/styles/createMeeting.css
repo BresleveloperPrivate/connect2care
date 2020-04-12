@@ -145,7 +145,8 @@ input[type=radio]:focus {
 }
 
 .CreateMeeting{
-    text-align: right
+    text-align: right;
+    direction: rtl;
 }
 
 .candleImg{
@@ -164,7 +165,7 @@ input[type=radio]:focus {
     color: var(--custom-gray)
 }
 
-.CreateMeeting .arrowInput{
+.CreateMeeting .arrowInput-tal, .CreateMeeting .arrowInput-tar{
     margin-left: 2vh !important;
 }
 
