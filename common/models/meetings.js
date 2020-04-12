@@ -127,7 +127,16 @@ module.exports = function (meetings) {
                 if (!validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
-                let [err1, user] = await to(people.create(data.owner))
+                let whitelist = {
+                    name: true, email: true, phone: true
+                };
+                let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+                if (!valid.success || valid.errors) {
+                    return cb(valid.errors, null);
+                }
+
+                let [err1, user] = await to(people.create(valid.data))
                 if (err1) {
                     console.log("err1", err1)
                     return cb(err1)
@@ -357,7 +366,17 @@ module.exports = function (meetings) {
                     console.log(errMeeting)
                     return cb(errMeeting)
                 }
-                let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, data.owner))
+
+                let whitelist = {
+                    name: true, email: true, phone: true
+                };
+                let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+                if (!valid.success || valid.errors) {
+                    return cb(valid.errors, null);
+                }
+
+                let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
                     console.log(errPeople)
                     return cb(errPeople)
@@ -535,14 +554,43 @@ module.exports = function (meetings) {
                     return cb(err)
                 }
                 if (!user0) {
-                    person = await people.create({ name, email, phone });
+                    let whitelist = {
+                        name: true, email: true, phone: true
+                    };
+                    let valid = ValidateTools.runValidate({ name, email, phone }, ValidateRules.people, whitelist);
+                    console.log("valid", valid)
+                    if (!valid.success || valid.errors) {
+                        return cb(valid.errors, null);
+                    }
+
+                    person = await people.create(valid.data);
                 }
                 else {
                     person = user0
                 }
-                await people_meetings.create({ person: person.id, meeting: meetingId });
+
+                let whitelist1 = {
+                    person: true, meeting: true
+                };
+                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: meetingId }, ValidateRules.people_meetings, whitelist1);
+                console.log("valid1", valid1)
+                if (!valid1.success || valid1.errors) {
+                    return cb(valid1.errors, null);
+                }
+
+                await people_meetings.create(valid1.data);
                 const participantsNum = participants_num ? participants_num + 1 : 1;
-                await meetings.upsert({ id: meetingId, participants_num: participantsNum });
+
+                let whitelist2 = {
+                    id: true, participants_num: true
+                };
+                let valid2 = ValidateTools.runValidate({ id: meetingId, participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
+                console.log("valid2", valid2)
+                if (!valid2.success || valid2.errors) {
+                    return cb(valid2.errors, null);
+                }
+
+                await meetings.upsert(valid2.data);
                 let shalom = mailDetails
                 let sendOptions = {
                     to: email, subject: "הרשמתך למפגש התקבלה", html:

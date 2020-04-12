@@ -162,7 +162,7 @@ export default function Sharing(props) {
       action_properties: JSON.stringify({
         object: {
           'og:url': url,
-          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.png`
+          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.jpg`
         }
       })
     })
