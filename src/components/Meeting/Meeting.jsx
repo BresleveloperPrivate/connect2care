@@ -81,11 +81,11 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
                 <MeetingBottom numOfPeople={numOfPeople} />
 
             </div>
-            {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+            {!!name && (isOpen !== null && isOpen !== undefined && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
+                <MeetingLeftOpen code={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
-                    <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />
+                    <MeetingLeftClosed t={t} />
                 )
             )}
         </div>
