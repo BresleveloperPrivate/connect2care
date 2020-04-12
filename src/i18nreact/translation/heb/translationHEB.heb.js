@@ -43,7 +43,7 @@ const translationHEB = {
     "quote":"המפגשים מאפשרים הצצה נדירה וייחודית להתמודדות האחים עם נפילת יקיריהם ומאפשרים לשמוע סיפור שמעולם לא סופר בצורה נרחבת ורשמית",
     "partners":'תודה לשותפים שלנו',
 
-    "IWantToInitiateAMeeting":"אני רוצה ליזום מפגש",
+    "IWantToInitiateAMeeting":"אני רוצה להוביל מפגש",
     "IWantToAttendAMeeting":"אני רוצה להשתתף במפגש",
     "participantInMeeting": "משתתף במפגש",
     "meetingHost": 'מארח/ת המפגש',
