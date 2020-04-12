@@ -91,10 +91,10 @@ class NavBar extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
                     <div className='containIconNavbar'>
-                        <img alt="alt" src={ourBrothers} height='80%' className="oblogo" />
+                        <img onClick={()=>{window.open('https://ourbrothers.co.il/')}} alt="alt" src={ourBrothers} height='80%' className="oblogo" />
                     </div>
                     <div className='containIconNavbar'>
-                        <img alt="alt" src={c2c} height='100%' />
+                        <img onClick={()=>{this.props.history.replace('/')}} alt="alt" src={c2c} height='100%' />
                     </div>
                 </div>
                 <SideNavBar
