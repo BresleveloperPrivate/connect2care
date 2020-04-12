@@ -43,7 +43,7 @@ const PhoneCard = (props) => {
                         {props.meeting.name}
                     </div>
                     <div className='meetingFor'>
-                        <div style={localStorage.getItem('lang')!== 'heb' ? 
+                        <div style={props.LanguageStore.lang !== 'heb' ? 
                         {height:'1.7em' , marginRight:'0.5em' , marginBottom:'0.5em'}:
                         {height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
                             <img src={candle} height='100%' />
@@ -79,7 +79,7 @@ const PhoneCard = (props) => {
                     <div className='meetingOwner'>
 
                         <div style={
-                            localStorage.getItem('lang')!== 'heb' ? 
+                            props.LanguageStore.lang !== 'heb' ? 
                             { height: '1.3em', marginBottom: '0.6em', marginRight: '0.5em' }:
                             { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                             <img src={tell} height='100%' />
@@ -87,9 +87,9 @@ const PhoneCard = (props) => {
                         מארח/ת: {props.meeting.meetingOwner && props.meeting.meetingOwner.name}
                     </div>
                     <div style={
-                        localStorage.getItem('lang')!== 'heb' ? 
+                        props.LanguageStore.lang !== 'heb' ? 
                         {width:'100%' , display:'flex' ,flexDirection:'row-reverse' , justifyContent:'flex-end'}
-:
+                            :
                         {width:'100%' , display:'flex' , justifyContent:'flex-end'}
                         }>
                     <div className={!props.meeting.isOpen || props.meeting.participants_num >= props.meeting.max_participants ? 'meetingIsCloseBtn' :  'joinMeetingBtn grow' }> 

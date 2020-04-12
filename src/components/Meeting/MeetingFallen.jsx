@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
 
 const useStyles = makeStyles({
     avatar: {
@@ -9,12 +10,12 @@ const useStyles = makeStyles({
     }
 });
 
-const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link } }) => {
+const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link } , LanguageStore }) => {
     const { avatar } = useStyles();
     return (
-        <div className="meetingFallen">
+        <div className={LanguageStore.lang !== 'heb' ? "meetingFallen fdrr" : "meetingFallen"}>
             <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} variant="square" />
-            <div className="meetingFallenDescription">
+            <div className={LanguageStore.lang !== 'heb' ? "meetingFallenDescription tal" : "meetingFallenDescription tar"}>
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
                 <div className="fallenDate">{falling_date.split("T")[0].split('-')[2]}.{falling_date.split("T")[0].split('-')[1]}.{falling_date.split("T")[0].split('-')[0]} | {heb_falling_date}</div>
@@ -23,4 +24,4 @@ const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_l
     );
 }
 
-export default MeetingFallen;
+export default inject('LanguageStore')(observer(MeetingFallen));

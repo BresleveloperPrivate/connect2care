@@ -162,7 +162,7 @@ const CreateMeeting = (props) => {
 
                         <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "4vh" }}>
                             <img style={{ width: "18px", marginLeft: "1vh" }} src={person} alt="person" />
-                            <div className="inputDetail">{props.t("ownerDetails")}:</div>
+                            <div className="inputDetail">{props.t("ownerDetails")}</div>
                         </div>
 
                         <div className='position-relative'>

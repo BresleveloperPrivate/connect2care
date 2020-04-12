@@ -151,7 +151,7 @@
 }
 
 .mainPage-meetings{
-    width: 85em;
+    width: 75vw;
     margin-right: 6vw;
 }
 
@@ -350,18 +350,85 @@
     padding-top: 0.3em;
 } */
 
+@media screen and (max-width: 1200px){
 
+
+    .mainPage-meetings{
+        width: 90vw;
+        margin-right: 6vw;
+    }    
+}
 
 @media screen and (max-width: 800px){
 
 
     .mainPage-meetings{
-        width: 79em;
+        width: 90vw;
         margin-right: 6vw;
     }    
-}
 
-@media screen and (max-width: 550px){
+
+
+    .containFilters{
+        margin-top: 2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        font-size: 2em;
+        padding: 0 5vw;
+        max-height: 60vh;
+        overflow: hidden;
+        transition: max-height 1.5s ease;
+        animation: makeOverflowVisible 0s ease-in 2s;
+
+    }
+
+    .input-meetings:not(.filter-meeting-left, .filter-meeting-right){
+        padding: 0.5vh 0.6em;
+    }
+
+    .inputPhoneView{
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #4D4F5C;
+    }
+
+    .overflow-visible{
+        overflow: visible;
+    }
+
+    .containFiltersClose{
+        transition: max-height 1.5s ease;
+
+        max-height: 0;
+        overflow: hidden;
+    }
+    
+    .availableOnly{
+        margin-top: 2vh;
+    }
+
+    .filterBy{
+        width: 100%;
+        /* text-align: right; */
+    }
+
+    .optionsContainer{
+        margin-top: 1.4vh;
+    }
+
+    .input-meetings{
+        padding: 1vh 10px;
+        width: 100%;
+    }
+
+    .filter-meeting-left, .filter-meeting-right{
+        width: 100%;
+        margin: 2vh 0 0 0;
+    }
+
 
     .mainPage-meetings{
         width: 100vw;
@@ -460,65 +527,13 @@
         line-height: 1.2em;
     }
     
-    .containFilters{
-        margin-top: 2em;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        font-size: 2em;
-        padding: 0 5vw;
-        max-height: 60vh;
-        overflow: hidden;
-        transition: max-height 1.5s ease;
-        animation: makeOverflowVisible 0s ease-in 2s;
 
-    }
 
-    .input-meetings:not(.filter-meeting-left, .filter-meeting-right){
-        padding: 0.5vh 0.6em;
-    }
+}
 
-    .inputPhoneView{
-        border: none;
-        outline: none;
-        width: 100%;
-        color: #4D4F5C;
-    }
+@media screen and (max-width: 550px){
 
-    .overflow-visible{
-        overflow: visible;
-    }
-
-    .containFiltersClose{
-        transition: max-height 1.5s ease;
-
-        max-height: 0;
-        overflow: hidden;
-    }
-    
-    .availableOnly{
-        margin-top: 2vh;
-    }
-
-    .filterBy{
-        width: 100%;
-        /* text-align: right; */
-    }
-
-    .optionsContainer{
-        margin-top: 1.4vh;
-    }
-
-    .input-meetings{
-        padding: 1vh 10px;
-        width: 100%;
-    }
-
-    .filter-meeting-left, .filter-meeting-right{
-        width: 100%;
-        margin: 2vh 0 0 0;
-    }
+  
 
     
 }

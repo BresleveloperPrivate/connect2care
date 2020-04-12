@@ -94,8 +94,8 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
 
 const theme = createMuiTheme({ direction: "rtl", palette: { primary: { main: "#082551" }, secondary: { main: "#3586B1" } } });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <Meeting {...props} />
     </ThemeProvider>
-);
+)));
