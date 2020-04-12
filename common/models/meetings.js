@@ -189,7 +189,7 @@ module.exports = function (meetings) {
                             }
                             if (userMeeting) {
 
-                                // createZoomUser(newEmail, nameOwner)
+                                createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
