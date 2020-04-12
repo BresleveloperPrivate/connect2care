@@ -64,7 +64,7 @@ const translationEN = {
     'tuesday': 'Tuesday, 28.04',
     'wednesday': 'Wednesday, 29.04',
 
-    'searchPlaceHolder' : "Search for a fallen soldier's name, meeting's name, host's name",
+    'searchPlaceHolder' : "Search for a fallen name, meeting name, host name",
     "meetingsList": 'List of meetings',
     'meetingsList2' : 'All our virtual meetings are waiting for you here',
     "joinTheMeeting" : 'Join meeting',

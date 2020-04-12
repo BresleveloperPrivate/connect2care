@@ -11,7 +11,13 @@ const MeetingLeftClosed = ({ full , LanguageStore }) => (
         <div id="meetingLeftTitle"><LockOutlined /> מפגש {full ? 'מלא' : 'סגור'}</div>
         <div 
         className={LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
-        id="meetingLeftDescription">מפגש זה {full ? 'מלא' : 'סגור לקבוצה פרטית בלבד'}<br /><br />לא ניתן להצטרף למפגש זה<br /><br /> <strong>מתחברים וזוכרים במבחר מפגשים נוספים{full ? '.' : ' הפתוחים לכולם.'}</strong></div>
+        id="meetingLeftDescription">מפגש זה {full ? 'מלא' : 'סגור לקבוצה פרטית בלבד'}<br />לא ניתן להצטרף למפגש זה<br /><br /> <strong>מתחברים וזוכרים במבחר מפגשים נוספים{full ? '.' : ' הפתוחים לכולם.'}</strong></div>
+   
+   {!full && <div className='containCodeDiv'>
+       יש לך קוד מפגש?
+            <input className='codeInput' maxLength='6' type='text' placeholder='הזן קוד' />
+             </div>}
+   
     </div>
 );
 export default inject('LanguageStore')(observer(MeetingLeftClosed));
