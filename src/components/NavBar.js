@@ -63,7 +63,9 @@ class NavBar extends Component {
                 {/* <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />
                 </div> */}
-                {this.options && <div className='navbarOptions'>
+                {this.options && <div 
+                style={this.props.LanguageStore.lang !== 'heb' ? {justifyContent:'flex-start'} : {}}
+                className='navbarOptions'>
                     <div className='optionInNavbar lngNB pointer'>
                         <Lng changeLanguage={this.changelng} />
                     </div>
