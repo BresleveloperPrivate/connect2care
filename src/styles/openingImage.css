@@ -115,10 +115,9 @@
 }
 
 .secondOptionOpeningImage{
-    background-color: white;
-    border: 1px solid var(--custom-blue);
+    background-color: var(--custom-green);
     right: 40vw;
-    color: var(--custom-blue);
+    color: white;
 }
 
 .containOptionsBottom{
@@ -184,10 +183,10 @@
     
     .secondOptionOpeningImage{
         margin-top: 2vw;
-        background-color: white;
-        border: 1px solid var(--custom-blue);
+        background-color: var(--custom-green);
+        right: 40vw;
+        color: white;
         right: 0;
-        color: var(--custom-blue);
     }
 
     .containOptionsBottom{

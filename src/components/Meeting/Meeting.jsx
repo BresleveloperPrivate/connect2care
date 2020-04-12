@@ -82,7 +82,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
 
             </div>
             {!!name && (isOpen !== null && isOpen !== undefined && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen code={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+                <MeetingLeftOpen sendCode={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
                     <MeetingLeftClosed t={t} />

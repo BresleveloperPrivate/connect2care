@@ -80,6 +80,7 @@ class MeetingsStore {
             this.error = err
             console.log(err)
         } else {
+            console.log(meetings)
             this.loading = false
 
             if (!meetings.length) {

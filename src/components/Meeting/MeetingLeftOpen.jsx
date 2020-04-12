@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback, useRef } from 'react';
+import { inject, observer } from 'mobx-react';
 
 import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
 
@@ -40,10 +41,11 @@ const useStyles = makeStyles(theme => ({
 
 let v = false;
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails ,LanguageStore}) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [code, setCode] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
     const [readBylaw, setReadBylaw] = useState(false)
@@ -57,6 +59,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
+        if (sendCode && !!!code) { setErrorMsg('אנא מלא/י קוד הצטרפות '); return; }
         if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
         // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
@@ -91,68 +94,85 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailD
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ name, email, phone, mailDetails })
+            body: JSON.stringify({ name, email, phone, myCode : code, mailDetails })
         });
 
         setLoading(false);
 
-        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg);
-        console.log(error)
-        if(error && error.error && error.error.code === "ER_DUP_ENTRY"){
-            setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
+        if (error || response.error) {
+            console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
+            console.log(error)
+            if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
+                setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
+            }
+            return;
         }
-        return; }
 
         setErrorMsg(null);
         setName('');
         setEmail('');
         setPhone('');
+        setCode('');
         setReadBylaw(false);
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone, readBylaw, meetingId]);
+    }, [name, email, phone,code, readBylaw, meetingId]);
 
-    const inputs = useMemo(() => [
-        [name, setName, 'שם'],
-        [email, setEmail, t("email")],
-        [phone, setPhone, t("phone")],
+    const inputs = useMemo(() =>
+        sendCode ? [
+            [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
+            [email, setEmail,   LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+            [phone, setPhone,  LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+            [code, setCode,  LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
 
-    ], [name, email, phone]);
+        ] : [
+            [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
+            [email, setEmail,   LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+            [phone, setPhone,  LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+
+            ], [name, email, phone , code , LanguageStore.lang]);
 
     return (
         <div id="meetingPageLeft">
             <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            <div id="meetingLeftTitle">הצטרף למפגש</div>
-            <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת </div>
+            <div id="meetingLeftTitle">{sendCode ? 'מפגש פרטי' : 'הצטרף למפגש'}</div>
+            <div id="meetingLeftDescription">
+                מלא את הפרטים ואנו נשלח לך קישור ותזכורת.
+            {sendCode ? <div>על מנת להצטרף למפגש פרטי,
+                עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.</div> : ''}
+            </div>
 
-            {available &&
-                <div>
-                    <form>
-                        {inputs.map(([value, setValue, placeholder], index) => (
-                            <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
-                        ))}
-                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
-                            <div>
-                            <img style={{cursor:'pointer'}} onClick={()=>{setReadBylaw(!readBylaw); setErrorMsg(null);}} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+            <div>
+                <form>
+                    {inputs.map(([value, setValue, placeholder], index) => (
+                        <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                    ))}
+                    <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                        <div>
+                            <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
 
-                            </div>
-                            {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
-                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
                         </div>
+                        {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
+                        <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
+                    </div>
 
-                    </form>
-                    {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
-                </div>
-            }
+                </form>
+                {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
+                <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
+                    
+                   
+                {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}                  
+                    </Button>
+            </div>
+
         </div>
     );
 }
 
 const theme = createMuiTheme({ direction: "rtl", palette: { primary: { main: "rgb(255, 255, 255)" }, secondary: { main: "#082551" } } });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <MeetingLeftOpen {...props} />
     </ThemeProvider>
-);
+)));
