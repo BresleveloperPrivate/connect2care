@@ -78,7 +78,7 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" &&
                     <input
-                        disabled={props.CreateMeetingStore.meetingId !== -1}
+                        disabled={CreateMeetingStore.meetingId !== -1}
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
                             (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}

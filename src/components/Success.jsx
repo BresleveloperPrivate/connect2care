@@ -81,10 +81,10 @@ function Success(props) {
                         <div className="bigContainer">
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
                             <div
-                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
                             className="sucessHeadline">מצויין, יצרת מפגש</div>
                             <div 
-                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
                             className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
@@ -150,7 +150,7 @@ function Success(props) {
                                 </div>
                             </div>
                             <div 
-                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
                             className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
