@@ -75,7 +75,7 @@ module.exports = {
         },
         code: {
             type: "number",
-            numericality: { greaterThan: 100000, lessThanOrEqualTo: 1000000  }
+            numericality: { greaterThan: 100000, lessThanOrEqualTo: 1000000 }
         },
         date: {
             type: "string",
@@ -85,31 +85,43 @@ module.exports = {
             }
         }, //enum  
     },
-    // people: {
-    //     name: {
-    //         type: "string",
-    //         format: {
-    //             pattern: '^[\u0590-\u05fe \' \" ]+ [\u0590-\u05fe \' \" ]+$',
-    //             message: "invalid realm"
-    //         }
-    //     },
-    //     email: {
-    //         type: "string",
-    //         format: {
-    //             pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*().~`\[\]{}\|\\-_=+<>:"?]{6,}$/',
-    //             message: "invalid password",
-    //             flags: ""
-    //         }
-    //     },
-    //     phone: {
-    //         type: "string",
-    //         format: {
-    //             pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*().~`\[\]{}\|\\-_=+<>:"?]{6,}$/',
-    //             message: "invalid password",
-    //             flags: ""
-    //         }
-    //     }
-    // },
+    people: {
+        name: {
+            type: "string",
+            format: {
+                message: "invalid realm"
+            },
+            length: { maximum: 100 }
+
+        },
+        email: {
+            type: "string",
+            format: {
+                pattern: '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/',
+                message: "invalid email",
+                flags: ""
+            }
+        },
+
+        phone: {
+            type: "string",
+            format: {
+                pattern: '^(0|\\+972)[0-9]{8,9}$',
+                message: "invalid phone"
+            }
+        },
+    },
+
+    people_meetings: {
+        person: {
+            type: "number",
+            numericality: { greaterThan: 0 }
+        },
+        meeting: {
+            type: "number",
+            numericality: { greaterThan: 0 }
+        },
+    },
 
     fallens_meetings: {
         fallen: {

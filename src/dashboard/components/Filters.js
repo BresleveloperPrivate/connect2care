@@ -26,9 +26,9 @@ const Filters = (props) => {
     const RELATIONSHIPS = [
         { option: 'הכל', data: 'הכל' },
         { option: 'אח/ות', data: 'אח/ות' },
-        { option: 'הורים', data: 'הורים' },
-        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
-        { option: 'חבר', data: 'חבר' },
+        { option: 'הורה', data: 'הורים' },
+        { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר/ה', data: 'חבר' },
     ]
     const IS_OPEN_ARR = [
         { option: 'הכל', data: 'הכל' },

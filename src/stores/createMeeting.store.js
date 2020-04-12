@@ -21,8 +21,8 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: "",
-        timeHour: "",
-        timeMinute: "",
+        timeHour: "20",
+        timeMinute: "30",
         max_participants: 300,
         fallens: null,
         zoomId: "",
@@ -56,8 +56,8 @@ class CreateMeetingStore {
             language: "",
             isOpen: "",
             date: "",
-            timeHour: "",
-            timeMinute: "",
+            timeHour: "20",
+            timeMinute: "30",
             max_participants: 300,
             fallens: null,
             zoomId: "",
@@ -357,7 +357,9 @@ class CreateMeetingStore {
         let zoomId = beforePostJSON.zoomId
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
-        delete this.meetingDetailsOriginal.otherRelationShip
+        delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.max_participants
+        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
@@ -371,6 +373,7 @@ class CreateMeetingStore {
                 return
             }
         }
+        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
@@ -460,6 +463,10 @@ class CreateMeetingStore {
         console.log("err", err)
         if (err && err.error && err.error.isOpen)
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+        else if (err && err.error && err.error.email)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
+        else if (err && err.error && err.error.phone)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
         else if (err && err.error && err.error.max_participants)
             this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
         else if (err && err.error && err.error.name)

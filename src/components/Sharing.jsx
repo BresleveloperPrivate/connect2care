@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
 // import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
+// import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import whatsappIcon from '../icons/whatsapp.svg';
 import facebookIcon from '../icons/facebook.svg';
@@ -162,7 +162,7 @@ export default function Sharing(props) {
       action_properties: JSON.stringify({
         object: {
           'og:url': url,
-          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.png`
+          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.jpg`
         }
       })
     })
@@ -190,18 +190,18 @@ export default function Sharing(props) {
 
 
 
-    <div ref={ref} style={{position:'relative'}}>
-       <div  id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor:'pointer', transition: 'transform 0.5s ease' }}>
-      <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
-       <span className="inviteSpan">הזמינו למפגש</span>
-       
+    <div ref={ref} style={{ position: 'relative' }}>
+      <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor: 'pointer', transition: 'transform 0.5s ease' }}>
+        <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
+        <span className="inviteSpan">הזמינו למפגש</span>
+
       </div>
-      {openShare? <div className='containShareOptions'>
+      {openShare ? <div className='containShareOptions'>
 
         <MenuItem className='shareOption' onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
-    <MenuItem className='shareOption' onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
-      <MenuItem  className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
-       <MenuItem  className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem className='shareOption' onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
+        <MenuItem className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
+        <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
       </div> : null}
     </div>
   );

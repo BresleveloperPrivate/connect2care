@@ -339,6 +339,9 @@ input[type=radio]:focus {
     font-size: 3vh;
     height: fit-content;
     margin-bottom: 4vh;
+    padding: 0 2vh;
+    font-weight: bold;
+    color: var(--custom-gray);
 }
 
 .containNameExist{
