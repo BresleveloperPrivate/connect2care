@@ -273,7 +273,6 @@ module.exports = function (meetings) {
                     }
                 }
             }
-            return cb(null, userMeeting)
         })()
 
     }
