@@ -86,6 +86,8 @@ const translationEN = {
     'relationship to fallen' : 'Relationshit to fallen',
     'show available meetings only':'Show available meetings only',
     'filter by': 'Filter by',
+
+    "load more" : 'Load more'
 }
 
 export default translationEN;

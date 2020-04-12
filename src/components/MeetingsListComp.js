@@ -166,7 +166,7 @@ const ComputerList = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
+                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}
@@ -196,7 +196,7 @@ const ComputerList = (props) => {
                             onClick={() => {
                                 props.MeetingsStore.search(true, false)
                             }}
-                            className="loadMore-meetings grow">טען עוד</div>
+                            className="loadMore-meetings grow">{props.t("load more")}</div>
                     </div>}
             </div>
                     :

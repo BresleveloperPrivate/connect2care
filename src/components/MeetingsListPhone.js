@@ -34,7 +34,7 @@ const PhoneList = (props) => {
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>{props.t('meetingsList')}</div>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}> {props.t('meetingsList2')}  </div>
                     <div className='containSearch'>
-                        <div className='input-meetings' style={{display:'flex' , alignItems:'center'}}>
+                        <div className='input-meetings' style={{display:'flex' , alignItems:'center' , padding: '1vh 10px'}}>
                             <input
                             onKeyDown={onKeyDown}
                             style={{ flexGrow: 1 }}
@@ -124,7 +124,7 @@ const PhoneList = (props) => {
                                 onClick={() => {
                                     props.MeetingsStore.search(true, false)
                                 }}
-                                className="loadMore-meetings grow">טען עוד</div>}
+                                className="loadMore-meetings grow">{props.t("load more")}</div>}
                         <div className='buttonOnMeetings grow' onClick={() => {
                             props.history.push('/create-meeting')
                         }} >{props.t('IWantToInitiateAMeeting')}</div>

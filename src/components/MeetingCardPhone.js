@@ -124,7 +124,7 @@ const PhoneCard = (props) => {
                         <img height='100%' width='100%' src={lock}/>
                     </div> 
                     : null }
-                    {props.meeting.participants_num >= props.meeting.max_participants ? 'אין יותר מקום' : !props.meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
+                    {props.meeting.participants_num >= props.meeting.max_participants ? 'אין יותר מקום' : !props.meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
                         </div>
                         </div>
                 </div>

@@ -44,7 +44,7 @@ const Filters = (props) => {
     return (
 
         <div id='filtersId' className={props.className}>
-            <div className='filterBy'> {props.t('filter by')}:</div>
+            <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy tal' : 'filterBy tar'}> {props.t('filter by')}:</div>
             <Select
                 default={props.MeetingsStore.date}
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '23%' : props.LanguageStore.width > 800 ? '18%' : '100%'}

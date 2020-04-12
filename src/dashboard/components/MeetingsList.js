@@ -82,7 +82,7 @@ const MeetingsList = (props) => {
                             await props.ManagerStore.fetchMeetingsDashboard({}, true)
                         })()
                     }}>
-                    טען עוד
+                        {props.t("load more")}
                 </div> : null
             }
         </div>

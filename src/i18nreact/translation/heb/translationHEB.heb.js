@@ -86,6 +86,7 @@ const translationHEB = {
     'relationship to fallen' : 'קרבה לחלל',
     'show available meetings only':'הצג מפגשים זמינים בלבד',
     'filter by': 'סנן לפי',
+    "load more" : 'טען עוד',
 
 
 }
