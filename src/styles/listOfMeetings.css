@@ -274,8 +274,9 @@
 }
 
 .numberOfParticipants{
+    font-family: 'Assistant';
     color: var(--custom-green);
-    font-size: 5em;
+    font-size: 4.6em;
     font-weight: 300;
     position: absolute;
     line-height: 1.1em;
@@ -523,7 +524,7 @@
     }
 
     .numberOfParticipants{
-        font-size: 3.5em;
+        font-size: 3.2em;
         line-height: 1.2em;
     }
     
