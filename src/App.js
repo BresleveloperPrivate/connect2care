@@ -43,9 +43,12 @@ class App extends Component {
     }
 
     render() {
-        console.log("this.props.history",this.props.history)
-        if(window.location.search==="?meeting/4"){
-            // str.replace("?", "#");
+        console.log("this.props.history", this.props.history)
+        if (window.location.search !== "" && window.location.search.includes("?id=")) {
+            let id = window.location.search.split("?id=");
+            console.log("id", id)
+            let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/` + id[1];
+            window.location.assign(url);
         }
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -57,7 +60,7 @@ class App extends Component {
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
                     {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
-                    <div className="App">
+                    <div className={localStorage.getItem('lang') !== 'heb' ? "App-ltr" : "App-rtl"}>
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings|my-meetings)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
@@ -65,7 +68,7 @@ class App extends Component {
                             <Route path="/" exact render={props => <Home t={this.props.t} {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting t={this.props.t} {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser t={this.props.t} {...props} />} />
-                            <Route path="/my-meetings" exact render={props => <MyMeetings t={this.props.t} {...props} />} />
+                            {/* <Route path="/my-meetings" exact render={props => <MyMeetings t={this.props.t} {...props} />} /> */}
                             <Route path="/create-meeting" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/login" render={(props) => <DashLogin t={this.props.t} {...props} />} />

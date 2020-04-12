@@ -27,9 +27,9 @@ const ListOfMeetingsUser = (props) => {
 
 
             {!error ?
-                <div className='mainPage-meetings' style={{ width: '85%' }}>
-                    <div className='meetings-title'>המפגשים שלי</div>
-                    <div className='meetings-second-title' onClick={() => {
+                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'} style={{ width: '85%' }}>
+                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>המפגשים שלי</div>
+                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'} onClick={() => {
                     }} >
                         כאן ניתן לערוך ולצפות בפרטי המפגשים אליהם הצטרפת או יצרת
                      </div>

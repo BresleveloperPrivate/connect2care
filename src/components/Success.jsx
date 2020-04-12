@@ -5,7 +5,7 @@ import ImageOfFallen from './ImageOfFallen';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
-import Auth from '../modules/auth/Auth'
+// import Auth from '../modules/auth/Auth'
 // import Divider from '@material-ui/core/Divider';
 
 function Success(props) {
@@ -19,10 +19,13 @@ function Success(props) {
         })()
     }, []);
 
+    let dataToProps = {
+        "date": meeting.date,
+        "time":meeting.time,
+        "fallens":[],
+        "meetingId":meeting.id
+    }
     // let meeting = props.meeting
-
-
-   
             // meetingId : null,
             // image: null,
             // dateOfDeath: null,
@@ -76,7 +79,7 @@ function Success(props) {
                     <div className="sucessPage">
                         <div className="bigContainer">
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
-                            <div className="sucessHeadline">מצויין יצרת מפגש</div>
+                            <div className="sucessHeadline">מצויין, יצרת מפגש</div>
                             <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
@@ -87,6 +90,7 @@ function Success(props) {
                                     <div className="fallenName">
                                         <div style={{width: '1.1em' , height:'1.1em' , display:'flex'}}><img alt="alt" className="whiteCandle" src={candle} height="100%" width="100%" /></div>
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
+                                            dataToProps.fallens.push({"name":fallen.fallens.name })
                                             if (index === 0) {
                                                 return (
                                                     <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
@@ -126,9 +130,10 @@ function Success(props) {
                         <Sharing 
                         containImageClassName={'containSharingImage'}
                         myId={'sharingBox'}
-                        data={meeting}
+                        // data={meeting}
+                        data={dataToProps}
                         t={props.t}
-                        meetingId={meeting.id}
+                        // meetingId={meeting.id}
                         styleObject={{buttonWidth: 'fit-content'}}
                     />
                     </div>

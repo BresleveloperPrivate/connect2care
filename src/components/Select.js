@@ -28,7 +28,7 @@ const Select = (props) => {
                         
                         </div>
                     {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
-                    <FontAwesomeIcon className="arrowInput"
+                    <FontAwesomeIcon className= {localStorage.getItem('lang') !== 'heb' ?  "arrowInput-tal" : 'arrowInput-tar'}
                         icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&

@@ -36,7 +36,7 @@ const Language = (props) => {
                                     // forceUpdate()
                                 }}>
                                 <div style={{ display: 'flex', alignItems: 'center' }} className='optionInSelect'>
-                                    <div style={{ height: '1.2em', width: '1.2em', marginLeft: '0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={value.img} /></div>
+                                    <div style={{ height: '1.2em', width: '1.2em', margin: '0 0.4em', display: 'flex' }}><img style={{ borderRadius: '50%', objectFit: 'cover' }} height='100%' width='100%' src={value.img} /></div>
                                     {value.option}
                                 </div>
                             </div>

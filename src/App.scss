@@ -1,8 +1,26 @@
-.App {
+.App-rtl {
   text-align: center;
   width: 100vw;
+  direction: rtl;
 }
 
+.App-ltr {
+  text-align: center;
+  width: 100vw;
+  direction: ltr;
+}
+
+.tar{
+  text-align: right;
+}
+
+.tal{
+  text-align: left;
+}
+
+.fdrr{
+  flex-direction: row-reverse;
+}
 
 ::-webkit-scrollbar {
   background-color: white !important;

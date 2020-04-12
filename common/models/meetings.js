@@ -23,6 +23,7 @@ module.exports = function (meetings) {
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
 
+        console.log(filters)
         // if (filters.id) {
         //     sqlQueryWhere += `meetings.id > '${filters.id}'`
         // }
@@ -36,11 +37,11 @@ module.exports = function (meetings) {
         }
 
         if (filters.time) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.time >= ${filters.time[0]} and meetings.time < ${filters.time[1]}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
         if (filters.isAvailable) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
         }
 
         if (filters.relationship || search) {
@@ -59,8 +60,10 @@ module.exports = function (meetings) {
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`, (err, res) => {
+
+        
+        // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -107,7 +110,7 @@ module.exports = function (meetings) {
             const emailowner = data.owner.email;
             let newEmail = emailowner.replace("@", "+c2c@");
             const nameOwner = data.owner.name;
-            console.log("emailowner", emailowner)
+
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err", err)
@@ -132,6 +135,8 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
+            
+            
             // security validate
             data.max_participants = Number(data.max_participants)
             if (data.isOpen === "true")
@@ -148,6 +153,8 @@ module.exports = function (meetings) {
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
+
+
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
                 console.log("err2", err2)
@@ -181,7 +188,10 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                createZoomUser(newEmail, nameOwner)
+                                
+                                // createZoomUser(newEmail, nameOwner)
+
+
                                 let sendOptions = {
                                     to: emailowner, subject: "המפגש נוצר בהצלחה", html:
                                         `
@@ -526,7 +536,7 @@ module.exports = function (meetings) {
 אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
 ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
 אז איך זה עובד?<br><br>
-בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallens} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
 רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
 ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
 כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>

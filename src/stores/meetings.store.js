@@ -15,6 +15,7 @@ class MeetingsStore {
     meetings = false
     time = false
     availableOnly = false
+    loading = false
 
     changeSearchInput = (event) => {
         ////if match...
@@ -49,6 +50,9 @@ class MeetingsStore {
 
     search = async (getMore, searchButton) => {
 
+        this.loading = true
+
+
         if (searchButton) {
             this.prevSearchInput = this.searchInput
         }
@@ -57,8 +61,6 @@ class MeetingsStore {
             this.lastId = 0
             this.meetings = false
         }
-
-        console.log(getMore)
 
         let filter = {
             // id: this.lastId,
@@ -69,18 +71,17 @@ class MeetingsStore {
             isAvailable: this.availableOnly,
         }
 
-        console.log(filter)
-
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, limit: { min: this.lastId, max: this.lastId + 5 } })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, limit: { min: this.lastId, max: 5 } })
         })
         if (err) {
             this.error = err
             console.log(err)
         } else {
-            let id;
+            this.loading = false
+
             if (!meetings.length) {
                 this.loadMoreButton = false
                 this.meetings = []
@@ -122,6 +123,7 @@ decorate(MeetingsStore, {
     changeMeetingTime: action,
     changeAvailableOnly: action,
     error: observable,
+    loading: observable
 });
 
 export default new MeetingsStore();

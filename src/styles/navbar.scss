@@ -54,6 +54,8 @@
     top: 0;
 }
 
+
+
 .containMenu{
     z-index: 11;
     position: fixed;
@@ -97,6 +99,11 @@
     align-items: center;
 }
 
+.oblogo{
+    margin-top: 1.4vh;
+    // margin-left: 0.5vw;
+}
+
 .containIconNavbar{
     height: 7vh;
     margin-left: 5%;
@@ -104,10 +111,24 @@
 
 .optionInNavbar{
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 600;
     color: var(--custom-blue);
     margin: 0px 2vw;
     margin-top: auto;
+}
+
+.lngNB{
+    position: fixed;
+    top: 10px;
+    margin: 0;
+    right: 10px;
+    border: 1px solid var(--custom-blue) !important;
+    border-radius: 100px;
+}
+
+.lgnP{
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media screen and (max-width: 800px){
@@ -137,8 +158,15 @@
     }
 }
 
+@media screen and (max-width: 1000px){
+   
+    .optionInNavbar{
+      font-size: 13px;
+    }
+}
 
-@media screen and (max-width: 850px){
+
+@media screen and (max-width: 900px){
    
     .optionInNavbar{
       font-size: 12px;

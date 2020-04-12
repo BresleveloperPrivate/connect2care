@@ -11,6 +11,8 @@ import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
 import { useCopyToClipboard } from 'react-use';
+import useOnClickOutside from './UseOnClickOutside'
+
 // import greenBackground from '../icons/greenBackground.png'
 
 //pass me this: styleObject = {
@@ -21,32 +23,39 @@ import { useCopyToClipboard } from 'react-use';
 //} Make sure these are strings!
 
 export default function Sharing(props) {
+  const ref = React.useRef()
+  useOnClickOutside(ref, () => setOpenShare(false));
+
+  console.log("propsdata", props.data)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openShare, setOpenShare] = React.useState(false);
 
   const [openEmail, setOpenEmail] = React.useState(false);
   const [, copyToClipboard] = useCopyToClipboard();
-
+  let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/${props.data.meetingId}`
 
   const handleOpenEmail = () => {
     setOpenEmail(true);
   };
 
-  // const handleCloseEmail = () => {
-  //   setOpenEmail(false);
-  // };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = () => {
+    setOpenShare(!openShare);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpenShare(false);
   };
 
   const { styleObject } = props;
 
+  // const getViewport = () => {
+  //   let width = Math.max(document.documentElement.clientWidth, window.outerWidth || 0);
+  //   let height = Math.max(document.documentElement.clientHeight, window.outerHeight || 0);
+  //   if (width >= 490 && height >= 490) return true;
+  //   else return false;
+  // }
+
   const shareWithWhatsApp = async () => {
-    console.log("props.data", props.data.fallens)
     let text = null;
     if (props.data.fallens.length === 1)
       text = `הצטרפו אלינו למפגש zoom לזכרו של ${props.data.fallens[0].name} ז"ל`
@@ -66,11 +75,19 @@ export default function Sharing(props) {
         }
       })
     }
-    const linkText = text + ":" + "http://lohamim.carmel6000.com/" + "#" + "/meeting/" + `${props.meetingId}`;
-    const href = `https://api.whatsapp.com/send?text="https://lohamim.carmel6000.com/?/meeting/4"`;
-    // const href = `https://web.whatsapp.com/send?text=${linkText}`;
-    window.location.assign(href);
-    // window.open(href, '_blank');
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      //whats app web:
+      let linkText = text + ":" + url;
+      let href = `https://web.whatsapp.com/send?text=${linkText}`;
+      window.open(href, '_blank');
+    } else {
+      //whatsapp App:
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let linkText = text + ":" + urlApp;
+      let href = `whatsapp://send?text=${linkText}`;
+      window.location.assign(href);
+    }
     handleClose();
   };
 
@@ -110,7 +127,7 @@ export default function Sharing(props) {
 
     <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'>${props.data.date} | ${props.data.time}</div>
 
-    <a style='text-decoration: none;' href='lohamim.carmel6000.com/#/meeting/${props.data.meetingId}' >
+    <a style='text-decoration: none;' href='${url}' >
      <div style=' margin: auto;
       width: fit-content;
        background-color: #19A099 ;
@@ -144,8 +161,8 @@ export default function Sharing(props) {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': `https://lohamim.carmel6000.com/#/meeting/${props.meetingId}?og_img=https://lohamim.carmel6000.com/connect.png`,
-          'og:image': 'http://lohamim.carmel6000.com/connect.png'
+          'og:url': url,
+          'og:image': `${process.env.REACT_APP_DOMAIN}/connect.png`
         }
       })
     })
@@ -171,31 +188,21 @@ export default function Sharing(props) {
 
   return (
 
-    <div className="pointer containSharing">
-      <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, transition: 'transform 0.5s ease' }}>
-        {/* <div className="sharingBox"> */}
-        <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
-        <span className="inviteSpan">הזמינו למפגש</span>
-        {/* </div> */}
+
+
+    <div ref={ref} style={{position:'relative'}}>
+       <div  id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor:'pointer', transition: 'transform 0.5s ease' }}>
+      <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
+       <span className="inviteSpan">הזמינו למפגש</span>
+       
       </div>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
-        <MenuItem onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
-        <MenuItem onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
-        <MenuItem ><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard("aaaaaaaaa")} id="platformName">העתק קישור</span></MenuItem>
+      {openShare? <div className='containShareOptions'>
 
-        <SendEmail openEmail={openEmail}
-          setOpenEmail={setOpenEmail}
-          shareWithEmail={shareWithEmail} />
-      </Menu>
-
-
+        <MenuItem className='shareOption' onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
+    <MenuItem className='shareOption' onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
+      <MenuItem  className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
+       <MenuItem  className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
+      </div> : null}
     </div>
   );
 }
