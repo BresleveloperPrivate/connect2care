@@ -292,12 +292,10 @@ class CreateMeetingStore {
     }
 
     deleteFromFallens = (index) => {
-        console.log("index", index)
         let id = this.meetingDetails.fallens[index].id
-        this.meetingDetails.fallens.splice(1, index)
-        this.meetingDetails.otherRelationShip.splice(1, index)
-        this.fallenDetails[id] = undefined
-        console.log("this.fallenDetails[id]", this.fallenDetails[id], "this.meetingDetails.fallens", this.meetingDetails.fallens, "this.meetingDetails.otherRelationShip", this.meetingDetails.otherRelationShip)
+        this.meetingDetails.fallens.splice(index, 1)
+        if (this.meetingDetails.otherRelationShip) this.meetingDetails.otherRelationShip.splice(index, 1)
+        if (this.fallenDetails && this.fallenDetails[id]) this.fallenDetails[id] = undefined
     }
 
     changeMeetingTimeHour = (event) => {
@@ -403,61 +401,62 @@ class CreateMeetingStore {
         let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
+        if (Object.keys(changedObj).length === 0) return
         if (changedObj.owner) {
             changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         }
 
-        if (changedObj.fallens) {
-            for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
-                let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
-                if (index === -1) {
-                    fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
-                }
-                else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
-                    if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
-                        if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
-                            fallensToChange.push(beforePostJSON.otherRelationShip[Number(index)])
-                        }
-                        else fallensToChange.push(beforePostJSON.fallens[Number(index)])
-                    }
-                    else {
-                        if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
-                            fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
-                        }
-                    }
-                }
-            }
-            beforePostJSON.fallens.filter(afterFallen => {
-                console.log("afterFallen", afterFallen)
-                if (afterFallen.id === null || afterFallen.relative === null) {
-                    this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
-                    return
-                }
-                let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
-                if (index === -1) {
-                    fallensToAdd.push(afterFallen)
-                }
-            })
-        }
-
-        console.log("AFTER", "changedObj", changedObj, "fallensToAdd", fallensToAdd, "fallensToDelete", fallensToDelete, "fallensToChange", fallensToChange)
-        if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
-        if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
-        if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
-
-        // this.waitForData = true
-        // let [success, err] = await Auth.superAuthFetch(
-        //     `/api/meetings/updateMeeting/`,
-        //     {
-        //         method: 'POST',
-        //         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({ data: beforePostJSON, id: this.meetingId })
-        //     }, true);
-        // this.waitForData = false
-        // if (err) {
-        //     this.postErr(err)
-        //     return
+        // if (changedObj.fallens) {
+        //     for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
+        //         let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
+        //         if (index === -1) {
+        //             fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
+        //         }
+        //         else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
+        //             if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
+        //                 if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
+        //                     fallensToChange.push(beforePostJSON.otherRelationShip[Number(index)])
+        //                 }
+        //                 else fallensToChange.push(beforePostJSON.fallens[Number(index)])
+        //             }
+        //             else {
+        //                 if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
+        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     beforePostJSON.fallens.filter(afterFallen => {
+        //         console.log("afterFallen", afterFallen)
+        //         if (afterFallen.id === null || afterFallen.relative === null) {
+        //             this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
+        //             return
+        //         }
+        //         let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
+        //         if (index === -1) {
+        //             fallensToAdd.push(afterFallen)
+        //         }
+        //     })
         // }
+        // 
+
+        // if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
+        // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
+        // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
+
+        this.waitForData = true
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/updateMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: beforePostJSON, id: Number(this.meetingId) })
+            }, true);
+        this.waitForData = false
+        if (err) {
+            this.postErr(err)
+            return
+        }
     }
 
     postErr = (err) => {

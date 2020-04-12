@@ -410,7 +410,7 @@ module.exports = function (meetings) {
                     return cb(err2)
                 }
             }
-
+            console.log('true')
             return cb(null, true)
         })()
 

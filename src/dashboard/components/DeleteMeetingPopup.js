@@ -33,13 +33,13 @@ export default function DaleteMeetingPopup(props) {
                     <DialogContent>
                         <p className="text-center" style={{
                             fontSize: '30px',
-                            color: 'var(--custom-blue)',
+                            color: '#168ec4',
                             width: '100%'
                         }}>
                             ?האם אתה בטוח שברצונך למחוק מפגש זה
                                 </p>
                         <p className="text-center" style={{
-                            color: 'var(--custom-blue)',
+                            color: '#168ec4',
                             fontSize: '20px',
                         }}>
                             {/* יתכן שהמייל נשלח לספאם */}
