@@ -65,7 +65,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
                         />
                     </div>}
 
-                    <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />
+                    <MeetingTop t={t} name={name} owner={owner} description={description} date={date} time={time} />
 
                     {fallens.length !== 0 && (
                         <div id="meetingFallenList">

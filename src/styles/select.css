@@ -10,6 +10,10 @@
     /* margin-bottom: 3px; */
 }
 
+.rtl{
+    direction: rtl;
+}
+
 .optionsContainer{
     position: absolute;
     width: 100%;

@@ -1,5 +1,5 @@
 const translationHEB = {
-    "meetingsList": "רשימת המפגשים",
+    // "meetingsList": "רשימת המפגשים",
     "myMeetings": "המפגשים שלי",
     "whoWeAre": "מי אנחנו",
     "donate": "תרמו לנו",
@@ -63,6 +63,31 @@ const translationHEB = {
     'monday': 'יום שני, ג באייר, 27.04',
     'tuesday': 'יום שלישי, ד באייר, 28.04',
     'wednesday': 'יום רביעי, ה באייר, 29.04',
+
+
+    'searchPlaceHolder' : "חיפוש שם נופל, שם מפגש, שם מארח/ת",
+    "meetingsList": 'רשימת המפגשים',
+    'meetingsList2' : 'כל המפגשים הויטואליים שלנו מחכים לכם כאן',
+    "joinTheMeeting" : 'הצטרף למפגש',
+    "noMeetings" : 'לא נמצאו מפגשים המתאימים לחיפוש שלך',
+    "blueFooter" : 'האתר פותח כתרומה לחברה ע"י הילמה - הייטק למען החברה',
+    "host" : 'מארח/ת',
+
+    "all" : "הכל",
+    "brother or sister": "אח/ות",
+    "parent":"הורה",
+    "friend":"חבר/ה",
+    "family member": "קרוב/ת משפחה",
+    "other" : "אחר",
+
+    "meeting time": "שעת המפגש",
+    "meeting date": 'תאריך המפגש',
+    'meeting language': 'שפת המפגש',
+    'relationship to fallen' : 'קרבה לחלל',
+    'show available meetings only':'הצג מפגשים זמינים בלבד',
+    'filter by': 'סנן לפי',
+    "load more" : 'טען עוד',
+
 
 }
 

@@ -35,7 +35,7 @@ const TextSideDiv = (props) => {
                                                 return (
                                                     <div key={index} className="containFallenDetailsSide">
                                                         <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
-                                                        <div >מארח/ת: {meeting.meetingOwner.name}</div>
+                                                        <div > {props.t('host')}: {meeting.meetingOwner.name}</div>
                                                         <div style={{ fontSize: "18px" }} className="d-flex">
                                                             <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} />
                                                             <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
