@@ -454,18 +454,14 @@
     .buttonOnMeetings{
         position:static;
         padding: 0.4em 1em;
-        font-size: 4.5vw;
+        font-size: 2.5vw;
         width: 100%;
         margin-top: 2vh;
-    
-    
-        /* font-size: 15px; */
-        /* padding: 0px 2.5vw; */
     }
 
     .loadMore-meetings{
         padding: 0.2em 1em;
-        font-size: 5vw;
+        font-size: 3vw;
         width: 100%;
         margin-top: 0;
     }
@@ -534,7 +530,19 @@
 
 @media screen and (max-width: 550px){
 
-  
+    .loadMore-meetings{
+        padding: 0.2em 1em;
+        font-size: 4.5vw;
+        width: 100%;
+        margin-top: 0;
+    }
+    .buttonOnMeetings{
+        position:static;
+        padding: 0.4em 1em;
+        font-size: 4vw;
+        width: 100%;
+        margin-top: 2vh;
+    }
 
     
 }
