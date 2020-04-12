@@ -55,7 +55,7 @@ const translationEN = {
     "step6":'Share with your friends',
     "step7-1":"Connect to Zoom Link,",
     "step7-2":"See if the camera's on",
-    "remember":"Remember.",
+    "remember":"Remember together.",
     "howItWorks":'how It Works?',
 
     'sunday': 'Sunday, 26.04',

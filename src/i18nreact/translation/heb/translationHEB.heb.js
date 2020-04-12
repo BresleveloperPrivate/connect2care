@@ -54,7 +54,7 @@ const translationHEB = {
     "step6":'משתפים עם החברים',
     "step7-1":"מתחברים לקישור של Zoom,",
     "step7-2":"מסדרים את המצלמה",
-    "remember":"וזוכרים.",
+    "remember":"וזוכרים ביחד.",
     "howItWorks":'איך זה עובד?',
 
 
