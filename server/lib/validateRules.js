@@ -73,6 +73,10 @@ module.exports = {
             type: "number",
             numericality: { greaterThan: 9, lessThanOrEqualTo: 3000  }
         },
+        code: {
+            type: "number",
+            numericality: { greaterThan: 100000, lessThanOrEqualTo: 1000000  }
+        },
         date: {
             type: "string",
             format: {

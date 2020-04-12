@@ -218,6 +218,21 @@
                 "dataScale": null,
                 "nullable": "N"
             }
+        },
+        "code": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "code",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
         }
     },
     "acls": []

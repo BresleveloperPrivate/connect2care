@@ -61,9 +61,9 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        
-        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'LIMIT ' + limit.min + ',' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' + 'order by meetings.id LIMIT ' + limit.min + ' , ' + limit.max}`, (err, res) => {
+
+        // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -135,17 +135,19 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
-            
-            
+
+
             // security validate
             data.max_participants = Number(data.max_participants)
             if (data.isOpen === "true")
                 data.isOpen = true
-            else if (data.isOpen === "false")
+            else if (data.isOpen === "false") {
                 data.isOpen = false
+                data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
+            }
             console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
@@ -186,7 +188,7 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                
+
                                 createZoomUser(newEmail, nameOwner)
 
 
@@ -271,7 +273,6 @@ module.exports = function (meetings) {
                     }
                 }
             }
-            return cb(null, userMeeting)
         })()
 
     }
@@ -348,7 +349,7 @@ module.exports = function (meetings) {
             if (data.isOpen) data.isOpen = !!data.isOpen
 
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
@@ -587,4 +588,72 @@ module.exports = function (meetings) {
             { arg: 'sendOptions', type: 'object', required: true }],
         returns: { type: "object", root: true },
     });
+
+    meetings.deleteMeeting = (id, options, cb) => {
+        (async () => {
+            const fallens_meetings = meetings.app.models.fallens_meetings
+            const people_meetings = meetings.app.models.people_meetings
+            const people = meetings.app.models.people
+
+            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+            if (err1) {
+                console.log(err1)
+                return cb(err1)
+            }
+
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            if (res1) {
+                if (res1.length !== 0) {
+                    let where = { or: [] }
+                    if (res1.length === 1) {
+                        where = { id: res1[0].person }
+                    }
+                    else for (let i of res1) {
+                        where.or.push({ id: i.person })
+                    }
+                    people.destroyAll(where, (err3, res2) => {
+                        if (err3) {
+                            console.log("err3", err3)
+                            return cb(err3)
+                        }
+                    })
+                }
+            }
+
+            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+            if (err4) {
+                console.log(err4)
+                return cb(err4)
+            }
+
+            const [err5, res3] = await to(meetings.findById(id));
+            if (err5) {
+                console.log(err5)
+                return cb(err5)
+            }
+            if (res3) {
+                let [err6, res4] = await to(people.destroyById(res3.owner))
+                if (err5) {
+                    console.log(err6)
+                    return cb(err6)
+                }
+            }
+
+            let [err7, res5] = await to(meetings.destroyById(id))
+            if (err5) {
+                console.log(err6)
+                return cb(err6)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('deleteMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'id', type: 'number' },
+            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
 };

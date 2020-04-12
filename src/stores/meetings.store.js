@@ -15,6 +15,7 @@ class MeetingsStore {
     meetings = false
     time = false
     availableOnly = false
+    loading = false
 
     changeSearchInput = (event) => {
         ////if match...
@@ -49,6 +50,9 @@ class MeetingsStore {
 
     search = async (getMore, searchButton) => {
 
+        this.loading = true
+
+
         if (searchButton) {
             this.prevSearchInput = this.searchInput
         }
@@ -76,6 +80,8 @@ class MeetingsStore {
             this.error = err
             console.log(err)
         } else {
+            this.loading = false
+
             if (!meetings.length) {
                 this.loadMoreButton = false
                 this.meetings = []
@@ -86,7 +92,6 @@ class MeetingsStore {
             } else {
                 this.loadMoreButton = true
             }
-            console.log(meetings)
             if (!this.meetings) {
                 this.meetings = meetings.slice(0, 4)
 
@@ -118,6 +123,7 @@ decorate(MeetingsStore, {
     changeMeetingTime: action,
     changeAvailableOnly: action,
     error: observable,
+    loading: observable
 });
 
 export default new MeetingsStore();
