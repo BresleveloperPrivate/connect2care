@@ -59,6 +59,7 @@ const FallenDetails = (props) => {
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
+                        disabled={CreateMeetingStore.meetingId !== -1}
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
@@ -77,6 +78,7 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" &&
                     <input
+                        disabled={props.CreateMeetingStore.meetingId !== -1}
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
                             (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}
@@ -86,7 +88,7 @@ const FallenDetails = (props) => {
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}
-                <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />
+                {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 && <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />}
             </div>
 
             <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >

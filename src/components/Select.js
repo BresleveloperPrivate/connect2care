@@ -8,15 +8,16 @@ import { inject, observer } from 'mobx-react';
 const Select = (props) => {
     const ref = useRef()
     useOnClickOutside(ref, () => setIsSelectOpen(false));
-
+    const disabled = props.disabled || false
     const [selectedOption, setSelectedOption] = useState(props.default || null)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     return (
-        <div onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)} className={"cursor " + props.className}
+        <div onClick={() => { if (!disabled) setIsSelectOpen(isSelectOpen => !isSelectOpen) }} className={"cursor " + props.className}
             style={{
                 width: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor :
                     props.changeBackground && selectedOption && selectedOption.data ? 'rgb(238, 238, 238)' : 'white',
+                opacity: disabled ? 0.7 : 1
             }} ref={ref}>
             <div className={'selectContainer'}  >
                 <div className='d-flex select align-items-center h-100'
