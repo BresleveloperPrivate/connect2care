@@ -6,6 +6,8 @@ import speachBooble from "../icons/speakBobble.svg"
 import { observer, PropTypes, inject } from 'mobx-react';
 
 import blueCandle from '../icons/candle-blue.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import grayCandle from '../icons/gray-candle.svg'
 import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
@@ -55,7 +57,6 @@ const FallenDetails = (props) => {
                 </div>
 
                 <div className='position-relative'>
-                    {console.log(CreateMeetingStore.meetingDetails.fallens[props.index].relative)}
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
@@ -78,13 +79,14 @@ const FallenDetails = (props) => {
                     <input
                         type="text"
                         className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
-                            (CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship[props.index] && CreateMeetingStore.otherRelationship[props.index].relative && !CreateMeetingStore.otherRelationship[props.index].relative.length)) ? "error" : "")}
+                            (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
-                        value={CreateMeetingStore.otherRelationship && CreateMeetingStore.otherRelationship.length > props.index && CreateMeetingStore.otherRelationship[props.index].relative}
+                        value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder="קרבה שלי אל החלל"
                     />}
+                <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />
             </div>
 
             <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >

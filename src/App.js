@@ -43,7 +43,6 @@ class App extends Component {
     }
 
     render() {
-        console.log("this.props.history", this.props.history)
         if (window.location.search !== "" && window.location.search.includes("?id=")) {
             let id = window.location.search.split("?id=");
             console.log("id", id)
@@ -72,7 +71,7 @@ class App extends Component {
                             <Route path="/create-meeting" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/login" render={(props) => <DashLogin t={this.props.t} {...props} />} />
-                            <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login' />} component={(props) => <DashboardMain t={this.props.t} {...props} />} />
+                            <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login'/>} component={(props) => <DashboardMain t={this.props.t} {...props} />} />
                             <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={(props) => <MeetingInfo t={this.props.t} {...props} />} />
                             <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />
                         </Switch>

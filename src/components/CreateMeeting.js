@@ -10,32 +10,7 @@ import lock from '../icons/lock.svg'
 import Select from './Select.js'
 
 import FallenDetails from "./FallenDetails"
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
-import { withStyles } from "@material-ui/core/styles";
 import TextSIdeDiv from './TextSIdeDiv';
-
-const CssTimePicker = withStyles({
-    root: {
-        '&': {
-            width: '61px'
-        },
-        '& input': {
-            color: '#157492',
-            fontSize: '130%',
-            textAlign: 'center',
-        },
-        '& .MuiInput-underline:hover': {
-            borderBottomColor: "none"
-        },
-        '& .MuiInput-underline:before:hover': {
-            borderBottomColor: "none"
-        },
-        '& .MuiInput-underline:before': {
-            border: 'none',
-        },
-    },
-})(TimePicker);
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
@@ -80,6 +55,7 @@ const CreateMeeting = (props) => {
         { option: '00', data: '00' },
         { option: '30', data: '30' }
     ]
+
     const meetingDate = [
         { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
         { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
@@ -93,9 +69,9 @@ const CreateMeeting = (props) => {
             // let meetingId = path[path.length - 1]
             // props.CreateMeetingStore.setMeetingId(meetingId)
             // await props.CreateMeetingStore.getMeetingDetails()
-           // getTimeValue()
+            // getTimeValue()
         })()
-    }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
+    }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.meetingDetails.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
 
 
     useEffect(() => {
@@ -103,11 +79,11 @@ const CreateMeeting = (props) => {
 
     }, [])
 
-//    const getTimeValue = () => {
-  //      let time = new Date()
+    //    const getTimeValue = () => {
+    //      let time = new Date()
     //    time.setHours(props.CreateMeetingStore.meetingDetails.time.split(":")[0])
-//        time.setMinutes(props.CreateMeetingStore.meetingDetails.time.split(":")[1])
-  //      setTimeValue(time)
+    //        time.setMinutes(props.CreateMeetingStore.meetingDetails.time.split(":")[1])
+    //      setTimeValue(time)
     //}
 
     const showFallens = () => {
@@ -274,29 +250,25 @@ const CreateMeeting = (props) => {
 
                             <div className='containSelectTime position-relative'>
 
-                                {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">{props.t("time")}</div>}
-                                {//<div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
-                                }
-                                    <Select
-                                        selectTextDefault="דקות"
-                                        arr={meetingTimeMinute}
-                                        width='100%'
-                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                                        className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
-                                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
-                                    
-                                    <div className="timeDot">:</div>
-                                    <Select
-                                        selectTextDefault="שעות"
-                                        arr={meetingTimeHour}
-                                        width='100%'
-                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
-                                        className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
-                                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
+                                {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">שעה (שעון ישראל):</div>}
+                                <Select
+                                    selectTextDefault="דקות"
+                                    arr={meetingTimeMinute}
+                                    width='100%'
+                                    // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                                    className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
 
-                                {//</div>
-                                }
+                                <div className="timeDot">:</div>
+                                <Select
+                                    selectTextDefault="שעות"
+                                    arr={meetingTimeHour}
+                                    width='100%'
+                                    // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                                    className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
                             </div>
+
                         </div>
                         <div className="position-relative">
                             {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">{props.t("maxParticipationNumber")}</div>}
@@ -316,10 +288,8 @@ const CreateMeeting = (props) => {
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan3000Participants"))
                                 }}
                                 onFocus={() => setErrorMaxParticipants(false)}
-                                className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants || (props.CreateMeetingStore.meetingDetails.max_participants && !props.CreateMeetingStore.meetingDetails.max_participants.length)) ? "error" : "")}
+                                className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                                // style={errorMaxParticipants ?
-                                //     { marginBottom: "0" } : {}}
                                 value={props.CreateMeetingStore.meetingDetails.max_participants}
                                 autoComplete="off"
                                 placeholder={props.t("maxParticipationNumber")}
@@ -375,4 +345,4 @@ const CreateMeeting = (props) => {
 
     )
 }
-export default inject('CreateMeetingStore','LanguageStore')(observer(CreateMeeting));
+export default inject('CreateMeetingStore', 'LanguageStore')(observer(CreateMeeting));
