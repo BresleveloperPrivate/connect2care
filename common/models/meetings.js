@@ -343,10 +343,37 @@ module.exports = function (meetings) {
                 delete data.fallensToChange
             }
 
+            if (data.owner) {
+                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
+                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
+                if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
+                if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
+                let people = meetings.app.models.people
+                let [errMeeting, meetingById] = await to(meetings.findById(id))
+                if (errMeeting) {
+                    console.log(errMeeting)
+                    return cb(errMeeting)
+                }
+                let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, data.owner))
+                if (errPeople) {
+                    console.log(errPeople)
+                    return cb(errPeople)
+                }
+                delete data.owner
+            }
+
             // security validate
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
-            if (data.isOpen) data.isOpen = !!data.isOpen
+            if (data.isOpen === "true")
+                data.isOpen = true
+            else if (data.isOpen === "false") {
+                data.isOpen = false
+                data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
+            }
 
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
@@ -589,7 +616,7 @@ module.exports = function (meetings) {
         returns: { type: "object", root: true },
     });
 
-    meetings.deleteMeeting = (id, options, cb) => {
+    meetings.deleteMeeting = (id, cb) => {
         (async () => {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
@@ -640,9 +667,9 @@ module.exports = function (meetings) {
             }
 
             let [err7, res5] = await to(meetings.destroyById(id))
-            if (err5) {
-                console.log(err6)
-                return cb(err6)
+            if (err7) {
+                console.log(err7)
+                return cb(err7)
             }
             return cb(null, true)
         })()
@@ -650,10 +677,7 @@ module.exports = function (meetings) {
 
     meetings.remoteMethod('deleteMeeting', {
         http: { verb: 'post' },
-        accepts: [
-            { arg: 'id', type: 'number' },
-            { arg: 'options', type: 'object', http: 'optionsFromRequest' }
-        ],
+        accepts: { arg: 'id', type: 'number' },
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 };

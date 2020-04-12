@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/listOfMeetings.css'
-// import { inject, observer, PropTypes } from 'mobx-react';
-import lock from '../icons/blue-lock.svg'
-import tell from '../icons/tell.svg'
+import { inject, observer} from 'mobx-react';
+// import lock from '../icons/blue-lock.svg'
+// import tell from '../icons/tell.svg'
 import Auth from '../modules/auth/Auth'
-import ImageOfFallen from './ImageOfFallen'
+// import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
-import candle from '../icons/candle-dark-blue.svg'
-import clock from '../icons/clock.svg'
-import participants from '../icons/participants.png'
-import Dialog from '@material-ui/core/Dialog';
-import MeetingCardPhone from './MeetingCardPhone'
+// import candle from '../icons/candle-dark-blue.svg'
+// import clock from '../icons/clock.svg'
+// import participants from '../icons/participants.png'
+// import Dialog from '@material-ui/core/Dialog';
+// import MeetingCardPhone from './MeetingCardPhone'
 
 const ListOfMeetingsUser = (props) => {
 
@@ -27,9 +27,9 @@ const ListOfMeetingsUser = (props) => {
 
 
             {!error ?
-                <div className={localStorage.getItem('lang') !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'} style={{ width: '85%' }}>
-                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>המפגשים שלי</div>
-                    <div className={localStorage.getItem('lang') !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'} onClick={() => {
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'} style={{ width: '85%' }}>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>המפגשים שלי</div>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'} onClick={() => {
                     }} >
                         כאן ניתן לערוך ולצפות בפרטי המפגשים אליהם הצטרפת או יצרת
                      </div>
@@ -103,4 +103,4 @@ const ListOfMeetingsUser = (props) => {
         </div>
     );
 }
-export default ListOfMeetingsUser;
+export default inject('LanguageStore')(observer(ListOfMeetingsUser))

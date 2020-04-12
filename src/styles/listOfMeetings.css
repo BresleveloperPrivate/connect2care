@@ -151,7 +151,7 @@
 }
 
 .mainPage-meetings{
-    width: 85em;
+    width: 75vw;
     margin-right: 6vw;
 }
 
@@ -274,8 +274,9 @@
 }
 
 .numberOfParticipants{
+    font-family: 'Assistant';
     color: var(--custom-green);
-    font-size: 5em;
+    font-size: 4.6em;
     font-weight: 300;
     position: absolute;
     line-height: 1.1em;
@@ -350,18 +351,85 @@
     padding-top: 0.3em;
 } */
 
+@media screen and (max-width: 1200px){
 
+
+    .mainPage-meetings{
+        width: 90vw;
+        margin-right: 6vw;
+    }    
+}
 
 @media screen and (max-width: 800px){
 
 
     .mainPage-meetings{
-        width: 79em;
+        width: 90vw;
         margin-right: 6vw;
     }    
-}
 
-@media screen and (max-width: 550px){
+
+
+    .containFilters{
+        margin-top: 2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        font-size: 2em;
+        padding: 0 5vw;
+        max-height: 60vh;
+        overflow: hidden;
+        transition: max-height 1.5s ease;
+        animation: makeOverflowVisible 0s ease-in 2s;
+
+    }
+
+    .input-meetings:not(.filter-meeting-left, .filter-meeting-right){
+        padding: 0.5vh 0.6em;
+    }
+
+    .inputPhoneView{
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #4D4F5C;
+    }
+
+    .overflow-visible{
+        overflow: visible;
+    }
+
+    .containFiltersClose{
+        transition: max-height 1.5s ease;
+
+        max-height: 0;
+        overflow: hidden;
+    }
+    
+    .availableOnly{
+        margin-top: 2vh;
+    }
+
+    .filterBy{
+        width: 100%;
+        /* text-align: right; */
+    }
+
+    .optionsContainer{
+        margin-top: 1.4vh;
+    }
+
+    .input-meetings{
+        padding: 1vh 10px;
+        width: 100%;
+    }
+
+    .filter-meeting-left, .filter-meeting-right{
+        width: 100%;
+        margin: 2vh 0 0 0;
+    }
+
 
     .mainPage-meetings{
         width: 100vw;
@@ -386,18 +454,14 @@
     .buttonOnMeetings{
         position:static;
         padding: 0.4em 1em;
-        font-size: 4.5vw;
+        font-size: 2.5vw;
         width: 100%;
         margin-top: 2vh;
-    
-    
-        /* font-size: 15px; */
-        /* padding: 0px 2.5vw; */
     }
 
     .loadMore-meetings{
         padding: 0.2em 1em;
-        font-size: 5vw;
+        font-size: 3vw;
         width: 100%;
         margin-top: 0;
     }
@@ -456,68 +520,28 @@
     }
 
     .numberOfParticipants{
-        font-size: 3.5em;
+        font-size: 3.2em;
         line-height: 1.2em;
     }
     
-    .containFilters{
-        margin-top: 2em;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+
+
+}
+
+@media screen and (max-width: 550px){
+
+    .loadMore-meetings{
+        padding: 0.2em 1em;
+        font-size: 4.5vw;
         width: 100%;
-        font-size: 2em;
-        padding: 0 5vw;
-        max-height: 60vh;
-        overflow: hidden;
-        transition: max-height 1.5s ease;
-        animation: makeOverflowVisible 0s ease-in 2s;
-
+        margin-top: 0;
     }
-
-    .input-meetings:not(.filter-meeting-left, .filter-meeting-right){
-        padding: 0.5vh 0.6em;
-    }
-
-    .inputPhoneView{
-        border: none;
-        outline: none;
+    .buttonOnMeetings{
+        position:static;
+        padding: 0.4em 1em;
+        font-size: 4vw;
         width: 100%;
-        color: #4D4F5C;
-    }
-
-    .overflow-visible{
-        overflow: visible;
-    }
-
-    .containFiltersClose{
-        transition: max-height 1.5s ease;
-
-        max-height: 0;
-        overflow: hidden;
-    }
-    
-    .availableOnly{
         margin-top: 2vh;
-    }
-
-    .filterBy{
-        width: 100%;
-        /* text-align: right; */
-    }
-
-    .optionsContainer{
-        margin-top: 1.4vh;
-    }
-
-    .input-meetings{
-        padding: 1vh 0;
-        width: 100%;
-    }
-
-    .filter-meeting-left, .filter-meeting-right{
-        width: 100%;
-        margin: 2vh 0 0 0;
     }
 
     

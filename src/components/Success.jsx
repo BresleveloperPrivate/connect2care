@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/success.scss';
+import { inject, observer } from 'mobx-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageOfFallen from './ImageOfFallen';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
@@ -79,8 +80,12 @@ function Success(props) {
                     <div className="sucessPage">
                         <div className="bigContainer">
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
-                            <div className="sucessHeadline">מצויין, יצרת מפגש</div>
-                            <div className="sucessHeadline2">מתחברים וזוכרים יחד</div>
+                            <div
+                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            className="sucessHeadline">מצויין, יצרת מפגש</div>
+                            <div 
+                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            className="sucessHeadline2">מתחברים וזוכרים יחד</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
                                     <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
@@ -88,7 +93,13 @@ function Success(props) {
                                 </div>
                                 <div className="meetingInfo">
                                     <div className="fallenName">
-                                        <div style={{width: '1.1em' , height:'1.1em' , display:'flex'}}><img alt="alt" className="whiteCandle" src={candle} height="100%" width="100%" /></div>
+                                        <div style={
+                                            props.LanguageStore.lang !== 'heb' ? 
+                                            {width: '0.8em' , height:'1.1em' , display:'flex' , marginRight:'0.4em'}
+                                            :           
+                                            {width: '0.8em' , height:'1.1em' , display:'flex', marginLeft:'0.4em'}
+
+                                            }><img alt="alt" src={candle} height="100%" width="100%" /></div>
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             dataToProps.fallens.push({"name":fallen.fallens.name })
                                             if (index === 0) {
@@ -112,21 +123,40 @@ function Success(props) {
                                         })}</div>                                            
                                     </div>
                                     <div className="meetingDateSuccess">
+                                    <div style={
+                                        props.LanguageStore.lang !== 'heb' ?
+                                        {width: '0.8em' , height:'1.1em' , display:'flex' , marginRight:'0.5em'}
+                                        :
+                                        {width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}
+                                        }>
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
+                                        </div>
                                         <span className="exactDate">{meeting.date} | {meeting.time}</span>
                                     </div>
                                     <div className="relationDiv">
-                                    <div style={{width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}}><img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" /></div>
+                                    <div style={
+                                        props.LanguageStore.lang !== 'heb' ?
+                                        {width: '0.8em' , height:'1.1em' , display:'flex' , marginRight:'0.5em'}
+                                        :
+                                        {width: '0.8em' , height:'1.1em' , display:'flex' , marginLeft:'0.5em'}
+                                        }>
+                                        <img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" />
+                                    </div>
                                         <span className="relationInfo"> מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
-                                    <div className="detailsInfo">{meeting.description}</div>
+                                    <div style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                                    className="detailsInfo">{meeting.description}</div>
                                     {/* </div> */}
                                 </div>
                             </div>
-                            <div className="shareWith">שתף את החברים, הצוות או המשפחה</div>
+                            <div 
+                            style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                            className="shareWith">שתף את החברים, הצוות או המשפחה</div>
                         </div>
                     </div>
-                    <div className="sharingComponent">
+                    <div 
+                    style={{direction:'rtl'}}
+                    className="sharingComponent">
                         <Sharing 
                         containImageClassName={'containSharingImage'}
                         myId={'sharingBox'}
@@ -138,7 +168,9 @@ function Success(props) {
                     />
                     </div>
                     <div className="whiteFutter">
-                        <div className="additionalInfo">
+                        <div
+                        style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
+                        className="additionalInfo">
                             <div>*קישור למפגש מחכה לך בתיבת המייל</div>
                             <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
                         </div>
@@ -148,4 +180,4 @@ function Success(props) {
     
 }
 
-export default Success;
+export default inject('LanguageStore')(observer(Success));

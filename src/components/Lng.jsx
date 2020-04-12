@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 
-class lng extends Component {
+class Lng extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -11,6 +12,7 @@ class lng extends Component {
 
     changelng = (x) => {
         this.props.changeLanguage(x);
+        this.props.LanguageStore.setLang(x)
         this.setState({lngToChoose: x})
     }
 
@@ -28,4 +30,4 @@ class lng extends Component {
 }
 
 
-export default lng;
+export default inject('LanguageStore')(observer(Lng))

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../style/dashboardMain.css'
-import '../style/meetingInfo.css'
+import '../style/meetingInfo.scss'
 import '../../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 import ErrorMethod from '../../components/ErrorMethod';
@@ -9,6 +9,7 @@ import person from '../../icons/person.svg'
 import materialInfo from '../../icons/material-info.svg'
 import lock from '../../icons/lock.svg'
 import Select from '../../components/Select'
+import DeleteMeetingPopup from './DeleteMeetingPopup'
 
 import FallenDetails from "../../components/FallenDetails"
 import DateFnsUtils from '@date-io/date-fns';
@@ -48,6 +49,7 @@ const MeetingDetails = (props) => {
     const [dataForFallen, setDataForFallen] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [showDeleteMeetingPopup, setShowDeleteMeetingPopup] = useState(false)
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -166,7 +168,6 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">{props.t("ownerFullName")}</div>}
                             <input
-                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorName}
@@ -179,7 +180,6 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">{props.t("email")}</div>}
                             <input
-                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
                                 onTouchEnd={() => setErrorEmail(true)}
@@ -201,7 +201,6 @@ const MeetingDetails = (props) => {
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">{props.t("phone")}</div>}
                             <input
-                                disabled={props.CreateMeetingStore.meetingId === -1 ? false : true}
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
@@ -303,29 +302,36 @@ const MeetingDetails = (props) => {
                             }
                         </div>
 
-                        <div
-                            className="containCreateMettingButton"
-                            onClick={async () => {
-                                setIsSaved(true)
-                                if (props.CreateMeetingStore.meetingId === -1) {
-                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
-                                    if (meeting) {
-                                        setSuccess(meeting[0])
+                        <div className='d-flex align-items-center pb-5'>
+                            <div style={{ marginRight: '6vw', width: '2.5vh' }} className='trash' onClick={() => setShowDeleteMeetingPopup(true)}>
+                                <FontAwesomeIcon icon={['fas', 'trash']} />
+                                <div className='trashText'>מחק מפגש</div>
+                            </div>
+                            <div
+                                className="containCreateMettingButton"
+                                style={{ marginRight: 'unset' }}
+                                onClick={async () => {
+                                    setIsSaved(true)
+                                    if (props.CreateMeetingStore.meetingId === -1) {
+                                        let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                        if (meeting) {
+                                            setSuccess(meeting[0])
+                                        }
                                     }
-                                }
-                                else {
-                                    await props.CreateMeetingStore.updateMeeting()
-                                }
-                            }}>
-                            <div className="createMeetingButton grow">
-                                {props.CreateMeetingStore.waitForData ?
-                                    <div className="spinner">
-                                        <div className="bounce1"></div>
-                                        <div className="bounce2"></div>
-                                        <div className="bounce3"></div>
-                                    </div>
-                                    : <div>{props.t("createMeeting")}</div>
-                                }
+                                    else {
+                                        await props.CreateMeetingStore.updateMeeting()
+                                    }
+                                }}>
+                                <div className="createMeetingButton grow" style={{ marginBottom: 'unset' }}>
+                                    {props.CreateMeetingStore.waitForData ?
+                                        <div className="spinner">
+                                            <div className="bounce1"></div>
+                                            <div className="bounce2"></div>
+                                            <div className="bounce3"></div>
+                                        </div>
+                                        : <div>{props.t("createMeeting")}</div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -336,6 +342,7 @@ const MeetingDetails = (props) => {
                 </div>
                 : <Success history={props.history} meeting={success} t={props.t} />
             }
+            {showDeleteMeetingPopup && <DeleteMeetingPopup handleClose={() => setShowDeleteMeetingPopup(false)} meetingId={props.CreateMeetingStore.meetingId} history={props.history} />}
         </div>
 
     )
