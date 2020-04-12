@@ -57,6 +57,29 @@ const CreateMeeting = (props) => {
         { option: 'አማርኛ', data: 'አማርኛ' },
         { option: 'español', data: 'español' },
     ]
+    const meetingTimeHour = [
+        { option: '8', data: '8' },
+        { option: '9', data: '9' },
+        { option: '10', data: '10' },
+        { option: '11', data: '11' },
+        { option: '12', data: '12' },
+        { option: '13', data: '13' },
+        { option: '14', data: '14' },
+        { option: '15', data: '15' },
+        { option: '16', data: '16' },
+        { option: '17', data: '17' },
+        { option: '18', data: '18' },
+        { option: '19', data: '19' },
+        { option: '20', data: '20' },
+        { option: '21', data: '21' },
+        { option: '22', data: '22' },
+        { option: '23', data: '23' },
+        { option: '00', data: '00' },
+    ]
+    const meetingTimeMinute = [
+        { option: '00', data: '00' },
+        { option: '30', data: '30' }
+    ]
     const meetingDate = [
         { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
         { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
@@ -70,7 +93,7 @@ const CreateMeeting = (props) => {
             // let meetingId = path[path.length - 1]
             // props.CreateMeetingStore.setMeetingId(meetingId)
             // await props.CreateMeetingStore.getMeetingDetails()
-            getTimeValue()
+           // getTimeValue()
         })()
     }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
 
@@ -80,12 +103,12 @@ const CreateMeeting = (props) => {
 
     }, [])
 
-    const getTimeValue = () => {
-        let time = new Date()
-        time.setHours(props.CreateMeetingStore.meetingDetails.time.split(":")[0])
-        time.setMinutes(props.CreateMeetingStore.meetingDetails.time.split(":")[1])
-        setTimeValue(time)
-    }
+//    const getTimeValue = () => {
+  //      let time = new Date()
+    //    time.setHours(props.CreateMeetingStore.meetingDetails.time.split(":")[0])
+//        time.setMinutes(props.CreateMeetingStore.meetingDetails.time.split(":")[1])
+  //      setTimeValue(time)
+    //}
 
     const showFallens = () => {
         if (!props.CreateMeetingStore.meetingDetails.fallens)
@@ -252,20 +275,27 @@ const CreateMeeting = (props) => {
                             <div className='containSelectTime position-relative'>
 
                                 {props.CreateMeetingStore.meetingDetails.time && <div className="textAboveInput">{props.t("time")}</div>}
-                                <div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <CssTimePicker
-                                            clearable
-                                            ampm={false}
-                                            okLabel={props.t("approve")}
-                                            cancelLabel={props.t("cancel")}
-                                            clearLabel={null}
-                                            value={timeValue}
-                                            onChange={props.CreateMeetingStore.changeMeetingTime}
-                                            style={{ textDecoration: 'underline', color: '#157492', cursor: "pointer" }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </div>
+                                {//<div className={'inputStyleTime inputStyle d-flex align-items-center ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.time || (props.CreateMeetingStore.meetingDetails.time && !props.CreateMeetingStore.meetingDetails.time.length)) ? "error" : "")}>
+                                }
+                                    <Select
+                                        selectTextDefault="דקות"
+                                        arr={meetingTimeMinute}
+                                        width='100%'
+                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                                        className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
+                                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
+                                    
+                                    <div className="timeDot">:</div>
+                                    <Select
+                                        selectTextDefault="שעות"
+                                        arr={meetingTimeHour}
+                                        width='100%'
+                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
+                                        className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
+                                        onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
+
+                                {//</div>
+                                }
                             </div>
                         </div>
                         <div className="position-relative">

@@ -335,6 +335,12 @@ input[type=radio]:focus {
 
 }
 
+.timeDot{
+    font-size: 3vh;
+    height: fit-content;
+    margin-bottom: 4vh;
+}
+
 .containNameExist{
     display: flex;
     padding: 0vh 1vh;
@@ -403,6 +409,8 @@ input[type=radio]:focus {
     .containSelectTime{
         width: 30%;
         margin-right: 2vh;
+        display: flex;
+        align-items: center;
     }
 
     .containDateInput{
