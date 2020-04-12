@@ -25,9 +25,6 @@ import useOnClickOutside from './UseOnClickOutside'
 export default function Sharing(props) {
   const ref = React.useRef()
   useOnClickOutside(ref, () => setOpenShare(false));
-
-  console.log("propsdata", props.data)
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [openShare, setOpenShare] = React.useState(false);
 
   const [openEmail, setOpenEmail] = React.useState(false);

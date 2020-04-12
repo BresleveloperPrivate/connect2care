@@ -69,6 +69,7 @@ module.exports = function (meetings) {
                 console.log(err)
                 return cb(err)
             } else {
+                console.log(res)
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -525,7 +526,7 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, mailDetails, cb) => {
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
             console.log("mailDetails", mailDetails)
             try {
@@ -543,9 +544,14 @@ module.exports = function (meetings) {
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num, isOpen } = meeting;
+                const { max_participants, participants_num, isOpen , code } = meeting;
 
-                if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
+                if (!!!isOpen){
+                    console.log(String(code) , String(myCode))
+                    if(String(code) !== String(myCode)){
+                        { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
+                    }
+                } 
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
                 let person;
                 let [err, user0] = await to(people.findOne({ where: { email: email } }))
@@ -572,7 +578,7 @@ module.exports = function (meetings) {
                 let whitelist1 = {
                     person: true, meeting: true
                 };
-                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: meetingId }, ValidateRules.people_meetings, whitelist1);
+                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
                 console.log("valid1", valid1)
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
@@ -584,7 +590,7 @@ module.exports = function (meetings) {
                 let whitelist2 = {
                     id: true, participants_num: true
                 };
-                let valid2 = ValidateTools.runValidate({ id: meetingId, participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
+                let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
                 console.log("valid2", valid2)
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
@@ -642,6 +648,7 @@ module.exports = function (meetings) {
             { arg: "name", type: "string", required: true },
             { arg: "email", type: "string", required: true },
             { arg: "phone", type: "string", required: true },
+            { arg: "myCode", type: "string", required: false },
             { arg: 'mailDetails', type: 'object', required: true }
         ],
         returns: { type: "object", root: true },

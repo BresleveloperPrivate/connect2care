@@ -120,7 +120,7 @@ const CreateMeeting = (props) => {
     return (
         <div>
             {!success ?
-                <div style={{ textAlign: "right" }} className="CreateMeeting">
+                <div className="CreateMeeting">
                     <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}</div>
                     <div className="createMeetingSecondSentence margin-right-text">שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים </div>
                     <div>
@@ -252,7 +252,7 @@ const CreateMeeting = (props) => {
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">שעה (שעון ישראל):</div>}
                                 <Select
-                                    selectTextDefault="דקות"
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "שעות"}
                                     arr={meetingTimeMinute}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -261,7 +261,7 @@ const CreateMeeting = (props) => {
 
                                 <div className="timeDot">:</div>
                                 <Select
-                                    selectTextDefault="שעות"
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : "דקות"}
                                     arr={meetingTimeHour}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -312,14 +312,16 @@ const CreateMeeting = (props) => {
                             className="containCreateMettingButton"
                         >
                             <div className="createMeetingButton grow" onClick={async () => {
-                                setIsSaved(true)
-                                if (!readBylaw) {
-                                    props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
-                                    return
-                                }
-                                let meeting = await props.CreateMeetingStore.createNewMeetingPost()
-                                if (meeting) {
-                                    setSuccess(meeting[0])
+                                if (!props.CreateMeetingStore.waitForData) {
+                                    setIsSaved(true)
+                                    if (!readBylaw) {
+                                        props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
+                                        return
+                                    }
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    if (meeting) {
+                                        setSuccess(meeting[0])
+                                    }
                                 }
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
@@ -337,7 +339,7 @@ const CreateMeeting = (props) => {
                         props.CreateMeetingStore.error &&
                         <ErrorMethod {...props} />
                     }
-                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
+                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                 </div >
                 : <Success history={props.history} meeting={success} t={props.t} />
             }
