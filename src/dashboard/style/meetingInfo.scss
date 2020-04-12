@@ -5,6 +5,27 @@
     border-radius: 7px;
     box-shadow: 0px 2px 6px #0000000A;
     padding-top: 6vh;
+
+    .inputStyle, .containCreateMettingButton{
+        width: calc(100% - 12vw) !important;
+    }
+
+    @media screen and (min-width: 551px){
+        .containFallenDetails, .listSearch{
+            width: calc(100% - 12vw) !important;
+        }
+
+        .containDateAndTime{
+            width: calc(100% - 12vw) !important;
+            .inputStyle{
+                width: 100% !important;
+            }
+        }
+        
+        .fallenSearchDiv {
+            width: 100% !important;
+        }
+    }
 }
 
 .trash{
@@ -16,7 +37,7 @@
 }
 
 .trash:hover{
-    color: #3586B1 !important;
+    color: var(--custom-orange) !important;
     font-size: 2vh;
     transition: ease 0.5s color, ease 0.2s font-size;
     
@@ -33,3 +54,6 @@
     right: -15px;
     width: 6vw;
 }
+
+
+

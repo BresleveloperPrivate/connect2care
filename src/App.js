@@ -43,7 +43,6 @@ class App extends Component {
     }
 
     render() {
-        console.log("this.props.history", this.props.history)
         if (window.location.search !== "" && window.location.search.includes("?id=")) {
             let id = window.location.search.split("?id=");
             console.log("id", id)
