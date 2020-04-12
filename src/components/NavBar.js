@@ -56,7 +56,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <div className={localStorage.getItem('lang') !== 'heb' ? 'navbar ' + this.props.className + ' fdrr' : 'navbar ' + this.props.className  }>
+            <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbar ' + this.props.className + ' fdrr' : 'navbar ' + this.props.className  }>
                 <div className='containMenu'>
                     <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
@@ -87,7 +87,7 @@ class NavBar extends Component {
 
                 </div>}
 
-                <div className={localStorage.getItem('lang') !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
                     <div className='containIconNavbar'>
                         <img alt="alt" src={ourBrothers} height='80%' className="oblogo" />
                     </div>

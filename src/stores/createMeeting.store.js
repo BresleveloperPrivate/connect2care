@@ -90,24 +90,6 @@ class CreateMeetingStore {
         this.meetingDetails.fallens[index].id = fallen.id
     }
 
-    deleteFallenToArr = (fallenId) => {
-        if (this.meetingDetailsOriginal.fallens) {
-            let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === fallenId)
-            if (indexOriginalFallen !== -1) this.fallensToDelete.push(fallenId)
-        }
-    }
-
-    addFallenToArr = (fallen) => {
-        if (this.meetingDetailsOriginal.fallens) {
-            let indexOriginalFallen = this.meetingDetailsOriginal.fallens.findIndex(fallenOriginal => fallenOriginal.id === fallen.id)
-            if (indexOriginalFallen === -1) this.fallensToAdd.push({ fallen: fallen.id, relationship: fallen.relative })
-        }
-    }
-
-    changeFallenToArr = (fallen) => {
-
-    }
-
     changeFallens = (index, number = null) => {
         if (this.meetingDetails.fallens === null) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { inject, observer} from 'mobx-react';
+
 import '../styles/howItWorks.css'
 
 import candle from '../icons/candle.svg'
@@ -17,11 +19,11 @@ class HowItWorks extends Component {
         return (
 
             <div className='containHowItWorks'>
-                <div className='howItWorksTitle'>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorksTitle tal' : 'howItWorksTitle tar'}>
             {this.props.t('howItWorks')}
                 </div>
 
-                <div className='howItWorks'>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorks fdrr' : 'howItWorks'}>
                     <div className='levels'>
 
                         <div className='howItWorksOption'>
@@ -112,4 +114,4 @@ class HowItWorks extends Component {
     }
 }
 
-export default HowItWorks;
+export default inject('LanguageStore')(observer(HowItWorks))
