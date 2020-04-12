@@ -358,6 +358,8 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.timeHour
+        delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
         console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         delete beforePostJSON.otherRelationShip
