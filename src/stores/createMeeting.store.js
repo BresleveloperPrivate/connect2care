@@ -23,9 +23,10 @@ class CreateMeetingStore {
         date: "",
         timeHour: "",
         timeMinute: "",
-        max_participants: "",
+        max_participants: 300,
         fallens: null,
         zoomId: "",
+        otherRelationship: null
     }
     allMeetings = null;
 
@@ -33,7 +34,6 @@ class CreateMeetingStore {
 
     error = null;
     waitForData = false;
-    otherRelationship = null;
     meetingId = -1;
 
     changeMeetingName = (e) => {
@@ -58,9 +58,10 @@ class CreateMeetingStore {
             date: "",
             timeHour: "",
             timeMinute: "",
-            max_participants: "",
+            max_participants: 300,
             fallens: null,
             zoomId: "",
+            otherRelationship: null
         }
         this.allMeetings = null;
 
@@ -68,7 +69,6 @@ class CreateMeetingStore {
 
         this.error = null;
         this.waitForData = false;
-        this.otherRelationship = null;
         this.meetingId = -1;
     }
 
@@ -93,15 +93,18 @@ class CreateMeetingStore {
     changeFallens = (index, number = null) => {
         if (this.meetingDetails.fallens === null) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            this.otherRelationShip = [{ id: index, relative: "" }]
+            if (this.meetingDetails.otherRelationShip === null)
+                this.meetingDetails.otherRelationShip = [{ id: index, relative: "" }]
         }
         else if (this.meetingDetails.fallens.length >= index) {
             this.meetingDetails.fallens[index] = { id: number, relative: null }
-            this.otherRelationShip[index] = { id: number, relative: "" }
+            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length >= index)
+                this.meetingDetails.otherRelationShip[index] = { id: number, relative: "" }
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            this.otherRelationShip.push({ id: number, relative: "" })
+            if (this.meetingDetails.otherRelationShip)
+                this.meetingDetails.otherRelationShip.push({ id: number, relative: "" })
         }
     }
 
@@ -115,15 +118,18 @@ class CreateMeetingStore {
     }
 
     setOtherRelationship = (e, index) => {
-        if (!this.otherRelationShip || (this.otherRelationShip && !this.otherRelationShip.length)) {
-            this.otherRelationShip = [{ id: null, relative: e.target.value }]
+        let id = null
+        if (this.meetingDetails.fallens[index])
+            id = this.meetingDetails.fallens[index].id
+        if (!this.meetingDetails.otherRelationShip || (this.meetingDetails.otherRelationShip && !this.meetingDetails.otherRelationShip.length)) {
+            this.meetingDetails.otherRelationShip = [{ id: id, relative: e.target.value }]
             return
         }
         else {
-            if (this.otherRelationShip[index])
-                this.otherRelationShip[index].relative = e.target.value
+            if (this.meetingDetails.otherRelationShip[index])
+                this.meetingDetails.otherRelationShip[index].relative = e.target.value
             else
-                this.otherRelationShip[index].relative = { id: null, relative: e.target.value }
+                this.meetingDetails.otherRelationShip[index] = { id: id, relative: e.target.value }
 
         }
     }
@@ -151,7 +157,7 @@ class CreateMeetingStore {
                     this.meetingDetails.fallens[i].relative = option
                     if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -245,11 +251,10 @@ class CreateMeetingStore {
             date: object.date,
             timeHour: hour,
             timeMinute: minute,
-            max_participants: object.max_participants || '',
+            max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
             zoomId: "",
         }
-        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
         if (object.fallens && object.fallens.length) {
             for (let i = 0; i < object.fallens.length; i++) {
@@ -261,15 +266,16 @@ class CreateMeetingStore {
                 obj.relative = object.fallens[i].relationship
                 if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
                     obj.relative = 'אחר'
-                    if (!this.otherRelationship) this.otherRelationship = {}
-                    if (!this.otherRelationship[i]) this.otherRelationship[i] = {}
-                    this.otherRelationship[i].relative = object.fallens[i].relationship
-                    this.otherRelationship[i].id = object.fallens[i].id
+                    if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
+                    if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
+                    this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
+                    this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
                 }
                 this.meetingDetails.fallens[i] = obj
                 this.meetingDetailsOriginal.fallens[i] = obj
             }
         }
+        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
     getMeetingDetails = async () => {
@@ -283,6 +289,15 @@ class CreateMeetingStore {
         if (success) {
             this.changeDetailsObjFunc(success[0])
         }
+    }
+
+    deleteFromFallens = (index) => {
+        console.log("index", index)
+        let id = this.meetingDetails.fallens[index].id
+        this.meetingDetails.fallens.splice(1, index)
+        this.meetingDetails.otherRelationShip.splice(1, index)
+        this.fallenDetails[id] = undefined
+        console.log("this.fallenDetails[id]", this.fallenDetails[id], "this.meetingDetails.fallens", this.meetingDetails.fallens, "this.meetingDetails.otherRelationShip", this.meetingDetails.otherRelationShip)
     }
 
     changeMeetingTimeHour = (event) => {
@@ -331,8 +346,8 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
-            let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
+        if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
                 checkOtherRelation.filter((other) => {
                     if (other.id === fallen.id) {
@@ -344,15 +359,15 @@ class CreateMeetingStore {
         let zoomId = beforePostJSON.zoomId
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
+        delete this.meetingDetailsOriginal.otherRelationShip
+        delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
         }
-        console.log("beforePostJSON.fallens", beforePostJSON.fallens)
         for (let i = 0; i < beforePostJSON.fallens.length; i++) {
-            console.log("beforePostJSON.fallens[i]", beforePostJSON.fallens[i])
             if (!beforePostJSON.fallens[i] || !beforePostJSON.fallens[i].id || beforePostJSON.fallens[i].id === 0 || !beforePostJSON.fallens[i].relative) {
                 this.setError("כל השדות צריכים להיות מלאים")
                 return
@@ -382,12 +397,45 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+        let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
-
         if (changedObj.fallens) {
-
+            for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
+                let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
+                if (index === -1) {
+                    fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
+                }
+                else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
+                    if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
+                        if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
+                            fallensToChange.push(beforePostJSON.otherRelationShip[Number(index)])
+                        }
+                        else fallensToChange.push(beforePostJSON.fallens[Number(index)])
+                    }
+                    else {
+                        if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
+                            fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
+                        }
+                    }
+                }
+            }
+            beforePostJSON.fallens.filter(afterFallen => {
+                console.log("afterFallen", afterFallen)
+                if (afterFallen.id === null || afterFallen.relative === null) {
+                    this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
+                    return
+                }
+                let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
+                if (index === -1) {
+                    fallensToAdd.push(afterFallen)
+                }
+            })
         }
-        console.log(changedObj, this.fallensToAdd, this.fallensToDelete)
+
+        console.log("AFTER", "changedObj", changedObj, "fallensToAdd", fallensToAdd, "fallensToDelete", fallensToDelete, "fallensToChange", fallensToChange)
+        if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
+        if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
+        if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
 
         // this.waitForData = true
         // let [success, err] = await Auth.superAuthFetch(
