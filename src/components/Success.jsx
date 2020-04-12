@@ -142,7 +142,7 @@ function Success(props) {
                                         }>
                                         <img alt="alt" className="annonymousPerson" src={annonymousPerson} height="100%" width="100%" />
                                     </div>
-                                        <span className="relationInfo"> מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
+                                        <span className="relationInfo"> {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}</span>
                                     </div>
                                     <div style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
                                     className="detailsInfo">{meeting.description}</div>

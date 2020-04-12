@@ -13,6 +13,14 @@ import ContainFilters from './ContainFilters'
 
 const ComputerList = (props) => {
 
+    const meetingDate = [
+        { option: props.t('all'), data: false },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
+
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
             props.MeetingsStore.search(false, true)
@@ -26,8 +34,8 @@ const ComputerList = (props) => {
          }} >{props.t('IWantToInitiateAMeeting')}</div>
        {!props.MeetingsStore.error ? 
             <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
-                <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>רשימת המפגשים</div>
-                <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>{props.t('meetingsList')}</div>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}> {props.t('meetingsList2')} </div>
                 <div className='containSearch'>
                     <input
                         onKeyDown={onKeyDown}
@@ -36,7 +44,7 @@ const ComputerList = (props) => {
                         value={props.MeetingsStore.searchInput}
                         className='input-meetings'
                         onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                        placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
+                        placeholder={props.t('searchPlaceHolder')}
                     />
                     <div
                         style={props.LanguageStore.lang !== 'heb' ? { marginLeft: '2em' } : { marginRight: '2em' }}
@@ -86,21 +94,37 @@ const ComputerList = (props) => {
                                      <img src={candle} height='100%' />
                                         </div>
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
-                                            if (index === 0) {
-                                                return (
-                                                    <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
-                                                )
-                                            }
-                                            else if (index === meeting.fallens_meetings.length - 1) {
-                                                return (
-                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
-                                                )
-                                            }
-                                            else {
-                                                return (
-                                                    <span key={index}>, {fallen.fallens.name} ז"ל</span>
-                                                )
-                                            }
+                                                if (index === 0) {
+                                                    if(props.LanguageStore.lang !== 'heb'){
+                                                        return (
+                                                            <span key={index}>In memory of {fallen.fallens.name}</span>
+                                                        )
+                                                    }else{
+                                                    return (
+                                                        <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
+                                                    )
+                                                }
+                                                }
+                                                else if (index === props.meeting.fallens_meetings.length - 1) {
+                                                    if(props.LanguageStore.lang !== 'heb'){
+                                                    return (
+                                                        <span key={index}> and {fallen.fallens.name}</span>
+                                                    )}else{
+                                                        return (
+                                                            <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                                        )
+                                                    }
+                                                }
+                                                else {
+                                                    if(props.LanguageStore.lang !== 'heb'){
+                                                        return(
+                                                            <span key={index}>, {fallen.fallens.name}</span>
+                                                        )
+                                                    }else{
+                                                    return (
+                                                        <span key={index}>, {fallen.fallens.name} ז"ל</span>
+                                                    )}
+                                                }
                                         })}</div>
                                     </div>
                                     <div className='meetingDate'>
@@ -110,7 +134,7 @@ const ComputerList = (props) => {
                             { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>                                   
                                      <img src={clock} height='100%' />
                                         </div>
-                                        {meeting.date} | {meeting.time}
+                                        {props.t(meetingDate.find(val=> val.data === meeting.date).option)} | {meeting.time}
                                     </div>
                                     <div className='meetingOwner'>
 
@@ -120,7 +144,7 @@ const ComputerList = (props) => {
                             { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>                                        
                                 <img src={tell} height='100%' />
                                         </div>
-                                        מארח/ת: {meeting.meetingOwner && meeting.meetingOwner.name}
+                                        {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
                                     <div className={props.LanguageStore.lang !== 'heb' ?'meetingDescription tal' : 'tar meetingDescription'}>
                                         {meeting.description}

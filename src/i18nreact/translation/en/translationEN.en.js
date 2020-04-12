@@ -1,5 +1,5 @@
 const translationEN = {
-    "meetingsList": "Meetings List",
+    // "meetingsList": "Meetings List",
     "myMeetings": "My Meetings",
     "whoWeAre": "Who We Are",
     "donate": "Donate",
@@ -31,7 +31,7 @@ const translationEN = {
     "maximumNumberOfParticipantsMustBeLessThan3000Participants": "The number of participants must be less than 3000",
     "createMeeting": "Create a meeting",
     "wantToHelpUsKeepRemembering": "Want to help us keep remembering?",
-    "toDonateToTheNonprofit": "Donate our nonprofit",
+    "toDonateToTheNonprofit": "Donate to our nonprofit",
 
     "someOfUsWaitingForTheMemorialDayMeetingAllYear": "Some of us, waiting for the Memorial Day meeting all year",
     "othersBecomeSkyAndEarthJustNotToGiveUp": "Others, become sky and Earth, just not to give up",
@@ -57,13 +57,35 @@ const translationEN = {
     "step7-1":"Connect to Zoom Link,",
     "step7-2":"See if the camera's on",
     "remember":"Remember together.",
-    "howItWorks":'how It Works?',
+    "howItWorks":'How It Works?',
 
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',
     'tuesday': 'Tuesday, 28.04',
     'wednesday': 'Wednesday, 29.04',
 
+    'searchPlaceHolder' : "Search for a fallen soldier's name, meeting's name, host's name",
+    "meetingsList": 'List of meetings',
+    'meetingsList2' : 'All our virtual meetings are waiting for you here',
+    "joinTheMeeting" : 'Join meeting',
+    "noMeetings" : 'No meetings were found to match your search.',
+    "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
+    "host" : 'Host',
+
+
+    "all" : "All",
+    "brother or sister": "Brother or sister",
+    "parent":"Parent",
+    "friend":"Friend",
+    "family member": "Family member",
+    "other" : "Other",
+
+    "meeting time": "Meeting time",
+    "meeting date": 'Meeting date',
+    'meeting language': 'Meeting language',
+    'relationship to fallen' : 'Relationshit to fallen',
+    'show available meetings only':'Show available meetings only',
+    'filter by': 'Filter by',
 }
 
 export default translationEN;

@@ -22,7 +22,7 @@ const SideNavBar = (props) => {
             <div
                 className="outerSidebarContainer"
                 role="presentation"
-            // onClick={props.toggleDrawer(false)}
+            onClick={props.toggleDrawer(false)}
             // onKeyDown={props.toggleDrawer(false)}
             >
 
@@ -36,7 +36,7 @@ const SideNavBar = (props) => {
                         if (text === null) return null
                         return (
                             <ListItem index={index} button className='containSideListItem' key={text.option} onClick={() => {
-                                props.toggleDrawer(false)
+                                // props.toggleDrawer(false)
                                 !text.open ?
                                     props.history.push(text.path) :
                                     window.open(text.path)
@@ -45,9 +45,7 @@ const SideNavBar = (props) => {
                             </ListItem>
                         )
                     })}
-                    <ListItem button className='containSideListItem' onClick={() => {
-                        props.toggleDrawer(false)
-                    }}>
+                    <ListItem button className='containSideListItem'>
                         <ListItemText disableTypography className='optionTextContainer' primary={<Lng changeLanguage={props.changeLanguage} />} />
                     </ListItem>
                 </List>

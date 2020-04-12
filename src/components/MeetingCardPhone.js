@@ -11,7 +11,12 @@ import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
 
 const PhoneCard = (props) => {
-
+    const meetingDate = [
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
     return (
 
         <div key={props.index}  className={props.LanguageStore.lang !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard' }>
@@ -50,31 +55,47 @@ const PhoneCard = (props) => {
                         </div>
                         <div>{props.meeting.fallens_meetings.map((fallen, index) => {
                             if (index === 0) {
+                                if(props.LanguageStore.lang !== 'heb'){
+                                    return (
+                                        <span key={index}>In memory of {fallen.fallens.name}</span>
+                                    )
+                                }else{
                                 return (
                                     <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
                                 )
                             }
+                            }
                             else if (index === props.meeting.fallens_meetings.length - 1) {
+                                if(props.LanguageStore.lang !== 'heb'){
                                 return (
-                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
-                                )
+                                    <span key={index}> and {fallen.fallens.name}</span>
+                                )}else{
+                                    return (
+                                        <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                    )
+                                }
                             }
                             else {
+                                if(props.LanguageStore.lang !== 'heb'){
+                                    return(
+                                        <span key={index}>, {fallen.fallens.name}</span>
+                                    )
+                                }else{
                                 return (
                                     <span key={index}>, {fallen.fallens.name} ז"ל</span>
-                                )
+                                )}
                             }
                         })}</div>
                     </div>
                     <div className='meetingDate'>
                         {props.LanguageStore.width > 300 ?
                     <div style={
-                        localStorage.getItem('lang')!== 'heb' ? 
+                        props.LanguageStore.lang !== 'heb' ? 
                         { height: '1.3em', marginBottom: '0.5em', marginRight: '0.5em' }:
                         { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                     <img src={clock} height='100%' />
                         </div> : null}
-                        {props.meeting.date} | {props.meeting.time}
+                        {props.t(meetingDate.find(val=> val.data === props.meeting.date).option)} | {props.meeting.time}
                     </div>
                     <div className='meetingOwner'>
 
@@ -84,7 +105,7 @@ const PhoneCard = (props) => {
                             { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
                             <img src={tell} height='100%' />
                         </div>
-                        מארח/ת: {props.meeting.meetingOwner && props.meeting.meetingOwner.name}
+                       {props.t('host')}: {props.meeting.meetingOwner && props.meeting.meetingOwner.name}
                     </div>
                     <div style={
                         props.LanguageStore.lang !== 'heb' ? 
@@ -103,7 +124,7 @@ const PhoneCard = (props) => {
                         <img height='100%' width='100%' src={lock}/>
                     </div> 
                     : null }
-                    {props.meeting.participants_num >= props.meeting.max_participants ? 'אין יותר מקום' : !props.meeting.isOpen ? 'מפגש סגור' : 'הצטרף למפגש' }
+                    {props.meeting.participants_num >= props.meeting.max_participants ? 'אין יותר מקום' : !props.meeting.isOpen ? props.t("meetingIsClosed") : 'הצטרף למפגש' }
                         </div>
                         </div>
                 </div>

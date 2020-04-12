@@ -31,8 +31,8 @@ const PhoneList = (props) => {
 
             {!props.MeetingsStore.error ?
                 <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
-                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>רשימת המפגשים</div>
-                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}>כל המפגשים הוירטואליים שלנו מחכים לכם כאן </div>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>{props.t('meetingsList')}</div>
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}> {props.t('meetingsList2')}  </div>
                     <div className='containSearch'>
                         <div className='input-meetings' style={{display:'flex' , alignItems:'center'}}>
                             <input
@@ -42,8 +42,8 @@ const PhoneList = (props) => {
                             value={props.MeetingsStore.searchInput}
                             className='inputPhoneView'
                             onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                            placeholder="חיפוש שם נופל, שם מפגש, שם מארח/ת"
-                        />
+                            placeholder={props.t('searchPlaceHolder')}
+                            />
                          <div style={
                             props.LanguageStore.lang !== 'heb' ?
                             { height: '1.8em', width: '1em', display: 'flex', marginLeft: '0.8em' }
@@ -99,7 +99,7 @@ const PhoneList = (props) => {
 
 
                     {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
-                        return (<MeetingCardPhone key={index} history={props.history} index={index} meeting={meeting} />)
+                        return (<MeetingCardPhone t={props.t} key={index} history={props.history} index={index} meeting={meeting} />)
                     }) : null}
 
                     {!props.MeetingsStore.meetings || props.MeetingsStore.loading ?

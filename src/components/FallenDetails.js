@@ -15,9 +15,9 @@ const FallenDetails = (props) => {
 
     const myCloseToTheFallen = [
         { option: 'אח/ות', data: 'אח/ות' },
-        { option: 'הורים', data: 'הורים' },
-        { option: 'קרובי משפחה', data: 'קרובי משפחה' },
-        { option: 'חבר', data: 'חבר' },
+        { option: 'הורה', data: 'הורים' },
+        { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
+        { option: 'חבר/ה', data: 'חבר' },
         { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
