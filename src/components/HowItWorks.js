@@ -26,8 +26,9 @@ class HowItWorks extends Component {
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorks fdrr' : 'howItWorks'}>
                     <div className='levels'>
 
-                        <div className='howItWorksOption'>
-                            מארח/ת המפגש
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorksOption tal' : 'howItWorksOption tar'}>
+                            {this.props.t('meetingHost')}
+                            {/* מארח/ת המפגש */}
                         </div>
                         <div className='containSteps'>
                             <div className='step'>
@@ -52,8 +53,8 @@ class HowItWorks extends Component {
 
                         </div>
                         <div style={{ flexGrow: 0.5 }}></div>
-                        <div className='howItWorksOption'>
-                            משתתף במפגש
+                        <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorksOption tal' : 'howItWorksOption tar'}>
+                            {this.props.t('participantInMeeting')}
                         </div>
                         <div className='containSteps'>
                             <div className='step'>

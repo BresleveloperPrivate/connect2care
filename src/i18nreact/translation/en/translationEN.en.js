@@ -46,10 +46,11 @@ const translationEN = {
 
     "IWantToInitiateAMeeting":"I want to initiate a meeting",
     "IWantToAttendAMeeting":"I want to attend a meeting",
-
+    "participantInMeeting": "Participant In Meeting",
+    "meetingHost": 'Meeting Host',
     "step1":'Open a new meeting',
     "step2":'Share everyone',
-    "step3":'Participate in a prep meeting with Our Brothers',
+    "step3":'Meet at the time we agreed',
     "step4":'Look for a suitable meeting',
     "step5":'Register to the site',
     "step6":'Share with your friends',
