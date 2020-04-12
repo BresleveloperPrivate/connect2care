@@ -103,7 +103,7 @@ const PhoneList = (props) => {
                     }) : null}
 
                     {!props.MeetingsStore.meetings || props.MeetingsStore.loading ?
-                        <div style={{ marginTop: '1em' }}>
+                        <div style={{ marginTop: '2em' }}>
                             <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
                                 <span className="sr-only">Loading...</span>
                             </div>
@@ -116,7 +116,9 @@ const PhoneList = (props) => {
                             : null
                     }
 
-                    <div style={{ display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth:'50vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }}>
+                    <div style={
+                        { display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth: props.LanguageStore.width > 550 ? '30vw' : '40vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }
+                    }>
                         {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
                             <div
                                 onClick={() => {

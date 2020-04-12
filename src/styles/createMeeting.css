@@ -64,9 +64,9 @@ input[type=radio]:focus {
     border-radius: 29px;
     color: white;
     font: Bold 25px/33px Assistant;
-    padding: 1vh;
+    padding: 1vh 3vw;
     cursor: pointer;
-    width: 23vh;
+    width: fit-content;
     margin-bottom: 5vh;
     text-align: center;
 }
@@ -489,7 +489,7 @@ input[type=radio]:focus {
     }
 
     .createMeetingButton{
-        width: 30vh;
+        width: fit-content;
         margin-bottom: 8vh;
     }
 

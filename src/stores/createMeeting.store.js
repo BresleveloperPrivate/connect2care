@@ -399,6 +399,11 @@ class CreateMeetingStore {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
+
+        if (changedObj.owner) {
+            changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        }
+
         if (changedObj.fallens) {
             for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
                 let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)

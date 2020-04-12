@@ -63,7 +63,9 @@ class NavBar extends Component {
                 {/* <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />
                 </div> */}
-                {this.options && <div className='navbarOptions'>
+                {this.options && <div 
+                style={this.props.LanguageStore.lang !== 'heb' ? {justifyContent:'flex-start'} : {}}
+                className='navbarOptions'>
                     <div className='optionInNavbar lngNB pointer'>
                         <Lng changeLanguage={this.changelng} />
                     </div>
@@ -89,10 +91,10 @@ class NavBar extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
                     <div className='containIconNavbar'>
-                        <img alt="alt" src={ourBrothers} height='80%' className="oblogo" />
+                        <img onClick={()=>{window.open('https://ourbrothers.co.il/')}} alt="alt" src={ourBrothers} height='80%' className="oblogo" />
                     </div>
                     <div className='containIconNavbar'>
-                        <img alt="alt" src={c2c} height='100%' />
+                        <img onClick={()=>{this.props.history.replace('/')}} alt="alt" src={c2c} height='100%' />
                     </div>
                 </div>
                 <SideNavBar

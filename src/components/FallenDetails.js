@@ -57,7 +57,6 @@ const FallenDetails = (props) => {
                 </div>
 
                 <div className='position-relative'>
-                    {console.log(CreateMeetingStore.meetingDetails.fallens[props.index].relative)}
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}

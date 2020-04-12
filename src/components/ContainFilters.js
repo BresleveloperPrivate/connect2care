@@ -47,7 +47,7 @@ const meetingTime = [
             <div className='filterBy'>סנן לפי:</div>
             <Select
                 default={props.MeetingsStore.date}
-                width={props.LanguageStore.width > 550 ? '23%' : '100%'}
+                width={props.LanguageStore.width > 800 ? '23%' : '100%'}
                 fetch={props.MeetingsStore.search}
                 selectTextDefault='תאריך המפגש'
                 arr={meetingDate}

@@ -1,0 +1,59 @@
+.meetingDetailsDash{
+    width: 80%;
+    background-color: white;
+    margin: auto;
+    border-radius: 7px;
+    box-shadow: 0px 2px 6px #0000000A;
+    padding-top: 6vh;
+
+    .inputStyle, .containCreateMettingButton{
+        width: calc(100% - 12vw) !important;
+    }
+
+    @media screen and (min-width: 551px){
+        .containFallenDetails, .listSearch{
+            width: calc(100% - 12vw) !important;
+        }
+
+        .containDateAndTime{
+            width: calc(100% - 12vw) !important;
+            .inputStyle{
+                width: 100% !important;
+            }
+        }
+        
+        .fallenSearchDiv {
+            width: 100% !important;
+        }
+    }
+}
+
+.trash{
+    color: var(--custom-gray);
+    font-size: 2.5vh;
+    transition: ease 0.5s color, ease 0.2s font-size;
+    position: relative;
+    cursor: pointer;
+}
+
+.trash:hover{
+    color: var(--custom-orange) !important;
+    font-size: 2vh;
+    transition: ease 0.5s color, ease 0.2s font-size;
+    
+    .trashText{
+        height: 1.5vh;
+    }
+}
+
+.trashText{
+    font-size: 1.3vh;
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    right: -15px;
+    width: 6vw;
+}
+
+
+

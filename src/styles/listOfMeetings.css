@@ -151,7 +151,7 @@
 }
 
 .mainPage-meetings{
-    width: 85em;
+    width: 75vw;
     margin-right: 6vw;
 }
 
@@ -274,8 +274,9 @@
 }
 
 .numberOfParticipants{
+    font-family: 'Assistant';
     color: var(--custom-green);
-    font-size: 5em;
+    font-size: 4.6em;
     font-weight: 300;
     position: absolute;
     line-height: 1.1em;
@@ -350,116 +351,25 @@
     padding-top: 0.3em;
 } */
 
+@media screen and (max-width: 1200px){
 
+
+    .mainPage-meetings{
+        width: 90vw;
+        margin-right: 6vw;
+    }    
+}
 
 @media screen and (max-width: 800px){
 
 
     .mainPage-meetings{
-        width: 79em;
+        width: 90vw;
         margin-right: 6vw;
     }    
-}
 
-@media screen and (max-width: 550px){
 
-    .mainPage-meetings{
-        width: 100vw;
-        margin: 0;
-    }  
 
-    .meetings-title{
-        font: Bold 28px Assistant;
-        padding: 0 5vw;
-    }
-    
-    .meetings-second-title{
-        font: Normal 20px Assistant;
-        padding: 0 5vw;
-    }
-    
-     .containSearch{
-        font-size: 2em;
-        padding: 0 5vw;
-    }
-
-    .buttonOnMeetings{
-        position:static;
-        padding: 0.4em 1em;
-        font-size: 4.5vw;
-        width: 100%;
-        margin-top: 2vh;
-    
-    
-        /* font-size: 15px; */
-        /* padding: 0px 2.5vw; */
-    }
-
-    .loadMore-meetings{
-        padding: 0.2em 1em;
-        font-size: 5vw;
-        width: 100%;
-        margin-top: 0;
-    }
-
-    .imageOfFallenPhone{
-        margin-top: 3vh;
-        margin-right: 4vw;
-    }
-
-    .meetingCard{
-        padding: 2vh 4vw;
-        margin-right: 0;
-        /* position: relative; */
-    }
-
-    .participants{
-        width: 6.5em;
-        height: 6.5em;
-        position: absolute;
-        top: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .participants-left{
-        left: 0;
-    }
-
-    .participants-right{
-        right: 15px;
-    }
-
-    .meetingCardContent{
-        width: 100%;
-        font-size: 1.5em;
-    }
-
-    .meetingName{
-        width: 75%;
-        font-size: 2.5em;
-    }
-
-    .meetingFor{
-        width: 90%;
-        border-width: 0.6px;
-    }
-
-    .joinMeetingBtn{
-        width: fit-content;
-    }
-    
-    .meetingIsCloseBtn{
-       width: fit-content;
-    }
-
-    .numberOfParticipants{
-        font-size: 3.5em;
-        line-height: 1.2em;
-    }
-    
     .containFilters{
         margin-top: 2em;
         display: flex;
@@ -518,6 +428,120 @@
     .filter-meeting-left, .filter-meeting-right{
         width: 100%;
         margin: 2vh 0 0 0;
+    }
+
+
+    .mainPage-meetings{
+        width: 100vw;
+        margin: 0;
+    }  
+
+    .meetings-title{
+        font: Bold 28px Assistant;
+        padding: 0 5vw;
+    }
+    
+    .meetings-second-title{
+        font: Normal 20px Assistant;
+        padding: 0 5vw;
+    }
+    
+     .containSearch{
+        font-size: 2em;
+        padding: 0 5vw;
+    }
+
+    .buttonOnMeetings{
+        position:static;
+        padding: 0.4em 1em;
+        font-size: 2.5vw;
+        width: 100%;
+        margin-top: 2vh;
+    }
+
+    .loadMore-meetings{
+        padding: 0.2em 1em;
+        font-size: 3vw;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .imageOfFallenPhone{
+        margin-top: 3vh;
+        margin-right: 4vw;
+    }
+
+    .meetingCard{
+        padding: 2vh 4vw;
+        margin-right: 0;
+        /* position: relative; */
+    }
+
+    .participants{
+        width: 6.5em;
+        height: 6.5em;
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .participants-left{
+        left: 0;
+    }
+
+    .participants-right{
+        right: 15px;
+    }
+
+    .meetingCardContent{
+        width: 100%;
+        font-size: 1.5em;
+    }
+
+    .meetingName{
+        width: 75%;
+        font-size: 2.5em;
+    }
+
+    .meetingFor{
+        width: 90%;
+        border-width: 0.6px;
+    }
+
+    .joinMeetingBtn{
+        width: fit-content;
+    }
+    
+    .meetingIsCloseBtn{
+       width: fit-content;
+    }
+
+    .numberOfParticipants{
+        font-size: 3.2em;
+        line-height: 1.2em;
+    }
+    
+
+
+}
+
+@media screen and (max-width: 550px){
+
+    .loadMore-meetings{
+        padding: 0.2em 1em;
+        font-size: 4.5vw;
+        width: 100%;
+        margin-top: 0;
+    }
+    .buttonOnMeetings{
+        position:static;
+        padding: 0.4em 1em;
+        font-size: 4vw;
+        width: 100%;
+        margin-top: 2vh;
     }
 
     

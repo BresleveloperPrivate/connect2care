@@ -4,7 +4,7 @@ import '../styles/partners.css'
 import hilma from '../icons/hilma.png'
 import can from '../icons/can.png'
 import amit from '../icons/amit.png'
-// import facebook from '../icons/facebook.png'
+import tobe from '../icons/tobe.png'
 import synamedia from '../icons/Synamedia.png'
 import zoom from '../icons/zoom.png'
 import hilmaWhite from '../icons/hilmaWhite.png'
@@ -34,19 +34,20 @@ class Partners extends Component {
                 </div>
 
                 <div className='containPartners'>
-                    <div onClick={()=>{window.open('https://www.hilma.tech/')}} className='partner'><img src={hilma} height='60%' /></div>
-                    <div  className='partner'><img src={synamedia} height='150%' /></div>
-                    <div onClick={()=>{window.open('https://payboxapp.com/il/home')}} className='partner'><img src={logo2} height='60%' /></div>
-                    <div onClick={()=>{window.open('https://www.kan.org.il/')}} className='partner'><img src={can} height='110%' /></div>
-                    <div onClick={()=>{window.open('http://www.amit.org.il/')}} className='partner'><img src={amit} height='130%' /></div>
                     <div onClick={()=>{window.open('https://zoom.us/')}} className='partner'><img src={zoom} height='90%' /></div>
-                    <div onClick={()=>{window.open('http://project21.co.il/')}} className='partner'><img src={logo5} height='110%' /></div>
-                    <div onClick={()=>{window.open('https://www.bac.org.il/')}} className='partner'><img src={logo3} height='110%' /></div>
+                    <div onClick={()=>{window.open('http://www.amit.org.il/')}} className='partner'><img src={amit} height='130%' /></div>
+                    <div onClick={()=>{window.open('https://www.hilma.tech/')}} className='partner'><img src={hilma} height='60%' /></div>
+                    <div  className='partner'><img src={synamedia} height='170%' /></div>
                     <div onClick={()=>{window.open('http://www.my-idea.co.il/')}} className='partner'><img src={logo7} height='110%' /></div>
-                    <div onClick={()=>{window.open('https://www.wework.com/he-IL')}} className='partner'><img src={logo1} height='80%' /></div>
-                    <div onClick={()=>{window.open('https://www.schusterman.org/')}} className='partner'><img src={logo4} height='90%' /></div>
-                    <div onClick={()=>{window.open('https://he-il.facebook.com/facebook')}} className='partner'><img src={logo6} height='70%' /></div>
+                    <div onClick={()=>{window.open('https://www.kan.org.il/')}} className='partner'><img src={can} height='100%' /></div>
+                    <div onClick={()=>{window.open('https://grth.io/2bcloud/')}} className='partner'><img src={tobe} height='60%' /></div>
+                    <div onClick={()=>{window.open('https://he-il.facebook.com/facebook')}} className='partner'><img src={logo6} height='60%' /></div>
+                    <div onClick={()=>{window.open('https://www.bac.org.il/')}} className='partner'><img src={logo3} height='90%' /></div>
+                    <div onClick={()=>{window.open('http://project21.co.il/')}} className='partner'><img src={logo5} height='100%' /></div>
                     <div onClick={()=>{window.open('https://digistage.co.il/')}} className='partner'><img src={logo8} height='40%' /></div>
+                    <div onClick={()=>{window.open('https://www.schusterman.org/')}} className='partner'><img src={logo4} height='90%' /></div>
+                    <div onClick={()=>{window.open('https://www.wework.com/he-IL')}} className='partner'><img src={logo1} height='80%' /></div>
+                    <div onClick={()=>{window.open('https://payboxapp.com/il/home')}} className='partner'><img src={logo2} height='60%' /></div>
 
 
 
