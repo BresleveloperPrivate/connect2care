@@ -61,7 +61,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        
+
         // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
 
@@ -135,19 +135,19 @@ module.exports = function (meetings) {
                 data.owner = user.id
             }
             else data.owner = user0.id
-            
-            
+
+
             // security validate
             data.max_participants = Number(data.max_participants)
             if (data.isOpen === "true")
                 data.isOpen = true
-            else if (data.isOpen === "false"){
+            else if (data.isOpen === "false") {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             console.log("JS data", JSON.parse(JSON.stringify(data)))
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code:true, date: true
             };
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
@@ -188,7 +188,7 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                
+
                                 // createZoomUser(newEmail, nameOwner)
 
 
@@ -349,7 +349,7 @@ module.exports = function (meetings) {
             if (data.isOpen) data.isOpen = !!data.isOpen
 
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, date: true
+                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
