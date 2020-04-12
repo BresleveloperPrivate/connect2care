@@ -55,12 +55,12 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
                     `(match(fallens.name) against('"${search}"') or 
                         match(meetings.name) against('"${search}"') or 
-                        (match(people.name) against('"${search}"') and meetings.owner = people.id))
+                        match(people.name) against('"${search}"') )
+                    and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
-
 
         // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
@@ -676,24 +676,24 @@ module.exports = function (meetings) {
                 return cb(err1)
             }
 
-            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
-            if (res1) {
-                if (res1.length !== 0) {
-                    let where = { or: [] }
-                    if (res1.length === 1) {
-                        where = { id: res1[0].person }
-                    }
-                    else for (let i of res1) {
-                        where.or.push({ id: i.person })
-                    }
-                    people.destroyAll(where, (err3, res2) => {
-                        if (err3) {
-                            console.log("err3", err3)
-                            return cb(err3)
-                        }
-                    })
-                }
-            }
+            // const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            // if (res1) {
+            //     if (res1.length !== 0) {
+            //         let where = { or: [] }
+            //         if (res1.length === 1) {
+            //             where = { id: res1[0].person }
+            //         }
+            //         else for (let i of res1) {
+            //             where.or.push({ id: i.person })
+            //         }
+            //         people.destroyAll(where, (err3, res2) => {
+            //             if (err3) {
+            //                 console.log("err3", err3)
+            //                 return cb(err3)
+            //             }
+            //         })
+            //     }
+            // }
 
             const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
             if (err4) {
@@ -701,18 +701,18 @@ module.exports = function (meetings) {
                 return cb(err4)
             }
 
-            const [err5, res3] = await to(meetings.findById(id));
-            if (err5) {
-                console.log(err5)
-                return cb(err5)
-            }
-            if (res3) {
-                let [err6, res4] = await to(people.destroyById(res3.owner))
-                if (err5) {
-                    console.log(err6)
-                    return cb(err6)
-                }
-            }
+            // const [err5, res3] = await to(meetings.findById(id));
+            // if (err5) {
+            //     console.log(err5)
+            //     return cb(err5)
+            // }
+            // if (res3) {
+            //     let [err6, res4] = await to(people.destroyById(res3.owner))
+            //     if (err5) {
+            //         console.log(err6)
+            //         return cb(err6)
+            //     }
+            // }
 
             let [err7, res5] = await to(meetings.destroyById(id))
             if (err7) {
