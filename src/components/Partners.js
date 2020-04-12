@@ -40,7 +40,7 @@ class Partners extends Component {
                     <div  className='partner'><img src={synamedia} height='170%' /></div>
                     <div onClick={()=>{window.open('http://www.my-idea.co.il/')}} className='partner'><img src={logo7} height='110%' /></div>
                     <div onClick={()=>{window.open('https://www.kan.org.il/')}} className='partner'><img src={can} height='100%' /></div>
-                    <div  className='partner'><img src={tobe} height='60%' /></div>
+                    <div onClick={()=>{window.open('https://grth.io/2bcloud/')}} className='partner'><img src={tobe} height='60%' /></div>
                     <div onClick={()=>{window.open('https://he-il.facebook.com/facebook')}} className='partner'><img src={logo6} height='60%' /></div>
                     <div onClick={()=>{window.open('https://www.bac.org.il/')}} className='partner'><img src={logo3} height='90%' /></div>
                     <div onClick={()=>{window.open('http://project21.co.il/')}} className='partner'><img src={logo5} height='100%' /></div>
