@@ -153,7 +153,7 @@ const ComputerList = (props) => {
                 }) : null}
 
                     {!props.MeetingsStore.meetings  || props.MeetingsStore.loading ?
-                     <div style={{marginTop: '10em'}}>
+                        <div style={props.MeetingsStore.meetings ? { marginTop: '2em' }:{ marginTop: '10em' }}>
                         <div className="spinner-border" style={{color:'var(--custom-blue)'}} role="status">
                         <span className="sr-only">Loading...</span>
                         </div>

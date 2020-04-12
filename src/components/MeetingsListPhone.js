@@ -103,7 +103,7 @@ const PhoneList = (props) => {
                     }) : null}
 
                     {!props.MeetingsStore.meetings || props.MeetingsStore.loading ?
-                        <div style={{ marginTop: '1em' }}>
+                        <div style={{ marginTop: '2em' }}>
                             <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
                                 <span className="sr-only">Loading...</span>
                             </div>
