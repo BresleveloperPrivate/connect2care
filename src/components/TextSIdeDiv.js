@@ -31,7 +31,7 @@ const TextSideDiv = (props) => {
                                         </div>
                                         {props.CreateMeetingStore.fallenDetails[fallenId.id].meetings && props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.length &&
                                             props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.map((meeting, index) => {
-
+                                                console.log("meeting", meeting)
                                                 return (
                                                     <div key={index} className="containFallenDetailsSide">
                                                         <div style={{ fontWeight: "bold" }}> {meeting.name}</div>

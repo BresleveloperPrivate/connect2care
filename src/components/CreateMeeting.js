@@ -339,7 +339,7 @@ const CreateMeeting = (props) => {
                         props.CreateMeetingStore.error &&
                         <ErrorMethod {...props} />
                     }
-                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
+                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                 </div >
                 : <Success history={props.history} meeting={success} t={props.t} />
             }
