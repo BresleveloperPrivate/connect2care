@@ -105,7 +105,7 @@ const ComputerList = (props) => {
                                                     )
                                                 }
                                                 }
-                                                else if (index === props.meeting.fallens_meetings.length - 1) {
+                                                else if (index === meeting.fallens_meetings.length - 1) {
                                                     if(props.LanguageStore.lang !== 'heb'){
                                                     return (
                                                         <span key={index}> and {fallen.fallens.name}</span>
