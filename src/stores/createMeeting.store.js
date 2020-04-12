@@ -363,6 +363,10 @@ class CreateMeetingStore {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
+        if (changedObj.owner) {
+            changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        }
+
         if (changedObj.fallens) {
 
         }
