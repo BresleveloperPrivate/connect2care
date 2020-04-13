@@ -443,9 +443,9 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
             if (filters.participants.max)
-                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
