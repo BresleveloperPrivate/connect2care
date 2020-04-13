@@ -88,6 +88,8 @@ const translationHEB = {
     'filter by': 'סנן לפי',
     "load more" : 'טען עוד',
 
+    'ConnectRemember':'מתחברים וזוכרים. לזכרם.'
+
 
 }
 
