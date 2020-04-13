@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack }, t }) => {
+const Meeting = ({ match: { params }, history: { goBack }, t , LanguageStore }) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});
@@ -54,7 +54,9 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
         <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-                    {isOpen !== null && isOpen !== undefined && isOpen &&<div id="meetingButtons">
+                    {isOpen !== null && isOpen !== undefined && isOpen &&<div
+                    style={LanguageStore.lang !== 'heb' ? {justifyContent:'flex-start'} : {} }
+                    id="meetingButtons">
                         {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}

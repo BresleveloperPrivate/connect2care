@@ -58,7 +58,7 @@ const translationEN = {
     "step7-2":"See if the camera's on",
     "remember":"Remember together.",
     "howItWorks":'How It Works?',
-    "share":"Share",
+    "share":"Invite others to join",
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',
     'tuesday': 'Tuesday, 28.04',
