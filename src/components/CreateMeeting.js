@@ -11,6 +11,7 @@ import Select from './Select.js'
 
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
+import languageStore from '../stores/language.store';
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
@@ -93,7 +94,7 @@ const CreateMeeting = (props) => {
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
+                    return <FallenDetails t={props.t} key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
                 })
             }
                 <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>
@@ -235,7 +236,14 @@ const CreateMeeting = (props) => {
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
-                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>*מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד</div>
+                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
+            {props.LanguageStore.lang !== 'heb' ? 
+        'Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants*':
+        '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'    
+        }
+                          
+                            
+                            </div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
@@ -251,7 +259,13 @@ const CreateMeeting = (props) => {
 
                             <div className='containSelectTime position-relative'>
 
-                                {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">שעה (שעון ישראל):</div>}
+                                {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
+                                {props.LanguageStore.lang !== 'heb' ? 
+        'Time (Israel time)':
+        'שעה (שעון ישראל)'    
+        }
+                                    {/* שעה (שעון ישראל): */}
+                                    </div>}
                                 <Select
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "דקות"}
                                     arr={meetingTimeMinute}
@@ -305,7 +319,16 @@ const CreateMeeting = (props) => {
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                                 <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
-                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ותנאי השימוש באתר.</label>
+                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
+                                    
+                                {props.LanguageStore.lang !== 'heb' ?
+                                    <div>.Iv'e read and accept the
+                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>
+                                    </div>
+                                    :
+                                    <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                }                                    
+                                    </label>
                             </div>
                         </div>
 

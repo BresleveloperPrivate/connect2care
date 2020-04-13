@@ -29,7 +29,7 @@ const translationEN = {
     "maxParticipationNumber": "Maximum number of participants",
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "The number of participants must be more than 10",
     "maximumNumberOfParticipantsMustBeLessThan3000Participants": "The number of participants must be less than 3000",
-    "createMeeting": "Create a meeting",
+    "createMeeting": "Create meeting",
     "wantToHelpUsKeepRemembering": "Want to help us keep remembering?",
     "toDonateToTheNonprofit": "Donate to our nonprofit",
 
@@ -88,7 +88,10 @@ const translationEN = {
     'filter by': 'Filter by',
 
     "load more" : 'Load more',
-    "ConnectRemember":'Connect and remember. In their memory.'
+    "ConnectRemember":'Connect and remember. In their memory.',
+    'my relative to the fallen' : 'My relative to the fallen',
+    'bringFamilyMember':"It's important to invite a family member"
+
 }
 
 export default translationEN;
