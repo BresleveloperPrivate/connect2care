@@ -300,10 +300,15 @@ class CreateMeetingStore {
 
     changeMeetingTimeHour = (event) => {
         this.meetingDetails.timeHour = event
+        console.log("timeHour", this.meetingDetails.timeHour)
+        console.log("timeMinute", this.meetingDetails.timeMinute)
     }
 
     changeMeetingTimeMinute = (event) => {
         this.meetingDetails.timeMinute = event
+        console.log("timeHour", this.meetingDetails.timeHour)
+        console.log("timeMinute", this.meetingDetails.timeMinute)
+
     }
 
     equals = (obj1, obj2) => {
@@ -344,6 +349,7 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -381,7 +387,7 @@ class CreateMeetingStore {
             return
         }
         beforePostJSON.zoomId = zoomId
-        beforePostJSON.time = this.meetingDetails.timeMinute + ":" + this.meetingDetails.timeHour
+        beforePostJSON.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,

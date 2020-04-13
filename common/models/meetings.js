@@ -156,6 +156,7 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             console.log("JS data", JSON.parse(JSON.stringify(data)))
+            let jsdata= JSON.parse(JSON.stringify(data))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
@@ -198,16 +199,18 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-
+                                let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
                                 createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
                                     to: emailowner, subject: "המפגש נוצר בהצלחה", html:
                                         `
-                                 <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.</div><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br><a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
-
-                                  ` 
+                                    <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                    </div>המפגש שיצרת נוצר בהצלחה.
+                                    ${code}<br>
+                                    <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
+                                  `
                                 }
 
                                 sendEmail("", sendOptions);
@@ -486,14 +489,14 @@ module.exports = function (meetings) {
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num, isOpen , code } = meeting;
+                const { max_participants, participants_num, isOpen, code } = meeting;
 
-                if (!!!isOpen){
-                    console.log(String(code) , String(myCode))
-                    if(String(code) !== String(myCode)){
+                if (!!!isOpen) {
+                    console.log(String(code), String(myCode))
+                    if (String(code) !== String(myCode)) {
                         { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
                     }
-                } 
+                }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
                 let person;
                 let [err, user0] = await to(people.findOne({ where: { email: email } }))
@@ -514,6 +517,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -619,30 +623,60 @@ module.exports = function (meetings) {
             const people_meetings = meetings.app.models.people_meetings
             const people = meetings.app.models.people
 
+            const [err, meeting] = await to(meetings.findById(id))
+            if (err) {
+                console.log(err)
+                return cb(err)
+            }
+
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2)
+            }
+
+            if (res1.length !== 0) {
+                
+                //find all people that sign to the meeting
+                let where = { or: [] }
+                if (res1.length === 1) {
+                    where = { id: res1[0].person }
+                }
+                else for (let i of res1) {
+                    where.or.push({ id: i.person })
+                }
+                const [err4, peopleInMeeting] = await to(people.find({ where: where }))
+                if (err4) {
+                    console.log("err4", err4)
+                    return cb(err4)
+                }
+
+                //send email to all the people that sign to the meeting
+                let sendTo = []
+                for (let person of peopleInMeeting) {
+                    sendTo.push(person.email)
+                }
+                let sendOptions = {
+                    to: sendTo, subject: "מפגש התבטל", html:
+                        `<div>המפגש ${meeting.name} התבטל</div>`
+                }
+
+                sendEmail("", sendOptions);
+
+                // people.destroyAll(where, (err3, res2) => {
+                //     if (err3) {
+                //         console.log("err3", err3)
+                //         return cb(err3)
+                //     }
+                // })
+
+            }
+
             const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
             if (err1) {
                 console.log(err1)
                 return cb(err1)
             }
-
-            // const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
-            // if (res1) {
-            //     if (res1.length !== 0) {
-            //         let where = { or: [] }
-            //         if (res1.length === 1) {
-            //             where = { id: res1[0].person }
-            //         }
-            //         else for (let i of res1) {
-            //             where.or.push({ id: i.person })
-            //         }
-            //         people.destroyAll(where, (err3, res2) => {
-            //             if (err3) {
-            //                 console.log("err3", err3)
-            //                 return cb(err3)
-            //             }
-            //         })
-            //     }
-            // }
 
             const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
             if (err4) {
@@ -650,17 +684,10 @@ module.exports = function (meetings) {
                 return cb(err4)
             }
 
-            // const [err5, res3] = await to(meetings.findById(id));
+            // let [err6, res4] = await to(people.destroyById(meeting.owner))
             // if (err5) {
-            //     console.log(err5)
-            //     return cb(err5)
-            // }
-            // if (res3) {
-            //     let [err6, res4] = await to(people.destroyById(res3.owner))
-            //     if (err5) {
-            //         console.log(err6)
-            //         return cb(err6)
-            //     }
+            //     console.log(err6)
+            //     return cb(err6)
             // }
 
             let [err7, res5] = await to(meetings.destroyById(id))
