@@ -134,54 +134,75 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
             ], [name, email, phone, code, LanguageStore.lang]);
 
     return (
-        <div id="meetingPageLeft">
-            <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            {/* <div> */}
+        <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
+            <div id='meetingPageLeftInside' >
+                <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
                 {sendCode ?
                     LanguageStore.lang !== 'heb' ?
-                        <div id="meetingLeftTitle" style={{direction:'ltr'}}>
-                             <LockOutlined /><span>Private Meeting</span> 
+                        <div id="meetingLeftTitle">
+                            <LockOutlined /><span>Private Meeting</span>
                         </div>
                         :
                         <div id="meetingLeftTitle">
-                            <LockOutlined /><span>מפגש פרטי</span>  
-                        </div>:
-                    
-            <div id="meetingLeftTitle">
-                {LanguageStore.lang !== 'heb' ? <span>Join Meeting</span> : <span>הצטרף למפגש</span>}
-            </div>
-            }
-        {/* </div> */}
-            {/* <div id="meetingLeftTitle">{sendCode ? LanguageStore.lang !== 'heb' ? <span>Private Meeting</span> : <span>מפגש פרטי</span> <LockOutlined /> : LanguageStore.lang !== 'heb' ? 'Join Meeting' : 'הצטרף למפגש'}</div> */ }
-    <div id="meetingLeftDescription">
-        מלא את הפרטים ואנו נשלח לך קישור ותזכורת.
-            {sendCode ? <div>על מנת להצטרף למפגש פרטי,
-                עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.</div> : ''}
-    </div>
+                            <LockOutlined /><span>מפגש פרטי</span>
+                        </div> :
 
-        <div>
-            <form>
-                {inputs.map(([value, setValue, placeholder], index) => (
-                    <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
-                ))}
-                <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
-                    <div>
-                        <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
-
+                    <div id="meetingLeftTitle">
+                        {LanguageStore.lang !== 'heb' ? <span>Join Meeting</span> : <span>הצטרף למפגש</span>}
                     </div>
-                    {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
-                    <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
+                }
+                <div id="meetingLeftDescription" className={LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}>
+                    {LanguageStore.lang !== 'heb' ?
+                        'Fill in the details and we will send you a link and reminder.'
+                        : 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת.'
+                    }
+
                 </div>
 
-            </form>
-            {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-            <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
+                <div>
+                    <form>
+                        {inputs.map(([value, setValue, placeholder], index) => (
+
+                            <div>
+                                {index === 3 &&
+                                    <div className={LanguageStore.lang !== 'heb' ? 'codeExplanation tal' : 'codeExplanation tar'}>
+                                        {LanguageStore.lang !== 'heb' ?
+                                            'In order to join a private meeting, you must enter the joining code you received from the meeting host.'
+                                            :
+                                            'על מנת להצטרף למפגש פרטי, עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.'
+
+                                        }
+                                    </div>
+                                }
+                                <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                            </div>
+                        ))}
+                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                            <div>
+                                <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+
+                            </div>
+                            {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
+                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>
+                                {LanguageStore.lang !== 'heb' ?
+                                    <div>Iv'e read and accept the
+                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+                                    </div>
+                                    :
+                                    <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                }
+                            </label>
+                        </div>
+
+                    </form>
+                    {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
+                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
 
 
-                {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}
-            </Button>
-        </div>
-
+                        {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}
+                    </Button>
+                </div>
+            </div>
         </div >
     );
 }
