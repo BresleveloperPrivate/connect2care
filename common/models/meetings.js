@@ -299,8 +299,9 @@ module.exports = function (meetings) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
-
+            console.log(data)
             if (data.date || data.time) {
+                console.log("INNNNNNNN")
                 const people_meetings = meetings.app.models.people_meetings
                 //find all people that sign to the meeting
                 const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
