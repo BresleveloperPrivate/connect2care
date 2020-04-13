@@ -36,7 +36,7 @@ class Partners extends Component {
                 <div className='containPartners'>
                     <div onClick={() => { window.open('https://zoom.us/') }} className='partner'><img src={zoom} height='80%' /></div>
                     <div onClick={() => { window.open('https://www.naotech.com/he/') }} className='partner'><img src={nao} height='30%' /></div>
-                    <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='130%' /></div>
+                    <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='120%' /></div>
                     <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='60%' /></div>
                     <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='170%' /></div>
                     <div onClick={() => { window.open('http://www.my-idea.co.il/') }} className='partner'><img src={logo7} height='110%' /></div>
