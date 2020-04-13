@@ -244,74 +244,102 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
 
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            if (data.fallensToDelete) {
-                for (let i of data.fallensToDelete) {
-                    if (typeof i === 'number') {
-                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
-                        if (err1) {
-                            console.log(err1)
-                            return cb(err1)
-                        }
-                    }
-                }
-                delete data.fallensToDelete
+            // const fallens_meetings = meetings.app.models.fallens_meetings
+            // if (data.fallensToDelete) {
+            //     for (let i of data.fallensToDelete) {
+            //         if (typeof i === 'number') {
+            //             let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
+            //             if (err1) {
+            //                 console.log(err1)
+            //                 return cb(err1)
+            //             }
+            //         }
+            //     }
+            //     delete data.fallensToDelete
+            // }
+
+            // if (data.fallensToAdd) {
+            //     for (let i of data.fallensToAdd) {
+            //         let whitelist1 = {
+            //             fallen: true, meeting: true, relationship: true
+            //         };
+            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+            //         if (!valid1.success || valid1.errors) {
+            //             return cb(valid1.errors, null);
+            //         }
+
+            //         let [err3, res1] = await to(fallens_meetings.create(valid1.data))
+            //         if (err3) {
+            //             console.log("err3", err3)
+            //             return cb(err3)
+            //         }
+            //     }
+            //     delete data.fallensToAdd
+            // }
+
+            // if (data.fallensToChange) {
+            //     for (let i of data.fallensToChange) {
+            //         let whitelist1 = {
+            //             fallen: true, meeting: true, relationship: true
+            //         };
+            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+            //         if (!valid1.success || valid1.errors) {
+            //             return cb(valid1.errors, null);
+            //         }
+
+            //         fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+            //             if (err3) {
+            //                 console.log("err3", err3)
+            //                 return cb(err3)
+            //             }
+            //         })
+
+            //     }
+            //     delete data.fallensToChange
+            // }
+
+
+            let people = meetings.app.models.people
+            let [errMeeting, meetingById] = await to(meetings.findById(id))
+            if (errMeeting) {
+                console.log(errMeeting)
+                return cb(errMeeting)
             }
 
-            if (data.fallensToAdd) {
-                for (let i of data.fallensToAdd) {
-                    let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
-                    };
-                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-                    if (!valid1.success || valid1.errors) {
-                        return cb(valid1.errors, null);
-                    }
+            // if (data.date || data.time) {
+            //     //find all people that sign to the meeting
+            //     let where = { or: [] }
+            //     if (res1.length === 1) {
+            //         where = { id: res1[0].person }
+            //     }
+            //     else for (let i of res1) {
+            //         where.or.push({ id: i.person })
+            //     }
+            //     const [err4, peopleInMeeting] = await to(people.find({ where: where }))
+            //     if (err4) {
+            //         console.log("err4", err4)
+            //         return cb(err4)
+            //     }
 
-                    let [err3, res1] = await to(fallens_meetings.create(valid1.data))
-                    if (err3) {
-                        console.log("err3", err3)
-                        return cb(err3)
-                    }
-                }
-                delete data.fallensToAdd
-            }
+            //     //send email to all the people that sign to the meeting
+            //     let sendTo = []
+            //     for (let person of peopleInMeeting) {
+            //         sendTo.push(person.email)
+            //     }
+            //     let sendOptions = {
+            //         to: sendTo, subject: "מפגש התבטל", html:
+            //             `<div>יוצר המפגש שינה את ${data.data && data.time?'התאריך ואת השעה' : data.data ? 'התאריך': 'השעה'} של המפגש</div>`
+            //     }
 
-            if (data.fallensToChange) {
-                for (let i of data.fallensToChange) {
-                    let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
-                    };
-                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-                    if (!valid1.success || valid1.errors) {
-                        return cb(valid1.errors, null);
-                    }
+            //     sendEmail("", sendOptions);
 
-                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
-                        if (err3) {
-                            console.log("err3", err3)
-                            return cb(err3)
-                        }
-                    })
-
-                }
-                delete data.fallensToChange
-            }
+            // }
 
             if (data.owner) {
-                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
-
-                let people = meetings.app.models.people
-                let [errMeeting, meetingById] = await to(meetings.findById(id))
-                if (errMeeting) {
-                    console.log(errMeeting)
-                    return cb(errMeeting)
-                }
 
                 let whitelist = {
                     name: true, email: true, phone: true
@@ -683,7 +711,7 @@ module.exports = function (meetings) {
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
-                        `<div>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
                 }
 
                 sendEmail("", sendOptions);
@@ -697,17 +725,17 @@ module.exports = function (meetings) {
 
             }
 
-            // const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
-            // if (err1) {
-            //     console.log(err1)
-            //     return cb(err1)
-            // }
+            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+            if (err1) {
+                console.log(err1)
+                return cb(err1)
+            }
 
-            // const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
-            // if (err4) {
-            //     console.log(err4)
-            //     return cb(err4)
-            // }
+            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+            if (err4) {
+                console.log(err4)
+                return cb(err4)
+            }
 
             // let [err6, res4] = await to(people.destroyById(meeting.owner))
             // if (err5) {
@@ -715,11 +743,11 @@ module.exports = function (meetings) {
             //     return cb(err6)
             // }
 
-            // let [err7, res5] = await to(meetings.destroyById(id))
-            // if (err7) {
-            //     console.log(err7)
-            //     return cb(err7)
-            // }
+            let [err7, res5] = await to(meetings.destroyById(id))
+            if (err7) {
+                console.log(err7)
+                return cb(err7)
+            }
             return cb(null, true)
         })()
     }

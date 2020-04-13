@@ -14,6 +14,9 @@ const Filters = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
+        { option: 'בית אביחי', data: 'בית אביחי' },
+        { option: 'האחים שלנו', data: 'האחים שלנו' },
+
     ]
     const meetingLanguage = [
         { option: props.t('all'), data: false },
