@@ -2,6 +2,7 @@ import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { inject, observer } from 'mobx-react';
 
 import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
+import { LockOutlined } from "@material-ui/icons";
 
 import Auth from '../../modules/auth/Auth';
 import checkboxOnWhite from '../../icons/checkbox_on_light_white.svg'
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 let v = false;
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails ,LanguageStore}) => {
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, LanguageStore }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -94,7 +95,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails ,
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ name, email, phone, myCode : code, mailDetails })
+            body: JSON.stringify({ name, email, phone, myCode: code, mailDetails })
         });
 
         setLoading(false);
@@ -116,56 +117,93 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails ,
         setReadBylaw(false);
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone,code, readBylaw, meetingId]);
+    }, [name, email, phone, code, readBylaw, meetingId]);
 
     const inputs = useMemo(() =>
         sendCode ? [
             [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
-            [email, setEmail,   LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
-            [phone, setPhone,  LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
-            [code, setCode,  LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
+            [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+            [phone, setPhone, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+            [code, setCode, LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
 
         ] : [
-            [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
-            [email, setEmail,   LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
-            [phone, setPhone,  LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+                [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
+                [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+                [phone, setPhone, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
 
-            ], [name, email, phone , code , LanguageStore.lang]);
+            ], [name, email, phone, code, LanguageStore.lang]);
 
     return (
-        <div id="meetingPageLeft">
-            <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            <div id="meetingLeftTitle">{sendCode ? 'מפגש פרטי' : 'הצטרף למפגש'}</div>
-            <div id="meetingLeftDescription">
-                מלא את הפרטים ואנו נשלח לך קישור ותזכורת.
-            {sendCode ? <div>על מנת להצטרף למפגש פרטי,
-                עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.</div> : ''}
-            </div>
-
-            <div>
-                <form>
-                    {inputs.map(([value, setValue, placeholder], index) => (
-                        <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
-                    ))}
-                    <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
-                        <div>
-                            <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
-
+        <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
+            <div id='meetingPageLeftInside' >
+                <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
+                {sendCode ?
+                    LanguageStore.lang !== 'heb' ?
+                        <div id="meetingLeftTitle">
+                            <LockOutlined /><span>Private Meeting</span>
                         </div>
-                        {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
-                        <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
+                        :
+                        <div id="meetingLeftTitle">
+                            <LockOutlined /><span>מפגש פרטי</span>
+                        </div> :
+
+                    <div id="meetingLeftTitle">
+                        {LanguageStore.lang !== 'heb' ? <span>Join Meeting</span> : <span>הצטרף למפגש</span>}
                     </div>
+                }
+                <div id="meetingLeftDescription" className={LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}>
+                    {LanguageStore.lang !== 'heb' ?
+                        'Fill in the details and we will send you a link and reminder.'
+                        : 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת.'
+                    }
 
-                </form>
-                {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-                <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
-                    
-                   
-                {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}                  
+                </div>
+
+                <div>
+                    <form>
+                        {inputs.map(([value, setValue, placeholder], index) => (
+
+                            <div>
+                                {index === 3 &&
+                                    <div className={LanguageStore.lang !== 'heb' ? 'codeExplanation tal' : 'codeExplanation tar'}>
+                                        {LanguageStore.lang !== 'heb' ?
+                                            'In order to join a private meeting, you must enter the joining code you received from the meeting host.'
+                                            :
+                                            'על מנת להצטרף למפגש פרטי, עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.'
+
+                                        }
+                                    </div>
+                                }
+                                <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                            </div>
+                        ))}
+                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                            <div>
+                                <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+
+                            </div>
+                            {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
+                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>
+                                {LanguageStore.lang !== 'heb' ?
+                                    <div>Iv'e read and accept the
+                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+                                    </div>
+                                    :
+                                    <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                }
+                            </label>
+                        </div>
+
+                    </form>
+                    {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
+                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
+
+
+                        {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}
                     </Button>
+                </div>
             </div>
-
-        </div>
+        </div >
     );
 }
 

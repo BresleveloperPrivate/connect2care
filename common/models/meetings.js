@@ -682,7 +682,7 @@ module.exports = function (meetings) {
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
-                        `<div>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
                 }
 
                 sendEmail("", sendOptions);

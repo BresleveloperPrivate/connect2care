@@ -4,9 +4,24 @@ $meetinngPageLeftWidth: 40em;
 $navBarMargin: 10vh;
 
 #meetingPage{
+  
     font-size: 0.8vw;
     @media screen and (max-width: 800px){
         font-size: 1.2vw;
+    }
+    @media screen and (max-width: 550px){
+        font-size: 2vw;
+    }
+}
+
+#meetingPageLeftInside{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 0.7vw;
+    @media screen and (max-width: 800px){
+        font-size: 1.1vw;
     }
     @media screen and (max-width: 550px){
         font-size: 2vw;
@@ -165,6 +180,8 @@ $navBarMargin: 10vh;
             color: white;
             font-size: 20px;
             margin-right: 15px;
+            margin-left: 15px;
+
         }
     }
 }
@@ -178,21 +195,28 @@ $navBarMargin: 10vh;
     top: 0;
     width: $meetinngPageLeftWidth;
     background-color: $darkBlue;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+   
 
     #meetingLeftCandle {
         width: 52px;
+    }
+
+    .codeExplanation{
+        margin-top: 2vh;
+        font-size: 1.5em;
+        color: white;
+        width: 100%;
+        display: flex;
     }
 
     #meetingLeftTitle {
         margin-top: 25px;
         font-size: 3em;
         font-weight: bold;
-        text-align: right;
         color: white;
+        width: 100%;
+        display: flex;
+        align-items: center;
     }
 
     #meetingLeftDescription {
