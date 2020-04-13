@@ -54,7 +54,7 @@ const FallenDetails = (props) => {
                         style={{ width: "95%", backgroundColor: "white" }}
                         value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                         autoComplete="off"
-                        placeholder="תאריך נפילה"
+                        placeholder={props.t('fallDate')}
                     />
                 </div>
 

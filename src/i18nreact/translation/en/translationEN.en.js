@@ -90,8 +90,8 @@ const translationEN = {
     "load more" : 'Load more',
     "ConnectRemember":'Connect and remember. In their memory.',
     'my relative to the fallen' : 'My relative to the fallen',
-    'bringFamilyMember':"It's important to invite a family member"
-
+    'bringFamilyMember':"It's important to invite a family member",
+    'fallDate':'Fall date'
 }
 
 export default translationEN;

@@ -90,7 +90,8 @@ const translationHEB = {
 
     'ConnectRemember':'מתחברים וזוכרים. לזכרם.',
     'my relative to the fallen' : 'הקרבה שלי לחלל',
-    'bringFamilyMember':'חשוב שלכל מפגש תזמינו בן משפחה'
+    'bringFamilyMember':'חשוב שלכל מפגש תזמינו בן משפחה',
+    'fallDate':'תאריך נפילה'
 
 
 }
