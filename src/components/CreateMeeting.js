@@ -23,6 +23,7 @@ const CreateMeeting = (props) => {
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
     const [readBylaw, setReadBylaw] = useState(false)
+    const [wait, setWait] = useState(false)
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -237,13 +238,13 @@ const CreateMeeting = (props) => {
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
                         <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
-            {props.LanguageStore.lang !== 'heb' ? 
-        'Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants*':
-        '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'    
-        }
-                          
-                            
-                            </div>
+                            {props.LanguageStore.lang !== 'heb' ?
+                                'Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants*' :
+                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                            }
+
+
+                        </div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
@@ -260,12 +261,12 @@ const CreateMeeting = (props) => {
                             <div className='containSelectTime position-relative'>
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
-                                {props.LanguageStore.lang !== 'heb' ? 
-        'Time (Israel time)':
-        'שעה (שעון ישראל)'    
-        }
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        'Time (Israel time)' :
+                                        'שעה (שעון ישראל)'
+                                    }
                                     {/* שעה (שעון ישראל): */}
-                                    </div>}
+                                </div>}
                                 <Select
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "דקות"}
                                     arr={meetingTimeMinute}
@@ -320,15 +321,15 @@ const CreateMeeting = (props) => {
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                                 <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
                                 <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
-                                    
-                                {props.LanguageStore.lang !== 'heb' ?
-                                    <div>.Iv'e read and accept the
+
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        <div>.Iv'e read and accept the
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>
-                                    </div>
-                                    :
-                                    <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
-                                }                                    
-                                    </label>
+                                        </div>
+                                        :
+                                        <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                    }
+                                </label>
                             </div>
                         </div>
 
@@ -336,6 +337,8 @@ const CreateMeeting = (props) => {
                             className="containCreateMettingButton"
                         >
                             <div className="createMeetingButton grow" onClick={async () => {
+                                if (wait) return
+                                setWait(true)
                                 if (!props.CreateMeetingStore.waitForData) {
                                     setIsSaved(true)
                                     if (!readBylaw) {
@@ -347,6 +350,7 @@ const CreateMeeting = (props) => {
                                         setSuccess(meeting[0])
                                     }
                                 }
+                                setWait(false)
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
                                     <div className="spinner">
