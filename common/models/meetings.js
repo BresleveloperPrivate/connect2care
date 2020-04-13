@@ -78,7 +78,7 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] , order: 'id DESC' }, (err1, res1) => {
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
@@ -156,7 +156,7 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             console.log("JS data", JSON.parse(JSON.stringify(data)))
-            let jsdata= JSON.parse(JSON.stringify(data))
+            let jsdata = JSON.parse(JSON.stringify(data))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
@@ -622,6 +622,7 @@ module.exports = function (meetings) {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
             const people = meetings.app.models.people
+            const fallens = meetings.app.models.fallens
 
             const [err, meeting] = await to(meetings.findById(id))
             if (err) {
@@ -636,7 +637,7 @@ module.exports = function (meetings) {
             }
 
             if (res1.length !== 0) {
-                
+
                 //find all people that sign to the meeting
                 let where = { or: [] }
                 if (res1.length === 1) {
@@ -651,6 +652,30 @@ module.exports = function (meetings) {
                     return cb(err4)
                 }
 
+                //find fallens of meeting
+                const [err10, fallensMeeting] = await to(fallens_meetings.find({ where: { meeting: id } }))
+                if (err10) {
+                    console.log("err10", err10)
+                    return cb(err10)
+                }
+
+                let whereallens = { or: [] }
+                if (fallensMeeting.length === 1) {
+                    whereallens = { id: fallensMeeting[0].fallen }
+                }
+                else for (let i of fallensMeeting) {
+                    whereallens.or.push({ id: i.fallen })
+                }
+                const [err11, fallensInMeeting] = await to(fallens.find({ where: whereallens }))
+                if (err11) {
+                    console.log("err11", err11)
+                    return cb(err11)
+                }
+                let fallensNames = ''
+                for (let i = 0; i < fallensInMeeting.length; i++) {
+                    fallensNames += (i === (fallensInMeeting.length - 1) && fallensInMeeting.length > 1 ? 'ו' : '') + fallensInMeeting[i].name + (i === (fallensInMeeting.length - 1) ? '' : ', ')
+                }
+
                 //send email to all the people that sign to the meeting
                 let sendTo = []
                 for (let person of peopleInMeeting) {
@@ -658,7 +683,7 @@ module.exports = function (meetings) {
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
-                        `<div>המפגש ${meeting.name} התבטל</div>`
+                        `<div>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
                 }
 
                 sendEmail("", sendOptions);
@@ -672,17 +697,17 @@ module.exports = function (meetings) {
 
             }
 
-            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
-            if (err1) {
-                console.log(err1)
-                return cb(err1)
-            }
+            // const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+            // if (err1) {
+            //     console.log(err1)
+            //     return cb(err1)
+            // }
 
-            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
-            if (err4) {
-                console.log(err4)
-                return cb(err4)
-            }
+            // const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+            // if (err4) {
+            //     console.log(err4)
+            //     return cb(err4)
+            // }
 
             // let [err6, res4] = await to(people.destroyById(meeting.owner))
             // if (err5) {
@@ -690,11 +715,11 @@ module.exports = function (meetings) {
             //     return cb(err6)
             // }
 
-            let [err7, res5] = await to(meetings.destroyById(id))
-            if (err7) {
-                console.log(err7)
-                return cb(err7)
-            }
+            // let [err7, res5] = await to(meetings.destroyById(id))
+            // if (err7) {
+            //     console.log(err7)
+            //     return cb(err7)
+            // }
             return cb(null, true)
         })()
     }
