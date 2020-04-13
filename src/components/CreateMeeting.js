@@ -235,6 +235,7 @@ const CreateMeeting = (props) => {
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
+                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>*מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד</div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>

@@ -254,6 +254,7 @@ const MeetingDetails = (props) => {
                                 <div style={{ marginLeft: "2vh" }}><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
                             </div>
                         </div>
+                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>*מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד</div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
