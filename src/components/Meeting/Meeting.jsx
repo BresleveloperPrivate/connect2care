@@ -83,7 +83,8 @@ const Meeting = ({ match: { params }, history: { goBack }, t , LanguageStore }) 
                 <MeetingBottom numOfPeople={numOfPeople} />
 
             </div>
-            {!!name && (isOpen !== null && isOpen !== undefined && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
+            {console.log(maxNum , numOfPeople)}
+            {!!name && (isOpen !== null && isOpen !== undefined && !((maxNum >= 0)  && (numOfPeople > 0 || numOfPeople === 0) && maxNum <= numOfPeople) ? (
                 <MeetingLeftOpen sendCode={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
