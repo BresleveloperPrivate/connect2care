@@ -16,7 +16,7 @@ import logo5 from '../icons/logo5.png'
 import logo6 from '../icons/logo6.png'
 import logo7 from '../icons/logo7.PNG'
 import logo8 from '../icons/logo8.png'
-
+import nao from '../icons/nao.svg'
 
 class Partners extends Component {
 
@@ -34,7 +34,8 @@ class Partners extends Component {
                 </div>
 
                 <div className='containPartners'>
-                    <div onClick={()=>{window.open('https://zoom.us/')}} className='partner'><img src={zoom} height='90%' /></div>
+                    <div onClick={()=>{window.open('https://zoom.us/')}} className='partner'><img src={zoom} height='80%' /></div>
+                    <div onClick={()=>{window.open('https://www.naotech.com/he/')}} className='partner'><img src={nao} height='30%' /></div>
                     <div onClick={()=>{window.open('http://www.amit.org.il/')}} className='partner'><img src={amit} height='130%' /></div>
                     <div onClick={()=>{window.open('https://www.hilma.tech/')}} className='partner'><img src={hilma} height='60%' /></div>
                     <div  className='partner'><img src={synamedia} height='170%' /></div>
