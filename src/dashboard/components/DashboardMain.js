@@ -17,7 +17,8 @@ const DashboardMain = (props) => {
         <div style={{ height: '100vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
             <TopBarManager />
             <Filters t={props.t} />
-            <div className="textStyle" style={{ margin: '4vh 15vw 4vh 0px', width: 'fit-content', fontSize: "3vh", fontWeight: "bold" }}>מאגר מפגשים</div>
+            <div className="textStyle" style={{ margin: '4vh 15vw 2.5vh 0px', width: 'fit-content', fontSize: "3vh", fontWeight: "bold" }}>מאגר מפגשים</div>
+            <div style={{ color: 'var(--custom-gray)', padding: '0 11vw', textAlign: 'right' }}>תוצאות: {props.ManagerStore.meetingsNum}</div>
             <MeetingsList t={props.t} history={props.history} />
         </div>
     )

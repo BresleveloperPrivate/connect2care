@@ -8,6 +8,7 @@ class ManagerStore {
     loading = false
     filters = null
     readMore = false
+    meetingsNum = 0
 
     setPage = (page) => {
         this.page = page
@@ -34,7 +35,8 @@ class ManagerStore {
             console.log(err)
             return
         }
-        this.readMore = (Math.ceil(meetings.pop() / 20) - this.page) > 0
+        this.meetingsNum = meetings.pop() || 0
+        this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
         if (!readMore) this.meetings = meetings || []
         else {
             for(let meeting of meetings){
@@ -47,7 +49,7 @@ class ManagerStore {
 }
 
 decorate(ManagerStore, {
-
+    meetingsNum: observable,
     readMore: observable,
     meetings: observable,
     loading: observable,

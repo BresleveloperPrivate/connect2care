@@ -22,7 +22,7 @@ const FallenDetails = (props) => {
         { option: props.t('friend'), data: 'חבר' },
         props.isDash && { option: 'בית אביחי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
-        { option: props.t('other'), data: 'אחר' },
+        !props.isDash && { option: props.t('other'), data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
 

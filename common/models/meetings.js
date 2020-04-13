@@ -697,29 +697,29 @@ module.exports = function (meetings) {
 
             }
 
-            // const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
-            // if (err1) {
-            //     console.log(err1)
-            //     return cb(err1)
+            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+            if (err1) {
+                console.log(err1)
+                return cb(err1)
+            }
+
+            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+            if (err4) {
+                console.log(err4)
+                return cb(err4)
+            }
+
+            // let [err6, res4] = await to(people.destroyById(meeting.owner))
+            // if (err5) {
+            //     console.log(err6)
+            //     return cb(err6)
             // }
 
-            // const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
-            // if (err4) {
-            //     console.log(err4)
-            //     return cb(err4)
-            // }
-
-            // // let [err6, res4] = await to(people.destroyById(meeting.owner))
-            // // if (err5) {
-            // //     console.log(err6)
-            // //     return cb(err6)
-            // // }
-
-            // let [err7, res5] = await to(meetings.destroyById(id))
-            // if (err7) {
-            //     console.log(err7)
-            //     return cb(err7)
-            // }
+            let [err7, res5] = await to(meetings.destroyById(id))
+            if (err7) {
+                console.log(err7)
+                return cb(err7)
+            }
             return cb(null, true)
         })()
     }
