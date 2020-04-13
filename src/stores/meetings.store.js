@@ -36,7 +36,6 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
-        console.log(relative)
         this.fallenRelative = relative
     }
 
@@ -71,8 +70,6 @@ class MeetingsStore {
             isAvailable: this.availableOnly,
         }
 
-        console.log(filter)
-
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -82,7 +79,6 @@ class MeetingsStore {
             this.error = err
             console.log(err)
         } else {
-            console.log(meetings)
             this.loading = false
 
             if (!meetings.length) {
@@ -101,7 +97,6 @@ class MeetingsStore {
             } else {
                 this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
-            console.log('meetings' , meetings)
             this.lastId = meetings[meetings.length-1].id
         }
     }

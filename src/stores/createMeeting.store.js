@@ -151,7 +151,6 @@ class CreateMeetingStore {
     }
 
     changeFallenRelative = (option, index) => {
-        console.log(option)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
@@ -301,15 +300,10 @@ class CreateMeetingStore {
 
     changeMeetingTimeHour = (event) => {
         this.meetingDetails.timeHour = event
-        console.log("timeHour", this.meetingDetails.timeHour)
-        console.log("timeMinute", this.meetingDetails.timeMinute)
     }
 
     changeMeetingTimeMinute = (event) => {
         this.meetingDetails.timeMinute = event
-        console.log("timeHour", this.meetingDetails.timeHour)
-        console.log("timeMinute", this.meetingDetails.timeMinute)
-
     }
 
     equals = (obj1, obj2) => {
@@ -350,7 +344,7 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-
+        
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -368,7 +362,7 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
+        // console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
@@ -382,7 +376,7 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
+        // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
@@ -479,6 +473,9 @@ class CreateMeetingStore {
 
     postErr = (err) => {
         console.log("err", err)
+        if(err && err.error && err.error.duplicate){
+            this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
+        }
         if (err && err.error && err.error.isOpen)
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.email)

@@ -80,7 +80,6 @@ const MeetingDetails = (props) => {
     }, []);
 
     const emailValidate = (e) => {
-        console.log(e.target.value)
         let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
         if (!e.target.value.match(regex)) {
             setErrorEmail(true)
@@ -88,7 +87,6 @@ const MeetingDetails = (props) => {
         else setErrorEmail(false)
     }
     const phoneValidate = (e) => {
-        console.log(e.target.value)
         let regex = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
         if (!e.target.value.match(regex)) {
             setErrorPhone(true)
