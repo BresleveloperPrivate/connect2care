@@ -544,14 +544,14 @@ module.exports = function (meetings) {
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num, isOpen , code } = meeting;
+                const { max_participants, participants_num, isOpen, code } = meeting;
 
-                if (!!!isOpen){
-                    console.log(String(code) , String(myCode))
-                    if(String(code) !== String(myCode)){
+                if (!!!isOpen) {
+                    console.log(String(code), String(myCode))
+                    if (String(code) !== String(myCode)) {
                         { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
                     }
-                } 
+                }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
                 let person;
                 let [err, user0] = await to(people.findOne({ where: { email: email } }))
@@ -572,6 +572,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -677,30 +678,60 @@ module.exports = function (meetings) {
             const people_meetings = meetings.app.models.people_meetings
             const people = meetings.app.models.people
 
+            const [err, meeting] = await to(meetings.findById(id))
+            if (err) {
+                console.log(err)
+                return cb(err)
+            }
+
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2)
+            }
+
+            if (res1.length !== 0) {
+                
+                //find all people that sign to the meeting
+                let where = { or: [] }
+                if (res1.length === 1) {
+                    where = { id: res1[0].person }
+                }
+                else for (let i of res1) {
+                    where.or.push({ id: i.person })
+                }
+                const [err4, peopleInMeeting] = await to(people.find({ where: where }))
+                if (err4) {
+                    console.log("err4", err4)
+                    return cb(err4)
+                }
+
+                //send email to all the people that sign to the meeting
+                let sendTo = []
+                for (let person of peopleInMeeting) {
+                    sendTo.push(person.email)
+                }
+                let sendOptions = {
+                    to: sendTo, subject: "מפגש התבטל", html:
+                        `<div>המפגש ${meeting.name} התבטל</div>`
+                }
+
+                sendEmail("", sendOptions);
+
+                // people.destroyAll(where, (err3, res2) => {
+                //     if (err3) {
+                //         console.log("err3", err3)
+                //         return cb(err3)
+                //     }
+                // })
+
+            }
+
             const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
             if (err1) {
                 console.log(err1)
                 return cb(err1)
             }
-
-            // const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
-            // if (res1) {
-            //     if (res1.length !== 0) {
-            //         let where = { or: [] }
-            //         if (res1.length === 1) {
-            //             where = { id: res1[0].person }
-            //         }
-            //         else for (let i of res1) {
-            //             where.or.push({ id: i.person })
-            //         }
-            //         people.destroyAll(where, (err3, res2) => {
-            //             if (err3) {
-            //                 console.log("err3", err3)
-            //                 return cb(err3)
-            //             }
-            //         })
-            //     }
-            // }
 
             const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
             if (err4) {
@@ -708,17 +739,10 @@ module.exports = function (meetings) {
                 return cb(err4)
             }
 
-            // const [err5, res3] = await to(meetings.findById(id));
+            // let [err6, res4] = await to(people.destroyById(meeting.owner))
             // if (err5) {
-            //     console.log(err5)
-            //     return cb(err5)
-            // }
-            // if (res3) {
-            //     let [err6, res4] = await to(people.destroyById(res3.owner))
-            //     if (err5) {
-            //         console.log(err6)
-            //         return cb(err6)
-            //     }
+            //     console.log(err6)
+            //     return cb(err6)
             // }
 
             let [err7, res5] = await to(meetings.destroyById(id))
