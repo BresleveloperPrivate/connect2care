@@ -98,7 +98,9 @@ const translationHEB = {
     "Connect and remember together":"מתחברים וזוכרים יחד",
     "Share with your friends colleagues or family" : 'שתף עם החברים, הצוות או המשפחה',
     "A link to the meeting is waiting for you in the email box":"קישור למפגש מחכה לך בתיבת המייל",
-    "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך"
+    "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך",
+    'fullMeeting':'אין יותר מקום'
+
 
 
 }
