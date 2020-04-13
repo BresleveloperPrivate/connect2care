@@ -10,6 +10,21 @@
     /* margin-bottom: 3px; */
 }
 
+.containImgInSelect{
+    display: flex;
+    width: 2em;
+    height: 1em;
+    align-items: center;
+}
+
+.mr1{
+    margin-right: 5px;
+}
+
+.ml1{
+    margin-left: 5px;
+}
+
 .rtl{
     direction: rtl;
 }
@@ -42,6 +57,8 @@
 
 .optionInSelect{
     padding: 1vh 2vh;
+    display: flex;
+    align-items: center;
 }
 
 .optionInSelect:hover{

@@ -20,7 +20,7 @@ const FallenDetails = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
-        props.isDash && { option: 'בית אביחי', data: 'בית אביחי' },
+        props.isDash && { option: 'בית אבי חי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         !props.isDash && { option: props.t('other'), data: 'אחר' },
     ]
@@ -69,6 +69,7 @@ const FallenDetails = (props) => {
 
                     </div>}
                     <Select
+                        img={props.isDash}
                         // disabled={CreateMeetingStore.meetingId !== -1}
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')

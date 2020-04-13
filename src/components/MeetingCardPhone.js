@@ -53,7 +53,8 @@ const PhoneCard = (props) => {
                         {height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>
                             <img src={candle} height='100%' />
                         </div>
-                        <div>{props.meeting.fallens_meetings.map((fallen, index) => {
+                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar' }>
+                            {props.meeting.fallens_meetings.map((fallen, index) => {
                             if (index === 0) {
                                 if(props.LanguageStore.lang !== 'heb'){
                                     return (
@@ -124,7 +125,7 @@ const PhoneCard = (props) => {
                         <img height='100%' width='100%' src={lock}/>
                     </div> 
                     : null }
-                    {props.meeting.participants_num >= props.meeting.max_participants ? 'אין יותר מקום' : !props.meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
+                    {props.meeting.participants_num >= props.meeting.max_participants ? props.t('fullMeeting') : !props.meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
                         </div>
                         </div>
                 </div>
