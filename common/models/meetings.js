@@ -24,9 +24,9 @@ module.exports = function (meetings) {
         let sqlQueryWhere = ``
 
         console.log(filters)
-        // if (filters.id) {
-        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
-        // }
+        if (filters.id) {
+            sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        }
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -62,8 +62,8 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id DESC LIMIT 5`)
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -78,7 +78,7 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] , order: 'id DESC' }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)

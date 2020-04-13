@@ -63,13 +63,15 @@ class MeetingsStore {
         }
 
         let filter = {
-            // id: this.lastId,
+            id: this.lastId,
             language: this.language.data,
             date: this.date.data,
             relationship: this.fallenRelative.data,
             time: this.time.data,
             isAvailable: this.availableOnly,
         }
+
+        console.log(filter)
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
@@ -99,7 +101,8 @@ class MeetingsStore {
             } else {
                 this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
-            this.lastId = this.meetings.length
+            console.log('meetings' , meetings)
+            this.lastId = meetings[meetings.length-1].id
         }
     }
 
