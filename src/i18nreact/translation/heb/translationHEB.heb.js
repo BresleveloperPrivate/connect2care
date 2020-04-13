@@ -5,7 +5,6 @@ const translationHEB = {
     "donate": "תרמו לנו",
     "contactUs": "צרו קשר",
     "meetingContent": "ערכת תוכן",
-    "text": "אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />את 'האחים שלנו' הקמנו אנחנו, האחים השכולים,<br />כדי להמשיך ולדבר על החיים איתם. מהזווית שלנו.<br /><br />על הצחוקים, השטויות, הריבים, השיחות. כל מה שהיה בינינו ונגמר.<br />הקהילה שלנו עוצמתית, מכילה, מחבקת ושמחה.<br />אנחנו ממשיכים לחגוג את החיים, ולחיות לצד השכול.<br /><br />המטרה שלנו היא להזכיר ולזכור את האחים הפרטיים שלנו<br />ובאותה נשימה, ליצור תנועה ארצית ועולמית של זיכרון והנצחה.<br />",
 
     'homePage':'דף הבית',
     "approve": "אישור",
@@ -28,7 +27,7 @@ const translationHEB = {
     "time": "שעה",
     "maxParticipationNumber": "מספר משתתפים מקסימלי",
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "מספר המשתתפים חייב להיות יותר מ-10",
-    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "מספר המשתתפים חייב להיות פחות מ-3000",
+    "maximumNumberOfParticipantsMustBeLessThan500Participants": "מספר המשתתפים חייב להיות פחות מ-500",
     "createMeeting": "צור מפגש",
 
     "wantToHelpUsKeepRemembering": "רוצה לעזור לנו להמשיך לזכור?",
@@ -67,7 +66,7 @@ const translationHEB = {
 
     'searchPlaceHolder' : "חיפוש שם נופל, שם מפגש, שם מארח/ת",
     "meetingsList": 'רשימת המפגשים',
-    'meetingsList2' : 'כל המפגשים הוויטואלים שלנו מחכים לכם כאן',
+    'meetingsList2' : 'כל המפגשים הווירטואלים שלנו מחכים לכם כאן',
     "joinTheMeeting" : 'הצטרף למפגש',
     "noMeetings" : 'לא נמצאו מפגשים המתאימים לחיפוש שלך',
     "blueFooter" : 'האתר פותח כתרומה לחברה ע"י הילמה - הייטק למען החברה',
