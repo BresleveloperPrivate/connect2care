@@ -14,7 +14,7 @@ const Filters = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
-        { option: 'בית אביחי', data: 'בית אביחי' },
+        { option: 'בית אבי חי', data: 'בית אביחי' },
         { option: 'האחים שלנו', data: 'האחים שלנו' },
 
     ]
@@ -74,7 +74,8 @@ const Filters = (props) => {
                 changeBackground={true}
             />
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '18%' : '100%'}
+                img={true}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' && props.LanguageStore.width > 800 ? '18%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
                 default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                 selectTextDefault={props.t('relationship to fallen')}
                 arr={myCloseToTheFallen}
@@ -108,7 +109,7 @@ const Filters = (props) => {
                     <img height='100%' width='100%s' src={props.MeetingsStore.availableOnly ? checkboxOn : checkboxOff} />
                 </div>
                 {props.t('show available meetings only')}
-                    </div>
+            </div>
         </div>
 
     )
