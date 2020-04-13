@@ -23,8 +23,8 @@ export default function AlertDialog(props) {
   const changeEmail = (event) => {
     const tagName = event.target.value;
     setEmail(tagName);
-    console.log('PIKA PI: ', tagName);
-    console.log('OVED?', regex.test(email))
+    // console.log('PIKA PI: ', tagName);
+    // console.log('OVED?', regex.test(email))
   }
 
   const checkEmail = () => {

@@ -40,7 +40,6 @@ const Meeting = ({ match: { params }, history: { goBack }, t , LanguageStore }) 
     useEffect(() => {
         (async () => {
             const [res, error] = await Auth.superAuthFetch(`/api/meetings/GetMeetingInfo/${meetingId}`);
-            if (error || res.error) { console.log("woo too bad: ", error); setName(''); setOwner(''); setDescription(''); setIsOpen(null); setDate(''); setTime(''); setFallens([]); setNumOfPeople(null); setMeetingIdError(true); return; }
             const { name, meetingOwner, description, isOpen, date, time, fallens, participants_num, max_participants } = res;
             setMeeting({ meetingId, ...res }); setName(name); setOwner(meetingOwner ? meetingOwner.name : ""); setDescription(description); setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1); setDate(date); setTime(time); setFallens(fallens); setNumOfPeople(participants_num || 0); setMaxNum(max_participants); setMeetingIdError(false);
         })();

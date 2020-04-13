@@ -43,7 +43,6 @@ class ManagerStore {
                 this.meetings.push(meeting)
             }
         }
-        console.log(this.meetings)
         return this.meetings
     }
 }

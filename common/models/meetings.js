@@ -22,8 +22,12 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let searchArr = search.split("'")
+        let newSearch = ""
+        for (let i = 0; i < searchArr.length; i++) {
+            newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
+        }
 
-        console.log(filters)
         if (filters.id) {
             sqlQueryWhere += `meetings.id <= '${filters.id}'`
         }
@@ -53,23 +57,21 @@ module.exports = function (meetings) {
             if (search) {
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `(match(fallens.name) against('"${search}"') or 
-                        match(meetings.name) against('"${search}"') or 
-                        match(people.name) against('"${search}"') )
+                    `(match(fallens.name) against('"${newSearch}"') or 
+                        match(meetings.name) against('"${newSearch}"') or 
+                        match(people.name) against('"${newSearch}"') )
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id DESC LIMIT 5`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
                 return cb(err)
             } else {
-                console.log(res)
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -132,7 +134,6 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -155,7 +156,6 @@ module.exports = function (meetings) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            console.log("JS data", JSON.parse(JSON.stringify(data)))
             let jsdata = JSON.parse(JSON.stringify(data))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
@@ -168,11 +168,11 @@ module.exports = function (meetings) {
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
-                console.log("err2", err2)
+                console.log("err2", err2.code)
+                if (err2.code === 'ER_DUP_ENTRY') return cd({ error: { duplicate: true } })
                 return cb(err2)
             }
 
-            // console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
@@ -214,12 +214,6 @@ module.exports = function (meetings) {
                                 }
 
                                 sendEmail("", sendOptions);
-
-
-
-
-
-                                console.log("userMeeting", userMeeting)
                                 return cb(null, userMeeting)
 
                             }
@@ -344,7 +338,6 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -382,7 +375,6 @@ module.exports = function (meetings) {
                     return cb(err2)
                 }
             }
-            console.log('true')
             return cb(null, true)
         })()
 
@@ -411,8 +403,14 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        if (filters.name)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${filters.name}"')`
+        if (filters.name) {
+            let nameArr = filters.name.split("'")
+            let newName = ""
+            for (let i = 0; i < nameArr.length; i++) {
+                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${newName}"')`
+        }
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
@@ -420,17 +418,27 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
+                let fallenArr = filters.fallen.split("'")
+                let newFallen = ""
+                for (let i = 0; i < fallenArr.length; i++) {
+                    newFallen += fallenArr[i] + ((fallenArr.length - 1) === i ? '' : "\\'")
+                }
                 sqlQueryfrom += `, fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `match(fallens.name) against ('"${filters.fallen}"')
+                    `match(fallens.name) against ('"${newFallen}"')
                      and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
         if (filters.owner) {
+            let ownerArr = filters.owner.split("'")
+            let newOwner = ""
+            for (let i = 0; i < ownerArr.length; i++) {
+                newOwner += ownerArr[i] + ((ownerArr.length - 1) === i ? '' : "\\'")
+            }
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                ` match(people.name) against('"${filters.owner}"')
+                ` match(people.name) against('"${newOwner}"')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
@@ -500,7 +508,6 @@ module.exports = function (meetings) {
 
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
-            console.log("mailDetails", mailDetails)
             try {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
@@ -519,7 +526,6 @@ module.exports = function (meetings) {
                 const { max_participants, participants_num, isOpen, code } = meeting;
 
                 if (!!!isOpen) {
-                    console.log(String(code), String(myCode))
                     if (String(code) !== String(myCode)) {
                         { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
                     }
@@ -536,7 +542,6 @@ module.exports = function (meetings) {
                         name: true, email: true, phone: true
                     };
                     let valid = ValidateTools.runValidate({ name, email, phone }, ValidateRules.people, whitelist);
-                    console.log("valid", valid)
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
@@ -552,7 +557,6 @@ module.exports = function (meetings) {
                     person: true, meeting: true
                 };
                 let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
-                console.log("valid1", valid1)
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
@@ -564,7 +568,6 @@ module.exports = function (meetings) {
                     id: true, participants_num: true
                 };
                 let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-                console.log("valid2", valid2)
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
@@ -630,7 +633,6 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();

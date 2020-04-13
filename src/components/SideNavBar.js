@@ -11,7 +11,6 @@ import Lng from './Lng';
 
 // component show the side nav bar with all the options of the student
 const SideNavBar = (props) => {
-    console.log("options", props.options)
     return (
         <SwipeableDrawer
             anchor="right"
