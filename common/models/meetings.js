@@ -681,7 +681,7 @@ module.exports = function (meetings) {
                 //send email to all the people that sign to the meeting
                 let sendTo = []
                 for (let peopleMeeting of peopleInMeeting) {
-                    sendTo.push(peopleMeeting.people.email)
+                    if(peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
