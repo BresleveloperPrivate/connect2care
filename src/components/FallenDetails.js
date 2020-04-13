@@ -20,8 +20,8 @@ const FallenDetails = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
-        { option: 'בית אביחי', data: 'בית אביחי' },
-        { option: 'האחים שלנו', data: 'האחים שלנו' },
+        props.isDash && { option: 'בית אביחי', data: 'בית אביחי' },
+        props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         { option: props.t('other'), data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
@@ -64,9 +64,8 @@ const FallenDetails = (props) => {
 
                     </div>}
                     <Select
-                        disabled={CreateMeetingStore.meetingId !== -1}
-                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ?
-                            CreateMeetingStore.meetingDetails.fallens[props.index].relative :
+                        // disabled={CreateMeetingStore.meetingId !== -1}
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')
                         }
                         arr={myCloseToTheFallen}
@@ -78,7 +77,7 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />
-                    <div className="position-absolute" style={{ paddingTop: "1vh" , fontSize:'0.8em' , width: '100%', display:'flex' , alignItems:'center' , justifyContent:'space-around' }}>
+                    <div className="position-absolute" style={{ paddingTop: "1vh", fontSize: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
                         {props.t('bringFamilyMember')}
                     </div>

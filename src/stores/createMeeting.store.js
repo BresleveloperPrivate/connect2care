@@ -87,6 +87,7 @@ class CreateMeetingStore {
             image: fallen.image_link,
             meetings: fallen.meetings
         }
+        if (!this.meetingDetails.fallens[index]) this.meetingDetails.fallens[index] = {}
         this.meetingDetails.fallens[index].id = fallen.id
     }
 
@@ -264,7 +265,7 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר'&& object.fallens[i].relationship !== 'בית אביחי'&& object.fallens[i].relationship !== 'האחים שלנו') {
                     obj.relative = 'אחר'
                     if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
                     if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
@@ -406,7 +407,8 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        // let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        let fallensToChange = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
         if (Object.keys(changedObj).length === 0) return
@@ -451,6 +453,14 @@ class CreateMeetingStore {
         // if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
         // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
         // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
+
+        if (changedObj.fallens) {
+            let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
+            for (let index in changedFallensObj) {
+                fallensToChange.push({ fallen: changedFallensObj[index].id, relationship: changedFallensObj[index].relative })
+            }
+            beforePostJSON.fallensToChange = fallensToChange
+        }
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(

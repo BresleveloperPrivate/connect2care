@@ -277,69 +277,67 @@ module.exports = function (meetings) {
             //     delete data.fallensToAdd
             // }
 
-            // if (data.fallensToChange) {
-            //     for (let i of data.fallensToChange) {
-            //         let whitelist1 = {
-            //             fallen: true, meeting: true, relationship: true
-            //         };
-            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-            //         if (!valid1.success || valid1.errors) {
-            //             return cb(valid1.errors, null);
-            //         }
+            if (data.fallensToChange) {
+                const fallens_meetings = meetings.app.models.fallens_meetings
+                for (let i of data.fallensToChange) {
+                    let whitelist1 = {
+                        fallen: true, meeting: true, relationship: true
+                    };
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    if (!valid1.success || valid1.errors) {
+                        return cb(valid1.errors, null);
+                    }
 
-            //         fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
-            //             if (err3) {
-            //                 console.log("err3", err3)
-            //                 return cb(err3)
-            //             }
-            //         })
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                        if (err3) {
+                            console.log("err3", err3)
+                            return cb(err3)
+                        }
+                    })
 
-            //     }
-            //     delete data.fallensToChange
-            // }
+                }
+                delete data.fallensToChange
+            }
 
 
-            let people = meetings.app.models.people
             let [errMeeting, meetingById] = await to(meetings.findById(id))
             if (errMeeting) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
 
-            // if (data.date || data.time) {
-            //     //find all people that sign to the meeting
-            //     let where = { or: [] }
-            //     if (res1.length === 1) {
-            //         where = { id: res1[0].person }
-            //     }
-            //     else for (let i of res1) {
-            //         where.or.push({ id: i.person })
-            //     }
-            //     const [err4, peopleInMeeting] = await to(people.find({ where: where }))
-            //     if (err4) {
-            //         console.log("err4", err4)
-            //         return cb(err4)
-            //     }
+            if (data.date || data.time) {
+                const people_meetings = meetings.app.models.people_meetings
+                //find all people that sign to the meeting
+                const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
+                if (err2) {
+                    console.log("err2", err2)
+                    return cb(err2)
+                }
+                let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+                if (peopleInMeeting.length !== 0) {
 
-            //     //send email to all the people that sign to the meeting
-            //     let sendTo = []
-            //     for (let person of peopleInMeeting) {
-            //         sendTo.push(person.email)
-            //     }
-            //     let sendOptions = {
-            //         to: sendTo, subject: "מפגש התבטל", html:
-            //             `<div>יוצר המפגש שינה את ${data.data && data.time?'התאריך ואת השעה' : data.data ? 'התאריך': 'השעה'} של המפגש</div>`
-            //     }
+                    //send email to all the people that sign to the meeting
+                    let sendTo = []
+                    for (let peopleMeeting of peopleInMeeting) {
+                        sendTo.push(peopleMeeting.people.email)
+                    }
+                    let sendOptions = {
+                        to: sendTo, subject: "מפגש השתנה", html:
+                            `<div>יוצר המפגש ${meetingById.name} שינה את שעת המפגש</div>`
+                    }
 
-            //     sendEmail("", sendOptions);
-
-            // }
+                    sendEmail("", sendOptions);
+                }
+            }
 
             if (data.owner) {
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+
+                let people = meetings.app.models.people
 
                 let whitelist = {
                     name: true, email: true, phone: true
@@ -649,8 +647,6 @@ module.exports = function (meetings) {
         (async () => {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
-            const people = meetings.app.models.people
-            const fallens = meetings.app.models.fallens
 
             const [err, meeting] = await to(meetings.findById(id))
             if (err) {
@@ -658,56 +654,31 @@ module.exports = function (meetings) {
                 return cb(err)
             }
 
-            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            //find all people that sign to the meeting
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2)
             }
-
-            if (res1.length !== 0) {
-
-                //find all people that sign to the meeting
-                let where = { or: [] }
-                if (res1.length === 1) {
-                    where = { id: res1[0].person }
-                }
-                else for (let i of res1) {
-                    where.or.push({ id: i.person })
-                }
-                const [err4, peopleInMeeting] = await to(people.find({ where: where }))
-                if (err4) {
-                    console.log("err4", err4)
-                    return cb(err4)
-                }
+            let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+            if (peopleInMeeting.length !== 0) {
 
                 //find fallens of meeting
-                const [err10, fallensMeeting] = await to(fallens_meetings.find({ where: { meeting: id } }))
+                const [err10, fallensMeetings] = await to(fallens_meetings.find({ where: { meeting: id }, include: 'fallens' }))
                 if (err10) {
                     console.log("err10", err10)
                     return cb(err10)
                 }
-
-                let whereallens = { or: [] }
-                if (fallensMeeting.length === 1) {
-                    whereallens = { id: fallensMeeting[0].fallen }
-                }
-                else for (let i of fallensMeeting) {
-                    whereallens.or.push({ id: i.fallen })
-                }
-                const [err11, fallensInMeeting] = await to(fallens.find({ where: whereallens }))
-                if (err11) {
-                    console.log("err11", err11)
-                    return cb(err11)
-                }
                 let fallensNames = ''
-                for (let i = 0; i < fallensInMeeting.length; i++) {
-                    fallensNames += (i === (fallensInMeeting.length - 1) && fallensInMeeting.length > 1 ? 'ו' : '') + fallensInMeeting[i].name + (i === (fallensInMeeting.length - 1) ? '' : ', ')
+                const fallensMeeting = JSON.parse(JSON.stringify(fallensMeetings))
+                for (let i = 0; i < fallensMeeting.length; i++) {
+                    fallensNames += (i === (fallensMeeting.length - 1) && fallensMeeting.length > 1 ? 'ו' : '') + fallensMeeting[i].fallens.name + (i === (fallensMeeting.length - 1) ? '' : ', ')
                 }
 
                 //send email to all the people that sign to the meeting
                 let sendTo = []
-                for (let person of peopleInMeeting) {
-                    sendTo.push(person.email)
+                for (let peopleMeeting of peopleInMeeting) {
+                    sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
@@ -725,29 +696,29 @@ module.exports = function (meetings) {
 
             }
 
-            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
-            if (err1) {
-                console.log(err1)
-                return cb(err1)
-            }
-
-            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
-            if (err4) {
-                console.log(err4)
-                return cb(err4)
-            }
-
-            // let [err6, res4] = await to(people.destroyById(meeting.owner))
-            // if (err5) {
-            //     console.log(err6)
-            //     return cb(err6)
+            // const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+            // if (err1) {
+            //     console.log(err1)
+            //     return cb(err1)
             // }
 
-            let [err7, res5] = await to(meetings.destroyById(id))
-            if (err7) {
-                console.log(err7)
-                return cb(err7)
-            }
+            // const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+            // if (err4) {
+            //     console.log(err4)
+            //     return cb(err4)
+            // }
+
+            // // let [err6, res4] = await to(people.destroyById(meeting.owner))
+            // // if (err5) {
+            // //     console.log(err6)
+            // //     return cb(err6)
+            // // }
+
+            // let [err7, res5] = await to(meetings.destroyById(id))
+            // if (err7) {
+            //     console.log(err7)
+            //     return cb(err7)
+            // }
             return cb(null, true)
         })()
     }
