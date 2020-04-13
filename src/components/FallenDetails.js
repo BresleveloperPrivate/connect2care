@@ -20,6 +20,8 @@ const FallenDetails = (props) => {
         { option: 'הורה', data: 'הורים' },
         { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
         { option: 'חבר/ה', data: 'חבר' },
+        { option: 'בית אביחי', data: 'בית אביחי' },
+        { option: 'האחים שלנו', data: 'האחים שלנו' },
         { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
