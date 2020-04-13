@@ -190,7 +190,10 @@ export default function Sharing(props) {
     <div ref={ref} style={{ position: 'relative' }}>
       <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor: 'pointer', transition: 'transform 0.5s ease' }}>
         <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
-        <span className="inviteSpan">הזמינו למפגש</span>
+        <span className="inviteSpan">
+          
+{props.t('share')}
+          </span>
 
       </div>
       {openShare ? <div className='containShareOptions'>

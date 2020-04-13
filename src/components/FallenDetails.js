@@ -39,14 +39,19 @@ const FallenDetails = (props) => {
             {props.LanguageStore.width > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
             <div style={{ width: props.LanguageStore.width > 550 ? "70%" : "", position: "relative" }}>
 
-                {((CreateMeetingStore.fallenName && CreateMeetingStore.fallenName[props.index]) || CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name) && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>שם החלל</div>}
+                {((CreateMeetingStore.fallenName && CreateMeetingStore.fallenName[props.index]) || CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name) && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>
+
+                    {props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
+                </div>}
 
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
 
                 <div className='position-relative'>
-                    {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">תאריך נפילה</div>}
+                    {CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate && <div className="textAboveInput">
+                        {props.t('fallDate')}
+                    </div>}
                     <input
                         type="text"
                         className='inputStyle dateContainer'

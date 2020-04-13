@@ -58,7 +58,7 @@ const translationEN = {
     "step7-2":"See if the camera's on",
     "remember":"Remember together.",
     "howItWorks":'How It Works?',
-
+    "share":"Share",
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',
     'tuesday': 'Tuesday, 28.04',
@@ -91,7 +91,12 @@ const translationEN = {
     "ConnectRemember":'Connect and remember. In their memory.',
     'my relative to the fallen' : 'My relative to the fallen',
     'bringFamilyMember':"It's important to invite a family member",
-    'fallDate':'Fall date'
+    'fallDate':'Fall date',
+    'Great, youve created a meeting':"You've successfully created a meeting",
+    "Connect and remember together":"Connect and remember together",
+    "Share with your friends colleagues or family": "Share with your friends, colleagues or family",
+    "A link to the meeting is waiting for you in the email box":"A link to the meeting has been emailed to you",
+    "InvitationIsWaiting":"An invitation for a preparation workshop, with practical and technical tools to manage the meeting, has been emailed to you"
 }
 
 export default translationEN;

@@ -10,7 +10,13 @@ import candle from '../icons/candle-white.svg';
 // import Divider from '@material-ui/core/Divider';
 
 function Success(props) {
-
+    const meetingDate = [
+        { option: props.t('all'), data: false },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
     const [meeting, setMeeting] = useState(false)
 
     useEffect(() => {
@@ -82,10 +88,12 @@ function Success(props) {
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
                             <div
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="sucessHeadline">מצויין, יצרת מפגש</div>
+                            className="sucessHeadline">
+                                {props.t('Great, youve created a meeting')}
+                                </div>
                             <div 
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="sucessHeadline2">מתחברים וזוכרים יחד</div>
+                            className="sucessHeadline2">{props.t('Connect and remember together')}</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
                                     <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
@@ -103,22 +111,35 @@ function Success(props) {
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
                                             dataToProps.fallens.push({"name":fallen.fallens.name })
                                             if (index === 0) {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                    return (
+                                                        <span key={index}>In memory of {fallen.fallens.name}</span>
+                                                    )
+                                                }else{
                                                 return (
                                                     <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
-
-                                            else if (index === meeting.fallens_meetings.length - 1) {
-                                                return (
-                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
-                                                )
                                             }
-
+                                            else if (index === meeting.fallens_meetings.length - 1) {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                return (
+                                                    <span key={index}> and {fallen.fallens.name}</span>
+                                                )}else{
+                                                    return (
+                                                        <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                                    )
+                                                }
+                                            }
                                             else {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                    return(
+                                                        <span key={index}>, {fallen.fallens.name}</span>
+                                                    )
+                                                }else{
                                                 return (
                                                     <span key={index}>, {fallen.fallens.name} ז"ל</span>
-                                                )
-
+                                                )}
                                             }
                                         })}</div>                                            
                                     </div>
@@ -131,7 +152,9 @@ function Success(props) {
                                         }>
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
                                         </div>
-                                        <span className="exactDate">{meeting.date} | {meeting.time}</span>
+                                        <span className="exactDate">
+                                        {props.t(meetingDate.find(val=> val.data === meeting.date).option)} | {meeting.time}
+                                            </span>
                                     </div>
                                     <div className="relationDiv">
                                     <div style={
@@ -151,7 +174,7 @@ function Success(props) {
                             </div>
                             <div 
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="shareWith">שתף את החברים, הצוות או המשפחה</div>
+                                    className="shareWith">{props.t('Share with your friends colleagues or family')}</div>
                         </div>
                     </div>
                     <div 
@@ -171,8 +194,8 @@ function Success(props) {
                         <div
                         style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
                         className="additionalInfo">
-                            <div>*קישור למפגש מחכה לך בתיבת המייל</div>
-                            <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
+                            <div>*{props.t('A link to the meeting is waiting for you in the email box')}</div>
+                            <div>*{props.t('InvitationIsWaiting')}</div>
                         </div>
                     </div>
                 </div>
