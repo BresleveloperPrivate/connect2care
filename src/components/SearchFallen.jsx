@@ -62,10 +62,11 @@ const SearchFallen = (props) => {
         setShowOptions(false);
         setSearchValue(fallen.name);
 
-        const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include": "meetings" }`);
+        const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
-        if (response && response.messages && response.messages.length)
+        console.log("response.messages", response)
+        if (response && response.meetings && response.meetings.length)
             props.setDataForFallen(true)
     }, []);
 
