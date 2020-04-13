@@ -324,7 +324,8 @@ module.exports = function (meetings) {
                     }
                     let sendOptions = {
                         to: sendTo, subject: "מפגש השתנה", html:
-                            `<div>יוצר המפגש ${meetingById.name} שינה את שעת המפגש</div>`
+                            `<div>יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
+                            המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
                     }
 
                     sendEmail("", sendOptions);
