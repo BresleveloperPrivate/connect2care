@@ -94,7 +94,7 @@ const translationHEB = {
     'my relative to the fallen' : 'הקרבה שלי לחלל',
     'bringFamilyMember':'חשוב שלכל מפגש תזמינו בן משפחה',
     'fallDate':'תאריך נפילה',
-    'Great, youve created a meeting':"המפגש נוצר בהצלחה",
+    'Great, youve created a meeting':"מצויין, יצרת מפגש",
     "Connect and remember together":"מתחברים וזוכרים יחד",
     "Share with your friends colleagues or family" : 'שתף עם החברים, הצוות או המשפחה',
     "A link to the meeting is waiting for you in the email box":"קישור למפגש מחכה לך בתיבת המייל",
