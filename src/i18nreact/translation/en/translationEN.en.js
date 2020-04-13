@@ -87,7 +87,8 @@ const translationEN = {
     'show available meetings only':'Show available meetings only',
     'filter by': 'Filter by',
 
-    "load more" : 'Load more'
+    "load more" : 'Load more',
+    "ConnectRemember":'Connect and remember. In their memory.'
 }
 
 export default translationEN;

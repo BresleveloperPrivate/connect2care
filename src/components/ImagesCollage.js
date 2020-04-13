@@ -82,7 +82,9 @@ class HowItWorks extends Component {
                 <div className='borderImagesCollage'>
 
                     <div className='topLabel'>
-                        <div className='label'>מתחברים וזוכרים. לזכרם.</div>
+                        <div className='label'>
+                            {this.props.t('ConnectRemember')}
+                            </div>
                     </div>
                     <div className='container'>
 
