@@ -3,6 +3,7 @@ import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react'
 import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
 import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
+import { inject, observer } from 'mobx-react';
 
 import Auth from '../modules/auth/Auth';
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchFallen = (props) => {
+const SearchFallen = observer((props) => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState(null);
     const [showOptions, setShowOptions] = useState(true);
@@ -118,7 +119,7 @@ const SearchFallen = (props) => {
                     onChange={onChange}
                     value={searchValue}
                     autoComplete="off"
-                    placeholder="שם החלל"
+                    placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
                     onClick={() => setShowOptions(true)}
                 />
                 <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
@@ -144,7 +145,8 @@ const SearchFallen = (props) => {
             )}
         </div>
     );
-};
+}
+)
 
 const theme = createMuiTheme({
     direction: "rtl",
@@ -155,8 +157,8 @@ const theme = createMuiTheme({
     }
 });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <SearchFallen {...props} />
     </ThemeProvider>
-);
+)));

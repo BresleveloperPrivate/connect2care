@@ -16,13 +16,13 @@ const FallenDetails = (props) => {
     const [dissmisedPic, setDissmisedPic] = useState(true)
 
     const myCloseToTheFallen = [
-        { option: 'אח/ות', data: 'אח/ות' },
-        { option: 'הורה', data: 'הורים' },
-        { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
-        { option: 'חבר/ה', data: 'חבר' },
+        { option: props.t('brother or sister'), data: 'אח/ות' },
+        { option: props.t('parent'), data: 'הורים' },
+        { option: props.t('family member'), data: 'קרובי משפחה' },
+        { option: props.t('friend'), data: 'חבר' },
         props.isDash && { option: 'בית אביחי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
-        { option: 'אחר', data: 'אחר' },
+        { option: props.t('other'), data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
 
@@ -54,15 +54,20 @@ const FallenDetails = (props) => {
                         style={{ width: "95%", backgroundColor: "white" }}
                         value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                         autoComplete="off"
-                        placeholder="תאריך נפילה"
+                        placeholder={props.t('fallDate')}
                     />
                 </div>
 
                 <div className='position-relative'>
-                    {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
+                    {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">
+                        {props.t('my relative to the fallen')}
+
+                    </div>}
                     <Select
                         // disabled={CreateMeetingStore.meetingId !== -1}
-                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
+                            props.t('my relative to the fallen')
+                        }
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
@@ -72,9 +77,9 @@ const FallenDetails = (props) => {
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
                     <img src={speachBooble} alt="speachBooble" />
-                    <div className="position-absolute" style={{ paddingTop: "1vh" }}>
+                    <div className="position-absolute" style={{ paddingTop: "1vh", fontSize: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                         <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
-                        חשוב שלכל מפגש תזמנו בן משפחה
+                        {props.t('bringFamilyMember')}
                     </div>
                 </div> : null}
 
@@ -88,7 +93,10 @@ const FallenDetails = (props) => {
                         value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
-                        placeholder="קרבה שלי אל החלל"
+
+                        placeholder={props.LanguageStore !== 'heb' ? 'My relative to the fallen' :
+                            'הקרבה שלי אל החלל'
+                        }
                     />}
                 {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 && <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />}
             </div>
