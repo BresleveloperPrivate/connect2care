@@ -199,7 +199,7 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                let code = jsdata.code ? `קוד המפגש: ${jsdata.code}` : ''
+                                let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
                                 createZoomUser(newEmail, nameOwner)
 
 
