@@ -103,7 +103,7 @@ const MeetingDetails = (props) => {
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
+                    return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} isDash={true} />
                 })
             }
                 {props.CreateMeetingStore.meetingId === -1 && <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>}

@@ -20,8 +20,8 @@ const FallenDetails = (props) => {
         { option: 'הורה', data: 'הורים' },
         { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
         { option: 'חבר/ה', data: 'חבר' },
-        { option: 'בית אביחי', data: 'בית אביחי' },
-        { option: 'האחים שלנו', data: 'האחים שלנו' },
+        props.isDash && { option: 'בית אביחי', data: 'בית אביחי' },
+        props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         { option: 'אחר', data: 'אחר' },
     ]
     const CreateMeetingStore = useCreateMeetingStore();
@@ -61,7 +61,7 @@ const FallenDetails = (props) => {
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">קרבה שלי אל החלל</div>}
                     <Select
-                        disabled={CreateMeetingStore.meetingId !== -1}
+                        // disabled={CreateMeetingStore.meetingId !== -1}
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative : 'קרבה שלי אל החלל'}
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
