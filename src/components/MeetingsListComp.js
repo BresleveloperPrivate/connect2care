@@ -93,7 +93,8 @@ const ComputerList = (props) => {
                                         {height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>                    
                                      <img src={candle} height='100%' />
                                         </div>
-                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
+                                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar' }>
+                                            {meeting.fallens_meetings.map((fallen, index) => {
                                                 if (index === 0) {
                                                     if(props.LanguageStore.lang !== 'heb'){
                                                         return (
@@ -166,7 +167,7 @@ const ComputerList = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
+                                    {meeting.participants_num >= meeting.max_participants ? props.t('fullMeeting') : !meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}

@@ -96,7 +96,9 @@ const translationEN = {
     "Connect and remember together":"Connect and remember together",
     "Share with your friends colleagues or family": "Share with your friends, colleagues or family",
     "A link to the meeting is waiting for you in the email box":"A link to the meeting has been emailed to you",
-    "InvitationIsWaiting":"An invitation for a preparation workshop, with practical and technical tools to manage the meeting, has been emailed to you"
+    "InvitationIsWaiting":"An invitation for a preparation workshop, with practical and technical tools to manage the meeting, has been emailed to you",
+    'fullMeeting':'Full meeting'
+
 }
 
 export default translationEN;

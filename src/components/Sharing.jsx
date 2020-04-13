@@ -89,7 +89,6 @@ export default function Sharing(props) {
   };
 
   const shareWithEmail = async (passedEmail) => {
-    console.log('CHECK: ', passedEmail);
     let senderName = "מתחברים וזוכרים"
     let string = `הוזמנת להשתתף במפגש Zoom - מתחברים וזוכרים`
     let fallens = ''
@@ -145,7 +144,6 @@ export default function Sharing(props) {
         senderName: senderName, sendOptions: sendOptions
       })
     })
-    console.log(res, err)
     handleClose();
   };
 

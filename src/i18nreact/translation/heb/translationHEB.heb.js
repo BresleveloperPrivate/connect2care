@@ -67,7 +67,7 @@ const translationHEB = {
 
     'searchPlaceHolder' : "חיפוש שם נופל, שם מפגש, שם מארח/ת",
     "meetingsList": 'רשימת המפגשים',
-    'meetingsList2' : 'כל המפגשים הויטואליים שלנו מחכים לכם כאן',
+    'meetingsList2' : 'כל המפגשים הוויטואלים שלנו מחכים לכם כאן',
     "joinTheMeeting" : 'הצטרף למפגש',
     "noMeetings" : 'לא נמצאו מפגשים המתאימים לחיפוש שלך',
     "blueFooter" : 'האתר פותח כתרומה לחברה ע"י הילמה - הייטק למען החברה',
@@ -98,7 +98,9 @@ const translationHEB = {
     "Connect and remember together":"מתחברים וזוכרים יחד",
     "Share with your friends colleagues or family" : 'שתף עם החברים, הצוות או המשפחה',
     "A link to the meeting is waiting for you in the email box":"קישור למפגש מחכה לך בתיבת המייל",
-    "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך"
+    "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך",
+    'fullMeeting':'אין יותר מקום'
+
 
 
 }
