@@ -17,6 +17,9 @@ import logo6 from '../icons/logo6.png'
 import logo7 from '../icons/logo7.PNG'
 import logo8 from '../icons/logo8.png'
 import nao from '../icons/nao.svg'
+import logo10 from '../icons/logo10.png'
+import logo11 from '../icons/logo11.png'
+
 
 class Partners extends Component {
 
@@ -34,21 +37,23 @@ class Partners extends Component {
                 </div>
 
                 <div className='containPartners'>
-                    <div onClick={() => { window.open('https://zoom.us/') }} className='partner'><img src={zoom} height='80%' /></div>
-                    <div onClick={() => { window.open('https://www.naotech.com/he/') }} className='partner'><img src={nao} height='30%' /></div>
-                    <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='120%' /></div>
-                    <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='60%' /></div>
-                    <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='170%' /></div>
-                    <div onClick={() => { window.open('http://www.my-idea.co.il/') }} className='partner'><img src={logo7} height='110%' /></div>
-                    <div onClick={() => { window.open('https://www.kan.org.il/') }} className='partner'><img src={can} height='100%' /></div>
-                    <div onClick={() => { window.open('https://grth.io/2bcloud/') }} className='partner'><img src={tobe} height='60%' /></div>
-                    <div onClick={() => { window.open('https://he-il.facebook.com/facebook') }} className='partner'><img src={logo6} height='60%' /></div>
+                    <div onClick={() => { window.open('https://zoom.us/') }} className='partner'><img src={zoom} height='90%' /></div>
+                    <div onClick={() => { window.open('https://www.naotech.com/he/') }} className='partner'><img src={nao} height='40%' /></div>
+                    <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='130%' /></div>
+                    <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='70%' /></div>
+                    <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='180%' /></div>
+                    <div onClick={() => { window.open('http://www.my-idea.co.il/') }} className='partner'><img src={logo7} height='120%' /></div>
+                    <div onClick={() => { window.open('https://www.kan.org.il/') }} className='partner'><img src={can} height='110%' /></div>
+                    <div onClick={() => { window.open('https://grth.io/2bcloud/') }} className='partner'><img src={tobe} height='70%' /></div>
+                    <div onClick={() => { window.open('https://he-il.facebook.com/facebook') }} className='partner'><img src={logo6} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.bac.org.il/') }} className='partner'><img src={logo3} height='90%' /></div>
                     <div onClick={() => { window.open('http://project21.co.il/') }} className='partner'><img src={logo5} height='100%' /></div>
+                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo10} height='150%' /></div>
                     <div onClick={() => { window.open('https://digistage.co.il/') }} className='partner'><img src={logo8} height='40%' /></div>
-                    <div onClick={() => { window.open('https://www.schusterman.org/') }} className='partner'><img src={logo4} height='90%' /></div>
+                    <div onClick={() => { window.open('https://www.schusterman.org/') }} className='partner'><img src={logo4} height='100%' /></div>
                     <div onClick={() => { window.open('https://www.wework.com/he-IL') }} className='partner'><img src={logo1} height='80%' /></div>
-                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo2} height='60%' /></div>
+                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo2} height='70%' /></div>
+                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo11} height='70%' /></div>
 
 
 
