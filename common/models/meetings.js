@@ -493,7 +493,8 @@ module.exports = function (meetings) {
         (async () => {
             try {
                 const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'fallens'] });
-                if (!meeting) { cb({ error: "no meeting" }, null); return; }
+                if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
+                console.log(meeting.approved)
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
