@@ -49,14 +49,11 @@ module.exports = function (Codes) {
                     }
                     if(res.length){
                         res = res[res.length-1]
-                        console.log(res)
                         if (res.userId === email) {
                             (async () => {
     
                                 await people.findOne({ where: { email: email } }, (err, user) => {
-    
-                                    console.log(user)
-                                    if (!user) {
+                                        if (!user) {
                                         return cb({error: 'user doesnt exist'})
                                     } else {
                                         meetings.find({ where: { owner: user.id }, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err, meetingsICreated) => {
