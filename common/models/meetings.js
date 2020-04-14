@@ -203,7 +203,7 @@ module.exports = function (meetings) {
                             }
                             if (userMeeting) {
                                 let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-                                createZoomUser(newEmail, nameOwner)
+                                // createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
@@ -734,15 +734,41 @@ module.exports = function (meetings) {
         accepts: { arg: 'id', type: 'number' },
         returns: { arg: 'res', type: 'boolean', root: true }
     })
+
+
+    meetings.approveMeeting = (email, id,nameOwner, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
+            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2, false)
+            }
+            console.log("res", res)
+            createZoomUser(newEmail, nameOwner)
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('approveMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'nameOwner', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+
 };
-{/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
 background-color: #082551; direction: rtl'>
 <div style='display: flex ; width: 100%' >
  <div style='width: 100%;' >
-   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" >
  </div>
  <div style='width: 30%;' >
-   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  >
  </div>
 </div>
 <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
@@ -756,7 +782,7 @@ background-color: #082551; direction: rtl'>
 
 איך נכנסים למערכת ויוצרים מפגש?<br>
 בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
-יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
+יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br>
 איך תעשו זאת?<br>
 א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
 ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
@@ -795,4 +821,4 @@ background-color: #082551; direction: rtl'>
 </div>
 
 <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-</div> */}
+</div> */
