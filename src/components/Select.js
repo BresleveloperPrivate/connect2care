@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react';
 
 import grass from '../icons/grass.png'
-import ourBrothers from '../icons/oblogo.png'
+import ourBrothers from '../icons/ourBro.png'
 
 const Select = (props) => {
     const ref = useRef()
@@ -55,10 +55,10 @@ const Select = (props) => {
                                     {props.img &&
                                         <div className={props.LanguageStore.lang !== 'heb' ? 'containImgInSelect mr1' : 'containImgInSelect ml1'}>
                                             {props.img && value.data === 'בית אביחי' ?
-                                                <img src={grass} width='70%' height='140%' />
+                                                <img src={grass} width='140%' height='140%' />
                                                 :
                                                 props.img && value.data === 'האחים שלנו' ?
-                                                    <img src={ourBrothers} width='100%' height='100%' />
+                                                    <img src={ourBrothers} width='140%' height='140%' />
                                                     : null}
                                         </div>}
                                     {value.option}

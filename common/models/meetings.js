@@ -299,7 +299,6 @@ module.exports = function (meetings) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
-            console.log(data)
             if (data.date || data.time) {
                 console.log("INNNNNNNN")
                 const people_meetings = meetings.app.models.people_meetings
