@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../style/dashboardMain.css'
 import '../style/meetingInfo.scss'
 import '../../styles/createMeeting.css'
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import ErrorMethod from '../../components/ErrorMethod';
 import Success from '../../components/Success.jsx'
 import person from '../../icons/person.svg'
