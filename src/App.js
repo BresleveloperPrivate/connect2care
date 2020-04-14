@@ -12,14 +12,14 @@ import './styles/animations.scss'
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
-import { Dashboard } from '@material-ui/icons';
+// import { Dashboard } from '@material-ui/icons';
 
 const Home = loadable(() => import('./components/Home.js'));
 const Meeting = loadable(() => import('./components/Meeting/Meeting'));
 const Success = loadable(() => import('./components/Success.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
-const MyMeetings = loadable(() => import('./components/MyMeetings'));
+// const MyMeetings = loadable(() => import('./components/MyMeetings'));
 
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
 const MeetingInfo = loadable(() => import('./dashboard/components/MeetingInfo'));

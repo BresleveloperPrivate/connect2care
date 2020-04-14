@@ -4,8 +4,8 @@ const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-const http = require("https");
-const jwt = require('jsonwebtoken');
+// const http = require("https");
+// const jwt = require('jsonwebtoken');
 // const config = require('./config');
 // const rp = require('request-promise');
 
