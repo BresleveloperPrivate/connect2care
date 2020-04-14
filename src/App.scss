@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
+
 .App-rtl {
-  font-family: 'Assistant';
+  font-family: 'Assistant' !important;
   text-align: center;
   width: 100vw;
   direction: rtl;
 }
 
 .App-ltr {
-  font-family: 'Assistant';
+  font-family: 'Assistant' !important;
   text-align: center;
   width: 100vw;
   direction: ltr;
