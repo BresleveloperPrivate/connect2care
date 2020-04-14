@@ -48,12 +48,12 @@ class Partners extends Component {
                     <div onClick={() => { window.open('https://he-il.facebook.com/facebook') }} className='partner'><img src={logo6} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.bac.org.il/') }} className='partner'><img src={logo3} height='90%' /></div>
                     <div onClick={() => { window.open('http://project21.co.il/') }} className='partner'><img src={logo5} height='100%' /></div>
-                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo10} height='150%' /></div>
+                    <div onClick={() => { window.open('https://www.yadlabanim.org.il/') }} className='partner'><img src={logo10} height='150%' /></div>
                     <div onClick={() => { window.open('https://digistage.co.il/') }} className='partner'><img src={logo8} height='40%' /></div>
                     <div onClick={() => { window.open('https://www.schusterman.org/') }} className='partner'><img src={logo4} height='100%' /></div>
                     <div onClick={() => { window.open('https://www.wework.com/he-IL') }} className='partner'><img src={logo1} height='80%' /></div>
                     <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo2} height='70%' /></div>
-                    <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo11} height='70%' /></div>
+                    <div onClick={() => { window.open('https://www.matnasim.org.il/') }} className='partner'><img src={logo11} height='70%' /></div>
 
 
 
