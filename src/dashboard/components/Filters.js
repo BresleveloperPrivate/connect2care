@@ -29,6 +29,8 @@ const Filters = (props) => {
         { option: 'הורה', data: 'הורים' },
         { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
         { option: 'חבר/ה', data: 'חבר' },
+        { option: 'בית אבי חי', data: 'בית אביחי' },
+        { option: 'האחים שלנו', data: 'האחים שלנו' },
     ]
     const IS_OPEN_ARR = [
         { option: 'הכל', data: 'הכל' },
@@ -79,6 +81,7 @@ const Filters = (props) => {
                     <div className='filterItem'>
                         <div className='textFilter'>קרבה</div>
                         <Select
+                            img={true}
                             backgroundColor='var(--custom-background-light-blue)'
                             className='selectBorder'
                             color='#A5A4BF'

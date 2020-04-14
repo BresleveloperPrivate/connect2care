@@ -36,7 +36,6 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
-        console.log(relative)
         this.fallenRelative = relative
     }
 
@@ -63,7 +62,7 @@ class MeetingsStore {
         }
 
         let filter = {
-            // id: this.lastId,
+            id: this.lastId,
             language: this.language.data,
             date: this.date.data,
             relationship: this.fallenRelative.data,
@@ -98,7 +97,7 @@ class MeetingsStore {
             } else {
                 this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
-            this.lastId = this.meetings.length
+            this.lastId = meetings[meetings.length-1].id
         }
     }
 

@@ -58,5 +58,9 @@
         font-size: 5vw;
         color: var(--custom-blue)
     }
+
+    .explanation-left , .explanation-right{
+        font-size: 2.8vh;
+    }
     
 }

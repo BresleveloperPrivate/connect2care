@@ -47,7 +47,6 @@ const ListOfMeetingsUser = (props) => {
                                             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ email })
                                         })
-                                        console.log(res)
                                         if(res){
                                             setLevel(2)
                                         }else{
@@ -74,7 +73,6 @@ const ListOfMeetingsUser = (props) => {
                                             body: JSON.stringify({ email , code})
                                         })
 
-                                        console.log(meetings)
                                         setMyMeetings(meetings)
 
                                     })()

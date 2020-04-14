@@ -22,11 +22,15 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let searchArr = search.split("'")
+        let newSearch = ""
+        for (let i = 0; i < searchArr.length; i++) {
+            newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
+        }
 
-        console.log(filters)
-        // if (filters.id) {
-        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
-        // }
+        if (filters.id) {
+            sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        }
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -53,17 +57,16 @@ module.exports = function (meetings) {
             if (search) {
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `(match(fallens.name) against('"${search}"') or 
-                        match(meetings.name) against('"${search}"') or 
-                        (match(people.name) against('"${search}"') and meetings.owner = people.id))
+                    `(match(fallens.name) against('"${newSearch}"') or 
+                        match(meetings.name) against('"${newSearch}"') or 
+                        match(people.name) against('"${newSearch}"') )
+                    and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-
-        // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -77,7 +80,7 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
@@ -131,7 +134,6 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -154,7 +156,7 @@ module.exports = function (meetings) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            console.log("JS data", JSON.parse(JSON.stringify(data)))
+            let jsdata = JSON.parse(JSON.stringify(data))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
@@ -166,11 +168,11 @@ module.exports = function (meetings) {
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
-                console.log("err2", err2)
+                console.log("err2", err2.code)
+                if (err2.code === 'ER_DUP_ENTRY') return cd({ error: { duplicate: true } })
                 return cb(err2)
             }
 
-            // console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
@@ -197,83 +199,21 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-
+                                let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
                                 createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
                                     to: emailowner, subject: "המפגש נוצר בהצלחה", html:
                                         `
-                                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                                   background-color: #082551; direction: rtl'>
-                                  <div style='display: flex ; width: 100%' >
-                                    <div style='width: 100%;' >
-                                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
-                                    </div>
-                                    <div style='width: 30%;' >
-                                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
-                                    </div>
-                                  </div>
-                                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                                  אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
-                                היוזמה שלקחת הופכת לעוד יותר משמעותית, לנוכח האתגרים היומיומיים מולם כולנו מתמודדים בתקופה האחרונה.<br>
-                                בזכותך, אנשים רבים יציינו את יום הזיכרון, יתחברו לרעיון ויגדילו את מעגל הנצחה.<br><br>
-
-                                חשוב לנו לציין, שביכולתך לפתוח יותר ממפגש אחד, ולייעד כל מפגש לקהל שונה. כך למשל, אפשר לפתוח מפגש אחד לציבור הכללי, ומפגש אחר סגור (לצוות או למשפחה, לדוגמא) כאשר לכל אחד מהם מטרה שונה ואופי ייחודי.<br><br>
-
-                                הכנו עבורך הנחיות ועצות, שיעזרו לך ליצור מפגש בלתי נשכח:<br><br>
-
-                                איך נכנסים למערכת ויוצרים מפגש?<br>
-                                בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
-                                יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
-                                איך תעשו זאת?<br>
-                                א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
-                                ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
-                                ג. לאחר בחירת הרשמה עם שם משתמש, תתבקש להזין את שמך הפרטי ושם משפחה, וכן סיסמא. הזן את שמך האמיתי. השתמש בסיסמא OurBrothers2020<br>
-                                איך יוצרים מפגש?<br>
-                                בימים הקרובים, אחרי ביצוע האקטיבציה, אנו נשלח לך אימייל נוסף, שיכיל קישור והוראות מדויקות לפתיחת מפגש הזום אותו אתה תנחה.<br>
-                                בכדי להתחבר ביום המפגש, יהיה עליך להשתמש בפרטים הבאים:<br>
-                                אימייל: ${newEmail}<br>
-                                סיסמא:  OurBrothers2020 .<br>
-                                אנא שמור אותם במקום נגיש.<br><br>
-
-                                איך יוצרים מפגש מוצלח, משמעותי ונטול מתחים?<br><br>
-
-                                א. סדנת הכנה וירטואלית <br><br>
-
-                                צוות ההדרכה שלנו עמל רבות, והכין עבורך סדנה מקצועית וירטואלית לניהול מפגש.<br>
-                                סדנת ההכנה תועבר בזמן אמת אונליין ב-ZOOM על ידי מרצים מומחים בתחומי התוכן והדיגיטל, במועדים הקבועים מראש. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. <br><br>
-
-                                הסדנה החווייתית תעזור לך להתכונן לקראת המפגש, והכלים הכלולים בה, בהם בין היתר עצות לתכנון זמן ועמידה מול קהל, יעזרו לך גם אחרי המפגש בחייך המקצועיים.<br><br>
-
-                                ב. ערכת הכנה לעיון<br><br>
-
-                                בנוסף לסדנא, הכנו עבורך ערכת תוכן ובה המלצות ושיטות עבודה לבניית מפגש מוצלח. אנו ממליצים בחום לגשת לערכה, לעיין בה וליישם את ההמלצות הכלולות בה. הערכה נמצאת בלינק: https://connect2care.ourbrothers.co.il/meetingContent.pdf<br><br>
-
-                                ג. הזמנת משתתפים מקרבה ראשונה<br><br>
-
-                                אחת העצות הטובות שניתן לך, היא הזמנת בני משפחה וחברים למפגש.<br>
-                                קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד :).<br><br>
-
-                                נעשה הכל כדי לעזור לך לנהל מפגש משמעותי ומהנה.<br>
-                                שאלות? התלבטויות? רעיונות? אנחנו כאן עבורך.<br><br>
-
-                                להתראות בקרוב,<br>
-                                צוות 'האחים שלנו'<br>
-                                  <div style='font-size: 27px'></div>
-                                  </div>
-                              
-                                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-                                  </div>
-                                  ` }
+                                    <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                    </div>המפגש שיצרת נוצר בהצלחה.
+                                    ${code}<br>
+                                    <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
+                                  `
+                                }
 
                                 sendEmail("", sendOptions);
-
-
-
-
-
-                                console.log("userMeeting", userMeeting)
                                 return cb(null, userMeeting)
 
                             }
@@ -298,40 +238,41 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
 
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            if (data.fallensToDelete) {
-                for (let i of data.fallensToDelete) {
-                    if (typeof i === 'number') {
-                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
-                        if (err1) {
-                            console.log(err1)
-                            return cb(err1)
-                        }
-                    }
-                }
-                delete data.fallensToDelete
-            }
+            // const fallens_meetings = meetings.app.models.fallens_meetings
+            // if (data.fallensToDelete) {
+            //     for (let i of data.fallensToDelete) {
+            //         if (typeof i === 'number') {
+            //             let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
+            //             if (err1) {
+            //                 console.log(err1)
+            //                 return cb(err1)
+            //             }
+            //         }
+            //     }
+            //     delete data.fallensToDelete
+            // }
 
-            if (data.fallensToAdd) {
-                for (let i of data.fallensToAdd) {
-                    let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
-                    };
-                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-                    if (!valid1.success || valid1.errors) {
-                        return cb(valid1.errors, null);
-                    }
+            // if (data.fallensToAdd) {
+            //     for (let i of data.fallensToAdd) {
+            //         let whitelist1 = {
+            //             fallen: true, meeting: true, relationship: true
+            //         };
+            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+            //         if (!valid1.success || valid1.errors) {
+            //             return cb(valid1.errors, null);
+            //         }
 
-                    let [err3, res1] = await to(fallens_meetings.create(valid1.data))
-                    if (err3) {
-                        console.log("err3", err3)
-                        return cb(err3)
-                    }
-                }
-                delete data.fallensToAdd
-            }
+            //         let [err3, res1] = await to(fallens_meetings.create(valid1.data))
+            //         if (err3) {
+            //             console.log("err3", err3)
+            //             return cb(err3)
+            //         }
+            //     }
+            //     delete data.fallensToAdd
+            // }
 
             if (data.fallensToChange) {
+                const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
                     let whitelist1 = {
                         fallen: true, meeting: true, relationship: true
@@ -352,26 +293,52 @@ module.exports = function (meetings) {
                 delete data.fallensToChange
             }
 
+
+            let [errMeeting, meetingById] = await to(meetings.findById(id))
+            if (errMeeting) {
+                console.log(errMeeting)
+                return cb(errMeeting)
+            }
+            console.log(data)
+            if (data.date || data.time) {
+                console.log("INNNNNNNN")
+                const people_meetings = meetings.app.models.people_meetings
+                //find all people that sign to the meeting
+                const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
+                if (err2) {
+                    console.log("err2", err2)
+                    return cb(err2)
+                }
+                let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+                if (peopleInMeeting.length !== 0) {
+
+                    //send email to all the people that sign to the meeting
+                    let sendTo = []
+                    for (let peopleMeeting of peopleInMeeting) {
+                        sendTo.push(peopleMeeting.people.email)
+                    }
+                    let sendOptions = {
+                        to: sendTo, subject: "מפגש השתנה", html:
+                            `<div>יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
+                            המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                    }
+
+                    sendEmail("", sendOptions);
+                }
+            }
+
             if (data.owner) {
-                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let people = meetings.app.models.people
-                let [errMeeting, meetingById] = await to(meetings.findById(id))
-                if (errMeeting) {
-                    console.log(errMeeting)
-                    return cb(errMeeting)
-                }
 
                 let whitelist = {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -409,7 +376,6 @@ module.exports = function (meetings) {
                     return cb(err2)
                 }
             }
-            console.log('true')
             return cb(null, true)
         })()
 
@@ -438,8 +404,14 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        if (filters.name)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${filters.name}"')`
+        if (filters.name) {
+            let nameArr = filters.name.split("'")
+            let newName = ""
+            for (let i = 0; i < nameArr.length; i++) {
+                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${newName}"')`
+        }
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
@@ -447,23 +419,33 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
+                let fallenArr = filters.fallen.split("'")
+                let newFallen = ""
+                for (let i = 0; i < fallenArr.length; i++) {
+                    newFallen += fallenArr[i] + ((fallenArr.length - 1) === i ? '' : "\\'")
+                }
                 sqlQueryfrom += `, fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `match(fallens.name) against ('"${filters.fallen}"')
+                    `match(fallens.name) against ('"${newFallen}"')
                      and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
         if (filters.owner) {
+            let ownerArr = filters.owner.split("'")
+            let newOwner = ""
+            for (let i = 0; i < ownerArr.length; i++) {
+                newOwner += ownerArr[i] + ((ownerArr.length - 1) === i ? '' : "\\'")
+            }
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                ` match(people.name) against('"${filters.owner}"')
+                ` match(people.name) against('"${newOwner}"')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
             if (filters.participants.max)
-                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
@@ -525,9 +507,8 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, mailDetails, cb) => {
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
-            console.log("mailDetails", mailDetails)
             try {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
@@ -543,9 +524,13 @@ module.exports = function (meetings) {
                 const meeting = await meetings.findById(meetingId);
 
                 if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num, isOpen } = meeting;
+                const { max_participants, participants_num, isOpen, code } = meeting;
 
-                if (!!!isOpen) { cb({ msg: "המפגש סגור" }, null); return; }
+                if (!!!isOpen) {
+                    if (String(code) !== String(myCode)) {
+                        { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
+                    }
+                }
                 if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
                 let person;
                 let [err, user0] = await to(people.findOne({ where: { email: email } }))
@@ -558,7 +543,6 @@ module.exports = function (meetings) {
                         name: true, email: true, phone: true
                     };
                     let valid = ValidateTools.runValidate({ name, email, phone }, ValidateRules.people, whitelist);
-                    console.log("valid", valid)
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
@@ -566,14 +550,14 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
                 let whitelist1 = {
                     person: true, meeting: true
                 };
-                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: meetingId }, ValidateRules.people_meetings, whitelist1);
-                console.log("valid1", valid1)
+                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
@@ -584,8 +568,7 @@ module.exports = function (meetings) {
                 let whitelist2 = {
                     id: true, participants_num: true
                 };
-                let valid2 = ValidateTools.runValidate({ id: meetingId, participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-                console.log("valid2", valid2)
+                let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
@@ -642,6 +625,7 @@ module.exports = function (meetings) {
             { arg: "name", type: "string", required: true },
             { arg: "email", type: "string", required: true },
             { arg: "phone", type: "string", required: true },
+            { arg: "myCode", type: "string", required: false },
             { arg: 'mailDetails', type: 'object', required: true }
         ],
         returns: { type: "object", root: true },
@@ -650,7 +634,6 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            console.log("senderName, sendOptions", senderName, sendOptions)
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -668,31 +651,59 @@ module.exports = function (meetings) {
         (async () => {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
-            const people = meetings.app.models.people
+
+            const [err, meeting] = await to(meetings.findById(id))
+            if (err) {
+                console.log(err)
+                return cb(err)
+            }
+
+            //find all people that sign to the meeting
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2)
+            }
+            let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+            if (peopleInMeeting.length !== 0) {
+
+                //find fallens of meeting
+                const [err10, fallensMeetings] = await to(fallens_meetings.find({ where: { meeting: id }, include: 'fallens' }))
+                if (err10) {
+                    console.log("err10", err10)
+                    return cb(err10)
+                }
+                let fallensNames = ''
+                const fallensMeeting = JSON.parse(JSON.stringify(fallensMeetings))
+                for (let i = 0; i < fallensMeeting.length; i++) {
+                    fallensNames += (i === (fallensMeeting.length - 1) && fallensMeeting.length > 1 ? 'ו' : '') + fallensMeeting[i].fallens.name + (i === (fallensMeeting.length - 1) ? '' : ', ')
+                }
+
+                //send email to all the people that sign to the meeting
+                let sendTo = []
+                for (let peopleMeeting of peopleInMeeting) {
+                    if(peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
+                }
+                let sendOptions = {
+                    to: sendTo, subject: "מפגש התבטל", html:
+                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                }
+
+                sendEmail("", sendOptions);
+
+                // people.destroyAll(where, (err3, res2) => {
+                //     if (err3) {
+                //         console.log("err3", err3)
+                //         return cb(err3)
+                //     }
+                // })
+
+            }
 
             const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
             if (err1) {
                 console.log(err1)
                 return cb(err1)
-            }
-
-            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
-            if (res1) {
-                if (res1.length !== 0) {
-                    let where = { or: [] }
-                    if (res1.length === 1) {
-                        where = { id: res1[0].person }
-                    }
-                    else for (let i of res1) {
-                        where.or.push({ id: i.person })
-                    }
-                    people.destroyAll(where, (err3, res2) => {
-                        if (err3) {
-                            console.log("err3", err3)
-                            return cb(err3)
-                        }
-                    })
-                }
             }
 
             const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
@@ -701,18 +712,11 @@ module.exports = function (meetings) {
                 return cb(err4)
             }
 
-            const [err5, res3] = await to(meetings.findById(id));
-            if (err5) {
-                console.log(err5)
-                return cb(err5)
-            }
-            if (res3) {
-                let [err6, res4] = await to(people.destroyById(res3.owner))
-                if (err5) {
-                    console.log(err6)
-                    return cb(err6)
-                }
-            }
+            // let [err6, res4] = await to(people.destroyById(meeting.owner))
+            // if (err5) {
+            //     console.log(err6)
+            //     return cb(err6)
+            // }
 
             let [err7, res5] = await to(meetings.destroyById(id))
             if (err7) {
@@ -729,3 +733,64 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 };
+{/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+background-color: #082551; direction: rtl'>
+<div style='display: flex ; width: 100%' >
+ <div style='width: 100%;' >
+   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+ </div>
+ <div style='width: 30%;' >
+   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+ </div>
+</div>
+<div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
+היוזמה שלקחת הופכת לעוד יותר משמעותית, לנוכח האתגרים היומיומיים מולם כולנו מתמודדים בתקופה האחרונה.<br>
+בזכותך, אנשים רבים יציינו את יום הזיכרון, יתחברו לרעיון ויגדילו את מעגל הנצחה.<br><br>
+
+חשוב לנו לציין, שביכולתך לפתוח יותר ממפגש אחד, ולייעד כל מפגש לקהל שונה. כך למשל, אפשר לפתוח מפגש אחד לציבור הכללי, ומפגש אחר סגור (לצוות או למשפחה, לדוגמא) כאשר לכל אחד מהם מטרה שונה ואופי ייחודי.<br><br>
+
+הכנו עבורך הנחיות ועצות, שיעזרו לך ליצור מפגש בלתי נשכח:<br><br>
+
+איך נכנסים למערכת ויוצרים מפגש?<br>
+בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
+יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
+איך תעשו זאת?<br>
+א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
+ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
+ג. לאחר בחירת הרשמה עם שם משתמש, תתבקש להזין את שמך הפרטי ושם משפחה, וכן סיסמא. הזן את שמך האמיתי. השתמש בסיסמא OurBrothers2020<br>
+איך יוצרים מפגש?<br>
+בימים הקרובים, אחרי ביצוע האקטיבציה, אנו נשלח לך אימייל נוסף, שיכיל קישור והוראות מדויקות לפתיחת מפגש הזום אותו אתה תנחה.<br>
+בכדי להתחבר ביום המפגש, יהיה עליך להשתמש בפרטים הבאים:<br>
+אימייל: ${newEmail}<br>
+סיסמא:  OurBrothers2020 .<br>
+אנא שמור אותם במקום נגיש.<br><br>
+
+איך יוצרים מפגש מוצלח, משמעותי ונטול מתחים?<br><br>
+
+א. סדנת הכנה וירטואלית <br><br>
+
+צוות ההדרכה שלנו עמל רבות, והכין עבורך סדנה מקצועית וירטואלית לניהול מפגש.<br>
+סדנת ההכנה תועבר בזמן אמת אונליין ב-ZOOM על ידי מרצים מומחים בתחומי התוכן והדיגיטל, במועדים הקבועים מראש. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. <br><br>
+
+הסדנה החווייתית תעזור לך להתכונן לקראת המפגש, והכלים הכלולים בה, בהם בין היתר עצות לתכנון זמן ועמידה מול קהל, יעזרו לך גם אחרי המפגש בחייך המקצועיים.<br><br>
+
+ב. ערכת הכנה לעיון<br><br>
+
+בנוסף לסדנא, הכנו עבורך ערכת תוכן ובה המלצות ושיטות עבודה לבניית מפגש מוצלח. אנו ממליצים בחום לגשת לערכה, לעיין בה וליישם את ההמלצות הכלולות בה. הערכה נמצאת בלינק: https://connect2care.ourbrothers.co.il/meetingContent.pdf<br><br>
+
+ג. הזמנת משתתפים מקרבה ראשונה<br><br>
+
+אחת העצות הטובות שניתן לך, היא הזמנת בני משפחה וחברים למפגש.<br>
+קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד :).<br><br>
+
+נעשה הכל כדי לעזור לך לנהל מפגש משמעותי ומהנה.<br>
+שאלות? התלבטויות? רעיונות? אנחנו כאן עבורך.<br><br>
+
+להתראות בקרוב,<br>
+צוות 'האחים שלנו'<br>
+<div style='font-size: 27px'></div>
+</div>
+
+<div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+</div> */}

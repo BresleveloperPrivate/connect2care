@@ -45,7 +45,6 @@ class App extends Component {
     render() {
         if (window.location.search !== "" && window.location.search.includes("?id=")) {
             let id = window.location.search.split("?id=");
-            console.log("id", id)
             let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/` + id[1];
             window.location.assign(url);
         }

@@ -11,9 +11,9 @@ const translationEN = {
     "approve": "Approve",
     "cancel": "Cancel",
     "addFallen": "Add fallen",
-    "meetingName": "The meeting's name",
-    "createTheMeeting": "Creating the meeting",
-    "editMeeting": "Editing the meeting",
+    "meetingName": "Meeting name",
+    "createTheMeeting": "Create Meeting",
+    "editMeeting": "Edit Meeting",
     "shortDescription": "Short description",
     "ownerDetails": "Meeting Host Details",
     "ownerFullName": "Your full name- the meeting host",
@@ -28,8 +28,8 @@ const translationEN = {
     "time": "Hour",
     "maxParticipationNumber": "Maximum number of participants",
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "The number of participants must be more than 10",
-    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "The number of participants must be less than 3000",
-    "createMeeting": "Create a meeting",
+    "maximumNumberOfParticipantsMustBeLessThan500Participants": "The number of participants must be less than 500",
+    "createMeeting": "Create meeting",
     "wantToHelpUsKeepRemembering": "Want to help us keep remembering?",
     "toDonateToTheNonprofit": "Donate to our nonprofit",
 
@@ -58,7 +58,7 @@ const translationEN = {
     "step7-2":"See if the camera's on",
     "remember":"Remember together.",
     "howItWorks":'How It Works?',
-
+    "share":"Invite others to join",
     'sunday': 'Sunday, 26.04',
     'monday': 'Monday, 27.04',
     'tuesday': 'Tuesday, 28.04',
@@ -87,7 +87,18 @@ const translationEN = {
     'show available meetings only':'Show available meetings only',
     'filter by': 'Filter by',
 
-    "load more" : 'Load more'
+    "load more" : 'Load more',
+    "ConnectRemember":'Connect and remember. In their memory.',
+    'my relative to the fallen' : 'My relative to the fallen',
+    'bringFamilyMember':"It's important to invite a family member",
+    'fallDate':'Fall date',
+    'Great, youve created a meeting':"You've successfully created a meeting",
+    "Connect and remember together":"Connect and remember together",
+    "Share with your friends colleagues or family": "Share with your friends, colleagues or family",
+    "A link to the meeting is waiting for you in the email box":"A link to the meeting has been emailed to you",
+    "InvitationIsWaiting":"An invitation for a preparation workshop, with practical and technical tools to manage the meeting, has been emailed to you",
+    'fullMeeting':'Full meeting'
+
 }
 
 export default translationEN;

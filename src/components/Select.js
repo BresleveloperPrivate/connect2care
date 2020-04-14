@@ -5,6 +5,9 @@ import '../styles/select.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react';
 
+import grass from '../icons/grass.png'
+import ourBrothers from '../icons/oblogo.png'
+
 const Select = (props) => {
     const ref = useRef()
     useOnClickOutside(ref, () => setIsSelectOpen(false));
@@ -38,7 +41,7 @@ const Select = (props) => {
                 {isSelectOpen &&
                     <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
                         {props.arr && props.arr.map((value, index) =>
-                            <div
+                            value ? <div
                                 className='selectOption'
                                 key={index}
                                 onClick={() => {
@@ -49,9 +52,18 @@ const Select = (props) => {
 
                                 }}>
                                 <div className='optionInSelect'>
+                                    {props.img &&
+                                        <div className={props.LanguageStore.lang !== 'heb' ? 'containImgInSelect mr1' : 'containImgInSelect ml1'}>
+                                            {props.img && value.data === 'בית אביחי' ?
+                                                <img src={grass} width='70%' height='140%' />
+                                                :
+                                                props.img && value.data === 'האחים שלנו' ?
+                                                    <img src={ourBrothers} width='100%' height='100%' />
+                                                    : null}
+                                        </div>}
                                     {value.option}
                                 </div>
-                            </div>
+                            </div> : null
                         )}
                     </div>
                 }

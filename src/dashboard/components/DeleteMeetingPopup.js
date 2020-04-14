@@ -60,7 +60,7 @@ export default function DaleteMeetingPopup(props) {
                                         <div className="bounce2"></div>
                                         <div className="bounce3"></div>
                                     </div>
-                                    : "שמור"
+                                    : "מחק"
                                 }
                                 {/* {this.props.t("approval")} */}
                             </div>

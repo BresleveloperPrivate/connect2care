@@ -21,8 +21,8 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: "",
-        timeHour: "20",
-        timeMinute: "30",
+        timeHour: '20',
+        timeMinute: '30',
         max_participants: 300,
         fallens: null,
         zoomId: "",
@@ -87,6 +87,7 @@ class CreateMeetingStore {
             image: fallen.image_link,
             meetings: fallen.meetings
         }
+        if (!this.meetingDetails.fallens[index]) this.meetingDetails.fallens[index] = {}
         this.meetingDetails.fallens[index].id = fallen.id
     }
 
@@ -150,7 +151,6 @@ class CreateMeetingStore {
     }
 
     changeFallenRelative = (option, index) => {
-        console.log(option)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
@@ -264,7 +264,7 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר'&& object.fallens[i].relationship !== 'בית אביחי'&& object.fallens[i].relationship !== 'האחים שלנו') {
                     obj.relative = 'אחר'
                     if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
                     if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
@@ -344,6 +344,7 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+        
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -358,8 +359,10 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.timeHour
+        delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
+        // console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
@@ -373,13 +376,13 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
+        // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
         }
         beforePostJSON.zoomId = zoomId
-        beforePostJSON.time = this.meetingDetails.timeMinute + ":" + this.meetingDetails.timeHour
+        beforePostJSON.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
@@ -398,7 +401,8 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        // let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        let fallensToChange = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
         if (Object.keys(changedObj).length === 0) return
@@ -444,23 +448,35 @@ class CreateMeetingStore {
         // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
         // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
 
+        if (changedObj.fallens) {
+            let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
+            for (let index in changedFallensObj) {
+                fallensToChange.push({ fallen: changedFallensObj[index].id, relationship: changedFallensObj[index].relative })
+            }
+            changedObj.fallensToChange = fallensToChange
+        }
+
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/updateMeeting/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: beforePostJSON, id: Number(this.meetingId) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) })
             }, true);
         this.waitForData = false
         if (err) {
             this.postErr(err)
             return
         }
+        this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
     }
 
     postErr = (err) => {
         console.log("err", err)
+        if(err && err.error && err.error.duplicate){
+            this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
+        }
         if (err && err.error && err.error.isOpen)
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.email)

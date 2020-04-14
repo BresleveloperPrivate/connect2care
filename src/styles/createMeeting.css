@@ -26,7 +26,7 @@
 }
 
 .textSide{
-    font: normal 25px Assistant;
+    font: normal 20px Assistant;
 }
 
 input[type=radio] {
@@ -85,56 +85,6 @@ input[type=radio]:focus {
     color: #00726B;
 }
 
-.MuiPickersBasePicker-pickerView, .MuiPickersBasePicker-pickerViewLandscape,.MuiPickersModal-withAdditionalAction {
-    background-color: #FBF1EC !important;
-}
-
-.MuiButton-textPrimary  {
-    color: #0A2D63 !important;
-}
-  
-.MuiPickersClock-pin,.MuiPickersToolbar-toolbar,.MuiPickersTimePickerToolbar-toolbarLandscape , 
-.MuiPickersClockPointer-animateTransform, .MuiPickersClockPointer-pointer, .MuiPickersClockPointer-noPoint, 
-.MuiPickersClockNumber-clockNumberSelected{
-    direction: ltr;
-    background: #0A2D63;
-    color: #FBF1EC !important;
-}
-  
-.MuiPickersToolbarText-toolbarBtnSelected{
-    color: #FBF1EC !important;
-}
-  
-.MuiPickersModal-dialogRoot {
-    border-radius: 20px !important;
-    border: none !important;
-}
-  
-.MuiPickersClockPointer-thumb{
-    border-color: #0A2D63 !important;
-    background-color: #FBF1EC !important;  
-}
-  
-.MuiButton-label{
-    font-size: 130%;
-}
-.inputStyle .MuiInputBase-input {
-    color: #157492 !important;
-    cursor: pointer;
-    -webkit-text-fill-color: #157492 !important;
-    padding: 0 ;
-    line-height: 13px !important;
-}
-
-.inputStyle .MuiInputBase-input.Mui-disabled {
-    color: #157492 !important;
-    -webkit-text-fill-color: #157492 !important;
-}
-
-.MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after{
-    border-bottom: none;
-}
-
 .CreateMeeting .selectInput{
     margin: 1vh 0;
     padding: 0 2vh;
@@ -171,23 +121,6 @@ input[type=radio]:focus {
 
 .CreateMeeting .selectContainer{
     color: var(--custom-gray) !important;
-}
-
-.MuiPickersModal-withAdditionalAction > *:first-child{
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.MuiList-padding{
-    padding: 0;
-}
-
-.MuiOutlinedInput-input{
-    padding: 1.3vh 2vh;
-}
-
-.MuiInputBase-root{
-    font-size: inherit;
 }
 
 .searchButton{
@@ -438,6 +371,7 @@ input[type=radio]:focus {
     .createMeetingHeadLine{
         font: Bold 28px Assistant;
     }
+
     .createMeetingSecondSentence{
         margin: 0 6vw;
         font: normal 20px Assistant;
@@ -448,6 +382,22 @@ input[type=radio]:focus {
         width: fit-content;
         margin-right: 6vw;
     }
+    
+    .exictingPic{
+        margin-right: 6vw;
+    }
+    
+    .containSelectTime{
+        display: flex;
+        align-items: center;
+        margin-left: 6vw !important;
+        margin-right: 6vw !important;
+    }
+
+    .containSelectTime .inputStyle, .containSelectTime .textAboveInput{
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }    
 
 
     .fallenSearchDiv{
@@ -470,8 +420,8 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
-    .containFallenDetails{
-        width: 80%;
+    .CreateMeeting .containFallenDetails{
+        width: 100%;
     }
 
     .containFallenDetailsSide{

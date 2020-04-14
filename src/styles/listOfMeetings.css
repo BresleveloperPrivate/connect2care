@@ -550,6 +550,19 @@
         width: 100%;
         margin-top: 2vh;
     }
+    
+    .meetingOwner , .meetingDate , .meetingFor{
+
+        font-size: 1.6em;
+    }
+
+    .meetingIsCloseBtn{
+        font-size: 1.7em;
+     }
+
+     .joinMeetingBtn{
+         font-size: 1.8em;
+     }
 
     
 }

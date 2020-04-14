@@ -12,14 +12,35 @@ const TextSideDiv = (props) => {
         <div className="position-fixed containInputTextSide" style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />
             <div id="containDetailsSideBar">
-                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : { marginBottom: "5vh" }} />
+                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : { marginBottom: "4vh" }} />
 
-                {!props.dataForFallen ? <div className="textSide">
-                    <div style={{ marginBottom: "2vh" }}> ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים </div>
-                    <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
-                    <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
-                    לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.</div>
-                </div> :
+                {!props.dataForFallen ?
+
+                    props.LanguageStore.lang !== 'heb' ?
+
+                        <div className="textSide tal" style={{direction:'ltr'}}>
+                            <div style={{ marginBottom: "2vh" }}>
+                            By creating a meeting you can open a virtual room where friends and acquaintances will come. </div>
+                            <strong>Together you will tell and remember the story of your dear ones.</strong>
+                            <div style={{ marginTop: "2vh" }}> Our Brothers are here for you,
+                            Before the meeting we will have a preparatory meeting where we will explain how the zoom meeting works and
+                             how you should guide this type of event.
+                    </div>
+                        </div>
+                        :
+
+                        <div className="textSide">
+                            <div style={{ marginBottom: "2vh" }}>
+                                ביצירת מפגש תוכלו לפתוח חדר וירטואלי אליו יגיעו חברים ומכרים. </div>
+                            <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
+                            <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
+                            לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.
+                </div>
+                        </div>
+
+
+
+                    :
 
                     <div>
                         {props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
@@ -31,7 +52,6 @@ const TextSideDiv = (props) => {
                                         </div>
                                         {props.CreateMeetingStore.fallenDetails[fallenId.id].meetings && props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.length &&
                                             props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.map((meeting, index) => {
-
                                                 return (
                                                     <div key={index} className="containFallenDetailsSide">
                                                         <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
