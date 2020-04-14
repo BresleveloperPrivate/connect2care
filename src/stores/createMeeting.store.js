@@ -61,7 +61,8 @@ class CreateMeetingStore {
             max_participants: 300,
             fallens: null,
             zoomId: "",
-            otherRelationship: null
+            otherRelationship: null,
+            // approved: ""
         }
         this.allMeetings = null;
 
@@ -254,6 +255,8 @@ class CreateMeetingStore {
             max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
             zoomId: "",
+            approved: object.approved,
+            id: object.id
         }
 
         if (object.fallens && object.fallens.length) {
@@ -264,7 +267,7 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר'&& object.fallens[i].relationship !== 'בית אביחי'&& object.fallens[i].relationship !== 'האחים שלנו') {
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר' && object.fallens[i].relationship !== 'בית אביחי' && object.fallens[i].relationship !== 'האחים שלנו') {
                     obj.relative = 'אחר'
                     if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
                     if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
@@ -282,7 +285,7 @@ class CreateMeetingStore {
         if (this.meetingId === -1) return
 
         let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
-
+        console.log("success", success)
         if (err) {
             this.error = err
         }
@@ -296,6 +299,22 @@ class CreateMeetingStore {
         this.meetingDetails.fallens.splice(index, 1)
         if (this.meetingDetails.otherRelationShip) this.meetingDetails.otherRelationShip.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) this.fallenDetails[id] = undefined
+    }
+
+    approveMeeting = async (email, nameOwner) => {
+        console.log("email", email, this.meetingId)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/approveMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
+            }, true);
+        if (success){
+            this.meetingDetailsOriginal.approved=true;
+            this.meetingDetails.approved=true;
+        }
+        console.log(success, err)
     }
 
     changeMeetingTimeHour = (event) => {
@@ -344,7 +363,7 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        
+
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -474,7 +493,7 @@ class CreateMeetingStore {
 
     postErr = (err) => {
         console.log("err", err)
-        if(err && err.error && err.error.duplicate){
+        if (err && err.error && err.error.duplicate) {
             this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
         }
         if (err && err.error && err.error.isOpen)
@@ -544,7 +563,8 @@ decorate(CreateMeetingStore, {
     changeShortDescription: action,
     createNewMeetingPost: action,
     getAllMeetings: action,
-    changeMeetingName: action
+    changeMeetingName: action,
+    approveMeeting: action
 });
 
 const createMeetingStore = new CreateMeetingStore();

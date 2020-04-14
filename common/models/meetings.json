@@ -233,6 +233,21 @@
                 "dataScale": null,
                 "nullable": "Y"
             }
+        },
+        "approved": {
+            "type": "Boolean",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "approved",
+                "dataType": "tinyint",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
         }
     },
     "acls": []
