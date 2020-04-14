@@ -31,7 +31,7 @@ class HowItWorks extends Component {
             while (constImages.length < 32) {
                 if (meetings[meeting]) {
                     for (let j = 0; j < meetings[meeting].fallens.length; j++) {
-
+                        while (constImages.length < 32) {
                         if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id) && meetings[meeting].fallens[j].image_link) {
                             constImages.push(
                                 {
@@ -40,7 +40,7 @@ class HowItWorks extends Component {
                                     image: meetings[meeting].fallens[j].image_link,
                                     alt: meetings[meeting].fallens[j].firstName
                                 }
-                            )
+                            )}
                             // i++
                         }
                     }
