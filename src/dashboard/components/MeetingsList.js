@@ -2,7 +2,7 @@ import React from 'react'
 import { inject, observer } from 'mobx-react';
 import pen from '../icons/pen.svg';
 import lock from '../../icons/lock.svg';
-import { color } from 'd3';
+// import { color } from 'd3';
 
 const MeetingsList = (props) => {
 
