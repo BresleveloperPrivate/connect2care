@@ -747,6 +747,14 @@ module.exports = function (meetings) {
             }
             console.log("res", res)
             createZoomUser(newEmail, nameOwner)
+            let sendOptions = {
+                to: email, subject: "המפגש שיצרת אושר", html:
+                    `
+                <div width="100%" style="direction: rtl;">המפגש שיצרת אושר</div>
+              `
+            }
+
+            sendEmail("", sendOptions);
             return cb(null, true)
         })()
     }

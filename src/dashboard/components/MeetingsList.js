@@ -2,7 +2,6 @@ import React from 'react'
 import { inject, observer } from 'mobx-react';
 import pen from '../icons/pen.svg';
 import lock from '../../icons/lock.svg';
-// import { color } from 'd3';
 
 const MeetingsList = (props) => {
 
@@ -67,15 +66,10 @@ const MeetingsList = (props) => {
                                             </div>
                                         }
                                     </td>
-                                    {/* <td style={{ position: "relative", marginTop: "20px" }} className='edit'>
-                                        {!meeting.approved && <div style={{ position: "absolute", color: "red" }}>ממתין לאישור</div>}
-                                        <img alt="alt" src={pen} onClick={() => props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
-                                    </td> */}
-                                    <td  className='edit'>
+                                    <td className='edit'>
                                         <div>
-
-                                        <img alt="alt" src={pen} onClick={() => props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
-                                        {!meeting.approved && <div style={{ color: "red",marginTop:'5px' }}>ממתין לאישור</div>}
+                                            <img alt="alt" src={pen} onClick={() => props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
+                                            {!meeting.approved && <div style={{ color: "red", marginTop: '5px' }}>ממתין לאישור</div>}
                                         </div>
                                     </td>
                                 </tr>

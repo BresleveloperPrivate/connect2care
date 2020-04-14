@@ -62,7 +62,7 @@ class App extends Component {
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings|my-meetings)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
-                            <Route path="/success" exact render={props => <Success t={this.props.t} {...props} />} />
+                            {/* <Route path="/success" exact render={props => <Success t={this.props.t} {...props} />} /> */}
                             <Route path="/" exact render={props => <Home t={this.props.t} {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting t={this.props.t} {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser t={this.props.t} {...props} />} />
