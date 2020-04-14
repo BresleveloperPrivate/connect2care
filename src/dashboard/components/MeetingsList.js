@@ -2,6 +2,7 @@ import React from 'react'
 import { inject, observer } from 'mobx-react';
 import pen from '../icons/pen.svg';
 import lock from '../../icons/lock.svg';
+import { color } from 'd3';
 
 const MeetingsList = (props) => {
 
@@ -39,7 +40,8 @@ const MeetingsList = (props) => {
 
                             props.ManagerStore.meetings.map((meeting, index) =>
                                 <tr key={index} className="tableBodyStyle">
-                                    <td className='date'>{meeting.date && meeting.date.split(', ')[2]}</td>
+                                    {/* {(!meeting.approved || meeting.approved) && <div >ממתין לאישור</div>} */}
+                                    <td className='date' >{meeting.date && meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen' style={{ maxWidth: '5vw' }}>
                                         {meeting.fallens_meetings && meeting.fallens_meetings.map((fallenMeeting, index) =>
@@ -65,8 +67,16 @@ const MeetingsList = (props) => {
                                             </div>
                                         }
                                     </td>
-                                    <td className='edit'>
-                                        <img alt="alt" src={pen} onClick={()=>props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
+                                    {/* <td style={{ position: "relative", marginTop: "20px" }} className='edit'>
+                                        {!meeting.approved && <div style={{ position: "absolute", color: "red" }}>ממתין לאישור</div>}
+                                        <img alt="alt" src={pen} onClick={() => props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
+                                    </td> */}
+                                    <td  className='edit'>
+                                        <div>
+
+                                        <img alt="alt" src={pen} onClick={() => props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
+                                        {!meeting.approved && <div style={{ color: "red",marginTop:'5px' }}>ממתין לאישור</div>}
+                                        </div>
                                     </td>
                                 </tr>
                             )
@@ -82,7 +92,7 @@ const MeetingsList = (props) => {
                             await props.ManagerStore.fetchMeetingsDashboard({}, true)
                         })()
                     }}>
-                        {props.t("load more")}
+                    {props.t("load more")}
                 </div> : null
             }
         </div>
