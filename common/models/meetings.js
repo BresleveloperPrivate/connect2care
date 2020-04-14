@@ -28,9 +28,12 @@ module.exports = function (meetings) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
+
         if (filters.id) {
             sqlQueryWhere += `meetings.id <= '${filters.id}'`
         }
+
+        sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -681,7 +684,7 @@ module.exports = function (meetings) {
                 //send email to all the people that sign to the meeting
                 let sendTo = []
                 for (let peopleMeeting of peopleInMeeting) {
-                    if(peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
+                    if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
