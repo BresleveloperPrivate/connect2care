@@ -453,7 +453,7 @@ class CreateMeetingStore {
             for (let index in changedFallensObj) {
                 fallensToChange.push({ fallen: changedFallensObj[index].id, relationship: changedFallensObj[index].relative })
             }
-            beforePostJSON.fallensToChange = fallensToChange
+            changedObj.fallensToChange = fallensToChange
         }
 
         this.waitForData = true
@@ -462,13 +462,14 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: beforePostJSON, id: Number(this.meetingId) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) })
             }, true);
         this.waitForData = false
         if (err) {
             this.postErr(err)
             return
         }
+        this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
     }
 
     postErr = (err) => {

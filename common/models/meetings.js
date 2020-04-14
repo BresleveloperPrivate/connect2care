@@ -299,8 +299,9 @@ module.exports = function (meetings) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
-
+            console.log(data)
             if (data.date || data.time) {
+                console.log("INNNNNNNN")
                 const people_meetings = meetings.app.models.people_meetings
                 //find all people that sign to the meeting
                 const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
@@ -442,9 +443,9 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
             if (filters.participants.max)
-                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
@@ -681,7 +682,7 @@ module.exports = function (meetings) {
                 //send email to all the people that sign to the meeting
                 let sendTo = []
                 for (let peopleMeeting of peopleInMeeting) {
-                    sendTo.push(peopleMeeting.people.email)
+                    if(peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:

@@ -28,7 +28,7 @@ const translationEN = {
     "time": "Hour",
     "maxParticipationNumber": "Maximum number of participants",
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "The number of participants must be more than 10",
-    "maximumNumberOfParticipantsMustBeLessThan3000Participants": "The number of participants must be less than 3000",
+    "maximumNumberOfParticipantsMustBeLessThan500Participants": "The number of participants must be less than 500",
     "createMeeting": "Create meeting",
     "wantToHelpUsKeepRemembering": "Want to help us keep remembering?",
     "toDonateToTheNonprofit": "Donate to our nonprofit",
