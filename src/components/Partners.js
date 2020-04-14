@@ -55,9 +55,6 @@ class Partners extends Component {
                     <div onClick={() => { window.open('https://payboxapp.com/il/home') }} className='partner'><img src={logo2} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.matnasim.org.il/') }} className='partner'><img src={logo11} height='70%' /></div>
 
-
-
-
                 </div>
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'hilmeCredit fdrr' : 'hilmeCredit'}>
                     {this.props.t('blueFooter')}
