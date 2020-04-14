@@ -39,10 +39,11 @@ class ManagerStore {
         this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
         if (!readMore) this.meetings = meetings || []
         else {
-            for(let meeting of meetings){
+            for (let meeting of meetings) {
                 this.meetings.push(meeting)
             }
         }
+        console.log("this.meetings", this.meetings)
         return this.meetings
     }
 }
