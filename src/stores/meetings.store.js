@@ -15,11 +15,15 @@ class MeetingsStore {
     meetings = false
     time = false
     availableOnly = false
+    loading = false
 
     changeSearchInput = (event) => {
         ////if match...
-        if (event.target.value.match('^([^0-9#*/$%^&@!;=+]*)$')) {
+        if (event.target.value.match('^([^#/$%^&@!;=+]*)$')) {
             this.searchInput = event.target.value
+        }
+        if (event.target.value === '' && this.prevSearchInput !== '') {
+            this.search(false, true)
         }
     }
 
@@ -32,6 +36,7 @@ class MeetingsStore {
     }
 
     changeFallenRelative = (relative) => {
+        console.log(relative)
         this.fallenRelative = relative
     }
 
@@ -45,6 +50,9 @@ class MeetingsStore {
 
     search = async (getMore, searchButton) => {
 
+        this.loading = true
+
+
         if (searchButton) {
             this.prevSearchInput = this.searchInput
         }
@@ -54,30 +62,26 @@ class MeetingsStore {
             this.meetings = false
         }
 
-        console.log(getMore)
-
         let filter = {
-            id: this.lastId,
-            language: this.language,
-            date: this.date,
-            relationship: this.fallenRelative,
-            time: this.time,
+            // id: this.lastId,
+            language: this.language.data,
+            date: this.date.data,
+            relationship: this.fallenRelative.data,
+            time: this.time.data,
             isAvailable: this.availableOnly,
         }
-
-        console.log(filter)
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: this.prevSearchInput, filters: filter })
+            body: JSON.stringify({ search: this.prevSearchInput, filters: filter, limit: { min: this.lastId, max: 5 } })
         })
         if (err) {
             this.error = err
             console.log(err)
         } else {
-            console.log(meetings)
-            let id;
+            this.loading = false
+
             if (!meetings.length) {
                 this.loadMoreButton = false
                 this.meetings = []
@@ -85,18 +89,16 @@ class MeetingsStore {
             }
             if (meetings.length <= 4) {
                 this.loadMoreButton = false
-                id = meetings[meetings.length - 1].id
             } else {
                 this.loadMoreButton = true
-                id = meetings[meetings.length - 2].id
             }
-            this.lastId = id
             if (!this.meetings) {
-                console.log('aaaaaaaaa')
                 this.meetings = meetings.slice(0, 4)
-                return
+
+            } else {
+                this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
-            this.meetings = this.meetings.concat(meetings.slice(0, 4))
+            this.lastId = this.meetings.length
         }
     }
 
@@ -121,6 +123,7 @@ decorate(MeetingsStore, {
     changeMeetingTime: action,
     changeAvailableOnly: action,
     error: observable,
+    loading: observable
 });
 
 export default new MeetingsStore();

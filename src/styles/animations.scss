@@ -1,4 +1,4 @@
-.grow{
+.grow , .grow-bold{
     transition: transform 0.5s ease;
 }
 
@@ -6,14 +6,8 @@
     transform: scale(1.05);
 }
 
-.grow-bold{
-    transition: font-weight 0.5s ease ,  transform 0.5s ease;
-
-}
-
 .grow-bold:hover{
-    font-weight: 500;
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 @media screen and (max-width: 550px){
@@ -26,22 +20,8 @@
         transform: scale(1);
     }
     
-    .grow-bold{
-        transition: font-weight 0.8s ease ,  transform 0.8s ease;
-    
-    }
-    
-    .grow-bold:active{
-        font-weight: normal;
-        transform: scale(1);
-    }
-    
     .grow:active{
         transform: scale(0.9);
     }
     
-    .grow-bold:hover{
-        font-weight: 500;
-        transform: scale(0.9);
-    }
 }

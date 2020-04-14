@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
 
 (async () => {
     const res = await fetch("https://api.zoom.us/v2/users", {
@@ -16,22 +17,22 @@ const useStyles = makeStyles({
     avatar: {
         height: 167,
         width: 132,
-        marginRight: 49
+        // marginRight: 49
     }
 });
 
-const MeetingFallen = ({ fallen: { name, falling_date, image_link } }) => {
+const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link } , LanguageStore }) => {
     const { avatar } = useStyles();
     return (
-        <div className="meetingFallen">
-            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} variant="rounded" />
-            <div className="meetingFallenDescription">
+        <div className={LanguageStore.lang !== 'heb' ? "meetingFallen fdrr" : "meetingFallen"}>
+            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} variant="square" />
+            <div className={LanguageStore.lang !== 'heb' ? "meetingFallenDescription tal" : "meetingFallenDescription tar"}>
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
-                <div className="fallenDate">{falling_date.split("T")[0]}</div>
+                <div className="fallenDate">{falling_date.split("T")[0].split('-')[2]}.{falling_date.split("T")[0].split('-')[1]}.{falling_date.split("T")[0].split('-')[0]} | {heb_falling_date}</div>
             </div>
         </div>
     );
 }
 
-export default MeetingFallen;
+export default inject('LanguageStore')(observer(MeetingFallen));

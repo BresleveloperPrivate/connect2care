@@ -1,28 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Assistant:300,400,600,700&display=swap');
 
-.mainPage-meetings , .imageOfFallen{
+.mainPage-meetings , .imageOfFallen {
     font-size:10px;
     @media screen and (max-width: 900px){
-        font-size: 9px;
+        font-size: 8.5px;
     }
     @media screen and (max-width: 800px){
-        font-size: 8px;
+        font-size: 7.5px;
     }
     @media screen and (max-width: 700px){
-        font-size: 7px;
+        font-size: 6.5px;
     }
     @media screen and (max-width: 600px){
-        font-size: 6px;
+        font-size: 5.5px;
     }
-    @media screen and (max-width: 500px){
-        font-size: 5px;
-    }
-    @media screen and (max-width: 400px){
-        font-size: 4px;
-    }
-    @media screen and (max-width: 300px){
-        font-size: 3px;
-    }
+
 }
 
 
@@ -62,6 +54,8 @@
     top: 0;
 }
 
+
+
 .containMenu{
     z-index: 11;
     position: fixed;
@@ -91,34 +85,59 @@
 }
 
 .navbarOptions{
-    width: 60%;
+    width: 75%;
     height: 100%;
     display: flex;
     justify-content: flex-end;
 }
 
 .navbarIcon{
-    width: 40%;
+    width: 25%;
     height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
+.oblogo{
+    margin-top: 1.4vh;
+    // margin-left: 0.5vw;
+}
+
 .containIconNavbar{
     height: 7vh;
     margin-left: 5%;
+    cursor: pointer;
 }
 
 .optionInNavbar{
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 600;
     color: var(--custom-blue);
     margin: 0px 2vw;
     margin-top: auto;
 }
 
+.lngNB{
+    position: fixed;
+    top: 10px;
+    margin: 0;
+    right: 10px;
+    border: 1px solid var(--custom-blue) !important;
+    border-radius: 100px;
+}
+
+.lgnP{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 @media screen and (max-width: 800px){
+    .navbar{
+        position: fixed !important;
+        top: 0 !important;
+    }
+
     .navbarIcon{
         width: 30%;
     }
@@ -140,11 +159,26 @@
     }
 }
 
+@media screen and (max-width: 1100px){
+   
+    .optionInNavbar{
+      font-size: 13px;
+    }
+}
 
-@media screen and (max-width: 850px){
+
+@media screen and (max-width: 1000px){
    
     .optionInNavbar{
       font-size: 12px;
+    }
+}
+
+
+@media screen and (max-width: 900px){
+   
+    .optionInNavbar{
+      font-size: 11px;
     }
 }
 

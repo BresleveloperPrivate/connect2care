@@ -23,14 +23,12 @@
     font-size: 1.5vh;
     background-color: white;
     padding-bottom: 1em;
-    padding-right: 7em;
-    margin-left: 3em;
+    padding:0 7em;
 }
 
 
 .bigContainer{
-    margin-right: 7em;
-    margin-left: 3em;
+    margin:0 7em;
     width: calc(100vw - 10em);
 }
 
@@ -87,14 +85,6 @@
     margin-bottom: 0.2em;
 }
 
-.annonymousPerson{
-    margin-left: 0.4em;
-}
-
-.whiteCandle{
-    margin-left: 0.4em;
-}
-
 .detailsInfo{
     font-size: 1.3em;
     color: white;
@@ -105,7 +95,7 @@
     display: flex;
     text-align: right;
     flex-direction: column;
-    margin-right: 2em;
+    margin: 0 2em;
     min-width: 30%;
 }
 
@@ -115,9 +105,11 @@
     margin-right: 0.4em;
 }
 
-.meetingDate{
+.meetingDateSuccess{
     font-size: 1.5em;
     margin-top: 1em;
+    display: flex;
+    align-items: center;
 }
 
 .isMeetingOpen{
@@ -179,9 +171,8 @@
 
     .whiteFutter{
         background-color: white;
+        padding: 0 1em;
         padding-bottom: 1em;
-        padding-right: 1em;
-        margin-left: 1em;
     }
     
     .backArrow{

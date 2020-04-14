@@ -10,12 +10,12 @@ const MeetingsList = (props) => {
             <table className="allTableStyle">
                 <tbody>
                     <tr className="tableHead">
-                        <th>תאריך</th>
-                        <th>שעה</th>
+                        <th>{props.t("date")}</th>
+                        <th>{props.t("time")}</th>
                         <th>חללים</th>
-                        <th>שם המנחה</th>
+                        <th>שם המארח/ת</th>
                         <th>קרבה</th>
-                        <th>שם המפגש</th>
+                        <th>{props.t("meetingName")}</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -66,7 +66,7 @@ const MeetingsList = (props) => {
                                         }
                                     </td>
                                     <td className='edit'>
-                                        <img alt="alt" src={pen} />
+                                        <img alt="alt" src={pen} onClick={()=>props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
                                     </td>
                                 </tr>
                             )
@@ -82,7 +82,7 @@ const MeetingsList = (props) => {
                             await props.ManagerStore.fetchMeetingsDashboard({}, true)
                         })()
                     }}>
-                    טען עוד
+                        {props.t("load more")}
                 </div> : null
             }
         </div>

@@ -1,7 +1,68 @@
-.App {
+.App-rtl {
+  font-family: 'Assistant';
   text-align: center;
   width: 100vw;
+  direction: rtl;
 }
+
+.App-ltr {
+  font-family: 'Assistant';
+  text-align: center;
+  width: 100vw;
+  direction: ltr;
+}
+
+.tar{
+  text-align: right;
+}
+
+.tal{
+  text-align: left;
+}
+
+.fdrr{
+  flex-direction: row-reverse;
+}
+
+::-webkit-scrollbar {
+  background-color: white !important;
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-button {
+  display: none
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #A3A6B4 !important;
+  border-radius: 16px;
+} 
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  letter-spacing: 0.24px;
+  color: #A3A6B4;
+  opacity: 0.5;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+  letter-spacing: 0.24px;
+  color: #A3A6B4;
+  opacity: 0.5;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+  letter-spacing: 0.24px;
+  color: #A3A6B4;
+  opacity: 0.5;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  letter-spacing: 0.24px;
+  color: #A3A6B4;
+  opacity: 0.5;
+}
+
 
 html {
   overflow-x: hidden;

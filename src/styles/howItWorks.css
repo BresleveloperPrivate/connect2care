@@ -10,8 +10,8 @@
     color: var(--custom-blue);
     font-size: 3vw;
     font-weight: 700;
-    text-align: right;
-    padding-right: 10vw;
+    /* text-align: right; */
+    padding: 0 7vw;
     padding-bottom: 1vw;
 }
 
@@ -36,12 +36,14 @@
     position: relative;
     border-radius: 5px;
     background-color: var(--custom-dark-blue);
-	width: 30%;
+	width: 35%;
     margin-right: 10px;
     height: 100%;
-    padding: 2vw;
+    padding: 2vw 6vw;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .arrow-left-gray {
@@ -70,6 +72,7 @@
   .containImageStep{
       width: 7vw;
       margin-bottom: 1vh;
+      height: 7vw;
   }
 
 
@@ -108,8 +111,8 @@
   .howItWorksOption{
       margin: 0 5vw;
       color: white;
-      text-align: right;
-      padding-right: 4vw;
+      /* text-align: right; */
+      padding: 0 3vw;
       padding-top: 2.5vh;
       font-size: 2.5vw;
       border-bottom: 1.5px solid white;
@@ -123,16 +126,18 @@
   }
 
   .resultText{
+      /* text-align: right; */
       padding-top: 2vw;
-      font-size: 2vw;
+      font-size: 1.5vw;
       color: white;
       font-weight: 300;
   }
 
   .remember{
+      /* text-align: right; */
       color: white;
       font-weight: 600;
-      font-size: 5vw;
+      font-size: 4vw;
   }
 
   
@@ -156,6 +161,7 @@
     .containImageStep{
         width: 12vw;
         margin-bottom: 1vh;
+        height: 12vw;
     }
 
     .howItWorks{
@@ -174,6 +180,7 @@
         padding-bottom: 3vh;
     }
     .result{
+        align-items: center;
         position: relative;
         border-radius: 0px;
         width: 100%;
@@ -231,14 +238,15 @@
 
       .howItWorksOption{
         margin: 0 5vw;
-        padding-right: 4vw;
+        padding: 0 4vw;
         padding-top: 2.5vh;
         font-size: 5vw;
         border-bottom: 0.7px solid white;
     }
 
     .resultText{
-        font-size: 4vw;
+        font-size: 3.5vw;
+        text-align: center;
     }
   
     .remember{

@@ -1,13 +1,17 @@
 .selectContainer{
     color: var(--custom-gray);
-    position: relative;
     height: 100%;
+    position: relative;
 }
 
 .select, .optionsContainer{
     background-color: var(--custom-background-light-blue);
     border-radius: 5px;
     /* margin-bottom: 3px; */
+}
+
+.rtl{
+    direction: rtl;
 }
 
 .optionsContainer{
@@ -17,6 +21,7 @@
     overflow: auto;
     max-height: 200px;
     z-index: 1;
+    margin-top: 0.6vh;
 }
 
 .sometingSelected{

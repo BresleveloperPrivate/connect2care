@@ -15,6 +15,18 @@
     height: 8vh;
 }
 
+.containShareOptions{
+    left: 0;
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgb(138, 138, 138);
+}
+
+.shareOption{
+    direction: ltr;
+    padding: 5px 20px;
+}
+
 .containSharingImage{
     display: flex;
     height: 4vh;
@@ -50,7 +62,7 @@
 }
 
 #platformIcon{
-    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 #platformName{

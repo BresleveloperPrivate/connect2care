@@ -26,11 +26,6 @@
             "model": "people",
             "foreignKey": "owner"
         },
-        "zoom": {
-            "type": "belongsTo",
-            "model": "zoom",
-            "foreignKey": "zoomId"
-        },
         "fallens_meetings": {
             "type": "hasMany",
             "model": "fallens_meetings",
@@ -180,15 +175,15 @@
             }
         },
         "zoomId": {
-            "type": "Number",
+            "type": "String",
             "required": false,
-            "length": null,
+            "length": 20,
             "precision": null,
             "scale": null,
             "mysql": {
                 "columnName": "zoomId",
-                "dataType": "int",
-                "dataLength": null,
+                "dataType": "varchar",
+                "dataLength": 20,
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "N"
@@ -222,6 +217,21 @@
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "N"
+            }
+        },
+        "code": {
+            "type": "Number",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "code",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
             }
         }
     },

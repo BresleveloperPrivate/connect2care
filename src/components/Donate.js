@@ -9,10 +9,10 @@ class Donate extends Component {
             <div className='donateImage'>
                 <div className='containDonate'>
                     
-                  <div className='donateText'>רוצה לעזור לנו להמשיך לזכור?</div>  
+                  <div className='donateText'>{this.props.t("wantToHelpUsKeepRemembering")}</div>  
                     <div className='pointer grow donateButton' onClick={()=>{
                         window.open('https://ourbrothers.co.il/donate')
-                    }}>לתרומה לעמותה</div>
+                    }}>{this.props.t("toDonateToTheNonprofit")}</div>
                     
                     </div>
 

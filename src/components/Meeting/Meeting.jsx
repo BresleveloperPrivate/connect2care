@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { inject, observer } from 'mobx-react';
 
 import { IconButton, ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core';
-import { ArrowForward } from "@material-ui/icons";
+// import { ArrowForward } from "@material-ui/icons";
 
 import Auth from '../../modules/auth/Auth';
 
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack } }) => {
+const Meeting = ({ match: { params }, history: { goBack }, t }) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});
@@ -53,21 +54,23 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
         <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-                    <div id="meetingButtons">
-                        <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton>
+                    {isOpen !== null && isOpen !== undefined && isOpen &&<div id="meetingButtons">
+                        {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
                             styleObject={{ fontSize: '2em', imageHeight: '24px' }}
                             meetingId={meetingId}
                             data={meeting}
+                            t={t}
                         />
-                    </div>
+                    </div>}
 
-                    <MeetingTop name={name} owner={owner} description={description} date={date} time={time} />
+                    <MeetingTop t={t} name={name} owner={owner} description={description} date={date} time={time} />
 
                     {fallens.length !== 0 && (
                         <div id="meetingFallenList">
                             {fallens.map((fallen, index) => (
+                                // console.log(fallen)
                                 <MeetingFallen key={index} fallen={fallen} />
                             ))}
                         </div>
@@ -78,11 +81,11 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
                 <MeetingBottom numOfPeople={numOfPeople} />
 
             </div>
-            {!!name && (isOpen !== null && isOpen !== undefined && isOpen && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+            {!!name && (isOpen !== null && isOpen !== undefined && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
+                <MeetingLeftOpen code={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} available={meeting.max_participants > meeting.participants_num} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (
-                    <MeetingLeftClosed full={maxNum && numOfPeople && maxNum <= numOfPeople} />
+                    <MeetingLeftClosed t={t} />
                 )
             )}
         </div>
@@ -91,8 +94,8 @@ const Meeting = ({ match: { params }, history: { goBack } }) => {
 
 const theme = createMuiTheme({ direction: "rtl", palette: { primary: { main: "#082551" }, secondary: { main: "#3586B1" } } });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <Meeting {...props} />
     </ThemeProvider>
-);
+)));

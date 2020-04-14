@@ -12,7 +12,7 @@ class openingImage extends Component {
             <div className='openingImage'>
                 {/* <img className='openingImage' src={openImage} width='100%' /> */}
                 <img className='lightBlueBackground' src={lightBlueBackground} />
-               
+                <div className='whiteLine'> </div>
                 <OptionsButtons t={this.props.t} className='containOptions' />
 
             </div>

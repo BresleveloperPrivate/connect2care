@@ -13,18 +13,46 @@ $navBarMargin: 10vh;
     }
 }
 
+.containCodeDiv{
+    padding: 3vh 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    color: white;
+    font-size: 2.5em;
+    margin: auto;
+}
+
+.codeInput{
+    outline: none;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 255, 0.226);
+    color: white;
+    border: none;
+    padding: 1vh 2vw;
+    text-align: center;
+    width: 7em;
+    margin-top: 1vh;
+}
+
+.codeInput::placeholder{
+    color: rgb(255, 255, 255) !important;
+}
+
 #meetingPage {
+    direction: rtl;
     display: flex;
     flex-direction: column;
 }
 
 #meetingPageMain {
-    padding-top: calc(10vh + 2vw);
+    padding-top:  2vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    // left Width
+    padding-top: calc(10vh + 2vw);
     width: calc(100vw - 40em);
 
     #meetingMainMain {
@@ -33,7 +61,7 @@ $navBarMargin: 10vh;
 
         #meetingButtons {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
         }
 
@@ -73,6 +101,7 @@ $navBarMargin: 10vh;
 
         #meetingFallenList {
             margin: 2vh 0;
+         
 
             .meetingFallen {
                 display: flex;
@@ -80,8 +109,10 @@ $navBarMargin: 10vh;
                 align-items: flex-end;
                 margin-bottom: 24px;
 
+                // flex-direction: column;
+
                 .meetingFallenDescription {
-                    text-align: right;
+                    padding: 0 30px;
 
                     .fallenCandle {
                         height: 3em;
@@ -166,7 +197,6 @@ $navBarMargin: 10vh;
 
     #meetingLeftDescription {
         font-size: 2.5em;
-        text-align: right;
         color: white;
     }
 
@@ -179,6 +209,11 @@ $navBarMargin: 10vh;
 }
 
 @media screen and (max-width: 800px) {
+
+    .containCodeDiv{
+        margin: 0;
+    }
+
     #meetingPage {
         display: flex;
         flex-direction: column;
@@ -253,6 +288,42 @@ $navBarMargin: 10vh;
                      
     #meetingDateTime {
         font-size: 2.8em;
+    }
+
+    #meetingPageMain {
+        #meetingPageBottom{
+            #peopleCircleText {
+                margin: 10px 0 0 0;
+            }
+        }   
+    }
+
+    #meetingPageMain {
+        #meetingPageBottom{
+            flex-direction: column;
+        }
+    }
+
+    #meetingPageMain{
+        #meetingMainMain{
+             #meetingFallenList{
+
+                .meetingFallen {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 24px;
+
+                    flex-direction: column;
+
+                    .meetingFallenDescription {
+                        text-align: center;
+                        padding: 0px;
+                        padding-top: 10px;
+                    }
+                }
+            }
+        }
     }
  
 }

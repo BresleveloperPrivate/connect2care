@@ -7,6 +7,9 @@ class CreateMeetingStore {
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
+    fallensToDelete = []
+    fallensToAdd = []
+    fallensToChange = []
     meetingDetailsOriginal = {
         name: "",
         description: "",
@@ -18,10 +21,12 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: "",
-        time: "00:00",
-        max_participants: "",
+        timeHour: "20",
+        timeMinute: "30",
+        max_participants: 300,
         fallens: null,
-        zoomId: 0,
+        zoomId: "",
+        otherRelationship: null
     }
     allMeetings = null;
 
@@ -29,12 +34,42 @@ class CreateMeetingStore {
 
     error = null;
     waitForData = false;
-    otherRelationship = null;
     meetingId = -1;
 
     changeMeetingName = (e) => {
         if (e.length > 100) return
         this.meetingDetails.name = e.target.value
+    }
+
+    resetAll = () => {
+        this.fallenDetails = null;
+        this.fallenName = null;
+        this.nameMessage = "";
+        this.meetingDetailsOriginal = {
+            name: "",
+            description: "",
+            owner: {
+                name: "",
+                phone: "",
+                email: ""
+            },
+            language: "",
+            isOpen: "",
+            date: "",
+            timeHour: "20",
+            timeMinute: "30",
+            max_participants: 300,
+            fallens: null,
+            zoomId: "",
+            otherRelationship: null
+        }
+        this.allMeetings = null;
+
+        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+
+        this.error = null;
+        this.waitForData = false;
+        this.meetingId = -1;
     }
 
     setMeetingId = (meetingId) => {
@@ -48,7 +83,7 @@ class CreateMeetingStore {
         }
         this.fallenDetails[id] = {
             name: fallen.name,
-            fallingDate: fallen.falling_date.split("T")[0] + "| " + fallen.heb_falling_date,
+            fallingDate: fallen.falling_date.split("T")[0] + " | " + fallen.heb_falling_date,
             image: fallen.image_link,
             meetings: fallen.meetings
         }
@@ -58,15 +93,18 @@ class CreateMeetingStore {
     changeFallens = (index, number = null) => {
         if (this.meetingDetails.fallens === null) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            this.otherRelationShip = [{ id: index, relative: "" }]
+            if (this.meetingDetails.otherRelationShip === null)
+                this.meetingDetails.otherRelationShip = [{ id: index, relative: "" }]
         }
         else if (this.meetingDetails.fallens.length >= index) {
             this.meetingDetails.fallens[index] = { id: number, relative: null }
-            this.otherRelationShip[index] = { id: number, relative: "" }
+            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length >= index)
+                this.meetingDetails.otherRelationShip[index] = { id: number, relative: "" }
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            this.otherRelationShip.push({ id: number, relative: "" })
+            if (this.meetingDetails.otherRelationShip)
+                this.meetingDetails.otherRelationShip.push({ id: number, relative: "" })
         }
     }
 
@@ -80,42 +118,46 @@ class CreateMeetingStore {
     }
 
     setOtherRelationship = (e, index) => {
-        if (!this.otherRelationShip || (this.otherRelationShip && !this.otherRelationShip.length)) {
-            this.otherRelationShip = [{ id: null, relative: e.target.value }]
+        let id = null
+        if (this.meetingDetails.fallens[index])
+            id = this.meetingDetails.fallens[index].id
+        if (!this.meetingDetails.otherRelationShip || (this.meetingDetails.otherRelationShip && !this.meetingDetails.otherRelationShip.length)) {
+            this.meetingDetails.otherRelationShip = [{ id: id, relative: e.target.value }]
             return
         }
         else {
-            if (this.otherRelationShip[index])
-                this.otherRelationShip[index].relative = e.target.value
+            if (this.meetingDetails.otherRelationShip[index])
+                this.meetingDetails.otherRelationShip[index].relative = e.target.value
             else
-                this.otherRelationShip[index].relative = { id: null, relative: e.target.value }
+                this.meetingDetails.otherRelationShip[index] = { id: id, relative: e.target.value }
 
         }
     }
 
-    changeFallenName = (e, index) => {
+    changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
         }
         if (index === this.fallenName.length)
-            this.fallenName.push(e.target.value)
+            this.fallenName.push(event)
         else if (index < this.fallenName.length)
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         else {
             for (let i = this.fallenName.length; i < index; i++)
                 this.fallenName[i] = ""
-            this.fallenName[index] = e.target.value
+            this.fallenName[index] = event
         }
     }
 
     changeFallenRelative = (option, index) => {
+        console.log(option)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -153,17 +195,21 @@ class CreateMeetingStore {
     }
 
     getAllMeetings = async () => {
-        if (!this.allMeetings) {
-            let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
-            if (err || !success)
-                this.error = "משהו השתבש, נסה שנית מאוחר יותר"
-            if (success)
-                this.allMeetings = success
-        }
-        this.nameMessage = ""
-        for (let i = 0; i < this.allMeetings.length; i++) {
-            if (this.allMeetings[i].name === this.meetingDetails.name)
-                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+        if (this.meetingDetails.name && this.meetingDetails.name !== "") {
+            if (!this.allMeetings) {
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                if (err || !success) {
+                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    return
+                }
+                if (success)
+                    this.allMeetings = success
+            }
+            this.nameMessage = ""
+            for (let i = 0; i < this.allMeetings.length; i++) {
+                if (this.allMeetings[i].name === this.meetingDetails.name)
+                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            }
         }
     }
 
@@ -179,10 +225,19 @@ class CreateMeetingStore {
     }
 
     changeDetailsObjFunc = (object) => {
-        if (object.fallens && object.fallens.length) {
-            this.fallenDetails = null;
-            this.fallenName = null;
+        object.fallens = []
+        for (let i of object.fallens_meetings) {
+            let fallen = {}
+            for (let key in i.fallens) {
+                fallen[key] = i.fallens[key]
+            }
+            fallen.relationship = i.relationship
+            object.fallens.push(fallen)
         }
+        delete object.fallens_meetings
+        let hour = object.time.split(":")[0]
+        let minute = object.time.split(":")[1]
+
         this.meetingDetailsOriginal = {
             name: object.name,
             description: object.description,
@@ -194,29 +249,61 @@ class CreateMeetingStore {
             language: object.language,
             isOpen: object.isOpen,
             date: object.date,
-            time: object.time,
-            max_participants: "",
+            timeHour: hour,
+            timeMinute: minute,
+            max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
-            zoomId: 0,
+            zoomId: "",
+        }
+
+        if (object.fallens && object.fallens.length) {
+            for (let i = 0; i < object.fallens.length; i++) {
+                this.changeFallenDetails(object.fallens[i], i)
+                if (!this.fallenName) this.fallenName = []
+                this.fallenName.push(object.fallens[i].name)
+                let obj = {}
+                obj.id = object.fallens[i].id
+                obj.relative = object.fallens[i].relationship
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                    obj.relative = 'אחר'
+                    if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
+                    if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
+                    this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
+                    this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
+                }
+                this.meetingDetails.fallens[i] = obj
+                this.meetingDetailsOriginal.fallens[i] = obj
+            }
         }
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
     getMeetingDetails = async () => {
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", "fallens"]}`);
+        if (this.meetingId === -1) return
 
-        console.log("success", success)
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
+
         if (err) {
             this.error = err
         }
         if (success) {
-
             this.changeDetailsObjFunc(success[0])
         }
     }
 
-    changeMeetingTime = (event) => {
-        this.meetingDetails.time = (event.getHours() < 10 ? '0' : '') + event.getHours() + ":" + (event.getMinutes() < 10 ? '0' : '') + event.getMinutes()
+    deleteFromFallens = (index) => {
+        let id = this.meetingDetails.fallens[index].id
+        this.meetingDetails.fallens.splice(index, 1)
+        if (this.meetingDetails.otherRelationShip) this.meetingDetails.otherRelationShip.splice(index, 1)
+        if (this.fallenDetails && this.fallenDetails[id]) this.fallenDetails[id] = undefined
+    }
+
+    changeMeetingTimeHour = (event) => {
+        this.meetingDetails.timeHour = event
+    }
+
+    changeMeetingTimeMinute = (event) => {
+        this.meetingDetails.timeMinute = event
     }
 
     equals = (obj1, obj2) => {
@@ -244,10 +331,21 @@ class CreateMeetingStore {
         return objToreturn
     }
 
+    whatChanged = (objToPost, objOriginal) => {
+        let objToreturn = {}
+        for (let i in objToPost) {
+            if (objToPost[i] && objOriginal[i] && typeof objToPost[i] === 'object' && typeof objOriginal[i] === 'object') {
+                if (!this.equals(objToPost[i], objOriginal[i])) objToreturn[i] = objToPost[i]
+            }
+            else if (objToPost[i] !== objOriginal[i]) objToreturn[i] = objToPost[i]
+        }
+        return objToreturn
+    }
+
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        if (this.otherRelationShip && this.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
-            let checkOtherRelation = JSON.parse(JSON.stringify(this.otherRelationShip))
+        if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
                 checkOtherRelation.filter((other) => {
                     if (other.id === fallen.id) {
@@ -259,16 +357,30 @@ class CreateMeetingStore {
         let zoomId = beforePostJSON.zoomId
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
+        delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.max_participants
+        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
+        delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
+            this.setError("כל השדות צריכים להיות מלאים")
+            return
+        }
+        for (let i = 0; i < beforePostJSON.fallens.length; i++) {
+            if (!beforePostJSON.fallens[i] || !beforePostJSON.fallens[i].id || beforePostJSON.fallens[i].id === 0 || !beforePostJSON.fallens[i].relative) {
+                this.setError("כל השדות צריכים להיות מלאים")
+                return
+            }
+        }
+        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
         }
         beforePostJSON.zoomId = zoomId
-
+        beforePostJSON.time = this.meetingDetails.timeMinute + ":" + this.meetingDetails.timeHour
         this.waitForData = true
-        console.log(this.waitForData)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createMeeting/`,
             {
@@ -278,31 +390,103 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err || !success) {
-            console.log("err", err)
-            if (err && err.error && err.error.isOpen)
-                this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
-            else if (err && err.error && err.error.max_participants)
-                this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
-            else if (err && err.error && err.error.name)
-                this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
-            else if (err && err.error && err.error.description)
-                this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
-            else if (err && err.error && err.error.language)
-                this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
-            else if (err && err.error && err.error.time)
-                this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
-            else if (err && err.error && err.error.date)
-                this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
-            else if (err && err.error && err.error.relationship)
-                this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
-            else if (err && err.error && err.error.msg)
-                this.error = err.error.msg
-            else
-                this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            this.postErr(err)
             return
         }
-        console.log("success", success)
         return success
+    }
+
+    updateMeeting = async () => {
+        let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
+        let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
+
+        if (Object.keys(changedObj).length === 0) return
+        if (changedObj.owner) {
+            changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+        }
+
+        // if (changedObj.fallens) {
+        //     for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
+        //         let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
+        //         if (index === -1) {
+        //             fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
+        //         }
+        //         else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
+        //             if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
+        //                 if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
+        //                     fallensToChange.push(beforePostJSON.otherRelationShip[Number(index)])
+        //                 }
+        //                 else fallensToChange.push(beforePostJSON.fallens[Number(index)])
+        //             }
+        //             else {
+        //                 if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
+        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     beforePostJSON.fallens.filter(afterFallen => {
+        //         console.log("afterFallen", afterFallen)
+        //         if (afterFallen.id === null || afterFallen.relative === null) {
+        //             this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
+        //             return
+        //         }
+        //         let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
+        //         if (index === -1) {
+        //             fallensToAdd.push(afterFallen)
+        //         }
+        //     })
+        // }
+        // 
+
+        // if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
+        // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
+        // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
+
+        this.waitForData = true
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/updateMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: beforePostJSON, id: Number(this.meetingId) })
+            }, true);
+        this.waitForData = false
+        if (err) {
+            this.postErr(err)
+            return
+        }
+    }
+
+    postErr = (err) => {
+        console.log("err", err)
+        if (err && err.error && err.error.isOpen)
+            this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+        else if (err && err.error && err.error.email)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
+        else if (err && err.error && err.error.phone)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
+        else if (err && err.error && err.error.max_participants)
+            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+        else if (err && err.error && err.error.name)
+            this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+        else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+        else if (err && err.error && err.error.description)
+            this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+        else if (err && err.error && err.error.language)
+            this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+        else if (err && err.error && err.error.time)
+            this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+        else if (err && err.error && err.error.date)
+            this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+        else if (err && err.error && err.error.relationship)
+            this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+        else if (err && err.error && err.error.msg)
+            this.error = err.error.msg
+        else
+            this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
     }
 
     setError = (error) => {
@@ -322,14 +506,19 @@ decorate(CreateMeetingStore, {
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,
+    deleteFallenToArr: action,
+    addFallenToArr: action,
+    changeFallenToArr: action,
     changeNumberOfParticipants: action,
     setError: action,
     changeMeetingDate: action,
-    changeMeetingTime: action,
+    changeMeetingTimeHour: action,
+    changeMeetingTimeMinute: action,
     changeMeetingOpenOrClose: action,
     changeMeetingFacilitatorPhoneNumber: action,
     changeFallenRelative: action,
     getMeetingDetails: action,
+    resetAll: action,
     setOtherRelationship: action,
     changeMeetingLanguage: action,
     changeMeetingFacilitatorEmail: action,

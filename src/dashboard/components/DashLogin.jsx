@@ -2,6 +2,8 @@ import React from 'react';
 import Login from '../../modules/auth/Login'
 import Auth from "../../modules/auth/Auth";
 import GenericTools from '../../modules/tools/GenericTools'
+import logo from '../../icons/logo.svg'
+import '../style/login.css'
 
 class DashLogin extends Login {
 
@@ -57,29 +59,35 @@ class DashLogin extends Login {
         Auth.isAuthenticated() && this.redirect();
         return (
             <div className='loginPage'>
-                <div className="topBar d-flex align-items-center" style={{ width: '100vw' }}>
-                </div>
-                <div style={{ height: "7vh" }}></div>
                 <div className='containLoginMain'>
-                    <div>
+                    <div className='borderLoginMain'>
                         <form>
-                            <div>
-                                <input className="loginInput"
-                                    type='email'
-                                    ref='email'
-                                    onKeyDown={this._handleKeyDown}
-                                    onFocus={this.onFocus}
-                                    placeholder='אימייל'
-                                    required />
-                            </div>
-                            <div>
-                                <input className="loginInput"
-                                    type='password'
-                                    ref='pw'
-                                    onKeyDown={this._handleKeyDown}
-                                    onFocus={this.onFocus}
-                                    placeholder='סיסמא'
-                                    required />
+                            <img src={logo} alt='logo' className='logo' />
+                            <div className='loginText'>מערכת ניהול</div>
+                            <div className='position-relative'>
+                                <div>
+                                    <input className="loginInput"
+                                        type='email'
+                                        ref='email'
+                                        onKeyDown={this._handleKeyDown}
+                                        onFocus={this.onFocus}
+                                        placeholder='אימייל'
+                                        required />
+                                </div>
+                                <div>
+                                    <input className="loginInput"
+                                        type='password'
+                                        ref='pw'
+                                        onKeyDown={this._handleKeyDown}
+                                        onFocus={this.onFocus}
+                                        placeholder='סיסמא'
+                                        required />
+                                </div>
+                                <div className='loginError'
+                                    style={{ opacity: this.state.error ? '1' : '0' }}
+                                >
+                                    {this.state.error}
+                                </div>
                             </div>
                             {this.state.isLoading ?
                                 <div className='loginBtn'  >
@@ -95,13 +103,6 @@ class DashLogin extends Login {
                                 </div>
                             }
                         </form>
-                        <div style={{ position: 'relative' }}>
-                            <div className='loginError'
-                                style={{ opacity: this.state.error ? '1' : '0' }}
-                            >
-                                {this.state.error}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

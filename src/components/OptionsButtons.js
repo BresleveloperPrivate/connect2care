@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import '../styles/openingImage.css'
 import { withRouter } from 'react-router-dom';
+import { loadOptions } from '@babel/core';
+import { inject, observer } from 'mobx-react';
 
 
-class containOptions extends Component {
+class ContainOptions extends Component {
 
     render() {
         return (
 
             <div className={this.props.className}>
-                <div className='pointer grow firstOptionOpeningImage'
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'pointer grow firstOptionOpeningImage' : 'ml6vw pointer grow firstOptionOpeningImage'}
                     // onClick={() => {this.props.history.push('/create-meeting')}}
                     onClick={() => {
                         this.props && this.props.history.push("/create-meeting")
                     }}
-                >אני רוצה ליזום מפגש</div>
+                >{this.props.t('IWantToInitiateAMeeting')}</div>
                 <div onClick={()=>{
                     this.props.history.push('/meetings')
-                }} className='pointer grow secondOptionOpeningImage'>אני רוצה להשתתף במפגש</div>
+                }} className={this.props.LanguageStore.lang !== 'heb' ? 'ml6vw pointer grow secondOptionOpeningImage' : 'pointer grow secondOptionOpeningImage'}>{this.props.t('IWantToAttendAMeeting')}</div>
             </div>
 
         );
     }
 }
 
-export default withRouter(containOptions);
+export default inject('LanguageStore')(observer(withRouter(ContainOptions)));

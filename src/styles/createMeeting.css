@@ -1,12 +1,12 @@
 
 .createMeetingHeadLine{
-    font: Bold 40px/52px Assistant;
+    font: Bold 35px Assistant;
     letter-spacing: 0;
     color: #0A2D63;
 }
 
 .createMeetingSecondSentence{
-    font: normal 30px/40px Assistant;
+    font: normal 28px Assistant;
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
@@ -19,7 +19,8 @@
     border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
-    width: 65%;
+    width: calc(73% - 12vw);
+    /* width: 65%; */
     padding: 1vh 2vh;
     margin-bottom: 4vh;
 }
@@ -63,9 +64,9 @@ input[type=radio]:focus {
     border-radius: 29px;
     color: white;
     font: Bold 25px/33px Assistant;
-    padding: 1vh;
+    padding: 1vh 3vw;
     cursor: pointer;
-    width: 23vh;
+    width: fit-content;
     margin-bottom: 5vh;
     text-align: center;
 }
@@ -139,8 +140,13 @@ input[type=radio]:focus {
     padding: 0 2vh;
 }
 
+.CreateMeeting .changeDefauleSelectOpacity{
+    opacity: 0.8;
+}
+
 .CreateMeeting{
-    text-align: right
+    text-align: right;
+    direction: rtl;
 }
 
 .candleImg{
@@ -150,10 +156,16 @@ input[type=radio]:focus {
 }
 
 ::placeholder, ::-moz-placeholder, :-moz-placeholder,  :-ms-input-placeholder, ::-webkit-input-placeholder{
+    color: black
+}
+
+.inputStyle::placeholder, .inputStyle input::placeholder{
+    /* color: black; */
+    opacity: 0.8 !important;
     color: var(--custom-gray)
 }
 
-.CreateMeeting .arrowInput{
+.CreateMeeting .arrowInput-tal, .CreateMeeting .arrowInput-tar{
     margin-left: 2vh !important;
 }
 
@@ -237,7 +249,8 @@ input[type=radio]:focus {
     display: flex;
     margin-right: 6vw;
     justify-content: flex-end;
-    width: 65%;
+    width: calc(73% - 12vw);
+    /* width: 65%; */
 }
 
 #containDetailsSideBar{
@@ -317,13 +330,23 @@ input[type=radio]:focus {
 
 .exictingPic{
     width: fit-content;
-    margin-right: 6vw;
     position: relative;
+    border-radius: 4px;
+
+}
+
+.timeDot{
+    font-size: 3vh;
+    height: fit-content;
+    margin-bottom: 4vh;
+    padding: 0 2vh;
+    font-weight: bold;
+    color: var(--custom-gray);
 }
 
 .containNameExist{
     display: flex;
-    padding: 0vh 2vh;
+    padding: 0vh 1vh;
     margin: 0 7vw;
     color: #EC5A5A;
     font: normal 13px/20px Assistant;
@@ -373,13 +396,24 @@ input[type=radio]:focus {
     .containFallenDetails{
         display: flex;
         align-items: flex-start;
-        width: 65%;
+        width: calc(73% - 12vw);
+        /* width: 65%; */
         margin-right: 6vw;
+    }
+
+    .listSearch{
+        width: 100%;
+    }
+
+    .fallenSearchDiv{
+        width: 95%;
     }
 
     .containSelectTime{
         width: 30%;
         margin-right: 2vh;
+        display: flex;
+        align-items: center;
     }
 
     .containDateInput{
@@ -391,7 +425,8 @@ input[type=radio]:focus {
     }
 
     .containDateAndTime{
-        width: 65%;
+        width: calc(73% - 12vw);
+        /* width: 65%; */
         display: flex;
         margin-right: 6vw;
         align-items: flex-end;
@@ -401,11 +436,11 @@ input[type=radio]:focus {
 
 @media screen and (max-width: 550px){
     .createMeetingHeadLine{
-        font: Bold 25px/33px Assistant;
+        font: Bold 28px Assistant;
     }
     .createMeetingSecondSentence{
         margin: 0 6vw;
-        font: normal 20px/26px Assistant;
+        font: normal 20px Assistant;
         max-width: calc( 100% - 12vw);
     }
 
@@ -415,15 +450,28 @@ input[type=radio]:focus {
     }
 
 
-    .searchStyle{
+    .fallenSearchDiv{
+        width: 100%;
+    }
+
+    .listSearch{
+        width: calc(100% - 12vw);
         margin-right: 6vw;
     }
+
+    /* .searchStyle{
+        margin-right: 6vw;
+    } */
     
     .inputStyle{
         width: calc( 100% - 12vw) !important;
         margin-left: 6vw;
         font-size: 18px;
         margin-right: 6vw;
+    }
+
+    .containFallenDetails{
+        width: 80%;
     }
 
     .containFallenDetailsSide{
@@ -444,7 +492,7 @@ input[type=radio]:focus {
     }
 
     .createMeetingButton{
-        width: 30vh;
+        width: fit-content;
         margin-bottom: 8vh;
     }
 
@@ -464,11 +512,11 @@ input[type=radio]:focus {
     }
 
     .containInputTextSide{
-        min-height: 60vh;
+        min-height: 435px;
         max-height: 60vh;
         min-width: calc(100vw - 4vh);
         overflow-y: auto;
-        top: 26vh;
+        top: 20vh;
         text-align: center;
         padding: 5vh 6vh;
         right: 2vh;
@@ -490,6 +538,7 @@ input[type=radio]:focus {
 
     #containDetailsSideBar{
         max-height: 50vh;
+        min-height: 345px;
     }
 
     .textSide{

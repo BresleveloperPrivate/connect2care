@@ -1,8 +1,10 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useRef } from 'react';
 
 import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
 
 import Auth from '../../modules/auth/Auth';
+import checkboxOnWhite from '../../icons/checkbox_on_light_white.svg'
+import checkboxOffWhite from '../../icons/checkbox_off_light_white.svg'
 
 const useStyles = makeStyles(theme => ({
     input: {
@@ -36,12 +38,18 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
+let v = false;
+
+const MeetingLeftOpen = ({ meetingId, setNumOfPeople, available, props, t, mailDetails }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [readBylaw, setReadBylaw] = useState(false)
+    // const readBylawRef = useRef();
+
+
 
     const { input, sendButton, sendLabel } = useStyles();
 
@@ -49,52 +57,93 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople , available }) => {
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
         if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
+        if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
 
-        if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
-        if (!/^(.+)@(.+){2,}\.(.+){2,}$/.test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
-        if (!/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/.test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
+        // if (!/^['"\u0590-\u05fe\s.-]*$/.test(name)) { setErrorMsg('השם אינו תקין'); return; }
+        if (!(/^(.+)@(.+){2,}\.(.+){2,}$/).test(email)) { setErrorMsg('הדואר אלקטרוני אינו תקין'); return; }
+        if (!(/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/).test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
 
         setLoading(true);
+
+        let text = null;
+        if (mailDetails.fallens && typeof mailDetails.fallens !== "string") {
+            if (mailDetails.fallens.length === 1)
+                text = ` לזכרו של ${mailDetails.fallens[0].name} ז"ל`
+            else {
+                text = `לזכרם של `;
+                mailDetails.fallens.map((x, index) => {
+                    if (index === 0) {
+                        text = text + `${x.name}`
+                    }
+                    else {
+                        if (index === mailDetails.fallens.length - 1) {
+                            text = text + ` ו${x.name}`
+                        }
+                        else {
+                            text = text + `, ${x.name}`
+                        }
+                    }
+                })
+            }
+        }
+        mailDetails.fallensText = text;
 
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ name, email, phone })
+            body: JSON.stringify({ name, email, phone, mailDetails })
         });
 
         setLoading(false);
 
-        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg); return; }
+        if (error || response.error) { console.error('ERR:', error || response.error); error && setErrorMsg(error.msg);
+        console.log(error)
+        if(error && error.error && error.error.code === "ER_DUP_ENTRY"){
+            setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
+        }
+        return; }
 
+        setErrorMsg(null);
         setName('');
         setEmail('');
         setPhone('');
+        setReadBylaw(false);
         alert('הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone, meetingId]);
+    }, [name, email, phone, readBylaw, meetingId]);
 
     const inputs = useMemo(() => [
         [name, setName, 'שם'],
-        [email, setEmail, 'דואר אלקטרוני'],
-        [phone, setPhone, 'טלפון']
+        [email, setEmail, t("email")],
+        [phone, setPhone, t("phone")],
+
     ], [name, email, phone]);
 
     return (
         <div id="meetingPageLeft">
             <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
-            <div id="meetingLeftTitle">{available ? 'הצטרף למפגש' : 'לא ניתן להצטרף למפגש'}</div>
-            <div id="meetingLeftDescription">{available ? 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת'  : 'אין עוד מקומות פנויים במפגש זה'}</div>
+            <div id="meetingLeftTitle">הצטרף למפגש</div>
+            <div id="meetingLeftDescription">מלא את הפרטים ואנו נשלח לך קישור ותזכורת </div>
 
             {available &&
-             <div>
-                 <form>
-                {inputs.map(([value, setValue, placeholder], index) => (
-                    <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
-                ))}
-            </form>
-            {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-            <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease'}} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
-            </div>
+                <div>
+                    <form>
+                        {inputs.map(([value, setValue, placeholder], index) => (
+                            <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                        ))}
+                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                            <div>
+                            <img style={{cursor:'pointer'}} onClick={()=>{setReadBylaw(!readBylaw); setErrorMsg(null);}} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+
+                            </div>
+                            {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
+                            <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</label>
+                        </div>
+
+                    </form>
+                    {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
+                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>שלח</Button>
+                </div>
             }
         </div>
     );
