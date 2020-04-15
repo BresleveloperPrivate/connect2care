@@ -495,9 +495,9 @@ module.exports = function (meetings) {
                 let meeting = await meetings.findById(meetingId,{ include: [{ "relation": 'meetingOwner', "scope": { "fields": ["name"] } }, 'fallens'] });
                 if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
                 // console.log(meeting.approved)
-                console.log("meeting", meeting.code)
+                // console.log("meeting", meeting.code)
                 meeting = JSON.parse(JSON.stringify(meeting))
-                // delete meeting.code;
+                delete meeting.code;
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
