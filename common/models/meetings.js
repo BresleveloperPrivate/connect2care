@@ -1,5 +1,5 @@
 'use strict';
-
+const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
@@ -492,9 +492,12 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'fallens'] });
+                let meeting = await meetings.findById(meetingId,{ include: [{ "relation": 'meetingOwner', "scope": { "fields": ["name"] } }, 'fallens'] });
                 if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
-                console.log(meeting.approved)
+                // console.log(meeting.approved)
+                console.log("meeting", meeting.code)
+                meeting = JSON.parse(JSON.stringify(meeting))
+                // delete meeting.code;
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
@@ -637,6 +640,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
+            // getZoomUser()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -737,7 +741,7 @@ module.exports = function (meetings) {
     })
 
 
-    meetings.approveMeeting = (email, id,nameOwner, cb) => {
+    meetings.approveMeeting = (email, id, nameOwner, cb) => {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
             let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
