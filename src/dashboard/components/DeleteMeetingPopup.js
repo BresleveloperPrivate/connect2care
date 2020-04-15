@@ -23,7 +23,7 @@ export default function DaleteMeetingPopup(props) {
             setErr(true)
             return
         }
-        props.history.replace('/dashboard')
+        props.history.replace('/ngsgjnsrjgtesg')
     }
 
     return (
