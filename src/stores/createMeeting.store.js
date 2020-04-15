@@ -198,7 +198,7 @@ class CreateMeetingStore {
     getAllMeetings = async () => {
         if (this.meetingDetails.name && this.meetingDetails.name !== "") {
             if (!this.allMeetings) {
-                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/getAll`)
                 if (err || !success) {
                     this.error = "משהו השתבש, נסה שנית מאוחר יותר"
                     return
@@ -283,7 +283,6 @@ class CreateMeetingStore {
 
     getMeetingDetails = async () => {
         if (this.meetingId === -1) return
-
         let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
         console.log("success", success)
         if (err) {

@@ -1,14 +1,14 @@
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
-import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
-import { Search } from "@material-ui/icons";
+import { createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
+// import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
 import { inject, observer } from 'mobx-react';
 
 import Auth from '../modules/auth/Auth';
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
-import { useLanguageStore } from '../stores/language.store';
+// import { useLanguageStore } from '../stores/language.store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useOnClickOutside from './UseOnClickOutside'
@@ -62,8 +62,12 @@ const SearchFallen = observer((props) => {
         // else 
         setShowOptions(false);
         setSearchValue(fallen.name);
-
-        const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
+        // const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
+        const [response, error] = await Auth.superAuthFetch(`/api/fallens/getFallen`, {
+            method: "POST",
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ id: fallen.id })
+        });
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
         if (response && response.meetings && response.meetings.length)

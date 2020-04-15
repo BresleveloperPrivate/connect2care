@@ -19,13 +19,15 @@ class HowItWorks extends Component {
 
     componentDidMount = async () => {
 
-        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
+        // let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
+        let [meetings, err] = await Auth.superAuthFetch('/api/meetings/get38Meetings', {
             method: 'GET',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
         if (err) {
             console.log(err)
         } else {
+            console.log("meetings", meetings)
             let i = 0
             let meeting = 0
             while (constImages.length < 32) {
@@ -39,9 +41,10 @@ class HowItWorks extends Component {
                                     image: meetings[meeting].fallens[j].image_link,
                                     alt: meetings[meeting].fallens[j].firstName
                                 }
-                            )}
-                            // i++
-                        
+                            )
+                        }
+                        // i++
+
                     }
                     meeting++
                 }
@@ -83,7 +86,7 @@ class HowItWorks extends Component {
                     <div className='topLabel'>
                         <div className='label'>
                             {this.props.t('ConnectRemember')}
-                            </div>
+                        </div>
                     </div>
                     <div className='container'>
 

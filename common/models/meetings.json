@@ -250,5 +250,43 @@
             }
         }
     },
-    "acls": []
+    "acls": [
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "DENY",
+            "property": "*"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": [
+                "getMeetingsUser",
+                "createMeeting",
+                "GetMeetingInfo",
+                "AddPersonToMeeting",
+                "SendShareEmail",
+                "get38Meetings",
+                "getAll"
+            ]
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "SUPERADMIN",
+            "permission": "ALLOW",
+            "property": [
+                "updateMeeting",
+                "getMeetingsDashboard",
+                "deleteMeeting",
+                "approveMeeting"
+            ]
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "SUPERADMIN",
+            "permission": "ALLOW",
+            "property": "*"
+        }
+    ]
 }

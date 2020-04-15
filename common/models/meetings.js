@@ -83,8 +83,10 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-                        if (err1) {
+                    // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+    
+                    if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
@@ -492,12 +494,12 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                let meeting = await meetings.findById(meetingId,{ include: [{ "relation": 'meetingOwner', "scope": { "fields": ["name"] } }, 'fallens'] });
+                let meeting = await meetings.findById(meetingId,{"fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
                 if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
                 // console.log(meeting.approved)
                 // console.log("meeting", meeting.code)
                 meeting = JSON.parse(JSON.stringify(meeting))
-                delete meeting.code;
+                // delete meeting.code;
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
@@ -771,6 +773,44 @@ module.exports = function (meetings) {
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
     })
+
+    meetings.get38Meetings = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "include": [{ "relation": "fallens" }], "limit": "38" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('get38Meetings', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+    meetings.getAll = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false },"limit": "6000" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('getAll', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+
 
 
 };
