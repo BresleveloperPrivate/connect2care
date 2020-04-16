@@ -291,7 +291,7 @@ class CreateMeetingStore {
 
     getMeetingDetails = async () => {
         if (this.meetingId === -1) return
-        let [success, err] = await Auth.superAuthFetch(`/api/getMeetingById`, {
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings/getMeetingById`, {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ meetingId: Number(this.meetingId) })
