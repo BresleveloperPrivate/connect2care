@@ -79,15 +79,15 @@ const FallenDetails = (props) => {
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
                         onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
+                    {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ?
+                        <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "-30px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
+                            <img src={speachBooble} alt="speachBooble" />
+                            <div className="position-absolute" style={{ paddingTop: "1vh", fontSize: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                                <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
+                                {props.t('bringFamilyMember')}
+                            </div>
+                        </div> : null}
                 </div>
-
-                {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ? <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "55px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
-                    <img src={speachBooble} alt="speachBooble" />
-                    <div className="position-absolute" style={{ paddingTop: "1vh", fontSize: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                        <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
-                        {props.t('bringFamilyMember')}
-                    </div>
-                </div> : null}
 
                 {CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" &&
                     <input
@@ -99,10 +99,8 @@ const FallenDetails = (props) => {
                         value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
+                        placeholder={props.t('my relative to the fallen')}
 
-                        placeholder={props.LanguageStore !== 'heb' ? 'My relative to the fallen' :
-                            'הקרבה שלי אל החלל'
-                        }
                     />}
                 {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 && <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />}
             </div>
