@@ -118,9 +118,9 @@ const CreateMeeting = (props) => {
                             {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
                             <input
                                 type="text"
-                                onBlur={() => props.CreateMeetingStore.getAllMeetings()}
+                                onBlur={() => props.CreateMeetingStore.isNameExist()}
 
-                                onTouchEnd={() => props.CreateMeetingStore.getAllMeetings()}
+                                onTouchEnd={() => props.CreateMeetingStore.isNameExist()}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingName}
                                 value={props.CreateMeetingStore.meetingDetails.name || ''}
@@ -246,7 +246,7 @@ const CreateMeeting = (props) => {
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
 
-                            <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
+                            <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' &&props.LanguageStore.width >=1150? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
                                     {props.LanguageStore.lang !== 'heb' ?
