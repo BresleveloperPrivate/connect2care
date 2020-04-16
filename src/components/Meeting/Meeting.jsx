@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 const Meeting = ({ match: { params }, history: { goBack }, t, LanguageStore }) => {
     const { meetingId } = params;
 
-    const [meeting, setMeeting] = useState({});
+    const [meeting, setMeeting] = useState(null);
 
     const [name, setName] = useState('');
     const [owner, setOwner] = useState('');
@@ -49,50 +49,56 @@ const Meeting = ({ match: { params }, history: { goBack }, t, LanguageStore }) =
         })();
     }, [meetingId]);
 
-    const { arrowButton } = useStyles();
-
     if (meetingIdError) return <Redirect to="/not-found" />;
 
-    return ( meetingIdError === false && <div id="meetingPage">
-            <div id="meetingPageMain">
-                <div id="meetingMainMain">
-                    {isOpen !== null && isOpen !== undefined && isOpen && <div
-                        style={LanguageStore.lang !== 'heb' ? { justifyContent: 'flex-start' } : {}}
-                        id="meetingButtons">
-                        {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
-                        <Sharing myId={'sharingBoxMeeting'}
-                            containImageClassName={'containSharingImageMeeting'}
-                            styleObject={{ fontSize: '2em', imageHeight: '24px' }}
-                            meetingId={meetingId}
-                            data={meeting}
-                            t={t}
-                        />
-                    </div>}
+    return (<div id="meetingPage">
+        <div id="meetingPageMain">
+            {meeting ? <div id="meetingMainMain">
+                {isOpen !== null && isOpen !== undefined && isOpen && <div
+                    style={LanguageStore.lang !== 'heb' ? { justifyContent: 'flex-start' } : {}}
+                    id="meetingButtons">
+                    {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
+                    <Sharing myId={'sharingBoxMeeting'}
+                        containImageClassName={'containSharingImageMeeting'}
+                        styleObject={{ fontSize: '2em', imageHeight: '24px' }}
+                        meetingId={meetingId}
+                        data={meeting}
+                        t={t}
+                    />
+                </div>}
 
-                    <MeetingTop t={t} name={name} owner={owner} description={description} date={date} time={time} />
+                <MeetingTop t={t} name={name} owner={owner} description={description} date={date} time={time} />
 
-                    {fallens.length !== 0 && (
-                        <div id="meetingFallenList">
-                            {fallens.map((fallen, index) => (
-                                // console.log(fallen)
-                                <MeetingFallen key={index} fallen={fallen} />
-                            ))}
-                        </div>
-                    )}
-
-                </div>
-
-                <MeetingBottom maxNum={!isOpen ? maxNum : null } numOfPeople={numOfPeople} />
+                {fallens.length !== 0 && (
+                    <div id="meetingFallenList">
+                        {fallens.map((fallen, index) => (
+                            // console.log(fallen)
+                            <MeetingFallen key={index} fallen={fallen} />
+                        ))}
+                    </div>
+                )}
 
             </div>
-            {!!name && (isOpen !== null && isOpen !== undefined && !((maxNum >= 0) && (numOfPeople > 0 || numOfPeople === 0) && maxNum <= numOfPeople) ? (
-                <MeetingLeftOpen sendCode={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
-            )
-                : (
-                    <MeetingLeftClosed t={t} />
-                )
-            )}
+
+                :
+                <div style={{ margin: 'auto' }}>
+                    <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            }
+
+            <MeetingBottom maxNum={!isOpen ? maxNum : null} numOfPeople={numOfPeople} />
+
         </div>
+        {!!name && (isOpen !== null && isOpen !== undefined && !((maxNum >= 0) && (numOfPeople > 0 || numOfPeople === 0) && maxNum <= numOfPeople) ? (
+            <MeetingLeftOpen sendCode={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
+        )
+            : (
+                <MeetingLeftClosed t={t} />
+            )
+        )}
+    </div>
     );
 }
 
