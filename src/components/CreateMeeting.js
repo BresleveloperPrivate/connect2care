@@ -246,7 +246,7 @@ const CreateMeeting = (props) => {
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
 
-                            <div className='containSelectTime position-relative' style={{ direction: "rtl" }}>
+                            <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
                                     {props.LanguageStore.lang !== 'heb' ?

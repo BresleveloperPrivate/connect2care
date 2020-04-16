@@ -9,18 +9,18 @@ import lockWhite from '../icons/lock-white.svg'
 
 const TextSideDiv = (props) => {
     return (
-        <div className={props.LanguageStore.lang !== 'heb' ? "position-fixed containInputTextSide tal":"tar position-fixed containInputTextSide"} style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
+        <div className={"position-fixed containInputTextSide " + (props.LanguageStore.lang !== 'heb' ? "tal leftDiv" : "tar")} style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />
             <div id="containDetailsSideBar">
-                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : {width: props.LanguageStore.width > 550 ? "60px" : "50px" , marginBottom: "4vh" }} />
+                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : { width: props.LanguageStore.width > 550 ? "60px" : "50px", marginBottom: "4vh" }} />
 
                 {!props.dataForFallen ?
 
                     props.LanguageStore.lang !== 'heb' ?
 
-                        <div className="textSide tal" style={{direction:'ltr'}}>
+                        <div className="textSide tal" style={{ direction: 'ltr' }}>
                             <div style={{ marginBottom: "2vh" }}>
-                            By creating a meeting you can open a virtual room where friends and acquaintances will join. </div>
+                                By creating a meeting you can open a virtual room where friends and acquaintances will join. </div>
                             <strong>Together you will tell and remember the story of your fallen loved ones.</strong>
                             <div style={{ marginTop: "2vh" }}> Our Brothers are here for you,
                             Before the meet-up we will hold a preparatory session and explain how the zoom meeting works, and
