@@ -120,7 +120,7 @@ const Filters = (props) => {
                             selectTextDefault='הכל'
                             arr={APPROVEV}
                             width='90%'
-                            onChoseOption={(value) => { value.data === "הכל" ? setSlectedApproved("") : (value.data === 'ממתין לאישור' ? setSlectedApproved(0) : setSlectedApproved(1)) }}
+                            onChoseOption={(value) => { value.data === "הכל" ? setSlectedApproved("") : (value.data === 'ממתין לאישור' ? setSlectedApproved(false) : setSlectedApproved(true)) }}
                         />
                     </div>
                 </div>

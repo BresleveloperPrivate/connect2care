@@ -69,6 +69,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
 
             if (err) {
@@ -407,7 +408,7 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        if (filters.approved)
+        if (filters.approved!== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
 
         if (filters.name) {
@@ -454,7 +455,7 @@ module.exports = function (meetings) {
                 sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved, meetings.id DESC`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -812,6 +813,24 @@ module.exports = function (meetings) {
         returns: { type: "object", root: true }
     })
 
+    meetings.getMeetingById = (meetingId, cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ where: { id: meetingId }, include: ["meetingOwner", { relation: "fallens_meetings", scope: { include: "fallens" } }] }))
+            if (err) {
+                console.log(err)
+                cb(err)
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('getMeetingById', {
+        http: { verb: 'POST' },
+        accepts: { arg: 'meetingId', type: 'number', required: true },
+        returns: { type: "object", root: true }
+    })
 
 
 

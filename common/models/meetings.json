@@ -279,14 +279,9 @@
                 "updateMeeting",
                 "getMeetingsDashboard",
                 "deleteMeeting",
-                "approveMeeting"
+                "approveMeeting",
+                "getMeetingById"
             ]
-        },
-        {
-            "principalType": "ROLE",
-            "principalId": "SUPERADMIN",
-            "permission": "ALLOW",
-            "property": "*"
         }
     ]
 }

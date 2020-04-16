@@ -283,7 +283,11 @@ class CreateMeetingStore {
 
     getMeetingDetails = async () => {
         if (this.meetingId === -1) return
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
+        let [success, err] = await Auth.superAuthFetch(`/api/getMeetingById`, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ meetingId: Number(this.meetingId) })
+        }, true);
         console.log("success", success)
         if (err) {
             this.error = err
@@ -309,9 +313,9 @@ class CreateMeetingStore {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
             }, true);
-        if (success){
-            this.meetingDetailsOriginal.approved=true;
-            this.meetingDetails.approved=true;
+        if (success) {
+            this.meetingDetailsOriginal.approved = true;
+            this.meetingDetails.approved = true;
         }
         console.log(success, err)
     }
