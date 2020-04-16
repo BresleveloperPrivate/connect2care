@@ -323,7 +323,7 @@ const CreateMeeting = (props) => {
                                 <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                     {props.LanguageStore.lang !== 'heb' ?
-                                        <div>.Iv'e read and accept the
+                                        <div>.Iv'e read and accepted the
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>
                                         </div>
                                         :

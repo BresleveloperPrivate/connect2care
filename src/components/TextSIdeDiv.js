@@ -20,11 +20,11 @@ const TextSideDiv = (props) => {
 
                         <div className="textSide tal" style={{direction:'ltr'}}>
                             <div style={{ marginBottom: "2vh" }}>
-                            By creating a meeting you can open a virtual room where friends and acquaintances will come. </div>
-                            <strong>Together you will tell and remember the story of your dear ones.</strong>
+                            By creating a meeting you can open a virtual room where friends and acquaintances will join. </div>
+                            <strong>Together you will tell and remember the story of your fallen loved ones.</strong>
                             <div style={{ marginTop: "2vh" }}> Our Brothers are here for you,
-                            Before the meeting we will have a preparatory meeting where we will explain how the zoom meeting works and
-                             how you should guide this type of event.
+                            Before the meet-up we will hold a preparatory session and explain how the zoom meeting works, and
+                            provide tools for hosting the event.
                     </div>
                         </div>
                         :
