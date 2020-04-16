@@ -118,9 +118,9 @@ const CreateMeeting = (props) => {
                             {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
                             <input
                                 type="text"
-                                onBlur={() => props.CreateMeetingStore.getAllMeetings()}
+                                onBlur={() => props.CreateMeetingStore.isNameExist()}
 
-                                onTouchEnd={() => props.CreateMeetingStore.getAllMeetings()}
+                                onTouchEnd={() => props.CreateMeetingStore.isNameExist()}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingName}
                                 value={props.CreateMeetingStore.meetingDetails.name || ''}

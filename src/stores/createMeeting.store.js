@@ -28,7 +28,6 @@ class CreateMeetingStore {
         zoomId: "",
         otherRelationship: null
     }
-    allMeetings = null;
 
     meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
@@ -64,7 +63,6 @@ class CreateMeetingStore {
             otherRelationship: null,
             // approved: ""
         }
-        this.allMeetings = null;
 
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
@@ -201,23 +199,21 @@ class CreateMeetingStore {
         this.meetingDetails.language = option
     }
 
-    getAllMeetings = async () => {
+    isNameExist = async () => {
         if (this.meetingDetails.name && this.meetingDetails.name !== "") {
-            if (!this.allMeetings) {
-                let [success, err] = await Auth.superAuthFetch(`/api/meetings/getAll`)
-                console.log("success", success)
-                console.log("err", err)
-                if (err || !success) {
-                    this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
-                    return
-                }
-                if (success)
-                    this.allMeetings = success
+            let [success, err] = await Auth.superAuthFetch(`/api/meetings/isNameExist`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: this.meetingDetails.name })
+            }, true);
+            console.log("success", success)
+            console.log("err", err)
+            if (err || !success) {
+                this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
+                return
             }
-            this.nameMessage = ""
-            for (let i = 0; i < this.allMeetings.length; i++) {
-                if (this.allMeetings[i].name === this.meetingDetails.name)
-                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            if (success) {
+                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
             }
         }
     }
@@ -335,19 +331,22 @@ class CreateMeetingStore {
         console.log(success, err)
     }
 
-    // newZoom = async (email, nameOwner) => {
-    //     console.log("email", email, this.meetingId)
-    //     let [success, err] = await Auth.superAuthFetch(
-    //         `/api/meetings/newZoom/`,
-    //         {
-    //             method: 'POST',
-    //             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
-    //         }, true);
-    //     if (success) {
-    //     }
-    //     console.log(success, err)
-    // }
+    newZoom = async (email, nameOwner) => {
+        console.log("email", email, this.meetingId)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/newZoom/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, nameOwner })
+            }, true);
+        if (err) {
+            this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+        }
+        if (success) {
+            this.setError = 'ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום'
+        }
+    }
 
     changeMeetingTimeHour = (event) => {
         this.meetingDetails.timeHour = event
@@ -507,7 +506,7 @@ class CreateMeetingStore {
             }
             changedObj.fallensToChange = fallensToChange
         }
-        if(changedObj.code) delete changedObj.code
+        if (changedObj.code) delete changedObj.code
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
@@ -596,9 +595,10 @@ decorate(CreateMeetingStore, {
     changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
-    getAllMeetings: action,
+    isNameExist: action,
     changeMeetingName: action,
-    approveMeeting: action
+    approveMeeting: action,
+    newZoom: action
 });
 
 const createMeetingStore = new CreateMeetingStore();

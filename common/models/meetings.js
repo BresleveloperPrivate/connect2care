@@ -908,7 +908,6 @@ module.exports = function (meetings) {
                 console.log("err2", err2)
                 return cb(err2, false)
             }
-            console.log("res", res)
             createZoomUser(newEmail, nameOwner)
             let sendOptions = {
                 to: email, subject: "המפגש שיצרת אושר", html:
@@ -949,21 +948,29 @@ module.exports = function (meetings) {
         returns: { type: "object", root: true }
     })
 
-    meetings.getAll = (cb) => {
+    meetings.isNameExist = (name, cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "limit": "6000" }))
-            if (err) {
-                console.log(err)
-                cb(err, {})
+            let nameArr = name.split("'")
+            let newName = ""
+            for (let i = 0; i < nameArr.length; i++) {
+                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
             }
-            else {
-                cb(null, res)
-            }
+            meetings.dataSource.connector.query(`select id
+            from meetings
+            where match(name) against ('"${newName}"')`, (err, res) => {
+                if (err) {
+                    console.log(err)
+                    return cb(err)
+                }
+                if (res.length === 0) return cb(null, false);
+                return cb(null, true)
+            })
         })()
     }
 
-    meetings.remoteMethod('getAll', {
-        http: { verb: 'get' },
+    meetings.remoteMethod('isNameExist', {
+        http: { verb: 'POST' },
+        accepts: { arg: 'name', type: 'string', required: true },
         returns: { type: "object", root: true }
     })
 
@@ -986,7 +993,23 @@ module.exports = function (meetings) {
         returns: { type: "object", root: true }
     })
 
+    meetings.newZoom = (email, nameOwner, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
 
+            createZoomUser(newEmail, nameOwner)
+
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('newZoom', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'nameOwner', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
 
 };
 /* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
