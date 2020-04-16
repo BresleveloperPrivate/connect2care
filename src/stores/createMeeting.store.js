@@ -328,6 +328,20 @@ class CreateMeetingStore {
         console.log(success, err)
     }
 
+    // newZoom = async (email, nameOwner) => {
+    //     console.log("email", email, this.meetingId)
+    //     let [success, err] = await Auth.superAuthFetch(
+    //         `/api/meetings/newZoom/`,
+    //         {
+    //             method: 'POST',
+    //             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
+    //         }, true);
+    //     if (success) {
+    //     }
+    //     console.log(success, err)
+    // }
+
     changeMeetingTimeHour = (event) => {
         this.meetingDetails.timeHour = event
     }

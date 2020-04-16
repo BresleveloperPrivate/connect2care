@@ -204,7 +204,7 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                let code = jsdata.code ? data.lang !== 'heb' ?  `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
+                                let code = jsdata.code ? data.lang !== 'heb' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
                                 // createZoomUser(newEmail, nameOwner)
 
                                 let sendOptions = {}
@@ -386,7 +386,7 @@ module.exports = function (meetings) {
 
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
-            if(data.code) delete data.code
+            if (data.code) delete data.code
 
             // const fallens_meetings = meetings.app.models.fallens_meetings
             // if (data.fallensToDelete) {
@@ -421,6 +421,13 @@ module.exports = function (meetings) {
             //     delete data.fallensToAdd
             // }
 
+            let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
+            if (errMeeting) {
+                console.log(errMeeting)
+                return cb(errMeeting)
+            }
+            let meetingById = JSON.parse(JSON.stringify(res))
+
             if (data.fallensToChange) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
@@ -443,12 +450,6 @@ module.exports = function (meetings) {
                 delete data.fallensToChange
             }
 
-
-            let [errMeeting, meetingById] = await to(meetings.findById(id))
-            if (errMeeting) {
-                console.log(errMeeting)
-                return cb(errMeeting)
-            }
             if (data.date || data.time) {
                 const people_meetings = meetings.app.models.people_meetings
                 //find all people that sign to the meeting
@@ -467,7 +468,7 @@ module.exports = function (meetings) {
                     }
                     let sendOptions = {
                         to: sendTo, subject: "מפגש השתנה", html:
-                            `<div>יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
+                            `<div style="direction: rtl;">יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
                             המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
                     }
 
@@ -502,11 +503,20 @@ module.exports = function (meetings) {
             // security validate
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
-            if (data.isOpen === "true")
+            if (!!data.isOpen) {
                 data.isOpen = true
-            else if (data.isOpen === "false") {
+                data.code = null
+            }
+            else if (!!!data.isOpen) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
+                let sendOptions = {
+                    to: meetingById.meetingOwner.email, subject: "קוד מפגש", html:
+                        `<div style="direction: rtl;"> המפגש ${meetingById.name} הוא עכשיו מפגש סגור.<br/>
+                        קוד המפגש להיצטרפות: ${data.code}`
+                }
+
+                sendEmail("", sendOptions);
             }
 
             let whitelist = {

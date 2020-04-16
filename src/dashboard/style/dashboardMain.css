@@ -22,6 +22,7 @@
     padding-bottom: 1.5rem;
     font-size: 2vh;
     text-align: -webkit-center;
+    max-width: 5vw;
 }
 
 .allTableStyle tr td:last-child:not(.noRes){
