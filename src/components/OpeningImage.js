@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+
 import openImage from '../icons/openImage.png'
 import lightBlueBackground from '../icons/lightBlueBackground.png'
+import lightBlueBackgroundEn from '../icons/lightBlueBackgroundEn.png'
+
 import OptionsButtons from './OptionsButtons'
 import '../styles/openingImage.css'
 
@@ -27,8 +31,10 @@ componentDidMount=()=>{
             <div className='containOpening'>
                 <div id='OIB' className='openingImage-before'> </div>
 
-                <img className='lightBlueBackground' src={lightBlueBackground} />
-                <div className='whiteLine'> </div>
+                <img className={this.props.LanguageStore.lang !== 'heb' ? 'lightBlueBackgroundEn' : 'lightBlueBackground'}
+                 src={this.props.LanguageStore.lang !== 'heb'  ? lightBlueBackgroundEn : lightBlueBackground} />
+
+                <div className={this.props.LanguageStore.lang !== 'heb' ?'whiteLineEn': 'whiteLine'}> </div>
                 <OptionsButtons t={this.props.t} className='containOptions' />
 
             </div>
@@ -36,4 +42,4 @@ componentDidMount=()=>{
     }
 }
 
-export default openingImage;
+export default inject('LanguageStore')(observer(openingImage))

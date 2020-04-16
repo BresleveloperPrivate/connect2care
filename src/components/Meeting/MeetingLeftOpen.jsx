@@ -115,7 +115,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         setPhone('');
         setCode('');
         setReadBylaw(false);
-        alert('הצטרפת למפגש בהצלחה');
+        alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, code, readBylaw, meetingId]);
 
@@ -167,7 +167,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                 {index === 3 &&
                                     <div className={LanguageStore.lang !== 'heb' ? 'codeExplanation tal' : 'codeExplanation tar'}>
                                         {LanguageStore.lang !== 'heb' ?
-                                            'In order to join a private meeting, you must enter the joining code you received from the meeting host.'
+                                            'In order to join a private meeting, you must enter the code you received from the meeting host.'
                                             :
                                             'על מנת להצטרף למפגש פרטי, עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.'
 

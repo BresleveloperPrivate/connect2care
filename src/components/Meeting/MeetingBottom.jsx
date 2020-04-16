@@ -27,7 +27,7 @@ const MeetingBottom = ({ numOfPeople , LanguageStore , maxNum }) => {
                  'Maximum number of participants' : 'מספר המשתתפים המקסימלי'
                  :
                 LanguageStore.lang !== 'heb' ?
-                    'Participants signed up for the meeting' : 'משתתפים נרשמו למפגש'
+                    'Participants signed up for the meet-up' : 'משתתפים נרשמו למפגש'
                 }
             </div>
         </div>
