@@ -408,7 +408,7 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        if (filters.approved!== (null || undefined))
+        if (filters.approved !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
 
         if (filters.name) {
@@ -455,6 +455,7 @@ module.exports = function (meetings) {
                 sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
             if (err) {
                 console.log(err)
@@ -462,6 +463,8 @@ module.exports = function (meetings) {
             }
             if (res) {
                 if (res.length !== 0) {
+                    let size = res.length
+                    res = res.slice(filters.from, filters.from + 20)
                     let where = { or: [] }
                     if (res.length === 1) {
                         where = res[0]
@@ -469,13 +472,11 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
+                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: ['meetings.approved ASC', 'meetings.id DESC'] }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
-                        let size = res1.length
-                        res1 = res1.slice(filters.from, filters.from + 20)
                         res1.push(size)
                         return cb(null, res1);
                     })
