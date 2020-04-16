@@ -208,8 +208,7 @@ class CreateMeetingStore {
             }, true);
             console.log("success", success)
             console.log("err", err)
-            if (err || !success) {
-                this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
+            if (err) {
                 return
             }
             if (success) {
