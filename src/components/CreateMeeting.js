@@ -111,7 +111,7 @@ const CreateMeeting = (props) => {
                 <div className="CreateMeeting" style={{ textAlign: props.LanguageStore.lang !== 'heb' ? "left" : "right" }}>
                     <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}</div>
                     <div className="createMeetingSecondSentence margin-right-text">
-                        {props.LanguageStore.lang !== 'heb' ? "Please note: A minimum of ten people is required to hold a meeting" : "שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים"}
+                        {props.LanguageStore.lang !== 'heb' ? "Please Note: There is a minimum of ten participants per meeting" : "שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים"}
                     </div>
                     <div>
                         <div className='position-relative'>
