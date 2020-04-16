@@ -54,14 +54,16 @@ function AlertDialog(props) {
           <DialogContentText id="alert-dialog-description">
             <div className='containXButton'><FontAwesomeIcon onClick={() => { handleCloseEmail() }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
             <div className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
-              הכנס כאן את כתובת האימייל לשיתוף
+              {props.LanguageStore.lang !== 'heb' ? "Please enter a friend's email here so we can invite them to the meet-up" : 'הכנס כאן את כתובת האימייל לשיתוף'}
             </div>
-            <input type="text" className='emailInputSharing' name="sendEmail" placeholder={props.LanguageStore.lang !== 'heb' ?"Email address":'כתובת הדואר האלקטרוני'} value={email} onChange={changeEmail} />
-            {isEmailNotLegal && <div className="invalidEmail">אנא הכנס מייל חוקי</div>}
+            <input onFocus={()=>{setIsEmailNotLegal(false)}} type="text" className='emailInputSharing' name="sendEmail" placeholder={props.LanguageStore.lang !== 'heb' ? "Email address" : 'כתובת הדואר האלקטרוני'} value={email} onChange={changeEmail} />
+            <div className="invalidEmail">
+              {isEmailNotLegal && props.LanguageStore.lang !== 'heb' ? 'Incorrect email address' : isEmailNotLegal ? 'כתובת המייל שגויה' : ''}
+            </div>
           </DialogContentText>
         </DialogContent >
         <DialogActions className='popupSendEmail' id="sendButton">
-          <div className='sendBtnSendEmail grow' onClick={checkEmail} autoFocus>
+          <div className='sendBtnSendEmail' onClick={checkEmail} autoFocus>
             {props.LanguageStore.lang !== 'heb' ? 'Share' : 'שתף'}
           </div>
         </DialogActions>

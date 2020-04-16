@@ -41,6 +41,10 @@
     width: 3vh;
 }
 
+.MuiDialogContentText-root{
+    margin-bottom: 0;
+}
+
 
 #sharingBoxMeeting{
     background: #0A2D63;
@@ -72,6 +76,8 @@
 }
 
 .invalidEmail{
+    margin-top: 10px;
+    height: 20px;
     color: red;
     text-align: center;
     font-size: 10px;
@@ -85,6 +91,7 @@
     color:#4D4F5C;
     border-radius: 3px;
     width: 70vw;
+    max-width: 600px;
 }
 
 .shareEmailTitle2{
@@ -98,7 +105,7 @@
 
 .MuiDialogContent-root:first-child{
     position: relative;
-    padding: 3vh 5vw;
+    padding: 3vh 5vw 0 5vw;
 }
 
 .containXButton{
