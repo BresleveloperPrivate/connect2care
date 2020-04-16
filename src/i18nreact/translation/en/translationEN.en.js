@@ -65,7 +65,7 @@ const translationEN = {
     'wednesday': 'Independence Day, Wednesday, 29.04',
 
     'searchPlaceHolder' : "Search for a fallen name, meeting name, host name",
-    "meetingsList": 'List of Meetings',
+    "meetingsList": 'Virtual Meet-Ups',
     'meetingsList2' : 'All virtual meetings are waiting for you here',
     "joinTheMeeting" : 'Join meeting',
     "noMeetings" : 'No meetings were found to match your search.',

@@ -80,29 +80,53 @@
 .emailInputSharing{
     padding: 3px 7px;
     outline: none;
-    border: 1px solid var(--custom-dark-blue);
+    border: 1px solid var(--custom-light-blue);
     background-color: rgba(255, 255, 255, 0.158);
-    color: white;
-    border-radius: 50px;
-    width: 280px;
+    color:#4D4F5C;
+    border-radius: 3px;
+    width: 70vw;
+}
+
+.shareEmailTitle2{
+    color: var(--custom-light-blue);
+    padding-bottom: 2vh;
 }
 
 .emailInputSharing::placeholder{
-    color: rgba(255, 255, 255, 0.493);
+    color: rgba(112, 112, 112, 0.911);
+}
+
+.MuiDialogContent-root:first-child{
+    position: relative;
+    padding: 3vh 5vw;
+}
+
+.containXButton{
+    position: absolute;
+    display: flex;
+    top: 2vh;
+    right: 2vh;
 }
 
 .popupSendEmail{
-    background-color: var(--custom-dark-blue);
+    background-color: white;
     display: flex;
     justify-content: center;
+    padding: 0;
 }
 
 .sendBtnSendEmail{
-    background-color: white;
-    color: var(--custom-dark-blue);
+    background-color: var(--custom-light-blue);
+    color: white;
     border-radius: 50px;
-    padding: 2px 10px;
+    padding: 2px 20px;
     font-size: 0.9em;
-    margin-bottom: 5px;
+    margin-bottom: 3vh;
     cursor: pointer;
+}
+
+@media screen and (max-width: 550px){
+    .MuiDialogContent-root:first-child{
+        padding: 6vh 5vw 1vh 5vw;
+    }
 }
