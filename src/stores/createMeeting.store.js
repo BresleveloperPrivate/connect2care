@@ -410,6 +410,7 @@ class CreateMeetingStore {
             return
         }
         beforePostJSON.zoomId = zoomId
+        beforePostJSON.lang = localStorage.getItem('lang')
         beforePostJSON.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(

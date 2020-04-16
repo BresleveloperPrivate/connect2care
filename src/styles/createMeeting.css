@@ -367,6 +367,12 @@ input[type=radio]:focus {
     }
 }
 
+@media screen and (max-width: 800px){
+    .textSide{
+        font: normal 18px Assistant;
+    }
+}
+
 @media screen and (max-width: 550px){
     .createMeetingHeadLine{
         font: Bold 28px Assistant;
@@ -468,7 +474,7 @@ input[type=radio]:focus {
         overflow-y: auto;
         top: 20vh;
         text-align: center;
-        padding: 5vh 6vh;
+        padding: 3vh 3.5vh;
         right: 2vh;
         left: 2vh;
     }
@@ -487,11 +493,17 @@ input[type=radio]:focus {
     }
 
     #containDetailsSideBar{
-        max-height: 50vh;
+        max-height: 60vh;
         min-height: 345px;
     }
 
     .textSide{
-        font: normal 18px Assistant;
+        font: normal 15px Assistant;
+    }
+}
+
+@media screen and (max-width: 280px){
+    .textSide{
+        font: normal 14px Assistant;
     }
 }
