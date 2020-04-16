@@ -85,8 +85,8 @@ module.exports = function (meetings) {
                     }
                     // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
                     meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-    
-                    if (err1) {
+
+                        if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
@@ -305,7 +305,6 @@ module.exports = function (meetings) {
                 return cb(errMeeting)
             }
             if (data.date || data.time) {
-                console.log("INNNNNNNN")
                 const people_meetings = meetings.app.models.people_meetings
                 //find all people that sign to the meeting
                 const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
@@ -408,6 +407,9 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
+        if (filters.approved)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
+
         if (filters.name) {
             let nameArr = filters.name.split("'")
             let newName = ""
@@ -452,7 +454,7 @@ module.exports = function (meetings) {
                 sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved, meetings.id DESC`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -494,7 +496,7 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                let meeting = await meetings.findById(meetingId,{"fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
+                let meeting = await meetings.findById(meetingId, { "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
                 if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
                 // console.log(meeting.approved)
                 // console.log("meeting", meeting.code)
@@ -794,7 +796,7 @@ module.exports = function (meetings) {
 
     meetings.getAll = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false },"limit": "6000" }))
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "limit": "6000" }))
             if (err) {
                 console.log(err)
                 cb(err, {})

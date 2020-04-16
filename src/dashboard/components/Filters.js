@@ -15,6 +15,7 @@ const Filters = (props) => {
     const [slectedIsOpen, setSelectedIsOpen] = useState("")
     const [slectedRelationship, setSelectedRelationship] = useState("")
     const [slectedParticipants, setSlectedParticipants] = useState("")
+    const [slectedApproved, setSlectedApproved] = useState("")
 
     const DATES = [
         { option: 'הכל', data: 'הכל' },
@@ -45,13 +46,19 @@ const Filters = (props) => {
         { option: '100+', data: '100+' }
     ]
 
+    const APPROVEV = [
+        { option: 'הכל', data: 'הכל' },
+        { option: 'ממתין לאישור', data: 'ממתין לאישור' },
+        { option: 'אושר', data: 'אושר' }
+    ]
+
     return (
         <div className='filters'>
             <div style={{ margin: 'unset', padding: '2vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
                 סנן לפי
                 <img style={{ width: '2.5vh', marginRight: '60vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
             </div>
-            <div className="filtersContainer" style={isFilterOpen ? { height: '35vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
+            <div className="filtersContainer" style={isFilterOpen ? { height: '40vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
                 <div style={{ width: '50%' }}>
                     <div className='filterItem'>
                         <div className='textFilter'>{props.t("date")}</div>
@@ -102,6 +109,18 @@ const Filters = (props) => {
                             arr={PARTICIPANTS_NUM}
                             width='90%'
                             onChoseOption={(value) => { value.data === "הכל" ? setSlectedParticipants("") : setSlectedParticipants(value.data) }}
+                        />
+                    </div>
+                    <div className='filterItem'>
+                        <div className='textFilter'>ממתין לאישור</div>
+                        <Select
+                            backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
+                            color='#A5A4BF'
+                            selectTextDefault='הכל'
+                            arr={APPROVEV}
+                            width='90%'
+                            onChoseOption={(value) => { value.data === "הכל" ? setSlectedApproved("") : (value.data === 'ממתין לאישור' ? setSlectedApproved(0) : setSlectedApproved(1)) }}
                         />
                     </div>
                 </div>
@@ -186,6 +205,7 @@ const Filters = (props) => {
                             if (inputMeetingName !== '') filters.name = inputMeetingName
                             if (slectedDate !== '') filters.date = slectedDate
                             if (slectedIsOpen !== '') filters.isOpen = slectedIsOpen
+                            if (slectedApproved !== '') filters.approved = slectedApproved
                             if (slectedRelationship !== '') filters.relationship = slectedRelationship
                             if (slectedParticipants !== '') {
                                 let splited = slectedParticipants.split(' ')
