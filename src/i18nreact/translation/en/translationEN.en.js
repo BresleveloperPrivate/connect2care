@@ -60,9 +60,9 @@ const translationEN = {
     "howItWorks":'How Does It Work?',
     "share":"Invite others to join",
     'sunday': 'Sunday, 26.04',
-    'monday': 'Monday, 27.04',
-    'tuesday': 'Tuesday, 28.04',
-    'wednesday': 'Wednesday, 29.04',
+    'monday': 'On the eve of Memorial Day, Monday, 27.04',
+    'tuesday': 'Memorial Day, Tuesday, 28.04',
+    'wednesday': 'Independence Day, Wednesday, 29.04',
 
     'searchPlaceHolder' : "Search for a fallen name, meeting name, host name",
     "meetingsList": 'List of Meetings',
@@ -72,6 +72,8 @@ const translationEN = {
     "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
     "host" : 'Host',
 
+    "orphans": "Orphans",
+    "widower": "Widower or widow",
 
     "all": "All",
     "brother or sister": "Brother or sister",

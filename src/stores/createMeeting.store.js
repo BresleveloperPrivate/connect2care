@@ -20,7 +20,7 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
-        date: "",
+        date: 'default',
         timeHour: '20',
         timeMinute: '30',
         max_participants: 300,
@@ -55,7 +55,7 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: "",
+            date: 'default',
             timeHour: "20",
             timeMinute: "30",
             max_participants: 300,
@@ -162,9 +162,9 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -276,17 +276,24 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר' && object.fallens[i].relationship !== 'בית אביחי' && object.fallens[i].relationship !== 'האחים שלנו') {
+                if (object.fallens[i].relationship !== "אח/ות" && object.fallens[i].relationship !== "אלמן/ אלמנה" && object.fallens[i].relationship !== "יתומים" && object.fallens[i].relationship !== "הורים" && object.fallens[i].relationship !== "קרובי משפחה") {
                     obj.relative = 'אחר'
-                    if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
-                    if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
-                    this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
-                    this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
+                    if (!this.meetingDetailsOriginal.otherRelationship) {
+                        this.meetingDetailsOriginal.otherRelationship = []
+                    }
+                    console.log("this.meetingDetailsOriginal.otherRelationship", this.meetingDetailsOriginal.otherRelationship)
+                    if (!this.meetingDetailsOriginal.otherRelationship[i])
+                        this.meetingDetailsOriginal.otherRelationship[i] = { relative: object.fallens[i].relationship, id: object.fallens[i].id }
+                    else {
+                        this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
+                        this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
+                    }
                 }
                 this.meetingDetails.fallens[i] = obj
                 this.meetingDetailsOriginal.fallens[i] = obj
             }
         }
+        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
@@ -402,6 +409,7 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.date
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
@@ -418,6 +426,7 @@ class CreateMeetingStore {
                 return
             }
         }
+        console.log("beforePostJSON", beforePostJSON)
         // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")

@@ -41,7 +41,7 @@ module.exports = {
         description: {
             type: "string",
             // format: { pattern: "[a-z0-9א-ת `,\":\n.!)'(_\-]*" },
-            length: { maximum: 1000 }
+            length: { maximum: 1500 }
         },
         owner: {
             type: "number",
@@ -81,7 +81,7 @@ module.exports = {
             type: "string",
             format: {
                 pattern: "^(יום ראשון, ב באייר, 26.04|יום שני, ג באייר, 27.04|יום שלישי, ד באייר, 28.04|יום רביעי, ה באייר, 29.04)",
-                message: 'משהו השתבש, הכנסת שפה שלא קיימת'
+                message: 'משהו השתבש, הכנסת ,תאריך שלא קיים'
             }
         }, //enum  
     },

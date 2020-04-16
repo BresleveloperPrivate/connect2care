@@ -19,6 +19,8 @@ const FallenDetails = (props) => {
         { option: props.t('brother or sister'), data: 'אח/ות' },
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
+        { option: props.t('widower'), data: 'אלמן/ אלמנה' },
+        { option: props.t('orphans'), data: 'יתומים' },
         { option: props.t('friend'), data: 'חבר' },
         props.isDash && { option: 'בית אבי חי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
@@ -56,7 +58,7 @@ const FallenDetails = (props) => {
                         type="text"
                         className='inputStyle dateContainer'
                         disabled
-                        style={{ width: "95%", backgroundColor: "white" }}
+                        style={{ width: "95%" }}
                         value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                         autoComplete="off"
                         placeholder={props.t('fallDate')}
@@ -93,7 +95,7 @@ const FallenDetails = (props) => {
                     <input
                         disabled={CreateMeetingStore.meetingId !== -1}
                         type="text"
-                        className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
+                        className={'inputStyle ' + (CreateMeetingStore.meetingId !== -1 ? "dateContainer" : "") + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
                             (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
                         value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
