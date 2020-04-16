@@ -9,6 +9,8 @@ import blueCandle from '../icons/candle-blue.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import grayCandle from '../icons/gray-candle.svg'
+import fallenFallBack from "../icons/fallenFallback.jpeg"
+
 import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 
@@ -35,10 +37,10 @@ const FallenDetails = (props) => {
     }, []);
 
 
-    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image
+    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
     return (
         <div className="containFallenDetails">
-            {props.LanguageStore.width > 550 && <img style={{ marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
+            {props.LanguageStore.width > 550 && <img style={props.LanguageStore.lang !== "heb" ? { marginRight: "2vh" } : { marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
             <div style={{ width: props.LanguageStore.width > 550 ? "70%" : "", position: "relative" }}>
 
                 {((CreateMeetingStore.fallenName && CreateMeetingStore.fallenName[props.index]) || CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name) && <div className="textAboveInput" style={{ width: "clac(100% - 6vw)" }}>
@@ -106,10 +108,9 @@ const FallenDetails = (props) => {
                     />}
                 {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 && <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />}
             </div>
-
             <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >
 
-                <img src={findImage && dissmisedPic ? CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" ? CreateMeetingStore.fallenDetails[props.fallen.id].image : "./images/fallenFallback.jpeg" : grayCandle}
+                <img src={(findImage && dissmisedPic) ? (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ? CreateMeetingStore.fallenDetails[props.fallen.id].image : fallenFallBack : grayCandle}
                     alt="grayCandle" style={
                         findImage && dissmisedPic ? { height: "24vh", borderRadius: "4px" } : { height: "13vh" }} />
                 {/* {findImage && dissmisedPic && <FontAwesomeIcon

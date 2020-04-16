@@ -169,7 +169,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                         {LanguageStore.lang !== 'heb' ?
                                             'In order to join a private meeting, you must enter the code you received from the meeting host.'
                                             :
-                                            'על מנת להצטרף למפגש פרטי, עליך להזין את קוד ההצטרפות שקיבלת ממארח המפגש.'
+                                            'על מנת להצטרף למפגש פרטי, עליך להזין את קוד ההצטרפות שקיבלת ממארח/ת המפגש.'
 
                                         }
                                     </div>
@@ -177,7 +177,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                 <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                             </div>
                         ))}
-                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '2.2vh' }}>
+                        <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '1.5em' }}>
                             <div>
                                 <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
 
