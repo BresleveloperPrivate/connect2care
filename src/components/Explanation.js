@@ -16,18 +16,24 @@ class Explanation extends Component {
 
 
 
-                            Those who lost us never gave up on us.<br />
-                        This year, too, we are not giving up.<br /><br />
+                            Those who lost us, never gave up on us.<br />
+                            This year, too, we are not giving up.<br /><br />
 
-                        Memorial Day 2020, is unlike anything we have ever known.<br />
-                         This year we will not be able to reach bereaved families.<br />
-                         Not to the cemeteries, not to the squares and not to the houses.<br />
-                            <strong>But this year, especially this year, we continue.</strong><br /><br />
+                            Memorial Day 2020 is unlike anything we have
+                            ever known.<br />
+                            This year, we are not able to be together with
+                            bereaved families.<br />
+                            We can’t reach cemeteries, town squares and
+                            homes.<br />
+                            <strong>But this year - especially this year - we
+                            continue.</strong><br /><br />
 
-                        Together, we initiate and participate in virtual memory meetings.<br />
-                        Let's look each other in the eye. We will again tell the same story that everyone knows.<br />
-                        Another beer will open.<br />
-                        We will laugh together. We will cry together.<br /><br />
+                            Together, we will all initiate and participate in
+                            virtual memory meet-ups.<br />
+                            Let's look each other in the eye. We will again tell
+                            the same story that everyone already knows.<br />
+                            Another beer bottle will be opened.<br />
+                            We will laugh together. We will cry together.<br /><br />
 
                             <strong>This year we all connect and remember.</strong>
 
@@ -55,17 +61,26 @@ class Explanation extends Component {
                     this.props.LanguageStore.lang !== 'heb' ?
                         <div className='explanation-left'>
 
-                            We are Our Brothers. And we're here to talk life.<br />
-We established our 'brothers', the bereaved brothers,<br />
-To keep talking about life with them. From our angle.<br /><br />
+                        We are Our Brothers. And we're here to talk life.<br />
+                        We established our brothers, the bereaved
+                        siblings,<br />
+                        To keep talking about life with them. From our
+                        perspective.<br /><br />
 
-About the laughs, the nonsense, the quarrels, the conversations.<br />
- Everything that was between us and it was over.<br />
-Our community is powerful, contained, embracing and joyful.<br />
-We continue to celebrate life, and live alongside the bereaved.<br /><br />
+                        About the laughs, the nonsense, the quarrels, the
+                        conversations.<br />
+                        Everything that was between us and is over.<br />
+                        Our community is powerful, accepting, embracing
+                        and joyful.<br />
+                        We continue to celebrate life, and live alongside
+                        the bereaved.<br /><br />
 
-Our goal is to remind and remember our private brothers,<br />
-And in the same breath, create a national and global movement of memory and commemoration.<br />
+                        Our goal is to remind and remember our own
+                        siblings,<br />
+                        And in the same breath, create a national and
+                        global movement of memory and commemoration.<br />
+
+
 
 
 

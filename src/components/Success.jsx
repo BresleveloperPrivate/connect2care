@@ -179,14 +179,14 @@ function Success(props) {
                     
                 </div>
                 <div style={{backgroundColor:'#0A2D63'}} className="shareWith">
-                        <strong>מכיוון שהביטחון שלכם חשוב לנו</strong><br/>
-                        הרשמת המפגש נשלחה לאישור צוות המיזם תוך 24 שעות.
-                    </div>
+                        <strong> {props.t('safety-1')}</strong><br/>
+                        {props.t('safety-2')}       
+                </div>
                 <div className="whiteFutter">
                         <div
                         style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
                         className="additionalInfo">
-                            <div>*עיין במייל שנשלח אליך בקפידה</div>
+                            <div>*{props.t('whiteFutter')} </div>
                             {/* <div>*{props.t('InvitationIsWaiting')}</div> */}
                         </div>
                     </div>

@@ -12,18 +12,22 @@ const useStyles = makeStyles({
     }
 });
 
-const MeetingBottom = ({ numOfPeople , LanguageStore }) => {
+const MeetingBottom = ({ numOfPeople , LanguageStore , maxNum }) => {
     const { peopleIcon } = useStyles();
     return (
         <div id="meetingPageBottom" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
             <div id="peopleCircle">
-                <div id="peopleCircleNum">{numOfPeople}</div>
+                <div id="peopleCircleNum">{maxNum !== null ? maxNum : numOfPeople}</div>
                 <SupervisorAccount className={peopleIcon} />
             </div>
             <div id="peopleCircleText">
 
-                {LanguageStore.lang !== 'heb' ?
-                    'participants signed up for the meeting' : 'משתתפים נרשמו למפגש'
+                {maxNum !== null ?
+                 LanguageStore.lang !== 'heb' ?
+                 'Maximum number of participants' : 'מספר המשתתפים המקסימלי'
+                 :
+                LanguageStore.lang !== 'heb' ?
+                    'Participants signed up for the meeting' : 'משתתפים נרשמו למפגש'
                 }
             </div>
         </div>
