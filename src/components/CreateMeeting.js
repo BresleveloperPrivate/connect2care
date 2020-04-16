@@ -111,16 +111,16 @@ const CreateMeeting = (props) => {
                 <div className="CreateMeeting" style={{ textAlign: props.LanguageStore.lang !== 'heb' ? "left" : "right" }}>
                     <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}</div>
                     <div className="createMeetingSecondSentence margin-right-text">
-                        {props.LanguageStore.lang !== 'heb' ? "Please note: A minimum of ten people is required to hold a meeting" : "שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים"}
+                        {props.LanguageStore.lang !== 'heb' ? "Please Note: There is a minimum of ten participants per meeting" : "שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים"}
                     </div>
                     <div>
                         <div className='position-relative'>
                             {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
                             <input
                                 type="text"
-                                onBlur={() => props.CreateMeetingStore.getAllMeetings()}
+                                onBlur={() => props.CreateMeetingStore.isNameExist()}
 
-                                onTouchEnd={() => props.CreateMeetingStore.getAllMeetings()}
+                                onTouchEnd={() => props.CreateMeetingStore.isNameExist()}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingName}
                                 value={props.CreateMeetingStore.meetingDetails.name || ''}
@@ -151,7 +151,7 @@ const CreateMeeting = (props) => {
 
                         <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "4vh" }}>
                             <img style={props.LanguageStore.lang === "heb" ? { width: "18px", marginLeft: "1vh" } : { width: "18px", marginRight: "1vh" }} src={person} alt="person" />
-                            <div className="inputDetail">{props.t("ownerDetails")}</div>
+                            <div className="inputDetail">{props.t("ownerDetails")}:</div>
                         </div>
 
                         <div className='position-relative'>
@@ -252,7 +252,7 @@ const CreateMeeting = (props) => {
                                     {props.LanguageStore.lang !== 'heb' ?
                                         'Time (Israel time)' :
                                         'שעה (שעון ישראל)'
-                                    }
+                                    }:
                                     {/* שעה (שעון ישראל): */}
                                 </div>}
                                 <Select
@@ -268,6 +268,7 @@ const CreateMeeting = (props) => {
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : props.LanguageStore.lang !== 'heb' ? "Hours" : "שעות"}
                                     arr={meetingTimeHour}
                                     width='100%'
+                                    maxHeight='120px'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (props.LanguageStore.lang !== "heb" ? "dir-ltr " : " ") + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
