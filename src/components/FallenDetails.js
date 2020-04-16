@@ -58,7 +58,7 @@ const FallenDetails = (props) => {
                         type="text"
                         className='inputStyle dateContainer'
                         disabled
-                        style={{ width: "95%", backgroundColor: "white" }}
+                        style={{ width: "95%" }}
                         value={(CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].fallingDate) || ''}
                         autoComplete="off"
                         placeholder={props.t('fallDate')}
@@ -95,7 +95,7 @@ const FallenDetails = (props) => {
                     <input
                         disabled={CreateMeetingStore.meetingId !== -1}
                         type="text"
-                        className={'inputStyle ' + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
+                        className={'inputStyle ' + (CreateMeetingStore.meetingId !== -1 ? "dateContainer" : "") + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
                             (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}
                         style={{ width: "95%" }}
                         value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
