@@ -1,13 +1,15 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import '../styles/sharing.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-export default function AlertDialog(props) {
+function AlertDialog(props) {
   const { openEmail, setOpenEmail } = props;
   const [email, setEmail] = React.useState(null);
   const [isEmailNotLegal, setIsEmailNotLegal] = React.useState(false);
@@ -23,8 +25,6 @@ export default function AlertDialog(props) {
   const changeEmail = (event) => {
     const tagName = event.target.value;
     setEmail(tagName);
-    // console.log('PIKA PI: ', tagName);
-    // console.log('OVED?', regex.test(email))
   }
 
   const checkEmail = () => {
@@ -44,24 +44,32 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
+        maxWidth='lg'
         open={openEmail}
         onClose={handleCloseEmail}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent className='popupSendEmail'
-        >
+        aria-describedby="alert-dialog-description">
+        <DialogContent style={{ direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
+          className='popupSendEmail'>
           <DialogContentText id="alert-dialog-description">
-            <input type="text" className='emailInputSharing' name="sendEmail" placeholder={"מייל לשליחה"} value={email} onChange={changeEmail} />
-            {isEmailNotLegal && <div className="invalidEmail">אנא הכנס מייל חוקי</div>}
+            <div className='containXButton'><FontAwesomeIcon onClick={() => { handleCloseEmail() }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
+            <div className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
+              {props.LanguageStore.lang !== 'heb' ? "Please enter a friend's email here so we can invite them to the meet-up" : 'הכנס כאן את כתובת האימייל לשיתוף'}
+            </div>
+            <input onFocus={()=>{setIsEmailNotLegal(false)}} type="text" className='emailInputSharing' name="sendEmail" placeholder={props.LanguageStore.lang !== 'heb' ? "Email address" : 'כתובת הדואר האלקטרוני'} value={email} onChange={changeEmail} />
+            <div className="invalidEmail">
+              {isEmailNotLegal && props.LanguageStore.lang !== 'heb' ? 'Incorrect email address' : isEmailNotLegal ? 'כתובת המייל שגויה' : ''}
+            </div>
           </DialogContentText>
         </DialogContent >
         <DialogActions className='popupSendEmail' id="sendButton">
-          <div className='sendBtnSendEmail grow' onClick={checkEmail}  autoFocus>
-            שלח
+          <div className='sendBtnSendEmail' onClick={checkEmail} autoFocus>
+            {props.LanguageStore.lang !== 'heb' ? 'Share' : 'שתף'}
           </div>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
+
+export default inject('LanguageStore')(observer(AlertDialog))

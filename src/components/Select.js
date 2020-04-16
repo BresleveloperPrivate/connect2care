@@ -39,7 +39,7 @@ const Select = (props) => {
                         icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&
-                    <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' }}>
+                    <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' , maxHeight: props.maxHeight || null }}>
                         {props.arr && props.arr.map((value, index) =>
                             value ? <div
                                 className='selectOption'

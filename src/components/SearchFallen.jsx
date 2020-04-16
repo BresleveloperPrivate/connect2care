@@ -113,7 +113,7 @@ const SearchFallen = observer((props) => {
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
             <div
-                className={'inputStyle d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
+                className={'inputStyle inputSelectFallen d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
                 style={{ width: "100%", marginBottom: '0' }}>
                 <input
                     disabled={CreateMeetingStore.meetingId !== -1}
@@ -138,7 +138,7 @@ const SearchFallen = observer((props) => {
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>
                     )) : (
-                            <div className={loadingOrNoResults}>לא נמצאו תוצאות</div>
+                            <div className={loadingOrNoResults}>{props.LanguageStore.lang !== "heb" ? "No result found" : "לא נמצאו תוצאות"}</div>
                         ) : (
                             <div className={loadingOrNoResults}>
                                 <CircularProgress color="primary" value={70} />

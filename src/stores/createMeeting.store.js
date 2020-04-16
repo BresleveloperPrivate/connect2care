@@ -20,7 +20,7 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
-        date: "",
+        date: 'default',
         timeHour: '20',
         timeMinute: '30',
         max_participants: 300,
@@ -28,7 +28,6 @@ class CreateMeetingStore {
         zoomId: "",
         otherRelationship: null
     }
-    allMeetings = null;
 
     meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
@@ -55,7 +54,7 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: "",
+            date: 'default',
             timeHour: "20",
             timeMinute: "30",
             max_participants: 300,
@@ -64,7 +63,6 @@ class CreateMeetingStore {
             otherRelationship: null,
             // approved: ""
         }
-        this.allMeetings = null;
 
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
@@ -162,9 +160,9 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
-                    if (option !== "אח/ות" && option !== "הורים" && option !== "קרובי משפחה") {
+                    if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        // setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -201,23 +199,21 @@ class CreateMeetingStore {
         this.meetingDetails.language = option
     }
 
-    getAllMeetings = async () => {
+    isNameExist = async () => {
         if (this.meetingDetails.name && this.meetingDetails.name !== "") {
-            if (!this.allMeetings) {
-                let [success, err] = await Auth.superAuthFetch(`/api/meetings/getAll`)
-                console.log("success", success)
-                console.log("err", err)
-                if (err || !success) {
-                    this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
-                    return
-                }
-                if (success)
-                    this.allMeetings = success
+            let [success, err] = await Auth.superAuthFetch(`/api/meetings/isNameExist`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: this.meetingDetails.name })
+            }, true);
+            console.log("success", success)
+            console.log("err", err)
+            if (err || !success) {
+                this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
+                return
             }
-            this.nameMessage = ""
-            for (let i = 0; i < this.allMeetings.length; i++) {
-                if (this.allMeetings[i].name === this.meetingDetails.name)
-                    this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
+            if (success) {
+                this.nameMessage = "שים לב, שם זה זהה לארוע אחר שנפתח"
             }
         }
     }
@@ -276,17 +272,24 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר' && object.fallens[i].relationship !== 'בית אביחי' && object.fallens[i].relationship !== 'האחים שלנו') {
+                if (object.fallens[i].relationship !== "אח/ות" && object.fallens[i].relationship !== "אלמן/ אלמנה" && object.fallens[i].relationship !== "יתומים" && object.fallens[i].relationship !== "הורים" && object.fallens[i].relationship !== "קרובי משפחה") {
                     obj.relative = 'אחר'
-                    if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
-                    if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
-                    this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
-                    this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
+                    if (!this.meetingDetailsOriginal.otherRelationship) {
+                        this.meetingDetailsOriginal.otherRelationship = []
+                    }
+                    console.log("this.meetingDetailsOriginal.otherRelationship", this.meetingDetailsOriginal.otherRelationship)
+                    if (!this.meetingDetailsOriginal.otherRelationship[i])
+                        this.meetingDetailsOriginal.otherRelationship[i] = { relative: object.fallens[i].relationship, id: object.fallens[i].id }
+                    else {
+                        this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
+                        this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
+                    }
                 }
                 this.meetingDetails.fallens[i] = obj
                 this.meetingDetailsOriginal.fallens[i] = obj
             }
         }
+        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
@@ -326,6 +329,23 @@ class CreateMeetingStore {
             this.meetingDetails.approved = true;
         }
         console.log(success, err)
+    }
+
+    newZoom = async (email, nameOwner) => {
+        console.log("email", email, this.meetingId)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/newZoom/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, nameOwner })
+            }, true);
+        if (err) {
+            this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+        }
+        if (success) {
+            this.setError = 'ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום'
+        }
     }
 
     changeMeetingTimeHour = (event) => {
@@ -388,6 +408,7 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
+        delete this.meetingDetailsOriginal.date
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
@@ -404,6 +425,7 @@ class CreateMeetingStore {
                 return
             }
         }
+        console.log("beforePostJSON", beforePostJSON)
         // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
@@ -484,7 +506,7 @@ class CreateMeetingStore {
             }
             changedObj.fallensToChange = fallensToChange
         }
-        if(changedObj.code) delete changedObj.code
+        if (changedObj.code) delete changedObj.code
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
@@ -573,9 +595,10 @@ decorate(CreateMeetingStore, {
     changeNeedAlert: action,
     changeShortDescription: action,
     createNewMeetingPost: action,
-    getAllMeetings: action,
+    isNameExist: action,
     changeMeetingName: action,
-    approveMeeting: action
+    approveMeeting: action,
+    newZoom: action
 });
 
 const createMeetingStore = new CreateMeetingStore();

@@ -35,7 +35,7 @@ const TopBarManager = () => {
                 <div style={{ fontSize: '4vh', fontWeight: 'bolder', padding: '0 10vw', paddingLeft: '61vw' }}>מתחברים וזוכרים</div>
                 <div className="managerName">
                     {/* משה לוי */}
-                    <img src={logoutIcon} alt='התנתק' style={{ width: '3.5vh' }} onClick={logOut}/>
+                    <img src={logoutIcon} alt='התנתק' className="pointer" style={{ width: '3.5vh' }} onClick={logOut}/>
                 </div>
             </div>
             <div style={{ height: "7vh" }}></div>

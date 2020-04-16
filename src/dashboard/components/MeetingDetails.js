@@ -38,8 +38,8 @@ const MeetingDetails = (props) => {
     ]
 
     const meetingTimeHour = [
-        { option: '8', data: '8' },
-        { option: '9', data: '9' },
+        { option: '08', data: '08' },
+        { option: '09', data: '09' },
         { option: '10', data: '10' },
         { option: '11', data: '11' },
         { option: '12', data: '12' },
@@ -107,10 +107,12 @@ const MeetingDetails = (props) => {
                 {props.CreateMeetingStore.meetingId === -1 && <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>}
             </div>)
     }
-    
+
     return (
-        <div>
-            {!success ?
+        <div style={{width:'100vw' , minHeight:'100vh'}}>
+            {
+            props.CreateMeetingStore.meetingDetails ?
+            !success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div className="headLine" style={{ marginTop: "6vh", fontSize: '3.5vh' }}>
                         <FontAwesomeIcon className='pointer ml-3' icon="arrow-right" color="var(--custom-gray)" onClick={props.history.goBack} /> {props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}
@@ -121,8 +123,8 @@ const MeetingDetails = (props) => {
                             {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
                             <input
                                 type="text"
-                                onBlur={() => props.CreateMeetingStore.getAllMeetings()}
-                                onTouchEnd={() => props.CreateMeetingStore.getAllMeetings()}
+                                onBlur={() => props.CreateMeetingStore.isNameExist()}
+                                onTouchEnd={() => props.CreateMeetingStore.isNameExist()}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.name || (props.CreateMeetingStore.meetingDetails.name && !props.CreateMeetingStore.meetingDetails.name.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingName}
                                 value={props.CreateMeetingStore.meetingDetails.name || ''}
@@ -342,9 +344,22 @@ const MeetingDetails = (props) => {
                             <FontAwesomeIcon icon={['fas', 'trash']} />
                             <div className='trashText'>מחק מפגש</div>
                         </div>
-                        {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && <div onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)} className="grow" style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                            אישור מפגש
-                        </div>}
+                        {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email &&
+                            <div
+                                onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
+                                className="grow"
+                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                אישור מפגש
+                            </div>
+                        }
+                        {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email &&
+                            <div
+                                onClick={() => props.CreateMeetingStore.newZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
+                                className="grow"
+                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                שלח מייל של זום חדש
+                            </div>
+                        }
                         <div
                             className="grow"
                             style={{ cursor: 'pointer', backgroundColor: 'var(--custom-orange)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}
@@ -378,6 +393,12 @@ const MeetingDetails = (props) => {
                     }
                 </div>
                 : <Success history={props.history} meeting={success} t={props.t} />
+                :
+                <div style={{ margin: 'auto' }}>
+                    <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
             }
             {showDeleteMeetingPopup && <DeleteMeetingPopup handleClose={() => setShowDeleteMeetingPopup(false)} meetingId={props.CreateMeetingStore.meetingId} history={props.history} />}
         </div>

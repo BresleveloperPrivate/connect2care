@@ -40,7 +40,7 @@ module.exports = function (fallens) {
         (async () => {
             console.log("id", id)
             //(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
-            let [err, res] = await to(fallens.findOne({ where: { id: id, "include": { "relation": "meetings", "scope": { "include": "meetingOwner" } } } }))
+            let [err, res] = await to(fallens.findOne({ where: { id: id, include: { relation: "meetings", scope: { include: "meetingOwner" } } } }))
             if (err) {
                 console.log(err)
                 cb(err, {})

@@ -268,7 +268,7 @@
                 "AddPersonToMeeting",
                 "SendShareEmail",
                 "get38Meetings",
-                "getAll"
+                "isNameExist"
             ]
         },
         {
@@ -280,7 +280,9 @@
                 "getMeetingsDashboard",
                 "deleteMeeting",
                 "approveMeeting",
-                "getMeetingById"
+                "getMeetingById",
+                "isNameExist",
+                "newZoom"
             ]
         }
     ]

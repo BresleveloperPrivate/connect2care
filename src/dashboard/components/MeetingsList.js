@@ -68,7 +68,7 @@ const MeetingsList = (props) => {
                                     </td>
                                     <td className='edit'>
                                         <div>
-                                            <img alt="alt" src={pen} onClick={() => props.history.push('/ngsgjnsrjgtesg/edit-meeting/' + meeting.id)} />
+                                            <img alt="alt" className="pointer" src={pen} onClick={() => props.history.push('/ngsgjnsrjgtesg/edit-meeting/' + meeting.id)} />
                                             {!meeting.approved && <div style={{ color: "red", marginTop: '5px' }}>ממתין לאישור</div>}
                                         </div>
                                     </td>

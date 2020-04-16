@@ -56,7 +56,7 @@ const Filters = (props) => {
         <div className='filters'>
             <div style={{ margin: 'unset', padding: '2vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
                 סנן לפי
-                <img style={{ width: '2.5vh', marginRight: '60vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
+                <img className="pointer" style={{ width: '2.5vh', marginRight: '60vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
             </div>
             <div className="filtersContainer" style={isFilterOpen ? { height: '40vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
                 <div style={{ width: '50%' }}>
@@ -197,7 +197,7 @@ const Filters = (props) => {
                     </div>
 
                     <div
-                        className='searchBtn'
+                        className='searchBtn pointer'
                         onClick={() => {
                             let filters = {}
                             if (inputFallen !== '') filters.fallen = inputFallen
