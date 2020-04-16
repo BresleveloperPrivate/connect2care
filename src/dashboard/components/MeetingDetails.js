@@ -354,7 +354,7 @@ const MeetingDetails = (props) => {
                                     <div className="bounce2"></div>
                                     <div className="bounce3"></div>
                                 </div>
-                                : "שמור"
+                                : props.t("save")
                             }
 
                             {/* {this.props.t("approval")} */}

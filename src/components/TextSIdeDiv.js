@@ -9,7 +9,7 @@ import lockWhite from '../icons/lock-white.svg'
 
 const TextSideDiv = (props) => {
     return (
-        <div className="position-fixed containInputTextSide" style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
+        <div className={props.LanguageStore.lang !== 'heb' ? "position-fixed containInputTextSide tal":"tar position-fixed containInputTextSide"} style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />
             <div id="containDetailsSideBar">
                 <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : {width: props.LanguageStore.width > 550 ? "60px" : "50px" , marginBottom: "4vh" }} />

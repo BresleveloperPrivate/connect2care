@@ -41,8 +41,8 @@ const translationEN = {
 
 
 
-    "quote":"The meetings enable a rare and unique glimpse of the brothers' coping with the downfall of their loved ones and enable the hearing of a story that has never been extensively told.",
-    "partners":"Thanks to our partners",
+    "quote": "The meetings enable a rare and unique glimpse of the brothers' coping with the downfall of their loved ones and enable the hearing of a story that has never been extensively told.",
+    "partners": "Thanks to our partners",
 
     "IWantToInitiateAMeeting":"Initiate a meeting",
     "IWantToAttendAMeeting":"Attend a meeting",
@@ -73,18 +73,18 @@ const translationEN = {
     "host" : 'Host',
 
 
-    "all" : "All",
+    "all": "All",
     "brother or sister": "Brother or sister",
-    "parent":"Parent",
-    "friend":"Friend",
+    "parent": "Parent",
+    "friend": "Friend",
     "family member": "Family member",
-    "other" : "Other",
+    "other": "Other",
 
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',
     'meeting language': 'Meeting language',
-    'relationship to fallen' : 'Relationshit to fallen',
-    'show available meetings only':'Show available meetings only',
+    'relationship to fallen': 'Relationshit to fallen',
+    'show available meetings only': 'Show available meetings only',
     'filter by': 'Filter by',
 
     "load more" : 'Load more',
@@ -101,6 +101,8 @@ const translationEN = {
     'safety-1':'Because your security is important to us,',
     'safety-2':'the meeting you created will be sent to the project team for approval within 24 hours.',
     'whiteFutter':'Please carefully review the email that has been sent to you',
+    "save": "Save",
+
 
 
 }
