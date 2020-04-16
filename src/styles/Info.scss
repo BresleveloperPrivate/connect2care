@@ -1,0 +1,26 @@
+#infoPage {
+    * {
+        text-align: right;
+    }
+
+
+    hr {
+        border-top: 1px solid rgb(158, 158, 158);
+    }
+}
+
+.infoCardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .infoCardTitle {
+        font: Bold 28px Assistant;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .infoCardTitle {
+        font: Bold 22.4px Assistant;
+    }
+}
