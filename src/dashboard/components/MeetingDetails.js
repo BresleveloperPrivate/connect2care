@@ -38,8 +38,8 @@ const MeetingDetails = (props) => {
     ]
 
     const meetingTimeHour = [
-        { option: '8', data: '8' },
-        { option: '9', data: '9' },
+        { option: '08', data: '08' },
+        { option: '09', data: '09' },
         { option: '10', data: '10' },
         { option: '11', data: '11' },
         { option: '12', data: '12' },
