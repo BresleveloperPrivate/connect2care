@@ -1,12 +1,11 @@
 const translationEN = {
     // "meetingsList": "Meetings List",
+    "qna":"Q&A",
     "myMeetings": "My Meetings",
     "whoWeAre": "About Us",
     "donate": "Donate",
     "contactUs": "Contact Us",
     "meetingContent": "Meeting Content",
-    "text": "אנחנו האחים שלנו. ואנחנו כאן כדי לדבר חיים.<br />את 'האחים שלנו' הקמנו אנחנו, האחים השכולים,<br />כדי להמשיך ולדבר על החיים איתם. מהזווית שלנו.<br /><br />על הצחוקים, השטויות, הריבים, השיחות. כל מה שהיה בינינו ונגמר.<br />הקהילה שלנו עוצמתית, מכילה, מחבקת ושמחה.<br />אנחנו ממשיכים לחגוג את החיים, ולחיות לצד השכול.<br /><br />המטרה שלנו היא להזכיר ולזכור את האחים הפרטיים שלנו<br />ובאותה נשימה, ליצור תנועה ארצית ועולמית של זיכרון והנצחה.<br />",
-
     "homePage":'Home',
     "approve": "Approve",
     "cancel": "Cancel",

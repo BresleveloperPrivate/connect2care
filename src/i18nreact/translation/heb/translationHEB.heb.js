@@ -5,6 +5,7 @@ const translationHEB = {
     "donate": "תרמו לנו",
     "contactUs": "צרו קשר",
     "meetingContent": "ערכת תוכן",
+    "qna":"שאלות ותשובות",
 
     'homePage': 'דף הבית',
     "approve": "אישור",

@@ -42,10 +42,11 @@ class NavBar extends Component {
             [{ option: this.props.t("homePage"), path: '/' },
             { option: this.props.t("meetingsList"), path: '/meetings' },
             // { option: this.props.t("myMeetings"), path: '/my-meetings' },
-            { option: this.props.t("whoWeAre"), path: 'https://ourbrothers.co.il/about?referer=connect-2-care', open: true },
+            { option: this.props.t("qna"), path: '/info'},
             { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
-            { option: this.props.t("contactUs"), path: 'https://ourbrothers.co.il/contact?referer=connect-2-care', open: true },
-            { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }]
+            { option: this.props.t("contactUs"), path: '/contact' },
+                // { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }
+            ]
     }
 
     changelng = (lng) => {
@@ -56,16 +57,16 @@ class NavBar extends Component {
 
     render() {
         return (
-            <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbar ' + this.props.className + ' fdrr' : 'navbar ' + this.props.className  }>
+            <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbar ' + this.props.className + ' fdrr' : 'navbar ' + this.props.className}>
                 <div className='containMenu'>
                     <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
                 {/* <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />
                 </div> */}
-                {this.options && <div 
-                style={this.props.LanguageStore.lang !== 'heb' ? {justifyContent:'flex-start'} : {}}
-                className='navbarOptions'>
+                {this.options && <div
+                    style={this.props.LanguageStore.lang !== 'heb' ? { justifyContent: 'flex-start' } : {}}
+                    className='navbarOptions'>
                     <div className='optionInNavbar lngNB pointer'>
                         <Lng changeLanguage={this.changelng} />
                     </div>
@@ -91,10 +92,10 @@ class NavBar extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
                     <div className='containIconNavbar'>
-                        <img onClick={()=>{window.open('https://ourbrothers.co.il/')}} alt="alt" src={ourBrothers} height='80%' className="oblogo" />
+                        <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='80%' className="oblogo" />
                     </div>
                     <div className='containIconNavbar'>
-                        <img onClick={()=>{this.props.history.replace('/')}} alt="alt" src={c2c} height='100%' />
+                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='100%' />
                     </div>
                 </div>
                 <SideNavBar
