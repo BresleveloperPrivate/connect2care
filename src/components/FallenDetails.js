@@ -19,6 +19,8 @@ const FallenDetails = (props) => {
         { option: props.t('brother or sister'), data: 'אח/ות' },
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
+        { option: props.t('widower'), data: 'אלמן/ אלמנה' },
+        { option: props.t('orphans'), data: 'יתומים' },
         { option: props.t('friend'), data: 'חבר' },
         props.isDash && { option: 'בית אבי חי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },

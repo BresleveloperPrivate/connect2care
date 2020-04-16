@@ -73,6 +73,7 @@ input[type=radio]:focus {
 
 .margin-right-text{
     margin-right: 6vw;
+    margin-left: 6vw;
 }
 
 .textAreaStyle{
@@ -96,7 +97,7 @@ input[type=radio]:focus {
 
 .CreateMeeting{
     text-align: right;
-    direction: rtl;
+    /* direction: rtl; */
 }
 
 .candleImg{
@@ -277,6 +278,13 @@ input[type=radio]:focus {
     color: var(--custom-gray);
 }
 
+.openOrCloseDetails{
+    margin-right: 6vw;
+    margin-left: 6vw;
+    font-size: 1.8vh;
+    margin-bottom: 2vh;
+}
+
 .containNameExist{
     display: flex;
     padding: 0vh 1vh;
@@ -334,6 +342,10 @@ input[type=radio]:focus {
         margin-right: 6vw;
     }
 
+    .openOrCloseDetails{
+        width: calc(73% - 12vw);
+    }
+
     .listSearch{
         width: 100%;
     }
@@ -381,12 +393,14 @@ input[type=radio]:focus {
     .candleImg{
         width: fit-content;
         margin-right: 6vw;
+        margin-left: 6vw;
+
     }
     
     .exictingPic{
         margin-right: 6vw;
     }
-    
+ 
     .containSelectTime{
         display: flex;
         align-items: center;
@@ -454,6 +468,8 @@ input[type=radio]:focus {
 
     .containDateAndTime .textAboveInput, .containFallenDetails .textAboveInput{
         margin-right: 6vw;
+        margin-left: 6vw;
+
     }
 
     .gotItButton{
