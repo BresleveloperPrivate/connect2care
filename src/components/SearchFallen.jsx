@@ -107,8 +107,9 @@ const SearchFallen = observer((props) => {
             setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
             setShowOptions(false)
         }
-    }, [CreateMeetingStore.fallenDetails])
-
+    }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName])
+    
+    console.log("CreateMeetingStore.fallenDetails[props.fallen.id]", CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id])
     return (
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 

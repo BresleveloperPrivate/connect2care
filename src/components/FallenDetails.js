@@ -34,7 +34,7 @@ const FallenDetails = (props) => {
 
         props.LanguageStore.setWidth(window.innerWidth)
 
-    }, []);
+    }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName, CreateMeetingStore.meetingDetails]);
 
 
     let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
@@ -48,6 +48,7 @@ const FallenDetails = (props) => {
                     {props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
                 </div>}
 
+                {console.log("CreateMeetingStore.fallenDetails", CreateMeetingStore.fallenDetails)}
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
@@ -66,7 +67,6 @@ const FallenDetails = (props) => {
                         placeholder={props.t('fallDate')}
                     />
                 </div>
-
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">
                         {props.t('my relative to the fallen')}
