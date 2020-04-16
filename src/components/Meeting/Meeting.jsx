@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Meeting = ({ match: { params }, history: { goBack }, t }) => {
+const Meeting = ({ match: { params }, history: { goBack }, t, LanguageStore }) => {
     const { meetingId } = params;
 
     const [meeting, setMeeting] = useState({});
@@ -35,12 +35,15 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
     const [fallens, setFallens] = useState([]);
     const [numOfPeople, setNumOfPeople] = useState(null);
     const [maxNum, setMaxNum] = useState(null);
-    const [meetingIdError, setMeetingIdError] = useState(false);
+    const [meetingIdError, setMeetingIdError] = useState(null);
 
     useEffect(() => {
         (async () => {
             const [res, error] = await Auth.superAuthFetch(`/api/meetings/GetMeetingInfo/${meetingId}`);
-            if (error || res.error) { console.log("woo too bad: ", error); setName(''); setOwner(''); setDescription(''); setIsOpen(null); setDate(''); setTime(''); setFallens([]); setNumOfPeople(null); setMeetingIdError(true); return; }
+            if (error) {
+                setMeetingIdError(true)
+                return
+            }
             const { name, meetingOwner, description, isOpen, date, time, fallens, participants_num, max_participants } = res;
             setMeeting({ meetingId, ...res }); setName(name); setOwner(meetingOwner ? meetingOwner.name : ""); setDescription(description); setIsOpen(typeof isOpen === "boolean" ? isOpen : isOpen == 1); setDate(date); setTime(time); setFallens(fallens); setNumOfPeople(participants_num || 0); setMaxNum(max_participants); setMeetingIdError(false);
         })();
@@ -50,11 +53,12 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
 
     if (meetingIdError) return <Redirect to="/not-found" />;
 
-    return (
-        <div id="meetingPage">
+    return ( meetingIdError === false && <div id="meetingPage">
             <div id="meetingPageMain">
                 <div id="meetingMainMain">
-                    {isOpen !== null && isOpen !== undefined && isOpen &&<div id="meetingButtons">
+                    {isOpen !== null && isOpen !== undefined && isOpen && <div
+                        style={LanguageStore.lang !== 'heb' ? { justifyContent: 'flex-start' } : {}}
+                        id="meetingButtons">
                         {/* <IconButton className={arrowButton} onClick={goBack}><ArrowForward fontSize="medium" /></IconButton> */}
                         <Sharing myId={'sharingBoxMeeting'}
                             containImageClassName={'containSharingImageMeeting'}
@@ -81,7 +85,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t }) => {
                 <MeetingBottom numOfPeople={numOfPeople} />
 
             </div>
-            {!!name && (isOpen !== null && isOpen !== undefined && !(maxNum && numOfPeople && maxNum <= numOfPeople) ? (
+            {!!name && (isOpen !== null && isOpen !== undefined && !((maxNum >= 0) && (numOfPeople > 0 || numOfPeople === 0) && maxNum <= numOfPeople) ? (
                 <MeetingLeftOpen sendCode={!isOpen} t={t} mailDetails={{ "date": date, "time": time, "fallens": fallens }} setNumOfPeople={setNumOfPeople} meetingId={meetingId} />
             )
                 : (

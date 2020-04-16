@@ -10,6 +10,8 @@ import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
+import grass from '../icons/grass.png'
+import ourBrothers from '../icons/ourBro.png'
 
 const ComputerList = (props) => {
 
@@ -93,7 +95,8 @@ const ComputerList = (props) => {
                                         {height:'1.7em' , marginLeft:'0.5em' , marginBottom:'0.5em'}}>                    
                                      <img src={candle} height='100%' />
                                         </div>
-                                        <div>{meeting.fallens_meetings.map((fallen, index) => {
+                                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar' }>
+                                            {meeting.fallens_meetings.map((fallen, index) => {
                                                 if (index === 0) {
                                                     if(props.LanguageStore.lang !== 'heb'){
                                                         return (
@@ -141,8 +144,12 @@ const ComputerList = (props) => {
                                     <div style={
                             props.LanguageStore.lang !== 'heb' ?
                             { height: '1.3em', marginBottom: '0.6em', marginRight: '0.5em' }:
-                            { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>                                        
-                                <img src={tell} height='100%' />
+                            { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}> 
+                            {meeting.fallens_meetings.some(fallen => fallen.relationship === 'האחים שלנו') ?                                    
+                                <img height='140%' src={ourBrothers}/> :
+                                 meeting.fallens_meetings.some(fallen => fallen.relationship === 'בית אביחי') ?
+                                 <img height='130%' src={grass}/> :
+                                    <img height='100%' src={tell}/>}
                                         </div>
                                         {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
@@ -166,7 +173,7 @@ const ComputerList = (props) => {
                                         <img height='100%' width='100%' src={lock}/>
                                     </div> 
                                     : null }
-                                    {meeting.participants_num >= meeting.max_participants ? 'אין יותר מקום' : !meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
+                                    {meeting.participants_num >= meeting.max_participants ? props.t('fullMeeting') : !meeting.isOpen ? props.t("meetingIsClosed") : props.t('joinTheMeeting') }
                                      
                                       </div>
                                      {/* {!meeting.isOpen && meeting.participants_num < meeting.max_participants &&  <div className='comment'> ניתן לבקש להצטרף למפגש </div>} */}

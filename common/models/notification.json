@@ -1,9 +1,9 @@
 {
   "name": "Notification",
-  "http":{
+  "http": {
     "path": "Notifications"
   },
-  "pathLink" : "Notifications",
+  "pathLink": "Notifications",
   "crud": {
     "metaFunctions": {},
     "fields": {
@@ -99,5 +99,13 @@
         "nullable": "Y"
       }
     }
-  }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "*"
+    }
+  ]
 }

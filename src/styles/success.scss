@@ -30,6 +30,7 @@
 .bigContainer{
     margin:0 7em;
     width: calc(100vw - 10em);
+    padding-bottom: 4em;
 }
 
 .sucessHeadline{
@@ -125,10 +126,12 @@
 
 .shareWith{
     color: white;
-    font-weight: bold;
+    // font-weight: bold;
     font-size: 2.6em;
-    margin-top: 1em;
-    padding-bottom: 2em;
+    // margin-top: 1em;
+    padding: 16px 0;
+    padding-right:2em; 
+    // padding-bottom: 2em;
     text-align: right;
     
 }
@@ -148,6 +151,7 @@
     flex-direction: column;
     text-align: right;
     color: #082551;
+    padding-bottom: 1vh;
 }
 
 .flexImage{
@@ -214,6 +218,7 @@
         padding-right: 1em;
         padding-left: 1em;
         margin: 0;
+        padding-bottom: 4em;
     }
 
     .additionalInfo{
@@ -233,9 +238,10 @@
 
     .shareWith{
         right: 0;
-        margin: auto;
+        // margin: auto;
         text-align: center;
-        padding-top: 1em;
+        padding: 1em;
+        // padding-top: 1em;
     }
 
     .sharingComponent{

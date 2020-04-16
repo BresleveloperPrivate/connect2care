@@ -22,6 +22,7 @@ const CreateMeeting = (props) => {
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
     const [readBylaw, setReadBylaw] = useState(false)
+    const [wait, setWait] = useState(false)
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -88,12 +89,12 @@ const CreateMeeting = (props) => {
 
     const showFallens = () => {
         if (!props.CreateMeetingStore.meetingDetails.fallens)
-            props.CreateMeetingStore.changeFallens(0)
+            props.CreateMeetingStore.changeFallens(null)
 
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
                 props.CreateMeetingStore.meetingDetails.fallens.map((fallen, index) => {
-                    return <FallenDetails key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} />
+                    return <FallenDetails t={props.t} key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} isDash={false} />
                 })
             }
                 <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>
@@ -235,7 +236,14 @@ const CreateMeeting = (props) => {
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
-                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>*מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד</div>
+                        <div style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
+                            {props.LanguageStore.lang !== 'heb' ?
+                                'Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants*' :
+                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                            }
+
+
+                        </div>
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
@@ -251,9 +259,15 @@ const CreateMeeting = (props) => {
 
                             <div className='containSelectTime position-relative'>
 
-                                {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">שעה (שעון ישראל):</div>}
+                                {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        'Time (Israel time)' :
+                                        'שעה (שעון ישראל)'
+                                    }
+                                    {/* שעה (שעון ישראל): */}
+                                </div>}
                                 <Select
-                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "דקות"}
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : props.LanguageStore.lang !== 'heb' ? "Mintes" : "דקות"}
                                     arr={meetingTimeMinute}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -262,7 +276,7 @@ const CreateMeeting = (props) => {
 
                                 <div className="timeDot">:</div>
                                 <Select
-                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : "שעות"}
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : props.LanguageStore.lang !== 'heb' ? "Hours" : "שעות"}
                                     arr={meetingTimeHour}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -278,15 +292,15 @@ const CreateMeeting = (props) => {
                                 onBlur={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan3000Participants"))
+                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
                                 }}
 
                                 onTouchEnd={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 3000)
-                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan3000Participants"))
+                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                        setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
                                 }}
                                 onFocus={() => setErrorMaxParticipants(false)}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants) ? "error" : "")}
@@ -305,7 +319,16 @@ const CreateMeeting = (props) => {
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                                 <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
-                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ותנאי השימוש באתר.</label>
+                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
+
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        <div>.Iv'e read and accept the
+                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>
+                                        </div>
+                                        :
+                                        <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                    }
+                                </label>
                             </div>
                         </div>
 
@@ -313,10 +336,13 @@ const CreateMeeting = (props) => {
                             className="containCreateMettingButton"
                         >
                             <div className="createMeetingButton grow" onClick={async () => {
+                                if (wait) return
+                                setWait(true)
                                 if (!props.CreateMeetingStore.waitForData) {
                                     setIsSaved(true)
                                     if (!readBylaw) {
-                                        props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
+                                        let error = props.LanguageStore.lang !== 'heb' ? "You must read the terms before adding the meeting" : "עליך לקרוא את התקנון לפני ההוספה"
+                                        props.CreateMeetingStore.setError(error)
                                         return
                                     }
                                     let meeting = await props.CreateMeetingStore.createNewMeetingPost()
@@ -324,6 +350,7 @@ const CreateMeeting = (props) => {
                                         setSuccess(meeting[0])
                                     }
                                 }
+                                setWait(false)
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
                                     <div className="spinner">

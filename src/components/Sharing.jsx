@@ -89,7 +89,6 @@ export default function Sharing(props) {
   };
 
   const shareWithEmail = async (passedEmail) => {
-    console.log('CHECK: ', passedEmail);
     let senderName = "מתחברים וזוכרים"
     let string = `הוזמנת להשתתף במפגש Zoom - מתחברים וזוכרים`
     let fallens = ''
@@ -145,7 +144,6 @@ export default function Sharing(props) {
         senderName: senderName, sendOptions: sendOptions
       })
     })
-    console.log(res, err)
     handleClose();
   };
 
@@ -190,7 +188,10 @@ export default function Sharing(props) {
     <div ref={ref} style={{ position: 'relative' }}>
       <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor: 'pointer', transition: 'transform 0.5s ease' }}>
         <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
-        <span className="inviteSpan">הזמינו למפגש</span>
+        <span className="inviteSpan">
+          
+{props.t('share')}
+          </span>
 
       </div>
       {openShare ? <div className='containShareOptions'>
@@ -200,6 +201,9 @@ export default function Sharing(props) {
         <MenuItem className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
         <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
       </div> : null}
+      <SendEmail openEmail={openEmail}
+          setOpenEmail={setOpenEmail}
+          shareWithEmail={shareWithEmail} />
     </div>
   );
 }

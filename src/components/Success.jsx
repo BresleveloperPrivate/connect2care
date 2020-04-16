@@ -1,91 +1,83 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/success.scss';
 import { inject, observer } from 'mobx-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageOfFallen from './ImageOfFallen';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
-import Sharing from './Sharing.jsx';
+// import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
 // import Auth from '../modules/auth/Auth'
 // import Divider from '@material-ui/core/Divider';
 
 function Success(props) {
-
+    const meetingDate = [
+        { option: props.t('all'), data: false },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+    ]
     const [meeting, setMeeting] = useState(false)
 
     useEffect(() => {
        
         (async () => {
+            console.log("props.meeting",props.meeting)
+            // let ex={
+            //     approved: false,
+            //     code: 169808,
+            //     date: "יום שלישי, ד באייר, 28.04",
+            //     description: "jgdlofg",
+            //     fallens_meetings:[
+            //     {
+            //     fallen: 20224,
+            //     fallens: {id: 20224, name: "מעיין לוי", falling_date: "1994-10-10T00:00:00.000Z", heb_falling_date: "ה' בחשון  תשנה", image_link: "https://izkorcdn.azureedge.net/Data/korot/Image/514122.jpg"},
+            //     meeting: 15,
+            //     relationship: "אח/ות"}],
+            //     id: 15,
+            //     isOpen: false,
+            //     language: "עברית",
+            //     max_participants: 300,
+            //     meetingOwner: {id: 7, name: "מעיין לוי", email: "maayan45633@gmail.com", phone: "0524773888"},
+            //     name: "hghghg",
+            //     owner: 7,
+            //     participants_num: 0,
+            //     time: "20:30",
+            //     zoomId: ""
+            // }
+            // setMeeting(ex)
             setMeeting(props.meeting)
         })()
     }, []);
 
-    let dataToProps = {
-        "date": meeting.date,
-        "time":meeting.time,
-        "fallens":[],
-        "meetingId":meeting.id
-    }
-    // let meeting = props.meeting
-            // meetingId : null,
-            // image: null,
-            // dateOfDeath: null,
-            // fallens: null,
-            // relation: null,
-            // meetingStarter: null,
-            // meetingStory: null,
-            // meetingDate: null,
-            // meetingHour: null,
-            // isMeetingOpen: null
-        
-    
-    //READ ME!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //הקומפוננטה כרגע בנויה עם קומפוננט דיד מאונט שמעביר לסטייט מידע
-    //לכן ברנדר יש שאילתה - אם הקומפוננטה רק התחילה והכל בסטייט הוא נאל
-    //תציג טוען ואם לא, תציג את המידע
-    //כשכבר יהיה פרופס מוכנים - יש להעביר את כל מה שיהיה רשום ברנדר
-    //לפרופס ולהוריד את השאילתה מהרנדר
-    //כמו כן להחליף את fallenImage במשהו מהפרופס
-
-    // getPlaceholderInfo = () => {
-    //     const meetingId = 2
-    //     const dateOfDeath = "מרץ 07 צנחנים";
-    //     const relation = "אח/ות";
-    //     const meetingStarter = "משה לוי"
-    //     const meetingStory = "אנחנו הולכים להיפגש, אבל קצת אחרת. נפגשים בבית, על הספה, לבד אבל ביחד, עם מצלמה דולקת ולב פתוח וחיבוק כל כך חזק שירגישו אותו גם מבעד למסך";
-    //     const meetingDate = "יום שני | ג' באייר | 27 באפריל";
-    //     const meetingHour = "20:30"
-    //     const isMeetingOpen = true;
-    //     const fallens =[{name: 'דוד'} , {name: 'משה'}, {name: 'ישראל'}]
-    //     this.setState({
-    //         dateOfDeath, relation, meetingDate, meetingHour, meetingStarter,
-    //         meetingStory, isMeetingOpen, fallens , meetingId
-    //     })
+    // let dataToProps = {
+    //     "date": meeting.date,
+    //     "time":meeting.time,
+    //     "fallens":[],
+    //     "meetingId":meeting.id
     // }
 
+    
     let pageBack = () => {
         props.history.goBack();
     }
 
-    // componentDidMount = () => {
-    //     this.getPlaceholderInfo();
-    // }
-
-
         return (
         meeting ?
         <div className="navBarMargin">
-                <div style={{height:'90vh' , display:'flex' , flexDirection:'column'}}>
+                <div style={{display:'flex' , flexDirection:'column'}}>
                 {/* <div>{props.t("sunday")}</div> */}
                     <div className="sucessPage">
                         <div className="bigContainer">
                             <div className="backArrow"><FontAwesomeIcon className='pointer' icon="arrow-right" color="#ffffff" onClick={pageBack} /></div>
                             <div
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="sucessHeadline">מצויין, יצרת מפגש</div>
+                            className="sucessHeadline">
+                                {props.t('Great, youve created a meeting')}
+                                </div>
                             <div 
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="sucessHeadline2">מתחברים וזוכרים יחד</div>
+                            className="sucessHeadline2">{props.t('Connect and remember together')}</div>
                             <div className="sucessInfo">
                                 <div className="flexImage">
                                     <div><ImageOfFallen width='11em' height='14em' array={meeting.fallens_meetings} /></div>
@@ -101,24 +93,37 @@ function Success(props) {
 
                                             }><img alt="alt" src={candle} height="100%" width="100%" /></div>
                                         <div>{meeting.fallens_meetings.map((fallen, index) => {
-                                            dataToProps.fallens.push({"name":fallen.fallens.name })
+                                            // dataToProps.fallens.push({"name":fallen.fallens.name })
                                             if (index === 0) {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                    return (
+                                                        <span key={index}>In memory of {fallen.fallens.name}</span>
+                                                    )
+                                                }else{
                                                 return (
                                                     <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
                                                 )
                                             }
-
-                                            else if (index === meeting.fallens_meetings.length - 1) {
-                                                return (
-                                                    <span key={index}> ו{fallen.fallens.name} ז"ל</span>
-                                                )
                                             }
-
+                                            else if (index === meeting.fallens_meetings.length - 1) {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                return (
+                                                    <span key={index}> and {fallen.fallens.name}</span>
+                                                )}else{
+                                                    return (
+                                                        <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                                    )
+                                                }
+                                            }
                                             else {
+                                                if(props.LanguageStore.lang !== 'heb'){
+                                                    return(
+                                                        <span key={index}>, {fallen.fallens.name}</span>
+                                                    )
+                                                }else{
                                                 return (
                                                     <span key={index}>, {fallen.fallens.name} ז"ל</span>
-                                                )
-
+                                                )}
                                             }
                                         })}</div>                                            
                                     </div>
@@ -131,7 +136,9 @@ function Success(props) {
                                         }>
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
                                         </div>
-                                        <span className="exactDate">{meeting.date} | {meeting.time}</span>
+                                        <span className="exactDate">
+                                        {props.t(meetingDate.find(val=> val.data === meeting.date).option)} | {meeting.time}
+                                            </span>
                                     </div>
                                     <div className="relationDiv">
                                     <div style={
@@ -149,12 +156,14 @@ function Success(props) {
                                     {/* </div> */}
                                 </div>
                             </div>
-                            <div 
+                            {/* <div 
                             style={props.LanguageStore.width > 550 ? props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}:{textAlign:'center'}}
-                            className="shareWith">שתף את החברים, הצוות או המשפחה</div>
-                        </div>
+                                    className="shareWith">{props.t('Share with your friends colleagues or family')}</div>
+                        </div> */}
+                        
                     </div>
-                    <div 
+                    </div>
+                    {/* <div 
                     style={{direction:'rtl'}}
                     className="sharingComponent">
                         <Sharing 
@@ -166,17 +175,23 @@ function Success(props) {
                         // meetingId={meeting.id}
                         styleObject={{buttonWidth: 'fit-content'}}
                     />
+                    </div> */}
+                    
+                </div>
+                <div style={{backgroundColor:'#0A2D63'}} className="shareWith">
+                        <strong>מכיוון שהביטחון שלכם חשוב לנו</strong><br/>
+                        הרשמת המפגש נשלחה לאישור צוות המיזם תוך 24 שעות.
                     </div>
-                    <div className="whiteFutter">
+                <div className="whiteFutter">
                         <div
                         style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
                         className="additionalInfo">
-                            <div>*קישור למפגש מחכה לך בתיבת המייל</div>
-                            <div>*הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך</div>
+                            <div>*עיין במייל שנשלח אליך בקפידה</div>
+                            {/* <div>*{props.t('InvitationIsWaiting')}</div> */}
                         </div>
                     </div>
-                </div>
-        </div> : null)
+        </div>
+         : null)
     
 }
 

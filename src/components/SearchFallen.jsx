@@ -1,13 +1,14 @@
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
-import { TextField, createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
-import { Search } from "@material-ui/icons";
+import { createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
+// import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
+import { inject, observer } from 'mobx-react';
 
 import Auth from '../modules/auth/Auth';
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
-import { useLanguageStore } from '../stores/language.store';
+// import { useLanguageStore } from '../stores/language.store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useOnClickOutside from './UseOnClickOutside'
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchFallen = (props) => {
+const SearchFallen = observer((props) => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState(null);
     const [showOptions, setShowOptions] = useState(true);
@@ -61,11 +62,14 @@ const SearchFallen = (props) => {
         // else 
         setShowOptions(false);
         setSearchValue(fallen.name);
-
-        const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
+        // const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
+        const [response, error] = await Auth.superAuthFetch(`/api/fallens/getFallen`, {
+            method: "POST",
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ id: fallen.id })
+        });
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
-        console.log("response.messages", response)
         if (response && response.meetings && response.meetings.length)
             props.setDataForFallen(true)
     }, []);
@@ -118,7 +122,7 @@ const SearchFallen = (props) => {
                     onChange={onChange}
                     value={searchValue}
                     autoComplete="off"
-                    placeholder="שם החלל"
+                    placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
                     onClick={() => setShowOptions(true)}
                 />
                 <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
@@ -144,7 +148,8 @@ const SearchFallen = (props) => {
             )}
         </div>
     );
-};
+}
+)
 
 const theme = createMuiTheme({
     direction: "rtl",
@@ -155,8 +160,8 @@ const theme = createMuiTheme({
     }
 });
 
-export default props => (
+export default inject('LanguageStore')(observer(props => (
     <ThemeProvider theme={theme}>
         <SearchFallen {...props} />
     </ThemeProvider>
-);
+)));

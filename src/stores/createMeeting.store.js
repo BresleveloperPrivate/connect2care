@@ -21,8 +21,8 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: "",
-        timeHour: "20",
-        timeMinute: "30",
+        timeHour: '20',
+        timeMinute: '30',
         max_participants: 300,
         fallens: null,
         zoomId: "",
@@ -61,7 +61,8 @@ class CreateMeetingStore {
             max_participants: 300,
             fallens: null,
             zoomId: "",
-            otherRelationship: null
+            otherRelationship: null,
+            // approved: ""
         }
         this.allMeetings = null;
 
@@ -87,23 +88,26 @@ class CreateMeetingStore {
             image: fallen.image_link,
             meetings: fallen.meetings
         }
+        if (!this.meetingDetails.fallens[index]) this.meetingDetails.fallens[index] = {}
         this.meetingDetails.fallens[index].id = fallen.id
     }
 
     changeFallens = (index, number = null) => {
-        if (this.meetingDetails.fallens === null) {
+        if (!this.meetingDetails.fallens) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            if (this.meetingDetails.otherRelationShip === null)
+            if (!this.meetingDetails.otherRelationShip)
                 this.meetingDetails.otherRelationShip = [{ id: index, relative: "" }]
         }
-        else if (this.meetingDetails.fallens.length >= index) {
-            this.meetingDetails.fallens[index] = { id: number, relative: null }
-            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length >= index)
-                this.meetingDetails.otherRelationShip[index] = { id: number, relative: "" }
+        else if (this.meetingDetails.fallens.length > index) {
+            this.meetingDetails.fallens[index].id = number
+            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length > index)
+                this.meetingDetails.otherRelationShip[index].id = number
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            if (this.meetingDetails.otherRelationShip)
+            if (!this.meetingDetails.otherRelationShip)
+                this.meetingDetails.otherRelationShip = [{ id: number, relative: "" }]
+            else
                 this.meetingDetails.otherRelationShip.push({ id: number, relative: "" })
         }
     }
@@ -119,15 +123,19 @@ class CreateMeetingStore {
 
     setOtherRelationship = (e, index) => {
         let id = null
-        if (this.meetingDetails.fallens[index])
+        if (this.meetingDetails.fallens[index]) {
             id = this.meetingDetails.fallens[index].id
+        }
         if (!this.meetingDetails.otherRelationShip || (this.meetingDetails.otherRelationShip && !this.meetingDetails.otherRelationShip.length)) {
             this.meetingDetails.otherRelationShip = [{ id: id, relative: e.target.value }]
             return
         }
         else {
-            if (this.meetingDetails.otherRelationShip[index])
+            if (this.meetingDetails.otherRelationShip[index]) {
+                if (id !== this.meetingDetails.otherRelationShip[index].id)
+                    this.meetingDetails.otherRelationShip[index].id = id
                 this.meetingDetails.otherRelationShip[index].relative = e.target.value
+            }
             else
                 this.meetingDetails.otherRelationShip[index] = { id: id, relative: e.target.value }
 
@@ -150,7 +158,6 @@ class CreateMeetingStore {
     }
 
     changeFallenRelative = (option, index) => {
-        console.log(option)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
@@ -197,9 +204,11 @@ class CreateMeetingStore {
     getAllMeetings = async () => {
         if (this.meetingDetails.name && this.meetingDetails.name !== "") {
             if (!this.allMeetings) {
-                let [success, err] = await Auth.superAuthFetch(`/api/meetings/`)
+                let [success, err] = await Auth.superAuthFetch(`/api/meetings/getAll`)
+                console.log("success", success)
+                console.log("err", err)
                 if (err || !success) {
-                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
                     return
                 }
                 if (success)
@@ -254,6 +263,8 @@ class CreateMeetingStore {
             max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
             zoomId: "",
+            approved: object.approved,
+            id: object.id
         }
 
         if (object.fallens && object.fallens.length) {
@@ -264,7 +275,7 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
-                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר') {
+                if (object.fallens[i].relationship !== 'אח/ות' && object.fallens[i].relationship !== 'הורים' && object.fallens[i].relationship !== 'קרובי משפחה' && object.fallens[i].relationship !== 'חבר' && object.fallens[i].relationship !== 'בית אביחי' && object.fallens[i].relationship !== 'האחים שלנו') {
                     obj.relative = 'אחר'
                     if (!this.meetingDetailsOriginal.otherRelationship) this.meetingDetailsOriginal.otherRelationship = {}
                     if (!this.meetingDetailsOriginal.otherRelationship[i]) this.meetingDetailsOriginal.otherRelationship[i] = {}
@@ -280,9 +291,8 @@ class CreateMeetingStore {
 
     getMeetingDetails = async () => {
         if (this.meetingId === -1) return
-
         let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
-
+        console.log("success", success)
         if (err) {
             this.error = err
         }
@@ -298,17 +308,28 @@ class CreateMeetingStore {
         if (this.fallenDetails && this.fallenDetails[id]) this.fallenDetails[id] = undefined
     }
 
+    approveMeeting = async (email, nameOwner) => {
+        console.log("email", email, this.meetingId)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/approveMeeting/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
+            }, true);
+        if (success) {
+            this.meetingDetailsOriginal.approved = true;
+            this.meetingDetails.approved = true;
+        }
+        console.log(success, err)
+    }
+
     changeMeetingTimeHour = (event) => {
         this.meetingDetails.timeHour = event
-        console.log("timeHour", this.meetingDetails.timeHour)
-        console.log("timeMinute", this.meetingDetails.timeMinute)
     }
 
     changeMeetingTimeMinute = (event) => {
         this.meetingDetails.timeMinute = event
-        console.log("timeHour", this.meetingDetails.timeHour)
-        console.log("timeMinute", this.meetingDetails.timeMinute)
-
     }
 
     equals = (obj1, obj2) => {
@@ -349,7 +370,6 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -367,7 +387,6 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        console.log("beforePostJSON", beforePostJSON)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
@@ -381,7 +400,7 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
+        // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
@@ -406,7 +425,8 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        // let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
+        let fallensToChange = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
         if (Object.keys(changedObj).length === 0) return
@@ -452,23 +472,35 @@ class CreateMeetingStore {
         // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
         // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
 
+        if (changedObj.fallens) {
+            let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
+            for (let index in changedFallensObj) {
+                fallensToChange.push({ fallen: changedFallensObj[index].id, relationship: changedFallensObj[index].relative })
+            }
+            changedObj.fallensToChange = fallensToChange
+        }
+
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/updateMeeting/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: beforePostJSON, id: Number(this.meetingId) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) })
             }, true);
         this.waitForData = false
         if (err) {
             this.postErr(err)
             return
         }
+        this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
     }
 
     postErr = (err) => {
         console.log("err", err)
+        if (err && err.error && err.error.duplicate) {
+            this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
+        }
         if (err && err.error && err.error.isOpen)
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.email)
@@ -536,7 +568,8 @@ decorate(CreateMeetingStore, {
     changeShortDescription: action,
     createNewMeetingPost: action,
     getAllMeetings: action,
-    changeMeetingName: action
+    changeMeetingName: action,
+    approveMeeting: action
 });
 
 const createMeetingStore = new CreateMeetingStore();

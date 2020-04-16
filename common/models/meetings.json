@@ -233,7 +233,60 @@
                 "dataScale": null,
                 "nullable": "Y"
             }
+        },
+        "approved": {
+            "type": "Boolean",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "approved",
+                "dataType": "tinyint",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
         }
     },
-    "acls": []
+    "acls": [
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "DENY",
+            "property": "*"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": [
+                "getMeetingsUser",
+                "createMeeting",
+                "GetMeetingInfo",
+                "AddPersonToMeeting",
+                "SendShareEmail",
+                "get38Meetings",
+                "getAll"
+            ]
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "SUPERADMIN",
+            "permission": "ALLOW",
+            "property": [
+                "updateMeeting",
+                "getMeetingsDashboard",
+                "deleteMeeting",
+                "approveMeeting"
+            ]
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "SUPERADMIN",
+            "permission": "ALLOW",
+            "property": "*"
+        }
+    ]
 }

@@ -46,7 +46,7 @@ const createZoomUser = async (mail, name) => {
             type: 2,
             first_name: name,
             last_name: 'ממתחברים וזוכרים',
-            password: 'OurBrothers2020'
+            // password: 'OurBrothers2020'
         }
     }));
 

@@ -10,6 +10,10 @@
     color: white;
 }
 
+.fg0{
+  flex-grow: 0 !important;
+}
+
 
 .arrow-bottom-green {
     position: absolute;
@@ -35,19 +39,19 @@
 
   .containPartners{
       width: 100vw;
-      padding: 4vw;
+      padding: 5vw 4vw 4vw 4vw;
       display: flex;
-      justify-content: space-around;
-      align-items: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
   }
 
   .partner{
     cursor: pointer;
-    height: 7vw;
+    height: 6.2vw;
     display: flex;
     align-items: center;
-    margin: 2.3vw;
+    flex-grow: 1;
+    margin: 2.6vw;
   }
 
   .hilmeCredit{
@@ -73,8 +77,8 @@
     }
 
     .partner{
-      height: 8vw;
-      margin: 4vw 1.5vw;
+      height: 7.7vw;
+      margin: 4vw 1.2vw;
     }
 
     .hilmeCredit{

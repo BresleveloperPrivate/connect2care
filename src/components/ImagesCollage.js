@@ -19,20 +19,21 @@ class HowItWorks extends Component {
 
     componentDidMount = async () => {
 
-        let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
+        // let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
+        let [meetings, err] = await Auth.superAuthFetch('/api/meetings/get38Meetings', {
             method: 'GET',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
         if (err) {
             console.log(err)
         } else {
+            console.log("meetings", meetings)
             let i = 0
             let meeting = 0
             while (constImages.length < 32) {
                 if (meetings[meeting]) {
                     for (let j = 0; j < meetings[meeting].fallens.length; j++) {
-
-                        if (!constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id) && meetings[meeting].fallens[j].image_link) {
+                        if (constImages.length < 32 && !constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id) && meetings[meeting].fallens[j].image_link) {
                             constImages.push(
                                 {
                                     meetingId: meetings[meeting].id,
@@ -41,8 +42,9 @@ class HowItWorks extends Component {
                                     alt: meetings[meeting].fallens[j].firstName
                                 }
                             )
-                            // i++
                         }
+                        // i++
+
                     }
                     meeting++
                 }
@@ -82,7 +84,9 @@ class HowItWorks extends Component {
                 <div className='borderImagesCollage'>
 
                     <div className='topLabel'>
-                        <div className='label'>מתחברים וזוכרים. לזכרם.</div>
+                        <div className='label'>
+                            {this.props.t('ConnectRemember')}
+                        </div>
                     </div>
                     <div className='container'>
 

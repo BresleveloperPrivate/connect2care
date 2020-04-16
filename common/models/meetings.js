@@ -1,11 +1,11 @@
 'use strict';
-
+const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-const http = require("https");
-const jwt = require('jsonwebtoken');
+// const http = require("https");
+// const jwt = require('jsonwebtoken');
 // const config = require('./config');
 // const rp = require('request-promise');
 
@@ -22,11 +22,18 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let searchArr = search.split("'")
+        let newSearch = ""
+        for (let i = 0; i < searchArr.length; i++) {
+            newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
+        }
 
-        console.log(filters)
-        // if (filters.id) {
-        //     sqlQueryWhere += `meetings.id > '${filters.id}'`
-        // }
+
+        if (filters.id) {
+            sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        }
+
+        sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -53,23 +60,21 @@ module.exports = function (meetings) {
             if (search) {
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `(match(fallens.name) against('"${search}"') or 
-                        match(meetings.name) against('"${search}"') or 
-                        match(people.name) against('"${search}"') )
+                    `(match(fallens.name) against('"${newSearch}"') or 
+                        match(meetings.name) against('"${newSearch}"') or 
+                        match(people.name) against('"${newSearch}"') )
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        // console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} order by meetings.id LIMIT  ${limit.min + ' , ' + limit.max}`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id LIMIT ${limit.min + ' , ' + limit.max}`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
                 return cb(err)
             } else {
-                console.log(res)
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -78,8 +83,10 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
-                        if (err1) {
+                    // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+    
+                    if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
@@ -132,7 +139,6 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -155,8 +161,7 @@ module.exports = function (meetings) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            console.log("JS data", JSON.parse(JSON.stringify(data)))
-            let jsdata= JSON.parse(JSON.stringify(data))
+            let jsdata = JSON.parse(JSON.stringify(data))
             let whitelist = {
                 name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
@@ -168,11 +173,11 @@ module.exports = function (meetings) {
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
-                console.log("err2", err2)
+                console.log("err2", err2.code)
+                if (err2.code === 'ER_DUP_ENTRY') return cd({ error: { duplicate: true } })
                 return cb(err2)
             }
 
-            // console.log("data.fallens", data.fallens.length)
             if (data.fallens) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
@@ -200,7 +205,7 @@ module.exports = function (meetings) {
                             }
                             if (userMeeting) {
                                 let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-                                createZoomUser(newEmail, nameOwner)
+                                // createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
@@ -214,12 +219,6 @@ module.exports = function (meetings) {
                                 }
 
                                 sendEmail("", sendOptions);
-
-
-
-
-
-                                console.log("userMeeting", userMeeting)
                                 return cb(null, userMeeting)
 
                             }
@@ -244,40 +243,41 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
 
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            if (data.fallensToDelete) {
-                for (let i of data.fallensToDelete) {
-                    if (typeof i === 'number') {
-                        let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
-                        if (err1) {
-                            console.log(err1)
-                            return cb(err1)
-                        }
-                    }
-                }
-                delete data.fallensToDelete
-            }
+            // const fallens_meetings = meetings.app.models.fallens_meetings
+            // if (data.fallensToDelete) {
+            //     for (let i of data.fallensToDelete) {
+            //         if (typeof i === 'number') {
+            //             let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
+            //             if (err1) {
+            //                 console.log(err1)
+            //                 return cb(err1)
+            //             }
+            //         }
+            //     }
+            //     delete data.fallensToDelete
+            // }
 
-            if (data.fallensToAdd) {
-                for (let i of data.fallensToAdd) {
-                    let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
-                    };
-                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-                    if (!valid1.success || valid1.errors) {
-                        return cb(valid1.errors, null);
-                    }
+            // if (data.fallensToAdd) {
+            //     for (let i of data.fallensToAdd) {
+            //         let whitelist1 = {
+            //             fallen: true, meeting: true, relationship: true
+            //         };
+            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+            //         if (!valid1.success || valid1.errors) {
+            //             return cb(valid1.errors, null);
+            //         }
 
-                    let [err3, res1] = await to(fallens_meetings.create(valid1.data))
-                    if (err3) {
-                        console.log("err3", err3)
-                        return cb(err3)
-                    }
-                }
-                delete data.fallensToAdd
-            }
+            //         let [err3, res1] = await to(fallens_meetings.create(valid1.data))
+            //         if (err3) {
+            //             console.log("err3", err3)
+            //             return cb(err3)
+            //         }
+            //     }
+            //     delete data.fallensToAdd
+            // }
 
             if (data.fallensToChange) {
+                const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
                     let whitelist1 = {
                         fallen: true, meeting: true, relationship: true
@@ -298,26 +298,51 @@ module.exports = function (meetings) {
                 delete data.fallensToChange
             }
 
+
+            let [errMeeting, meetingById] = await to(meetings.findById(id))
+            if (errMeeting) {
+                console.log(errMeeting)
+                return cb(errMeeting)
+            }
+            if (data.date || data.time) {
+                console.log("INNNNNNNN")
+                const people_meetings = meetings.app.models.people_meetings
+                //find all people that sign to the meeting
+                const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
+                if (err2) {
+                    console.log("err2", err2)
+                    return cb(err2)
+                }
+                let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+                if (peopleInMeeting.length !== 0) {
+
+                    //send email to all the people that sign to the meeting
+                    let sendTo = []
+                    for (let peopleMeeting of peopleInMeeting) {
+                        sendTo.push(peopleMeeting.people.email)
+                    }
+                    let sendOptions = {
+                        to: sendTo, subject: "מפגש השתנה", html:
+                            `<div>יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
+                            המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                    }
+
+                    sendEmail("", sendOptions);
+                }
+            }
+
             if (data.owner) {
-                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let people = meetings.app.models.people
-                let [errMeeting, meetingById] = await to(meetings.findById(id))
-                if (errMeeting) {
-                    console.log(errMeeting)
-                    return cb(errMeeting)
-                }
 
                 let whitelist = {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -355,7 +380,6 @@ module.exports = function (meetings) {
                     return cb(err2)
                 }
             }
-            console.log('true')
             return cb(null, true)
         })()
 
@@ -384,8 +408,14 @@ module.exports = function (meetings) {
         if (filters.isOpen !== (null || undefined))
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
 
-        if (filters.name)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${filters.name}"')`
+        if (filters.name) {
+            let nameArr = filters.name.split("'")
+            let newName = ""
+            for (let i = 0; i < nameArr.length; i++) {
+                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${newName}"')`
+        }
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
@@ -393,23 +423,33 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
+                let fallenArr = filters.fallen.split("'")
+                let newFallen = ""
+                for (let i = 0; i < fallenArr.length; i++) {
+                    newFallen += fallenArr[i] + ((fallenArr.length - 1) === i ? '' : "\\'")
+                }
                 sqlQueryfrom += `, fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `match(fallens.name) against ('"${filters.fallen}"')
+                    `match(fallens.name) against ('"${newFallen}"')
                      and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
         if (filters.owner) {
+            let ownerArr = filters.owner.split("'")
+            let newOwner = ""
+            for (let i = 0; i < ownerArr.length; i++) {
+                newOwner += ownerArr[i] + ((ownerArr.length - 1) === i ? '' : "\\'")
+            }
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                ` match(people.name) against('"${filters.owner}"')
+                ` match(people.name) against('"${newOwner}"')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= ${filters.participants.min}`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
             if (filters.participants.max)
-                sqlQueryWhere += `and meetings.participants_num < ${filters.participants.max}`
+                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}`, (err, res) => {
@@ -454,8 +494,12 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'fallens'] });
-                if (!meeting) { cb({ error: "no meeting" }, null); return; }
+                let meeting = await meetings.findById(meetingId,{"fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
+                if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
+                // console.log(meeting.approved)
+                // console.log("meeting", meeting.code)
+                meeting = JSON.parse(JSON.stringify(meeting))
+                // delete meeting.code;
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
@@ -473,7 +517,6 @@ module.exports = function (meetings) {
 
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
-            console.log("mailDetails", mailDetails)
             try {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
@@ -492,7 +535,6 @@ module.exports = function (meetings) {
                 const { max_participants, participants_num, isOpen, code } = meeting;
 
                 if (!!!isOpen) {
-                    console.log(String(code), String(myCode))
                     if (String(code) !== String(myCode)) {
                         { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
                     }
@@ -509,7 +551,6 @@ module.exports = function (meetings) {
                         name: true, email: true, phone: true
                     };
                     let valid = ValidateTools.runValidate({ name, email, phone }, ValidateRules.people, whitelist);
-                    console.log("valid", valid)
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
@@ -525,7 +566,6 @@ module.exports = function (meetings) {
                     person: true, meeting: true
                 };
                 let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
-                console.log("valid1", valid1)
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
@@ -537,7 +577,6 @@ module.exports = function (meetings) {
                     id: true, participants_num: true
                 };
                 let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-                console.log("valid2", valid2)
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
@@ -603,7 +642,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            console.log("senderName, sendOptions", senderName, sendOptions)
+            // getZoomUser()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -621,7 +660,6 @@ module.exports = function (meetings) {
         (async () => {
             const fallens_meetings = meetings.app.models.fallens_meetings
             const people_meetings = meetings.app.models.people_meetings
-            const people = meetings.app.models.people
 
             const [err, meeting] = await to(meetings.findById(id))
             if (err) {
@@ -629,36 +667,35 @@ module.exports = function (meetings) {
                 return cb(err)
             }
 
-            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id } }))
+            //find all people that sign to the meeting
+            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2)
             }
+            let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+            if (peopleInMeeting.length !== 0) {
 
-            if (res1.length !== 0) {
-                
-                //find all people that sign to the meeting
-                let where = { or: [] }
-                if (res1.length === 1) {
-                    where = { id: res1[0].person }
+                //find fallens of meeting
+                const [err10, fallensMeetings] = await to(fallens_meetings.find({ where: { meeting: id }, include: 'fallens' }))
+                if (err10) {
+                    console.log("err10", err10)
+                    return cb(err10)
                 }
-                else for (let i of res1) {
-                    where.or.push({ id: i.person })
-                }
-                const [err4, peopleInMeeting] = await to(people.find({ where: where }))
-                if (err4) {
-                    console.log("err4", err4)
-                    return cb(err4)
+                let fallensNames = ''
+                const fallensMeeting = JSON.parse(JSON.stringify(fallensMeetings))
+                for (let i = 0; i < fallensMeeting.length; i++) {
+                    fallensNames += (i === (fallensMeeting.length - 1) && fallensMeeting.length > 1 ? 'ו' : '') + fallensMeeting[i].fallens.name + (i === (fallensMeeting.length - 1) ? '' : ', ')
                 }
 
                 //send email to all the people that sign to the meeting
                 let sendTo = []
-                for (let person of peopleInMeeting) {
-                    sendTo.push(person.email)
+                for (let peopleMeeting of peopleInMeeting) {
+                    if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
-                        `<div>המפגש ${meeting.name} התבטל</div>`
+                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
                 }
 
                 sendEmail("", sendOptions);
@@ -704,15 +741,87 @@ module.exports = function (meetings) {
         accepts: { arg: 'id', type: 'number' },
         returns: { arg: 'res', type: 'boolean', root: true }
     })
+
+
+    meetings.approveMeeting = (email, id, nameOwner, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
+            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2, false)
+            }
+            console.log("res", res)
+            createZoomUser(newEmail, nameOwner)
+            let sendOptions = {
+                to: email, subject: "המפגש שיצרת אושר", html:
+                    `
+                <div width="100%" style="direction: rtl;">המפגש שיצרת אושר</div>
+              `
+            }
+
+            sendEmail("", sendOptions);
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('approveMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'nameOwner', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.get38Meetings = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "include": [{ "relation": "fallens" }], "limit": "38" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('get38Meetings', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+    meetings.getAll = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false },"limit": "6000" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('getAll', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+
+
+
 };
-{/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
 background-color: #082551; direction: rtl'>
 <div style='display: flex ; width: 100%' >
  <div style='width: 100%;' >
-   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" >
  </div>
  <div style='width: 30%;' >
-   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  >
  </div>
 </div>
 <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
@@ -726,7 +835,7 @@ background-color: #082551; direction: rtl'>
 
 איך נכנסים למערכת ויוצרים מפגש?<br>
 בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
-יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
+יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br>
 איך תעשו זאת?<br>
 א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
 ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
@@ -765,4 +874,4 @@ background-color: #082551; direction: rtl'>
 </div>
 
 <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-</div> */}
+</div> */

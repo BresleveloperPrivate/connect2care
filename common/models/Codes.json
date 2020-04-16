@@ -67,5 +67,12 @@
             }
         }
     },
-    "acls": []
+    "acls": [
+      {
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "DENY",
+        "property": "*"
+      }
+    ]
 }
