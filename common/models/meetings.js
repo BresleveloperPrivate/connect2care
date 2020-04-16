@@ -1,11 +1,11 @@
 'use strict';
-
+const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-const http = require("https");
-const jwt = require('jsonwebtoken');
+// const http = require("https");
+// const jwt = require('jsonwebtoken');
 // const config = require('./config');
 // const rp = require('request-promise');
 
@@ -28,9 +28,12 @@ module.exports = function (meetings) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
+
         if (filters.id) {
             sqlQueryWhere += `meetings.id <= '${filters.id}'`
         }
+
+        sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -80,8 +83,10 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
-                    meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-                        if (err1) {
+                    // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+    
+                    if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
@@ -200,7 +205,7 @@ module.exports = function (meetings) {
                             }
                             if (userMeeting) {
                                 let code = jsdata.code ? `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-                                createZoomUser(newEmail, nameOwner)
+                                // createZoomUser(newEmail, nameOwner)
 
 
                                 let sendOptions = {
@@ -299,7 +304,6 @@ module.exports = function (meetings) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
-            console.log(data)
             if (data.date || data.time) {
                 console.log("INNNNNNNN")
                 const people_meetings = meetings.app.models.people_meetings
@@ -490,8 +494,12 @@ module.exports = function (meetings) {
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
             try {
-                const meeting = await meetings.findById(meetingId, { include: ['meetingOwner', 'fallens'] });
-                if (!meeting) { cb({ error: "no meeting" }, null); return; }
+                let meeting = await meetings.findById(meetingId,{"fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
+                if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
+                // console.log(meeting.approved)
+                // console.log("meeting", meeting.code)
+                meeting = JSON.parse(JSON.stringify(meeting))
+                // delete meeting.code;
                 cb(null, meeting);
             } catch (err) {
                 console.log(err);
@@ -634,6 +642,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
+            // getZoomUser()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -682,7 +691,7 @@ module.exports = function (meetings) {
                 //send email to all the people that sign to the meeting
                 let sendTo = []
                 for (let peopleMeeting of peopleInMeeting) {
-                    if(peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
+                    if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
                 let sendOptions = {
                     to: sendTo, subject: "מפגש התבטל", html:
@@ -732,15 +741,87 @@ module.exports = function (meetings) {
         accepts: { arg: 'id', type: 'number' },
         returns: { arg: 'res', type: 'boolean', root: true }
     })
+
+
+    meetings.approveMeeting = (email, id, nameOwner, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
+            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            if (err2) {
+                console.log("err2", err2)
+                return cb(err2, false)
+            }
+            console.log("res", res)
+            createZoomUser(newEmail, nameOwner)
+            let sendOptions = {
+                to: email, subject: "המפגש שיצרת אושר", html:
+                    `
+                <div width="100%" style="direction: rtl;">המפגש שיצרת אושר</div>
+              `
+            }
+
+            sendEmail("", sendOptions);
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('approveMeeting', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'id', type: 'number', required: true },
+            { arg: 'nameOwner', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.get38Meetings = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "include": [{ "relation": "fallens" }], "limit": "38" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('get38Meetings', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+    meetings.getAll = (cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false },"limit": "6000" }))
+            if (err) {
+                console.log(err)
+                cb(err, {})
+            }
+            else {
+                cb(null, res)
+            }
+        })()
+    }
+
+    meetings.remoteMethod('getAll', {
+        http: { verb: 'get' },
+        returns: { type: "object", root: true }
+    })
+
+
+
+
 };
-{/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
 background-color: #082551; direction: rtl'>
 <div style='display: flex ; width: 100%' >
  <div style='width: 100%;' >
-   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" >
  </div>
  <div style='width: 30%;' >
-   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  >
  </div>
 </div>
 <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
@@ -754,7 +835,7 @@ background-color: #082551; direction: rtl'>
 
 איך נכנסים למערכת ויוצרים מפגש?<br>
 בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
-יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br> 
+יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br>
 איך תעשו זאת?<br>
 א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
 ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
@@ -793,4 +874,4 @@ background-color: #082551; direction: rtl'>
 </div>
 
 <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-</div> */}
+</div> */

@@ -12,13 +12,14 @@ import './styles/animations.scss'
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
+// import { Dashboard } from '@material-ui/icons';
 
 const Home = loadable(() => import('./components/Home.js'));
 const Meeting = loadable(() => import('./components/Meeting/Meeting'));
 const Success = loadable(() => import('./components/Success.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
-const MyMeetings = loadable(() => import('./components/MyMeetings'));
+// const MyMeetings = loadable(() => import('./components/MyMeetings'));
 
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
 const MeetingInfo = loadable(() => import('./dashboard/components/MeetingInfo'));
@@ -57,21 +58,26 @@ class App extends Component {
             </Helmet>
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
-                    {/* <PrivateRoute path="/(main|add-student|staff-list|add-staff-member|settings/class|students/class|class|settings|edit-staff-member|show-staff-member|student)/" compName='StaffNavBar' component={() => <StaffNavBar changeLanguage={this.changeLanguage} t={this.props.t} />} /> */}
                     <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"}>
                         <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings|my-meetings)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
-                            <Route path="/success" exact render={props => <Success t={this.props.t} {...props} />} />
+                            {/* <Route path="/success" exact render={props => <Success t={this.props.t} {...props} />} /> */}
                             <Route path="/" exact render={props => <Home t={this.props.t} {...props} />} />
                             <Route path="/meeting/:meetingId" render={props => <Meeting t={this.props.t} {...props} />} />
                             <Route path="/meetings" exact render={props => <ListOfMeetingsUser t={this.props.t} {...props} />} />
                             {/* <Route path="/my-meetings" exact render={props => <MyMeetings t={this.props.t} {...props} />} /> */}
                             <Route path="/create-meeting" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
-                            <Route path="/login" render={(props) => <DashLogin t={this.props.t} {...props} />} />
-                            <PrivateRoute path="/dashboard" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/login'/>} component={(props) => <DashboardMain t={this.props.t} {...props} />} />
-                            <PrivateRoute path="/dashboard/edit-meeting/:id" compName='MeetingInfo' component={(props) => <MeetingInfo t={this.props.t} {...props} />} />
+                            <Route path="/amisraelhi4lomefahedmidercharoka" render={(props) => <DashLogin t={this.props.t} {...props} />} />
+                            <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/amisraelhi4lomefahedmidercharoka' />}
+                                // component={DashboardMain}
+                             component={(props) => <DashboardMain t={this.props.t} {...props} />}
+                            />
+                            <PrivateRoute path="/ngsgjnsrjgtesg/edit-meeting/:id" compName='MeetingInfo'
+                                // component={MeetingInfo}
+                            component={(props) => <MeetingInfo t={this.props.t} {...props} />}
+                            />
                             <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />
                         </Switch>
                     </div>
@@ -82,4 +88,4 @@ class App extends Component {
     }
 }
 
-export default inject('i18n','LanguageStore')(observer(withNamespaces()(App)));
+export default inject('i18n', 'LanguageStore')(observer(withNamespaces()(App)));

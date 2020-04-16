@@ -49,7 +49,7 @@ class DashLogin extends Login {
     }
 
     redirect = () => {
-        let redir = "/dashboard";
+        let redir = "/ngsgjnsrjgtesg";
         GenericTools.safe_redirect(redir);
     }
 

@@ -39,7 +39,8 @@ const MeetingsList = (props) => {
 
                             props.ManagerStore.meetings.map((meeting, index) =>
                                 <tr key={index} className="tableBodyStyle">
-                                    <td className='date'>{meeting.date && meeting.date.split(', ')[2]}</td>
+                                    {/* {(!meeting.approved || meeting.approved) && <div >ממתין לאישור</div>} */}
+                                    <td className='date' >{meeting.date && meeting.date.split(', ')[2]}</td>
                                     <td className='time'>{meeting.time}</td>
                                     <td className='fallen' style={{ maxWidth: '5vw' }}>
                                         {meeting.fallens_meetings && meeting.fallens_meetings.map((fallenMeeting, index) =>
@@ -66,7 +67,10 @@ const MeetingsList = (props) => {
                                         }
                                     </td>
                                     <td className='edit'>
-                                        <img alt="alt" src={pen} onClick={()=>props.history.push('/dashboard/edit-meeting/' + meeting.id)} />
+                                        <div>
+                                            <img alt="alt" src={pen} onClick={() => props.history.push('/ngsgjnsrjgtesg/edit-meeting/' + meeting.id)} />
+                                            {!meeting.approved && <div style={{ color: "red", marginTop: '5px' }}>ממתין לאישור</div>}
+                                        </div>
                                     </td>
                                 </tr>
                             )
@@ -82,7 +86,7 @@ const MeetingsList = (props) => {
                             await props.ManagerStore.fetchMeetingsDashboard({}, true)
                         })()
                     }}>
-                        {props.t("load more")}
+                    {props.t("load more")}
                 </div> : null
             }
         </div>

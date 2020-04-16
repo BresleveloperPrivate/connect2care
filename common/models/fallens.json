@@ -113,5 +113,21 @@
             }
         }
     },
-    "acls": []
+    "acls": [
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "DENY",
+            "property": "*"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "ALLOW",
+            "property": [
+                "SearchFallen",
+                "getFallen"
+            ]
+        }
+    ]
 }

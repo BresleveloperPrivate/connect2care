@@ -9,6 +9,8 @@ import '../styles/animations.scss'
 import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
+import grass from '../icons/grass.png'
+import ourBrothers from '../icons/ourBro.png'
 
 const PhoneCard = (props) => {
     const meetingDate = [
@@ -104,7 +106,11 @@ const PhoneCard = (props) => {
                             props.LanguageStore.lang !== 'heb' ? 
                             { height: '1.3em', marginBottom: '0.6em', marginRight: '0.5em' }:
                             { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>
-                            <img src={tell} height='100%' />
+                                {props.meeting.fallens_meetings.some(fallen => fallen.relationship === 'האחים שלנו') ?                                    
+                                <img height='140%' src={ourBrothers}/> :
+                                 props.meeting.fallens_meetings.some(fallen => fallen.relationship === 'בית אביחי') ?
+                                 <img height='130%' src={grass}/> :
+                                    <img height='100%' src={tell}/>}
                         </div>
                        {props.t('host')}: {props.meeting.meetingOwner && props.meeting.meetingOwner.name}
                     </div>

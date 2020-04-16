@@ -201,6 +201,9 @@ export default function Sharing(props) {
         <MenuItem className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
         <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
       </div> : null}
+      <SendEmail openEmail={openEmail}
+          setOpenEmail={setOpenEmail}
+          shareWithEmail={shareWithEmail} />
     </div>
   );
 }

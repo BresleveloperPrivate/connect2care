@@ -10,6 +10,8 @@ import candle from '../icons/candle-dark-blue.svg'
 import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
+import grass from '../icons/grass.png'
+import ourBrothers from '../icons/ourBro.png'
 
 const ComputerList = (props) => {
 
@@ -142,8 +144,12 @@ const ComputerList = (props) => {
                                     <div style={
                             props.LanguageStore.lang !== 'heb' ?
                             { height: '1.3em', marginBottom: '0.6em', marginRight: '0.5em' }:
-                            { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}>                                        
-                                <img src={tell} height='100%' />
+                            { height: '1.3em', marginBottom: '0.6em', marginLeft: '0.5em' }}> 
+                            {meeting.fallens_meetings.some(fallen => fallen.relationship === 'האחים שלנו') ?                                    
+                                <img height='140%' src={ourBrothers}/> :
+                                 meeting.fallens_meetings.some(fallen => fallen.relationship === 'בית אביחי') ?
+                                 <img height='130%' src={grass}/> :
+                                    <img height='100%' src={tell}/>}
                                         </div>
                                         {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}
                                     </div>
