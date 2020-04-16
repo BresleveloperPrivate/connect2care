@@ -98,10 +98,11 @@ const translationHEB = {
     "Share with your friends colleagues or family" : 'שתף עם החברים, הצוות או המשפחה',
     "A link to the meeting is waiting for you in the email box":"קישור למפגש מחכה לך בתיבת המייל",
     "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך",
-    'fullMeeting':'אין יותר מקום'
+    'fullMeeting':'אין יותר מקום',
 
-
-
+    'safety-1':'מכיוון שהביטחון שלכם חשוב לנו,',
+    'safety-2':'המפגש שיצרת נשלח לאישור צוות המיזם תוך 24 שעות.',
+    'whiteFutter':'אנא עיין בקפידה במייל שנשלח אליך',
 }
 
 export default translationHEB;

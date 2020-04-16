@@ -97,7 +97,11 @@ const translationEN = {
     "Share with your friends colleagues or family": "Share with your friends, colleagues or family",
     "A link to the meeting is waiting for you in the email box":"A link to the meeting has been emailed to you",
     "InvitationIsWaiting":"An invitation for a preparation workshop, with practical and technical tools to manage the meeting, has been emailed to you",
-    'fullMeeting':'Full meeting'
+    'fullMeeting':'Full meeting',
+    'safety-1':'Because your security is important to us,',
+    'safety-2':'the meeting you created will be sent to the project team for approval within 24 hours.',
+    'whiteFutter':'Please carefully review the email that has been sent to you',
+
 
 }
 

@@ -12,7 +12,7 @@ const TextSideDiv = (props) => {
         <div className="position-fixed containInputTextSide" style={props.dataForFallen ? { backgroundColor: "#082551" } : {}}>
             <img src={cancel} alt="cancel" className="cancelSideButton" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }} />
             <div id="containDetailsSideBar">
-                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : { marginBottom: "4vh" }} />
+                <img src={props.dataForFallen ? candleWhiteGray : Business} alt="Business" style={props.dataForFallen ? { marginBottom: "3vh", width: props.LanguageStore.width > 550 ? "55px" : "30px" } : {width: props.LanguageStore.width > 550 ? "60px" : "50px" , marginBottom: "4vh" }} />
 
                 {!props.dataForFallen ?
 
