@@ -36,7 +36,7 @@ module.exports = function (app) {
             schedule.scheduleJob(rule, () => {
                 (async () => {
                     try {
-                        const meetings = await app.models.meetings.find({ where: { time: { or: timeStrings }, date }, include: ["people", "meetingOwner","fallens"] });
+                        const meetings = await app.models.meetings.find({ where: { and: [{ or: timeStrings.map(time => ({ time })) }, { date }] }, include: ["people", "meetingOwner", "fallens"] });
 
                         meetings.forEach(meeting => {
                             console.log(meeting);
