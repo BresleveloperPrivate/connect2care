@@ -66,7 +66,7 @@ const translationEN = {
 
     'searchPlaceHolder' : "Search for a fallen name, meeting name, host name",
     "meetingsList": 'List of Meetings',
-    'meetingsList2' : 'All our virtual meetings are waiting for you here',
+    'meetingsList2' : 'All virtual meetings are waiting for you here',
     "joinTheMeeting" : 'Join meeting',
     "noMeetings" : 'No meetings were found to match your search.',
     "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
@@ -85,7 +85,7 @@ const translationEN = {
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',
     'meeting language': 'Meeting language',
-    'relationship to fallen': 'Relationshit to fallen',
+    'relationship to fallen': 'Relationship to fallen',
     'show available meetings only': 'Show available meetings only',
     'filter by': 'Filter by',
 

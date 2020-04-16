@@ -14,6 +14,10 @@ class ManagerStore {
         this.page = page
     }
 
+    setReadMore = (readMore) => {
+        this.readMore = readMore
+    }
+
     fetchMeetingsDashboard = async (filters = {}, readMore = false) => {
         if (readMore) {
             filters = this.filters
@@ -54,6 +58,7 @@ decorate(ManagerStore, {
     meetings: observable,
     loading: observable,
     setPage: action,
+    setReadMore: action,
     setFilters: action,
     meetings: observable,
     fetchMeetingsDashboard: action

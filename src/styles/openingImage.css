@@ -28,6 +28,13 @@
     transition: -webkit-filter 0.5s linear, filter 0.5s linear;  
 }
 
+.lightBlueBackgroundEn{
+    position: absolute;
+    width: 50vw;
+    left: 3%;
+    bottom: 15%; 
+}
+
 .lightBlueBackground{
     position: absolute;
     width: 50vw;
@@ -43,6 +50,15 @@
     position: absolute;
     top: 0;
     right: 5%;
+}
+
+.whiteLineEn{
+    width: 2px; 
+    background-color: white;
+    height: 70%;
+    position: absolute;
+    top: 0;
+    left: 5%;
 }
 
 
@@ -221,5 +237,8 @@
     .lightBlueBackground{
         width: 70vw;
     }
-
+    
+    .lightBlueBackgroundEn{
+        width: 70vw;
+    }
 }

@@ -257,6 +257,7 @@ class CreateMeetingStore {
             },
             language: object.language,
             isOpen: object.isOpen,
+            code: object.code,
             date: object.date,
             timeHour: hour,
             timeMinute: minute,
@@ -303,7 +304,6 @@ class CreateMeetingStore {
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ meetingId: Number(this.meetingId) })
         }, true);
-        console.log("success", success)
         if (err) {
             this.error = err
         }
@@ -493,6 +493,7 @@ class CreateMeetingStore {
             }
             changedObj.fallensToChange = fallensToChange
         }
+        if(changedObj.code) delete changedObj.code
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
