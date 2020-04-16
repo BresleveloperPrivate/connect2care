@@ -151,7 +151,7 @@ const CreateMeeting = (props) => {
 
                         <div className="margin-right-text d-flex align-items-end" style={{ marginBottom: "4vh" }}>
                             <img style={props.LanguageStore.lang === "heb" ? { width: "18px", marginLeft: "1vh" } : { width: "18px", marginRight: "1vh" }} src={person} alt="person" />
-                            <div className="inputDetail">{props.t("ownerDetails")}</div>
+                            <div className="inputDetail">{props.t("ownerDetails")}:</div>
                         </div>
 
                         <div className='position-relative'>
@@ -252,7 +252,7 @@ const CreateMeeting = (props) => {
                                     {props.LanguageStore.lang !== 'heb' ?
                                         'Time (Israel time)' :
                                         'שעה (שעון ישראל)'
-                                    }
+                                    }:
                                     {/* שעה (שעון ישראל): */}
                                 </div>}
                                 <Select
@@ -268,6 +268,7 @@ const CreateMeeting = (props) => {
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : props.LanguageStore.lang !== 'heb' ? "Hours" : "שעות"}
                                     arr={meetingTimeHour}
                                     width='100%'
+                                    maxHeight='120px'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (props.LanguageStore.lang !== "heb" ? "dir-ltr " : " ") + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
