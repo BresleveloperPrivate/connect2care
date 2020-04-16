@@ -152,6 +152,11 @@ input[type=radio]:focus {
     direction: ltr;
 }
 
+.leftDiv{
+    left: auto;
+    right: 0 !important;
+}
+
 
 .addFallen{
     border: 2px solid #3586B1;
@@ -188,9 +193,8 @@ input[type=radio]:focus {
 
 .containCreateMettingButton{
     display: flex;
-    margin-right: 6vw;
     justify-content: flex-end;
-    width: calc(73% - 12vw);
+    width: calc(73% - 6vw);
     /* width: 65%; */
 }
 
@@ -352,6 +356,7 @@ input[type=radio]:focus {
         width: calc(73% - 12vw);
         /* width: 65%; */
         margin-right: 6vw;
+        margin-left: 6vw;
     }
 
     .openOrCloseDetails{
@@ -386,6 +391,7 @@ input[type=radio]:focus {
         /* width: 65%; */
         display: flex;
         margin-right: 6vw;
+        margin-left: 6vw;
         align-items: flex-end;
         justify-content: space-between; 
     }
@@ -489,7 +495,6 @@ input[type=radio]:focus {
     .containDateAndTime .textAboveInput, .containFallenDetails .textAboveInput{
         margin-right: 6vw;
         margin-left: 6vw;
-
     }
 
     .gotItButton{
