@@ -9,6 +9,8 @@ const DashboardMain = (props) => {
 
     useEffect(() => {
         (async () => {
+            props.ManagerStore.setPage(1)
+            props.ManagerStore.setReadMore(false)
             await props.ManagerStore.fetchMeetingsDashboard()
         })()
     }, [])

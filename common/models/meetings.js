@@ -242,6 +242,7 @@ module.exports = function (meetings) {
 
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
+            if(data.code) delete data.code
 
             // const fallens_meetings = meetings.app.models.fallens_meetings
             // if (data.fallensToDelete) {

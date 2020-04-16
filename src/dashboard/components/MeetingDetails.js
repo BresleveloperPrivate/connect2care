@@ -107,7 +107,7 @@ const MeetingDetails = (props) => {
                 {props.CreateMeetingStore.meetingId === -1 && <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>}
             </div>)
     }
-    { console.log("props.CreateMeetingStore.meetingDetails", props.CreateMeetingStore.meetingDetails) }
+    
     return (
         <div>
             {!success ?
@@ -252,6 +252,18 @@ const MeetingDetails = (props) => {
                                 <div style={{ marginLeft: "2vh" }}><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
                             </div>
                         </div>
+                        {props.CreateMeetingStore.meetingDetails.code &&
+                            <div className='position-relative' style={{ marginBottom: '-2vh', marginTop: '3vh' }}>
+                                <div className="textAboveInput  margin-right-text">קוד מפגש</div>
+                                <input
+                                    type="text"
+                                    disabled
+                                    className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
+                                    onChange={() => { }}
+                                    value={props.CreateMeetingStore.meetingDetails.code}
+                                />
+                            </div>
+                        }
                         <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>*מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד</div>
                         <br />
                         <div className="containDateAndTime">
@@ -330,7 +342,7 @@ const MeetingDetails = (props) => {
                             <FontAwesomeIcon icon={['fas', 'trash']} />
                             <div className='trashText'>מחק מפגש</div>
                         </div>
-                        {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email&&<div onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email,props.CreateMeetingStore.meetingDetails.owner.name)} className="grow" style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                        {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && <div onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)} className="grow" style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
                             אישור מפגש
                         </div>}
                         <div
