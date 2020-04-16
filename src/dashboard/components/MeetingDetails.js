@@ -109,8 +109,10 @@ const MeetingDetails = (props) => {
     }
 
     return (
-        <div>
-            {!success ?
+        <div style={{width:'100vw' , minHeight:'100vh'}}>
+            {
+            props.CreateMeetingStore.meetingDetails ?
+            !success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div className="headLine" style={{ marginTop: "6vh", fontSize: '3.5vh' }}>
                         <FontAwesomeIcon className='pointer ml-3' icon="arrow-right" color="var(--custom-gray)" onClick={props.history.goBack} /> {props.CreateMeetingStore.meetingId === -1 ? props.t("createTheMeeting") : props.t("editMeeting")}
@@ -391,6 +393,12 @@ const MeetingDetails = (props) => {
                     }
                 </div>
                 : <Success history={props.history} meeting={success} t={props.t} />
+                :
+                <div style={{ margin: 'auto' }}>
+                    <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
             }
             {showDeleteMeetingPopup && <DeleteMeetingPopup handleClose={() => setShowDeleteMeetingPopup(false)} meetingId={props.CreateMeetingStore.meetingId} history={props.history} />}
         </div>
