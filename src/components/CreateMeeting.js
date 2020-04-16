@@ -11,7 +11,6 @@ import Select from './Select.js'
 
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
-import languageStore from '../stores/language.store';
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
@@ -90,7 +89,7 @@ const CreateMeeting = (props) => {
 
     const showFallens = () => {
         if (!props.CreateMeetingStore.meetingDetails.fallens)
-            props.CreateMeetingStore.changeFallens(0)
+            props.CreateMeetingStore.changeFallens(null)
 
         return (
             <div>{props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.length &&
@@ -237,7 +236,7 @@ const CreateMeeting = (props) => {
                             <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
                             <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
                         </div>
-                        <div style={{ marginRight: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
+                        <div style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
                             {props.LanguageStore.lang !== 'heb' ?
                                 'Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants*' :
                                 '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
@@ -268,7 +267,7 @@ const CreateMeeting = (props) => {
                                     {/* שעה (שעון ישראל): */}
                                 </div>}
                                 <Select
-                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "דקות"}
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : props.LanguageStore.lang !== 'heb' ? "Mintes" : "דקות"}
                                     arr={meetingTimeMinute}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -277,7 +276,7 @@ const CreateMeeting = (props) => {
 
                                 <div className="timeDot">:</div>
                                 <Select
-                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : "שעות"}
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : props.LanguageStore.lang !== 'heb' ? "Hours" : "שעות"}
                                     arr={meetingTimeHour}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
@@ -342,7 +341,8 @@ const CreateMeeting = (props) => {
                                 if (!props.CreateMeetingStore.waitForData) {
                                     setIsSaved(true)
                                     if (!readBylaw) {
-                                        props.CreateMeetingStore.setError("עליך לקרוא את התקנון לפני ההוספה")
+                                        let error = props.LanguageStore.lang !== 'heb' ? "You must read the terms before adding the meeting" : "עליך לקרוא את התקנון לפני ההוספה"
+                                        props.CreateMeetingStore.setError(error)
                                         return
                                     }
                                     let meeting = await props.CreateMeetingStore.createNewMeetingPost()

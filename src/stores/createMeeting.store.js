@@ -93,19 +93,21 @@ class CreateMeetingStore {
     }
 
     changeFallens = (index, number = null) => {
-        if (this.meetingDetails.fallens === null) {
+        if (!this.meetingDetails.fallens) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            if (this.meetingDetails.otherRelationShip === null)
+            if (!this.meetingDetails.otherRelationShip)
                 this.meetingDetails.otherRelationShip = [{ id: index, relative: "" }]
         }
-        else if (this.meetingDetails.fallens.length >= index) {
-            this.meetingDetails.fallens[index] = { id: number, relative: null }
-            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length >= index)
-                this.meetingDetails.otherRelationShip[index] = { id: number, relative: "" }
+        else if (this.meetingDetails.fallens.length > index) {
+            this.meetingDetails.fallens[index].id = number
+            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length > index)
+                this.meetingDetails.otherRelationShip[index].id = number
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            if (this.meetingDetails.otherRelationShip)
+            if (!this.meetingDetails.otherRelationShip)
+                this.meetingDetails.otherRelationShip = [{ id: number, relative: "" }]
+            else
                 this.meetingDetails.otherRelationShip.push({ id: number, relative: "" })
         }
     }
@@ -121,15 +123,19 @@ class CreateMeetingStore {
 
     setOtherRelationship = (e, index) => {
         let id = null
-        if (this.meetingDetails.fallens[index])
+        if (this.meetingDetails.fallens[index]) {
             id = this.meetingDetails.fallens[index].id
+        }
         if (!this.meetingDetails.otherRelationShip || (this.meetingDetails.otherRelationShip && !this.meetingDetails.otherRelationShip.length)) {
             this.meetingDetails.otherRelationShip = [{ id: id, relative: e.target.value }]
             return
         }
         else {
-            if (this.meetingDetails.otherRelationShip[index])
+            if (this.meetingDetails.otherRelationShip[index]) {
+                if (id !== this.meetingDetails.otherRelationShip[index].id)
+                    this.meetingDetails.otherRelationShip[index].id = id
                 this.meetingDetails.otherRelationShip[index].relative = e.target.value
+            }
             else
                 this.meetingDetails.otherRelationShip[index] = { id: id, relative: e.target.value }
 
@@ -199,8 +205,10 @@ class CreateMeetingStore {
         if (this.meetingDetails.name && this.meetingDetails.name !== "") {
             if (!this.allMeetings) {
                 let [success, err] = await Auth.superAuthFetch(`/api/meetings/getAll`)
+                console.log("success", success)
+                console.log("err", err)
                 if (err || !success) {
-                    this.error = "משהו השתבש, נסה שנית מאוחר יותר"
+                    this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
                     return
                 }
                 if (success)
@@ -366,7 +374,6 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-
         if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
             beforePostJSON.fallens.filter((fallen) => {
@@ -384,7 +391,6 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        // console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
