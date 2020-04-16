@@ -174,7 +174,7 @@ input[type=radio]:focus {
 .textAboveInput{
     font: normal 13px/13px Assistant;
     color: #3586B1;
-    padding: 0 2vh 1vh 0;
+    padding: 0 2vh 1vh;
     position: absolute;
     top: -15px;
     width: 100%;
@@ -372,20 +372,23 @@ input[type=radio]:focus {
     }
 
     .containSelectTime{
-        width: 30%;
-        margin-right: 2vh;
         display: flex;
         align-items: center;
-    }
-
-    .containDateInput{
-        width: 80%;
     }
 
     .inputStyleTime{
         width: 100%;
     }
 
+    .containDateAndTime{
+        width: calc(73% - 12vw);
+        margin-right: 6vw;
+        margin-left: 6vw;
+    }
+  
+}
+
+@media screen and (min-width: 1150px){
     .containDateAndTime{
         width: calc(73% - 12vw);
         /* width: 65%; */
@@ -395,6 +398,16 @@ input[type=radio]:focus {
         align-items: flex-end;
         justify-content: space-between; 
     }
+
+    .containSelectTime{
+        width: 30%;
+        margin-right: 2vh;
+    }
+
+    .containDateInput{
+        width: 80%;
+    }
+
 }
 
 @media screen and (max-width: 800px){

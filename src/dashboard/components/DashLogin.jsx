@@ -96,7 +96,7 @@ class DashLogin extends Login {
                                 </div>
                                 </div>
                                 :
-                                <div onClick={this.myHandleLogin} className='loginBtn'>
+                                <div onClick={this.myHandleLogin} className='loginBtn pointer'>
                                     <div>
                                         התחבר
                                 </div>
