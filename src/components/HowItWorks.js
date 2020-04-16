@@ -102,7 +102,7 @@ class HowItWorks extends Component {
                         </div> */}
 
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2vh' }}>
-                            <div className='containImageStep' style={{height:'fit-content'}}><img alt="alt" width='60%' src={candle} /></div>
+                            <div className={this.props.LanguageStore.lang !== 'heb' && this.props.LanguageStore.width > 550 ?'containImageStep tal': this.props.LanguageStore.width > 550 ? 'containImageStep tar': 'containImageStep'} style={{height:'fit-content'}}><img alt="alt" width='60%' src={candle} /></div>
                         </div>
                         <div className={this.props.LanguageStore.lang !== 'heb' ? 'remember tal' : 'remember tar'}>{this.props.t('remember')}</div>
 
