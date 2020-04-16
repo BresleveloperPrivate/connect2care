@@ -367,7 +367,7 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
+        console.log("beforePostJSON", beforePostJSON)
         delete beforePostJSON.otherRelationShip
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
