@@ -88,25 +88,25 @@ const translationHEB = {
     'relationship to fallen': 'קרבה לחלל',
     'show available meetings only': 'הצג מפגשים זמינים בלבד',
     'filter by': 'סנן לפי',
-    "load more": 'טען עוד',
+    "load more" : 'טען עוד',
 
-    "share": "הזמינו למפגש",
-
+    "share":"הזמינו למפגש",
     "save": "שמור",
 
-    'ConnectRemember': 'מתחברים וזוכרים. לזכרם.',
-    'my relative to the fallen': 'הקרבה שלי לחלל',
-    'bringFamilyMember': 'חשוב שלכל מפגש תזמינו בן משפחה',
-    'fallDate': 'תאריך נפילה',
-    'Great, youve created a meeting': "מצויין, יצרת מפגש",
-    "Connect and remember together": "מתחברים וזוכרים יחד",
-    "Share with your friends colleagues or family": 'שתף עם החברים, הצוות או המשפחה',
-    "A link to the meeting is waiting for you in the email box": "קישור למפגש מחכה לך בתיבת המייל",
-    "InvitationIsWaiting": "הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך",
-    'fullMeeting': 'אין יותר מקום'
+    'ConnectRemember':'מתחברים וזוכרים. לזכרם.',
+    'my relative to the fallen' : 'הקרבה שלי לחלל',
+    'bringFamilyMember':'חשוב שלכל מפגש תזמינו בן משפחה',
+    'fallDate':'תאריך נפילה',
+    'Great, youve created a meeting':"מצויין, יצרת מפגש",
+    "Connect and remember together":"מתחברים וזוכרים יחד",
+    "Share with your friends colleagues or family" : 'שתף עם החברים, הצוות או המשפחה',
+    "A link to the meeting is waiting for you in the email box":"קישור למפגש מחכה לך בתיבת המייל",
+    "InvitationIsWaiting":"הזמנה לסדנת הכנה מקדימה עם כלים פרקטים וטכניים לניהול המפגש ממתינה במייל שלך",
+    'fullMeeting':'אין יותר מקום',
 
-
-
+    'safety-1':'מכיוון שהביטחון שלכם חשוב לנו,',
+    'safety-2':'המפגש שיצרת נשלח לאישור צוות המיזם תוך 24 שעות.',
+    'whiteFutter':'אנא עיין בקפידה במייל שנשלח אליך',
 }
 
 export default translationHEB;

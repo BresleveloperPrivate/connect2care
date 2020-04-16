@@ -291,7 +291,11 @@ class CreateMeetingStore {
 
     getMeetingDetails = async () => {
         if (this.meetingId === -1) return
-        let [success, err] = await Auth.superAuthFetch(`/api/meetings?filter={"where":{"id":${this.meetingId}}, "include":["meetingOwner", {"relation":"fallens_meetings", "scope":{"include":"fallens"}}]}`);
+        let [success, err] = await Auth.superAuthFetch(`/api/meetings/getMeetingById`, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ meetingId: Number(this.meetingId) })
+        }, true);
         console.log("success", success)
         if (err) {
             this.error = err
@@ -406,6 +410,7 @@ class CreateMeetingStore {
             return
         }
         beforePostJSON.zoomId = zoomId
+        beforePostJSON.lang = localStorage.getItem('lang')
         beforePostJSON.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(

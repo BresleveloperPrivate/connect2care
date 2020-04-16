@@ -159,11 +159,11 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
                 </div>
 
-                <div>
+                <div style={{width:'100%'}}>
                     <form>
                         {inputs.map(([value, setValue, placeholder], index) => (
 
-                            <div>
+                            <div key={index}>
                                 {index === 3 &&
                                     <div className={LanguageStore.lang !== 'heb' ? 'codeExplanation tal' : 'codeExplanation tar'}>
                                         {LanguageStore.lang !== 'heb' ?
@@ -185,7 +185,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                             {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
                             <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>
                                 {LanguageStore.lang !== 'heb' ?
-                                    <div>Iv'e read and accept the
+                                    <div>Iv'e read and accepted the
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                     </div>
                                     :
