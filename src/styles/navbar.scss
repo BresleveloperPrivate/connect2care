@@ -85,7 +85,8 @@
 }
 
 .navbarOptions{
-    width: 75%;
+    width: fit-content;
+    padding-right: 10vw;
     height: 100%;
     display: flex;
     justify-content: flex-end;
@@ -141,9 +142,9 @@
     .navbarIcon{
         width: 30%;
     }
-    .navbarOptions{
-        width: 70%;
-    }
+    // .navbarOptions{
+    //     width: 70%;
+    // }
 
     .containMenu{
         visibility: visible;

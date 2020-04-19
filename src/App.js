@@ -19,6 +19,7 @@ const Success = loadable(() => import('./components/Success.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
 const Info = loadable(() => import('./components/Info/Info'));
+const Contact = loadable(() => import('./components/Contact'));
 
 // const MyMeetings = loadable(() => import('./components/MyMeetings'));
 
@@ -60,7 +61,7 @@ class App extends Component {
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
                     <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"}>
-                        <Route path="/(meeting|create-meeting|success|edit-meeting|share|meetings|my-meetings|info)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
+                        <Route path="/(meeting|contact|create-meeting|success|edit-meeting|share|meetings|my-meetings|info)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
                             {/* <Route path="/success" exact render={props => <Success t={this.props.t} {...props} />} /> */}
@@ -72,12 +73,11 @@ class App extends Component {
                             <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                             <Route path="/amisraelhi4lomefahedmidercharoka" render={(props) => <DashLogin t={this.props.t} {...props} />} />
                             <Route path="/info" render={props => <Info t={this.props.t} {...props} />} />
+                            <Route path="/contact" render={props => <Contact t={this.props.t} {...props} />} />
                             <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/amisraelhi4lomefahedmidercharoka' />}
-                                // component={DashboardMain}
                              component={(props) => <DashboardMain t={this.props.t} {...props} />}
                             />
                             <PrivateRoute path="/ngsgjnsrjgtesg/edit-meeting/:id" compName='MeetingInfo'
-                                // component={MeetingInfo}
                             component={(props) => <MeetingInfo t={this.props.t} {...props} />}
                             />
                             <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />

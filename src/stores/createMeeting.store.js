@@ -4,6 +4,7 @@ import Auth from '../modules/auth/Auth'
 
 
 class CreateMeetingStore {
+    res = null
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
@@ -41,6 +42,7 @@ class CreateMeetingStore {
     }
 
     resetAll = () => {
+        this.res = null
         this.fallenDetails = null;
         this.fallenName = null;
         this.nameMessage = "";
@@ -209,8 +211,7 @@ class CreateMeetingStore {
             }, true);
             console.log("success", success)
             console.log("err", err)
-            if (err || !success) {
-                this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
+            if (err) {
                 return
             }
             if (success) {
@@ -260,7 +261,7 @@ class CreateMeetingStore {
             timeMinute: minute,
             max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
-            zoomId: "",
+            zoomId: object.zoomId,
             approved: object.approved,
             id: object.id
         }
@@ -305,6 +306,7 @@ class CreateMeetingStore {
         if (success) {
             this.changeDetailsObjFunc(success[0])
         }
+        this.res = true
     }
 
     deleteFromFallens = (index) => {
@@ -428,7 +430,6 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("beforePostJSON", beforePostJSON)
         // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
@@ -510,6 +511,9 @@ class CreateMeetingStore {
             changedObj.fallensToChange = fallensToChange
         }
         if (changedObj.code) delete changedObj.code
+        if (changedObj.timeHour || changedObj.timeMinute) changedObj.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
+        console.log(changedObj)
+
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
@@ -601,7 +605,8 @@ decorate(CreateMeetingStore, {
     isNameExist: action,
     changeMeetingName: action,
     approveMeeting: action,
-    newZoom: action
+    newZoom: action,
+    res: observable
 });
 
 const createMeetingStore = new CreateMeetingStore();

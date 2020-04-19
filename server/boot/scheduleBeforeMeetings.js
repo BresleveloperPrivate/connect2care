@@ -4,6 +4,14 @@ const schedule = require('node-schedule');
 
 const validateRules = require('../lib/validateRules');
 
+Object.defineProperty(Array.prototype, 'flat', {
+    value: function (depth = 1) {
+        return this.reduce(function (flat, toFlatten) {
+            return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten);
+        }, []);
+    }
+});
+
 module.exports = function (app) {
     const dates = validateRules.meetings.date.format.pattern.split("(").join("").split(")").join("").split("^").join("").split("|");
 
@@ -22,7 +30,7 @@ module.exports = function (app) {
                 nextHours.push(index % 24);
             }
 
-            const timeStrings = (nextHours.map(hour => minutes.map(minute => `${hour}:${minute}`))).flat();
+            const timeStrings = nextHours.map(hour => minutes.map(minute => `${hour}:${minute}`)).flat();
             const [dayDate, month] = date.split(" ")[date.split(" ").length - 1].split(".");
 
             rule.year = new Date().getFullYear();
