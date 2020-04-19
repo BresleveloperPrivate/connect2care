@@ -27,7 +27,6 @@ class HowItWorks extends Component {
         if (err) {
             console.log(err)
         } else {
-            console.log("meetings", meetings)
             let i = 0
             let meeting = 0
             while (constImages.length < 32) {

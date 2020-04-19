@@ -59,7 +59,7 @@ const translationEN = {
     "howItWorks":'How Does It Work?',
     "share":"Invite others to join",
     'sunday': 'Sunday, 26.04',
-    'monday': 'On the eve of Memorial Day, Monday, 27.04',
+    'monday': 'Memorial Day Eve, Monday, 27.04',
     'tuesday': 'Memorial Day, Tuesday, 28.04',
     'wednesday': 'Independence Day, Wednesday, 29.04',
 

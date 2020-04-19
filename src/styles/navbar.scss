@@ -85,11 +85,12 @@
 }
 
 .navbarOptions{
-    width: fit-content;
-    padding-right: 10vw;
+    width: 100%;
+    padding-right: calc(5% - 1.5rem);
     height: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
 }
 
 .navbarIcon{
@@ -100,15 +101,12 @@
     align-items: center;
 }
 
-.oblogo{
-    margin-top: 1.4vh;
-    // margin-left: 0.5vw;
-}
-
 .containIconNavbar{
     height: 7vh;
-    margin-left: 5%;
+    margin-left: 2%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .optionInNavbar{
@@ -120,10 +118,10 @@
 }
 
 .lngNB{
-    position: fixed;
-    top: 10px;
-    margin: 0;
-    right: 10px;
+    // position: absolute;
+    // bottom: 8px;
+    // margin: 0;
+    // left: 10px;
     border: 1px solid var(--custom-blue) !important;
     border-radius: 100px;
 }
@@ -133,10 +131,16 @@
     padding-right: 15px;
 }
 
-@media screen and (max-width: 800px){
-    .navbar{
-        position: fixed !important;
-        top: 0 !important;
+@media screen and (max-width: 900px) and (max-height: 900px){
+    // .navbarOptions{
+    //     align-items: baseline;
+    // }
+    .containIconNavbar{
+        height: 6vh;
+        margin-left: 2%;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-end;
     }
 
     .navbarIcon{
@@ -183,3 +187,29 @@
     }
 }
 
+@media screen and (max-height: 450px){
+    .navbar{
+        height: 15vh !important;
+    }
+
+    .containMenu{
+        height: 15vh;
+    }
+}
+
+@media screen and (max-width: 350px){
+    .containIconNavbar{
+        height: 5vh;
+    }
+    // .navbarOptions{
+    //     align-items: center !important;
+    // }
+}
+
+@media screen and (max-width: 290px){
+    .containIconNavbar{
+        height: 4vh;
+    }
+
+
+}
