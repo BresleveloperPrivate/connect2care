@@ -33,16 +33,16 @@ module.exports = {
 
     meetings: {
         id: { type: "number" },
-        name: {
-            type: "string",
-            // format: { pattern: "[a-z0-9א-ת `,\":\n.!)'(_\-]*" },
-            length: { maximum: 100 }
-        },
-        description: {
-            type: "string",
-            // format: { pattern: "[a-z0-9א-ת `,\":\n.!)'(_\-]*" },
-            length: { maximum: 1500 }
-        },
+        // name: {
+        //     type: "string",
+        //     // format: { pattern: "[a-z0-9א-ת `,\":\n.!)'(_\-]*" },
+        //     length: { maximum: 100 }
+        // },
+        // description: {
+        //     type: "string",
+        //     format: { pattern: "[a-z0-9א-ת `,\":\n.!)'(_\-]*" },
+        //     length: { maximum: 1500 }
+        // },
         owner: {
             type: "number",
             numericality: { greaterThan: 0 }
