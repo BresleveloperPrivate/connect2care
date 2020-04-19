@@ -355,6 +355,24 @@ input[type=radio]:focus {
 }
 
 
+@media screen and (max-height: 640px) and (min-height: 501px){
+    .containNameExist{
+        bottom: 2.5vh;
+    }
+}
+
+@media screen and (max-height: 500px) and (min-height: 371px) {
+    .containNameExist{
+        bottom: 2vh !important;
+   }
+}
+
+@media screen and (max-height: 370px) {
+    .containNameExist{
+        bottom: 1.5vh !important;
+   }
+}
+
 @media screen and (min-width: 551px){
     .containFallenDetails{
         display: flex;
@@ -370,8 +388,8 @@ input[type=radio]:focus {
     }
 
     .listSearch{
-        margin-right: 6vw !important;
-        margin-left: 6vw !important;
+        /* margin-right: 6vw !important;
+        margin-left: 6vw !important; */
         width: 100%;
     }
 

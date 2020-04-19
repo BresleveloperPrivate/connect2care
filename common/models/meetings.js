@@ -20,23 +20,34 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
+        let sqlQueryfrom = `meetings , fallens_meetings`
+        let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
+        // console.log(filters)
 
-        if (filters.id) {
-            sqlQueryWhere += `meetings.id <= '${filters.id}'`
-        }
+
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        // }
 
         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
+        }
+
+        if (filters.status === 1) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        } else if (filters.status === 2) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = 0`
+        }else if (filters.status === 3) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= meetings.max_participants`
         }
 
         if (filters.language) {
@@ -47,12 +58,12 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
-        if (filters.isAvailable) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
-        }
+        // if (filters.isAvailable) {
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        // }
 
         if (filters.relationship || search) {
-            sqlQueryfrom += `, fallens_meetings`
+            // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
@@ -66,10 +77,18 @@ module.exports = function (meetings) {
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
-            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -84,13 +103,24 @@ module.exports = function (meetings) {
                         where.or.push(i)
                     }
                     // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }]}, (err1, res1) => {
 
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
-                        return cb(null, res1);
+
+                        ////sortttt
+
+                        return cb(null, res1.sort((firstRes, secondRes) => {
+                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
+                                return 1
+                            } else {
+                                return -1
+                            }
+
+                        }));
                     })
                 }
                 else return cb(null, [])
@@ -162,14 +192,23 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
+            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true, 
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+            let name = data.name
+            let description = data.description
+            delete data.name
+            delete data.description
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            valid.data.description = description
+            valid.data.name = name
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
@@ -560,15 +599,24 @@ module.exports = function (meetings) {
                 sendEmail("", sendOptions);
             }
 
+            if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name && data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true,
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
 
             if (Object.keys(valid.data).length !== 0) {
+                if (data.name)
+                    valid.data.name = name
+                if (data.description)
+                    valid.data.description = description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)
@@ -1105,6 +1153,24 @@ module.exports = function (meetings) {
             { arg: 'email', type: 'string', required: true },
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.getParticipants = (id, cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.findById(id, { include: "people" }))
+            if (err) {
+                return cb(err)
+            }
+            console.log(res, id)
+            return cb(null, JSON.parse(JSON.stringify(res)).people)
+        })()
+    }
+
+    meetings.remoteMethod('getParticipants', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'id', type: 'number', required: true }],
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
 };

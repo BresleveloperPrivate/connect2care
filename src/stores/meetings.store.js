@@ -16,6 +16,7 @@ class MeetingsStore {
     time = false
     availableOnly = false
     loading = false
+    status = false
 
     changeSearchInput = (event) => {
         ////if match...
@@ -25,6 +26,10 @@ class MeetingsStore {
         if (event.target.value === '' && this.prevSearchInput !== '') {
             this.search(false, true)
         }
+    }
+
+    changeMeetingStatus=(status)=>{
+        this.status = status
     }
 
     changeAvailableOnly = (isAvailable) => {
@@ -62,7 +67,8 @@ class MeetingsStore {
         }
 
         let filter = {
-            id: this.lastId,
+            // id: this.lastId,
+            status: this.status.data,
             language: this.language.data,
             date: this.date.data,
             relationship: this.fallenRelative.data,
@@ -84,6 +90,7 @@ class MeetingsStore {
             if (!meetings.length) {
                 this.loadMoreButton = false
                 this.meetings = []
+                this.lastId = this.meetings.length
                 return
             }
             if (meetings.length <= 4) {
@@ -97,7 +104,7 @@ class MeetingsStore {
             } else {
                 this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
-            this.lastId = meetings[meetings.length-1].id
+            this.lastId = this.meetings.length
         }
     }
 
@@ -122,7 +129,9 @@ decorate(MeetingsStore, {
     changeMeetingTime: action,
     changeAvailableOnly: action,
     error: observable,
-    loading: observable
+    loading: observable,
+    status: observable,
+    changeMeetingStatus:action
 });
 
 export default new MeetingsStore();
