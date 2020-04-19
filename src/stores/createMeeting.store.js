@@ -89,6 +89,7 @@ class CreateMeetingStore {
             image: fallen.image_link,
             meetings: fallen.meetings
         }
+        if (!this.meetingDetails.fallens) this.meetingDetails.fallens = []
         if (!this.meetingDetails.fallens[index]) this.meetingDetails.fallens[index] = {}
         this.meetingDetails.fallens[index].id = fallen.id
     }
