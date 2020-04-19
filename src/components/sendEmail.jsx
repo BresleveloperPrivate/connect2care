@@ -87,7 +87,7 @@ function AlertDialog(props) {
           <DialogContentText id="alert-dialog-description">
             <div style={{width:'40px' , margin: 'auto'}}><img src={envelope} width='100%'/></div>
             <div className='containXButton'><FontAwesomeIcon onClick={handleCloseSuccess} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
-            <div style={{padding:'1vh 2vw 4vh 2vw' , fontSize:'1.3em'}} className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
+            <div style={{padding:'1vh 2vw 4vh 2vw' , fontSize:'1.3em' , textAlign:'center'}} className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
               {props.LanguageStore.lang !== 'heb' ? "The email was successfully sent" : 'האימייל נשלח בהצלחה'}
             </div>
           </DialogContentText>
