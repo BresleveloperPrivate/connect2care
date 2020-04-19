@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MeetingInfo = (props) => {
 
-    const [page, setPage] = useState("Prticipants");
+    const [page, setPage] = useState("MeetingDetails");
 
     // useEffect(() => {
     // }, [])
