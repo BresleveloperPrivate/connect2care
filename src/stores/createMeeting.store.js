@@ -21,7 +21,7 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
-        date: 'default',
+        date: 'יום שני, ג באייר, 27.04',
         timeHour: '20',
         timeMinute: '30',
         max_participants: 300,
@@ -56,7 +56,7 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: 'default',
+            date: 'יום שני, ג באייר, 27.04',
             timeHour: "20",
             timeMinute: "30",
             max_participants: 300,
@@ -95,20 +95,20 @@ class CreateMeetingStore {
     changeFallens = (index, number = null) => {
         if (!this.meetingDetails.fallens) {
             this.meetingDetails.fallens = [{ id: index, relative: null }]
-            if (!this.meetingDetails.otherRelationShip)
-                this.meetingDetails.otherRelationShip = [{ id: index, relative: "" }]
+            if (!this.meetingDetails.otherRelationship)
+                this.meetingDetails.otherRelationship = [{ id: index, relative: "" }]
         }
         else if (this.meetingDetails.fallens.length > index) {
             this.meetingDetails.fallens[index].id = number
-            if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length > index)
-                this.meetingDetails.otherRelationShip[index].id = number
+            if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
+                this.meetingDetails.otherRelationship[index].id = number
         }
         else {
             this.meetingDetails.fallens.push({ id: number, relative: null })
-            if (!this.meetingDetails.otherRelationShip)
-                this.meetingDetails.otherRelationShip = [{ id: number, relative: "" }]
+            if (!this.meetingDetails.otherRelationship)
+                this.meetingDetails.otherRelationship = [{ id: number, relative: "" }]
             else
-                this.meetingDetails.otherRelationShip.push({ id: number, relative: "" })
+                this.meetingDetails.otherRelationship.push({ id: number, relative: "" })
         }
     }
 
@@ -126,18 +126,18 @@ class CreateMeetingStore {
         if (this.meetingDetails.fallens[index]) {
             id = this.meetingDetails.fallens[index].id
         }
-        if (!this.meetingDetails.otherRelationShip || (this.meetingDetails.otherRelationShip && !this.meetingDetails.otherRelationShip.length)) {
-            this.meetingDetails.otherRelationShip = [{ id: id, relative: e.target.value }]
+        if (!this.meetingDetails.otherRelationship || (this.meetingDetails.otherRelationship && !this.meetingDetails.otherRelationship.length)) {
+            this.meetingDetails.otherRelationship = [{ id: id, relative: e.target.value }]
             return
         }
         else {
-            if (this.meetingDetails.otherRelationShip[index]) {
-                if (id !== this.meetingDetails.otherRelationShip[index].id)
-                    this.meetingDetails.otherRelationShip[index].id = id
-                this.meetingDetails.otherRelationShip[index].relative = e.target.value
+            if (this.meetingDetails.otherRelationship[index]) {
+                if (id !== this.meetingDetails.otherRelationship[index].id)
+                    this.meetingDetails.otherRelationship[index].id = id
+                this.meetingDetails.otherRelationship[index].relative = e.target.value
             }
             else
-                this.meetingDetails.otherRelationShip[index] = { id: id, relative: e.target.value }
+                this.meetingDetails.otherRelationship[index] = { id: id, relative: e.target.value }
 
         }
     }
@@ -162,6 +162,7 @@ class CreateMeetingStore {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].relative = option
+                    if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship[index] && index === this.meetingDetails.otherRelationship[index].id) this.meetingDetails.otherRelationship[index].relative = ""
                     if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
                         setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
@@ -210,8 +211,7 @@ class CreateMeetingStore {
             }, true);
             console.log("success", success)
             console.log("err", err)
-            if (err || !success) {
-                this.nameMessage = "משהו השתבש, נסה שנית מאוחר יותר"
+            if (err) {
                 return
             }
             if (success) {
@@ -261,7 +261,7 @@ class CreateMeetingStore {
             timeMinute: minute,
             max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
-            zoomId: "",
+            zoomId: object.zoomId,
             approved: object.approved,
             id: object.id
         }
@@ -279,7 +279,6 @@ class CreateMeetingStore {
                     if (!this.meetingDetailsOriginal.otherRelationship) {
                         this.meetingDetailsOriginal.otherRelationship = []
                     }
-                    console.log("this.meetingDetailsOriginal.otherRelationship", this.meetingDetailsOriginal.otherRelationship)
                     if (!this.meetingDetailsOriginal.otherRelationship[i])
                         this.meetingDetailsOriginal.otherRelationship[i] = { relative: object.fallens[i].relationship, id: object.fallens[i].id }
                     else {
@@ -291,7 +290,6 @@ class CreateMeetingStore {
                 this.meetingDetailsOriginal.fallens[i] = obj
             }
         }
-        console.log("this.meetingDetailsOriginal", this.meetingDetailsOriginal)
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
     }
 
@@ -313,9 +311,10 @@ class CreateMeetingStore {
 
     deleteFromFallens = (index) => {
         let id = this.meetingDetails.fallens[index].id
+        this.fallenName.splice(index, 1)
         this.meetingDetails.fallens.splice(index, 1)
-        if (this.meetingDetails.otherRelationShip) this.meetingDetails.otherRelationShip.splice(index, 1)
-        if (this.fallenDetails && this.fallenDetails[id]) this.fallenDetails[id] = undefined
+        if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
+        if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
     }
 
     approveMeeting = async (email, nameOwner) => {
@@ -397,8 +396,8 @@ class CreateMeetingStore {
 
     createNewMeetingPost = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        if (this.meetingDetails.otherRelationShip && this.meetingDetails.otherRelationShip.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
-            let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationShip))
+        if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
             beforePostJSON.fallens.filter((fallen) => {
                 checkOtherRelation.filter((other) => {
                     if (other.id === fallen.id) {
@@ -415,7 +414,7 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
-        delete beforePostJSON.otherRelationShip
+        delete beforePostJSON.otherRelationship
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
@@ -428,7 +427,6 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("beforePostJSON", beforePostJSON)
         // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
@@ -473,7 +471,7 @@ class CreateMeetingStore {
         //         else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
         //             if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
         //                 if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
-        //                     fallensToChange.push(beforePostJSON.otherRelationShip[Number(index)])
+        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
         //                 }
         //                 else fallensToChange.push(beforePostJSON.fallens[Number(index)])
         //             }
@@ -510,6 +508,9 @@ class CreateMeetingStore {
             changedObj.fallensToChange = fallensToChange
         }
         if (changedObj.code) delete changedObj.code
+        if (changedObj.timeHour || changedObj.timeMinute) changedObj.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
+        console.log(changedObj)
+
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(

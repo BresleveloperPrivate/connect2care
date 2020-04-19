@@ -66,7 +66,7 @@ const CreateMeeting = (props) => {
 
     useEffect(() => {
 
-    }, [props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.meetingDetails.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
+    }, [props.CreateMeetingStore.fallenName, props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.meetingDetails.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
 
 
     useEffect(() => {
@@ -238,15 +238,15 @@ const CreateMeeting = (props) => {
                             <div className='containDateInput position-relative'>
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                 <Select
-                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date === "default" ? props.t("monday") : props.CreateMeetingStore.meetingDetails.date : props.t("date")}
+                                    selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date === "יום שני, ג באייר, 27.04" ? props.t("monday") : props.CreateMeetingStore.meetingDetails.date : props.t("date")}
                                     arr={meetingDate}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
+                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data);console.log(value.data) }} />
                             </div>
 
-                            <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' &&props.LanguageStore.width >=1150? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
+                            <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' && props.LanguageStore.width >= 1150 ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
 
                                 {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
                                     {props.LanguageStore.lang !== 'heb' ?
@@ -325,6 +325,7 @@ const CreateMeeting = (props) => {
                         <div
                             className="containCreateMettingButton"
                         >
+                            {console.log("props.CreateMeetingStore.waitForData", props.CreateMeetingStore.waitForData)}
                             <div className="createMeetingButton grow" onClick={async () => {
                                 if (wait) return
                                 setWait(true)
