@@ -4,6 +4,7 @@ import Auth from '../modules/auth/Auth'
 
 
 class CreateMeetingStore {
+    res = null
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
@@ -41,6 +42,7 @@ class CreateMeetingStore {
     }
 
     resetAll = () => {
+        this.res = null
         this.fallenDetails = null;
         this.fallenName = null;
         this.nameMessage = "";
@@ -304,6 +306,7 @@ class CreateMeetingStore {
         if (success) {
             this.changeDetailsObjFunc(success[0])
         }
+        this.res = true
     }
 
     deleteFromFallens = (index) => {
@@ -599,7 +602,8 @@ decorate(CreateMeetingStore, {
     isNameExist: action,
     changeMeetingName: action,
     approveMeeting: action,
-    newZoom: action
+    newZoom: action,
+    res: observable
 });
 
 const createMeetingStore = new CreateMeetingStore();
