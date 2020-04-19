@@ -108,7 +108,7 @@ const MeetingDetails = (props) => {
 
     return (
         <div style={{ minHeight: '100vh', marginTop: '6vh' }}>
-            {props.CreateMeetingStore.meetingDetails ?
+            {props.CreateMeetingStore.res ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div>
                         <div className='position-relative'>
@@ -341,9 +341,8 @@ const MeetingDetails = (props) => {
                                 </div>
                             }
                         </div>
-
-
                     </div>
+
                     <div className='d-flex align-items-center pb-5 pt-4' style={{ float: 'left' }}>
                         <div style={{ marginRight: '6vw', marginLeft: '2vw', width: '2.5vh' }} className='trash' onClick={() => setShowDeleteMeetingPopup(true)}>
                             <FontAwesomeIcon icon={['fas', 'trash']} />

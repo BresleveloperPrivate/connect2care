@@ -110,7 +110,7 @@ const PhoneList = (props) => {
                         </div>
                         : !props.MeetingsStore.meetings.length ?
                             <div style={{ marginTop: '1em', color: 'var(--custom-blue)', fontSize: '3em' }}>
-                                לא נמצאו מפגשים המתאימים לחיפוש שלך
+                                {props.t('noMeetings')}
                       </div>
 
                             : null
