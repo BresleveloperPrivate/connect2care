@@ -540,11 +540,12 @@ class CreateMeetingStore {
 
     postErr = (err) => {
         console.log("err", err)
-        if (err && err.error && err.error.duplicate) {
+        if (err && err.error && err.error.duplicate)
             this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
-        }
-        if (err && err.error && err.error.isOpen)
+        else if (err && err.error && err.error.isOpen)
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+        else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
+            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
         else if (err && err.error && err.error.email)
             this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
         else if (err && err.error && err.error.phone)
@@ -553,8 +554,6 @@ class CreateMeetingStore {
             this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
         else if (err && err.error && err.error.name)
             this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
-        else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
-            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
         else if (err && err.error && err.error.description)
             this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
         else if (err && err.error && err.error.language)
