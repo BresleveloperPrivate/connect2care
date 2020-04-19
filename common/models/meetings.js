@@ -22,7 +22,6 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
-        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -512,11 +511,11 @@ module.exports = function (meetings) {
             // security validate
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
-            if (!!data.isOpen) {
+            if (data.isOpen) {
                 data.isOpen = true
                 data.code = null
             }
-            else if (!!!data.isOpen) {
+            else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
                 let sendOptions = {
@@ -1039,7 +1038,6 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            console.log(res, id)
             return cb(null, JSON.parse(JSON.stringify(res)).people)
         })()
     }
@@ -1049,6 +1047,31 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'id', type: 'number', required: true }],
         returns: { arg: 'res', type: 'object', root: true }
+    })
+
+    meetings.deleteParticipant = (meetingId, participantId, cb) => {
+        (async () => {
+            let [error, meeting] = await to(meetings.findById(meetingId))
+            if (error) {
+                return cb(err)
+            }
+            await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.destroyAll({ meeting: meetingId, person: participantId }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('deleteParticipant', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
     })
 
 };

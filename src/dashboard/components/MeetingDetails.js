@@ -107,7 +107,7 @@ const MeetingDetails = (props) => {
     }
 
     return (
-        <div style={{ minHeight: '100vh' }}>
+        <div style={{ minHeight: '100vh', marginTop: '6vh' }}>
             {props.CreateMeetingStore.meetingDetails ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div>

@@ -283,7 +283,8 @@
                 "getMeetingById",
                 "isNameExist",
                 "newZoom",
-                "getParticipants"
+                "getParticipants",
+                "deleteParticipant"
             ]
         }
     ]
