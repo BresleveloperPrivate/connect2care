@@ -20,14 +20,8 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-<<<<<<< HEAD
-        let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
-=======
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
-        let params = []
->>>>>>> fbc5d9914e2df6a4b580ee78075915bca706f520
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -470,7 +464,6 @@ module.exports = function (meetings) {
                 return cb(errMeeting)
             }
             let meetingById = JSON.parse(JSON.stringify(res))
-
             if (data.fallensToChange) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
@@ -567,14 +560,14 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                title: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
 
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            console.log(valid.data)
             if (Object.keys(valid.data).length !== 0) {
                 if (data.name)
                     valid.data.name = name
