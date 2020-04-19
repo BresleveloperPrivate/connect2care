@@ -7,10 +7,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import '../styles/sharing.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import envelope from '../icons/envelope.svg'
 
 function AlertDialog(props) {
   const { openEmail, setOpenEmail } = props;
+  const [openSuccess, setOpenSuccess] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [isEmailNotLegal, setIsEmailNotLegal] = React.useState(false);
   const regex = RegExp(/^(.+)@(.+){2,}.(.+){2,}$/);
@@ -19,7 +20,12 @@ function AlertDialog(props) {
 
 
   const handleCloseEmail = () => {
+    setEmail('')
     setOpenEmail(false);
+  };
+
+  const handleCloseSuccess = () => {
+    setOpenSuccess(false);
   };
 
   const changeEmail = (event) => {
@@ -33,7 +39,7 @@ function AlertDialog(props) {
       setIsEmailNotLegal(false);
       shareWithEmail(email);
       handleCloseEmail();
-      alert('המייל נשלח!');
+      setOpenSuccess(true)
     } else {
       //הצג ארור
       setIsEmailNotLegal(true);
@@ -52,7 +58,7 @@ function AlertDialog(props) {
         <DialogContent style={{ direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
           className='popupSendEmail'>
           <DialogContentText id="alert-dialog-description">
-            <div className='containXButton'><FontAwesomeIcon onClick={() => { handleCloseEmail() }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
+            <div className='containXButton'><FontAwesomeIcon onClick={handleCloseEmail} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
             <div className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
               {props.LanguageStore.lang !== 'heb' ? "Please enter a friend's email here so we can invite them to the meet-up" : 'הכנס כאן את כתובת האימייל לשיתוף'}
             </div>
@@ -67,6 +73,26 @@ function AlertDialog(props) {
             {props.LanguageStore.lang !== 'heb' ? 'Share' : 'שתף'}
           </div>
         </DialogActions>
+      </Dialog>
+
+
+      <Dialog
+        maxWidth='md'
+        open={openSuccess}
+        onClose={handleCloseSuccess}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogContent style={{ direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
+          className='popupSendEmail'>
+          <DialogContentText id="alert-dialog-description">
+            <div style={{width:'40px' , margin: 'auto'}}><img src={envelope} width='100%'/></div>
+            <div className='containXButton'><FontAwesomeIcon onClick={handleCloseSuccess} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
+            <div style={{padding:'1vh 2vw 4vh 2vw' , fontSize:'1.3em' , textAlign:'center'}} className={props.LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
+              {props.LanguageStore.lang !== 'heb' ? "The email was successfully sent" : 'האימייל נשלח בהצלחה'}
+            </div>
+          </DialogContentText>
+        </DialogContent >
+  
       </Dialog>
     </div>
   );

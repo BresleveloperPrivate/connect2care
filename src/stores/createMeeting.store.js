@@ -311,9 +311,12 @@ class CreateMeetingStore {
 
     deleteFromFallens = (index) => {
         let id = this.meetingDetails.fallens[index].id
-        this.fallenName.splice(index, 1)
-        this.meetingDetails.fallens.splice(index, 1)
-        if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
+        if (this.fallenName && this.fallenName.length > index)
+            this.fallenName.splice(index, 1)
+        if (this.meetingDetails.fallens && this.meetingDetails.fallens.length > index)
+            this.meetingDetails.fallens.splice(index, 1)
+        if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
+            if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
     }
 
