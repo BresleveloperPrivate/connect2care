@@ -8,6 +8,12 @@ import Auth from '../../modules/auth/Auth';
 import checkboxOnWhite from '../../icons/checkbox_on_light_white.svg'
 import checkboxOffWhite from '../../icons/checkbox_off_light_white.svg'
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import tick from '../../icons/tick.svg'
+
 const useStyles = makeStyles(theme => ({
     input: {
         border: `${theme.palette.primary.main} 2px solid`,
@@ -50,6 +56,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
     const [readBylaw, setReadBylaw] = useState(false)
+    const [openSuccess, setOpenSuccess] = useState(false);
+
     // const readBylawRef = useRef();
 
 
@@ -115,7 +123,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         setPhone('');
         setCode('');
         setReadBylaw(false);
-        alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
+        setOpenSuccess(true)
+        // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, code, readBylaw, meetingId]);
 
@@ -135,6 +144,28 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
     return (
         <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
+
+
+<Dialog
+        maxWidth='md'
+        open={openSuccess}
+        onClose={()=>{setOpenSuccess(false)}}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogContent style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' , margin:0}}
+          className='popupSendEmail'>
+          <DialogContentText id="alert-dialog-description">
+            <div style={{width:'40px' , margin: 'auto'}}><img src={tick} width='100%'/></div>
+            <div className='containXButton'><FontAwesomeIcon onClick={()=>{setOpenSuccess(false)}} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
+            <div style={{padding:'1vh 4vw 2vh 4vw' , fontSize:'1.3em' , color:'#2A3474' , textAlign:'center'}} className={LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
+              {LanguageStore.lang !== 'heb' ? "You have successfully joined this meeting" : 'הצטרפת למפגש בהצלחה'}
+            </div>
+          </DialogContentText>
+        </DialogContent >
+  
+      </Dialog>
+
+
             <div id='meetingPageLeftInside' >
                 <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
                 {sendCode ?

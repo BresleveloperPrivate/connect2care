@@ -10,21 +10,17 @@ import '../styles/openingImage.css'
 
 class openingImage extends Component {
 
-componentDidMount=()=>{
-    // document.addEventListener("DOMContentLoaded", function() {
+    componentDidMount = () => {
         let c = document.getElementById('OIB')
-        console.log(c)
-        if(c){
+        if (c) {
             let img = new Image;
             img.src = openImage;
             img.onload = function () {
-              c.classList.remove('openingImage-before')
-              c.classList.add('openingImage-after')
+                c.classList.remove('openingImage-before')
+                c.classList.add('openingImage-after')
             }
         }
-       
-    //   });
-}
+    }
 
     render() {
         return (
@@ -32,9 +28,9 @@ componentDidMount=()=>{
                 <div id='OIB' className='openingImage-before'> </div>
 
                 <img className={this.props.LanguageStore.lang !== 'heb' ? 'lightBlueBackgroundEn' : 'lightBlueBackground'}
-                 src={this.props.LanguageStore.lang !== 'heb'  ? lightBlueBackgroundEn : lightBlueBackground} />
+                    src={this.props.LanguageStore.lang !== 'heb' ? lightBlueBackgroundEn : lightBlueBackground} />
 
-                <div className={this.props.LanguageStore.lang !== 'heb' ?'whiteLineEn': 'whiteLine'}> </div>
+                <div className={this.props.LanguageStore.lang !== 'heb' ? 'whiteLineEn' : 'whiteLine'}> </div>
                 <OptionsButtons t={this.props.t} className='containOptions' />
 
             </div>
