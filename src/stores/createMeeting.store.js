@@ -4,10 +4,12 @@ import Auth from '../modules/auth/Auth'
 
 
 class CreateMeetingStore {
+    res = null
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
     fallensToDelete = []
+    deleting = false;
     fallensToAdd = []
     fallensToChange = []
     meetingDetailsOriginal = {
@@ -41,6 +43,7 @@ class CreateMeetingStore {
     }
 
     resetAll = () => {
+        this.res = null
         this.fallenDetails = null;
         this.fallenName = null;
         this.nameMessage = "";
@@ -304,14 +307,23 @@ class CreateMeetingStore {
         if (success) {
             this.changeDetailsObjFunc(success[0])
         }
+        this.res = true
     }
 
     deleteFromFallens = (index) => {
         let id = this.meetingDetails.fallens[index].id
-        this.fallenName.splice(index, 1)
-        this.meetingDetails.fallens.splice(index, 1)
-        if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
+        if (this.fallenName && this.fallenName.length > index)
+            this.fallenName.splice(index, 1)
+        if (this.meetingDetails.fallens && this.meetingDetails.fallens.length > index)
+            this.meetingDetails.fallens.splice(index, 1)
+        if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
+            if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
+        this.deleting = true
+    }
+
+    setDeleting = (del) => {
+        this.deleting = del
     }
 
     approveMeeting = async (email, nameOwner) => {
@@ -571,11 +583,13 @@ decorate(CreateMeetingStore, {
     meetingDetails: observable,
     meetingId: observable,
     error: observable,
+    deleting: observable,
     waitForData: observable,
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,
     deleteFallenToArr: action,
+    setDeleting: action,
     addFallenToArr: action,
     changeFallenToArr: action,
     changeNumberOfParticipants: action,
@@ -599,7 +613,8 @@ decorate(CreateMeetingStore, {
     isNameExist: action,
     changeMeetingName: action,
     approveMeeting: action,
-    newZoom: action
+    newZoom: action,
+    res: observable
 });
 
 const createMeetingStore = new CreateMeetingStore();

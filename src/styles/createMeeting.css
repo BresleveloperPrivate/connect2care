@@ -10,7 +10,7 @@
     letter-spacing: 0.5;
     margin-right: 2vw;;
     max-width: 65%;
-    color: #19A099;
+    color: #3586B1;
     padding-bottom: 5vh;
 }
 
@@ -198,8 +198,14 @@ input[type=radio]:focus {
     /* width: 65%; */
 }
 
+.deleteChooseText{
+    color: #19a099;
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
 #containDetailsSideBar{
-    padding: 2vh 0;
+    padding: 3vh 3vh;
     max-height: 80vh;
     overflow-y: auto;
 }
@@ -364,6 +370,8 @@ input[type=radio]:focus {
     }
 
     .listSearch{
+        /* margin-right: 6vw !important;
+        margin-left: 6vw !important; */
         width: 100%;
     }
 
@@ -458,8 +466,8 @@ input[type=radio]:focus {
 
     .listSearch{
         width: calc(100% - 12vw);
-        margin-right: 6vw;
-        margin-left: 6vw;
+        margin-right: 6vw !important;
+        margin-left: 6vw !important;
     }
 
     /* .searchStyle{
