@@ -163,14 +163,23 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
+            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true, 
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+            let name = data.name
+            let description = data.description
+            delete data.name
+            delete data.description
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            valid.data.description = description
+            valid.data.name = name
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
@@ -519,15 +528,24 @@ module.exports = function (meetings) {
                 sendEmail("", sendOptions);
             }
 
+            if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name && data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true,
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
 
             if (Object.keys(valid.data).length !== 0) {
+                if (data.name)
+                    valid.data.name = name
+                if (data.description)
+                    valid.data.description = description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)
