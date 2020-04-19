@@ -2,16 +2,6 @@ import React from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 
-(async () => {
-    const res = await fetch("https://api.zoom.us/v2/users", {
-        method: "POST",
-        body: JSON.stringify({
-            api_key: "xdUTS0PfRniExY5nSVf01w",
-            api_secret: "m5R5G0HZBFoJDOgBQ3ieqk48W8XK1QFV0Uw8"
-        })
-    });
-    console.log(res)
-})();
 
 const useStyles = makeStyles({
     avatar: {
