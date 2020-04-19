@@ -710,6 +710,7 @@ module.exports = function (meetings) {
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
+                    console.log("valid", valid)
 
                     person = await people.create(valid.data);
                 }
@@ -725,6 +726,8 @@ module.exports = function (meetings) {
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
+                console.log("valid1", valid1)
+
 
                 await people_meetings.create(valid1.data);
                 const participantsNum = participants_num ? participants_num + 1 : 1;
@@ -736,6 +739,7 @@ module.exports = function (meetings) {
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
+                console.log("valid2", valid2)
 
                 await meetings.upsert(valid2.data);
                 let shalom = mailDetails
