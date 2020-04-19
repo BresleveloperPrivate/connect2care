@@ -370,6 +370,8 @@ input[type=radio]:focus {
     }
 
     .listSearch{
+        margin-right: 6vw !important;
+        margin-left: 6vw !important;
         width: 100%;
     }
 
@@ -464,8 +466,8 @@ input[type=radio]:focus {
 
     .listSearch{
         width: calc(100% - 12vw);
-        margin-right: 6vw;
-        margin-left: 6vw;
+        margin-right: 6vw !important;
+        margin-left: 6vw !important;
     }
 
     /* .searchStyle{

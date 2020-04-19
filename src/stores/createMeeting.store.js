@@ -9,6 +9,7 @@ class CreateMeetingStore {
     fallenName = null;
     nameMessage = "";
     fallensToDelete = []
+    deleting = false;
     fallensToAdd = []
     fallensToChange = []
     meetingDetailsOriginal = {
@@ -318,6 +319,11 @@ class CreateMeetingStore {
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
             if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
+        this.deleting = true
+    }
+
+    setDeleting = (del) => {
+        this.deleting = del
     }
 
     approveMeeting = async (email, nameOwner) => {
@@ -577,11 +583,13 @@ decorate(CreateMeetingStore, {
     meetingDetails: observable,
     meetingId: observable,
     error: observable,
+    deleting: observable,
     waitForData: observable,
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,
     deleteFallenToArr: action,
+    setDeleting: action,
     addFallenToArr: action,
     changeFallenToArr: action,
     changeNumberOfParticipants: action,
