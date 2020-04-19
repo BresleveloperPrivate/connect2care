@@ -8,7 +8,6 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0px 3px 6px #00000029',
         marginBottom: 30,
         width: '75vw',
-
         // '@media only screen and (max-width: 768px)': {
             width: 'auto',
             marginRight: '6vw'
@@ -21,6 +20,7 @@ const useStyles = makeStyles(theme => ({
             paddingRight: '2vw',
             paddingTop: '1vh',
             paddingBottom: '1vh !important',
+            
 
         // }
     },
@@ -34,6 +34,8 @@ const useStyles = makeStyles(theme => ({
     },
 
     text: {
+        fontSize:'0.6em',
+
         color: theme.palette.primary.dark,
         cursor: 'pointer'
     }
