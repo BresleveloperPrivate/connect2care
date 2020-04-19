@@ -28,15 +28,25 @@ module.exports = function (meetings) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
+        console.log(filters)
 
-        if (filters.id) {
-            sqlQueryWhere += `meetings.id <= '${filters.id}'`
-        }
+
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        // }
 
         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
+        }
+
+        if (filters.status === 1) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        } else if (filters.status === 2) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = 0`
+        }else if (filters.status === 3) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= meetings.max_participants`
         }
 
         if (filters.language) {
@@ -47,9 +57,9 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
-        if (filters.isAvailable) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
-        }
+        // if (filters.isAvailable) {
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        // }
 
         if (filters.relationship || search) {
             sqlQueryfrom += `, fallens_meetings`
@@ -69,7 +79,7 @@ module.exports = function (meetings) {
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC , meetings.isOpen LIMIT 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 1 WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 2 WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 3 WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 4 END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -84,13 +94,24 @@ module.exports = function (meetings) {
                         where.or.push(i)
                     }
                     // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: ['meetings.isOpen DESC', 'meetings.id DESC'] }, (err1, res1) => {
 
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
-                        return cb(null, res1);
+
+                        ////sortttt
+
+                        return cb(null, res1.sort((firstRes, secondRes) => {
+                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
+                                return 1
+                            } else {
+                                return -1
+                            }
+
+                        }));
                     })
                 }
                 else return cb(null, [])
@@ -525,7 +546,7 @@ module.exports = function (meetings) {
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-            
+
             if (Object.keys(valid.data).length !== 0) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {

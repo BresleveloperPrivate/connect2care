@@ -37,7 +37,6 @@ const Select = (props) => {
                     }}>
                     <div className={"selectInput " + (!selectedOption && props.selectTextDefault ? "changeDefauleSelectOpacity" : "")} style={{ width: '100%' }}>
                         {selectedOption && selectedOption.data ? selectedOption.option : props.selectTextDefault || 'בחר'}
-{console.log(selectedOption)}
                     </div>
                     {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
                     <FontAwesomeIcon className={props.LanguageStore.lang !== 'heb' ? "arrowInput-tal" : 'arrowInput-tar'}
