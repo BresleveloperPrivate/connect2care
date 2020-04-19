@@ -20,14 +20,9 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-<<<<<<< HEAD
-        let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
-=======
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
         let params = []
->>>>>>> fbc5d9914e2df6a4b580ee78075915bca706f520
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
