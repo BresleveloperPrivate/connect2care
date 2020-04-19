@@ -55,12 +55,25 @@ const Filters = (props) => {
         <div id='filtersId' className={props.className}>
             <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy tal' : 'filterBy tar'}> {props.t('filter by')}:</div>
             <Select
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '17%' : '100%'}
+                default={props.MeetingsStore.meetingStatus}
+                selectTextDefault={'כל המפגשים'}
+                arr={meetings}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
+                onChoseOption={(value) => {
+                    props.MeetingsStore.changeMeetingStatus(value)
+                    props.MeetingsStore.search()
+                }}
+                changeBackground={true}
+            />
+          
+            <Select
                 default={props.MeetingsStore.date}
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '23%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
                 fetch={props.MeetingsStore.search}
                 selectTextDefault={props.t('meeting date')}
                 arr={meetingDate}
-                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingDate(value)
                     props.MeetingsStore.search()
@@ -106,18 +119,7 @@ const Filters = (props) => {
                 changeBackground={true}
             />
 
-            <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '17%' : '100%'}
-                default={props.MeetingsStore.meetingStatus}
-                selectTextDefault={'כל המפגשים'}
-                arr={meetings}
-                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
-                onChoseOption={(value) => {
-                    props.MeetingsStore.changeMeetingStatus(value)
-                    props.MeetingsStore.search()
-                }}
-                changeBackground={true}
-            />
+         
 
             {/* <div className='availableOnly'>
                 <div
