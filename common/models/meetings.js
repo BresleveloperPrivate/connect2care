@@ -541,11 +541,11 @@ module.exports = function (meetings) {
                 return cb(valid.errors, null);
             }
 
-            if (Object.keys(valid.data).length !== 0) {
+            if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
                 if (data.name)
-                    valid.data.name = name
+                    valid.data.name = data.name
                 if (data.description)
-                    valid.data.description = description
+                    valid.data.description = data.description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)

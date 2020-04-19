@@ -22,7 +22,6 @@ const Select = (props) => {
     console.log("")
     if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)){
         setSelectedOption(props.selectTextDefault)
-   
     }
 
     return (
