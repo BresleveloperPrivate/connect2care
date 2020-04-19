@@ -16,8 +16,8 @@ const Filters = (props) => {
         { option: props.t('friend'), data: 'חבר' },
         { option: 'בית אבי חי', data: 'בית אביחי' },
         { option: 'האחים שלנו', data: 'האחים שלנו' },
-
     ]
+
     const meetingLanguage = [
         { option: props.t('all'), data: false },
         { option: 'עברית', data: 'עברית' },
@@ -27,6 +27,12 @@ const Filters = (props) => {
         { option: 'русский', data: 'русский' },
         { option: 'አማርኛ', data: 'አማርኛ' },
         { option: 'español', data: 'español' },
+    ]
+    const meetings = [
+        { option: 'כל המפגשים', data: false },
+        { option: 'מפגשים פתוחים', data: 1 },
+        { option: 'מפגשים פרטיים', data: 2 },
+        { option: 'מפגשים מלאים', data: 3 },
     ]
     const meetingDate = [
         { option: props.t('all'), data: false },
@@ -99,7 +105,21 @@ const Filters = (props) => {
                 }}
                 changeBackground={true}
             />
-            <div className='availableOnly'>
+
+            <Select
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '17%' : '100%'}
+                default={props.MeetingsStore.meetingStatus}
+                selectTextDefault={'כל המפגשים'}
+                arr={meetings}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
+                onChoseOption={(value) => {
+                    props.MeetingsStore.changeMeetingStatus(value)
+                    props.MeetingsStore.search()
+                }}
+                changeBackground={true}
+            />
+
+            {/* <div className='availableOnly'>
                 <div
                     style={{ height: '1.5em', width: '1.5em', display: 'flex', marginLeft: '0.3em', cursor: 'pointer' }}
                     onClick={() => {
@@ -109,7 +129,7 @@ const Filters = (props) => {
                     <img height='100%' width='100%s' src={props.MeetingsStore.availableOnly ? checkboxOn : checkboxOff} />
                 </div>
                 {props.t('show available meetings only')}
-            </div>
+            </div> */}
         </div>
 
     )

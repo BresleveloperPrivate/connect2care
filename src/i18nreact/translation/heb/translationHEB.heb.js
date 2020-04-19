@@ -86,7 +86,7 @@ const translationHEB = {
     "meeting time": "שעת המפגש",
     "meeting date": 'תאריך המפגש',
     'meeting language': 'שפת המפגש',
-    'relationship to fallen': 'קרבה לחלל',
+    'relationship to fallen': 'מארח/ת המפגש',
     'show available meetings only': 'הצג מפגשים זמינים בלבד',
     'filter by': 'סנן לפי',
     "load more" : 'טען עוד',

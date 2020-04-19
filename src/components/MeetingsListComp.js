@@ -191,7 +191,7 @@ const ComputerList = (props) => {
                     </div>
                      : !props.MeetingsStore.meetings.length ?
                      <div  style={{marginTop: '10em' , color:'var(--custom-blue)' , fontSize:'2em'}}>
-                         לא נמצאו מפגשים המתאימים לחיפוש שלך
+                         {props.t('noMeetings')}
                       </div>
                      
                       :null

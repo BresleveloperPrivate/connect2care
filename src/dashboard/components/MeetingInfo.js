@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MeetingInfo = (props) => {
 
-    const [page, setPage] = useState("Prticipants");
+    const [page, setPage] = useState("MeetingDetails");
 
     // useEffect(() => {
     // }, [])
@@ -20,10 +20,9 @@ const MeetingInfo = (props) => {
                 <FontAwesomeIcon className='pointer ml-3' icon="arrow-right" color="var(--custom-gray)" onClick={props.history.goBack} /> {props.t("editMeeting")}
             </div>
             <div className='meetingDetailsDash'>
-                {/* כפתורים שמשנים את העמוד לפרטי המפגש או למשתתפים */}
-                <div style={{ display: 'flex', marginBottom: '5vw', color: 'var(--custom-gray)', padding: '1.5vh', borderBottom: '1px solid var(--custom-background-light-blue)', boxShadow: '0px 4px 6px #0000000A' }}>
+                <div style={{ display: 'flex', color: 'var(--custom-gray)', padding: '1.5vh', borderBottom: '1px solid var(--custom-background-light-blue)', boxShadow: '0px 4px 6px #0000000A' }}>
                     <div style={{ margin: '0 3vw', borderBottom: page === 'MeetingDetails' ? 'var(--custom-orange) 1px solid' : 'unset', cursor: 'pointer' }} onClick={() => { setPage('MeetingDetails') }}>פרטי המפגש</div>
-                    <div style={{ borderBottom: page === 'Prticipants' ? 'var(--custom-orange) 1px solid' : 'unset', cursor: 'pointer' }} onClick={() => { setPage('Prticipants') }}>רשימת הנרשמים</div>
+                    <div style={{ borderBottom: page === 'Prticipants' ? 'var(--custom-orange) 1px solid' : 'unset', cursor: 'pointer' }} onClick={() => { setPage('Prticipants') }}>משתתפים</div>
                 </div>
                 {page === 'MeetingDetails' ?
                     <MeetingDetails t={props.t} history={props.history} /> :
