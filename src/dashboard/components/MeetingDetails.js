@@ -111,7 +111,7 @@ const MeetingDetails = (props) => {
     return (
         <div style={{width:'100vw' , minHeight:'100vh'}}>
             {
-            props.CreateMeetingStore.meetingDetails ?
+            props.CreateMeetingStore.res ?
             !success ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div className="headLine" style={{ marginTop: "6vh", fontSize: '3.5vh' }}>
