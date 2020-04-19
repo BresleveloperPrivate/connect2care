@@ -6,6 +6,7 @@ import speachBooble from "../icons/speakBobble.svg"
 import { observer, PropTypes, inject } from 'mobx-react';
 
 import blueCandle from '../icons/candle-blue.svg'
+import close from '../icons/close.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import grayCandle from '../icons/gray-candle.svg'
@@ -23,7 +24,7 @@ const FallenDetails = (props) => {
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('widower'), data: 'אלמן/ אלמנה' },
         { option: props.t('orphans'), data: 'יתומים' },
-        { option: props.t('friend'), data: 'חבר' },
+        { option: props.t('friend'), data: 'חבר/ה' },
         props.isDash && { option: 'בית אבי חי', data: 'בית אביחי' },
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         !props.isDash && { option: props.t('other'), data: 'אחר' },
@@ -34,7 +35,7 @@ const FallenDetails = (props) => {
 
         props.LanguageStore.setWidth(window.innerWidth)
 
-    }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName, CreateMeetingStore.meetingDetails]);
+    }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName, CreateMeetingStore.meetingDetails, CreateMeetingStore.meetingDetails.fallens]);
 
 
     let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
@@ -48,7 +49,6 @@ const FallenDetails = (props) => {
                     {props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
                 </div>}
 
-                {console.log("CreateMeetingStore.fallenDetails", CreateMeetingStore.fallenDetails)}
                 <div className='searchStyle' style={{ display: 'flex', marginBottom: '3vh' }}>
                     <SearchFallen setDataForFallen={props.setDataForFallen} index={props.index} fallen={props.fallen} isSaved={props.isSaved} />
                 </div>
@@ -70,14 +70,15 @@ const FallenDetails = (props) => {
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">
                         {props.t('my relative to the fallen')}
-
                     </div>}
+
                     <Select
                         img={props.isDash}
                         // disabled={CreateMeetingStore.meetingId !== -1}
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')
                         }
+                        default={props.t('my relative to the fallen')}
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
@@ -99,25 +100,30 @@ const FallenDetails = (props) => {
                         type="text"
                         className={'inputStyle ' + (CreateMeetingStore.meetingId !== -1 ? "dateContainer" : "") + (props.isSaved && (CreateMeetingStore.fallens && CreateMeetingStore.fallens[props.index] && !CreateMeetingStore.fallens[props.index].relative ||
                             (CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship[props.index] && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative && !CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative.length)) ? "error" : "")}
-                        style={{ width: "95%" }}
+                        style={{ width: "95%", marginBottom: CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 ? "2vh" : "4vh" }}
                         value={CreateMeetingStore.meetingDetails.otherRelationship && CreateMeetingStore.meetingDetails.otherRelationship.length > props.index && CreateMeetingStore.meetingDetails.otherRelationship[props.index].relative}
                         onChange={e => CreateMeetingStore.setOtherRelationship(e, props.index)}
                         autoComplete="off"
                         placeholder={props.t('my relative to the fallen')}
 
                     />}
-                {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 && <FontAwesomeIcon onClick={() => CreateMeetingStore.deleteFromFallens(props.index)} icon={["fas", "trash"]} className="ml-3" style={{ fontSize: '0.7rem' }} />}
+                {CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 &&
+                    <div className={"d-flex align-items-center pointer " + (props.LanguageStore.width > 550 ? "" : "margin-right-text")} style={{
+                        width: "-webkit-fill-available",
+                        marginBottom: "4vh"
+                    }} onClick={() => CreateMeetingStore.deleteFromFallens(props.index)}>
+                        <img src={close} alt="close" className="closeChoose" style={props.LanguageStore.lang === "heb" ? { marginLeft: "2vh", height: "22px", padding: "1px" } : { marginRight: "2vh", height: "22px", padding: "1px" }} />
+                        <div className="deleteChooseText">
+                            {props.LanguageStore.lang === "heb" ? "הסר בחירה" : "Remove selection"}
+                        </div>
+                    </div>
+                }
             </div>
             <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >
 
                 <img src={(findImage && dissmisedPic) ? (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ? CreateMeetingStore.fallenDetails[props.fallen.id].image : fallenFallBack : grayCandle}
                     alt="grayCandle" style={
                         findImage && dissmisedPic ? { height: "24vh", borderRadius: "4px" } : { height: "13vh" }} />
-                {/* {findImage && dissmisedPic && <FontAwesomeIcon
-                    className={"pointer cancelPicture"}
-                    onClick={() => setDissmisedPic(false)}
-                    icon={["fas", "times-circle"]}
-                />} */}
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
 import '../styles/select.css'
@@ -14,6 +14,11 @@ const Select = (props) => {
     const disabled = props.disabled || false
     const [selectedOption, setSelectedOption] = useState(props.default || null)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
+
+    useEffect(() => {
+    }, [props.selectTextDefault]);
+    if (props.default && props.default !== props.selectTextDefault && props.selectTextDefault !== selectedOption)
+        setSelectedOption(props.selectTextDefault)
 
     return (
         <div onClick={() => { if (!disabled) setIsSelectOpen(isSelectOpen => !isSelectOpen) }} className={"cursor " + props.className}
@@ -39,7 +44,7 @@ const Select = (props) => {
                         icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&
-                    <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset' , maxHeight: props.maxHeight || null }}>
+                    <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset', maxHeight: props.maxHeight || null }}>
                         {props.arr && props.arr.map((value, index) =>
                             value ? <div
                                 className='selectOption'
