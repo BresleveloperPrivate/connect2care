@@ -22,6 +22,7 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -525,7 +526,7 @@ module.exports = function (meetings) {
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-            
+
             if (Object.keys(valid.data).length !== 0) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
@@ -1008,6 +1009,24 @@ module.exports = function (meetings) {
             { arg: 'email', type: 'string', required: true },
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.getParticipants = (id, cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.findById(id, { include: "people" }))
+            if (err) {
+                return cb(err)
+            }
+            console.log(res, id)
+            return cb(null, JSON.parse(JSON.stringify(res)).people)
+        })()
+    }
+
+    meetings.remoteMethod('getParticipants', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'id', type: 'number', required: true }],
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
 };
