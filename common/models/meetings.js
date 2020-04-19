@@ -22,6 +22,7 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -183,14 +184,23 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
+            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true, 
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+            let name = data.name
+            let description = data.description
+            delete data.name
+            delete data.description
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            valid.data.description = description
+            valid.data.name = name
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
@@ -539,15 +549,24 @@ module.exports = function (meetings) {
                 sendEmail("", sendOptions);
             }
 
+            if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name && data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true,
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
 
             if (Object.keys(valid.data).length !== 0) {
+                if (data.name)
+                    valid.data.name = name
+                if (data.description)
+                    valid.data.description = description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)
@@ -1033,6 +1052,24 @@ module.exports = function (meetings) {
             { arg: 'email', type: 'string', required: true },
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.getParticipants = (id, cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.findById(id, { include: "people" }))
+            if (err) {
+                return cb(err)
+            }
+            console.log(res, id)
+            return cb(null, JSON.parse(JSON.stringify(res)).people)
+        })()
+    }
+
+    meetings.remoteMethod('getParticipants', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'id', type: 'number', required: true }],
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
 };

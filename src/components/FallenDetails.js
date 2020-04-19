@@ -78,7 +78,7 @@ const FallenDetails = (props) => {
                         selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')
                         }
-                        default={props.t('my relative to the fallen')}
+                        defaultSelectRelative={props.t('my relative to the fallen')}
                         arr={myCloseToTheFallen}
                         // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'

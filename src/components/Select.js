@@ -17,8 +17,13 @@ const Select = (props) => {
 
     useEffect(() => {
     }, [props.selectTextDefault]);
-    if (props.default && props.default !== props.selectTextDefault && props.selectTextDefault !== selectedOption)
+
+
+    console.log("")
+    if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)){
         setSelectedOption(props.selectTextDefault)
+   
+    }
 
     return (
         <div onClick={() => { if (!disabled) setIsSelectOpen(isSelectOpen => !isSelectOpen) }} className={"cursor " + props.className}

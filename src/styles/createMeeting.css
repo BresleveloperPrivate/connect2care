@@ -370,8 +370,8 @@ input[type=radio]:focus {
     }
 
     .listSearch{
-        margin-right: 6vw !important;
-        margin-left: 6vw !important;
+        /* margin-right: 6vw !important;
+        margin-left: 6vw !important; */
         width: 100%;
     }
 
