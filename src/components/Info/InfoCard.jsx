@@ -8,10 +8,10 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0px 3px 6px #00000029',
         marginBottom: 30,
         width: '75vw',
-        // '@media only screen and (max-width: 768px)': {
+        '@media only screen and (max-width: 768px)': {
             width: 'auto',
             marginRight: '6vw'
-        // }
+        }
     },
 
     cardContentRoot: {
