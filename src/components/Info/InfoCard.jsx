@@ -9,17 +9,20 @@ const useStyles = makeStyles(theme => ({
         marginBottom: 30,
         width: '75vw',
 
-        '@media only screen and (max-width: 768px)': {
+        // '@media only screen and (max-width: 768px)': {
             width: 'auto',
             marginRight: '6vw'
-        }
+        // }
     },
 
     cardContentRoot: {
-        '@media only screen and (min-width: 768px)': {
-            paddingLeft: 100,
-            paddingRight: 100
-        }
+        // '@media only screen and (min-width: 768px)': {
+            paddingLeft: '2vw',
+            paddingRight: '2vw',
+            paddingTop: '1vh',
+            paddingBottom: '1vh !important',
+
+        // }
     },
 
     infoCardTitle: {
