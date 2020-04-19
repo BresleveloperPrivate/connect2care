@@ -7,77 +7,79 @@ import InfoCard from './InfoCard';
 
 const Info = (props) => {
     const arrayQuestion = [
-        "מה זה אומר ליזום מפגש?",
-        "יצרתי מפגש, מה עכשיו?",
-        "איך אני מזמין אנשים למפגש?",
-        "איך ההרשמה למפגש שלי מתקיימת?",
-        "מה זה אומר מפגש פתוח?",
-        "מה זה אומר מפגש סגור?",
-        "לא הצלחתי להירשם, מה לעשות?",
-        "קיבלתי מייל מזום, מה לעשות?",
-        "יצרתי מפגש אבל אני לא רואה אותו ברשימת מפגשים, למה?",
-        "האם אני יכול לדבר בשפות נוספות?",
-        "האם אני יכולה לקיים מעל מפגש אחד?",
+        "What does it mean to initiate a meeting",
+        "I created a meeting, what now",
+        "How do I invite people to a meeting",
+        "How is registration for my meeting done",
+        "What does it mean to have an open meeting",
+        "What does a closed meeting mean",
+        "I couldn't sign up, what to do",
+        "I got a buzz email, what to do",
+        "I created a meeting but I don't see it on a list of meetings, why",
+        "Can I speak additional languages",
+        "Can I have more than one meeting",
         // "אנחנו קבוצה של אנשים שרוצים לפתוח מפגש ואין מי שיספר, מה עושים?",
-        "איך אני מצטרף למפגש?",
-        "מה המקסימום והמינימום של משתתפים במפגש?",
-        "האם אני יכולה לקיים מפגש של כמה נופלים?",
-        "מעולם לא העברתי מפגש מקוון, האם יש לכם הדרכה על השימוש בזום ובניית הערב?",
-        "מה צריך להכין למפגש מוצלח?",
-        "מי אתם? מי עומד מאחורי המיזם?",
-        "האם המיזם מתאים לכל גיל?",
-        "המפגש שלי בוטל, מה אני עושה?",
-        "אני רוצה להקרין סרטון במהלך המפגש, איך אני עושה את זה?",
-        "מה זה מפגשי האחים שלנו? מפגשי בית אביחי?"
+        "How do I join the meeting",
+        "What is the maximum and minimum of participants in the meeting",
+        "Can I have a meeting of a few fallen",
+        "I've never delivered an online meeting. Do you have any guidance on zoom and building the night",
+        "What should you prepare for a successful meeting",
+        "who are you? Who is behind the project",
+        "Is the project appropriate for all ages",
+        "My meeting has been canceled, what am I doing",
+        "I want to play a video during the meeting, how do I do it",
+        "What are our brothers meetings? Abihai House Meetings"
     ]
+
     const arrayAnswers = [
-        "אדם קרוב לנופל/ים (למשל, בני משפחה או חבר לצוות) האחראי לתכנון המפגש, הכנת התוכן והזמנת המשתתפים.",
+        "A person close to the victim (s) (e.g. family or team member) responsible for meeting planning, content preparation, and invitation of participants",
         "",
-        "בכדי להזמין משתתפים נוספים למפגש שלך, כל שעליך לעשות הוא להיכנס למפגש שלך - וללחוץ על כפתור 'הזמינו למפגש' - זהו, עכשיו העתיקו את הקישור לקבוצות הווטסאפ שלכם, לקיר בפייסבוק וגם למייל - והזמינו את בני המשפחה והחברים.",
+        "To invite more attendees to your meeting, all you have to do is log in to your meeting - and click the 'Invite to Meet' button - this is, now copy the link to your Wetsap groups, Facebook wall and email - and invite family and friends",
         "",
-        "מפגש הפתוח לכל אחד, בכל מקום.",
-        "מפגש אשר מתוכנן למעגל סגור של משתתפים (למשל, בני משפחה או כיתה).",
+        "A meeting that is open to anyone, anywhere",
+        "A meeting scheduled for participants (e.g., family or class)",
         "",
         "",
-        "כדי לשמור על אבטחת מידע, אנחנו בודקים כל מפגש. אנחנו ניצור איתך קשר לאחר פתיחת המפגש על מנת לאשר את הפרטים. אם הכל תקין, המפגש יואשר ותוכל לראות אותו ברשימת המפגשים כמפגש חדש שנוסף.",
-        "כמובן, ואף רצוי. ניתן לייצר מספר מפגשים במספר שפות שונות - יש לך אפשרות לדבר בכל שפה בה אתה שולט.",
-        "כמובן, ואף רצוי. ניתן לייצר מס' מפגשים ובהם ניתן לדבר מול קהלי יעד שונים ושפות שונות.",
+        "To keep information secure, we review every session. We will contact you after the meeting opens to confirm the details. If all goes well, the reunion will be approved and you can see it in the reunion list as a new reunion",
+        "Of course, and even desirable. You can create multiple sessions in several different languages - you can speak any language you speak",
+        "Of course, and even desirable. A number of sessions can be produced in which you can speak to different target audiences and different languages",
         // "",//not have an answer
-        `ניתן לבחור בעמוד 'רשימת המפגשים' את המפגש הנכון עבורך. המפגשים הראשונים, הם האחרונים שנוצרו. ניתן לסנן את סוג המפגש, שעות, תאריכים וחיפוש חופשי. ניתן לקרוא על הסיפור האישי בהקלקה על המפגש. לאחר שבחרת את המפגש אליו אתה רוצה להצטרף, יש למלא פרטים ולחכות למייל. למפגשים סגורים יש צורך בקוד מפגש שניתן לך ע"י מארגן המפגש.`,
-        "ניתן לקיים מפגש שמתאים לעד 500 משתתפים, המינימום תלוי בך. ניתן לקבוע כמות משתתפים במפגש בתוך העמוד של יצירת מפגש חדש.",
-        "בהחלט! בעת ההרשמה למפגש תוכל למלא את שמם של מספר נופלים שקרובים לליבך ולספר עליהם. ניתן לספר על עד 10 נופלים בשיחה אחת.",
+        "You can select the right meeting for you on the Meetings List page. The first sessions, are the last ones created. You can filter the type of meeting, hours, dates, and free search. The personal story can be read by clicking on the meeting. Once you have chosen the meeting you want to join, please fill in details and wait for the email. Closed sessions require a meeting code given to you by the meeting organizer",
+        "You can have a meeting for up to 500 participants, the minimum is up to you. You can set the number of participants in a meeting within the page for creating a new meeting",
+        "Definitely! When you sign up for a reunion, you can fill in the names of a few falls close to your heart and tell them. Up to 10 falls can be counted in one call",
         "",
         "",
         "",
-        "בהחלט כן. שימו לב שאם מדובר באוכלוסייה צעירה יותר, יש לכוון את המפגש לכך.",
-        "יכול להיות מצב בו יוזם המפגש מבטל את המפגש, במצב כזה אתה תקבל מייל המתריע על כך. ניתן להכנס לרשימת המפגשים ולבחור מפגש חדש.",
+        "Definitely yes. Note that if this is a younger population, the meeting should be directed to this",
+        "There can be a situation where the initiator of the meeting cancels the meeting, in which case you will receive an email alerting you. You can enter the list of meetings and select a new meeting",
         "",
-        `מפגשי האחים שלנו, אלו מפגשים מיוחדים שנוצרו בשיתופי פעולה שונים ומפגשי בית אביחי, אלו מפגשים שנוצרו ע"י בית אביחי כחלק מפרויקט 'פנים יום זיכרון'`,
+        "Our brothers' meetings, these are special meetings created in various collaborations and meetings of the Abihai House, these are meetings created by the Abihai House as part of the Interior Day Memorial project",
     ]
 
     return (
-        <div id="infoPage">
+        <div id="infoPage" style={props.LanguageStore.lang === "heb" ? { textAlign: "right" } : { textAlign: "left" }}>
             <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.LanguageStore.lang === "heb" ? "שאלות ותשובות" : "Questions and Answers"}</div>
             <div className="createMeetingSecondSentence margin-right-text">{props.LanguageStore.lang === "heb" ? "שאלות ותשובות ששאלתם אותנו" : "Questions and Answers you asked us"}</div>
             {arrayQuestion.map((_, index) => {
 
-                if (arrayQuestion[index] === "יצרתי מפגש, מה עכשיו?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>{props.LanguageStore.lang === "heb" ? <div>
-                        קודם כל, תודה! בזכותך, אנשים רבים יציינו את יום הזיכרון ויגדילו את מגדל ההנצחה. כל שעליך לעשות הוא להתחבר למפגש דרך המייל שקיבלת מזום ולעקוב אחר ההנחיות שנשלחו אליך במייל המצורף.
-                        חשוב מאוד לשתף את המפגש ברשתות החברתיות, בין החברים האישיים שלך על מנת להזמין כמה שיותר משתתפים.
+                if (arrayQuestion[index] === "I created a meeting, what now")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>{
+                        props.LanguageStore.lang === "heb" ? <div>
+                            קודם כל, תודה! בזכותך, אנשים רבים יציינו את יום הזיכרון ויגדילו את מגדל ההנצחה. כל שעליך לעשות הוא להתחבר למפגש דרך המייל שקיבלת מזום ולעקוב אחר ההנחיות שנשלחו אליך במייל המצורף.
+                            חשוב מאוד לשתף את המפגש ברשתות החברתיות, בין החברים האישיים שלך על מנת להזמין כמה שיותר משתתפים.
                          מלבד זאת, על מנת לייצר מפגש מוצלח - חשוב להירשם ל<a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">סדנאות ההכנה</a> שיצרנו עבורך ולקרוא את <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">תיק התוכן</a> המכיל את כל המידע לקראת המפגש. לבסוף, חשוב להזמין בני משפחה וחברים - שיהוו עבורך קהל אוהד במפגש.
                          </div> :
-                        <div>
-                            First of all, thank you! Thanks to you, many people will mark Memorial Day and enlarge the commemorative tower. All you have to do is log in to the email through the email you received and follow the instructions sent to you in the email attached.
-                            It is very important to share the meeting on social networks, among your personal friends, to invite as many participants as possible.
+                            <div>
+                                First of all, thank you! Thanks to you, many people will mark Memorial Day and enlarge the commemorative tower. All you have to do is log in to the email through the email you received and follow the instructions sent to you in the email attached.
+                                It is very important to share the meeting on social networks, among your personal friends, to invite as many participants as possible.
                             In addition, in order to produce a successful meeting - it is important to sign up for <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">the preparation workshops</a> we have created for you and read the <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">content portfolio</a> containing all the information for the meeting.
                             Finally, it's important to invite family and friends - who will be a sympathetic audience for you.
                         </div>}
 
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "איך ההרשמה למפגש שלי מתקיימת?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "How is registration for my meeting done")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             במפגש סגור - לאחר יצירת המפגש תקבל מאיתנו שני מיילים. מייל אחד מאיתנו ומייל שני מזום. למייל שאנחנו שולחים יצטרף קוד מפגש. כשאתה מזמין אתה האנשים למפגש חשוב שתשלח להם את הקישור ואת הקוד הצטרפות. כל ההרשמות מתבצעות דרך האתר ותוכל להתעדכן און ליין בכמות המשתתפים.
                         <br />
@@ -90,8 +92,8 @@ const Info = (props) => {
                             Closed meeting - After the meeting you will receive two emails from us. One mile from us and two miles from Zoom. The email we send will include a meeting code. When you invite, you are the people to an important meeting that you send them the link and the code for joining. All subscriptions are made through the site and you can catch up on the number of participants online.                        </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "לא הצלחתי להירשם, מה לעשות?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "I couldn't sign up, what to do")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             חשוב לנסות להבין מה סוג הבעיה בהרשמה, <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">ותפנה אלינו</a> - כך נוכל לסייע לך, אנא כתוב בצורה מפורטת מה הבעיה ונשמח לסייע.
                             </div> :
@@ -100,8 +102,8 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "קיבלתי מייל מזום, מה לעשות?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "I got a buzz email, what to do")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             במייל שקיבל יש חשבון יעודי למפגש שיצרת.<br />
                         יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני. איך תעשו זאת?<br />
@@ -123,8 +125,8 @@ const Info = (props) => {
                             In order to connect on the day of the meeting, you will need to use the following details that you received by email from us. Please keep them accessible.</div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "מעולם לא העברתי מפגש מקוון, האם יש לכם הדרכה על השימוש בזום ובניית הערב?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "I've never delivered an online meeting. Do you have any guidance on zoom and building the night")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             בהחלט! צוות ההדרכה שלנו עמל רבות והכין עבורך סדנה וירטואלית לניהול המפגש.<br />
                         הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">כאן</a>.
@@ -136,8 +138,8 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "מה צריך להכין למפגש מוצלח?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "What should you prepare for a successful meeting")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             חשוב שיהיה לצידך "מארח", שידאג לכל הצד הטכני, שהזום עובד, המצלמה תקינה, ואם יש צורך אז גם להשתיק קולות מפריעים. כמו כן, חשוב להגיע עם מסרים שאותם רוצים להעביר.<br />
                             <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">בסדנאות ההכנה</a> ניתן להיעזר ו<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">בערכת ההדרכה</a>.
@@ -148,8 +150,8 @@ const Info = (props) => {
                                 </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "מי אתם? מי עומד מאחורי המיזם?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "who are you? Who is behind the project")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             מאחורי המיזם עומדת עמותת 'האחים שלנו' אשר הוקמה במטרה לבנות - לראשונה בישראל - קהילה תומכת ומעצימה עבור האחים השכולים במדינה.
                         העמותה הוקמה בשנת 2017 על ידי אחים שכולים ומתנדבים מכלל החברה הישראלית בכדי לתת בפעם הראשונה מקום לכאב, להתמודדות ולסיפור הייחודי שלנו, האחים השכולים. ניתן לקרוא עלינו עוד <a target="_blank" href="https://ourbrothers.co.il/about">כאן</a>.
@@ -160,8 +162,8 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "אני רוצה להקרין סרטון במהלך המפגש, איך אני עושה את זה?")
-                    return <InfoCard key={index} title={arrayQuestion[index]}>
+                else if (arrayQuestion[index] === "I want to play a video during the meeting, how do I do it")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             ניתן לעשות זאת באמצעים של תכנת ZOOM , בה מתקיימים המפגשים בדרך וירטואלית.<br />
                         ניתן לקרוא עוד ב<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">ערכת הדרכה</a> שהכנו עבורך ולהצטרף לאחד <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">ממפגשי ההכנה</a>.
@@ -174,8 +176,9 @@ const Info = (props) => {
                     </InfoCard>
 
 
-                else return <InfoCard key={index} title={arrayQuestion[index]}>
-                    {arrayAnswers[index]}
+                else return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                    {props.t(arrayAnswers[index])}
+                    {console.log("props.t(arrayAnswers[index])", props.t(arrayAnswers[index]))}
                 </InfoCard>
             })}
         </div>
