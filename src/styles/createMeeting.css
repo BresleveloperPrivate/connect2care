@@ -32,7 +32,7 @@
 input[type=radio] {
     border: 1px solid var(--custom-gray);
     background: url("../icons/checkbox_off_light.svg") no-repeat center center;
-    padding: 0.5em;
+    padding: 0.5em !important;
     margin-left: 1vh;
     cursor: pointer;
     -webkit-appearance: none;
@@ -198,8 +198,14 @@ input[type=radio]:focus {
     /* width: 65%; */
 }
 
+.deleteChooseText{
+    color: #19a099;
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
 #containDetailsSideBar{
-    padding: 2vh 0;
+    padding: 3vh 3vh;
     max-height: 80vh;
     overflow-y: auto;
 }

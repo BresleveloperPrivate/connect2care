@@ -309,17 +309,13 @@ class CreateMeetingStore {
 
     deleteFromFallens = (index) => {
         let id = this.meetingDetails.fallens[index].id
-        this.fallenName.splice(index, 1)
-        this.meetingDetails.fallens.splice(index, 1)
-        if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
+        if (this.fallenName && this.fallenName.length > index)
+            this.fallenName.splice(index, 1)
+        if (this.meetingDetails.fallens && this.meetingDetails.fallens.length > index)
+            this.meetingDetails.fallens.splice(index, 1)
+        if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
+            if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
-        
-        
-        console.log("this.fallenDetails", JSON.parse(JSON.stringify(this.fallenDetails)))
-        console.log("this.meetingDetails.otherRelationship", JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship)))
-        console.log("this.meetingDetails.fallens", JSON.parse(JSON.stringify(this.meetingDetails.fallens)))
-        console.log("this.fallenName", JSON.parse(JSON.stringify(this.fallenName)))
-        console.log("this.meetingDetails", JSON.parse(JSON.stringify(this.meetingDetails)))
     }
 
     approveMeeting = async (email, nameOwner) => {
