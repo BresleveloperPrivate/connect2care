@@ -21,16 +21,16 @@ const MeetingInfo = (props) => {
             </div>
             <div className='meetingDetailsDash'>
                 {/* כפתורים שמשנים את העמוד לפרטי המפגש או למשתתפים */}
-                <div>
-                    <div onClick={()=>{setPage('MeetingDetails')}}>פרטי המפגש</div>
-                    <div onClick={()=>{setPage('Prticipants')}}>רשימת הנרשמים</div>
+                <div style={{ display: 'flex', marginBottom: '5vw', color: 'var(--custom-gray)', padding: '1.5vh', borderBottom: '1px solid var(--custom-background-light-blue)', boxShadow: '0px 4px 6px #0000000A' }}>
+                    <div style={{ margin: '0 3vw', borderBottom: page === 'MeetingDetails' ? 'var(--custom-orange) 1px solid' : 'unset', cursor: 'pointer' }} onClick={() => { setPage('MeetingDetails') }}>פרטי המפגש</div>
+                    <div style={{ borderBottom: page === 'Prticipants' ? 'var(--custom-orange) 1px solid' : 'unset', cursor: 'pointer' }} onClick={() => { setPage('Prticipants') }}>רשימת הנרשמים</div>
                 </div>
                 {page === 'MeetingDetails' ?
                     <MeetingDetails t={props.t} history={props.history} /> :
                     <Prticipants t={props.t} history={props.history} />
                 }
             </div>
-        </div>
+        </div >
     )
 }
 
