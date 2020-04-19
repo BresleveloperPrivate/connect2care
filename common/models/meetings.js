@@ -542,7 +542,7 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                title: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
 
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
