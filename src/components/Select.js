@@ -18,8 +18,6 @@ const Select = (props) => {
     useEffect(() => {
     }, [props.selectTextDefault]);
 
-
-    console.log("")
     if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)){
         setSelectedOption(props.selectTextDefault)
    

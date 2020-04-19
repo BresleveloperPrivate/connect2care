@@ -20,8 +20,8 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
+        let sqlQueryfrom = `meetings , fallens_meetings`
+        let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
         let params = []
         let searchArr = search.split("'")
         let newSearch = ""
@@ -29,7 +29,7 @@ module.exports = function (meetings) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
-        console.log(filters)
+        // console.log(filters)
 
 
         // if (filters.id) {
@@ -63,7 +63,7 @@ module.exports = function (meetings) {
         // }
 
         if (filters.relationship || search) {
-            sqlQueryfrom += `, fallens_meetings`
+            // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
@@ -77,10 +77,18 @@ module.exports = function (meetings) {
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
-            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 1 WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 2 WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 3 WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 4 END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -96,7 +104,7 @@ module.exports = function (meetings) {
                     }
                     // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
 
-                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: ['meetings.isOpen DESC', 'meetings.id DESC'] }, (err1, res1) => {
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }]}, (err1, res1) => {
 
                         if (err1) {
                             console.log("err1", err1)

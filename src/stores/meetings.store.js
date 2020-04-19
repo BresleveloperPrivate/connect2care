@@ -76,8 +76,6 @@ class MeetingsStore {
             isAvailable: this.availableOnly,
         }
 
-        console.log(this.lastId)
-
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
