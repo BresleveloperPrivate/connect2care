@@ -1,7 +1,9 @@
 'use strict';
 
 const schedule = require('node-schedule');
+const { creatCsvFile } = require('download-csv');
 
+const sendEmail = require('../email');
 const validateRules = require('../lib/validateRules');
 
 Object.defineProperty(Array.prototype, 'flat', {
@@ -47,7 +49,23 @@ module.exports = function (app) {
                         const meetings = await app.models.meetings.find({ where: { and: [{ or: timeStrings.map(time => ({ time })) }, { date }] }, include: ["people", "meetingOwner", "fallens"] });
 
                         meetings.forEach(meeting => {
-                            console.log(meeting);
+                            const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
+
+                            const datas = people.map(({ name, email, phone }) => ({ name, email, phone }));
+                            const columns = { name: 'שם המשתתף', email: 'דואר אלקטרוני', phone: 'מספר טלפון' };
+
+                            const attachment = creatCsvFile(datas, columns).toString("base64");
+
+                            sendEmail("", {
+                                to: meetingOwner.email, subject: "המשתתפים במפגש", attachments: [
+                                    {
+                                        content: attachment,
+                                        filename: "מפגש.xlsx",
+                                        type: "application/xlsx",
+                                        disposition: "attachment"
+                                    }
+                                ]
+                            });
                         });
                     } catch (err) {
                         console.error(err);

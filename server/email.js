@@ -21,7 +21,8 @@ const sendGridEmail = async (senderName, options) => {
         from: 'carmel6000israel@gmail.com',
         subject: options.subject,
         // text: this.tplPersonalContent,
-        html: options.html
+        html: options.html,
+        attachments: options.attachments
     };
     try { await sgMail.send(msg); }
     catch (err) { console.log("Could not send email with err", err); }
