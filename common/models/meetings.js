@@ -525,7 +525,7 @@ module.exports = function (meetings) {
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            
             if (Object.keys(valid.data).length !== 0) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {

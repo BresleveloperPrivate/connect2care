@@ -259,7 +259,7 @@ class CreateMeetingStore {
             timeMinute: minute,
             max_participants: Number(object.max_participants) || '',
             fallens: object.fallens,
-            zoomId: "",
+            zoomId: object.zoomId,
             approved: object.approved,
             id: object.id
         }
@@ -312,13 +312,6 @@ class CreateMeetingStore {
         this.meetingDetails.fallens.splice(index, 1)
         if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
-        
-        
-        console.log("this.fallenDetails", JSON.parse(JSON.stringify(this.fallenDetails)))
-        console.log("this.meetingDetails.otherRelationship", JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship)))
-        console.log("this.meetingDetails.fallens", JSON.parse(JSON.stringify(this.meetingDetails.fallens)))
-        console.log("this.fallenName", JSON.parse(JSON.stringify(this.fallenName)))
-        console.log("this.meetingDetails", JSON.parse(JSON.stringify(this.meetingDetails)))
     }
 
     approveMeeting = async (email, nameOwner) => {
@@ -431,7 +424,6 @@ class CreateMeetingStore {
                 return
             }
         }
-        console.log("beforePostJSON", beforePostJSON)
         // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
@@ -513,6 +505,9 @@ class CreateMeetingStore {
             changedObj.fallensToChange = fallensToChange
         }
         if (changedObj.code) delete changedObj.code
+        if (changedObj.timeHour || changedObj.timeMinute) changedObj.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
+        console.log(changedObj)
+
 
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
