@@ -88,12 +88,16 @@ module.exports = function (meetings) {
         WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
         WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
         WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        ELSE 9
         END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
                 return cb(err)
             } else {
+
+                console.log('res:    ',res1)
+
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -112,7 +116,7 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-
+                        console.log('res1:    ',res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
                             if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
                                 return 1
@@ -355,7 +359,7 @@ module.exports = function (meetings) {
                                             //     ${code}<br>
                                             //     <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
                                             //   `
-                                `
+                                            `
                                 <div width="100%" style="direction: rtl;">
                                 <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
                                 <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
@@ -1015,7 +1019,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({"where":{"approved":1}, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens" , "scope":{"fields":{"image_link":true}} }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})
