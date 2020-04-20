@@ -14,6 +14,8 @@ const Filters = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
+        { option: props.t('widower'), data: 'אלמן/ אלמנה' },
+        { option: props.t('orphans'), data: 'יתומים' },
         { option: 'בית אבי חי', data: 'בית אביחי' },
         { option: 'האחים שלנו', data: 'האחים שלנו' },
     ]

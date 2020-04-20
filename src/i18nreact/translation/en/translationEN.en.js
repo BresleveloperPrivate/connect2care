@@ -71,8 +71,8 @@ const translationEN = {
     "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
     "host" : 'Host',
 
-    "orphans": "Orphans",
-    "widower": "Widower or widow",
+    "orphans": "Orphan",
+    "widower": "Widower / widow",
 
     "all": "All",
     "brother or sister": "Brother or sister",
@@ -135,7 +135,7 @@ const translationEN = {
     "doNotSeeTheMeetingA": "To keep information secure, we review every session. We will contact you after the meeting opens to confirm the details. If all goes well, the reunion will be approved and you can see it in the reunion list as a new reunion.",
     "additionalLanguagesA": "Of course, and even desirable. You can create multiple sessions in several different languages - you can speak any language you speak.",
     "moreThanOneMeetingA": "Of course, and even desirable. A number of sessions can be produced in which you can speak to different target audiences and different languages.",
-    "joinMeetingA": `"You can select the right meeting for you on the Meetings List page. The first sessions, are the last ones created. You can filter the type of meeting, hours, dates, and free search. The personal story can be read by clicking on the meeting. Once you have chosen the meeting you want to join, please fill in details and wait for the email. Closed sessions require a meeting code given to you by the meeting organizer.`,
+    "joinMeetingA": `"You can select the right meeting for you on the Meetings List page. You can filter the type of meeting, hours, dates, and free search. The personal story can be read by clicking on the meeting. Once you have chosen the meeting you want to join, please fill in details and wait for the email. Closed sessions require a meeting code given to you by the meeting organizer.`,
     "maxAndMinParticipantsA": "You can have a meeting for up to 500 participants, the minimum is up to you. You can set the number of participants in a meeting within the page for creating a new meeting.",
     "fewFallenA": "Definitely! When you sign up for a reunion, you can fill in the names of a few falls close to your heart and tell them. Up to 10 falls can be counted in one call.",
     "allAgesA": "Definitely yes. Note that if this is a younger population, the meeting should be directed to this.",
