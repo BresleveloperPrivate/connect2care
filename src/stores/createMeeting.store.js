@@ -407,7 +407,7 @@ class CreateMeetingStore {
         return objToreturn
     }
 
-    createNewMeetingPost = async () => {
+    createNewMeetingPost = async (lang) => {
 
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
@@ -415,7 +415,7 @@ class CreateMeetingStore {
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
             checkOtherRelation.filter((otherRelative) => {
                 if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "בית אבי חי" || otherRelative.relative === "האחים שלנו") {
-                    this.error = "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
+                    this.error = lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
                     return
                 }
             })
@@ -441,18 +441,18 @@ class CreateMeetingStore {
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
-            this.setError("כל השדות צריכים להיות מלאים")
+            this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return
         }
         for (let i = 0; i < beforePostJSON.fallens.length; i++) {
             if (!beforePostJSON.fallens[i] || !beforePostJSON.fallens[i].id || beforePostJSON.fallens[i].id === 0 || !beforePostJSON.fallens[i].relative) {
-                this.setError("כל השדות צריכים להיות מלאים")
+                this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
                 return
             }
         }
 
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
-            this.setError("כל השדות צריכים להיות מלאים")
+            this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return
         }
         beforePostJSON.zoomId = zoomId
@@ -468,7 +468,7 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err || !success) {
-            this.postErr(err)
+            this.postErr(err, lang)
             return
         }
         return success
@@ -551,38 +551,38 @@ class CreateMeetingStore {
         this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
     }
 
-    postErr = (err) => {
+    postErr = (err, lang) => {
         console.log("err", err)
         if (err && err.error && err.error.duplicate)
-            this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
+            this.error = lang !== "heb" ? "The meeting already exists in the system, see the 'Meetings List'" : "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
         else if (err && err.error && err.error.isOpen)
-            this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
+            this.error = lang !== "heb" ? "Something went wrong, Please make sure that you have selected whether the meeting is open or closed properly" : "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
-            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+            this.error = lang !== "heb" ? "Something went wrong, please check your network connectivity" : "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
         else if (err && err.error && err.error.message)
             this.error = err.error.message
         else if (err && err.error && err.error.email)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה"
         else if (err && err.error && err.error.phone)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct phone number" : "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
         else if (err && err.error && err.error.max_participants)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a maximum number of participants" : "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
         else if (err && err.error && err.error.name)
-            this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct meeting name" : "משהו השתבש, אנא בדוק ששם המפגש נכון"
         else if (err && err.error && err.error.description)
-            this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct meeting description" : "משהו השתבש, אנא בדוק שתאור המפגש נכון"
         else if (err && err.error && err.error.language)
-            this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct language" : "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
         else if (err && err.error && err.error.time)
-            this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct time meeting" : "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
         else if (err && err.error && err.error.date)
-            this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct date" : "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
         else if (err && err.error && err.error.relationship)
-            this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct realation to the fallen" : "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
         else if (err && err.error && err.error.msg)
             this.error = err.error.msg
         else
-            this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            this.error = lang !== "heb" ? "Something went wrong, please try again later" : "משהו השתבש, אנא נסה שנית מאוחר יותר"
     }
 
     setError = (error) => {
