@@ -414,8 +414,8 @@ class CreateMeetingStore {
 
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
             checkOtherRelation.filter((otherRelative) => {
-                if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "האחים שלנו") {
-                    this.error = "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
+                if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "בית אבי חי" || otherRelative.relative === "האחים שלנו") {
+                    this.error = "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
                     return
                 }
             })

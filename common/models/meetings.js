@@ -156,8 +156,8 @@ module.exports = function (meetings) {
                 if (data.fallens.length > 10)
                     return cb(data.lang !== 'heb' ? "You can have only 10 fallens in one meeting" : "משהו השתבש, לכל מפגש לכל היותר יכול להיות 10 משתתפים")
                 for (let fallen of data.fallens) {
-                    if (fallen.relative === "בית אביחי" || fallen.relative === "האחים שלנו")
-                        return cb(data.lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
+                    if (fallen.relative === "בית אביחי" ||fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו" )
+                        return cb(data.lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
                 }
             }
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
