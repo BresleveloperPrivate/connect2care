@@ -408,9 +408,18 @@ class CreateMeetingStore {
     }
 
     createNewMeetingPost = async () => {
+
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
+            checkOtherRelation.filter((otherRelative) => {
+                if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "האחים שלנו") {
+                    this.error = "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
+                    return
+                }
+            })
+
             beforePostJSON.fallens.filter((fallen) => {
                 checkOtherRelation.filter((other) => {
                     if (other.id === fallen.id) {
@@ -419,6 +428,7 @@ class CreateMeetingStore {
                 })
             })
         }
+        if (this.error) return
         let zoomId = beforePostJSON.zoomId
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
@@ -440,7 +450,7 @@ class CreateMeetingStore {
                 return
             }
         }
-        // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
+
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
             this.setError("כל השדות צריכים להיות מלאים")
             return
@@ -549,6 +559,8 @@ class CreateMeetingStore {
             this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
             this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+        else if (err && err.error && err.error.message)
+            this.error = err.error.message
         else if (err && err.error && err.error.email)
             this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
         else if (err && err.error && err.error.phone)

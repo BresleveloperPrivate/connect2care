@@ -67,13 +67,12 @@ const Info = (props) => {
                         props.LanguageStore.lang === "heb" ? <div>
                             קודם כל, תודה! בזכותך, אנשים רבים יציינו את יום הזיכרון ויגדילו את מגדל ההנצחה. כל שעליך לעשות הוא להתחבר למפגש דרך המייל שקיבלת מזום ולעקוב אחר ההנחיות שנשלחו אליך במייל המצורף.
                             חשוב מאוד לשתף את המפגש ברשתות החברתיות, בין החברים האישיים שלך על מנת להזמין כמה שיותר משתתפים.
-                         מלבד זאת, על מנת לייצר מפגש מוצלח - חשוב להירשם ל<a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">סדנאות ההכנה</a> שיצרנו עבורך ולקרוא את <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">תיק התוכן</a> המכיל את כל המידע לקראת המפגש. לבסוף, חשוב להזמין בני משפחה וחברים - שיהוו עבורך קהל אוהד במפגש.
+                             מלבד זאת, על מנת לייצר מפגש מוצלח - חשוב להירשם ל<a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">סדנאות ההכנה</a> שיצרנו עבורך ולקרוא את <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">תיק התוכן</a> המכיל את כל המידע לקראת המפגש. לבסוף, חשוב להזמין בני משפחה וחברים - שיהוו עבורך קהל אוהד במפגש.
                          </div> :
                             <div>
-                                First of all, thank you! Thanks to you, many people will mark Memorial Day and enlarge the commemorative tower. All you have to do is log in to the email through the email you received and follow the instructions sent to you in the email attached.
-                                It is very important to share the meeting on social networks, among your personal friends, to invite as many participants as possible.
-                            In addition, in order to produce a successful meeting - it is important to sign up for <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">the preparation workshops</a> we have created for you and read the <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">content portfolio</a> containing all the information for the meeting.
-                            Finally, it's important to invite family and friends - who will be a sympathetic audience for you.
+                                First of all, thank you! Thanks to you, many people will commemorate Yom Hazikaron this year and will enlarge the circle of memory. All you have to do now, is to connect to the meet-up through the email you received from Zoom, and follow the instructions that were sent in the email. It is very important to share the meeting on social networks, among your personal friends, to invite as many participants as possible.
+                                It is crucial to share the meet-up on social media and with your friends so that we can reach as many participants as possible. In addition, in order to create a successful meet-up, it is important to sign up for the <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">preparatory workshop</a> that we created for you, and to read the <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">content pack</a>hat includes all relevant information for the meet-up.
+                                 And lastly, invite your friends and family, to ensure that you will have friendly and encouraging faces in the meet-up
                         </div>}
 
                     </InfoCard>
@@ -87,9 +86,10 @@ const Info = (props) => {
                         </div> :
 
                             <div>
-                                Closed meeting - After the meeting you will receive two emails from us. One mile from us and two miles from Zoom. The email we send will include a meeting code. When you invite, you are the people to an important meeting that you send them the link and the code for joining. All subscriptions are made through the site and you can catch up on the number of participants online.
-                            <br />
-                            Closed meeting - After the meeting you will receive two emails from us. One mile from us and two miles from Zoom. The email we send will include a meeting code. When you invite, you are the people to an important meeting that you send them the link and the code for joining. All subscriptions are made through the site and you can catch up on the number of participants online.                        </div>}
+                                In a closed meet-up - after creating the meet-up you will receive two emails; one from us and one from Zoom. In the email you receive from us there will be a meet-up code. When you invite participants to your meet-up, you must provide the meet-up link and code. All registration is through our website and you can update the number of participants online.
+                                <br />
+                                In an open meet-up - anyone who enters your meet-up can register for it online, and can receive a link for the open meet-up. Participants will be partly general public and partly people that you know, since you already invited them. You can see the updated number of participants on your meet-up page.
+                            </div>}
                     </InfoCard>
 
                 else if (arrayQuestion[index] === "couldNotSignUpQ")
@@ -98,7 +98,7 @@ const Info = (props) => {
                             חשוב לנסות להבין מה סוג הבעיה בהרשמה, <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">ותפנה אלינו</a> - כך נוכל לסייע לך, אנא כתוב בצורה מפורטת מה הבעיה ונשמח לסייע.
                             </div> :
                             <div>
-                                It is important to try to understand what the problem is with enrollment, and <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">contact us</a> - so that we can assist you, please write down in detail what the problem is and we will be happy to assist.
+                                Please <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">contact us</a>  with the problem - so that we can assist you, please describe the problem in detail and we will be happy to help.
                             </div>}
                     </InfoCard>
 
@@ -115,14 +115,13 @@ const Info = (props) => {
                         בכדי להתחבר ביום המפגש, יהיה עליך להשתמש בפרטים הבאים שקיבלת במייל מאיתנו. אנא שמור אותם במקום נגיש.
                         </div> :
                             <div>
-                                The email he received has a dedicated account for the meeting you created.<br />
-                            You may already have a zoom account, but in order to guide a meeting you need to log in separately to a temporary account. How do you do it<br />
-                            A. Clicking the account activation link will open a page on the Zoom site where you will be asked to sign up<br />
-                            B. The option to register with a username and password (not via Google or Facebook) must be chosen.<br />
-                            C. After selecting a user name registration, you will be asked to enter your first and last name, and a password. Enter your real name. Use our OurBrothers2020 password<br />
-                            How do you create a meeting?<br />
-                            In the coming days, after activation, we will send you a message <strong>another email</strong>, Which will contain precise links and instructions for opening the zoom meeting you will be guiding.<br />
-                            In order to connect on the day of the meeting, you will need to use the following details that you received by email from us. Please keep them accessible.</div>}
+                                In the email you will see that an account has been created specifically for your meet-up. You may already have a Zoom account, but in order to host the meet-up, please connect to this temporary account. How do you do this?
+                            1. Click the “activate account” button and you will be routed to a Zoom sign-up page<br />
+                            2. Choose the option for signing in with user name and password (not through Google or Facebook)<br />
+                            3. After choosing this option, you are asked to input your first and last name and password. Please input your <u>real name</u>. The password is OurBrothers2020<br />
+                            How do I create a meet-up?<br />
+                            Within a few days of activating your Zoom account, you will receive an email that will include a specific meet-up link and detailed instructions for opening the meet-up that you will be hosting.<br />
+                            In order to connect on the day of the meeting, you will need to input your name and password as instructed on the email you received from us. Please save this information.</div>}
                     </InfoCard>
 
                 else if (arrayQuestion[index] === "guidanceZoom&buildTheNightQ")
@@ -132,8 +131,8 @@ const Info = (props) => {
                         הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">כאן</a>.
                         </div> :
                             <div>
-                                Definitely! Our training team has worked hard and prepared a virtual workshop for you to manage the meeting.<br />
-                                The workshop will be delivered online in real-time in zoom by expert lecturers in content and digital. You can go to one or more of your chosen dates. Sign up <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">right here</a>.
+                                Definitely! Our team has been working hard to prepare a virtual workshop for running sessions.<br />
+                                This workshop will be run online through Zoom, by public speaking experts and digital content experts. You can sign up for one or more of the sessions <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">here</a>.
 
                             </div>}
                     </InfoCard>
@@ -145,8 +144,8 @@ const Info = (props) => {
                             <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">בסדנאות ההכנה</a> ניתן להיעזר ו<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">בערכת ההדרכה</a>.
                         </div> :
                             <div>
-                                It is important that you have a "host" on your side, who will take care of all the technical side, that the zoom is working, the camera is working properly, and if necessary then also silence interfering sounds. It is also important to come up with messages that you want to convey.<br />
-                                You can use<a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">the preparation workshops</a> and <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">and training kit</a>.
+                                Ensure that you have a “host” close by, who will be your technical support, that the Zoom and camera are working, and if you must then to mute background noise. You should arrive with the message that you would like to pass on.<br />
+                                You can always refer to the <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">preparatory workshop</a> and <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">content pack</a>.
                                 </div>}
                     </InfoCard>
 
@@ -157,8 +156,8 @@ const Info = (props) => {
                         העמותה הוקמה בשנת 2017 על ידי אחים שכולים ומתנדבים מכלל החברה הישראלית בכדי לתת בפעם הראשונה מקום לכאב, להתמודדות ולסיפור הייחודי שלנו, האחים השכולים. ניתן לקרוא עלינו עוד <a target="_blank" href="https://ourbrothers.co.il/about">כאן</a>.
                         </div> :
                             <div>
-                                Behind the venture stands the 'Our Brothers' association, which was established with the aim of building - for the first time in Israel - a supportive and empowering community for the bereaved brothers in the country.
-                                The association was founded in 2017 by bereaved brothers and volunteers from all of Israeli society to give, for the first time, room for our pain, coping and unique story, the bereaved brothers. You can read more about us <a target="_blank" href="https://ourbrothers.co.il/about">here</a>.
+                                Behind the scenes is the “Our Brothers” Project that was founded in order to create - for the first time in Israel - a supportive and empowering peer community for bereaved brothers and sisters in the country. <br />
+                                 This non-profit was founded in 2017 by bereaved siblings and volunteers in order to provide a space for pain, coping and our unique stories, the bereaved siblings. You can read more about us <a target="_blank" href="https://ourbrothers.co.il/about">here</a>.
                             </div>}
                     </InfoCard>
 
@@ -169,8 +168,8 @@ const Info = (props) => {
                         ניתן לקרוא עוד ב<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">ערכת הדרכה</a> שהכנו עבורך ולהצטרף לאחד <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">ממפגשי ההכנה</a>.
                         </div> :
                             <div>
-                                This can be done by means of ZOOM software, where the sessions are held in a virtual way.<br />
-                                You can read more in <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">the tutorial</a> we have prepared for you and join one of <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">the preparation sessions</a>.
+                                Through Zoom, the program that is hosting our virtual meet-ups. <br />
+                                You can read more in our <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">hosting pack</a> or join the <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">preparatory workshop</a>.
 
                             </div>}
                     </InfoCard>

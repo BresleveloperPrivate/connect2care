@@ -97,7 +97,7 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
 
-                console.log('res:    ',res)
+                console.log('res:    ', res)
 
                 if (res.length !== 0) {
                     let where = { or: [] }
@@ -117,7 +117,7 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-                        console.log('res1:    ',res1)
+                        console.log('res1:    ', res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
                             if (res.findIndex(or => or.id === firstRes.id) > res.findIndex(or => or.id === secondRes.id)) {
                                 return 1
@@ -153,7 +153,14 @@ module.exports = function (meetings) {
             const emailowner = data.owner.email;
             let newEmail = emailowner.replace("@", "+c2c@");
             const nameOwner = data.owner.name;
-
+            if (data.fallens) {
+                if (data.fallens.length > 10)
+                    return cb(data.lang !== 'heb' ? "You can have only 10 fallens in one meeting" : "משהו השתבש, לכל מפגש לכל היותר יכול להיות 10 משתתפים")
+                for (let fallen of data.fallens) {
+                    if (fallen.relative === "בית אביחי" || fallen.relative === "האחים שלנו")
+                        return cb(data.lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
+                }
+            }
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err", err)
@@ -197,8 +204,8 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
-            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
-            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+            if (data.description.length > 1500) return cb(data.lang !== 'heb' ? "Something went wrong, please check if the description is correct." : "משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb(data.lang !== 'heb' ? "Something went wrong, please check if the meeting name is correct." : "משהו השתבש, אנא בדוק ששם המפגש נכון")
 
             let whitelist = {
                 // name: true, description: true, 
@@ -225,7 +232,6 @@ module.exports = function (meetings) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
                 for (let fallen of data.fallens) {
-
                     let whitelist1 = {
                         fallen: true, meeting: true, relationship: true
                     };
