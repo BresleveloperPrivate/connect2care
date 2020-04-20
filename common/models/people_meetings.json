@@ -64,6 +64,21 @@
                 "dataScale": 0,
                 "nullable": "N"
             }
+        },
+        "isPanelist":{
+            "type": "Boolean",
+            "required": false,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "isPanelist",
+                "dataType": "tinyint",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            } 
         }
     },
     "acls": [

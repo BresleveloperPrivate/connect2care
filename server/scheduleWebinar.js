@@ -9,7 +9,7 @@ const http = require("https");
  * @param {string} mail;
 */
 
-const scheduleWebinar = async (mail = "‫maayan45633+c2c@gmail.com‬") => {
+const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.random() * (1000000 - 100000)) + 100000) => {
 
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",
@@ -23,7 +23,7 @@ const scheduleWebinar = async (mail = "‫maayan45633+c2c@gmail.com‬") => {
         "method": "POST",
         "hostname": "api.zoom.us",
         "port": null,
-        "path": "/v2/users/maayan45633+c2c@gmail.com/webinars?access_token=" + token,
+        "path": `/v2/users/${mail}/webinars?access_token=` + token,
         "headers": {
             "content-type": "application/json"
         }
@@ -38,19 +38,24 @@ const scheduleWebinar = async (mail = "‫maayan45633+c2c@gmail.com‬") => {
 
         res.on("end", function () {
             let body = Buffer.concat(chunks);
-            console.log(body.toString());
+            // console.log(JSON.parse(body.toString()))
+            let jsdata = JSON.parse(body.toString())
+            console.log("xxxxxxxxxxxxxxxxxxxx", jsdata.join_url);
+            // return jsdata.join_url;
+            cb(jsdata.join_url)
         });
     });
 
     req.write(JSON.stringify(
         {
-            "topic": "Test Webinar",
+            "topic": "Connect 2 care Webinar",
             "type": 5,
-            "start_time": "2020-09-21T10:00:00",
-            "duration": "180",
+            // "start_time": "2020-09-20T20:00:00",
             "timezone": "Asia/Jerusalem",
-            "password": "123456",
-            "agenda": "Test Webinar",
+            "start_time": "2020-09-20T20:00:00",
+            "duration": "240",
+            "password": pwd,
+            "agenda": "Connect 2 care Webinar",
             "settings": {
                 "host_video": "true",
                 "panelists_video": "true",

@@ -21,9 +21,8 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings , fallens_meetings `
+        let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
-        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -80,7 +79,7 @@ module.exports = function (meetings) {
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY CASE 
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY CASE 
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 0 
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 1 
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 2 
@@ -648,7 +647,7 @@ module.exports = function (meetings) {
                 sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY id ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -755,7 +754,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול/ה להצטרף למפגש כמשתתף' }, null); return; }
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -842,7 +841,10 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            scheduleWebinar()
+            // let url = scheduleWebinar((x) => {
+
+            //     console.log("url", x)
+            // },"maayan45633+c2c@gmail.com") 
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -1026,7 +1028,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } } ],  "order":"id DESC" , "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})
@@ -1107,11 +1109,29 @@ module.exports = function (meetings) {
 
     meetings.getParticipants = (id, cb) => {
         (async () => {
-            let [err, res] = await to(meetings.findById(id, { include: "people" }))
+            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
             if (err) {
                 return cb(err)
             }
-            return cb(null, JSON.parse(JSON.stringify(res)).people)
+            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
+            let people = []
+            for (let i of people_meetings) {
+                i.people.isPanelist = i.isPanelist
+                people.push(i.people)
+            }
+            people = people.sort((p1, p2) => {
+                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
+                    if(p1.name > p2.name)return 1
+                    return -1
+                } 
+                if(p1.isPanelist && !p1.isPanelist){
+                    return 1
+                }
+                return -1
+
+            })
+            people.push(res.max_participants)
+            return cb(null, people)
         })()
     }
 
@@ -1126,7 +1146,7 @@ module.exports = function (meetings) {
         (async () => {
             let [error, meeting] = await to(meetings.findById(meetingId))
             if (error) {
-                return cb(err)
+                return cb(error)
             }
             await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
             const people_meetings = meetings.app.models.people_meetings
@@ -1139,6 +1159,26 @@ module.exports = function (meetings) {
     }
 
     meetings.remoteMethod('deleteParticipant', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.setToPanelist = (meetingId, participantId, cb) => {
+        (async () => {
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: true }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('setToPanelist', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },

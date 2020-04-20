@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { inject, observer } from 'mobx-react';
 import '../style/dashboardMain.css'
+import '../style/meetingInfo.scss'
 import Auth from '../../modules/auth/Auth'
 import DeletePersonPopup from './DeletePersonPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import panelBtn from '../../icons/Asset 7@3x11@2x.png'
 
 const Participants = (props) => {
 
     const [participants, setParticipants] = useState(null)
     const [showDeletePersonPopup, setShowDeletePersonPopup] = useState(false)
     const [participantId, setParticipantId] = useState(null)
+    const [maxPaticipants, setMaxParticipants] = useState(null)
 
     useEffect(() => {
         (async () => {
@@ -28,6 +31,7 @@ const Participants = (props) => {
                 // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
             }
             if (success) {
+                setMaxParticipants(success.pop())
                 setParticipants(success)
             }
         })()
@@ -42,10 +46,38 @@ const Participants = (props) => {
         setParticipants(par)
     }
 
+    const changePanelitsStatus = async (participant) => {
+        if (participant.isPanelist) {
+            return
+        }
+        else {
+            console.log(participant.id)
+            let [success, err] = await Auth.superAuthFetch(
+                `/api/meetings/setToPanelist`,
+                {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id) })
+                }, true);
+            if (err) {
+                console.log(err)
+                // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+            }
+            if (success) {
+                let index = participants.findIndex(i => i.id === participant.id)
+                let participantsPS = JSON.parse(JSON.stringify(participants))
+                participantsPS[index].isPanelist = true
+                setParticipants(participantsPS)
+                // setMaxParticipants(success.pop())
+                // setParticipants(success)
+            }
+        }
+    }
+
     return (
         <div>
             {!participants ?
-                <div className='headLine noRes' style={{ margin: 0, borderRadius: 0 }}>
+                <div className='headLine noRes' style={{ margin: 0 }}>
                     <div className="spinner-border" role="status">
                         <span className="sr-only">טוען...</span>
                     </div>
@@ -54,12 +86,13 @@ const Participants = (props) => {
                 participants.length === 0 ?
                     <div className='headLine noRes' style={{ margin: 0, padding: '5vh 0' }}>עדיין לא נרשמו אנשים למפגש</div> :
                     <div>
-                        <table className="allTableStyle" style={{ margin: 0, borderRadius: 0 }}>
+                        <table className="allTableStyle" style={{ margin: 0, borderRadius: '0 0 7px 7px' }}>
                             <tbody>
                                 <tr className="tableHead">
                                     <th>שם</th>
                                     <th>דואר אלקטרוני</th>
                                     <th>טלפון</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 {participants.map((participant, index) =>
@@ -78,25 +111,30 @@ const Participants = (props) => {
                                         </td>
                                         <td className='email'>{participant.email}</td>
                                         <td className='phone'>{participant.phone}</td>
-                                        
+
                                         < td className='edit' >
-                                            {/* <div>
-                                                <div
-                                                    style={{
-                                                        width: "1.5vh",
-                                                        height: "1.5vh",
-                                                        WebkitMaskSize: "1.5vh 1.5vh",
-                                                        background: 'var(--custom-gray)',
-                                                        WebkitMaskImage: `Url(${lock})`
-                                                    }} >
+                                            <div>
+                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitsStatus(participant)} >
+                                                    <div
+                                                        className='panelBtn'
+                                                        style={{
+                                                            width: "20px",
+                                                            height: "34px",
+                                                            WebkitMaskSize: "20px 34px",
+                                                            WebkitMaskImage: `Url(${panelBtn})`
+                                                        }}>
+                                                    </div>
+                                                    {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                 </div>
-                                            </div> */}
+                                            </div>
                                         </td>
+                                        <td></td>
                                     </tr>)
                                 )}
                             </tbody>
                         </table>
-                    </div >
+                        {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '10vw', paddingTop: '1vh' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
+                    </div>
             }
             {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={participantId} spliceFromArr={spliceFromArr} />}
         </div >
