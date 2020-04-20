@@ -397,7 +397,7 @@ const MeetingDetails = (props) => {
                     }
                 </div>
                 :
-                <div style={{ margin: 'auto' }}>
+                <div style={{ margin: '10vh auto 0 auto' }}>
                     <div className="spinner-border" style={{ color: 'var(--custom-blue)' }} role="status">
                         <span className="sr-only">Loading...</span>
                     </div>

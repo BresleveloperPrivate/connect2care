@@ -9,6 +9,8 @@ import { withRouter } from 'react-router-dom';
 import '../styles/animations.scss'
 // import Language from './Language';
 import Lng from './Lng';
+import logo10 from '../icons/logo10.png'
+import tzahal from '../icons/tzahal.png'
 
 
 class NavBar extends Component {
@@ -16,6 +18,7 @@ class NavBar extends Component {
         super(props)
         this.state = {
             right: false,
+            width:0
         }
         this.setOptions()
     }
@@ -23,10 +26,13 @@ class NavBar extends Component {
     componentDidMount = () => {
         window.addEventListener('resize', this.onResize, false)
         this.props.LanguageStore.setWidth(window.innerWidth)
+        this.setState({width:window.innerWidth, height:window.innerHeight})
+
     }
 
     onResize = (e) => {
         this.props.LanguageStore.setWidth(e.target.innerWidth)
+        this.setState({width:e.target.innerWidth , height:e.target.innerHeight})
     }
 
     // This function open the side nav bar or close it, depends of the situation
@@ -42,7 +48,7 @@ class NavBar extends Component {
             [{ option: this.props.t("homePage"), path: '/' },
             { option: this.props.t("meetingsList"), path: '/meetings' },
             // { option: this.props.t("myMeetings"), path: '/my-meetings' },
-            { option: this.props.t("qna"), path: '/info'},
+            { option: this.props.t("qna"), path: '/info' },
             // { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
             { option: this.props.t("contactUs"), path: '/contact' },
                 // { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }
@@ -65,11 +71,15 @@ class NavBar extends Component {
                     <Language changeLanguage={this.changelng} />
                 </div> */}
                 {this.options && <div
-                    style={this.props.LanguageStore.lang !== 'heb' ? { justifyContent: 'flex-start' } : {}}
+                    style={this.props.LanguageStore.lang !== 'heb' ? { flexDirection: 'row-reverse' } : {}}
                     className='navbarOptions'>
-                    <div className='optionInNavbar lngNB pointer'>
+                    {/* <div className='optionInNavbar lngNB pointer'>
                         <Lng changeLanguage={this.changelng} />
-                    </div>
+                    </div> */}
+
+                    {this.state.width > 900 || this.state.height > 900 ? <div className='containIconNavbar'>
+                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='120%' />
+                    </div> : null}
                     {this.options.map((value, index) => {
                         return (
                             <div key={index}
@@ -84,20 +94,37 @@ class NavBar extends Component {
                                 {value.option}
                             </div>
 
+
+
                         )
                     })}
 
+                    <div className='optionInNavbar lngNB pointer'>
+                        <Lng changeLanguage={this.changelng} />
+                    </div>
+
+                    <div style={{ flexGrow: 1 }}></div>
+
+
+                    <div className='containIconNavbar'>
+                        <img onClick={() => { window.open('https://www.idfwo.org/') }} alt="alt" src={tzahal} height='60%' />
+                    </div>
+                    <div className='containIconNavbar'>
+                        <img onClick={() => { window.open('https://www.yadlabanim.org.il/') }} alt="alt" src={logo10} height='80%' />
+                    </div>
+                    <div className='containIconNavbar'>
+                        <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='60%' />
+                    </div>
+
+                    {this.state.width <= 900 && this.state.height <= 900 && <div className='containIconNavbar' style={{alignItems:'center'}}>
+                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='135%' />
+                    </div>}
 
                 </div>}
 
-                <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}>
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='80%' className="oblogo" />
-                    </div>
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='100%' />
-                    </div>
-                </div>
+                {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
+
+                {/* </div> */}
                 <SideNavBar
                     history={this.props.history}
                     changeLanguage={this.changelng}

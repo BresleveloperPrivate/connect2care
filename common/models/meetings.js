@@ -22,6 +22,7 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -1014,7 +1015,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "include": [{ "relation": "fallens" }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({"where":{"approved":1}, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens" , "scope":{"fields":{"image_link":true}} }], "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})

@@ -41,16 +41,21 @@
       width: 100vw;
       padding: 5vw 4vw 4vw 4vw;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       flex-wrap: wrap;
   }
 
+  .partner:hover{
+    transform: scale(1.07);
+  }
+
   .partner{
+    transition: transform 0.3s ease;
     cursor: pointer;
     height: 6.2vw;
     display: flex;
     align-items: center;
-    flex-grow: 1;
+    /* flex-grow: 1; */
     margin: 2.6vw;
   }
 
