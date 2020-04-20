@@ -1103,11 +1103,32 @@ module.exports = function (meetings) {
 
     meetings.getParticipants = (id, cb) => {
         (async () => {
-            let [err, res] = await to(meetings.findById(id, { include: "people" }))
+            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
             if (err) {
                 return cb(err)
             }
-            return cb(null, JSON.parse(JSON.stringify(res)).people)
+            console.log("res", res)
+            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
+            let people = []
+            console.log("people_meetings", people_meetings)
+            for (let i of people_meetings) {
+                i.people.isPanelist = i.isPanelist
+                people.push(i.people)
+            }
+            people = people.sort((p1, p2) => {
+                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
+                    if (p1.name > p2.name) return 1
+                    return -1
+                }
+                if (p1.isPanelist && !p1.isPanelist) {
+                    return 1
+                }
+                return -1
+
+            })
+            people.push(res.max_participants)
+            people.push(res.zoomId !== null || res.zoomId !== '')
+            return cb(null, people)
         })()
     }
 
@@ -1139,6 +1160,27 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },
             { arg: 'participantId', type: 'number', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.setPanelistStatus = (meetingId, participantId, isPanelist, cb) => {
+        (async () => {
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('setPanelistStatus', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true },
+            { arg: 'isPanelist', type: 'boolean', required: true }
         ],
         returns: { arg: 'res', type: 'boolean', root: true }
     })

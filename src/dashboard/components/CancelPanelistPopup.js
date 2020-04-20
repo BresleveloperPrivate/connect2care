@@ -3,9 +3,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Auth from '../../modules/auth/Auth'
-import '../style/popup.scss'
 
-export default function DaletePersonPopup(props) {
+export default function DaleteMeetingPopup(props) {
 
     const [waitForData, setWaitForData] = useState(false)
     const [err, setErr] = useState(false)
@@ -13,45 +12,48 @@ export default function DaletePersonPopup(props) {
     const deleteMeeting = async () => {
         setWaitForData(true)
         let [success, err] = await Auth.superAuthFetch(
-            `/api/meetings/deleteParticipant`,
+            `/api/meetings/setPanelistStatus`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.participantId) })
+                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.currentParticipant.id), isPanelist: false })
             }, true);
         setWaitForData(false)
         if (err) {
             setErr(true)
             return
         }
-        props.spliceFromArr(props.participantId)
+        props.setPanelistInArr(props.currentParticipant.id)
         props.handleClose()
     }
 
     return (
         <div>
             <Dialog open={true} aria-labelledby="reset-modal">
-                <div style={{ padding: '10px' }}>
+                <div style={{ padding: ' 2vh 3vw', width: '35vw' }}>
                     <DialogContent>
                         <p className="text-center" style={{
-                            fontSize: '3.5vh',
-                            color: '#168ec4',
+                            fontSize: '2.9vh',
+                            color: '#A5A4BF',
                             width: '100%'
                         }}>
-                            ?האם אתה בטוח שברצונך למחוק משתתף זה
-                                </p>
-                        <p className="text-center" style={{
-                            color: '#168ec4',
-                            fontSize: '20px',
-                        }}>
-                            {/* יתכן שהמייל נשלח לספאם */}
+                            <b>ביטול מנחה מפגש</b>
                         </p>
-                        {err && <div>לא הצלחנו למחוק את המשתתף. נסה שנית מאוחר יותר.</div>}
+                        <p className="text-center" style={{
+                            color: '#A5A4BF',
+                            fontSize: '2.5vh',
+                            direction: 'rtl'
+                        }}>
+                            האם את בטוח שתרצה להסיר את <br />
+                            <b>{props.currentParticipant.name}</b><br />
+                            מהנחיית המפגש?
+                        </p>
+                        {err && <div>לא הצלחנו למחוק את המפגש. נסה שנית מאוחר יותר.</div>}
                     </DialogContent>
                     <DialogActions>
                         <div className='d-flex' style={{ width: '100%' }}>
                             <div
-                                style={{ cursor: 'pointer', backgroundColor: 'var(--custom-orange)', padding: '3px 10px', borderRadius: '10px', color: 'white', fontSize: '20px' }}
+                                style={{ cursor: 'pointer', backgroundColor: 'var(--custom-dark-green)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '2.5vh' }}
                                 onClick={() => {
                                     if (waitForData) return
                                     deleteMeeting()
@@ -62,12 +64,12 @@ export default function DaletePersonPopup(props) {
                                         <div className="bounce2"></div>
                                         <div className="bounce3"></div>
                                     </div>
-                                    : "מחק"
+                                    : "כן"
                                 }
                                 {/* {this.props.t("approval")} */}
                             </div>
                             <div
-                                style={{ cursor: 'pointer', color: 'var(--custom-orange)', padding: '3px 10px', borderRadius: '10px', fontSize: '20px', marginLeft: '2vw' }}
+                                style={{ cursor: 'pointer', color: 'var(--custom-dark-green)', padding: '3px 10px', borderRadius: '10px', fontSize: '2.5vh', marginLeft: '2vw' }}
                                 onClick={() => {
                                     props.handleClose()
                                 }}>
