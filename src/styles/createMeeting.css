@@ -102,7 +102,7 @@ input[type=radio]:focus {
 
 .candleImg{
     background-color: #EEEEEE;
-    padding: 5.8vh;
+    padding: 4.8vh;
     border-radius: 4px;
 }
 
@@ -298,6 +298,11 @@ input[type=radio]:focus {
     padding: 0 2vh;
     font-weight: bold;
     color: var(--custom-gray);
+}
+
+.closeChoose{
+    height: 22px;
+    padding: 1px;
 }
 
 .openOrCloseDetails{

@@ -749,7 +749,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול/ה להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
