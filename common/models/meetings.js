@@ -97,7 +97,7 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
 
-                console.log('res:    ',res)
+                console.log('res:    ', res)
 
                 if (res.length !== 0) {
                     let where = { or: [] }
@@ -117,7 +117,7 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-                        console.log('res1:    ',res1)
+                        console.log('res1:    ', res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
                             if (res.findIndex(or => or.id === firstRes.id) > res.findIndex(or => or.id === secondRes.id)) {
                                 return 1
@@ -836,7 +836,10 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            scheduleWebinar()
+            // let url = scheduleWebinar((x) => {
+
+            //     console.log("url", x)
+            // },"maayan45633+c2c@gmail.com") 
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
