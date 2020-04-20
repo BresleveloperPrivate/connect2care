@@ -76,9 +76,6 @@ class MeetingsStore {
             isAvailable: this.availableOnly,
         }
 
-        console.log(filter)
-        console.log(this.lastId , 'this.lastId')
-
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -108,7 +105,6 @@ class MeetingsStore {
                 this.meetings = this.meetings.concat(meetings.slice(0, 4))
             }
             this.lastId = this.meetings.length
-            console.log(meetings , 'meetings')
         }
     }
 
