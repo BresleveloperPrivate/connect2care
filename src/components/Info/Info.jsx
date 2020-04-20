@@ -7,53 +7,53 @@ import InfoCard from './InfoCard';
 
 const Info = (props) => {
     const arrayQuestion = [
-        "What does it mean to initiate a meeting",
-        "I created a meeting, what now",
-        "How do I invite people to a meeting",
-        "How is registration for my meeting done",
-        "What does it mean to have an open meeting",
-        "What does a closed meeting mean",
-        "I couldn't sign up, what to do",
-        "I got a buzz email, what to do",
-        "I created a meeting but I don't see it on a list of meetings, why",
-        "Can I speak additional languages",
-        "Can I have more than one meeting",
+        "initiateMeetingQ",
+        "createdMeetingQ",
+        "inviteToMeetingQ",
+        "registrationForMyMeetingQ",
+        "openMeetingQ",
+        "closedMeetingQ",
+        "couldNotSignUpQ",
+        "emailFromZoomQ",
+        "doNotSeeTheMeetingQ",
+        "additionalLanguagesQ",
+        "moreThanOneMeetingQ",
         // "אנחנו קבוצה של אנשים שרוצים לפתוח מפגש ואין מי שיספר, מה עושים?",
-        "How do I join the meeting",
-        "What is the maximum and minimum of participants in the meeting",
-        "Can I have a meeting of a few fallen",
-        "I've never delivered an online meeting. Do you have any guidance on zoom and building the night",
-        "What should you prepare for a successful meeting",
-        "who are you? Who is behind the project",
-        "Is the project appropriate for all ages",
-        "My meeting has been canceled, what am I doing",
-        "I want to play a video during the meeting, how do I do it",
-        "What are our brothers meetings? Abihai House Meetings"
+        "joinMeetingQ",
+        "maxAndMinParticipantsQ",
+        "fewFallenQ",
+        "guidanceZoom&buildTheNightQ",
+        "successfulMeetingQ",
+        "behindTheProjectQ",
+        "allAgesQ",
+        "meetingCanceledQ",
+        "playVideoQ",
+        "differentMeetingsQ"
     ]
 
     const arrayAnswers = [
-        "A person close to the victim (s) (e.g. family or team member) responsible for meeting planning, content preparation, and invitation of participants",
+        "initiateMeetingA",
         "",
-        "To invite more attendees to your meeting, all you have to do is log in to your meeting - and click the 'Invite to Meet' button - this is, now copy the link to your Wetsap groups, Facebook wall and email - and invite family and friends",
+        "inviteToMeetingA",
         "",
-        "A meeting that is open to anyone, anywhere",
-        "A meeting scheduled for participants (e.g., family or class)",
+        "openMeetingA",
+        "closedMeetingA",
         "",
         "",
-        "To keep information secure, we review every session. We will contact you after the meeting opens to confirm the details. If all goes well, the reunion will be approved and you can see it in the reunion list as a new reunion",
-        "Of course, and even desirable. You can create multiple sessions in several different languages - you can speak any language you speak",
-        "Of course, and even desirable. A number of sessions can be produced in which you can speak to different target audiences and different languages",
+        "doNotSeeTheMeetingA",
+        "additionalLanguagesA",
+        "moreThanOneMeetingA",
         // "",//not have an answer
-        "You can select the right meeting for you on the Meetings List page. The first sessions, are the last ones created. You can filter the type of meeting, hours, dates, and free search. The personal story can be read by clicking on the meeting. Once you have chosen the meeting you want to join, please fill in details and wait for the email. Closed sessions require a meeting code given to you by the meeting organizer",
-        "You can have a meeting for up to 500 participants, the minimum is up to you. You can set the number of participants in a meeting within the page for creating a new meeting",
-        "Definitely! When you sign up for a reunion, you can fill in the names of a few falls close to your heart and tell them. Up to 10 falls can be counted in one call",
+        "joinMeetingA",
+        "maxAndMinParticipantsA",
+        "fewFallenA",
         "",
         "",
         "",
-        "Definitely yes. Note that if this is a younger population, the meeting should be directed to this",
-        "There can be a situation where the initiator of the meeting cancels the meeting, in which case you will receive an email alerting you. You can enter the list of meetings and select a new meeting",
+        "allAgesA",
+        "meetingCanceledA",
         "",
-        "Our brothers' meetings, these are special meetings created in various collaborations and meetings of the Abihai House, these are meetings created by the Abihai House as part of the Interior Day Memorial project",
+        "differentMeetingsA",
     ]
 
     return (
@@ -62,7 +62,7 @@ const Info = (props) => {
             <div className="createMeetingSecondSentence margin-right-text">{props.LanguageStore.lang === "heb" ? "שאלות ותשובות ששאלתם אותנו" : "Questions and Answers you asked us"}</div>
             {arrayQuestion.map((_, index) => {
 
-                if (arrayQuestion[index] === "I created a meeting, what now")
+                if (arrayQuestion[index] === "createdMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>{
                         props.LanguageStore.lang === "heb" ? <div>
                             קודם כל, תודה! בזכותך, אנשים רבים יציינו את יום הזיכרון ויגדילו את מגדל ההנצחה. כל שעליך לעשות הוא להתחבר למפגש דרך המייל שקיבלת מזום ולעקוב אחר ההנחיות שנשלחו אליך במייל המצורף.
@@ -78,7 +78,7 @@ const Info = (props) => {
 
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "How is registration for my meeting done")
+                else if (arrayQuestion[index] === "registrationForMyMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             במפגש סגור - לאחר יצירת המפגש תקבל מאיתנו שני מיילים. מייל אחד מאיתנו ומייל שני מזום. למייל שאנחנו שולחים יצטרף קוד מפגש. כשאתה מזמין אתה האנשים למפגש חשוב שתשלח להם את הקישור ואת הקוד הצטרפות. כל ההרשמות מתבצעות דרך האתר ותוכל להתעדכן און ליין בכמות המשתתפים.
@@ -92,7 +92,7 @@ const Info = (props) => {
                             Closed meeting - After the meeting you will receive two emails from us. One mile from us and two miles from Zoom. The email we send will include a meeting code. When you invite, you are the people to an important meeting that you send them the link and the code for joining. All subscriptions are made through the site and you can catch up on the number of participants online.                        </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "I couldn't sign up, what to do")
+                else if (arrayQuestion[index] === "couldNotSignUpQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             חשוב לנסות להבין מה סוג הבעיה בהרשמה, <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">ותפנה אלינו</a> - כך נוכל לסייע לך, אנא כתוב בצורה מפורטת מה הבעיה ונשמח לסייע.
@@ -102,7 +102,7 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "I got a buzz email, what to do")
+                else if (arrayQuestion[index] === "emailFromZoomQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             במייל שקיבל יש חשבון יעודי למפגש שיצרת.<br />
@@ -125,7 +125,7 @@ const Info = (props) => {
                             In order to connect on the day of the meeting, you will need to use the following details that you received by email from us. Please keep them accessible.</div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "I've never delivered an online meeting. Do you have any guidance on zoom and building the night")
+                else if (arrayQuestion[index] === "guidanceZoom&buildTheNightQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             בהחלט! צוות ההדרכה שלנו עמל רבות והכין עבורך סדנה וירטואלית לניהול המפגש.<br />
@@ -138,7 +138,7 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "What should you prepare for a successful meeting")
+                else if (arrayQuestion[index] === "successfulMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             חשוב שיהיה לצידך "מארח", שידאג לכל הצד הטכני, שהזום עובד, המצלמה תקינה, ואם יש צורך אז גם להשתיק קולות מפריעים. כמו כן, חשוב להגיע עם מסרים שאותם רוצים להעביר.<br />
@@ -150,7 +150,7 @@ const Info = (props) => {
                                 </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "who are you? Who is behind the project")
+                else if (arrayQuestion[index] === "behindTheProjectQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             מאחורי המיזם עומדת עמותת 'האחים שלנו' אשר הוקמה במטרה לבנות - לראשונה בישראל - קהילה תומכת ומעצימה עבור האחים השכולים במדינה.
@@ -162,7 +162,7 @@ const Info = (props) => {
                             </div>}
                     </InfoCard>
 
-                else if (arrayQuestion[index] === "I want to play a video during the meeting, how do I do it")
+                else if (arrayQuestion[index] === "playVideoQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             ניתן לעשות זאת באמצעים של תכנת ZOOM , בה מתקיימים המפגשים בדרך וירטואלית.<br />
@@ -178,7 +178,6 @@ const Info = (props) => {
 
                 else return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                     {props.t(arrayAnswers[index])}
-                    {console.log("props.t(arrayAnswers[index])", props.t(arrayAnswers[index]))}
                 </InfoCard>
             })}
         </div>
