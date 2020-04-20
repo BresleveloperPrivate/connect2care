@@ -46,7 +46,7 @@ const scheduleWebinar = async (mail = "‫maayan45633+c2c@gmail.com‬") => {
         {
             "topic": "Test Webinar",
             "type": 5,
-            "start_time": "2020-09-19T23:53:00Z",
+            "start_time": "2020-09-21T10:00:00",
             "duration": "180",
             "timezone": "Asia/Jerusalem",
             "password": "123456",

@@ -832,8 +832,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // scheduleWebinar()
-            // getZoomUser()
+            scheduleWebinar()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
