@@ -1127,7 +1127,7 @@ module.exports = function (meetings) {
 
             })
             people.push(res.max_participants)
-            people.push(res.zoomId !== null || res.zoomId !== '')
+            people.push(res.zoomId !== null && res.zoomId !== '')
             return cb(null, people)
         })()
     }
