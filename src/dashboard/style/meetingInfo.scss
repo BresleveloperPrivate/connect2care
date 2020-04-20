@@ -56,5 +56,36 @@
     width: 6vw;
 }
 
+.panelContain{
+    position: relative;
+
+    .panelBtn{
+        background: var(--custom-gray);
+        transition: ease 0.5s background;
+    }
+
+    .panelText{
+        opacity: 0;
+        font-size: 1.7vh;
+        transition: ease 0.5s opacity;
+        width: 100%;
+    }
+}
+
+.panelContain:hover{
+    
+    .panelBtn{
+        background: var(--custom-dark-green);
+        transition: ease 0.5s background;
+    }
+
+    .panelText{
+        color:var(--custom-dark-green);
+        opacity: 1;
+        transition: ease 0.5s opacity;
+    }
+
+}
+
 
 

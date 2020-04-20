@@ -33,7 +33,7 @@ export default function DaletePersonPopup(props) {
                 <div style={{ padding: '10px' }}>
                     <DialogContent>
                         <p className="text-center" style={{
-                            fontSize: '4vh',
+                            fontSize: '3.5vh',
                             color: '#168ec4',
                             width: '100%'
                         }}>
