@@ -23,6 +23,7 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -73,22 +74,22 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
                     `(match(fallens.name) against('"${newSearch}"') or 
                         match(meetings.name) against('"${newSearch}"') or 
-                        match(people.name) against('"${newSearch}"'))
+                        match(people.name) against('"${newSearch}"') )
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY CASE 
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 0 
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 1 
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 2 
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 3 
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 4 
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 5 
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 6 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 7 
-        ELSE 8
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        ELSE 9
         END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
@@ -118,7 +119,7 @@ module.exports = function (meetings) {
                         ////sortttt
                         console.log('res1:    ', res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
-                            if (res.findIndex(or => or.id === firstRes.id) > res.findIndex(or => or.id === secondRes.id)) {
+                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
                                 return 1
                             } else {
                                 return -1
@@ -152,14 +153,7 @@ module.exports = function (meetings) {
             const emailowner = data.owner.email;
             let newEmail = emailowner.replace("@", "+c2c@");
             const nameOwner = data.owner.name;
-            if (data.fallens) {
-                if (data.fallens.length > 10)
-                    return cb(data.lang !== 'heb' ? "You can have only 10 fallens in one meeting" : "משהו השתבש, לכל מפגש לכל היותר יכול להיות 10 משתתפים")
-                for (let fallen of data.fallens) {
-                    if (fallen.relative === "בית אביחי" ||fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו" )
-                        return cb(data.lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
-                }
-            }
+
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err", err)
@@ -203,8 +197,8 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
-            if (data.description.length > 1500) return cb(data.lang !== 'heb' ? "Something went wrong, please check if the description is correct." : "משהו השתבש, אנא בדוק שתאור המפגש נכון")
-            if (data.name.length > 100) return cb(data.lang !== 'heb' ? "Something went wrong, please check if the meeting name is correct." : "משהו השתבש, אנא בדוק ששם המפגש נכון")
+            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
 
             let whitelist = {
                 // name: true, description: true, 
@@ -231,6 +225,7 @@ module.exports = function (meetings) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 let count = 1
                 for (let fallen of data.fallens) {
+
                     let whitelist1 = {
                         fallen: true, meeting: true, relationship: true
                     };
@@ -647,7 +642,7 @@ module.exports = function (meetings) {
                 sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY id ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -841,10 +836,9 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // let url = scheduleWebinar((x) => {
-
-            //     console.log("url", x)
-            // },"maayan45633+c2c@gmail.com") 
+            let url = scheduleWebinar((x) => {
+                console.log("url", x)
+            }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -1028,7 +1022,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } } ],  "order":"id DESC" , "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})
@@ -1109,29 +1103,11 @@ module.exports = function (meetings) {
 
     meetings.getParticipants = (id, cb) => {
         (async () => {
-            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
+            let [err, res] = await to(meetings.findById(id, { include: "people" }))
             if (err) {
                 return cb(err)
             }
-            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
-            let people = []
-            for (let i of people_meetings) {
-                i.people.isPanelist = i.isPanelist
-                people.push(i.people)
-            }
-            people = people.sort((p1, p2) => {
-                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
-                    if(p1.name > p2.name)return 1
-                    return -1
-                } 
-                if(p1.isPanelist && !p1.isPanelist){
-                    return 1
-                }
-                return -1
-
-            })
-            people.push(res.max_participants)
-            return cb(null, people)
+            return cb(null, JSON.parse(JSON.stringify(res)).people)
         })()
     }
 
@@ -1146,7 +1122,7 @@ module.exports = function (meetings) {
         (async () => {
             let [error, meeting] = await to(meetings.findById(meetingId))
             if (error) {
-                return cb(error)
+                return cb(err)
             }
             await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
             const people_meetings = meetings.app.models.people_meetings
@@ -1159,26 +1135,6 @@ module.exports = function (meetings) {
     }
 
     meetings.remoteMethod('deleteParticipant', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'meetingId', type: 'number', required: true },
-            { arg: 'participantId', type: 'number', required: true }
-        ],
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
-    meetings.setToPanelist = (meetingId, participantId, cb) => {
-        (async () => {
-            const people_meetings = meetings.app.models.people_meetings
-            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: true }))
-            if (err) {
-                return cb(err)
-            }
-            return cb(null, true)
-        })()
-    }
-
-    meetings.remoteMethod('setToPanelist', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },
