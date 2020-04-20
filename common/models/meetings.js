@@ -1125,6 +1125,7 @@ module.exports = function (meetings) {
 
             })
             people.push(res.max_participants)
+            people.push(res.zoomId !== null || res.zoomId !== '')
             return cb(null, people)
         })()
     }
@@ -1161,10 +1162,10 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.setToPanelist = (meetingId, participantId, cb) => {
+    meetings.setPanelistStatus = (meetingId, participantId, isPanelist, cb) => {
         (async () => {
             const people_meetings = meetings.app.models.people_meetings
-            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: true }))
+            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
             if (err) {
                 return cb(err)
             }
@@ -1172,11 +1173,12 @@ module.exports = function (meetings) {
         })()
     }
 
-    meetings.remoteMethod('setToPanelist', {
+    meetings.remoteMethod('setPanelistStatus', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },
-            { arg: 'participantId', type: 'number', required: true }
+            { arg: 'participantId', type: 'number', required: true },
+            {arg: 'isPanelist', type: 'boolean', required: true}
         ],
         returns: { arg: 'res', type: 'boolean', root: true }
     })
