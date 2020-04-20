@@ -124,21 +124,29 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         setCode('');
         setReadBylaw(false);
         setOpenSuccess(true)
+
         // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
     }, [name, email, phone, code, readBylaw, meetingId]);
+
+    const setPhoneValue = (value) => {
+        if (value.match(/[^0-9-]/g) || value.length > 11) {
+            return
+        }
+        setPhone(value)
+    }
 
     const inputs = useMemo(() =>
         sendCode ? [
             [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
             [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
-            [phone, setPhone, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+            [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
             [code, setCode, LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
 
         ] : [
                 [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
                 [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
-                [phone, setPhone, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+                [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
 
             ], [name, email, phone, code, LanguageStore.lang]);
 
@@ -146,24 +154,28 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
 
 
-<Dialog
-        maxWidth='md'
-        open={openSuccess}
-        onClose={()=>{setOpenSuccess(false)}}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogContent style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' , margin:0}}
-          className='popupSendEmail'>
-          <DialogContentText id="alert-dialog-description">
-            <div style={{width:'40px' , margin: 'auto'}}><img src={tick} width='100%'/></div>
-            <div className='containXButton'><FontAwesomeIcon onClick={()=>{setOpenSuccess(false)}} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} /></div>
-            <div style={{padding:'1vh 4vw 2vh 4vw' , fontSize:'1.3em' , color:'#2A3474' , textAlign:'center'}} className={LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
-              {LanguageStore.lang !== 'heb' ? "You have successfully joined this meeting" : 'הצטרפת למפגש בהצלחה'}
-            </div>
-          </DialogContentText>
-        </DialogContent >
-  
-      </Dialog>
+            <Dialog
+                maxWidth='md'
+                open={openSuccess}
+                onClose={() => { setOpenSuccess(false) }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogContent style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl', margin: 0 }}
+                    className='popupSendEmail'>
+                    <DialogContentText id="alert-dialog-description">
+                        <div style={{ width: '40px', margin: 'auto' }}>
+                            <img src={tick} width='100%' />
+                        </div>
+                        <div className='containXButton'>
+                            <FontAwesomeIcon onClick={() => { setOpenSuccess(false) }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' }} />
+                        </div>
+                        <div style={{ padding: '1vh 4vw 2vh 4vw', fontSize: '1.3em', color: '#2A3474', textAlign: 'center' }} className={LanguageStore.lang !== 'heb' ? 'tal shareEmailTitle2' : 'tar shareEmailTitle2'}>
+                            {LanguageStore.lang !== 'heb' ? "You have successfully joined this meeting" : 'הצטרפת למפגש בהצלחה'}
+                        </div>
+                    </DialogContentText>
+                </DialogContent >
+
+            </Dialog>
 
 
             <div id='meetingPageLeftInside' >
@@ -190,7 +202,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
                 </div>
 
-                <div style={{width:'100%'}}>
+                <div style={{ width: '100%' }}>
                     <form>
                         {inputs.map(([value, setValue, placeholder], index) => (
 

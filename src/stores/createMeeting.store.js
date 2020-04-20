@@ -163,11 +163,12 @@ class CreateMeetingStore {
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
+                    this.meetingDetails.fallens[i].needAlert = false
                     this.meetingDetails.fallens[i].relative = option
                     if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship[index] && index === this.meetingDetails.otherRelationship[index].id) this.meetingDetails.otherRelationship[index].relative = ""
                     if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        this.time = setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -175,10 +176,12 @@ class CreateMeetingStore {
     }
 
     changeNeedAlert = (value, index) => {
+        console.log("value", value, "index", index)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].needAlert = value
+                    clearTimeout(this.time)
                 }
             }
         }
