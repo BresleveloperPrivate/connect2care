@@ -28,21 +28,20 @@ const FallenDetails = (props) => {
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         !props.isDash && { option: props.t('other'), data: 'אחר' },
     ]
+
     const CreateMeetingStore = useCreateMeetingStore();
     const [imgCorrect, setImgCorrect] = useState(false);
 
     useEffect(() => {
-
         props.LanguageStore.setWidth(window.innerWidth)
     }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName, CreateMeetingStore.meetingDetails, CreateMeetingStore.meetingDetails.fallens]);
-    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
+
 
     useEffect(() => {
         setImgCorrect(false)
     }, [CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image])
 
-    console.log("imgCorrect", imgCorrect)
-    console.log("findImage", findImage)
+    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
     return (
         <div className="containFallenDetails">
             {props.LanguageStore.width > 550 && <img style={props.LanguageStore.lang !== "heb" ? { marginRight: "2vh" } : { marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
@@ -71,13 +70,26 @@ const FallenDetails = (props) => {
                         placeholder={props.t('fallDate')}
                     />
                 </div>
+
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">
                         {props.t('my relative to the fallen')}
                     </div>}
                     <Select
                         img={props.isDash}
-                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ?
+                            'אח/ות' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('brother or sister') :
+                            'הורים'=== CreateMeetingStore.meetingDetails.fallens[props.index].relative ?props.t('parent') :
+                            'קרובי משפחה'=== CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('family member') :
+                            'אלמן/ אלמנה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('widower'):
+                            'יתומים' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('orphans'):
+                            'חבר/ה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('friend'):
+                            'בית אביחי' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('avi chai'):
+                            'האחים שלנו' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('ourBrothers'):
+                            'אחר' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('other'):
+
+
+                            CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')
                         }
                         defaultSelectRelative={props.t('my relative to the fallen')}
@@ -120,8 +132,8 @@ const FallenDetails = (props) => {
                     </div>
                 }
             </div>
-            {console.log("findImage", findImage)}
-            <div className={(findImage ? "exictingPic" : "candleImg")} style={(findImage && CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ? { filter: "grayscale(1)" } : {}}>
+
+            <div className={(findImage ? "exictingPic" : "candleImg")} style={(findImage && CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image && !imgCorrect) ? { filter: "grayscale(1)" } : {}}>
 
                 <img onError={() => setImgCorrect(grayCandle)} src={
                     (findImage) ?

@@ -65,6 +65,7 @@ const CreateMeeting = (props) => {
     ]
 
     useEffect(() => {
+
         return () => props.CreateMeetingStore.resetAll()
     }, [])
 
@@ -78,7 +79,7 @@ const CreateMeeting = (props) => {
                     return <FallenDetails t={props.t} key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} isDash={false} />
                 })
             }
-                <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>
+                {props.CreateMeetingStore.meetingDetails.fallens.length < 10 && <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>}
             </div>
         )
     }
@@ -237,7 +238,7 @@ const CreateMeeting = (props) => {
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data); console.log(value.data) }} />
+                                    onChoseOption={(value) => props.CreateMeetingStore.changeMeetingDate(value.data)} />
                             </div>
 
                             <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' && props.LanguageStore.width >= 1150 ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
@@ -316,26 +317,24 @@ const CreateMeeting = (props) => {
                             </div>
                         </div>
 
-                        <div
-                            className="containCreateMettingButton"
-                        >
-                            {console.log("props.CreateMeetingStore.waitForData", props.CreateMeetingStore.waitForData)}
+                        <div className="containCreateMettingButton">
                             <div className="createMeetingButton grow" onClick={async () => {
                                 if (wait) return
-                                setWait(true)
                                 if (!props.CreateMeetingStore.waitForData) {
+                                    setWait(true)
                                     setIsSaved(true)
                                     if (!readBylaw) {
                                         let error = props.LanguageStore.lang !== 'heb' ? "You must read the terms before adding the meeting" : "עליך לקרוא את התקנון לפני ההוספה"
                                         props.CreateMeetingStore.setError(error)
+                                        setWait(false)
                                         return
                                     }
-                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost(props.LanguageStore.lang)
                                     if (meeting) {
                                         setSuccess(meeting[0])
                                     }
+                                    setWait(false)
                                 }
-                                setWait(false)
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
                                     <div className="spinner">
