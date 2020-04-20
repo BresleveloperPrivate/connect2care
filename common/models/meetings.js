@@ -2,6 +2,7 @@
 const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
+const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 // const http = require("https");
@@ -835,6 +836,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
+            // scheduleWebinar()
             // getZoomUser()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
