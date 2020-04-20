@@ -2,6 +2,7 @@
 const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
+const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 // const http = require("https");
@@ -19,19 +20,9 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
-        let sqlQuerySelect = `meetings.id, CASE
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
-        END c`
+        let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
-        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
@@ -82,19 +73,30 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
                     `(match(fallens.name) against('"${newSearch}"') or 
                         match(meetings.name) against('"${newSearch}"') or 
-                        match(people.name) against('"${newSearch}"') )
+                        match(people.name) against('"${newSearch}"'))
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY c, meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY CASE
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        END, meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
                 return cb(err)
-            }
-            else {
+            } else {
+
+                console.log('res:    ', res)
+
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -113,9 +115,9 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-
+                        console.log('res1:    ', res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
-                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
+                            if (res.findIndex(or => or.id === firstRes.id) > res.findIndex(or => or.id === secondRes.id)) {
                                 return 1
                             } else {
                                 return -1
@@ -745,7 +747,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול/ה להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -832,7 +834,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // getZoomUser()
+            scheduleWebinar()
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -1107,6 +1109,17 @@ module.exports = function (meetings) {
                 i.people.isPanelist = i.isPanelist
                 people.push(i.people)
             }
+            people = people.sort((p1, p2) => {
+                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
+                    if(p1.name > p2.name)return 1
+                    return -1
+                } 
+                if(p1.isPanelist && !p1.isPanelist){
+                    return 1
+                }
+                return -1
+
+            })
             people.push(res.max_participants)
             return cb(null, people)
         })()
@@ -1123,7 +1136,7 @@ module.exports = function (meetings) {
         (async () => {
             let [error, meeting] = await to(meetings.findById(meetingId))
             if (error) {
-                return cb(err)
+                return cb(error)
             }
             await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
             const people_meetings = meetings.app.models.people_meetings
@@ -1136,6 +1149,26 @@ module.exports = function (meetings) {
     }
 
     meetings.remoteMethod('deleteParticipant', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.setToPanelist = (meetingId, participantId, cb) => {
+        (async () => {
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: true }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('setToPanelist', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },

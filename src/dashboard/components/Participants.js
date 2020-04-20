@@ -46,6 +46,34 @@ const Participants = (props) => {
         setParticipants(par)
     }
 
+    const changePanelitsStatus = async (participant) => {
+        if (participant.isPanelist) {
+            return
+        }
+        else {
+            console.log(participant.id)
+            let [success, err] = await Auth.superAuthFetch(
+                `/api/meetings/setToPanelist`,
+                {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id) })
+                }, true);
+            if (err) {
+                console.log(err)
+                // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+            }
+            if (success) {
+                let index = participants.findIndex(i => i.id === participant.id)
+                let participantsPS = JSON.parse(JSON.stringify(participants))
+                participantsPS[index].isPanelist = true
+                setParticipants(participantsPS)
+                // setMaxParticipants(success.pop())
+                // setParticipants(success)
+            }
+        }
+    }
+
     return (
         <div>
             {!participants ?
@@ -86,7 +114,7 @@ const Participants = (props) => {
 
                                         < td className='edit' >
                                             <div>
-                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={()=>{}} >
+                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitsStatus(participant)} >
                                                     <div
                                                         className='panelBtn'
                                                         style={{

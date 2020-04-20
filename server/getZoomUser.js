@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-// const config = require('./config');
-const rp = require('request-promise');
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
