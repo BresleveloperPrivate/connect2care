@@ -21,7 +21,7 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings , fallens_meetings`
+        let sqlQueryfrom = `meetings , fallens_meetings `
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
         let params = []
         let searchArr = search.split("'")
@@ -74,22 +74,22 @@ module.exports = function (meetings) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
                     `(match(fallens.name) against('"${newSearch}"') or 
                         match(meetings.name) against('"${newSearch}"') or 
-                        match(people.name) against('"${newSearch}"') )
+                        match(people.name) against('"${newSearch}"'))
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
-        ELSE 9
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY CASE 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 0 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 1 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 2 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 3 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 4 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 5 
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 6 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 7 
+        ELSE 8
         END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
@@ -119,7 +119,7 @@ module.exports = function (meetings) {
                         ////sortttt
                         console.log('res1:    ',res1)
                         return cb(null, res1.sort((firstRes, secondRes) => {
-                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
+                            if (res.findIndex(or => or.id === firstRes.id) > res.findIndex(or => or.id === secondRes.id)) {
                                 return 1
                             } else {
                                 return -1
