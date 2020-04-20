@@ -79,16 +79,17 @@ module.exports = function (meetings) {
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY CASE
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
-        END, meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY CASE 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 0 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 1 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 2 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 3 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 4 
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 5 
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 6 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 7 
+        ELSE 8
+        END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -747,7 +748,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול/ה להצטרף למפגש כמשתתף' }, null); return; }
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -834,7 +835,10 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            scheduleWebinar()
+            // let url = scheduleWebinar((x) => {
+
+            //     console.log("url", x)
+            // },"maayan45633+c2c@gmail.com") 
             let res = sendEmail(senderName, sendOptions);
             cb(null, { res: res })
         })();
@@ -1018,7 +1022,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } } ],  "order":"id DESC" , "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})
