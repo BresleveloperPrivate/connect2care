@@ -97,7 +97,7 @@ module.exports = function (meetings) {
                 return cb(err)
             } else {
 
-                console.log('res:    ',res1)
+                console.log('res:    ',res)
 
                 if (res.length !== 0) {
                     let where = { or: [] }
