@@ -749,7 +749,7 @@ module.exports = function (meetings) {
                     person = await people.create(valid.data);
                 }
                 else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול/ה להצטרף למפגש כמשתתף' }, null); return; }
+                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                     person = user0
                 }
 
@@ -1020,7 +1020,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } } ],  "order":"id DESC" , "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})

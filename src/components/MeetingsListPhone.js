@@ -78,7 +78,7 @@ const PhoneList = (props) => {
 
                             }}
                         >
-                            <img height='100%' width='100%' src={filter ? filter2 : filter1} />
+                            <img style={{cursor:'pointer'}} height='100%' width='100%' src={filter ? filter2 : filter1} />
                         </div>
                         {/* <div
                         style={{ marginRight: '2em' }}
