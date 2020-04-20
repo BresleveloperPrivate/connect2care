@@ -41,7 +41,7 @@
       width: 100vw;
       padding: 5vw 4vw 4vw 4vw;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       flex-wrap: wrap;
   }
 
@@ -55,7 +55,8 @@
     height: 6.2vw;
     display: flex;
     align-items: center;
-    /* flex-grow: 1; */
+    justify-content: center;
+    flex-grow: 1;
     margin: 2.6vw;
   }
 
@@ -82,7 +83,7 @@
     }
 
     .partner{
-      height: 7.7vw;
+      height: 7.5vw;
       margin: 4vw 1.2vw;
     }
 
