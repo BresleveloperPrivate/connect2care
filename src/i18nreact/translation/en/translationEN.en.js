@@ -73,13 +73,21 @@ const translationEN = {
 
     "orphans": "Orphan",
     "widower": "Widower / widow",
-
+    'avi chai':"Beit Avi Chai",
+    'ourBrothers':'Our Brothers',
     "all": "All",
     "brother or sister": "Brother or sister",
     "parent": "Parent",
     "friend": "Friend",
     "family member": "Family member",
     "other": "Other",
+
+
+    'all meetings':'All meetings',
+    'open meetings':'Open meetings',
+    'private meetings':'Private meetings',
+    'full meetings':'Full meetings',
+
 
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',

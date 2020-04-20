@@ -80,9 +80,16 @@ const translationHEB = {
     "family member": "קרוב/ת משפחה",
     "other": "אחר",
 
+
+    'all meetings':'כל המפגשים',
+    'open meetings':'מפגשים פתוחים',
+    'private meetings':'מפגשים פרטיים',
+    'full meetings':'מפגשים מלאים',
+
     "orphans": "יתומ/ה",
     "widower": "אלמן / אלמנה",
-
+    'avi chai':"בית אבי חי",
+    'ourBrothers':'האחים שלנו',
     "meeting time": "שעת המפגש",
     "meeting date": 'תאריך המפגש',
     'meeting language': 'שפת המפגש',
