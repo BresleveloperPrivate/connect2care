@@ -65,6 +65,7 @@ const CreateMeeting = (props) => {
     ]
 
     useEffect(() => {
+
         return () => props.CreateMeetingStore.resetAll()
     }, [])
 
@@ -328,7 +329,7 @@ const CreateMeeting = (props) => {
                                         setWait(false)
                                         return
                                     }
-                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost(props.LanguageStore.lang)
                                     if (meeting) {
                                         setSuccess(meeting[0])
                                     }

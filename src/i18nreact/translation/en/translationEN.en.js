@@ -142,9 +142,6 @@ const translationEN = {
     "meetingCanceledA": "Perhaps the host has canceled the meet-up, in this case you will receive an email notifying you of this. You can enter the list of meet-ups and choose a new one to join.",
     "differentMeetingsA": `Our Brothers meet-ups are unique meetings that were created with various partnerships, and Beit Avi Chai meet-ups are meetings that were created by Beit Avi Chai as part of the project A Face. The Day. A Memorial.`
 
-
-
-
 }
 
 export default translationEN;
