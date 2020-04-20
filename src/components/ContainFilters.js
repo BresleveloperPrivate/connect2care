@@ -56,7 +56,7 @@ const Filters = (props) => {
             <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy tal' : 'filterBy tar'}> {props.t('filter by')}:</div>
             <Select
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '15%' : props.LanguageStore.width > 800 ? '15%' : '100%'}
-                default={props.MeetingsStore.meetingStatus}
+                default={props.MeetingsStore.status}
                 selectTextDefault={'כל המפגשים'}
                 arr={meetings}
                 className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
@@ -70,7 +70,7 @@ const Filters = (props) => {
             <Select
                 default={props.MeetingsStore.date}
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '25%' : props.LanguageStore.width > 800 ? '25%' : '100%'}
-                fetch={props.MeetingsStore.search}
+                // fetch={props.MeetingsStore.search}
                 selectTextDefault={props.t('meeting date')}
                 arr={meetingDate}
                 className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
