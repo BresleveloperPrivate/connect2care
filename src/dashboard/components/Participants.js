@@ -6,13 +6,15 @@ import Auth from '../../modules/auth/Auth'
 import DeletePersonPopup from './DeletePersonPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import panelBtn from '../../icons/Asset 7@3x11@2x.png'
-
+import CancelPanelistPopup from './CancelPanelistPopup'
 const Participants = (props) => {
 
     const [participants, setParticipants] = useState(null)
     const [showDeletePersonPopup, setShowDeletePersonPopup] = useState(false)
-    const [participantId, setParticipantId] = useState(null)
+    const [currentParticipant, setCurrentParticipant] = useState(null)
     const [maxPaticipants, setMaxParticipants] = useState(null)
+    const [canChangePanelist, setCanChangePanelist] = useState(false)
+    const [showCancelPanelistPopup, setShowCancelPanelistPopup] = useState(false)
 
     useEffect(() => {
         (async () => {
@@ -30,7 +32,9 @@ const Participants = (props) => {
                 console.log(err)
                 // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
             }
+            console.log(success)
             if (success) {
+                setCanChangePanelist(success.pop())
                 setMaxParticipants(success.pop())
                 setParticipants(success)
             }
@@ -38,40 +42,41 @@ const Participants = (props) => {
     }, [])
 
     const spliceFromArr = (id) => {
-        let index = participants.findIndex(e => {
-            return e.id === id;
-        });
+        let index = participants.findIndex(e => e.id === id);
         let par = JSON.parse(JSON.stringify(participants))
         par.splice(index, 1)
         setParticipants(par)
     }
 
-    const changePanelitsStatus = async (participant) => {
+    const changePanelitStatus = async (participant) => {
         if (participant.isPanelist) {
-            return
+            setCurrentParticipant(participant)
+            setShowCancelPanelistPopup(true)
         }
         else {
             console.log(participant.id)
             let [success, err] = await Auth.superAuthFetch(
-                `/api/meetings/setToPanelist`,
+                `/api/meetings/setPanelistStatus`,
                 {
                     method: 'POST',
                     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id) })
+                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id), isPanelist: true })
                 }, true);
             if (err) {
                 console.log(err)
                 // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
             }
             if (success) {
-                let index = participants.findIndex(i => i.id === participant.id)
-                let participantsPS = JSON.parse(JSON.stringify(participants))
-                participantsPS[index].isPanelist = true
-                setParticipants(participantsPS)
-                // setMaxParticipants(success.pop())
-                // setParticipants(success)
+                setPanelistInArr(participant.id)
             }
         }
+    }
+
+    const setPanelistInArr = (id) => {
+        let index = participants.findIndex(i => i.id === id)
+        let participantsPS = JSON.parse(JSON.stringify(participants))
+        participantsPS[index].isPanelist = !participantsPS[index].isPanelist
+        setParticipants(participantsPS)
     }
 
     return (
@@ -89,22 +94,22 @@ const Participants = (props) => {
                         <table className="allTableStyle" style={{ margin: 0, borderRadius: '0 0 7px 7px' }}>
                             <tbody>
                                 <tr className="tableHead">
-                                    <th>שם</th>
+                                    <th className='pr-3'>שם</th>
                                     <th>דואר אלקטרוני</th>
                                     <th>טלפון</th>
-                                    <th></th>
+                                    {canChangePanelist && <th></th>}
                                     <th></th>
                                 </tr>
                                 {participants.map((participant, index) =>
                                     (<tr key={index} className="tableBodyStyle">
-                                        <td className='name position-relative'>
+                                        <td className='name position-relative pr-3'>
                                             <div className='position-absolute'>
                                                 <div style={{ marginRight: '1.5vw', marginLeft: '2vw', width: '2.5vh', fontSize: '2vh' }} className='trash' onClick={() => {
                                                     setShowDeletePersonPopup(true)
-                                                    setParticipantId(participant.id)
+                                                    setCurrentParticipant(participant.id)
                                                 }}>
                                                     <FontAwesomeIcon icon={['fas', 'trash']} />
-                                                    <div className='trashText' style={{ right: '-27px' }}>מחק משתתף</div>
+                                                    <div className='trashText' style={{ right: '-37px' }}>מחק משתתף</div>
                                                 </div>
                                             </div>
                                             {participant.name}
@@ -112,9 +117,9 @@ const Participants = (props) => {
                                         <td className='email'>{participant.email}</td>
                                         <td className='phone'>{participant.phone}</td>
 
-                                        < td className='edit' >
+                                        {canChangePanelist && <td>
                                             <div>
-                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitsStatus(participant)} >
+                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
                                                     <div
                                                         className='panelBtn'
                                                         style={{
@@ -127,7 +132,7 @@ const Participants = (props) => {
                                                     {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td>}
                                         <td></td>
                                     </tr>)
                                 )}
@@ -136,7 +141,8 @@ const Participants = (props) => {
                         {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '10vw', paddingTop: '1vh' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                     </div>
             }
-            {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={participantId} spliceFromArr={spliceFromArr} />}
+            {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant.id} spliceFromArr={spliceFromArr} />}
+            {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} setPanelistInArr={setPanelistInArr} />}
         </div >
     )
 }

@@ -58,6 +58,7 @@
 
 .panelContain{
     position: relative;
+    cursor: pointer;
 
     .panelBtn{
         background: var(--custom-gray);
@@ -73,6 +74,7 @@
 }
 
 .panelContain:hover{
+    cursor: pointer;
     
     .panelBtn{
         background: var(--custom-dark-green);

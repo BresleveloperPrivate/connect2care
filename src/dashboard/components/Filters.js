@@ -30,8 +30,8 @@ const Filters = (props) => {
         { option: 'הורה', data: 'הורים' },
         { option: 'קרוב/ת משפחה', data: 'קרובי משפחה' },
         { option: 'חבר/ה', data: 'חבר' },
-        { option: 'בית אבי חי', data: 'בית אביחי' },
-        { option: 'האחים שלנו', data: 'האחים שלנו' },
+        { option: props.t('avi chai'), data: 'בית אביחי' },
+        { option: props.t('ourBrothers'), data: 'האחים שלנו' },
     ]
     const IS_OPEN_ARR = [
         { option: 'הכל', data: 'הכל' },

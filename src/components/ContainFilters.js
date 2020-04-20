@@ -14,8 +14,10 @@ const Filters = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
-        { option: 'בית אבי חי', data: 'בית אביחי' },
-        { option: 'האחים שלנו', data: 'האחים שלנו' },
+        { option: props.t('widower'), data: 'אלמן/ אלמנה' },
+        { option: props.t('orphans'), data: 'יתומים' },
+        { option: props.t('avi chai'), data: 'בית אביחי' },
+        { option: props.t('ourBrothers'), data: 'האחים שלנו' },
     ]
 
     const meetingLanguage = [
@@ -29,10 +31,10 @@ const Filters = (props) => {
         { option: 'español', data: 'español' },
     ]
     const meetings = [
-        { option: 'כל המפגשים', data: false },
-        { option: 'מפגשים פתוחים', data: 1 },
-        { option: 'מפגשים פרטיים', data: 2 },
-        { option: 'מפגשים מלאים', data: 3 },
+        { option: props.t('all meetings'), data: false },
+        { option: props.t('open meetings'), data: 1 },
+        { option: props.t('private meetings'), data: 2 },
+        { option: props.t('full meetings'), data: 3 },
     ]
     const meetingDate = [
         { option: props.t('all'), data: false },
@@ -57,7 +59,7 @@ const Filters = (props) => {
             <Select
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '15%' : props.LanguageStore.width > 800 ? '15%' : '100%'}
                 default={props.MeetingsStore.status}
-                selectTextDefault={'כל המפגשים'}
+                selectTextDefault={props.t('all meetings')}
                 arr={meetings}
                 className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
                 onChoseOption={(value) => {

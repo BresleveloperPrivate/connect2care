@@ -71,15 +71,23 @@ const translationEN = {
     "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
     "host" : 'Host',
 
-    "orphans": "Orphans",
-    "widower": "Widower or widow",
-
+    "orphans": "Orphan",
+    "widower": "Widower / widow",
+    'avi chai':"Beit Avi Chai",
+    'ourBrothers':'Our Brothers',
     "all": "All",
     "brother or sister": "Brother or sister",
     "parent": "Parent",
     "friend": "Friend",
     "family member": "Family member",
     "other": "Other",
+
+
+    'all meetings':'All meetings',
+    'open meetings':'Open meetings',
+    'private meetings':'Private meetings',
+    'full meetings':'Full meetings',
+
 
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',
@@ -135,7 +143,7 @@ const translationEN = {
     "doNotSeeTheMeetingA": "For security reasons, we review every meet-up. We will contact you after initiating the meet-up in order to confirm the details. If everything is confirmed, we will approve the meet-up and you will be able to see it on the online list.",
     "additionalLanguagesA": "Definitely. Meet-ups in many languages can be initiated- you can host the meet-up in any language you would like.",
     "moreThanOneMeetingA": "Definitely. You can create many meet-ups for different participants and in different languages.",
-    "joinMeetingA": `You can choose the right meet-up for you, from the online “list of meet-ups”. The first ones that appear on the list are the most recently created. You can sort by type of meet-up, hours, dates, and more. You can also read the personal story by clicking on the meet-up. Once you have chosen the meet-up that you would like to join, please complete your personal information and wait for the email. For closed meet-ups you will need the meeting code that was provided to you by the meet-up host.`,
+    "joinMeetingA": `You can choose the right meet-up for you, from the online “list of meet-ups”. You can sort by type of meet-up, hours, dates, and more. You can also read the personal story by clicking on the meet-up. Once you have chosen the meet-up that you would like to join, please complete your personal information and wait for the email. For closed meet-ups you will need the meeting code that was provided to you by the meet-up host.`,
     "maxAndMinParticipantsA": 'The maximum number of participants is 500, the minimum depends on you. You can decide the number of participants in the “initiate meet-up” page.',
     "fewFallenA": "Definitely! During meet-up registration you will be able to fill in the names of as many fallen as you would like to talk about. The maximum number of fallen for one meet-up, is 10.",
     "allAgesA": "Definitely. Please note that for a younger crowd, please plan the meet-up accordingly.",

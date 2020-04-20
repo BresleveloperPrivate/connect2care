@@ -285,7 +285,7 @@
                 "newZoom",
                 "getParticipants",
                 "deleteParticipant",
-                "setToPanelist"
+                "setPanelistStatus"
             ]
         }
     ]

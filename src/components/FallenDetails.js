@@ -84,7 +84,8 @@ const FallenDetails = (props) => {
                             'אלמן/ אלמנה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('widower'):
                             'יתומים' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('orphans'):
                             'חבר/ה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('friend'):
-                            'בית אביחי' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? 'בית אבי חי':
+                            'בית אביחי' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('avi chai'):
+                            'האחים שלנו' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('ourBrothers'):
                             'אחר' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('other'):
 
 

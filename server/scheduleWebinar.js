@@ -40,8 +40,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             let body = Buffer.concat(chunks);
             // console.log(JSON.parse(body.toString()))
             let jsdata = JSON.parse(body.toString())
-            console.log("xxxxxxxxxxxxxxxxxxxx", jsdata.join_url);
-            // return jsdata.join_url;
+            console.log("zzzzzzzzzzzzz", jsdata.join_url);
             cb(jsdata.join_url)
         });
     });
@@ -52,7 +51,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             "type": 5,
             // "start_time": "2020-09-20T20:00:00",
             "timezone": "Asia/Jerusalem",
-            "start_time": "2020-09-20T20:00:00",
+            "start_time": start_time,
             "duration": "240",
             "password": pwd,
             "agenda": "Connect 2 care Webinar",
