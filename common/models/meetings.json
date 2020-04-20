@@ -284,7 +284,8 @@
                 "isNameExist",
                 "newZoom",
                 "getParticipants",
-                "deleteParticipant"
+                "deleteParticipant",
+                "setToPanelist"
             ]
         }
     ]

@@ -13,5 +13,6 @@
 .errorMsgIcon{
     direction: rtl;
     font-size: 13px;
+    cursor: pointer;
     margin-left: 8px
 }
