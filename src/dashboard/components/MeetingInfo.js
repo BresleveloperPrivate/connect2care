@@ -14,7 +14,7 @@ const MeetingInfo = (props) => {
     // }, [])
 
     return (
-        <div style={{ height: '100vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
+        <div style={{ height: '95vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
             <TopBarManager />
             <div className="headLine" style={{ marginTop: "6vh", fontSize: '3.5vh' }}>
                 <FontAwesomeIcon className='pointer ml-3' icon="arrow-right" color="var(--custom-gray)" onClick={props.history.goBack} /> {props.t("editMeeting")}

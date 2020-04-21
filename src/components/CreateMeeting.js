@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/createMeeting.css'
-import '../styles/animations.scss'
 import { inject, observer, PropTypes } from 'mobx-react';
 import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
 import materialInfo from '../icons/material-info.svg'
-import logo from '../icons/logo.svg'
+import checkbox_on_light from '../icons/checkbox_on_light.svg'
+import checkbox_off_light from '../icons/checkbox_off_light.svg'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
+import logo from '../icons/logo.svg'
 
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
@@ -63,7 +64,7 @@ const CreateMeeting = (props) => {
         date >= 25 ? null : { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
         date >= 26 ? null : { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
         date >= 27 ? null : { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+        date >= 28 ? null : { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     useEffect(() => {
@@ -124,10 +125,9 @@ const CreateMeeting = (props) => {
                         <div className="createMeetingSecondSentence margin-right-text">
                             {props.LanguageStore.lang !== 'heb' ? "Please Note: There is a minimum of ten participants per meeting" : "שימו לב: על מנת לקיים מפגש יש צורך במינימום עשרה אנשים"}
                         </div>
-
                         <div>
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput margin-right-text">{props.t("meetingName")}</div>}
                                 <input
                                     type="text"
                                     onBlur={() => props.CreateMeetingStore.isNameExist()}
@@ -148,7 +148,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">{props.t("shortDescription")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput margin-right-text">{props.t("shortDescription")}</div>}
                                 <textarea
                                     className={'inputStyle textAreaStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.description || (props.CreateMeetingStore.meetingDetails.description && !props.CreateMeetingStore.meetingDetails.description.length)) ? "error" : "")}
                                     onChange={props.CreateMeetingStore.changeShortDescription}
@@ -167,7 +167,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">{props.t("ownerFullName")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput margin-right-text">{props.t("ownerFullName")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
@@ -179,7 +179,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">{props.t("email")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput margin-right-text">{props.t("email")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
@@ -200,7 +200,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">{props.t("phone")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
@@ -220,7 +220,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">{props.t("meetingLanguage")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput margin-right-text">{props.t("meetingLanguage")}</div>}
                                 <Select
                                     selectTextDefault={props.t("meetingLanguage")}
                                     arr={meetingLanguage}
@@ -232,19 +232,45 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <input type="radio" className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                                <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</label>
-                                <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                                <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", marginRight: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
+                                <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: true } })}>
+                                    <div>
+                                        {Boolean(props.CreateMeetingStore.meetingDetails.isOpen) !== "" && Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
+                                            <img src={checkbox_on_light} /> :
+                                            <div style={{
+                                                width: "24px",
+                                                height: "24px",
+                                                WebkitMaskSize: "24px 24px",
+                                                background: (isSaved && props.CreateMeetingStore.meetingDetails.isOpen === '' || props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined) ? '#c31a1a' : '#4d4f5c',
+                                                WebkitMaskImage: `Url(${checkbox_off_light})`
+                                            }}></div>
+                                        }
+                                    </div>
+                                    <div style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
+                                </div>
+                                <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
+                                    <div>
+                                        {props.CreateMeetingStore.meetingDetails.isOpen !== "" && !Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
+                                            <img src={checkbox_on_light} /> :
+                                            <div style={{
+                                                width: "24px",
+                                                height: "24px",
+                                                WebkitMaskSize: "24px 24px",
+                                                background: (isSaved && props.CreateMeetingStore.meetingDetails.isOpen === '' || props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined) ? '#c31a1a' : '#4d4f5c',
+                                                WebkitMaskImage: `Url(${checkbox_off_light})`
+                                            }}></div>
+                                        }
+                                    </div>
+                                    <div style={{ marginLeft: "2vh" }}><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
+                                </div>
                             </div>
-                            <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
-                                {props.LanguageStore.lang !== 'heb' ?
-                                    '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                    '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
-                                }
+                            {props.CreateMeetingStore.meetingDetails.code &&
+                                <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
+                                        ' *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                    }
 
-
-                            </div>
+                                </div>}
                             <br />
                             <div className="containDateAndTime">
                                 <div className='containDateInput position-relative'>
@@ -265,7 +291,7 @@ const CreateMeeting = (props) => {
                                             'Time (Israel time)' :
                                             'שעה (שעון ישראל)'
                                         }:
-                                    {/* שעה (שעון ישראל): */}
+{/* שעה (שעון ישראל): */}
                                     </div>}
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : props.LanguageStore.lang !== 'heb' ? "Mintes" : "דקות"}
@@ -288,7 +314,7 @@ const CreateMeeting = (props) => {
 
                             </div>
                             <div className="position-relative">
-                                {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">{props.t("maxParticipationNumber")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput margin-right-text">{props.t("maxParticipationNumber")}</div>}
                                 <input
                                     type="text"
                                     onBlur={() => {
@@ -320,21 +346,28 @@ const CreateMeeting = (props) => {
                                 }
 
                                 <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                    <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
-                                    <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
-                                        {props.LanguageStore.lang !== 'heb' ?
-                                            <div>Iv'e read and accepted the
-                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+                                    <div className=" d-flex align-items-center" style={{ marginTop: '2vh' }}>
+                                        <div>
+                                            <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw) }} src={readBylaw ? checkbox_on_light : checkbox_off_light} />
+
                                         </div>
-                                        :
-                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
-                                    }
-                                </label>
-                            </div>
-                           
+                                        {/* <input style={{ margin: props.LanguageStore.lang !== 'heb' ? '0' : null }} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} /> */}
+                                        <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
-                        </div>
+                                            {props.LanguageStore.lang !== 'heb' ?
+                                                <div>Iv'e read and accepted the
+<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+</div>
+                                                :
+                                                <div>אני מסכים/ה ל<span className='contentClick' onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
+                                            }
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
 
                             <div className="containCreateMettingButton">
                                 <div className="createMeetingButton grow" onClick={async () => {
@@ -370,11 +403,12 @@ const CreateMeeting = (props) => {
                             props.CreateMeetingStore.error &&
                             <ErrorMethod {...props} />
                         }
-                        {(!pressOnCancel || dataForFallen) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
-                    </div>
+                        {console.log("pressOnCancel", pressOnCancel, "dataForFallen", dataForFallen)}
+                        {(dataForFallen || !pressOnCancel) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
+                    </div >
                     : <Success history={props.history} meeting={success} t={props.t} />
             }
-        </div>
+        </div >
 
     )
 }

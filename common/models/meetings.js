@@ -90,7 +90,7 @@ module.exports = function (meetings) {
         WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
         WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
         ELSE 9
-        END , meetings.id DESC LIMIT ${limit.min} , 16`, (err, res) => {
+        END , meetings.id DESC LIMIT ${limit.min} , 21`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -158,15 +158,15 @@ module.exports = function (meetings) {
                 return cb(err)
             }
             if (!user0) {
-                if (!!!data.owner.name) { cb({ msg: data.lang !== 'heb' ? 'Please fill in your name' : 'אנא מלא/י שם' }, null); return; }
-                if (!!!data.owner.email) { cb({ msg: data.lang !== 'heb' ? 'Please fill in your email' : 'אנא מלא/י דואר אלטקרוני' }, null); return; }
-                if (!!!data.owner.phone) { cb({ msg: data.lang !== 'heb' ? 'Please fill in your phone number' : 'אנא מלא/י מספר טלפון' }, null); return; }
+                if (!!!data.owner.name) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your name' : 'אנא מלא/י שם' }, null); return; }
+                if (!!!data.owner.email) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your email' : 'אנא מלא/י דואר אלטקרוני' }, null); return; }
+                if (!!!data.owner.phone) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your phone number' : 'אנא מלא/י מספר טלפון' }, null); return; }
                 // const validateName = /^['"\u0590-\u05fe\s.-]*$/
                 const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(data.owner.email)) { cb({ msg: data.lang !== 'heb' ? 'Email is incorrect' : 'הדואר האלקטרוני אינו תקין' }, null); return; }
-                if (!validatePhone.test(data.owner.phone)) { cb({ msg: data.lang !== 'heb' ? 'Phone number is incorrect' : 'מספר הטלפון אינו תקין' }, null); return; }
+                if (!validateEmail.test(data.owner.email)) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Email is incorrect' : 'הדואר האלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(data.owner.phone)) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Phone number is incorrect' : 'מספר הטלפון אינו תקין' }, null); return; }
 
                 let whitelist = {
                     name: true, email: true, phone: true
@@ -197,6 +197,14 @@ module.exports = function (meetings) {
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
+            if (data.fallens) {
+                for (let fallen of data.fallens) {
+                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                        return cb(lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
+                    }
+                }
+            }
 
             let whitelist = {
                 // name: true, description: true, 
@@ -250,82 +258,8 @@ module.exports = function (meetings) {
                                 let sendOptions = {}
                                 if (data.lang == 'en') {
                                     sendOptions = {
-                                        to: emailowner, subject: "The meet-up you initiated has been successfully created and waiting for approvement",
-                                        html:
-                                            //         `<div width="100%" style="direction: ltr;">
-                                            //     <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                            //     <div
-                                            //         style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                            //         <div style="font-weight: bold; margin-bottom: 20px;">
-                                            //             Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
-                                            // HaZikaron.<br>
-                                            // Thanks to you, we can give a hug of memory and appreciation to those
-                                            // who have fallen for us, and show that this year- despite the challenge- we have
-                                            // not forgotten.
-                                            //         </div>
-                                            //         The meet-up you initiated has been successfully created.
-                                            //         ${code}<br>
-                                            //         <div
-                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                            //             Crucial information for hosting the meet-up:
-                                            //         </div>
-                                            //         This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
-                                            // <br>
-                                            // If you already have a Zoom account, this is
-                                            // irrelevant for this meet-up; please use the temporary account. <br>
-                                            // Due to a special
-                                            // collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
+                                        to: emailowner, subject: "המפגש שיצרת התקבל וממתין לאישור", html:
 
-                                            // including unlimited time, ability to record the session, etc.
-
-                                            //         <div
-                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                            //             How does this work?
-                                            // </div>
-                                            // A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
-                                            // B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
-                                            // C. Your user name will be automatically filled in, please use the password:
-
-                                            // OurBrothers2020 <br>
-                                            //         <div
-                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                            //             How to create a meaningful meet-up:
-                                            // </div>
-                                            //         <div style="font-weight: bold;">
-                                            //             We know you probably have questions and concerns about the virtual meet-up.<br>
-                                            //             And exactly for that reason we created the perfect preparatory workshop on Zoom.
-                                            //         </div>
-                                            //         <div style="font-weight: bold; margin-top: 20px;">
-                                            //             Zoom Prep Workshop
-                                            //             </div>
-                                            //             The virtual workshop will be held on Zoom by public speaking experts and digital content
-
-                                            //             experts. It is highly recommended!<br>
-                                            //             Sign up here: <a href="https://bit.ly/connect2care_foryou"
-                                            //             target="_blank">https://bit.ly/connect2care_foryou</a>
-                                            //         <div style="font-weight: bold; margin-top: 20px;">Prep Packet
-                                            //         </div>
-                                            //         Short, detailed and user-friendly pack for successful meet-ups
-                                            //         <br>
-                                            //         h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                                            //         <div style="font-weight: bold; margin-top: 20px;">
-                                            //             Invite Participants
-                                            // </div>
-                                            // We have prepared materials for you to share and send to anyone you would like. It is
-                                            // crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
-                                            //     </div>
-                                            //     <div width="100%"
-                                            //         style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                            //         <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
-                                            //         </div>zikaron@ourbrothers.org |
-                                            //         058-409-4624
-                                            //     </div>
-                                            //     <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                            //         See you soon,
-                                            //         <br>Connect2Care Team
-                                            //     </div>
-                                            // </div>
-                                            // `
                                             `
                                     <div width="100%" style="direction: rtl;">
                                     <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
@@ -407,7 +341,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, options, cb) => {
+    meetings.updateMeeting = (data, id, fallenFullArray,lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
 
@@ -416,8 +350,22 @@ module.exports = function (meetings) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
+
+            if (fallenFullArray) {
+                for (let fallen of fallenFullArray) {
+                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                        if (data.max_participants && Number(data.max_participants) > 2000)
+                            return cb({ max_participants: true })
+                    }
+                    else if (data.max_participants && Number(data.max_participants) > 500) {
+                        return cb({ max_participants: true })
+                    }
+                }
+            }
+
             let meetingById = JSON.parse(JSON.stringify(res))
             if (data.fallensToChange) {
+
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
                     let whitelist1 = {
@@ -455,10 +403,19 @@ module.exports = function (meetings) {
                     for (let peopleMeeting of peopleInMeeting) {
                         sendTo.push(peopleMeeting.people.email)
                     }
-                    let sendOptions = {
-                        to: sendTo, subject: "מפגש השתנה", html:
-                            `<div style="direction: rtl;">יוצר המפגש ${meetingById.name} שינה את זמן המפגש.<br/>
-                            המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                    let sendOptions = {}
+                    if (lang !== 'heb' && lang) {
+                        sendOptions = {
+                            to: sendTo, subject: "מפגש השתנה", html:
+                                `<div style="direction: ltr;">יוצר המפגש ${meetingById.name}, שינה את זמן המפגש.<br/>
+                               המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                        }
+                    } else {
+                        sendOptions = {
+                            to: sendTo, subject: "מפגש השתנה", html:
+                                `<div style="direction: rtl;">יוצר המפגש ${meetingById.name}, שינה את זמן המפגש.<br/>
+                               המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                        }
                     }
 
                     sendEmail("", sendOptions);
@@ -499,10 +456,21 @@ module.exports = function (meetings) {
             else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
-                let sendOptions = {
-                    to: meetingById.meetingOwner.email, subject: "קוד מפגש", html:
-                        `<div style="direction: rtl;"> המפגש ${meetingById.name} הוא עכשיו מפגש סגור.<br/>
-                        קוד המפגש להיצטרפות: ${data.code}`
+
+                let sendOptions = {}
+                if (lang !== 'heb' && lang) {
+                    sendOptions = {
+                        to: meetingById.meetingOwner.email, subject: "Meeting Code", html:
+                            `<div style="direction: ltr;"> The meeting "${meetingById.name}" is now a private meeting.<br/>
+                            The code for online sign-up is: ${data.code}`
+                    }
+                } else {
+                    sendOptions = {
+                        to: meetingById.meetingOwner.email, subject: "קוד מפגש", html:
+                            `<div style="direction: rtl;"> המפגש ${meetingById.name} הוא עכשיו מפגש פרטי.<br/>
+                            קוד המפגש להצטרפות: ${data.code}`
+                    }
+
                 }
 
                 sendEmail("", sendOptions);
@@ -513,7 +481,9 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true,
+                // max_participants: true,
+                code: true, date: true
             };
 
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
@@ -542,6 +512,8 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
+            { arg: 'fallenFullArray', type: 'array', required: true },
+            { arg: 'lang', type: 'string', required: false },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -938,12 +910,94 @@ module.exports = function (meetings) {
                 console.log("err2", err2)
                 return cb(err2, false)
             }
-            let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is" ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
+            let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
             createZoomUser(newEmail, nameOwner)
-            let sendOptions = {
-                to: email, subject: "המפגש שיצרת אושר",
-                html:
-                    `
+            let sendOptions = {}
+            if (res.language !== 'עברית') {
+                sendOptions = {
+                    to: emailowner, subject: "The meet-up you initiated has been approved",
+                    html:
+                        `<div width="100%" style="direction: ltr;">
+                                <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
+                                <div
+                                    style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                                    <div style="font-weight: bold; margin-bottom: 20px;">
+                                        Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
+                            HaZikaron.<br>
+                            Thanks to you, we can give a hug of memory and appreciation to those
+                            who have fallen for us, and show that this year- despite the challenge- we have
+                            not forgotten.
+                                    </div>
+                                    <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">To the meeting</a>
+                                    ${code}<br>
+                                    <div
+                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                        Crucial information for hosting the meet-up:
+                                    </div>
+                                    This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
+                            <br>
+                            If you already have a Zoom account, this is
+                            irrelevant for this meet-up; please use the temporary account. <br>
+                            Due to a special
+                            collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
+
+                            including unlimited time, ability to record the session, etc.
+
+                                    <div
+                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                        How does this work?
+                            </div>
+                            A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
+                            B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
+                            C. Your user name will be automatically filled in, please use the password:
+
+                            OurBrothers2020 <br>
+                                    <div
+                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                        How to create a meaningful meet-up:
+                            </div>
+                                    <div style="font-weight: bold;">
+                                        We know you probably have questions and concerns about the virtual meet-up.<br>
+                                        And exactly for that reason we created the perfect preparatory workshop on Zoom.
+                                    </div>
+                                    <div style="font-weight: bold; margin-top: 20px;">
+                                        Zoom Prep Workshop
+                                        </div>
+                                        The virtual workshop will be held on Zoom by public speaking experts and digital content
+
+                                        experts. It is highly recommended!<br>
+                                        Sign up here: <a href="https://bit.ly/connect2care_foryou"
+                                        target="_blank">https://bit.ly/connect2care_foryou</a>
+                                    <div style="font-weight: bold; margin-top: 20px;">Prep Packet
+                                    </div>
+                                    Short, detailed and user-friendly pack for successful meet-ups
+                                    <br>
+                                    h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
+                                    <div style="font-weight: bold; margin-top: 20px;">
+                                        Invite Participants
+                            </div>
+                            We have prepared materials for you to share and send to anyone you would like. It is
+                            crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
+                                </div>
+                                <div width="100%"
+                                    style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                    <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
+                                    </div>zikaron@ourbrothers.org |
+                                    058-409-4624
+                                </div>
+                                <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                                    See you soon,
+                                    <br>Connect2Care Team
+                                </div>
+                            </div>
+                            `
+                }
+
+            } else {
+                sendOptions = {
+                    to: email, subject: "המפגש שיצרת אושר",
+                    html:
+                        `
                     <div width="100%" style="direction: rtl;">
                         <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
                         <div
@@ -994,7 +1048,10 @@ module.exports = function (meetings) {
                     </div>
                 `
 
+                }
             }
+
+
 
             sendEmail("", sendOptions);
             return cb(null, true)

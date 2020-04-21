@@ -86,9 +86,10 @@ class App extends Component {
                         </Switch>
                     </div>
                 </Router>
-                <div className={"hilmaCredit " + (this.props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr' : 'App-rtl')}>
+                <div
+                    className={"hilmaCredit " + (this.props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr ' : 'App-rtl ') + (this.props.LanguageStore.lang !== 'heb' ? ' fontSizeCreditEn' : '')}>
                     {this.props.t('blueFooter')}
-                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex', zIndex:'5' }}>
+                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex', zIndex: '5' }}>
                         <img src={hilmaWhite} height='100%' />
                     </div>
                 </div>

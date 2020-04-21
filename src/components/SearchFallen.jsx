@@ -70,6 +70,7 @@ const SearchFallen = observer((props) => {
         });
         if (error || response.error) { console.error('ERR:', error || response.error); return; }
         CreateMeetingStore.changeFallenDetails(response, props.index);
+        console.log("response", response, "response.meetings", response.meetings)
         if (response && response.meetings && response.meetings.length)
             props.setDataForFallen(true)
     }, []);
@@ -114,7 +115,7 @@ const SearchFallen = observer((props) => {
             setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
             CreateMeetingStore.setDeleting(false)
         }
-        else{
+        else {
             setSearchValue("")
             CreateMeetingStore.setDeleting(false)
         }
@@ -144,7 +145,7 @@ const SearchFallen = observer((props) => {
                     {options ? options.length > 0 ? options.map(fallen => (
                         <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>
-                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} variant="rounded" />
+                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} style={fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" />
                             </ListItemAvatar>
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>

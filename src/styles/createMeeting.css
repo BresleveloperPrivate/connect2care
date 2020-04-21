@@ -16,7 +16,7 @@
 
 .inputStyle{
     color: var(--custom-gray);
-    border: 1px solid #E8E9EC;
+    border: 2px solid #E8E9EC;
     border-radius: 4px;
     outline: none;
     width: calc(73% - 12vw);
