@@ -1,5 +1,6 @@
 import { observable, decorate, action } from 'mobx';
 import Auth from '../modules/auth/Auth'
+import downloadExcel from '../functions/downloadExcel'
 
 class ManagerStore {
 
@@ -50,9 +51,19 @@ class ManagerStore {
             }
         }
         else {
-            //כאן ייצוא לאקסל
 
+            const columns = {
+                name: "שם המפגש",
+                date: "תאריך",
+                time: 'שעה',
+                fallens: 'שמות הנופלים',
+                ownerName: 'שם המארח',
+                ownerEmail: 'כתובת המייל של המארח',
+                ownerPhone:'פלפון של המארח'
 
+            }
+
+            downloadExcel(meetings, columns, "מתחברים וזוכרים טבלאות")
         }
     }
 }

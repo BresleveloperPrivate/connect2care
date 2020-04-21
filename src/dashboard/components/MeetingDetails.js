@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
+import { useCopyToClipboard } from 'react-use';
 import '../style/dashboardMain.css'
 import '../style/meetingInfo.scss'
 import '../../styles/createMeeting.css'
@@ -16,14 +18,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MeetingDetails = (props) => {
 
-    const [pressOnCancel, setPressOnCancel] = useState(false)
-    const [errorEmail, setErrorEmail] = useState(false)
-    const [errorPhone, setErrorPhone] = useState(false)
-    const [errorMaxParticipants, setErrorMaxParticipants] = useState(false)
-    const [dataForFallen, setDataForFallen] = useState(false)
-    const [isSaved, setIsSaved] = useState(false)
-    const [success, setSuccess] = useState(false)
-    const [showDeleteMeetingPopup, setShowDeleteMeetingPopup] = useState(false)
+    const [errorEmail, setErrorEmail] = React.useState(false)
+    const [errorPhone, setErrorPhone] = React.useState(false)
+    const [errorMaxParticipants, setErrorMaxParticipants] = React.useState(false)
+    const [dataForFallen, setDataForFallen] = React.useState(false)
+    const [isSaved, setIsSaved] = React.useState(false)
+    const [success, setSuccess] = React.useState(false)
+    const [showDeleteMeetingPopup, setShowDeleteMeetingPopup] = React.useState(false)
+    const [, copyToClipboard] = useCopyToClipboard()
+
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -349,32 +352,35 @@ const MeetingDetails = (props) => {
                                 </div>
                             }
 
-                            {props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '' &&
-                                <div>
-                                    <div className='position-relative'>
-                                        <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
-                                        <input
-                                            type="text"
-                                            disabled
-                                            className={'inputStyle margin-right-text '}
-                                            onChange={() => { }}
-                                            value={props.CreateMeetingStore.meetingDetails.zoomId}
-                                        />
-                                    </div>
-                                    <div className='position-relative'>
-                                        <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
-                                        <input
-                                            type="text"
-                                            disabled
-                                            className={'inputStyle margin-right-text '}
-                                            onChange={() => { }}
-                                            value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
-                                        />
-                                    </div>
-                                </div>
-                            }
                         </div>
                     </div>
+
+                    {props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '' &&
+                        <div>
+                            <div className='position-relative'>
+                                <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
+                                <input
+                                    type="text"
+                                    disabled={props.CreateMeetingStore.meetingDetails.max_participants > 300 || props.CreateMeetingStore.meetingDetails.owner.name !== 'האחים שלנו'}
+                                    className={'inputStyle margin-right-text '}
+                                    onChange={props.CreateMeetingStore.changeZoomId}
+                                    value={props.CreateMeetingStore.meetingDetails.zoomId}
+                                />
+                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={() => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId) }} />
+                            </div>
+                            <div className='position-relative'>
+                                <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
+                                <input
+                                    type="text"
+                                    disabled
+                                    className={'inputStyle margin-right-text '}
+                                    onChange={() => { }}
+                                    value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
+                                />
+                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')) }} />
+                            </div>
+                        </div>
+                    }
 
                     <div className='d-flex align-items-center pb-5 pt-4' style={{ float: 'left' }}>
                         <div style={{ marginRight: '6vw', marginLeft: '2vw', width: '2.5vh' }} className='trash' onClick={() => setShowDeleteMeetingPopup(true)}>

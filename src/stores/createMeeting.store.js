@@ -124,6 +124,10 @@ class CreateMeetingStore {
         this.meetingDetails.date = date
     }
 
+    changeZoomId = (e) => {
+        this.meetingDetails.zoomId = e.target.value
+    }
+
     setOtherRelationship = (e, index) => {
         let id = null
         if (this.meetingDetails.fallens[index]) {
