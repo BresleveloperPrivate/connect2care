@@ -93,7 +93,7 @@ const Participants = (props) => {
                         <table className="allTableStyle" style={{ margin: 0, borderRadius: '0 0 7px 7px' }}>
                             <tbody>
                                 <tr className="tableHead">
-                                    <th className='pr-3'>שם</th>
+                                    <th style={{ paddingRight: '2vw' }}>שם</th>
                                     <th>דואר אלקטרוני</th>
                                     <th>טלפון</th>
                                     {canChangePanelist && <th></th>}
@@ -101,14 +101,14 @@ const Participants = (props) => {
                                 </tr>
                                 {participants.map((participant, index) =>
                                     (<tr key={index} className="tableBodyStyle">
-                                        <td className='name position-relative pr-3'>
+                                        <td className='name position-relative' style={{ paddingRight: '2vw' }}>
                                             <div className='position-absolute'>
-                                                <div style={{ marginRight: '1.5vw', marginLeft: '2vw', width: '2.5vh', fontSize: '2vh' }} className='trash' onClick={() => {
+                                                <div style={{ width: '4.5vw', fontSize: '2vh' }} className='trash' onClick={() => {
                                                     setShowDeletePersonPopup(true)
                                                     setCurrentParticipant(participant.id)
                                                 }}>
                                                     <FontAwesomeIcon icon={['fas', 'trash']} />
-                                                    <div className='trashText' style={{ right: '-37px' }}>מחק משתתף</div>
+                                                    <div className='trashText'>מחק משתתף</div>
                                                 </div>
                                             </div>
                                             {participant.name}
@@ -116,7 +116,7 @@ const Participants = (props) => {
                                         <td className='email'>{participant.email}</td>
                                         <td className='phone'>{participant.phone}</td>
 
-                                        {canChangePanelist && <td>
+                                        {/* {canChangePanelist && <td>
                                             <div>
                                                 <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
                                                     <div
@@ -131,7 +131,7 @@ const Participants = (props) => {
                                                     {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                 </div>
                                             </div>
-                                        </td>}
+                                        </td>} */}
                                         <td></td>
                                     </tr>)
                                 )}

@@ -93,16 +93,16 @@ class MeetingsStore {
                 this.lastId = this.meetings.length
                 return
             }
-            if (meetings.length <= 4) {
+            if (meetings.length <= 15) {
                 this.loadMoreButton = false
             } else {
                 this.loadMoreButton = true
             }
             if (!this.meetings) {
-                this.meetings = meetings.slice(0, 4)
+                this.meetings = meetings.slice(0, 15)
 
             } else {
-                this.meetings = this.meetings.concat(meetings.slice(0, 4))
+                this.meetings = this.meetings.concat(meetings.slice(0, 15))
             }
             this.lastId = this.meetings.length
         }

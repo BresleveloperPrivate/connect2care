@@ -90,7 +90,7 @@ module.exports = function (meetings) {
         WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
         WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
         ELSE 9
-        END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
+        END , meetings.id DESC LIMIT ${limit.min} , 16`, (err, res) => {
 
             if (err) {
                 console.log(err)

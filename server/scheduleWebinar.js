@@ -13,7 +13,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
 
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",
-        exp: ((new Date()).getTime() + 5000)
+        exp: ((new Date()).getTime() + 4000)
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 

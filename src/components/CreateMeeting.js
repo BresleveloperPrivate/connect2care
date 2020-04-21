@@ -224,7 +224,7 @@ const CreateMeeting = (props) => {
                         <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
                             {props.LanguageStore.lang !== 'heb' ?
                                 '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
                             }
 
 
@@ -304,7 +304,7 @@ const CreateMeeting = (props) => {
                             }
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
+                                <input style={{margin: props.LanguageStore.lang !== 'heb' ? '0' : null}} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
                                 <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                     {props.LanguageStore.lang !== 'heb' ?
@@ -312,10 +312,21 @@ const CreateMeeting = (props) => {
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                         </div>
                                         :
-                                        <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
                                     }
+
+
                                 </label>
                             </div>
+                            {props.LanguageStore.lang !== 'heb' ?
+                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
+                           To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
+                           </div>
+                            :
+                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
+                             להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
+                            </div>}
+
                         </div>
 
                         <div className="containCreateMettingButton">
