@@ -213,7 +213,7 @@ const ComputerList = (props) => {
 
                                         </div>
                                         <div style={{flexGrow:'1'}}></div>
-                                        <div style={{fontSize:'1vw' , width:'100%' , overflow:'hidden', paddingTop:'0.5vw' }} className={props.LanguageStore.lang !== 'heb' ? ' tal' : 'tar '}>
+                                        <div style={{fontSize:'1vw' , width:'100%' , maxHeight:'5vw' , overflow:'hidden', paddingTop:'0.5vw' }} className={props.LanguageStore.lang !== 'heb' ? ' tal' : 'tar '}>
                                             {meeting.description}
                                         </div>
                                         </div>
