@@ -35,7 +35,7 @@
     box-shadow: 3px 4px 15px rgba(185, 188, 199, 0.795);
     overflow: auto;
     max-height: 200px;
-    z-index: 1;
+    z-index: 3;
     margin-top: 0.6vh;
 }
 

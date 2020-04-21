@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react';
-import CompList from './MeetingsListComp'
+import CompList from './computer'
 import PhoneList from './MeetingsListPhone'
 
 const ListOfMeetingsUser = (props) => {

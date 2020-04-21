@@ -11,6 +11,10 @@
         width: calc(100% - 12vw) !important;
     }
 
+    .containFallenDetails .inputStyle{
+        width: 95% !important;
+    }
+
     @media screen and (min-width: 551px){
         .containFallenDetails, .listSearch{
             width: calc(100% - 12vw) !important;
@@ -57,6 +61,15 @@
 
 .copy:hover{
     color: var(--custom-orange); 
+}
+
+.copyText{
+    position: absolute;
+    left: 7.15vw;
+    font-size: 1.6vh;
+    font-weight: bold;
+    color: var(--custom-orange);
+    top: 4vh;
 }
 
 .trashText{

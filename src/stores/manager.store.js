@@ -51,7 +51,6 @@ class ManagerStore {
             }
         }
         else {
-
             const columns = {
                 name: "שם המפגש",
                 date: "תאריך",
