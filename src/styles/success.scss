@@ -145,6 +145,15 @@
     margin-right: 7em;
 }
 
+.contentClick{
+    color: var(--custom-light-blue);
+    cursor: pointer;
+}
+
+.contentClick:hover{
+   text-decoration: underline;
+}
+
 .additionalInfo{
     font-size: 1.4em;
     display: flex;

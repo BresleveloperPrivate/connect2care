@@ -63,7 +63,7 @@ $navBarMargin: 10vh;
 
 #meetingPageMain {
     padding-top:  2vw;
-    min-height: 100vh;
+    min-height: calc(100vh - 5vh);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -188,7 +188,7 @@ $navBarMargin: 10vh;
 
 #meetingPageLeft {
     overflow: auto;
-    padding: $navBarMargin + 4vh 3em 2vh 3em;
+    padding: $navBarMargin + 4vh 3em 7vh 3em;
     position: fixed;
     height: 100%;
     left: 0;
@@ -300,7 +300,7 @@ $navBarMargin: 10vh;
 }
 
     #meetingPageLeft {
-        padding: 4rem 2rem;
+        padding: 3rem 2rem 1rem 2rem;
         width: 100%;
         overflow: initial;
         position: initial;

@@ -6,7 +6,8 @@ const translationHEB = {
     "contactUs": "צרו קשר",
     "meetingContent": "ערכת תוכן",
     "qna": "שאלות ותשובות",
-
+    "copy" : 'העתק קישור ללוח',
+    "copied":'הקישור הועתק ללוח',
     'homePage': 'דף הבית',
     "approve": "אישור",
     "cancel": "ביטול",
