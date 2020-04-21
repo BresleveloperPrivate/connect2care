@@ -11,11 +11,11 @@ const useStyles = makeStyles({
     }
 });
 
-const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link } , LanguageStore }) => {
+const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link }, LanguageStore }) => {
     const { avatar } = useStyles();
     return (
         <div className={LanguageStore.lang !== 'heb' ? "meetingFallen fdrr" : "meetingFallen"}>
-            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} variant="square" />
+            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} style={image_link ? {filter: "grayscale(1)"} : {}} variant="square" />
             <div className={LanguageStore.lang !== 'heb' ? "meetingFallenDescription tal" : "meetingFallenDescription tar"}>
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
