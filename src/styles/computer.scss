@@ -1,0 +1,134 @@
+.mainPage-meetings-comp{
+    margin: auto;
+    width: 88vw;
+    font-size:10px;
+    @media screen and (max-width: 900px){
+        font-size: 8.5px;
+    }
+    @media screen and (max-width: 800px){
+        font-size: 7.5px;
+    }
+    @media screen and (max-width: 700px){
+        font-size: 6.5px;
+    }
+    @media screen and (max-width: 600px){
+        font-size: 5.5px;
+    }
+}
+
+.containMeetings-comp{
+    margin: auto;
+    width: 88vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    margin-top: 3vh;
+
+}
+
+
+.containMeetingCard-comp{
+    display: flex;
+    width: 20vw;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.meetingCard-comp{
+    position: relative;
+    padding: 1.3vw;
+    background-color: var(--custom-dark-blue);
+    height: 15vw;
+    width: 10vw;
+    z-index: 2;
+
+}
+
+.arrow-blue-comp{
+    z-index: 0;
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    right: -0.3vw;
+    background-color: var(--custom-dark-blue);
+    -webkit-transform:rotate(-30deg) scaleZ(1.7) skewX(35deg);
+    transform: rotate(-30deg) scaleZ(1.7) skewX(35deg);
+    border-radius: 2px;
+}
+
+.arrow-right-blue {
+    right: -0.3vw;
+}
+
+.arrow-left-blue {
+    left: -0.3vw;
+}
+
+.meetingCardContent-comp{
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.meetingName-comp{
+    font-weight: 700;
+    font-size: 1.5vw;
+    display: flex;
+    flex-grow: 1;
+    z-index: 2;
+
+}
+
+.meetingOwner-comp{
+    font-size: 1vw;
+    display: flex;
+    text-align: start;
+    z-index: 2;
+
+}
+
+
+
+
+
+
+
+.flip-card {
+    margin: 1vw 1vw;
+    position: relative;
+    // background-color: transparent;
+    perspective: 1000px;
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    top: 0;
+    background-color: var(--custom-dark-blue);
+    color: white;
+    transform: rotateY(180deg);
+    cursor: pointer;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
