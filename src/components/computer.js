@@ -137,15 +137,8 @@ const ComputerList = (props) => {
                                                             </div>
                                                             {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}
                                                         </div>
-                                                        {/* <div className={props.LanguageStore.lang !== 'heb' ? 'meetingDescription tal' : 'tar meetingDescription'}>
-                                            {meeting.description}
-                                        </div> */}
-                                                        {console.log(index, 'index')}
-                                                        {console.log(index % 2, 'index % 2')}
-                                                        {console.log(index % 4, 'index % 4')}
-                                                        {console.log(Math.floor(index % 4) % 2, 'Math.floor(index % 4) % 2')}
 
-                                                        <div className={checkSide(index) ?'arrow-left-blue' :'arrow-right-blue'}></div>
+                                                        <div className={checkSide(index) ?'arrow-left-blue-comp' :'arrow-right-blue-comp'}></div>
 
                                                     </div>
 

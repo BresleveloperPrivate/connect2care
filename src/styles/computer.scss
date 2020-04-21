@@ -53,7 +53,7 @@
 
 .meetingCard-comp{
     position: relative;
-    padding: 1.3vw;
+    padding: 2.2vh 1.1vw;
     background-color: var(--custom-dark-blue);
     height: 15vw;
     width: 10vw;
@@ -83,7 +83,7 @@
     
 // }
 
-.arrow-right-blue {
+.arrow-right-blue-comp {
     position: absolute;
     z-index: 1;
     width: 2vw;
@@ -95,7 +95,7 @@
     border-radius: 4px;
 }
 
-.arrow-left-blue {
+.arrow-left-blue-comp {
     position: absolute;
     z-index: 1;
     width: 2vw;
@@ -116,7 +116,7 @@
 
 .meetingName-comp{
     font-weight: 700;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     display: flex;
     flex-grow: 1;
     z-index: 2;
