@@ -30,6 +30,27 @@ const ComputerList = (props) => {
         }
     }
 
+    let checkSide = (index)=>{
+        if(props.LanguageStore.lang !== 'heb'){
+            if(index % 2 === 0 && Math.floor(index / 4) % 2 === 0){
+                return 1
+            } else if( index % 2 !== 0 && Math.floor(index / 4) % 2 !== 0){
+                return 1
+            }else{
+                return 0
+            }
+        }else{
+            if(index % 2 === 0 && Math.floor(index / 4) % 2 === 0){
+                return 0
+            } else if( index % 2 !== 0 && Math.floor(index / 4) % 2 !== 0){
+                return 0
+            }else{
+                return 1
+            }
+        }
+       
+    }
+
     return (
         <div className='meetingsFullPage'>
             {(new Date()).getDate() < 28 && <div className={props.LanguageStore.lang !== 'heb' ? 'buttonOnMeetings-right buttonOnMeetings grow' : 'buttonOnMeetings-left buttonOnMeetings grow'} onClick={() => {
@@ -66,13 +87,13 @@ const ComputerList = (props) => {
                     <div className='containMeetings-comp'>
                         {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                             return (
-                                <div className="flip-card"  onClick={() => {
+                                <div className="flip-card" onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }}>
                                     <div className="flip-card-inner">
                                         <div className="flip-card-front">
 
-                                            <div key={index} className='containMeetingCard-comp'>
+                                            <div key={index} className={checkSide(index) ?'containMeetingCard2-comp' : 'containMeetingCard1-comp'}>
                                                 <div style={{ cursor: 'pointer' }}
                                                 >
                                                     <ImageOfFallen
@@ -83,13 +104,12 @@ const ComputerList = (props) => {
                                                     />
                                                 </div>
                                                 <div
-                                                    style={{ cursor: 'pointer' }}
-                                                    className='meetingCard-comp'
+                                                    style={{ cursor: 'pointer', direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
+                                                    className={'meetingCard-comp'}
                                                     onClick={() => {
                                                         props.history.push(`/meeting/${meeting.id}`)
                                                     }}
                                                 >
-                                                    <div className={props.LanguageStore.lang !== 'heb' ? 'arrow-left-blue arrow-blue-comp' : 'arrow-right-blue arrow-blue-comp'}></div>
 
                                                     <div className='meetingCardContent-comp'>
                                                         <div className={props.LanguageStore.lang !== 'heb' ? 'meetingName-comp tal' : 'meetingName-comp tar'}>
@@ -121,6 +141,13 @@ const ComputerList = (props) => {
                                                         {/* <div className={props.LanguageStore.lang !== 'heb' ? 'meetingDescription tal' : 'tar meetingDescription'}>
                                             {meeting.description}
                                         </div> */}
+                                                        {console.log(index, 'index')}
+                                                        {console.log(index % 2, 'index % 2')}
+                                                        {console.log(index % 4, 'index % 4')}
+                                                        {console.log(Math.floor(index % 4) % 2, 'Math.floor(index % 4) % 2')}
+
+                                                        <div className={checkSide(index) ?'arrow-left-blue' :'arrow-right-blue'}></div>
+
                                                     </div>
 
                                                 </div>
@@ -129,7 +156,42 @@ const ComputerList = (props) => {
 
                                         </div>
                                         <div className="flip-card-back">
-                                           
+                                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}>
+                                                {meeting.fallens_meetings.map((fallen, index) => {
+                                                    if (index === 0) {
+                                                        if (props.LanguageStore.lang !== 'heb') {
+                                                            return (
+                                                                <span key={index}>In memory of {fallen.fallens.name}</span>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <span key={index}>לזכר {fallen.fallens.name} ז"ל</span>
+                                                            )
+                                                        }
+                                                    }
+                                                    else if (index === meeting.fallens_meetings.length - 1) {
+                                                        if (props.LanguageStore.lang !== 'heb') {
+                                                            return (
+                                                                <span key={index}> and {fallen.fallens.name}</span>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <span key={index}> ו{fallen.fallens.name} ז"ל</span>
+                                                            )
+                                                        }
+                                                    }
+                                                    else {
+                                                        if (props.LanguageStore.lang !== 'heb') {
+                                                            return (
+                                                                <span key={index}>, {fallen.fallens.name}</span>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <span key={index}>, {fallen.fallens.name} ז"ל</span>
+                                                            )
+                                                        }
+                                                    }
+                                                })}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +216,7 @@ const ComputerList = (props) => {
                     }
 
                     {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div
                                 onClick={() => {
                                     props.MeetingsStore.search(true, false)
