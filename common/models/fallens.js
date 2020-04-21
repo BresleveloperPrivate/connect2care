@@ -20,7 +20,7 @@ module.exports = function (fallens) {
             from fallens
             where match(fallens.name) against ('"${newValue}"')
             order by fallens.falling_date desc
-            limit 0, 20`, (err, res) => {
+            limit 0, 40`, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
