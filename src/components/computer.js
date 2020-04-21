@@ -162,7 +162,7 @@ const ComputerList = (props) => {
                                                 { height: '1.3em', marginLeft: '0.5vw',display:'flex' }}>
                                                 <img src={candle} height='100%' />
                                             </div>
-                                                {meeting.fallens_meetings.map((fallen, index) => {
+                                                <div>{meeting.fallens_meetings.map((fallen, index) => {
                                                     if (index === 0) {
                                                         if (props.LanguageStore.lang !== 'heb') {
                                                             return (
@@ -197,6 +197,7 @@ const ComputerList = (props) => {
                                                         }
                                                     }
                                                 })}</div>
+                                                </div>
 
                                        <div
                                        className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
