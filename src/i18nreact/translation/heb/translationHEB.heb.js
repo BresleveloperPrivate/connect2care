@@ -24,7 +24,7 @@ const translationHEB = {
     "numberNotCorrect": "המספר אינו תקין",
     "meetingLanguage": "שפת המפגש",
     "meetingIsOpen": "מפגש פתוח",
-    "meetingIsClosed": "מפגש סגור",
+    "meetingIsClosed": "מפגש פרטי",
     "date": "תאריך",
     "time": "שעה",
     "maxParticipationNumber": "מספר משתתפים מקסימלי",

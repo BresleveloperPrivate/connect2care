@@ -24,7 +24,7 @@ const translationEN = {
     "numberNotCorrect": "The number is not valid",
     "meetingLanguage": "Meeting language",
     "meetingIsOpen": "Open Meeting",
-    "meetingIsClosed": "Closed meeting",
+    "meetingIsClosed": "Private meeting",
     "date": "Date",
     "time": "Hour",
     "maxParticipationNumber": "Maximum number of participants",

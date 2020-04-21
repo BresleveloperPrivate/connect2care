@@ -504,7 +504,7 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) , lang: localStorage.getItem('lang') })
             }, true);
         this.waitForData = false
         if (err) {
