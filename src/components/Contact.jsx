@@ -16,7 +16,7 @@ const Info = (props) => {
             </div>
             <div className="d-flex align-items-center margin-right-left-text">
                 <img className="" src={Email} style={{ width: "30px" }} />
-                <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "4vw" } : { marginLeft: "4vw" }}>Zikron@ourbrothers.org</div>
+                <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "4vw" } : { marginLeft: "4vw" }}>Zikaron@ourbrothers.org</div>
             </div>
 
             <div className="d-flex align-items-center margin-right-left-text">
