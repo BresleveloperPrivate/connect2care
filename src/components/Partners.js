@@ -7,7 +7,6 @@ import amit from '../icons/amit.png'
 import tobe from '../icons/tobe.png'
 import synamedia from '../icons/Synamedia.png'
 import zoom from '../icons/zoom.svg'
-import hilmaWhite from '../icons/hilmaWhite.png'
 import logo1 from '../icons/logo1.jpg'
 import logo2 from '../icons/logo2.png'
 import logo3 from '../icons/logo3.png'
@@ -58,10 +57,6 @@ class Partners extends Component {
 
 
                 </div>
-                <div className={this.props.LanguageStore.lang !== 'heb' ? 'hilmeCredit fdrr' : 'hilmeCredit'}>
-                    {this.props.t('blueFooter')}
-                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex' }}><img src={hilmaWhite} height='100%' /></div> </div>
-
             </div>
 
         );

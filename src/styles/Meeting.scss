@@ -63,7 +63,7 @@ $navBarMargin: 10vh;
 
 #meetingPageMain {
     padding-top:  2vw;
-    min-height: 100vh;
+    min-height: calc(100vh - (2vh + 0.7vw + 3.3em));
     display: flex;
     flex-direction: column;
     justify-content: space-between;

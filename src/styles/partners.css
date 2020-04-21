@@ -1,104 +1,106 @@
 .thanks{
-    background: var(--custom-green);
-    width: 100vw;
-    height: 10vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-right: 10vw;
-    font-size: 4vh;
-    color: white;
+  background: var(--custom-green);
+  width: 100vw;
+  height: 10vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-right: 10vw;
+  font-size: 4vh;
+  color: white;
 }
 
 .fg0{
   flex-grow: 0 !important;
 }
 
-
 .arrow-bottom-green {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    left: 30px;
-    background: var(--custom-green);
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-	border-radius: 5px;
-  }
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: 30px;
+  background: var(--custom-green);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border-radius: 5px;
+}
   
-  .cover {
-    transform: rotate(270deg);
-	z-index: 5;
-	position: absolute;
-    height: 150px;
-    width: 45px;
-    overflow: hidden;
-    right: 15vw;
-    bottom: -90px;
-  }
+.cover {
+  transform: rotate(270deg);
+  z-index: 5;
+  position: absolute;
+  height: 150px;
+  width: 45px;
+  overflow: hidden;
+  right: 15vw;
+  bottom: -90px;
+}
 
-  .containPartners{
-      width: 100vw;
-      padding: 5vw 4vw 4vw 4vw;
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-  }
+.containPartners{
+  width: 100vw;
+  padding: 5vw 4vw 4vw 4vw;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
 
-  .partner:hover{
-    transform: scale(1.07);
+.partner:hover{
+  transform: scale(1.07);
+}
+
+.partner{
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  height: 6.2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 2.6vw;
+}
+
+.hilmaCredit{
+  background-color: var(--custom-dark-blue);
+  color: white;
+  display: flex;
+  justify-content: center;
+  height: calc(2vh + 0.7vw + 1.2em);
+  align-items: center;
+  font-size: 2.2vw;
+  /* position: absolute; */
+  padding: 1vh 3vw;
+  /* bottom: 0; */
+}
+
+@media screen and (max-width: 550px){
+  .thanks{
+    background: var(--custom-green);
+    width: 100vw;
+    height: 5vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: 10vw;
+    font-size: 2vh;
   }
 
   .partner{
-    transition: transform 0.3s ease;
-    cursor: pointer;
-    height: 6.2vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-    margin: 2.6vw;
+    height: 7.5vw;
+    margin: 4vw 1.2vw;
   }
 
-  .hilmeCredit{
-    background-color: var(--custom-dark-blue);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.2vw;
-    padding: 1vh 3vw;
+  .hilmaCredit{
+    font-size: 2.8vw;
   }
 
-  @media screen and (max-width: 550px){
-    .thanks{
-        background: var(--custom-green);
-        width: 100vw;
-        height: 5vh;
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding-right: 10vw;
-        font-size: 2vh;
-    }
-
-    .partner{
-      height: 7.5vw;
-      margin: 4vw 1.2vw;
-    }
-
-    .hilmeCredit{
-      font-size: 2.8vw;
-    }
-
-      .cover {
-        transform: rotate(270deg);
-        z-index: 5;
-        position: absolute;
-        height: 112px;
-        width: 20px;
-        overflow: hidden;
-        right: 13vw;
-        bottom: -65px;
-      }
+  .cover {
+    transform: rotate(270deg);
+    z-index: 5;
+    position: absolute;
+    height: 112px;
+    width: 20px;
+    overflow: hidden;
+    right: 13vw;
+    bottom: -65px;
   }
+}
