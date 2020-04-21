@@ -26,6 +26,8 @@ const MeetingDetails = (props) => {
     const [success, setSuccess] = React.useState(false)
     const [showDeleteMeetingPopup, setShowDeleteMeetingPopup] = React.useState(false)
     const [, copyToClipboard] = useCopyToClipboard()
+    const [copy1, setCopy1] = React.useState(false)
+    const [copy2, setCopy2] = React.useState(false)
 
 
     const meetingLanguage = [
@@ -345,7 +347,8 @@ const MeetingDetails = (props) => {
                                     onChange={props.CreateMeetingStore.changeZoomId}
                                     value={props.CreateMeetingStore.meetingDetails.zoomId}
                                 />
-                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={() => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId) }} />
+                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={() => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId); setCopy1(true); setTimeout(() => { setCopy1(false) }, 500) }} />
+                                {copy1 && <div className='copyText'>הועתק!</div>}
                             </div>
                             <div className='position-relative'>
                                 <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
@@ -356,7 +359,8 @@ const MeetingDetails = (props) => {
                                     onChange={() => { }}
                                     value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
                                 />
-                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')) }} />
+                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')); setCopy2(true); setTimeout(() => { setCopy2(false) }, 500) }} />
+                                {copy2 && <div className='copyText'>הועתק!</div>}
                             </div>
                         </div>
                     }
