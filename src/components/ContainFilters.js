@@ -14,10 +14,12 @@ const Filters = (props) => {
         { option: props.t('parent'), data: 'הורים' },
         { option: props.t('family member'), data: 'קרובי משפחה' },
         { option: props.t('friend'), data: 'חבר' },
-        { option: 'בית אבי חי', data: 'בית אביחי' },
-        { option: 'האחים שלנו', data: 'האחים שלנו' },
-
+        { option: props.t('widower'), data: 'אלמן/ אלמנה' },
+        { option: props.t('orphans'), data: 'יתומים' },
+        { option: props.t('avi chai'), data: 'בית אביחי' },
+        { option: props.t('ourBrothers'), data: 'האחים שלנו' },
     ]
+
     const meetingLanguage = [
         { option: props.t('all'), data: false },
         { option: 'עברית', data: 'עברית' },
@@ -27,6 +29,12 @@ const Filters = (props) => {
         { option: 'русский', data: 'русский' },
         { option: 'አማርኛ', data: 'አማርኛ' },
         { option: 'español', data: 'español' },
+    ]
+    const meetings = [
+        { option: props.t('all meetings'), data: false },
+        { option: props.t('open meetings'), data: 1 },
+        { option: props.t('private meetings'), data: 2 },
+        { option: props.t('full meetings'), data: 3 },
     ]
     const meetingDate = [
         { option: props.t('all'), data: false },
@@ -49,12 +57,25 @@ const Filters = (props) => {
         <div id='filtersId' className={props.className}>
             <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy tal' : 'filterBy tar'}> {props.t('filter by')}:</div>
             <Select
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '15%' : props.LanguageStore.width > 800 ? '15%' : '100%'}
+                default={props.MeetingsStore.status}
+                selectTextDefault={props.t('all meetings')}
+                arr={meetings}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
+                onChoseOption={(value) => {
+                    props.MeetingsStore.changeMeetingStatus(value)
+                    props.MeetingsStore.search()
+                }}
+                changeBackground={true}
+            />
+
+            <Select
                 default={props.MeetingsStore.date}
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '23%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
-                fetch={props.MeetingsStore.search}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '25%' : props.LanguageStore.width > 800 ? '25%' : '100%'}
+                // fetch={props.MeetingsStore.search}
                 selectTextDefault={props.t('meeting date')}
                 arr={meetingDate}
-                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings mr-0' : 'tar input-meetings mr-0'}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingDate(value)
                     props.MeetingsStore.search()
@@ -63,6 +84,7 @@ const Filters = (props) => {
 
             />
             <Select
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '12%' : props.LanguageStore.width > 800 ? '12%' : '100%'}
                 default={props.MeetingsStore.time}
                 selectTextDefault={props.t('meeting time')}
                 arr={meetingTime}
@@ -75,7 +97,7 @@ const Filters = (props) => {
             />
             <Select
                 img={true}
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' && props.LanguageStore.width > 800 ? '18%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' && props.LanguageStore.width > 800 ? '17%' : props.LanguageStore.width > 800 ? '17%' : '100%'}
                 default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                 selectTextDefault={props.t('relationship to fallen')}
                 arr={myCloseToTheFallen}
@@ -88,7 +110,7 @@ const Filters = (props) => {
                 changeBackground={true}
             />
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '17%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '16%' : '100%'}
                 default={props.MeetingsStore.language}
                 selectTextDefault={props.t('meeting language')}
                 arr={meetingLanguage}
@@ -99,7 +121,10 @@ const Filters = (props) => {
                 }}
                 changeBackground={true}
             />
-            <div className='availableOnly'>
+
+
+
+            {/* <div className='availableOnly'>
                 <div
                     style={{ height: '1.5em', width: '1.5em', display: 'flex', marginLeft: '0.3em', cursor: 'pointer' }}
                     onClick={() => {
@@ -109,7 +134,7 @@ const Filters = (props) => {
                     <img height='100%' width='100%s' src={props.MeetingsStore.availableOnly ? checkboxOn : checkboxOff} />
                 </div>
                 {props.t('show available meetings only')}
-            </div>
+            </div> */}
         </div>
 
     )

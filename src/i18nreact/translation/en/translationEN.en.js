@@ -6,6 +6,8 @@ const translationEN = {
     "donate": "Donate",
     "contactUs": "Contact Us",
     "meetingContent": "Meeting Content",
+    "copy" : 'Copy link',
+    "copied":'Copied to clipboard',
     "homePage":'Home',
     "approve": "Approve",
     "cancel": "Cancel",
@@ -59,7 +61,7 @@ const translationEN = {
     "howItWorks":'How Does It Work?',
     "share":"Invite others to join",
     'sunday': 'Sunday, 26.04',
-    'monday': 'On the eve of Memorial Day, Monday, 27.04',
+    'monday': 'Memorial Day Eve, Monday, 27.04',
     'tuesday': 'Memorial Day, Tuesday, 28.04',
     'wednesday': 'Independence Day, Wednesday, 29.04',
 
@@ -67,13 +69,14 @@ const translationEN = {
     "meetingsList": 'Virtual Meet-Ups',
     'meetingsList2' : 'All virtual meetings are waiting for you here',
     "joinTheMeeting" : 'Join meeting',
-    "noMeetings" : 'No meetings were found to match your search.',
+    "noMeetings" : 'No meetings matched your search',
     "blueFooter" : 'The site was developed as a contribution to society by Hilma - tech for impact',
     "host" : 'Host',
 
-    "orphans": "Orphans",
-    "widower": "Widower or widow",
-
+    "orphans": "Orphan",
+    "widower": "Widower / widow",
+    'avi chai':"Beit Avi Chai",
+    'ourBrothers':'Our Brothers',
     "all": "All",
     "brother or sister": "Brother or sister",
     "parent": "Parent",
@@ -81,10 +84,17 @@ const translationEN = {
     "family member": "Family member",
     "other": "Other",
 
+
+    'all meetings':'All meetings',
+    'open meetings':'Open meetings',
+    'private meetings':'Private meetings',
+    'full meetings':'Full meetings',
+
+
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',
     'meeting language': 'Meeting language',
-    'relationship to fallen': 'Relationship to fallen',
+    'relationship to fallen': 'Meeting host',
     'show available meetings only': 'Show available meetings only',
     'filter by': 'Filter by',
 
@@ -105,6 +115,42 @@ const translationEN = {
     "save": "Save",
 
 
+    "initiateMeetingQ": "What does “initiating a meet-up” mean?",
+    "createdMeetingQ": "I initiated a meet-up, now what?",
+    "inviteToMeetingQ": "How do I invite people to the meet-up?",
+    "registrationForMyMeetingQ": "How does registration for my meet-up happen?",
+    "openMeetingQ": "What is an open meet-up?",
+    "closedMeetingQ": " What is a closed meet-up?",
+    "couldNotSignUpQ": "I had a problem registering, what should I do?",
+    "emailFromZoomQ": "I received an email from Zoom, now what do I do?",
+    "doNotSeeTheMeetingQ": "I created a meet-up but I can’t see it on the list of meet-ups, why",
+    "additionalLanguagesQ": "Can I speak in other languages?",
+    "moreThanOneMeetingQ": "Can I create numerous meet-ups?",
+    "joinMeetingQ": "How do I join a meet-up?",
+    "maxAndMinParticipantsQ": "What are the minimum and maximum number of participants in meet-ups?",
+    "fewFallenQ": "Can I host a meet-up in memory of more than one fallen?",
+    "guidanceZoom&buildTheNightQ": "I have never hosted an online session, will I receive guidance for using Zoom and hosting the evening?",
+    "successfulMeetingQ": "What do I need to prepare for a successful meet-up?",
+    "behindTheProjectQ": "Who is behind this initiative?",
+    "allAgesQ": "Is this initiative appropriate for all ages?",
+    "meetingCanceledQ": "My meet-up was canceled, what should I do?",
+    "playVideoQ": "I would like to show a short film during the meet up, how can I do this?",
+    "differentMeetingsQ": "What are Our Brothers meet-ups? And Beit Avi Chai meet-ups?",
+
+
+    "initiateMeetingA": "Someone close to the fallen (i.e. family, friend, brother in arms) is responsible for creating the meet-up, planning the content and inviting participants.",
+    "inviteToMeetingA": 'In order to invite participants to your meet-up, go into your meet-up and click on “Invite to meet-up” - now copy the link into your whatsapp, your wall on Facebook, and your email - and invite your friends and family.',
+    "openMeetingA": "It is a meet-up that is open to anyone, anywhere.",
+    "closedMeetingA": "It is a meet-up that is closed to certain participants (for example, family members or classmates).",
+    "doNotSeeTheMeetingA": "For security reasons, we review every meet-up. We will contact you after initiating the meet-up in order to confirm the details. If everything is confirmed, we will approve the meet-up and you will be able to see it on the online list.",
+    "additionalLanguagesA": "Definitely. Meet-ups in many languages can be initiated- you can host the meet-up in any language you would like.",
+    "moreThanOneMeetingA": "Definitely. You can create many meet-ups for different participants and in different languages.",
+    "joinMeetingA": `You can choose the right meet-up for you, from the online “list of meet-ups”. You can sort by type of meet-up, hours, dates, and more. You can also read the personal story by clicking on the meet-up. Once you have chosen the meet-up that you would like to join, please complete your personal information and wait for the email. For closed meet-ups you will need the meeting code that was provided to you by the meet-up host.`,
+    "maxAndMinParticipantsA": 'The maximum number of participants is 500, the minimum depends on you. You can decide the number of participants in the “initiate meet-up” page.',
+    "fewFallenA": "Definitely! During meet-up registration you will be able to fill in the names of as many fallen as you would like to talk about. The maximum number of fallen for one meet-up, is 10.",
+    "allAgesA": "Definitely. Please note that for a younger crowd, please plan the meet-up accordingly.",
+    "meetingCanceledA": "Perhaps the host has canceled the meet-up, in this case you will receive an email notifying you of this. You can enter the list of meet-ups and choose a new one to join.",
+    "differentMeetingsA": `Our Brothers meet-ups are unique meetings that were created with various partnerships, and Beit Avi Chai meet-ups are meetings that were created by Beit Avi Chai as part of the project A Face. The Day. A Memorial.`
 
 }
 

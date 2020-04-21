@@ -9,8 +9,10 @@ class CreateMeetingStore {
     fallenName = null;
     nameMessage = "";
     fallensToDelete = []
+    deleting = false;
     fallensToAdd = []
     fallensToChange = []
+    date = (new Date()).getDate()
     meetingDetailsOriginal = {
         name: "",
         description: "",
@@ -21,7 +23,7 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
-        date: 'יום שני, ג באייר, 27.04',
+        date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
         timeHour: '20',
         timeMinute: '30',
         max_participants: 300,
@@ -56,7 +58,7 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: 'יום שני, ג באייר, 27.04',
+            date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
             timeHour: "20",
             timeMinute: "30",
             max_participants: 300,
@@ -88,6 +90,7 @@ class CreateMeetingStore {
             image: fallen.image_link,
             meetings: fallen.meetings
         }
+        if (!this.meetingDetails.fallens) this.meetingDetails.fallens = []
         if (!this.meetingDetails.fallens[index]) this.meetingDetails.fallens[index] = {}
         this.meetingDetails.fallens[index].id = fallen.id
     }
@@ -161,11 +164,12 @@ class CreateMeetingStore {
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
+                    this.meetingDetails.fallens[i].needAlert = false
                     this.meetingDetails.fallens[i].relative = option
                     if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship[index] && index === this.meetingDetails.otherRelationship[index].id) this.meetingDetails.otherRelationship[index].relative = ""
                     if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
+                        this.time = setTimeout(() => this.meetingDetails.fallens[i].needAlert = false, 10000)
                     }
                 }
             }
@@ -173,10 +177,12 @@ class CreateMeetingStore {
     }
 
     changeNeedAlert = (value, index) => {
+        console.log("value", value, "index", index)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
                     this.meetingDetails.fallens[i].needAlert = value
+                    clearTimeout(this.time)
                 }
             }
         }
@@ -318,6 +324,11 @@ class CreateMeetingStore {
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length > index)
             if (this.meetingDetails.otherRelationship) this.meetingDetails.otherRelationship.splice(index, 1)
         if (this.fallenDetails && this.fallenDetails[id]) delete this.fallenDetails[id]
+        this.deleting = true
+    }
+
+    setDeleting = (del) => {
+        this.deleting = del
     }
 
     approveMeeting = async (email, nameOwner) => {
@@ -397,10 +408,19 @@ class CreateMeetingStore {
         return objToreturn
     }
 
-    createNewMeetingPost = async () => {
+    createNewMeetingPost = async (lang) => {
+
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
+            checkOtherRelation.filter((otherRelative) => {
+                if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "בית אבי חי" || otherRelative.relative === "האחים שלנו") {
+                    this.error = lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת."
+                    return
+                }
+            })
+
             beforePostJSON.fallens.filter((fallen) => {
                 checkOtherRelation.filter((other) => {
                     if (other.id === fallen.id) {
@@ -409,11 +429,12 @@ class CreateMeetingStore {
                 })
             })
         }
+        if (this.error) return
         let zoomId = beforePostJSON.zoomId
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
-        delete this.meetingDetailsOriginal.date
+        if (this.date < 26) delete this.meetingDetailsOriginal.date
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
@@ -421,18 +442,18 @@ class CreateMeetingStore {
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
-            this.setError("כל השדות צריכים להיות מלאים")
+            this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return
         }
         for (let i = 0; i < beforePostJSON.fallens.length; i++) {
             if (!beforePostJSON.fallens[i] || !beforePostJSON.fallens[i].id || beforePostJSON.fallens[i].id === 0 || !beforePostJSON.fallens[i].relative) {
-                this.setError("כל השדות צריכים להיות מלאים")
+                this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
                 return
             }
         }
-        // console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
+
         if (Object.keys(whatDidntChange).length || Object.keys(whatDidntChange1).length) {
-            this.setError("כל השדות צריכים להיות מלאים")
+            this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return
         }
         beforePostJSON.zoomId = zoomId
@@ -448,7 +469,7 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err || !success) {
-            this.postErr(err)
+            this.postErr(err, lang)
             return
         }
         return success
@@ -464,44 +485,6 @@ class CreateMeetingStore {
         if (changedObj.owner) {
             changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         }
-
-        // if (changedObj.fallens) {
-        //     for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
-        //         let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
-        //         if (index === -1) {
-        //             fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
-        //         }
-        //         else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
-        //             if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
-        //                 if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
-        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
-        //                 }
-        //                 else fallensToChange.push(beforePostJSON.fallens[Number(index)])
-        //             }
-        //             else {
-        //                 if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
-        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     beforePostJSON.fallens.filter(afterFallen => {
-        //         console.log("afterFallen", afterFallen)
-        //         if (afterFallen.id === null || afterFallen.relative === null) {
-        //             this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
-        //             return
-        //         }
-        //         let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
-        //         if (index === -1) {
-        //             fallensToAdd.push(afterFallen)
-        //         }
-        //     })
-        // }
-        // 
-
-        // if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
-        // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
-        // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
 
         if (changedObj.fallens) {
             let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
@@ -531,37 +514,38 @@ class CreateMeetingStore {
         this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
     }
 
-    postErr = (err) => {
+    postErr = (err, lang) => {
         console.log("err", err)
-        if (err && err.error && err.error.duplicate) {
-            this.error = "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
-        }
-        if (err && err.error && err.error.isOpen)
-            this.error = "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
-        else if (err && err.error && err.error.email)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת כתובת אינטרנט נכונה"
-        else if (err && err.error && err.error.phone)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
-        else if (err && err.error && err.error.max_participants)
-            this.error = "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
-        else if (err && err.error && err.error.name)
-            this.error = "משהו השתבש, אנא בדוק ששם המפגש נכון"
+        if (err && err.error && err.error.duplicate)
+            this.error = lang !== "heb" ? "The meeting already exists in the system, see the 'Meetings List'" : "המפגש כבר קיים במערכת, עיין ב״רשימת המפגשים״"
+        else if (err && err.error && err.error.isOpen)
+            this.error = lang !== "heb" ? "Something went wrong, Please make sure that you have selected whether the meeting is open or closed properly" : "משהו השתבש, אנא בדוק שבחרת אם המפגש פתוח או סגור בצורה טובה"
         else if (err && err.error && err.error.message && err.error.message === "No response, check your network connectivity")
-            this.error = "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+            this.error = lang !== "heb" ? "Something went wrong, please check your network connectivity" : "משהו השתבש, אנא בדוק את החיבור לאינטרנט"
+        else if (err && err.error && err.error.message)
+            this.error = err.error.message
+        else if (err && err.error && err.error.email)
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה"
+        else if (err && err.error && err.error.phone)
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct phone number" : "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
+        else if (err && err.error && err.error.max_participants)
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a maximum number of participants" : "משהו השתבש, אנא בדוק שהכנסת מספר משתתפים מקסימלי במספרים"
+        else if (err && err.error && err.error.name)
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct meeting name" : "משהו השתבש, אנא בדוק ששם המפגש נכון"
         else if (err && err.error && err.error.description)
-            this.error = "משהו השתבש, אנא בדוק שתאור המפגש נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct meeting description" : "משהו השתבש, אנא בדוק שתאור המפגש נכון"
         else if (err && err.error && err.error.language)
-            this.error = "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct language" : "משהו השתבש, אנא בדוק שבחרת שפה נכונה"
         else if (err && err.error && err.error.time)
-            this.error = "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct time meeting" : "משהו השתבש, אנא בדוק שהשעה של המפגש נכונה"
         else if (err && err.error && err.error.date)
-            this.error = "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct date" : "משהו השתבש, אנא בדוק שבחרת תאריך נכון"
         else if (err && err.error && err.error.relationship)
-            this.error = "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct realation to the fallen" : "משהו השתבש, אנא בדוק שבחרת קרבה שלי אל החלל נכונה"
         else if (err && err.error && err.error.msg)
             this.error = err.error.msg
         else
-            this.error = "משהו השתבש, אנא נסה שנית מאוחר יותר"
+            this.error = lang !== "heb" ? "Something went wrong, please try again later" : "משהו השתבש, אנא נסה שנית מאוחר יותר"
     }
 
     setError = (error) => {
@@ -577,11 +561,13 @@ decorate(CreateMeetingStore, {
     meetingDetails: observable,
     meetingId: observable,
     error: observable,
+    deleting: observable,
     waitForData: observable,
     setMeetingId: action,
     changeFallenDetails: action,
     changeFallens: action,
     deleteFallenToArr: action,
+    setDeleting: action,
     addFallenToArr: action,
     changeFallenToArr: action,
     changeNumberOfParticipants: action,

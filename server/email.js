@@ -17,8 +17,7 @@ const sendGridEmail = async (senderName, options) => {
 
     const msg = {
         to: options.to,
-        // from: 'mitchabrim@zochrim.info',
-        from: 'carmel6000israel@gmail.com',
+        from: 'Zikaron@ourbrothers.org',
         subject: options.subject,
         // text: this.tplPersonalContent,
         html: options.html,

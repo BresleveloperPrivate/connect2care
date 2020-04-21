@@ -109,8 +109,15 @@ const SearchFallen = observer((props) => {
         }
     }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName])
 
-    if (CreateMeetingStore.fallenDetails && props.fallen && props.fallen.id && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name !== searchValue) {
-        setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
+    if (CreateMeetingStore.deleting) {
+        if (CreateMeetingStore.fallenDetails && props.fallen && props.fallen.id && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].name !== searchValue) {
+            setSearchValue(CreateMeetingStore.fallenDetails[props.fallen.id].name)
+            CreateMeetingStore.setDeleting(false)
+        }
+        else{
+            setSearchValue("")
+            CreateMeetingStore.setDeleting(false)
+        }
     }
 
     return (

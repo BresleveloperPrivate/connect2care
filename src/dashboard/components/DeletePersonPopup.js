@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Auth from '../../modules/auth/Auth'
 import '../style/popup.scss'
 
-export default function DaleteMeetingPopup(props) {
+export default function DaletePersonPopup(props) {
 
     const [waitForData, setWaitForData] = useState(false)
     const [err, setErr] = useState(false)
@@ -13,18 +13,19 @@ export default function DaleteMeetingPopup(props) {
     const deleteMeeting = async () => {
         setWaitForData(true)
         let [success, err] = await Auth.superAuthFetch(
-            `/api/meetings/deleteMeeting`,
+            `/api/meetings/deleteParticipant`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: Number(props.meetingId) })
+                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.participantId) })
             }, true);
         setWaitForData(false)
         if (err) {
             setErr(true)
             return
         }
-        props.history.replace('/ngsgjnsrjgtesg')
+        props.spliceFromArr(props.participantId)
+        props.handleClose()
     }
 
     return (
@@ -38,7 +39,7 @@ export default function DaleteMeetingPopup(props) {
                             width: '100%',
                             direction: 'rtl'
                         }}>
-                            האם אתה בטוח שברצונך למחוק מפגש זה?
+                            האם אתה בטוח שברצונך למחוק משתתף זה?
                                 </p>
                         <p className="text-center" style={{
                             color: '#A5A4BF',
@@ -47,7 +48,7 @@ export default function DaleteMeetingPopup(props) {
                         }}>
                             {/* יתכן שהמייל נשלח לספאם */}
                         </p>
-                        {err && <div>לא הצלחנו למחוק את המפגש. נסה שנית מאוחר יותר.</div>}
+                        {err && <div>לא הצלחנו למחוק את המשתתף. נסה שנית מאוחר יותר.</div>}
                     </DialogContent>
                     <DialogActions>
                         <div className='d-flex' style={{ width: '100%' }}>

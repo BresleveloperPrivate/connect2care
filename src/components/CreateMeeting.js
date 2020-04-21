@@ -57,21 +57,17 @@ const CreateMeeting = (props) => {
         { option: '30', data: '30' }
     ]
 
+    const date = (new Date()).getDate()
     const meetingDate = [
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+        date >= 25 ? null : { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        date >= 26 ? null : { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        date >= 27 ? null : { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        date >= 28 ? null : { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     useEffect(() => {
 
-    }, [props.CreateMeetingStore.fallenName, props.CreateMeetingStore.meetingDetails.time, props.CreateMeetingStore.meetingDetails.otherRelationship, props.CreateMeetingStore.meetingDetails.fallens, props.CreateMeetingStore.fallenDetails]);
-
-
-    useEffect(() => {
         return () => props.CreateMeetingStore.resetAll()
-
     }, [])
 
     const showFallens = () => {
@@ -84,7 +80,7 @@ const CreateMeeting = (props) => {
                     return <FallenDetails t={props.t} key={index} isSaved={isSaved} fallen={fallen} setDataForFallen={setDataForFallen} index={index} isDash={false} />
                 })
             }
-                <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>
+                {props.CreateMeetingStore.meetingDetails.fallens.length < 10 && <div className="addFallen grow" onClick={() => { props.CreateMeetingStore.changeFallens(props.CreateMeetingStore.meetingDetails.fallens.length) }}> + {props.t("addFallen")}</div>}
             </div>
         )
     }
@@ -228,7 +224,7 @@ const CreateMeeting = (props) => {
                         <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
                             {props.LanguageStore.lang !== 'heb' ?
                                 '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
                             }
 
 
@@ -243,7 +239,7 @@ const CreateMeeting = (props) => {
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
-                                    onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data);console.log(value.data) }} />
+                                    onChoseOption={(value) => props.CreateMeetingStore.changeMeetingDate(value.data)} />
                             </div>
 
                             <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' && props.LanguageStore.width >= 1150 ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
@@ -308,7 +304,7 @@ const CreateMeeting = (props) => {
                             }
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <input type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
+                                <input style={{margin: props.LanguageStore.lang !== 'heb' ? '0' : null}} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
                                 <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                     {props.LanguageStore.lang !== 'heb' ?
@@ -316,32 +312,34 @@ const CreateMeeting = (props) => {
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                         </div>
                                         :
-                                        <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
                                     }
+
+
                                 </label>
                             </div>
+                           
+
                         </div>
 
-                        <div
-                            className="containCreateMettingButton"
-                        >
-                            {console.log("props.CreateMeetingStore.waitForData", props.CreateMeetingStore.waitForData)}
+                        <div className="containCreateMettingButton">
                             <div className="createMeetingButton grow" onClick={async () => {
                                 if (wait) return
-                                setWait(true)
                                 if (!props.CreateMeetingStore.waitForData) {
+                                    setWait(true)
                                     setIsSaved(true)
                                     if (!readBylaw) {
                                         let error = props.LanguageStore.lang !== 'heb' ? "You must read the terms before adding the meeting" : "עליך לקרוא את התקנון לפני ההוספה"
                                         props.CreateMeetingStore.setError(error)
+                                        setWait(false)
                                         return
                                     }
-                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost()
+                                    let meeting = await props.CreateMeetingStore.createNewMeetingPost(props.LanguageStore.lang)
                                     if (meeting) {
                                         setSuccess(meeting[0])
                                     }
+                                    setWait(false)
                                 }
-                                setWait(false)
                             }}>
                                 {props.CreateMeetingStore.waitForData ?
                                     <div className="spinner">

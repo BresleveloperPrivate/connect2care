@@ -4,7 +4,8 @@
     margin: auto;
     border-radius: 7px;
     box-shadow: 0px 2px 6px #0000000A;
-    padding-top: 6vh;
+    padding-top: 4vh;
+    // overflow: hidden;
 
     .inputStyle, .containCreateMettingButton{
         width: calc(100% - 12vw) !important;
@@ -53,6 +54,45 @@
     overflow: hidden;
     right: -15px;
     width: 6vw;
+}
+
+.panelContain{
+    position: relative;
+    cursor: pointer;
+
+    .panelBtn{
+        background: var(--custom-gray);
+        transition: ease 0.5s background;
+    }
+
+    .panelText{
+        opacity: 0;
+        font-size: 1.7vh;
+        transition: ease 0.5s opacity;
+        width: 100%;
+    }
+}
+
+.panelContain:hover{
+    cursor: pointer;
+    
+    .panelBtn{
+        background: var(--custom-dark-green);
+        transition: ease 0.5s background;
+    }
+
+    .panelText{
+        color:var(--custom-dark-green);
+        opacity: 1;
+        transition: ease 0.5s opacity;
+    }
+
+}
+
+.panelistContain{
+    .panelBtn{
+        background: var(--custom-dark-green);
+    }
 }
 
 

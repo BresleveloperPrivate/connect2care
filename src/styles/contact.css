@@ -1,0 +1,80 @@
+#contactPage {
+    text-align: right;
+    min-height: calc(100vh - 17.7vh);
+    padding-right: 6vw;
+    padding-left: 6vw;
+}
+
+.textContact{
+    text-align: right;
+    font: normal 23px Assistant;
+    letter-spacing: 0px;
+    color: #4D4F5C;
+    opacity: 1;
+    height: fit-content;
+    /* margin-right: 4vw; */
+}
+
+.margin-right-left-text{
+    margin: 0 6vw 4vh;
+}
+
+.facebook-div{
+    background: #0A2D63 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    padding: 1vh 3vh;
+    align-items: center;
+    border-radius: 50px;
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 4vh;
+}
+
+.contactFacebookImg{
+    width: 20px;
+    height: 20px;
+    mask-size: 20px 20px;;
+    -webkit-mask-size: 20px 20px;
+    background: white;
+    margin-right: 1vh;
+    mask-image: Url('../icons/facebook.svg');
+    -webkit-mask-image: Url('../icons/facebook.svg');
+}
+
+.contactHeadLine{
+    font: Bold 35px Assistant;
+    letter-spacing: 0;
+    color: #0A2D63;
+    margin: 12vh 6vw 2vh;
+}
+
+.contactSecondSentence{
+    font: normal 28px Assistant;
+    letter-spacing: 0.5;
+    margin: 0 6vw 4vh;
+    color: #19A099;
+}
+
+
+@media screen and (max-width: 550px){
+    #contactPage {
+        text-align: center !important;
+        min-height: calc(100vh - 16.2vh);
+    }
+
+    .margin-right-left-text{
+        justify-content: center;
+    }
+
+    .contactHeadLine{
+        font: Bold 28px Assistant;
+    }
+
+    .contactSecondSentence{
+        font: normal 21px Assistant;
+    }
+
+}

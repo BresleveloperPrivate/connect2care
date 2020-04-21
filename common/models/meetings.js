@@ -2,6 +2,7 @@
 const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
+const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 // const http = require("https");
@@ -20,23 +21,34 @@ module.exports = function (meetings) {
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
+        let sqlQueryfrom = `meetings , fallens_meetings`
+        let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let params = []
         let searchArr = search.split("'")
         let newSearch = ""
         for (let i = 0; i < searchArr.length; i++) {
             newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
         }
 
+        // console.log(filters)
 
-        if (filters.id) {
-            sqlQueryWhere += `meetings.id <= '${filters.id}'`
-        }
+
+        // if (filters.id) {
+        //     sqlQueryWhere += `meetings.id <= '${filters.id}'`
+        // }
 
         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
+        }
+
+        if (filters.status === 1) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        } else if (filters.status === 2) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = 0`
+        } else if (filters.status === 3) {
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num >= meetings.max_participants`
         }
 
         if (filters.language) {
@@ -47,12 +59,12 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
-        if (filters.isAvailable) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
-        }
+        // if (filters.isAvailable) {
+        //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
+        // }
 
         if (filters.relationship || search) {
-            sqlQueryfrom += `, fallens_meetings`
+            // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
@@ -66,15 +78,25 @@ module.exports = function (meetings) {
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
-            sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  order by meetings.id DESC LIMIT 5`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
+        ELSE 9
+        END , meetings.id DESC LIMIT ${limit.min} , 16`, (err, res) => {
 
             if (err) {
                 console.log(err)
                 return cb(err)
             } else {
+
                 if (res.length !== 0) {
                     let where = { or: [] }
                     if (res.length === 1) {
@@ -84,13 +106,24 @@ module.exports = function (meetings) {
                         where.or.push(i)
                     }
                     // meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
-                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: 'id DESC' }, (err1, res1) => {
+
+                    meetings.find({ where: where, "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, { relation: 'fallens_meetings', scope: { include: 'fallens' } }] }, (err1, res1) => {
 
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
-                        return cb(null, res1);
+
+                        ////sortttt
+
+                        return cb(null, res1.sort((firstRes, secondRes) => {
+                            if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
+                                return 1
+                            } else {
+                                return -1
+                            }
+
+                        }));
                     })
                 }
                 else return cb(null, [])
@@ -162,14 +195,23 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
             let jsdata = JSON.parse(JSON.stringify(data))
+            if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true, 
+                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+            let name = data.name
+            let description = data.description
+            delete data.name
+            delete data.description
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-
+            valid.data.description = description
+            valid.data.name = name
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
@@ -203,162 +245,144 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                let code = jsdata.code ? data.lang !== 'heb' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-                                // createZoomUser(newEmail, nameOwner)
+                                // let code = jsdata.code ? data.lang == 'en' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
 
                                 let sendOptions = {}
-                                if (data.lang !== 'heb') {
+                                if (data.lang == 'en') {
                                     sendOptions = {
-                                        to: emailowner, subject: "The meet-up you initiated has been successfully created",
+                                        to: emailowner, subject: "The meet-up you initiated has been successfully created and waiting for approvement",
                                         html:
-                                            `<div width="100%" style="direction: ltr;">
-                                        <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                        <div
-                                            style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                            <div style="font-weight: bold; margin-bottom: 20px;">
-                                                Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
-                                    HaZikaron.<br>
-                                    Thanks to you, we can give a hug of memory and appreciation to those
-                                    who have fallen for us, and show that this year- despite the challenge- we have
-                                    not forgotten.
-                                            </div>
-                                            The meet-up you initiated has been successfully created.
-                                            ${code}<br>
-                                            <div
-                                                style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                                Crucial information for hosting the meet-up:
-                                            </div>
-                                            This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
-                                    <br>
-                                    If you already have a Zoom account, this is
-                                    irrelevant for this meet-up; please use the temporary account. <br>
-                                    Due to a special
-                                    collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-                                    
-                                    including unlimited time, ability to record the session, etc.
-                                    
-                                            <div
-                                                style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                                How does this work?
+                                            //         `<div width="100%" style="direction: ltr;">
+                                            //     <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
+                                            //     <div
+                                            //         style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                                            //         <div style="font-weight: bold; margin-bottom: 20px;">
+                                            //             Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
+                                            // HaZikaron.<br>
+                                            // Thanks to you, we can give a hug of memory and appreciation to those
+                                            // who have fallen for us, and show that this year- despite the challenge- we have
+                                            // not forgotten.
+                                            //         </div>
+                                            //         The meet-up you initiated has been successfully created.
+                                            //         ${code}<br>
+                                            //         <div
+                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                            //             Crucial information for hosting the meet-up:
+                                            //         </div>
+                                            //         This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
+                                            // <br>
+                                            // If you already have a Zoom account, this is
+                                            // irrelevant for this meet-up; please use the temporary account. <br>
+                                            // Due to a special
+                                            // collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
+
+                                            // including unlimited time, ability to record the session, etc.
+
+                                            //         <div
+                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                            //             How does this work?
+                                            // </div>
+                                            // A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
+                                            // B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
+                                            // C. Your user name will be automatically filled in, please use the password:
+
+                                            // OurBrothers2020 <br>
+                                            //         <div
+                                            //             style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                                            //             How to create a meaningful meet-up:
+                                            // </div>
+                                            //         <div style="font-weight: bold;">
+                                            //             We know you probably have questions and concerns about the virtual meet-up.<br>
+                                            //             And exactly for that reason we created the perfect preparatory workshop on Zoom.
+                                            //         </div>
+                                            //         <div style="font-weight: bold; margin-top: 20px;">
+                                            //             Zoom Prep Workshop
+                                            //             </div>
+                                            //             The virtual workshop will be held on Zoom by public speaking experts and digital content
+
+                                            //             experts. It is highly recommended!<br>
+                                            //             Sign up here: <a href="https://bit.ly/connect2care_foryou"
+                                            //             target="_blank">https://bit.ly/connect2care_foryou</a>
+                                            //         <div style="font-weight: bold; margin-top: 20px;">Prep Packet
+                                            //         </div>
+                                            //         Short, detailed and user-friendly pack for successful meet-ups
+                                            //         <br>
+                                            //         h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
+                                            //         <div style="font-weight: bold; margin-top: 20px;">
+                                            //             Invite Participants
+                                            // </div>
+                                            // We have prepared materials for you to share and send to anyone you would like. It is
+                                            // crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
+                                            //     </div>
+                                            //     <div width="100%"
+                                            //         style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                            //         <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
+                                            //         </div>zikaron@ourbrothers.org |
+                                            //         058-409-4624
+                                            //     </div>
+                                            //     <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                                            //         See you soon,
+                                            //         <br>Connect2Care Team
+                                            //     </div>
+                                            // </div>
+                                            // `
+                                            `
+                                    <div width="100%" style="direction: rtl;">
+                                    <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
+                                    <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                                      <div style="font-weight: bold; margin-bottom: 20px;">
+                                        אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
+                                        בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                      </div>
+                                      על מנת להבטיח אבטחה מירבית למפגש, צוות המיזם יעבור על הבקשה שלך, ישוחח איתך ותוך 24 שעות ישלח לך אישור על
+                                      פרסום המפגש אצלנו באתר.<br><br>
+                                      המשך לעקוב אחרי המיילים שתקבל מאיתנו.<br>
+                                      תודה על ההבנה והסבלנות<br>
                                     </div>
-                                    A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
-                                    B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
-                                    C. Your user name will be automatically filled in, please use the password:
-                                    
-                                    OurBrothers2020 <br>
-                                            <div
-                                                style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                                How to create a meaningful meet-up:
-                                    </div>
-                                            <div style="font-weight: bold;">
-                                                We know you probably have questions and concerns about the virtual meet-up.<br>
-                                                And exactly for that reason we created the perfect preparatory workshop on Zoom.
-                                            </div>
-                                            <div style="font-weight: bold; margin-top: 20px;">
-                                                Zoom Prep Workshop
-                                                </div>
-                                                The virtual workshop will be held on Zoom by public speaking experts and digital content
-                                    
-                                                experts. It is highly recommended!<br>
-                                                Sign up here: <a href="https://bit.ly/connect2care_foryou"
-                                                target="_blank">https://bit.ly/connect2care_foryou</a>
-                                            <div style="font-weight: bold; margin-top: 20px;">Prep Packet
-                                            </div>
-                                            Short, detailed and user-friendly pack for successful meet-ups
-                                            <br>
-                                            h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                                            <div style="font-weight: bold; margin-top: 20px;">
-                                                Invite Participants
-                                    </div>
-                                    We have prepared materials for you to share and send to anyone you would like. It is
-                                    crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
-                                        </div>
-                                        <div width="100%"
-                                            style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                            <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
-                                            </div>zikaron@ourbrothers.org |
-                                            058-409-4624
-                                        </div>
-                                        <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                            See you soon,
-                                            <br>Connect2Care Team
-                                        </div>
-                                    </div>
+                                      <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                        <div style="font-weight: bold;">
+                                          שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624
+                                      </div>
+                                      <div
+                                        style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                                        להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
                                     `
                                     }
                                 }
                                 else {
                                     sendOptions = {
-                                        to: emailowner, subject: "המפגש נוצר בהצלחה", html:
+                                        to: emailowner, subject: "המפגש שיצרת התקבל וממתין לאישור", html:
+                                            //             `
+                                            //     <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                            //     </div>המפגש שיצרת נוצר בהצלחה.
+                                            //     ${code}<br>
+                                            //     <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
+                                            //   `
                                             `
-                                    <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
-                                    </div>המפגש שיצרת נוצר בהצלחה.
-                                    ${code}<br>
-                                    <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
-                                  `
+                                <div width="100%" style="direction: rtl;">
+                                <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
+                                <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                                  <div style="font-weight: bold; margin-bottom: 20px;">
+                                    אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
+                                    בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                  </div>
+                                  על מנת להבטיח אבטחה מירבית למפגש, צוות המיזם יעבור על הבקשה שלך, ישוחח איתך ותוך 24 שעות ישלח לך אישור על
+                                  פרסום המפגש אצלנו באתר.<br><br>
+                                  המשך לעקוב אחרי המיילים שתקבל מאיתנו.<br>
+                                  תודה על ההבנה והסבלנות<br>
+                                </div>
+                                  <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                    <div style="font-weight: bold;">
+                                      שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624
+                                  </div>
+                                  <div
+                                    style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                                    להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+                                    </div>
+                                `
                                     }
                                 }
 
-
-
-
-                                //                                 Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
-                                // HaZikaron. Thanks to you, we can give a hug of memory and appreciation to those
-                                // who have fallen for us, and show that this year- despite the challenge- we have
-                                // not forgotten.
-                                // The meet-up you initiated has been successfully created. The code for online sign-up is
-
-                                // 357201
-
-                                // Crucial information for hosting the meet-up:
-
-                                // This account has been created for the meet-up that you initiated. An activate account e-
-                                // mail has been sent to you via Zoom. If you already have a Zoom account, this is
-                                // irrelevant for this meet-up; please use the temporary account. Due to a special
-                                // collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-
-                                // including unlimited time, ability to record the session, etc.
-
-                                // How does this work?
-
-                                // A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site
-                                // B. Click sign-up for Zoom with User Name and Password (not through google or
-
-                                // Facebook)
-
-                                // C. Your user name will be automatically filled in, please use the password:
-
-                                // OurBrothers2020
-
-                                // How to create a meaningful meet-up:
-
-                                // We know you probably have questions and concerns about the virtual meet-up.
-                                // And exactly for that reason we created the perfect preparatory workshop on Zoom
-
-                                // Zoom Prep Workshop
-
-                                // The virtual workshop will be held on Zoom by public speaking experts and digital content
-
-                                // experts. It is highly recommended!
-                                // Sign up here: https://bit.ly/connect2care_foryou
-
-                                // Prep Packet
-
-                                // Short, detailed and user-friendly pack for successful meet-ups
-
-                                // https://bit.ly/connect2care
-                                // Invite Participants
-
-                                // We have prepared materials for you to share and send to anyone you would like. It is
-                                // crucial to invite friends and family, it is much easier to host a meeting with a loving crowd
-
-                                // .
-
-                                // More questions? Anything still unclear? Reach out
-                                // zikaron@ourbrothers.org | 058-409-4624
-
-                                // See you soon,
-                                // Connect2Care Team
 
                                 sendEmail("", sendOptions);
                                 return cb(null, userMeeting)
@@ -386,47 +410,13 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-
-            // const fallens_meetings = meetings.app.models.fallens_meetings
-            // if (data.fallensToDelete) {
-            //     for (let i of data.fallensToDelete) {
-            //         if (typeof i === 'number') {
-            //             let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
-            //             if (err1) {
-            //                 console.log(err1)
-            //                 return cb(err1)
-            //             }
-            //         }
-            //     }
-            //     delete data.fallensToDelete
-            // }
-
-            // if (data.fallensToAdd) {
-            //     for (let i of data.fallensToAdd) {
-            //         let whitelist1 = {
-            //             fallen: true, meeting: true, relationship: true
-            //         };
-            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-            //         if (!valid1.success || valid1.errors) {
-            //             return cb(valid1.errors, null);
-            //         }
-
-            //         let [err3, res1] = await to(fallens_meetings.create(valid1.data))
-            //         if (err3) {
-            //             console.log("err3", err3)
-            //             return cb(err3)
-            //         }
-            //     }
-            //     delete data.fallensToAdd
-            // }
-
+            
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
             let meetingById = JSON.parse(JSON.stringify(res))
-
             if (data.fallensToChange) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
@@ -502,11 +492,11 @@ module.exports = function (meetings) {
             // security validate
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
-            if (!!data.isOpen) {
+            if (data.isOpen) {
                 data.isOpen = true
                 data.code = null
             }
-            else if (!!!data.isOpen) {
+            else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
                 data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
                 let sendOptions = {
@@ -518,15 +508,24 @@ module.exports = function (meetings) {
                 sendEmail("", sendOptions);
             }
 
+            if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
+            if (data.name && data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
+
             let whitelist = {
-                name: true, description: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                // name: true, description: true,
+                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
             };
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-            
-            if (Object.keys(valid.data).length !== 0) {
+
+            if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
+                if (data.name)
+                    valid.data.name = data.name
+                if (data.description)
+                    valid.data.description = data.description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)
@@ -549,7 +548,7 @@ module.exports = function (meetings) {
     });
 
 
-    meetings.getMeetingsDashboard = (filters, options, cb) => {
+    meetings.getMeetingsDashboard = (filters, isExcel, options, cb) => {
 
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
@@ -624,14 +623,36 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
+
                     meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: ['meetings.approved ASC', 'meetings.id DESC'] }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
+                        if (isExcel) {
+                            let meetingsPS = JSON.parse(JSON.stringify(res1))
+                            let meetingToReturn = []
+                            for (let meeting of meetingsPS) {
+                                let fallens = ''
+                                meeting.fallens_meetings.map((fallenMeeting, index) =>
+                                    fallens = fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')
+                                )
+                                meetingToReturn.push({
+                                    name: meeting.name,
+                                    date: meeting.date,
+                                    time: meeting.time,
+                                    fallens: fallens,
+                                    ownerName: meeting.meetingOwner.name,
+                                    ownerEmail: meeting.meetingOwner.email,
+                                    ownerPhone: meeting.meetingOwner.phone
+                                })
+                            }
+                            return cb(null, meetingToReturn)
+                        }
                         res1.push(size)
                         return cb(null, res1);
                     })
+
                 }
                 else return cb(null, [])
             }
@@ -642,6 +663,7 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'filters', type: 'object' },
+            { arg: 'isExcel', type: 'boolean' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -710,6 +732,7 @@ module.exports = function (meetings) {
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
+                    // console.log("valid", valid)
 
                     person = await people.create(valid.data);
                 }
@@ -725,6 +748,8 @@ module.exports = function (meetings) {
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
+                // console.log("valid1", valid1)
+
 
                 await people_meetings.create(valid1.data);
                 const participantsNum = participants_num ? participants_num + 1 : 1;
@@ -736,6 +761,7 @@ module.exports = function (meetings) {
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
+                // console.log("valid2", valid2)
 
                 await meetings.upsert(valid2.data);
                 let shalom = mailDetails
@@ -798,9 +824,11 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // getZoomUser()
-            let res = sendEmail(senderName, sendOptions);
-            cb(null, { res: res })
+            // let url = scheduleWebinar((x) => {
+            //     console.log("url", x)
+            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
+            sendEmail(senderName, sendOptions);
+            cb(null, { res: "success"})
         })();
     }
 
@@ -903,16 +931,67 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
             let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            // console.log("res", res)
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2, false)
             }
+            let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is" ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
             createZoomUser(newEmail, nameOwner)
             let sendOptions = {
-                to: email, subject: "המפגש שיצרת אושר", html:
+                to: email, subject: "המפגש שיצרת אושר",
+                html:
                     `
-                <div width="100%" style="direction: rtl;">המפגש שיצרת אושר</div>
-              `
+                    <div width="100%" style="direction: rtl;">
+                        <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
+                        <div
+                        style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                        <div style="font-weight: bold; margin-bottom: 20px;">
+                            המפגש שלך אושר!<br><br>
+                            אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של
+                            זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                        </div>
+                        <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת המפגש</a>
+
+                        <br>
+                        ${code}
+                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                            מידע הכרחי לקיום המפגשים:
+                        </div>
+                        נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>
+                        יש לך כבר חשבון zoom? לא רלוונטי לצערנו. שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם
+                        חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון
+                        בתשלום, בחינם.<br>
+                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                            איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה
+                        להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה
+                        השתמש ב: OurBrothers2020<br>
+                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                            איך יוצרים מפגש מעולה:</div>
+                        <div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל
+                            זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div>
+                        <div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום
+                        </div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>
+                        להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou"
+                            target="_blank">https://bit.ly/connect2care_foryou</a>
+                        <div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>
+                        ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>
+                        <a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
+                        <div style="font-weight: bold; margin-top: 20px;">
+                            הזמנת משתתפים
+                        </div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם
+                        קהל אוהד.
+                        </div>
+                        <div width="100%"
+                        style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                        <div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org |
+                        058-409-4624
+                        </div>
+                        <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                        להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+                    </div>
+                `
+
             }
 
             sendEmail("", sendOptions);
@@ -931,7 +1010,7 @@ module.exports = function (meetings) {
 
     meetings.get38Meetings = (cb) => {
         (async () => {
-            let [err, res] = await to(meetings.find({ "fields": { "code": false, "zoomId": false }, "include": [{ "relation": "fallens" }], "limit": "38" }))
+            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
             if (err) {
                 console.log(err)
                 cb(err, {})
@@ -1010,65 +1089,88 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
+    meetings.getParticipants = (id, cb) => {
+        (async () => {
+            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
+            if (err) {
+                return cb(err)
+            }
+            console.log("res", res)
+            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
+            let people = []
+            console.log("people_meetings", people_meetings)
+            for (let i of people_meetings) {
+                i.people.isPanelist = i.isPanelist
+                people.push(i.people)
+            }
+            people = people.sort((p1, p2) => {
+                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
+                    if (p1.name > p2.name) return 1
+                    return -1
+                }
+                if (p1.isPanelist && !p1.isPanelist) {
+                    return 1
+                }
+                return -1
+
+            })
+            people.push(res.max_participants)
+            people.push(res.zoomId !== null && res.zoomId !== '')
+            return cb(null, people)
+        })()
+    }
+
+    meetings.remoteMethod('getParticipants', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'id', type: 'number', required: true }],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
+    meetings.deleteParticipant = (meetingId, participantId, cb) => {
+        (async () => {
+            let [error, meeting] = await to(meetings.findById(meetingId))
+            if (error) {
+                return cb(err)
+            }
+            await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.destroyAll({ meeting: meetingId, person: participantId }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('deleteParticipant', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.setPanelistStatus = (meetingId, participantId, isPanelist, cb) => {
+        (async () => {
+            const people_meetings = meetings.app.models.people_meetings
+            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
+            if (err) {
+                return cb(err)
+            }
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('setPanelistStatus', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'meetingId', type: 'number', required: true },
+            { arg: 'participantId', type: 'number', required: true },
+            { arg: 'isPanelist', type: 'boolean', required: true }
+        ],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
 };
-/* <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-background-color: #082551; direction: rtl'>
-<div style='display: flex ; width: 100%' >
- <div style='width: 100%;' >
-   <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" >
- </div>
- <div style='width: 30%;' >
-   <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  >
- </div>
-</div>
-<div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
-היוזמה שלקחת הופכת לעוד יותר משמעותית, לנוכח האתגרים היומיומיים מולם כולנו מתמודדים בתקופה האחרונה.<br>
-בזכותך, אנשים רבים יציינו את יום הזיכרון, יתחברו לרעיון ויגדילו את מעגל הנצחה.<br><br>
-
-חשוב לנו לציין, שביכולתך לפתוח יותר ממפגש אחד, ולייעד כל מפגש לקהל שונה. כך למשל, אפשר לפתוח מפגש אחד לציבור הכללי, ומפגש אחר סגור (לצוות או למשפחה, לדוגמא) כאשר לכל אחד מהם מטרה שונה ואופי ייחודי.<br><br>
-
-הכנו עבורך הנחיות ועצות, שיעזרו לך ליצור מפגש בלתי נשכח:<br><br>
-
-איך נכנסים למערכת ויוצרים מפגש?<br>
-בהמשך ישלח אליך מייל הפעלת חשבון מזום, חשבון זה הוא יעודי למפגש שיצרת<br>
-יתכן וכבר יש לך חשבון בזום, אבל בכדי להנחות מפגש יש להתחבר בנפרד לחשבון זמני.<br>
-איך תעשו זאת?<br>
-א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>
-ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמא (ולא דרך גוגל או פייסבוק)<br>
-ג. לאחר בחירת הרשמה עם שם משתמש, תתבקש להזין את שמך הפרטי ושם משפחה, וכן סיסמא. הזן את שמך האמיתי. השתמש בסיסמא OurBrothers2020<br>
-איך יוצרים מפגש?<br>
-בימים הקרובים, אחרי ביצוע האקטיבציה, אנו נשלח לך אימייל נוסף, שיכיל קישור והוראות מדויקות לפתיחת מפגש הזום אותו אתה תנחה.<br>
-בכדי להתחבר ביום המפגש, יהיה עליך להשתמש בפרטים הבאים:<br>
-אימייל: ${newEmail}<br>
-סיסמא:  OurBrothers2020 .<br>
-אנא שמור אותם במקום נגיש.<br><br>
-
-איך יוצרים מפגש מוצלח, משמעותי ונטול מתחים?<br><br>
-
-א. סדנת הכנה וירטואלית <br><br>
-
-צוות ההדרכה שלנו עמל רבות, והכין עבורך סדנה מקצועית וירטואלית לניהול מפגש.<br>
-סדנת ההכנה תועבר בזמן אמת אונליין ב-ZOOM על ידי מרצים מומחים בתחומי התוכן והדיגיטל, במועדים הקבועים מראש. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. <br><br>
-
-הסדנה החווייתית תעזור לך להתכונן לקראת המפגש, והכלים הכלולים בה, בהם בין היתר עצות לתכנון זמן ועמידה מול קהל, יעזרו לך גם אחרי המפגש בחייך המקצועיים.<br><br>
-
-ב. ערכת הכנה לעיון<br><br>
-
-בנוסף לסדנא, הכנו עבורך ערכת תוכן ובה המלצות ושיטות עבודה לבניית מפגש מוצלח. אנו ממליצים בחום לגשת לערכה, לעיין בה וליישם את ההמלצות הכלולות בה. הערכה נמצאת בלינק: https://connect2care.ourbrothers.co.il/meetingContent.pdf<br><br>
-
-ג. הזמנת משתתפים מקרבה ראשונה<br><br>
-
-אחת העצות הטובות שניתן לך, היא הזמנת בני משפחה וחברים למפגש.<br>
-קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד :).<br><br>
-
-נעשה הכל כדי לעזור לך לנהל מפגש משמעותי ומהנה.<br>
-שאלות? התלבטויות? רעיונות? אנחנו כאן עבורך.<br><br>
-
-להתראות בקרוב,<br>
-צוות 'האחים שלנו'<br>
-<div style='font-size: 27px'></div>
-</div>
-
-<div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-</div> */

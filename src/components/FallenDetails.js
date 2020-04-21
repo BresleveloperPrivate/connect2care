@@ -16,7 +16,6 @@ import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
 
 const FallenDetails = (props) => {
-    const [dissmisedPic, setDissmisedPic] = useState(true)
 
     const myCloseToTheFallen = [
         { option: props.t('brother or sister'), data: 'אח/ות' },
@@ -29,14 +28,18 @@ const FallenDetails = (props) => {
         props.isDash && { option: 'האחים שלנו', data: 'האחים שלנו' },
         !props.isDash && { option: props.t('other'), data: 'אחר' },
     ]
+
     const CreateMeetingStore = useCreateMeetingStore();
+    const [imgCorrect, setImgCorrect] = useState(false);
 
     useEffect(() => {
-
         props.LanguageStore.setWidth(window.innerWidth)
-
     }, [CreateMeetingStore.fallenDetails, CreateMeetingStore.fallenName, CreateMeetingStore.meetingDetails, CreateMeetingStore.meetingDetails.fallens]);
 
+
+    useEffect(() => {
+        setImgCorrect(false)
+    }, [CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image])
 
     let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
     return (
@@ -67,25 +70,35 @@ const FallenDetails = (props) => {
                         placeholder={props.t('fallDate')}
                     />
                 </div>
+
                 <div className='position-relative'>
                     {CreateMeetingStore.meetingDetails.fallens[props.index].relative && <div className="textAboveInput">
                         {props.t('my relative to the fallen')}
                     </div>}
-
                     <Select
                         img={props.isDash}
-                        // disabled={CreateMeetingStore.meetingId !== -1}
-                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ? CreateMeetingStore.meetingDetails.fallens[props.index].relative :
+                        selectTextDefault={CreateMeetingStore.meetingDetails.fallens[props.index].relative ?
+                            'אח/ות' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('brother or sister') :
+                            'הורים'=== CreateMeetingStore.meetingDetails.fallens[props.index].relative ?props.t('parent') :
+                            'קרובי משפחה'=== CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('family member') :
+                            'אלמן/ אלמנה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('widower'):
+                            'יתומים' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('orphans'):
+                            'חבר/ה' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('friend'):
+                            'בית אביחי' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('avi chai'):
+                            'האחים שלנו' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('ourBrothers'):
+                            'אחר' === CreateMeetingStore.meetingDetails.fallens[props.index].relative ? props.t('other'):
+
+
+                            CreateMeetingStore.meetingDetails.fallens[props.index].relative :
                             props.t('my relative to the fallen')
                         }
-                        default={props.t('my relative to the fallen')}
+                        defaultSelectRelative={props.t('my relative to the fallen')}
                         arr={myCloseToTheFallen}
-                        // selectedText={CreateMeetingStore.meetingDetails.relationship}
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
                         onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
                     {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ?
-                        <div className="speakBobble" style={{ bottom: CreateMeetingStore.meetingDetails.fallens[props.index].relative === "אחר" ? "-30px" : props.LanguageStore.width > 550 ? "-10px" : "-30px" }}>
+                        <div className="speakBobble" style={{ bottom: "-30px" }}>
                             <img src={speachBooble} alt="speachBooble" />
                             <div className="position-absolute" style={{ paddingTop: "1vh", fontSize: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                                 <img src={cancel} alt="cancel" className="cancelSpeakBooble pointer" onClick={() => { CreateMeetingStore.changeNeedAlert(false, props.fallen.id) }} />
@@ -112,18 +125,25 @@ const FallenDetails = (props) => {
                         width: "-webkit-fill-available",
                         marginBottom: "4vh"
                     }} onClick={() => CreateMeetingStore.deleteFromFallens(props.index)}>
-                        <img src={close} alt="close" className="closeChoose" style={props.LanguageStore.lang === "heb" ? { marginLeft: "2vh", height: "22px", padding: "1px" } : { marginRight: "2vh", height: "22px", padding: "1px" }} />
+                        <img src={close} alt="close" className="closeChoose" style={props.LanguageStore.lang === "heb" ? { marginLeft: "2vh" } : { marginRight: "2vh" }} />
                         <div className="deleteChooseText">
                             {props.LanguageStore.lang === "heb" ? "הסר בחירה" : "Remove selection"}
                         </div>
                     </div>
                 }
             </div>
-            <div className={(findImage && dissmisedPic ? "exictingPic" : "candleImg")} >
 
-                <img src={(findImage && dissmisedPic) ? (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ? CreateMeetingStore.fallenDetails[props.fallen.id].image : fallenFallBack : grayCandle}
+            <div className={(findImage ? "exictingPic" : "candleImg")} style={(findImage && CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image && !imgCorrect) ? { filter: "grayscale(1)" } : {}}>
+
+                <img onError={() => setImgCorrect(grayCandle)} src={
+                    (findImage) ?
+                        (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ?
+                            imgCorrect ? fallenFallBack :
+                                CreateMeetingStore.fallenDetails[props.fallen.id].image :
+                            fallenFallBack :
+                        grayCandle}
                     alt="grayCandle" style={
-                        findImage && dissmisedPic ? { height: "24vh", borderRadius: "4px" } : { height: "13vh" }} />
+                        findImage ? { height: "22.6vh", borderRadius: "4px" } : { height: "13vh" }} />
             </div>
         </div>
     )

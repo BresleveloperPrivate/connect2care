@@ -75,7 +75,8 @@ export default function Sharing(props) {
     let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (!isMobile) {
       //whats app web:
-      let linkText = text + ":" + url;
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let linkText = text + ":" + urlApp;
       let href = `https://web.whatsapp.com/send?text=${linkText}`;
       window.open(href, '_blank');
     } else {
@@ -147,7 +148,15 @@ export default function Sharing(props) {
     handleClose();
   };
 
-
+const setCopiesd=()=>{
+  let ctc = document.getElementById('CTC')
+  if(ctc){
+    ctc.classList.remove('opacity')
+    setTimeout(()=>{
+      ctc.classList.add('opacity')
+    },2500)
+  }
+}
 
   const shareWithFaceBook = async () => {
 
@@ -194,12 +203,22 @@ export default function Sharing(props) {
           </span>
 
       </div>
+
+      <div id='CTC' className='copied opacity'>
+    {props.t('copied')}
+      </div>
       {openShare ? <div className='containShareOptions'>
 
         <MenuItem className='shareOption' onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem className='shareOption' onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
         <MenuItem className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem>
-        <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => copyToClipboard(url)} id="platformName">העתק קישור</span></MenuItem>
+        <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => {
+          copyToClipboard(url)
+          handleClose()
+          setCopiesd()
+          }} id="platformName">
+        {props.t('copy')}
+          </span></MenuItem>
       </div> : null}
       <SendEmail openEmail={openEmail}
           setOpenEmail={setOpenEmail}

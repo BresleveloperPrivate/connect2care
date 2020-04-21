@@ -12,7 +12,8 @@ class HowItWorks extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            images: []
+            images: [],
+            imgTryArray: []
         }
     }
 
@@ -27,7 +28,6 @@ class HowItWorks extends Component {
         if (err) {
             console.log(err)
         } else {
-            console.log("meetings", meetings)
             let i = 0
             let meeting = 0
             while (constImages.length < 32) {
@@ -53,11 +53,20 @@ class HowItWorks extends Component {
                     // i++
                 }
             }
+            let imgTryArray = []
 
             if (window.innerWidth <= 800) {
                 this.setState({ images: constImages.slice(0, 12) })
+                for (let i = 0; i < this.state.images.length; i++) {
+                    imgTryArray.push(false)
+                }
+                this.setState({ imgTryArray })
+
             } else {
-                this.setState({ images: constImages })
+                for (let i = 0; i < constImages.length; i++) {
+                    imgTryArray.push(false)
+                }
+                this.setState({ images: constImages, imgTryArray })
             }
         }
 
@@ -89,19 +98,28 @@ class HowItWorks extends Component {
                         </div>
                     </div>
                     <div className='container'>
-
+                        {console.log("this.state.imgTryArray", this.state.imgTryArray)}
                         {this.state.images.map((val, index) => {
-
                             if (val) {
+                                console.log("val.image", val.image)
                                 return (
                                     <div key={index} style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                         <img
                                             onClick={() => {
                                                 this.props.history.push(`/meeting/${val.meetingId}`)
                                             }}
+
+                                            onError={() => {
+                                                if (this.state.imgTryArray) {
+                                                    let imgTryArray = JSON.parse(JSON.stringify(this.state.imgTryArray))
+                                                    imgTryArray[index] = candle
+                                                    this.setState({ imgTryArray })
+                                                }
+                                            }}
                                             className='hoverImage pointer'
-                                            src={val.image}
+                                            src={this.state.imgTryArray && this.state.imgTryArray[index] ? this.state.imgTryArray[index] : val.image}
                                             alt={val.alt}
+                                            style={{ filter: "grayscale(1)" }}
                                             width='100%'
                                             height='100%' />
                                     </div>
