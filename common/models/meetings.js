@@ -640,7 +640,9 @@ module.exports = function (meetings) {
             if (res) {
                 if (res.length !== 0) {
                     let size = res.length
-                    res = res.slice(filters.from, filters.from + 20)
+                    if (!isExcel) {
+                        res = res.slice(filters.from, filters.from + 20)
+                    }
                     let where = { or: [] }
                     if (res.length === 1) {
                         where = res[0]
@@ -660,13 +662,13 @@ module.exports = function (meetings) {
                             for (let meeting of meetingsPS) {
                                 let fallens = ''
                                 meeting.fallens_meetings.map((fallenMeeting, index) =>
-                                    fallens = fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')
+                                    fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')
                                 )
                                 meetingToReturn.push({
                                     name: meeting.name,
-                                    date: meeting.date,
+                                    date: '"' + meeting.date + '"',
                                     time: meeting.time,
-                                    fallens: fallens,
+                                    fallens: '"' + fallens + '"',
                                     ownerName: meeting.meetingOwner.name,
                                     ownerEmail: meeting.meetingOwner.email,
                                     ownerPhone: meeting.meetingOwner.phone

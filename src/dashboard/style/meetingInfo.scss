@@ -63,6 +63,15 @@
     color: var(--custom-orange); 
 }
 
+.copyText{
+    position: absolute;
+    left: 7.15vw;
+    font-size: 1.6vh;
+    font-weight: bold;
+    color: var(--custom-orange);
+    top: 4vh;
+}
+
 .trashText{
     font-size: 1.3vh;
     position: absolute;
