@@ -155,7 +155,10 @@ const ComputerList = (props) => {
 
                                         </div>
                                         <div className="flip-card-back">
-                                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}>
+                                        <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
+                                         style={{direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
+
+                                        >
                                                 {meeting.fallens_meetings.map((fallen, index) => {
                                                     if (index === 0) {
                                                         if (props.LanguageStore.lang !== 'heb') {
