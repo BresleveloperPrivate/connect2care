@@ -5,8 +5,8 @@ import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
 import materialInfo from '../icons/material-info.svg'
-import checkboxOnWhite from '../icons/checkbox_on_light.svg'
-import checkboxOffWhite from '../icons/checkbox_off_light.svg'
+import checkbox_on_light from '../icons/checkbox_on_light.svg'
+import checkbox_off_light from '../icons/checkbox_off_light.svg'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
 
@@ -217,19 +217,46 @@ const CreateMeeting = (props) => {
                         </div>
 
                         <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                            <input type="radio" className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} id="open" name="meeting" value={true} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                            <label htmlFor="open" className="mb-0" style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</label>
-                            <input type="radio" id="close" name="meeting" value={false} className={(isSaved && !props.CreateMeetingStore.meetingDetails.isOpen) ? "error" : ""} onChange={props.CreateMeetingStore.changeMeetingOpenOrClose} />
-                            <label htmlFor="close" className="mb-0"><img src={lock} alt="lock" style={{ marginLeft: "1vh", marginRight: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</label>
+                            <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: true } })}>
+                                <div>
+                                    {Boolean(props.CreateMeetingStore.meetingDetails.isOpen) !== "" && Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
+                                        <img src={checkbox_on_light} /> :
+                                        <div style={{
+                                            width: "24px",
+                                            height: "24px",
+                                            WebkitMaskSize: "24px 24px",
+                                            background: (isSaved && props.CreateMeetingStore.meetingDetails.isOpen === '' || props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined) ? '#c31a1a' : '#4d4f5c',
+                                            WebkitMaskImage: `Url(${checkbox_off_light})`
+                                        }}></div>
+                                    }
+                                </div>
+                                <div style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
+                            </div>
+                            <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
+                                <div>
+                                    {props.CreateMeetingStore.meetingDetails.isOpen !== "" && !Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
+                                        <img src={checkbox_on_light} /> :
+                                        <div style={{
+                                            width: "24px",
+                                            height: "24px",
+                                            WebkitMaskSize: "24px 24px",
+                                            background: (isSaved && props.CreateMeetingStore.meetingDetails.isOpen === '' || props.CreateMeetingStore.meetingDetails.isOpen === null || props.CreateMeetingStore.meetingDetails.isOpen === undefined) ? '#c31a1a' : '#4d4f5c',
+                                            WebkitMaskImage: `Url(${checkbox_off_light})`
+                                        }}></div>
+                                    }
+                                </div>
+                                <div style={{ marginLeft: "2vh" }}><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
+                            </div>
                         </div>
-                        <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
-                            {props.LanguageStore.lang !== 'heb' ?
-                                '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
-                            }
+                        {props.CreateMeetingStore.meetingDetails.code &&
+                            <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
+                                {props.LanguageStore.lang !== 'heb' ?
+                                    '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
+                                    '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                }
 
 
-                        </div>
+                            </div>}
                         <br />
                         <div className="containDateAndTime">
                             <div className='containDateInput position-relative'>
@@ -308,7 +335,7 @@ const CreateMeeting = (props) => {
 
                                 <div className=" d-flex align-items-center" style={{ marginTop: '2vh' }}>
                                     <div>
-                                        <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw) }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+                                        <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw) }} src={readBylaw ? checkbox_on_light : checkbox_off_light} />
 
                                     </div>
                                     {/* <input style={{ margin: props.LanguageStore.lang !== 'heb' ? '0' : null }} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} /> */}
@@ -364,7 +391,8 @@ const CreateMeeting = (props) => {
                         props.CreateMeetingStore.error &&
                         <ErrorMethod {...props} />
                     }
-                    {(!pressOnCancel || dataForFallen) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
+                    {console.log("pressOnCancel", pressOnCancel, "dataForFallen", dataForFallen)}
+                    {(dataForFallen || !pressOnCancel) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                 </div >
                 : <Success history={props.history} meeting={success} t={props.t} />
             }

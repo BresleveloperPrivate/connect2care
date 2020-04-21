@@ -107,7 +107,7 @@ const MeetingDetails = (props) => {
     }
 
     return (
-        <div style={{ minHeight: '100vh', marginTop: '6vh' }}>
+        <div style={{ minHeight: '95vh', marginTop: '6vh' }}>
             {props.CreateMeetingStore.res ?
                 <div style={{ textAlign: "right" }} className="CreateMeeting">
                     <div>
@@ -301,16 +301,37 @@ const MeetingDetails = (props) => {
                                 onBlur={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                    if (props.CreateMeetingStore.meetingDetails && props.CreateMeetingStore.meetingDetails.fallens) {
+                                        for (let fallen in props.CreateMeetingStore.meetingDetails.fallens) {
+                                            if (fallen.relative === "האחים שלנו" || "בית אביחי" || "בית אבי חי") {
+                                                if (props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
+                                                    setErrorMaxParticipants("מקסימום מספר המשתתפים חייב להיות 2000 או פחות")
+                                                    return
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (!errorMaxParticipants && props.CreateMeetingStore.meetingDetails.max_participants > 500)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
                                 }}
 
                                 onTouchEnd={() => {
                                     if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                    else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                    if (props.CreateMeetingStore.meetingDetails && props.CreateMeetingStore.meetingDetails.fallens) {
+                                        for (let fallen in props.CreateMeetingStore.meetingDetails.fallens) {
+                                            if (fallen.relative === "האחים שלנו" || "בית אביחי" || "בית אבי חי") {
+                                                if (props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
+                                                    setErrorMaxParticipants("מקסימום מספר המשתתפים חייב להיות 2000 או פחות")
+                                                    return
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (!errorMaxParticipants && props.CreateMeetingStore.meetingDetails.max_participants > 500)
                                         setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
                                 }}
+
                                 onFocus={() => setErrorMaxParticipants(false)}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeNumberOfParticipants}

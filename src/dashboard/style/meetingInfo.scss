@@ -11,6 +11,10 @@
         width: calc(100% - 12vw) !important;
     }
 
+    .containFallenDetails .inputStyle{
+        width: 95% !important;
+    }
+
     @media screen and (min-width: 551px){
         .containFallenDetails, .listSearch{
             width: calc(100% - 12vw) !important;

@@ -177,7 +177,6 @@ class CreateMeetingStore {
     }
 
     changeNeedAlert = (value, index) => {
-        console.log("value", value, "index", index)
         if (this.meetingDetails.fallens) {
             for (let i = 0; i < this.meetingDetails.fallens.length; i++) {
                 if (this.meetingDetails.fallens[i].id === index) {
@@ -280,17 +279,21 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
+                if (!this.meetingDetailsOriginal.otherRelationship) {
+                    this.meetingDetailsOriginal.otherRelationship = []
+                }
                 if (object.fallens[i].relationship !== "אח/ות" && object.fallens[i].relationship !== "אלמן/ אלמנה" && object.fallens[i].relationship !== "יתומים" && object.fallens[i].relationship !== "הורים" && object.fallens[i].relationship !== "קרובי משפחה") {
                     obj.relative = 'אחר'
-                    if (!this.meetingDetailsOriginal.otherRelationship) {
-                        this.meetingDetailsOriginal.otherRelationship = []
-                    }
                     if (!this.meetingDetailsOriginal.otherRelationship[i])
-                        this.meetingDetailsOriginal.otherRelationship[i] = { relative: object.fallens[i].relationship, id: object.fallens[i].id }
+                        this.meetingDetailsOriginal.otherRelationship[i] = { id: object.fallens[i].id, relative: object.fallens[i].relationship }
                     else {
                         this.meetingDetailsOriginal.otherRelationship[i].relative = object.fallens[i].relationship
                         this.meetingDetailsOriginal.otherRelationship[i].id = object.fallens[i].id
                     }
+                }
+                else {
+                    this.meetingDetailsOriginal.otherRelationship[i] = { id: object.fallens[i].id, relative: null }
+
                 }
                 this.meetingDetails.fallens[i] = obj
                 this.meetingDetailsOriginal.fallens[i] = obj
@@ -495,7 +498,20 @@ class CreateMeetingStore {
         }
         if (changedObj.code) delete changedObj.code
         if (changedObj.timeHour || changedObj.timeMinute) changedObj.time = this.meetingDetails.timeHour + ":" + this.meetingDetails.timeMinute
-        console.log(changedObj)
+
+        if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
+
+            let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
+
+            beforePostJSON.fallens.filter((fallen) => {
+                checkOtherRelation.filter((other) => {
+                    if (other.id === fallen.id) {
+                        if (other.relative !== null)
+                            fallen.relative = other.relative
+                    }
+                })
+            })
+        }
 
 
         this.waitForData = true
@@ -504,11 +520,11 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens })
             }, true);
         this.waitForData = false
         if (err) {
-            this.postErr(err)
+            this.postErr(err, "heb")
             return
         }
         this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))

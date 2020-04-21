@@ -198,6 +198,14 @@ module.exports = function (meetings) {
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
 
+            if (data.fallens) {
+                for (let fallen of data.fallens) {
+                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                        return cb(lang !== 'heb' ? "You can't be related to the fallen, by 'Our brothers' and 'Beit Avi Chai'. Only the manager can choose this relation" : "אינך יכול לבחור להיות קשור לנופל מהדברים האלה: 'האחים שלנו', 'בית אבי חי' ו'בית אביחי', רק למנהל מותר לבחור את הקישוריות הזאת.")
+                    }
+                }
+            }
+
             let whitelist = {
                 // name: true, description: true, 
                 owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
@@ -407,17 +415,31 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, options, cb) => {
+    meetings.updateMeeting = (data, id, fallenFullArray, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-            
+
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
+
+            if (fallenFullArray) {
+                for (let fallen of fallenFullArray) {
+                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                        if (data.max_participants && Number(data.max_participants) > 2000)
+                            return cb({ max_participants: true })
+                    }
+                    else if (data.max_participants && Number(data.max_participants) > 500) {
+                        return cb({ max_participants: true })
+                    }
+                }
+            }
+
             let meetingById = JSON.parse(JSON.stringify(res))
             if (data.fallensToChange) {
+
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
                     let whitelist1 = {
@@ -513,7 +535,9 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true,
+                // max_participants: true,
+                code: true, date: true
             };
 
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
@@ -542,6 +566,7 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
+            { arg: 'fallenFullArray', type: 'array', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -828,7 +853,7 @@ module.exports = function (meetings) {
             //     console.log("url", x)
             // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
             sendEmail(senderName, sendOptions);
-            cb(null, { res: "success"})
+            cb(null, { res: "success" })
         })();
     }
 
