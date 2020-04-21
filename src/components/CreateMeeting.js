@@ -304,7 +304,7 @@ const CreateMeeting = (props) => {
                             }
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <input style={{margin: props.LanguageStore.lang !== 'heb' ? '0' : null}} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onChange={() => setReadBylaw(true)} />
+                                <input style={{margin: props.LanguageStore.lang !== 'heb' ? '0' : null}} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} />
                                 <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                     {props.LanguageStore.lang !== 'heb' ?
