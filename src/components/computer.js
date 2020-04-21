@@ -156,7 +156,7 @@ const ComputerList = (props) => {
                                         </div>
                                         <div className="flip-card-back">
                                         <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
-                                         style={{direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' , display:'flex' , borderBottom:'1px solid white' , paddingBottom:'0.4vw' , fontWeight:700}} >
+                                         style={{direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' , display:'flex' , borderBottom:'0.7px solid white' , paddingBottom:'0.4vw' , fontWeight:700}} >
                                              <div style={props.LanguageStore.lang !== 'heb' ?
                                                 { height: '1.3em', marginRight: '0.5vw',display:'flex' } :
                                                 { height: '1.3em', marginLeft: '0.5vw',display:'flex' }}>
@@ -198,12 +198,14 @@ const ComputerList = (props) => {
                                                     }
                                                 })}</div>
 
-                                       <div style={{display:'flex' , alignItems:'center' , fontSize:'1.2vw' , paddingTop:'1vw'}}>
+                                       <div
+                                       className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
+                                        style={{display:'flex' , fontSize:'1.2vw' , paddingTop:'1vw' }}>
                                             <div style={
                                                 props.LanguageStore.lang !== 'heb' ?
-                                                    {height:'1.1em' , display:'flex' , marginRight:'0.5vw'}
+                                                    {height:'1.1em' , display:'flex' , marginRight:'0.5vw' , marginTop:'0.3vw'}
                                                     :
-                                                    {height:'1.1em' , display:'flex' , marginLeft:'0.5vw'}
+                                                    {height:'1.1em' , display:'flex' , marginLeft:'0.5vw', marginTop:'0.3vw'}
                                                     }>
                                                 <img src={clock} height='100%' />
                                                 </div>
@@ -211,7 +213,7 @@ const ComputerList = (props) => {
 
                                         </div>
                                         <div style={{flexGrow:'1'}}></div>
-                                        <div style={{fontSize:'1vw' , width:'100%' , maxHeight:'5vw' , overflow:'hidden' }} className={props.LanguageStore.lang !== 'heb' ? ' tal' : 'tar '}>
+                                        <div style={{fontSize:'1vw' , width:'100%' , overflow:'hidden', paddingTop:'0.5vw' }} className={props.LanguageStore.lang !== 'heb' ? ' tal' : 'tar '}>
                                             {meeting.description}
                                         </div>
                                         </div>
