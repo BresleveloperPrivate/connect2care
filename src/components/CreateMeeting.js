@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/createMeeting.css'
 import '../styles/animations.scss'
-import { inject, observer } from 'mobx-react';
+import { inject, observer, PropTypes } from 'mobx-react';
 import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
@@ -9,8 +9,6 @@ import materialInfo from '../icons/material-info.svg'
 import logo from '../icons/logo.svg'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
-import checkbox_on_light from '../../icons/checkbox_on_light.svg'
-import checkbox_off_light from '../../icons/checkbox_off_light.svg'
 
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
@@ -129,7 +127,7 @@ const CreateMeeting = (props) => {
 
                         <div>
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput  margin-right-text">{props.t("meetingName")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.name && <div className="textAboveInput margin-right-text">{props.t("meetingName")}</div>}
                                 <input
                                     type="text"
                                     onBlur={() => props.CreateMeetingStore.isNameExist()}
@@ -150,7 +148,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput  margin-right-text">{props.t("shortDescription")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.description && <div className="textAboveInput margin-right-text">{props.t("shortDescription")}</div>}
                                 <textarea
                                     className={'inputStyle textAreaStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.description || (props.CreateMeetingStore.meetingDetails.description && !props.CreateMeetingStore.meetingDetails.description.length)) ? "error" : "")}
                                     onChange={props.CreateMeetingStore.changeShortDescription}
@@ -169,7 +167,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput  margin-right-text">{props.t("ownerFullName")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.name && <div className="textAboveInput margin-right-text">{props.t("ownerFullName")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.name || (props.CreateMeetingStore.meetingDetails.owner.name && !props.CreateMeetingStore.meetingDetails.owner.name.length)) ? "error" : "")}
@@ -181,7 +179,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput  margin-right-text">{props.t("email")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput margin-right-text">{props.t("email")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
@@ -202,7 +200,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">{props.t("phone")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                                 <input
                                     type="text"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
@@ -222,7 +220,7 @@ const CreateMeeting = (props) => {
                             </div>
 
                             <div className='position-relative'>
-                                {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput  margin-right-text">{props.t("meetingLanguage")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput margin-right-text">{props.t("meetingLanguage")}</div>}
                                 <Select
                                     selectTextDefault={props.t("meetingLanguage")}
                                     arr={meetingLanguage}
@@ -242,7 +240,7 @@ const CreateMeeting = (props) => {
                             <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
                                 {props.LanguageStore.lang !== 'heb' ?
                                     '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                    '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                    ' *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
                                 }
 
 
@@ -267,7 +265,7 @@ const CreateMeeting = (props) => {
                                             'Time (Israel time)' :
                                             'שעה (שעון ישראל)'
                                         }:
-                                    {/* שעה (שעון ישראל): */}
+ {/* שעה (שעון ישראל): */}
                                     </div>}
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : props.LanguageStore.lang !== 'heb' ? "Mintes" : "דקות"}
@@ -290,7 +288,7 @@ const CreateMeeting = (props) => {
 
                             </div>
                             <div className="position-relative">
-                                {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput  margin-right-text">{props.t("maxParticipationNumber")}</div>}
+                                {props.CreateMeetingStore.meetingDetails.max_participants && <div className="textAboveInput margin-right-text">{props.t("maxParticipationNumber")}</div>}
                                 <input
                                     type="text"
                                     onBlur={() => {
@@ -327,8 +325,8 @@ const CreateMeeting = (props) => {
 
                                         {props.LanguageStore.lang !== 'heb' ?
                                             <div>Iv'e read and accepted the
-                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
-                                        </div>
+ <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+ </div>
                                             :
                                             <div>אני מסכים/ה ל<span className='contentClick' onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
                                         }
