@@ -90,7 +90,7 @@ module.exports = function (meetings) {
         WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
         WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
         ELSE 9
-        END , meetings.id DESC LIMIT ${limit.min} , 5`, (err, res) => {
+        END , meetings.id DESC LIMIT ${limit.min} , 16`, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -351,7 +351,7 @@ module.exports = function (meetings) {
                                 }
                                 else {
                                     sendOptions = {
-                                        to: emailowner, subject: "הרשמת המפגש התקבלה וממתינה לאישור", html:
+                                        to: emailowner, subject: "המפגש שיצרת התקבל וממתין לאישור", html:
                                             //             `
                                             //     <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
                                             //     </div>המפגש שיצרת נוצר בהצלחה.

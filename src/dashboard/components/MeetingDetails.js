@@ -340,7 +340,7 @@ const MeetingDetails = (props) => {
                                 <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
                                 <input
                                     type="text"
-                                    // disabled={props.CreateMeetingStore.meetingDetails.max_participants > 300 || props.CreateMeetingStore.meetingDetails.owner.name !== 'האחים שלנו'}
+                                    disabled={props.CreateMeetingStore.meetingDetails.max_participants > 300 || props.CreateMeetingStore.meetingDetails.owner.name !== 'האחים שלנו'}
                                     className={'inputStyle margin-right-text '}
                                     onChange={props.CreateMeetingStore.changeZoomId}
                                     value={props.CreateMeetingStore.meetingDetails.zoomId}

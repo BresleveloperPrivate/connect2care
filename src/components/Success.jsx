@@ -22,7 +22,6 @@ function Success(props) {
     useEffect(() => {
        
         (async () => {
-            console.log("props.meeting",props.meeting)
             // let ex={
             //     approved: false,
             //     code: 169808,
@@ -176,6 +175,8 @@ function Success(props) {
                         styleObject={{buttonWidth: 'fit-content'}}
                     />
                     </div> */}
+
+                    
                     
                 </div>
                 <div style={{backgroundColor:'#0A2D63'}} className="shareWith">
@@ -187,6 +188,14 @@ function Success(props) {
                         style={props.LanguageStore.lang !== 'heb' ? {textAlign:'left'} : {textAlign:'right'}}
                         className="additionalInfo">
                             <div>*{props.t('whiteFutter')} </div>
+                            {props.LanguageStore.lang !== 'heb' ?
+                            <div>
+                           *To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
+                           </div>
+                            :
+                            <div>
+                             *להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
+                        </div>}
                             {/* <div>*{props.t('InvitationIsWaiting')}</div> */}
                         </div>
                     </div>

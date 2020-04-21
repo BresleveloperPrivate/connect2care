@@ -327,12 +327,14 @@ const CreateMeeting = (props) => {
                                             <div>Iv'e read and accepted the
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                         </div>
-                                            :
-                                            <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
-                                        }
-                                    </label>
-                                </div>
+                                        :
+                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
+                                    }
+                                </label>
                             </div>
+                           
+
+                        </div>
 
                             <div className="containCreateMettingButton">
                                 <div className="createMeetingButton grow" onClick={async () => {
