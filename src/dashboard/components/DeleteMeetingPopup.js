@@ -30,18 +30,20 @@ export default function DaleteMeetingPopup(props) {
     return (
         <div>
             <Dialog open={true} aria-labelledby="reset-modal">
-                <div style={{ padding: '10px' }}>
+                <div style={{ padding: ' 2vh 3vw', width: '35vw' }}>
                     <DialogContent>
                         <p className="text-center" style={{
-                            fontSize: '30px',
-                            color: '#168ec4',
-                            width: '100%'
+                            fontSize: '2.9vh',
+                            color: '#A5A4BF',
+                            width: '100%',
+                            direction: 'rtl'
                         }}>
-                            ?האם אתה בטוח שברצונך למחוק מפגש זה
+                            האם אתה בטוח שברצונך למחוק מפגש זה?
                                 </p>
                         <p className="text-center" style={{
-                            color: '#168ec4',
-                            fontSize: '20px',
+                            color: '#A5A4BF',
+                            fontSize: '2.5vh',
+                            direction: 'rtl'
                         }}>
                             {/* יתכן שהמייל נשלח לספאם */}
                         </p>
@@ -50,7 +52,7 @@ export default function DaleteMeetingPopup(props) {
                     <DialogActions>
                         <div className='d-flex' style={{ width: '100%' }}>
                             <div
-                                style={{ cursor: 'pointer', backgroundColor: 'var(--custom-orange)', padding: '3px 10px', borderRadius: '10px', color: 'white', fontSize: '20px' }}
+                                style={{ cursor: 'pointer', backgroundColor: 'var(--custom-dark-green)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '2.5vh' }}
                                 onClick={() => {
                                     if (waitForData) return
                                     deleteMeeting()
@@ -66,7 +68,7 @@ export default function DaleteMeetingPopup(props) {
                                 {/* {this.props.t("approval")} */}
                             </div>
                             <div
-                                style={{ cursor: 'pointer', color: 'var(--custom-orange)', padding: '3px 10px', borderRadius: '10px', fontSize: '20px', marginLeft: '2vw' }}
+                                style={{ cursor: 'pointer', color: 'var(--custom-dark-green)', padding: '3px 10px', borderRadius: '10px', fontSize: '2.5vh', marginLeft: '2vw' }}
                                 onClick={() => {
                                     props.handleClose()
                                 }}>

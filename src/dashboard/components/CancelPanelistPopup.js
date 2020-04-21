@@ -48,7 +48,7 @@ export default function DaleteMeetingPopup(props) {
                             <b>{props.currentParticipant.name}</b><br />
                             מהנחיית המפגש?
                         </p>
-                        {err && <div>לא הצלחנו למחוק את המפגש. נסה שנית מאוחר יותר.</div>}
+                        {err && <div>אירעה שגיאה, נסה שנית מאוחר יותר.</div>}
                     </DialogContent>
                     <DialogActions>
                         <div className='d-flex' style={{ width: '100%' }}>
