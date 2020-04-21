@@ -90,14 +90,13 @@ const ComputerList = (props) => {
                                 <div className="flip-card" onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }}>
-                                    <div className="flip-card-inner">
                                         <div className="flip-card-front">
 
                                             <div key={index} className={checkSide(index) ?'containMeetingCard2-comp' : 'containMeetingCard1-comp'}>
                                                 <div style={{ cursor: 'pointer' }}
                                                 >
                                                     <ImageOfFallen
-                                                        // className='imageOfFallen'
+                                                        className='imageOfFallen-comp'
                                                         array={meeting.fallens_meetings}
                                                         width='10vw'
                                                         height='15vw'
@@ -194,7 +193,6 @@ const ComputerList = (props) => {
                                                 })}</div>
                                         </div>
                                     </div>
-                                </div>
 
 
                             )
