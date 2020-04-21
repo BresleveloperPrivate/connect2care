@@ -311,16 +311,20 @@ const CreateMeeting = (props) => {
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                         </div>
                                         :
-                                        <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
+                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
                                     }
 
 
                                 </label>
                             </div>
-                            <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <div onClick={() => { window.open(`${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`) }}>הורדדדד</div>
-                                <a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                            </div>
+                            {props.LanguageStore.lang !== 'heb' ?
+                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
+                           To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
+                           </div>
+                            :
+                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
+                             להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
+                            </div>}
 
                         </div>
 
