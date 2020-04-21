@@ -62,7 +62,7 @@ class App extends Component {
             </Helmet>
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
-                    <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"}>
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"} style={{ minHeight: "calc(100vh - 10vh - ( 0.7vw + 3.3em))" }}>
                         <Route path="/(meeting|contact|create-meeting|success|edit-meeting|share|meetings|my-meetings|info)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
