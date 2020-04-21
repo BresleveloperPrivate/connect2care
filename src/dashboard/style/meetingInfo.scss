@@ -47,6 +47,18 @@
     }
 }
 
+.copy{
+    position: absolute;
+    left: 8vw;
+    top: 1.5vh;
+    color: var(--custom-gray);
+    cursor: pointer;
+}
+
+.copy:hover{
+    color: var(--custom-orange); 
+}
+
 .trashText{
     font-size: 1.3vh;
     position: absolute;
