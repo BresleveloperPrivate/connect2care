@@ -201,7 +201,7 @@ const ComputerList = (props) => {
 
                                        <div
                                        className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
-                                        style={{display:'flex' , fontSize:'1.2vw' , paddingTop:'1vw' }}>
+                                        style={{display:'flex',flexDirection: props.LanguageStore.lang !== 'heb' ? 'row-reverse':'row' , fontSize:'1.2vw' , paddingTop:'1vw' }}>
                                             <div style={
                                                 props.LanguageStore.lang !== 'heb' ?
                                                     {height:'1.1em' , display:'flex' , marginRight:'0.5vw' , marginTop:'0.3vw'}
@@ -210,7 +210,7 @@ const ComputerList = (props) => {
                                                     }>
                                                 <img src={clock} height='100%' />
                                                 </div>
-                                                {props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}
+                                                <div>{props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}</div>
 
                                         </div>
                                         <div style={{flexGrow:'1'}}></div>
