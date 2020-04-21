@@ -318,14 +318,7 @@ const CreateMeeting = (props) => {
 
                                 </label>
                             </div>
-                            {props.LanguageStore.lang !== 'heb' ?
-                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
-                           To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
-                           </div>
-                            :
-                            <div className="margin-right-text" style={{ marginBottom: "2vh" }}>
-                             להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
-                            </div>}
+                           
 
                         </div>
 

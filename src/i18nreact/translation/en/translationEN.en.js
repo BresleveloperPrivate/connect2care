@@ -6,6 +6,8 @@ const translationEN = {
     "donate": "Donate",
     "contactUs": "Contact Us",
     "meetingContent": "Meeting Content",
+    "copy" : 'Copy link',
+    "copied":'Copied to clipboard',
     "homePage":'Home',
     "approve": "Approve",
     "cancel": "Cancel",
