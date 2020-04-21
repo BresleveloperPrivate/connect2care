@@ -32,7 +32,6 @@ const Participants = (props) => {
                 console.log(err)
                 // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
             }
-            console.log(success)
             if (success) {
                 setCanChangePanelist(success.pop())
                 setMaxParticipants(success.pop())

@@ -52,6 +52,28 @@ const Filters = (props) => {
         { option: 'אושר', data: 'אושר' }
     ]
 
+    const onClickBtn = (isExcel) => {
+        let filters = {}
+        if (inputFallen !== '') filters.fallen = inputFallen
+        if (inputOwner !== '') filters.owner = inputOwner
+        if (inputMeetingName !== '') filters.name = inputMeetingName
+        if (slectedDate !== '') filters.date = slectedDate
+        if (slectedIsOpen !== '') filters.isOpen = slectedIsOpen
+        if (slectedApproved !== '') filters.approved = slectedApproved
+        if (slectedRelationship !== '') filters.relationship = slectedRelationship
+        if (slectedParticipants !== '') {
+            let splited = slectedParticipants.split(' ')
+            filters.participants = {}
+            if (splited.length === 1)
+                filters.participants.min = 100
+            else {
+                filters.participants.min = splited[2]
+                filters.participants.max = splited[0]
+            }
+        }
+        props.ManagerStore.fetchMeetingsDashboard(filters, false, isExcel)
+    }
+
     return (
         <div className='filters'>
             <div style={{ margin: 'unset', padding: '2vh 5vw' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
@@ -196,30 +218,20 @@ const Filters = (props) => {
                         </div>
                     </div>
 
-                    <div
-                        className='searchBtn pointer'
-                        onClick={() => {
-                            let filters = {}
-                            if (inputFallen !== '') filters.fallen = inputFallen
-                            if (inputOwner !== '') filters.owner = inputOwner
-                            if (inputMeetingName !== '') filters.name = inputMeetingName
-                            if (slectedDate !== '') filters.date = slectedDate
-                            if (slectedIsOpen !== '') filters.isOpen = slectedIsOpen
-                            if (slectedApproved !== '') filters.approved = slectedApproved
-                            if (slectedRelationship !== '') filters.relationship = slectedRelationship
-                            if (slectedParticipants !== '') {
-                                let splited = slectedParticipants.split(' ')
-                                filters.participants = {}
-                                if (splited.length === 1)
-                                    filters.participants.min = 100
-                                else {
-                                    filters.participants.min = splited[2]
-                                    filters.participants.max = splited[0]
-                                }
-                            }
-                            setIsFilterOpen(false)
-                            props.ManagerStore.fetchMeetingsDashboard(filters)
-                        }}>חפש</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div
+                            className='searchBtn pointer'
+                            onClick={() => {
+                                onClickBtn(true)
+                            }}>יצא לאקסל</div>
+
+                        <div
+                            className='searchBtn pointer'
+                            onClick={() => {
+                                onClickBtn(false)
+                                setIsFilterOpen(false)
+                            }}>חפש</div>
+                    </div>
                 </div>
 
             </div>

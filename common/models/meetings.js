@@ -80,7 +80,7 @@ module.exports = function (meetings) {
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
@@ -96,8 +96,6 @@ module.exports = function (meetings) {
                 console.log(err)
                 return cb(err)
             } else {
-
-                console.log('res:    ', res)
 
                 if (res.length !== 0) {
                     let where = { or: [] }
@@ -117,7 +115,7 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-                        console.log('res1:    ', res1)
+
                         return cb(null, res1.sort((firstRes, secondRes) => {
                             if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
                                 return 1
@@ -412,40 +410,7 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-
-            // const fallens_meetings = meetings.app.models.fallens_meetings
-            // if (data.fallensToDelete) {
-            //     for (let i of data.fallensToDelete) {
-            //         if (typeof i === 'number') {
-            //             let [err1, res] = await to(fallens_meetings.destroyAll({ fallen: i, meeting: id }))
-            //             if (err1) {
-            //                 console.log(err1)
-            //                 return cb(err1)
-            //             }
-            //         }
-            //     }
-            //     delete data.fallensToDelete
-            // }
-
-            // if (data.fallensToAdd) {
-            //     for (let i of data.fallensToAdd) {
-            //         let whitelist1 = {
-            //             fallen: true, meeting: true, relationship: true
-            //         };
-            //         let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-            //         if (!valid1.success || valid1.errors) {
-            //             return cb(valid1.errors, null);
-            //         }
-
-            //         let [err3, res1] = await to(fallens_meetings.create(valid1.data))
-            //         if (err3) {
-            //             console.log("err3", err3)
-            //             return cb(err3)
-            //         }
-            //     }
-            //     delete data.fallensToAdd
-            // }
-
+            
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
                 console.log(errMeeting)
@@ -583,7 +548,7 @@ module.exports = function (meetings) {
     });
 
 
-    meetings.getMeetingsDashboard = (filters, options, cb) => {
+    meetings.getMeetingsDashboard = (filters, isExcel, options, cb) => {
 
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
@@ -658,14 +623,36 @@ module.exports = function (meetings) {
                     else for (let i of res) {
                         where.or.push(i)
                     }
+
                     meetings.find({ where: where, include: ['meetingOwner', { relation: 'fallens_meetings', scope: { include: 'fallens' } }], order: ['meetings.approved ASC', 'meetings.id DESC'] }, (err1, res1) => {
                         if (err1) {
                             console.log("err1", err1)
                             return cb(err1)
                         }
+                        if (isExcel) {
+                            let meetingsPS = JSON.parse(JSON.stringify(res1))
+                            let meetingToReturn = []
+                            for (let meeting of meetingsPS) {
+                                let fallens = ''
+                                meeting.fallens_meetings.map((fallenMeeting, index) =>
+                                    fallens = fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')
+                                )
+                                meetingToReturn.push({
+                                    name: meeting.name,
+                                    date: meeting.date,
+                                    time: meeting.time,
+                                    fallens: fallens,
+                                    ownerName: meeting.meetingOwner.name,
+                                    ownerEmail: meeting.meetingOwner.email,
+                                    ownerPhone: meeting.meetingOwner.phone
+                                })
+                            }
+                            return cb(null, meetingToReturn)
+                        }
                         res1.push(size)
                         return cb(null, res1);
                     })
+
                 }
                 else return cb(null, [])
             }
@@ -676,6 +663,7 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'filters', type: 'object' },
+            { arg: 'isExcel', type: 'boolean' },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -744,7 +732,7 @@ module.exports = function (meetings) {
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
-                    console.log("valid", valid)
+                    // console.log("valid", valid)
 
                     person = await people.create(valid.data);
                 }
@@ -760,7 +748,7 @@ module.exports = function (meetings) {
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
-                console.log("valid1", valid1)
+                // console.log("valid1", valid1)
 
 
                 await people_meetings.create(valid1.data);
@@ -773,7 +761,7 @@ module.exports = function (meetings) {
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
-                console.log("valid2", valid2)
+                // console.log("valid2", valid2)
 
                 await meetings.upsert(valid2.data);
                 let shalom = mailDetails
@@ -836,11 +824,11 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            let url = scheduleWebinar((x) => {
-                console.log("url", x)
-            }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
-            let res = sendEmail(senderName, sendOptions);
-            cb(null, { res: res })
+            // let url = scheduleWebinar((x) => {
+            //     console.log("url", x)
+            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
+            sendEmail(senderName, sendOptions);
+            cb(null, { res: "success"})
         })();
     }
 
@@ -943,7 +931,7 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
             let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
-            console.log("res", res)
+            // console.log("res", res)
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2, false)

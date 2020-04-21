@@ -177,13 +177,13 @@
         "zoomId": {
             "type": "String",
             "required": false,
-            "length": 20,
+            "length": 200,
             "precision": null,
             "scale": null,
             "mysql": {
                 "columnName": "zoomId",
                 "dataType": "varchar",
-                "dataLength": 20,
+                "dataLength": 200,
                 "dataPrecision": null,
                 "dataScale": null,
                 "nullable": "N"

@@ -58,12 +58,12 @@ const MeetingDetails = (props) => {
         { option: '00', data: '00' },
         { option: '30', data: '30' }
     ]
-
+    const date = (new Date()).getDate()
     const meetingDate = [
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+        date >= 25 ? null : { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        date >= 26 ? null : { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        date >= 27 ? null : { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        date >= 28 ? null : { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     useEffect(() => {
@@ -329,15 +329,27 @@ const MeetingDetails = (props) => {
                             }
 
                             {props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '' &&
-                                <div className='position-relative'>
-                                    <div className="textAboveInput  margin-right-text">קישור לזום</div>
-                                    <input
-                                        type="text"
-                                        disabled
-                                        className={'inputStyle margin-right-text '}
-                                        onChange={() => { }}
-                                        value={props.CreateMeetingStore.meetingDetails.zoomId}
-                                    />
+                                <div>
+                                    <div className='position-relative'>
+                                        <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
+                                        <input
+                                            type="text"
+                                            disabled
+                                            className={'inputStyle margin-right-text '}
+                                            onChange={() => { }}
+                                            value={props.CreateMeetingStore.meetingDetails.zoomId}
+                                        />
+                                    </div>
+                                    <div className='position-relative'>
+                                        <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
+                                        <input
+                                            type="text"
+                                            disabled
+                                            className={'inputStyle margin-right-text '}
+                                            onChange={() => { }}
+                                            value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
+                                        />
+                                    </div>
                                 </div>
                             }
                         </div>
