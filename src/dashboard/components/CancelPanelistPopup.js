@@ -3,7 +3,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Auth from '../../modules/auth/Auth'
-import '../style/popup.scss'
 
 export default function DaleteMeetingPopup(props) {
 
@@ -13,18 +12,19 @@ export default function DaleteMeetingPopup(props) {
     const deleteMeeting = async () => {
         setWaitForData(true)
         let [success, err] = await Auth.superAuthFetch(
-            `/api/meetings/deleteMeeting`,
+            `/api/meetings/setPanelistStatus`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: Number(props.meetingId) })
+                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.currentParticipant.id), isPanelist: false })
             }, true);
         setWaitForData(false)
         if (err) {
             setErr(true)
             return
         }
-        props.history.replace('/ngsgjnsrjgtesg')
+        props.setPanelistInArr(props.currentParticipant.id)
+        props.handleClose()
     }
 
     return (
@@ -35,19 +35,20 @@ export default function DaleteMeetingPopup(props) {
                         <p className="text-center" style={{
                             fontSize: '2.9vh',
                             color: '#A5A4BF',
-                            width: '100%',
-                            direction: 'rtl'
+                            width: '100%'
                         }}>
-                            האם אתה בטוח שברצונך למחוק מפגש זה?
-                                </p>
+                            <b>ביטול מנחה מפגש</b>
+                        </p>
                         <p className="text-center" style={{
                             color: '#A5A4BF',
                             fontSize: '2.5vh',
                             direction: 'rtl'
                         }}>
-                            {/* יתכן שהמייל נשלח לספאם */}
+                            האם את בטוח שתרצה להסיר את <br />
+                            <b>{props.currentParticipant.name}</b><br />
+                            מהנחיית המפגש?
                         </p>
-                        {err && <div>לא הצלחנו למחוק את המפגש. נסה שנית מאוחר יותר.</div>}
+                        {err && <div>אירעה שגיאה, נסה שנית מאוחר יותר.</div>}
                     </DialogContent>
                     <DialogActions>
                         <div className='d-flex' style={{ width: '100%' }}>
@@ -63,7 +64,7 @@ export default function DaleteMeetingPopup(props) {
                                         <div className="bounce2"></div>
                                         <div className="bounce3"></div>
                                     </div>
-                                    : "מחק"
+                                    : "כן"
                                 }
                                 {/* {this.props.t("approval")} */}
                             </div>

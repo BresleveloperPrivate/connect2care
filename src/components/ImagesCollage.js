@@ -101,6 +101,7 @@ class HowItWorks extends Component {
                                             className='hoverImage pointer'
                                             src={val.image}
                                             alt={val.alt}
+                                            style={{ filter: "grayscale(1)" }}
                                             width='100%'
                                             height='100%' />
                                     </div>

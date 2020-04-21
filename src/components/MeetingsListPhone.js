@@ -19,7 +19,7 @@ import MeetingCardPhone from './MeetingCardPhone'
 const PhoneList = (props) => {
 
     const [filter, setFilter] = useState(false)
-    
+
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
             props.MeetingsStore.search(false, true)
@@ -34,51 +34,51 @@ const PhoneList = (props) => {
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>{props.t('meetingsList')}</div>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}> {props.t('meetingsList2')}  </div>
                     <div className='containSearch'>
-                        <div className='input-meetings' style={{display:'flex' , alignItems:'center' , padding: '1vh 10px'}}>
+                        <div className='input-meetings' style={{ display: 'flex', alignItems: 'center', padding: '1vh 10px' }}>
                             <input
-                            onKeyDown={onKeyDown}
-                            style={{ flexGrow: 1 }}
-                            type="text"
-                            value={props.MeetingsStore.searchInput}
-                            className='inputPhoneView'
-                            onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
-                            placeholder={props.t('searchPlaceHolder')}
+                                onKeyDown={onKeyDown}
+                                style={{ flexGrow: 1 }}
+                                type="text"
+                                value={props.MeetingsStore.searchInput}
+                                className='inputPhoneView'
+                                onChange={(e) => props.MeetingsStore.changeSearchInput(e)}
+                                placeholder={props.t('searchPlaceHolder')}
                             />
-                         <div style={
-                            props.LanguageStore.lang !== 'heb' ?
-                            { height: '1.8em', width: '1em', display: 'flex', marginLeft: '0.8em' }
-                            : 
-                           { height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }
+                            <div style={
+                                props.LanguageStore.lang !== 'heb' ?
+                                    { height: '1.8em', width: '1em', display: 'flex', marginLeft: '0.8em' }
+                                    :
+                                    { height: '1.8em', width: '1em', display: 'flex', marginRight: '0.8em' }
                             }
-                            onClick={
-                                props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
-                                () => {
-                                    props.MeetingsStore.search(false, true)
-                                } : () => { }}
-                        >
-                            <img height='100%' width='100%' src={search} />
-                        </div>
+                                onClick={
+                                    props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
+                                        () => {
+                                            props.MeetingsStore.search(false, true)
+                                        } : () => { }}
+                            >
+                                <img height='100%' width='100%' src={search} />
+                            </div>
                         </div>
                         <div style={
-                            props.LanguageStore.lang !== 'heb' ? 
-                            { height: '2em', width: '1.5em', display: 'flex', marginLeft: '0.8em' }
-:
-                            { height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }
+                            props.LanguageStore.lang !== 'heb' ?
+                                { height: '2em', width: '1.5em', display: 'flex', marginLeft: '0.8em' }
+                                :
+                                { height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }
                         }
                             onClick={() => {
-                                if(!filter){
+                                if (!filter) {
                                     let filtersId = document.getElementById('filtersId')
-                                    if(filtersId){
-                                        setTimeout(()=>{
+                                    if (filtersId) {
+                                        setTimeout(() => {
                                             filtersId.classList.add('overflow-visible')
-                                        },1200)
+                                        }, 1200)
                                     }
                                 }
                                 setFilter(!filter)
 
                             }}
                         >
-                            <img style={{cursor:'pointer'}} height='100%' width='100%' src={filter ? filter2 : filter1} />
+                            <img style={{ cursor: 'pointer' }} height='100%' width='100%' src={filter ? filter2 : filter1} />
                         </div>
                         {/* <div
                         style={{ marginRight: '2em' }}
@@ -111,13 +111,13 @@ const PhoneList = (props) => {
                         : !props.MeetingsStore.meetings.length ?
                             <div style={{ marginTop: '1em', color: 'var(--custom-blue)', fontSize: '3em' }}>
                                 {props.t('noMeetings')}
-                      </div>
+                            </div>
 
                             : null
                     }
 
                     <div style={
-                        { display: 'flex', justifyContent: 'center' , alignItems:'center', flexDirection:'column' , minWidth: props.LanguageStore.width > 550 ? '30vw' : '40vw' , width:'fit-content' , margin: 'auto' , marginTop:'2.5em' }
+                        { display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', minWidth: props.LanguageStore.width > 550 ? '30vw' : '40vw', width: 'fit-content', margin: 'auto', marginTop: '2.5em' }
                     }>
                         {props.MeetingsStore.loadMoreButton && props.MeetingsStore.meetings && !props.MeetingsStore.loading &&
                             <div
@@ -125,9 +125,9 @@ const PhoneList = (props) => {
                                     props.MeetingsStore.search(true, false)
                                 }}
                                 className="loadMore-meetings grow">{props.t("load more")}</div>}
-                        <div className='buttonOnMeetings grow' onClick={() => {
+                        {(new Date()).getDate() < 28 && <div className='buttonOnMeetings grow' onClick={() => {
                             props.history.push('/create-meeting')
-                        }} >{props.t('IWantToInitiateAMeeting')}</div>
+                        }} >{props.t('IWantToInitiateAMeeting')}</div>}
                     </div>
 
 
@@ -143,4 +143,4 @@ const PhoneList = (props) => {
 
     );
 }
-export default inject('MeetingsStore','LanguageStore')(observer(PhoneList));
+export default inject('MeetingsStore', 'LanguageStore')(observer(PhoneList));
