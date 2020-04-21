@@ -64,12 +64,13 @@
   color: white;
   display: flex;
   justify-content: center;
-  height: calc(2vh + 0.7vw + 1.2em);
+  height: calc(5vh);
   align-items: center;
-  font-size: 2.2vw;
+  font-size: 2.7vh;
   /* position: absolute; */
   padding: 1vh 3vw;
   /* bottom: 0; */
+  z-index: 8;
 }
 
 @media screen and (max-width: 550px){
