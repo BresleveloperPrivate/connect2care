@@ -7,6 +7,8 @@ import { withNamespaces } from 'react-i18next'
 
 import './App.scss';
 import './styles';
+import './styles/partners.css'
+import hilmaWhite from './icons/hilmaWhite.png'
 
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
@@ -75,15 +77,21 @@ class App extends Component {
                             <Route path="/info" render={props => <Info t={this.props.t} {...props} />} />
                             <Route path="/contact" render={props => <Contact t={this.props.t} {...props} />} />
                             <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/amisraelhi4lomefahedmidercharoka' />}
-                             component={(props) => <DashboardMain t={this.props.t} {...props} />}
+                                component={(props) => <DashboardMain t={this.props.t} {...props} />}
                             />
                             <PrivateRoute path="/ngsgjnsrjgtesg/edit-meeting/:id" compName='MeetingInfo'
-                            component={(props) => <MeetingInfo t={this.props.t} {...props} />}
+                                component={(props) => <MeetingInfo t={this.props.t} {...props} />}
                             />
                             <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />
                         </Switch>
                     </div>
                 </Router>
+                <div className={"hilmaCredit " + (this.props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr' : 'App-rtl')}>
+                    {this.props.t('blueFooter')}
+                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex' }}>
+                        <img src={hilmaWhite} height='100%' />
+                    </div>
+                </div>
             </Suspense>}
         </>
         );

@@ -3,7 +3,7 @@
     position: relative;
     padding-bottom: 2em;
     margin-top: 11vh;
-
+    min-height: calc(100vh - 17.7vh);
 }   
 
 /* .emailAndPhonePopup{
@@ -543,6 +543,11 @@
         width: 100%;
         margin-top: 0;
     }
+
+    .meetingsFullPage{
+        min-height: calc(100vh - 16.2vh);
+    }
+
     .buttonOnMeetings{
         position:static;
         padding: 0.4em 1em;
