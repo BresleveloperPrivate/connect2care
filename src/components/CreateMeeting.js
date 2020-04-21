@@ -5,7 +5,8 @@ import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
 import materialInfo from '../icons/material-info.svg'
-
+import checkboxOnWhite from '../icons/checkbox_on_light.svg'
+import checkboxOffWhite from '../icons/checkbox_off_light.svg'
 import lock from '../icons/lock.svg'
 import Select from './Select.js'
 
@@ -304,21 +305,28 @@ const CreateMeeting = (props) => {
                             }
 
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
-                                <input style={{margin: props.LanguageStore.lang !== 'heb' ? '0' : null}} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} />
-                                <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
-                                    {props.LanguageStore.lang !== 'heb' ?
-                                        <div>Iv'e read and accepted the
+                                <div className=" d-flex align-items-center" style={{ marginTop: '2vh' }}>
+                                    <div>
+                                        <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw) }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
+
+                                    </div>
+                                    {/* <input style={{ margin: props.LanguageStore.lang !== 'heb' ? '0' : null }} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} /> */}
+                                    <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
+
+                                        {props.LanguageStore.lang !== 'heb' ?
+                                            <div>Iv'e read and accepted the
                                      <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                         </div>
-                                        :
-                                        <div>אני מסכים/ה ל<span className='contentClick' onClick={()=>window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
-                                    }
+                                            :
+                                            <div>אני מסכים/ה ל<span className='contentClick' onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
+                                        }
 
 
-                                </label>
+                                    </label>
+                                </div>
                             </div>
-                           
+
 
                         </div>
 
