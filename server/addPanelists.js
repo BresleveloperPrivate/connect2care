@@ -1,11 +1,7 @@
 const jwt = require('jsonwebtoken');
 const http = require("https");
 
-/**
- * @param {string} mail;
-*/
-
-const addPanelists = async (id) => {
+const addPanelists = async (email, webinarId) => {
 
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",
@@ -19,7 +15,7 @@ const addPanelists = async (id) => {
         "method": "POST",
         "hostname": "api.zoom.us",
         "port": null,
-        "path": `/v2/webinars/96544066292/panelists?access_token=` + token,
+        "path": `/v2/webinars/${webinarId}/panelists?access_token=` + token,
         "headers": {
             "content-type": "application/json"
         }
@@ -35,21 +31,18 @@ const addPanelists = async (id) => {
         res.on("end", function () {
             let body = Buffer.concat(chunks);
             console.log(JSON.parse(body.toString()))
-            // let jsdata = JSON.parse(body.toString())
-            // console.log("zzzzzzzzzzzzz", jsdata.join_url);
-            // cb(jsdata.join_url)
         });
     });
 
     req.write(JSON.stringify(
         {
             "panelists": [
-              {
-                "name": "מעיין בדיקה",
-                "email": "maayan45633@gmail.com"
-              }
+                {
+                    "name": name,
+                    "email": email
+                }
             ]
-          }
+        }
     ));
 
     req.end();
