@@ -16,12 +16,12 @@
 
 .inputStyle{
     color: var(--custom-gray);
-    border: 2px solid #E8E9EC;
-    border-radius: 4px;
+    border: 1px solid var(--custom-light-blue);
+    border-radius: 3px;
     outline: none;
     width: calc(73% - 12vw);
     /* width: 65%; */
-    padding: 1vh 2vh;
+    padding: 0.6vh 2vh;
     margin-bottom: 4vh;
 }
 
@@ -87,7 +87,7 @@ input[type=radio]:focus {
 }
 
 .CreateMeeting .selectInput{
-    margin: 1vh 0;
+    margin: 0.6vh 0;
     padding: 0 2vh;
 }
 
@@ -159,7 +159,7 @@ input[type=radio]:focus {
 
 
 .addFallen{
-    border: 2px solid #3586B1;
+    border: 1px solid #3586B1;
     border-radius: 20px;
     color: #3586B1;
     background-color: white;
@@ -249,7 +249,7 @@ input[type=radio]:focus {
 
 .dateContainer{
     color: #4d4f5c73 !important;
-    border: 2px solid #cccccc7d;
+    border: 1px solid rgba(53, 134, 177, 0.397);
     opacity: 0.7;
     background-color: white;
 }

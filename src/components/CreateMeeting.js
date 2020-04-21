@@ -223,7 +223,7 @@ const CreateMeeting = (props) => {
                         <div className="openOrCloseDetails" style={{ marginRight: '6vw', marginLeft: '6vw', fontSize: '1.8vh', marginBottom: '2vh' }}>
                             {props.LanguageStore.lang !== 'heb' ?
                                 '*Open Meeting - Open to anyone interested in joining, Closed Meeting - Meeting only for invited participants' :
-                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש סגור - מפגש המיועד למשתתפים מוזמנים בלבד'
+                                '  *מפגש פתוח - מפגש הפתוח לכל מי שמעוניין להצטרף, מפגש פרטי - מפגש המיועד למשתתפים מוזמנים בלבד'
                             }
 
 
@@ -313,8 +313,15 @@ const CreateMeeting = (props) => {
                                         :
                                         <div>אני מסכים/ה ל<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank">תקנון</a> ולתנאי השימוש באתר.</div>
                                     }
+
+
                                 </label>
                             </div>
+                            <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
+                                <div onClick={() => { window.open(`${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`) }}>הורדדדד</div>
+                                <a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
+                            </div>
+
                         </div>
 
                         <div className="containCreateMettingButton">
