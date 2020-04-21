@@ -65,6 +65,7 @@ input[type=radio]:focus {
     height: 90vh;
     min-width: 340px;
     width: 27%;
+    z-index: 3;
 }
 
 .createMeetingButton{
