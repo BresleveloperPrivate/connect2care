@@ -88,19 +88,28 @@ const CreateMeeting = (props) => {
     }
 
     const emailValidate = (e) => {
+
         let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
         if (!e.target.value.match(regex)) {
             setErrorEmail(true)
+            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
         }
-        else setErrorEmail(false)
+        else {
+            setErrorEmail(false)
+            props.CreateMeetingStore.changeNotAllFieldsCorrect(false)
+        }
     }
 
     const phoneValidate = (e) => {
         let regex = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
         if (!e.target.value.match(regex)) {
             setErrorPhone(true)
+            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
         }
-        else setErrorPhone(false)
+        else {
+            setErrorPhone(false)
+            props.CreateMeetingStore.changeNotAllFieldsCorrect(false)
+        }
     }
 
     return (
@@ -318,19 +327,29 @@ const CreateMeeting = (props) => {
                                 <input
                                     type="text"
                                     onBlur={() => {
-                                        if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                        if (props.CreateMeetingStore.meetingDetails.max_participants < 10) {
                                             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                        else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
+                                        }
+                                        else if (props.CreateMeetingStore.meetingDetails.max_participants > 500) {
                                             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
+                                            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
+                                        }
+                                        else props.CreateMeetingStore.changeNotAllFieldsCorrect(false)
                                     }}
 
                                     onTouchEnd={() => {
-                                        if (props.CreateMeetingStore.meetingDetails.max_participants < 10)
+                                        if (props.CreateMeetingStore.meetingDetails.max_participants < 10) {
                                             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
-                                        else if (props.CreateMeetingStore.meetingDetails.max_participants > 500)
+                                            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
+                                        }
+                                        else if (props.CreateMeetingStore.meetingDetails.max_participants > 500) {
                                             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
+                                            props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
+                                        }
+                                        else props.CreateMeetingStore.changeNotAllFieldsCorrect(false)
                                     }}
-                                    onFocus={() => setErrorMaxParticipants(false)}
+                                    onFocus={() => { setErrorMaxParticipants(false); props.CreateMeetingStore.changeNotAllFieldsCorrect(false) }}
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants) ? "error" : "")}
                                     onChange={props.CreateMeetingStore.changeNumberOfParticipants}
                                     value={props.CreateMeetingStore.meetingDetails.max_participants}

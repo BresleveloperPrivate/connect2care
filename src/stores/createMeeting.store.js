@@ -29,6 +29,7 @@ class CreateMeetingStore {
         max_participants: 300,
         fallens: null,
         zoomId: "",
+        notAllFieldsCorrect: true,
         otherRelationship: null
     }
 
@@ -231,6 +232,10 @@ class CreateMeetingStore {
 
     changeMeetingOpenOrClose = (e) => {
         this.meetingDetails.isOpen = e.target.value
+    }
+
+    changeNotAllFieldsCorrect = (value) => {
+        this.notAllFieldsCorrect = value
     }
 
     changeNumberOfParticipants = (e) => {
@@ -446,6 +451,12 @@ class CreateMeetingStore {
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
         delete beforePostJSON.otherRelationship
+
+        if (this.notAllFieldsCorrect) {
+            this.setError(lang !== "heb" ? "Please check that you fixed all the red errors" : "אנא בדוק שטיפלת בכל ההערות האדומות")
+            return
+        }
+
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
@@ -493,6 +504,11 @@ class CreateMeetingStore {
             changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         }
 
+        if (this.notAllFieldsCorrect) {
+            this.setError("אנא בדוק שטיפלת בכל ההערות האדומות")
+            return
+        }
+
         if (changedObj.fallens) {
             let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
             for (let index in changedFallensObj) {
@@ -524,7 +540,7 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens  , lang: localStorage.getItem('lang')  })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens, lang: localStorage.getItem('lang') })
             }, true);
         this.waitForData = false
         if (err) {
@@ -592,6 +608,7 @@ decorate(CreateMeetingStore, {
     changeFallenToArr: action,
     changeNumberOfParticipants: action,
     setError: action,
+    changeNotAllFieldsCorrect: action,
     changeMeetingDate: action,
     changeMeetingTimeHour: action,
     changeMeetingTimeMinute: action,

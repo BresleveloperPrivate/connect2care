@@ -57,10 +57,10 @@ class HowItWorks extends Component {
 
             if (window.innerWidth <= 800) {
                 this.setState({ images: constImages.slice(0, 12) })
-            for (let i = 0; i < this.state.images.length; i++) {
-                imgTryArray.push(false)
-            }
-            this.setState({ imgTryArray })
+                for (let i = 0; i < this.state.images.length; i++) {
+                    imgTryArray.push(false)
+                }
+                this.setState({ imgTryArray })
 
             } else {
                 for (let i = 0; i < constImages.length; i++) {
@@ -119,7 +119,7 @@ class HowItWorks extends Component {
                                             className='hoverImage pointer'
                                             src={this.state.imgTryArray && this.state.imgTryArray[index] ? this.state.imgTryArray[index] : val.image}
                                             alt={val.alt}
-                                            style={{ filter: "grayscale(1)" }}
+                                            style={{ filter: "grayscale(1)", padding: this.state.imgTryArray && this.state.imgTryArray[index] ? "1vh" : 0 }}
                                             width='100%'
                                             height='100%' />
                                     </div>
