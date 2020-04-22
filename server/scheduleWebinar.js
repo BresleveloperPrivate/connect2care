@@ -17,7 +17,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 
-    console.log("token", token)
+    // console.log("token", token)
 
     let options = {
         "method": "POST",
@@ -40,7 +40,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             let body = Buffer.concat(chunks);
             // console.log(JSON.parse(body.toString()))
             let jsdata = JSON.parse(body.toString())
-            console.log("zzzzzzzzzzzzz", jsdata.join_url);
+            // console.log("zzzzzzzzzzzzz", jsdata.join_url);
             cb(jsdata.join_url)
         });
     });

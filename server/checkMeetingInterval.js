@@ -26,7 +26,7 @@ module.exports = function (app) {
                 try {
                     const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" });
                     meetings.forEach(meeting => {
-                        console.log("xxxxxxxxxxxxxxxxxxxxxxx")
+                        // console.log("xxxxxxxxxxxxxxxxxxxxxxx")
                         // console.log(meeting);
                         let jsdata = JSON.parse(JSON.stringify(meeting))
                         if (jsdata && jsdata.meetingOwner.email && jsdata.date) {
@@ -49,7 +49,7 @@ module.exports = function (app) {
                                     start_time = "2020-05-05T00:59:00"
                                     break;
                             }
-                            console.log("TTTTTTTT", start_time, email)
+                            // console.log("TTTTTTTT", start_time, email)
                             scheduleWebinar(async (url) => {
                                 console.log("url", url)
                                 if (url && url !== undefined) {
