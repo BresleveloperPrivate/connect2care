@@ -66,7 +66,7 @@ class HowItWorks extends Component {
                                 </div>
                             <div className='step'>
                                 <div className='containImageStep'>
-                                    <img alt="alt" src={Step5} width='80%' />
+                                    <img alt="alt" src={Step5} width='60%' />
                                 </div>
                                 {this.props.t('step5')}
                                 </div>

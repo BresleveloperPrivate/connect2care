@@ -206,15 +206,11 @@ module.exports = function (meetings) {
             }
             else data.owner = user0.id
 
-
             // security validate
-            data.max_participants = Number(data.max_participants)
-            if (data.isOpen === "true")
-                data.isOpen = true
-            else if (data.isOpen === "false") {
-                data.isOpen = false
+            if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
+            console.log("data.isOpen", data.isOpen, typeof data.isOpen, "data.code", data.code)
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
@@ -365,9 +361,10 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-
+            console.log("data", data)
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
+                console.log("errMeeting", errMeeting)
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
@@ -393,12 +390,16 @@ module.exports = function (meetings) {
                         fallen: true, meeting: true, relationship: true
                     };
                     let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    console.log("valid1", valid1)
                     if (!valid1.success || valid1.errors) {
+
                         return cb(valid1.errors, null);
                     }
 
                     fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
+                            console.log("err3", err3)
+
                             console.log("err3", err3)
                             return cb(err3)
                         }
@@ -455,12 +456,16 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
 
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
+                    console.log("errPeople", errPeople)
+
                     console.log(errPeople)
                     return cb(errPeople)
                 }
@@ -471,11 +476,11 @@ module.exports = function (meetings) {
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
             if (data.isOpen) {
-                data.isOpen = true
+                // data.isOpen = true
                 data.code = null
             }
             else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
-                data.isOpen = false
+                // data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
 
                 let sendOptions = {}
@@ -534,7 +539,7 @@ module.exports = function (meetings) {
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
             { arg: 'fallenFullArray', type: 'array', required: true },
-            { arg: 'lang', type: 'string', required: false },
+            { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -558,14 +563,14 @@ module.exports = function (meetings) {
 
         if (filters.isOpen !== (null || undefined)) {
             if (filters.isOpen !== true && filters.isOpen !== false) {
-                return cb({error:'isOpen is not valid'})
+                return cb({ error: 'isOpen is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
         }
 
         if (filters.approved !== (null || undefined)) {
             if (filters.approved !== true && filters.approved !== false) {
-                return cb({error:'approved is not valid'})
+                return cb({ error: 'approved is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
         }
@@ -615,14 +620,18 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            params.push(filters.participants.min)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ??`
+            if (filters.participants.min !== 0 && !Number(filters.participants.min)) {
+                return cb({ error: 'participants is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${participants.min}`
             if (filters.participants.max)
-                params.push(filters.participants.max)
-            sqlQueryWhere += ` and meetings.participants_num < ??`
+                if (filters.participants.max !== 0 && !Number(filters.participants.max)) {
+                    return cb({ error: 'participants is not valid' })
+                }
+            sqlQueryWhere += ` and meetings.participants_num < ${participants.max}`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${ sqlQuerySelect } FROM ${ sqlQueryfrom } ${ sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : '' } ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -785,182 +794,182 @@ module.exports = function (meetings) {
                 let sendOptions = {
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                   background-color: #082551; direction: rtl'>
-                  <div style='display: flex ; width: 100%' >
+                < div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+            background - color: #082551; direction: rtl'>
+                < div style = 'display: flex ; width: 100%' >
                     <div style='width: 100%;' >
-                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                        <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
                     </div>
-                    <div style='width: 30%;' >
-                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                        <div style='width: 30%;' >
+                            <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
                     </div>
-                  </div>
-                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                  שלום,<br>
-אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
-ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
-אז איך זה עובד?<br><br>
-בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
-רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
-ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
-כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
-יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
-אנחנו כאן כדי לעזור.<br><br>
-להתראות בקרוב,<br>
-צוות 'האחים שלנו'<br>
-                  
-                  <div style='font-size: 27px'></div>
-                  </div>
-              
-                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-                  </div>
-                  ` }
+                        </div>
+                        <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+                            שלום,<br>
+                                אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
+                                    ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
+                                        אז איך זה עובד?<br><br>
+                                            בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+                                                רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
+                                                    ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
+                                                        כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
+                                                            יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
+                                                                אנחנו כאן כדי לעזור.<br><br>
+                                                                    להתראות בקרוב,<br>
+                                                                        צוות 'האחים שלנו'<br>
 
-                sendEmail("", sendOptions);
-                cb(null, { participantsNum });
+                                                                            <div style='font-size: 27px'></div>
+                  </div>
+
+                                                                        <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+                  </div>
+                                                                    ` }
+                                                  
+                                                                  sendEmail("", sendOptions);
+                cb(null, {participantsNum});
             } catch (err) {
-                console.log(err);
-                cb(err, null);
-            }
-        })();
-    }
-
+                                                                        console.log(err);
+                                                                    cb(err, null);
+                                                                }
+                                                            })();
+                                                        }
+                                                    
     meetings.remoteMethod('AddPersonToMeeting', {
-        description: "Add Person To Meeting",
-        accepts: [
-            { arg: "meetingId", type: "string", required: true, http: { source: 'path' } },
-            { arg: "name", type: "string", required: true },
-            { arg: "email", type: "string", required: true },
-            { arg: "phone", type: "string", required: true },
-            { arg: "myCode", type: "string", required: false },
-            { arg: 'mailDetails', type: 'object', required: true }
-        ],
-        returns: { type: "object", root: true },
-        http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }
-    });
-
+                                                                        description: "Add Person To Meeting",
+                                                                    accepts: [
+            {arg: "meetingId", type: "string", required: true, http: {source: 'path' } },
+            {arg: "name", type: "string", required: true },
+            {arg: "email", type: "string", required: true },
+            {arg: "phone", type: "string", required: true },
+            {arg: "myCode", type: "string", required: false },
+            {arg: 'mailDetails', type: 'object', required: true }
+                                                                ],
+        returns: {type: "object", root: true },
+        http: {path: "/AddPersonToMeeting/:meetingId", verb: "post" }
+                                                                });
+                                                            
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
-        (async () => {
-            // let url = scheduleWebinar((x) => {
-            //     console.log("url", x)
-            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
-            sendEmail(senderName, sendOptions);
-            cb(null, { res: "success" })
-        })();
-    }
-
+                                                                        (async () => {
+                                                                            // let url = scheduleWebinar((x) => {
+                                                                            //     console.log("url", x)
+                                                                            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
+                                                                            sendEmail(senderName, sendOptions);
+                                                                            cb(null, { res: "success" })
+                                                                        })();
+                                                                }
+                                                            
     meetings.remoteMethod('SendShareEmail', {
-        description: "Get House Id by Access Token",
-        accepts: [
-            { arg: 'senderName', type: 'string', required: true },
-            { arg: 'sendOptions', type: 'object', required: true }],
-        returns: { type: "object", root: true },
-    });
-
+                                                                        description: "Get House Id by Access Token",
+                                                                    accepts: [
+            {arg: 'senderName', type: 'string', required: true },
+            {arg: 'sendOptions', type: 'object', required: true }],
+        returns: {type: "object", root: true },
+                                                                });
+                                                            
     meetings.deleteMeeting = (id, cb) => {
-        (async () => {
-            const fallens_meetings = meetings.app.models.fallens_meetings
-            const people_meetings = meetings.app.models.people_meetings
+                                                                        (async () => {
+                                                                            const fallens_meetings = meetings.app.models.fallens_meetings
+                                                                            const people_meetings = meetings.app.models.people_meetings
 
-            const [err, meeting] = await to(meetings.findById(id))
-            if (err) {
-                console.log(err)
-                return cb(err)
-            }
+                                                                            const [err, meeting] = await to(meetings.findById(id))
+                                                                            if (err) {
+                                                                                console.log(err)
+                                                                                return cb(err)
+                                                                            }
 
-            //find all people that sign to the meeting
-            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
-            if (err2) {
-                console.log("err2", err2)
-                return cb(err2)
-            }
-            let peopleInMeeting = JSON.parse(JSON.stringify(res1))
-            if (peopleInMeeting.length !== 0) {
+                                                                            //find all people that sign to the meeting
+                                                                            const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
+                                                                            if (err2) {
+                                                                                console.log("err2", err2)
+                                                                                return cb(err2)
+                                                                            }
+                                                                            let peopleInMeeting = JSON.parse(JSON.stringify(res1))
+                                                                            if (peopleInMeeting.length !== 0) {
 
-                //find fallens of meeting
-                const [err10, fallensMeetings] = await to(fallens_meetings.find({ where: { meeting: id }, include: 'fallens' }))
-                if (err10) {
-                    console.log("err10", err10)
-                    return cb(err10)
-                }
-                let fallensNames = ''
-                const fallensMeeting = JSON.parse(JSON.stringify(fallensMeetings))
-                for (let i = 0; i < fallensMeeting.length; i++) {
-                    fallensNames += (i === (fallensMeeting.length - 1) && fallensMeeting.length > 1 ? 'ו' : '') + fallensMeeting[i].fallens.name + (i === (fallensMeeting.length - 1) ? '' : ', ')
-                }
+                                                                                //find fallens of meeting
+                                                                                const [err10, fallensMeetings] = await to(fallens_meetings.find({ where: { meeting: id }, include: 'fallens' }))
+                                                                                if (err10) {
+                                                                                    console.log("err10", err10)
+                                                                                    return cb(err10)
+                                                                                }
+                                                                                let fallensNames = ''
+                                                                                const fallensMeeting = JSON.parse(JSON.stringify(fallensMeetings))
+                                                                                for (let i = 0; i < fallensMeeting.length; i++) {
+                                                                                    fallensNames += (i === (fallensMeeting.length - 1) && fallensMeeting.length > 1 ? 'ו' : '') + fallensMeeting[i].fallens.name + (i === (fallensMeeting.length - 1) ? '' : ', ')
+                                                                                }
 
-                //send email to all the people that sign to the meeting
-                let sendTo = []
-                for (let peopleMeeting of peopleInMeeting) {
-                    if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
-                }
-                let sendOptions = {
-                    to: sendTo, subject: "מפגש התבטל", html:
-                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
-                }
+                                                                                //send email to all the people that sign to the meeting
+                                                                                let sendTo = []
+                                                                                for (let peopleMeeting of peopleInMeeting) {
+                                                                                    if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
+                                                                                }
+                                                                                let sendOptions = {
+                                                                                    to: sendTo, subject: "מפגש התבטל", html:
+                                                                                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                                                                                }
 
-                sendEmail("", sendOptions);
+                                                                                sendEmail("", sendOptions);
 
-                // people.destroyAll(where, (err3, res2) => {
-                //     if (err3) {
-                //         console.log("err3", err3)
-                //         return cb(err3)
-                //     }
-                // })
+                                                                                // people.destroyAll(where, (err3, res2) => {
+                                                                                //     if (err3) {
+                                                                                //         console.log("err3", err3)
+                                                                                //         return cb(err3)
+                                                                                //     }
+                                                                                // })
 
-            }
+                                                                            }
 
-            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
-            if (err1) {
-                console.log(err1)
-                return cb(err1)
-            }
+                                                                            const [err1, delete1] = await to(fallens_meetings.destroyAll({ meeting: id }))
+                                                                            if (err1) {
+                                                                                console.log(err1)
+                                                                                return cb(err1)
+                                                                            }
 
-            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
-            if (err4) {
-                console.log(err4)
-                return cb(err4)
-            }
+                                                                            const [err4, delete2] = await to(people_meetings.destroyAll({ meeting: id }))
+                                                                            if (err4) {
+                                                                                console.log(err4)
+                                                                                return cb(err4)
+                                                                            }
 
-            // let [err6, res4] = await to(people.destroyById(meeting.owner))
-            // if (err5) {
-            //     console.log(err6)
-            //     return cb(err6)
-            // }
+                                                                            // let [err6, res4] = await to(people.destroyById(meeting.owner))
+                                                                            // if (err5) {
+                                                                            //     console.log(err6)
+                                                                            //     return cb(err6)
+                                                                            // }
 
-            let [err7, res5] = await to(meetings.destroyById(id))
-            if (err7) {
-                console.log(err7)
-                return cb(err7)
-            }
-            return cb(null, true)
-        })()
-    }
+                                                                            let [err7, res5] = await to(meetings.destroyById(id))
+                                                                            if (err7) {
+                                                                                console.log(err7)
+                                                                                return cb(err7)
+                                                                            }
+                                                                            return cb(null, true)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('deleteMeeting', {
-        http: { verb: 'post' },
-        accepts: { arg: 'id', type: 'number' },
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
-
+                                                                    meetings.remoteMethod('deleteMeeting', {
+                                                                        http: {verb: 'post' },
+        accepts: {arg: 'id', type: 'number' },
+        returns: {arg: 'res', type: 'boolean', root: true }
+                                                                })
+                                                            
+                                                            
     meetings.approveMeeting = (email, id, nameOwner, cb) => {
-        (async () => {
-            let newEmail = email.replace("@", "+c2c@");
-            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
-            // console.log("res", res)
-            if (err2) {
-                console.log("err2", err2)
-                return cb(err2, false)
-            }
-            let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
-            createZoomUser(newEmail, nameOwner)
-            let sendOptions = {}
-            if (res.language !== 'עברית') {
-                sendOptions = {
-                    to: emailowner, subject: "The meet-up you initiated has been approved",
-                    html:
-                        `<div width="100%" style="direction: ltr;">
+                                                                        (async () => {
+                                                                            let newEmail = email.replace("@", "+c2c@");
+                                                                            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+                                                                            // console.log("res", res)
+                                                                            if (err2) {
+                                                                                console.log("err2", err2)
+                                                                                return cb(err2, false)
+                                                                            }
+                                                                            let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
+                                                                            createZoomUser(newEmail, nameOwner)
+                                                                            let sendOptions = {}
+                                                                            if (res.language !== 'עברית') {
+                                                                                sendOptions = {
+                                                                                    to: emailowner, subject: "The meet-up you initiated has been approved",
+                                                                                    html:
+                                                                                        `<div width="100%" style="direction: ltr;">
                                 <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
                                 <div
                                     style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
@@ -1030,13 +1039,13 @@ module.exports = function (meetings) {
                                 </div>
                             </div>
                             `
-                }
+                                                                                }
 
-            } else {
-                sendOptions = {
-                    to: email, subject: "המפגש שיצרת אושר",
-                    html:
-                        `
+                                                                            } else {
+                                                                                sendOptions = {
+                                                                                    to: email, subject: "המפגש שיצרת אושר",
+                                                                                    html:
+                                                                                        `
                     <div width="100%" style="direction: rtl;">
                         <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
                         <div
@@ -1086,193 +1095,193 @@ module.exports = function (meetings) {
                     </div>
                 `
 
-                }
-            }
+                                                                                }
+                                                                            }
 
 
 
-            sendEmail("", sendOptions);
-            return cb(null, true)
-        })()
-    }
+                                                                            sendEmail("", sendOptions);
+                                                                            return cb(null, true)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('approveMeeting', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'email', type: 'string', required: true },
-            { arg: 'id', type: 'number', required: true },
-            { arg: 'nameOwner', type: 'string', required: true },],
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
+                                                                    meetings.remoteMethod('approveMeeting', {
+                                                                        http: {verb: 'post' },
+                                                                    accepts: [
+            {arg: 'email', type: 'string', required: true },
+            {arg: 'id', type: 'number', required: true },
+            {arg: 'nameOwner', type: 'string', required: true },],
+        returns: {arg: 'res', type: 'boolean', root: true }
+                                                                })
+                                                            
     meetings.get38Meetings = (cb) => {
-        (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
-            if (err) {
-                console.log(err)
-                cb(err, {})
-            }
-            else {
-                cb(null, res)
-            }
-        })()
-    }
+                                                                        (async () => {
+                                                                            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
+                                                                            if (err) {
+                                                                                console.log(err)
+                                                                                cb(err, {})
+                                                                            }
+                                                                            else {
+                                                                                cb(null, res)
+                                                                            }
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('get38Meetings', {
-        http: { verb: 'get' },
-        returns: { type: "object", root: true }
-    })
-
+                                                                    meetings.remoteMethod('get38Meetings', {
+                                                                        http: {verb: 'get' },
+        returns: {type: "object", root: true }
+                                                                })
+                                                            
     meetings.isNameExist = (name, cb) => {
-        (async () => {
-            let nameArr = name.split("'")
-            let newName = ""
-            for (let i = 0; i < nameArr.length; i++) {
-                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
-            }
-            meetings.dataSource.connector.query(`select id
+                                                                        (async () => {
+                                                                            let nameArr = name.split("'")
+                                                                            let newName = ""
+                                                                            for (let i = 0; i < nameArr.length; i++) {
+                                                                                newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
+                                                                            }
+                                                                            meetings.dataSource.connector.query(`select id
             from meetings
             where match(name) against ('"??"')`, [newName], (err, res) => {
-                if (err) {
-                    console.log(err)
-                    return cb(err)
-                }
-                if (res.length === 0) return cb(null, false);
-                return cb(null, true)
-            })
-        })()
-    }
+                                                                                if (err) {
+                                                                                    console.log(err)
+                                                                                    return cb(err)
+                                                                                }
+                                                                                if (res.length === 0) return cb(null, false);
+                                                                                return cb(null, true)
+                                                                            })
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('isNameExist', {
-        http: { verb: 'POST' },
-        accepts: { arg: 'name', type: 'string', required: true },
-        returns: { type: "object", root: true }
-    })
-
+                                                                    meetings.remoteMethod('isNameExist', {
+                                                                        http: {verb: 'POST' },
+        accepts: {arg: 'name', type: 'string', required: true },
+        returns: {type: "object", root: true }
+                                                                })
+                                                            
     meetings.getMeetingById = (meetingId, cb) => {
-        (async () => {
-            let [err, res] = await to(meetings.find({ where: { id: meetingId }, include: ["meetingOwner", { relation: "fallens_meetings", scope: { include: "fallens" } }] }))
-            if (err) {
-                console.log(err)
-                cb(err)
-            }
-            else {
-                cb(null, res)
-            }
-        })()
-    }
+                                                                        (async () => {
+                                                                            let [err, res] = await to(meetings.find({ where: { id: meetingId }, include: ["meetingOwner", { relation: "fallens_meetings", scope: { include: "fallens" } }] }))
+                                                                            if (err) {
+                                                                                console.log(err)
+                                                                                cb(err)
+                                                                            }
+                                                                            else {
+                                                                                cb(null, res)
+                                                                            }
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('getMeetingById', {
-        http: { verb: 'POST' },
-        accepts: { arg: 'meetingId', type: 'number', required: true },
-        returns: { type: "object", root: true }
-    })
-
+                                                                    meetings.remoteMethod('getMeetingById', {
+                                                                        http: {verb: 'POST' },
+        accepts: {arg: 'meetingId', type: 'number', required: true },
+        returns: {type: "object", root: true }
+                                                                })
+                                                            
     meetings.newZoom = (email, nameOwner, cb) => {
-        (async () => {
-            let newEmail = email.replace("@", "+c2c@");
+                                                                        (async () => {
+                                                                            let newEmail = email.replace("@", "+c2c@");
 
-            createZoomUser(newEmail, nameOwner)
+                                                                            createZoomUser(newEmail, nameOwner)
 
-            return cb(null, true)
-        })()
-    }
+                                                                            return cb(null, true)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('newZoom', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'email', type: 'string', required: true },
-            { arg: 'nameOwner', type: 'string', required: true },],
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
+                                                                    meetings.remoteMethod('newZoom', {
+                                                                        http: {verb: 'post' },
+                                                                    accepts: [
+            {arg: 'email', type: 'string', required: true },
+            {arg: 'nameOwner', type: 'string', required: true },],
+        returns: {arg: 'res', type: 'boolean', root: true }
+                                                                })
+                                                            
     meetings.getParticipants = (id, cb) => {
-        (async () => {
-            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
-            if (err) {
-                return cb(err)
-            }
-            console.log("res", res)
-            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
-            let people = []
-            console.log("people_meetings", people_meetings)
-            for (let i of people_meetings) {
-                i.people.isPanelist = i.isPanelist
-                people.push(i.people)
-            }
-            people = people.sort((p1, p2) => {
-                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
-                    if (p1.name > p2.name) return 1
-                    return -1
-                }
-                if (p1.isPanelist && !p1.isPanelist) {
-                    return 1
-                }
-                return -1
+                                                                        (async () => {
+                                                                            let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
+                                                                            if (err) {
+                                                                                return cb(err)
+                                                                            }
+                                                                            console.log("res", res)
+                                                                            let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
+                                                                            let people = []
+                                                                            console.log("people_meetings", people_meetings)
+                                                                            for (let i of people_meetings) {
+                                                                                i.people.isPanelist = i.isPanelist
+                                                                                people.push(i.people)
+                                                                            }
+                                                                            people = people.sort((p1, p2) => {
+                                                                                if (p1.isPanelist && p2.isPanelist || !p1.isPanelist && !p2.isPanelist) {
+                                                                                    if (p1.name > p2.name) return 1
+                                                                                    return -1
+                                                                                }
+                                                                                if (p1.isPanelist && !p1.isPanelist) {
+                                                                                    return 1
+                                                                                }
+                                                                                return -1
 
-            })
-            people.push(res.max_participants)
-            people.push(res.zoomId !== null && res.zoomId !== '')
-            return cb(null, people)
-        })()
-    }
+                                                                            })
+                                                                            people.push(res.max_participants)
+                                                                            people.push(res.zoomId !== null && res.zoomId !== '')
+                                                                            return cb(null, people)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('getParticipants', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'id', type: 'number', required: true }],
-        returns: { arg: 'res', type: 'object', root: true }
-    })
-
+                                                                    meetings.remoteMethod('getParticipants', {
+                                                                        http: {verb: 'post' },
+                                                                    accepts: [
+            {arg: 'id', type: 'number', required: true }],
+        returns: {arg: 'res', type: 'object', root: true }
+                                                                })
+                                                            
     meetings.deleteParticipant = (meetingId, participantId, cb) => {
-        (async () => {
-            let [error, meeting] = await to(meetings.findById(meetingId))
-            if (error) {
-                return cb(err)
-            }
-            await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
-            const people_meetings = meetings.app.models.people_meetings
-            let [err, res] = await to(people_meetings.destroyAll({ meeting: meetingId, person: participantId }))
-            if (err) {
-                return cb(err)
-            }
-            return cb(null, true)
-        })()
-    }
+                                                                        (async () => {
+                                                                            let [error, meeting] = await to(meetings.findById(meetingId))
+                                                                            if (error) {
+                                                                                return cb(err)
+                                                                            }
+                                                                            await to(meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
+                                                                            const people_meetings = meetings.app.models.people_meetings
+                                                                            let [err, res] = await to(people_meetings.destroyAll({ meeting: meetingId, person: participantId }))
+                                                                            if (err) {
+                                                                                return cb(err)
+                                                                            }
+                                                                            return cb(null, true)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('deleteParticipant', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'meetingId', type: 'number', required: true },
-            { arg: 'participantId', type: 'number', required: true }
-        ],
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
+                                                                    meetings.remoteMethod('deleteParticipant', {
+                                                                        http: {verb: 'post' },
+                                                                    accepts: [
+            {arg: 'meetingId', type: 'number', required: true },
+            {arg: 'participantId', type: 'number', required: true }
+                                                                ],
+        returns: {arg: 'res', type: 'boolean', root: true }
+                                                                })
+                                                            
     meetings.setPanelistStatus = (meetingId, participantId, isPanelist, participantName, participantEmail, zoomId, cb) => {
-        (async () => {
-            const people_meetings = meetings.app.models.people_meetings
-            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
-            if (err) {
-                return cb(err)
-            }
-            // addPanelists()
-            return cb(null, true)
-        })()
-    }
+                                                                        (async () => {
+                                                                            const people_meetings = meetings.app.models.people_meetings
+                                                                            let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
+                                                                            if (err) {
+                                                                                return cb(err)
+                                                                            }
+                                                                            // addPanelists()
+                                                                            return cb(null, true)
+                                                                        })()
+                                                                    }
 
-    meetings.remoteMethod('setPanelistStatus', {
-        http: { verb: 'post' },
-        accepts: [
-            { arg: 'meetingId', type: 'number', required: true },
-            { arg: 'participantId', type: 'number', required: true },
-            { arg: 'isPanelist', type: 'boolean', required: true },
-            { arg: 'participantName', type: 'string', required: true },
-            { arg: 'participantEmail', type: 'string', required: true },
-            { arg: 'zoomId', type: 'string', required: true },
-
-        ],
-        returns: { arg: 'res', type: 'boolean', root: true }
-    })
-
+                                                                    meetings.remoteMethod('setPanelistStatus', {
+                                                                        http: {verb: 'post' },
+                                                                    accepts: [
+            {arg: 'meetingId', type: 'number', required: true },
+            {arg: 'participantId', type: 'number', required: true },
+            {arg: 'isPanelist', type: 'boolean', required: true },
+            {arg: 'participantName', type: 'string', required: true },
+            {arg: 'participantEmail', type: 'string', required: true },
+            {arg: 'zoomId', type: 'string', required: true },
+                                                        
+                                                                ],
+        returns: {arg: 'res', type: 'boolean', root: true }
+                                                                })
+                                                            
 };
