@@ -110,6 +110,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
         if (error || response.error) {
             console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
+            // response.error && setErrorMsg(response.error.msg)
             console.log(error)
             if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
                 setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
@@ -239,11 +240,9 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
                     </form>
                     {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-                    <Button className='grow' disabled={loading} style={{ transition: 'transform 0.5s ease' }} onClick={onSend} variant="contained" classes={{ root: sendButton, label: sendLabel }}>
-
-
+                    <div className='grow joinBtn'  style={{ transition: 'transform 0.5s ease' }} onClick={loading ? ()=>{} : ()=>onSend()}>
                         {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}
-                    </Button>
+                    </div>
                 </div>
             </div>
         </div >

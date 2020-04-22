@@ -558,14 +558,14 @@ module.exports = function (meetings) {
 
         if (filters.isOpen !== (null || undefined)) {
             if (filters.isOpen !== true && filters.isOpen !== false) {
-                return cb({error:'isOpen is not valid'})
+                return cb({ error: 'isOpen is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
         }
 
         if (filters.approved !== (null || undefined)) {
             if (filters.approved !== true && filters.approved !== false) {
-                return cb({error:'approved is not valid'})
+                return cb({ error: 'approved is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
         }
@@ -722,6 +722,7 @@ module.exports = function (meetings) {
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (phone.length > 10) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
@@ -769,18 +770,6 @@ module.exports = function (meetings) {
 
 
                 await people_meetings.create(valid1.data);
-                const participantsNum = participants_num ? participants_num + 1 : 1;
-
-                let whitelist2 = {
-                    id: true, participants_num: true
-                };
-                let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-                if (!valid2.success || valid2.errors) {
-                    return cb(valid2.errors, null);
-                }
-                // console.log("valid2", valid2)
-
-                await meetings.upsert(valid2.data);
                 let shalom = mailDetails
                 let sendOptions = {
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
@@ -817,6 +806,19 @@ module.exports = function (meetings) {
                   ` }
 
                 sendEmail("", sendOptions);
+                const participantsNum = participants_num ? participants_num + 1 : 1;
+
+                let whitelist2 = {
+                    id: true, participants_num: true
+                };
+                let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
+                if (!valid2.success || valid2.errors) {
+                    return cb(valid2.errors, null);
+                }
+                // console.log("valid2", valid2)
+
+                await meetings.upsert(valid2.data);
+
                 cb(null, { participantsNum });
             } catch (err) {
                 console.log(err);
