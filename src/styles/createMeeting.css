@@ -14,23 +14,14 @@
     padding-bottom: 5vh;
 }
 
-.contentClick{
-    color: var(--custom-light-blue);
-    cursor: pointer;
-}
-
-.contentClick:hover{
-   text-decoration: underline;
-}
-
 .inputStyle{
     color: var(--custom-gray);
-    border: 1px solid var(--custom-light-blue);
-    border-radius: 3px;
+    border: 2px solid #E8E9EC;
+    border-radius: 4px;
     outline: none;
     width: calc(73% - 12vw);
     /* width: 65%; */
-    padding: 0.6vh 2vh;
+    padding: 1vh 2vh;
     margin-bottom: 4vh;
 }
 
@@ -65,7 +56,6 @@ input[type=radio]:focus {
     height: 90vh;
     min-width: 340px;
     width: 27%;
-    z-index: 3;
 }
 
 .createMeetingButton{
@@ -97,7 +87,7 @@ input[type=radio]:focus {
 }
 
 .CreateMeeting .selectInput{
-    margin: 0.6vh 0;
+    margin: 1vh 0;
     padding: 0 2vh;
 }
 
@@ -259,7 +249,7 @@ input[type=radio]:focus {
 
 .dateContainer{
     color: #4d4f5c73 !important;
-    border: 1px solid rgba(53, 134, 177, 0.397);
+    border: 2px solid #cccccc7d;
     opacity: 0.7;
     background-color: white;
 }

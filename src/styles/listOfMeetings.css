@@ -27,12 +27,14 @@
     
 }
 
+
+
 .buttonOnMeetings-right{
-    right: 4vw;
+    right: 6vw;
 }
 
 .buttonOnMeetings-left{
-    left: 4vw;
+    left: 6vw;
 }
 
 
@@ -582,5 +584,14 @@
 @media screen and (max-width: 350px){
     .meetingDate{
         font-size: 1.2em;
+    }
+}
+
+@media screen and (min-width: 1800px){
+
+    .buttonOnMeetings{
+        font-size: 1.2vw;
+        padding: 0.2em 2.3vw;
+    
     }
 }

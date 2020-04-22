@@ -62,7 +62,7 @@ class App extends Component {
             </Helmet>
             {<Suspense fallback={<div>Loading...</div>}>
                 <Router>
-                    <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"} style={{ minHeight: "calc(100vh - 10vh - ( 0.7vw + 3.3em))" }}>
+                    <div className={this.props.LanguageStore.lang !== 'heb' ? "App-ltr" : "App-rtl"} style={{ minHeight: "calc(100vh - 5vh)" }}>
                         <Route path="/(meeting|contact|create-meeting|success|edit-meeting|share|meetings|my-meetings|info)/" render={props => <NavBar history={this.props.history} t={this.props.t} changeLanguage={this.changeLanguage} className={'navbar-opening'} {...props} />} />
                         <Route path="/" exact render={props => <NavBar t={this.props.t} changeLanguage={this.changeLanguage} history={this.props.history} className={'navbar-opening'} {...props} />} />
                         <Switch>
@@ -86,9 +86,10 @@ class App extends Component {
                         </Switch>
                     </div>
                 </Router>
-                <div className={"hilmaCredit " + (this.props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr' : 'App-rtl')}>
+                <div
+                    className={"hilmaCredit " + (this.props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr ' : 'App-rtl ') + (this.props.LanguageStore.lang !== 'heb' ? ' fontSizeCreditEn' : '')}>
                     {this.props.t('blueFooter')}
-                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex' }}>
+                    <div style={{ height: '1em', marginRight: '4vw', display: 'flex', zIndex: '5' }}>
                         <img src={hilmaWhite} height='100%' />
                     </div>
                 </div>

@@ -1,10 +1,10 @@
 'use strict';
-const scheduleWebinar = require('../../server/scheduleWebinar.js');
+const scheduleWebinar = require('./scheduleWebinar.js');
 
 const schedule = require('node-schedule');
 
 module.exports = function (app) {
-
+    console.log("here")
     const to = (promise) => {
         return promise.then(data => {
             return [null, data];
@@ -12,8 +12,7 @@ module.exports = function (app) {
             .catch(err => [err]);
     }
 
-    // for (let hour = 0; hour < 24; hour += 2) {
-    for (let hour = 0; hour < 24; hour += 2) {
+    for (let hour = 0; hour < 24; hour += 1) {
         const rule = new schedule.RecurrenceRule();
 
         rule.year = new Date().getFullYear();

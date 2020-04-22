@@ -57,10 +57,10 @@ class HowItWorks extends Component {
 
             if (window.innerWidth <= 800) {
                 this.setState({ images: constImages.slice(0, 12) })
-                for (let i = 0; i < this.state.images.length; i++) {
-                    imgTryArray.push(false)
-                }
-                this.setState({ imgTryArray })
+            for (let i = 0; i < this.state.images.length; i++) {
+                imgTryArray.push(false)
+            }
+            this.setState({ imgTryArray })
 
             } else {
                 for (let i = 0; i < constImages.length; i++) {

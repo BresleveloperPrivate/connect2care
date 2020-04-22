@@ -7,8 +7,9 @@ require('../scripts/prebuild');
 const cors = require('cors');
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var path=require('path');
-const express=require('express');
+var path = require('path');
+const express = require('express');
+let s = require('./checkMeetingInterval.js');
 
 var app = module.exports = loopback();
 app.use(express.json());
@@ -18,9 +19,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../build'));
 // require('./routes')(app);
 
-app.start = function() {
+app.start = function () {
   // start the web server
-  return app.listen(function() {
+  return app.listen(function () {
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
@@ -28,20 +29,22 @@ app.start = function() {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
+    s(app)
   });
+  
 };
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 
-boot(app, __dirname, function(err) {
+boot(app, __dirname, function (err) {
   if (err) throw err;
 
-  app.use(express.static(__dirname + '../build'));  
-    
-  if (require.main === module){
+  app.use(express.static(__dirname + '../build'));
+
+  if (require.main === module) {
 
     app.start();
-
+    
   }
 });

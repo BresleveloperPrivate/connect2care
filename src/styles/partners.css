@@ -59,17 +59,23 @@
   margin: 2.6vw;
 }
 
+
 .hilmaCredit{
   background-color: var(--custom-dark-blue);
   color: white;
   display: flex;
   justify-content: center;
-  height: calc(2vh + 0.7vw + 1.2em);
+  height: calc(5vh);
   align-items: center;
-  font-size: 2.2vw;
+  font-size: 2.7vh;
   /* position: absolute; */
   padding: 1vh 3vw;
   /* bottom: 0; */
+  z-index: 8;
+}
+
+.fontSizeCreditEn{
+  font-size: 2vh !important;
 }
 
 @media screen and (max-width: 550px){
@@ -87,6 +93,10 @@
   .partner{
     height: 7.5vw;
     margin: 4vw 1.2vw;
+  }
+
+  .fontSizeCreditEn{
+    font-size: 2.3vw !important;
   }
 
   .hilmaCredit{
