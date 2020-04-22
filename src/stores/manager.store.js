@@ -58,7 +58,7 @@ class ManagerStore {
                 fallens: 'שמות הנופלים',
                 ownerName: 'שם המארח',
                 ownerEmail: 'כתובת המייל של המארח',
-                ownerPhone: 'פלפון של המארח'
+                ownerPhone:'פלפון של המארח'
 
             }
 

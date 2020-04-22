@@ -620,11 +620,15 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            params.push(filters.participants.min)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ??`
+            if (filters.participants.min !== 0 && !Number(filters.participants.min)) {
+                return cb({ error: 'participants is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${participants.min}`
             if (filters.participants.max)
-                params.push(filters.participants.max)
-            sqlQueryWhere += ` and meetings.participants_num < ??`
+                if (filters.participants.max !== 0 && !Number(filters.participants.max)) {
+                    return cb({ error: 'participants is not valid' })
+                }
+            sqlQueryWhere += ` and meetings.participants_num < ${participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
@@ -727,6 +731,7 @@ module.exports = function (meetings) {
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (phone.length > 10) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
@@ -771,9 +776,45 @@ module.exports = function (meetings) {
                     return cb(valid1.errors, null);
                 }
                 // console.log("valid1", valid1)
-                console.log("participants_num", participants_num)
-                let pepoleResponse = await people_meetings.create(valid1.data);
-                console.log("pepoleResponse", pepoleResponse)
+
+
+                await people_meetings.create(valid1.data);
+                let shalom = mailDetails
+                let sendOptions = {
+                    to: email, subject: "הרשמתך למפגש התקבלה", html:
+                        `
+                < div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+            background - color: #082551; direction: rtl'>
+                < div style = 'display: flex ; width: 100%' >
+                    <div style='width: 100%;' >
+                        <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                    </div>
+                        <div style='width: 30%;' >
+                            <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                    </div>
+                        </div>
+                        <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+                            שלום,<br>
+                                אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
+                                    ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
+                                        אז איך זה עובד?<br><br>
+                                            בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+                                                רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
+                                                    ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
+                                                        כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
+                                                            יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
+                                                                אנחנו כאן כדי לעזור.<br><br>
+                                                                    להתראות בקרוב,<br>
+                                                                        צוות 'האחים שלנו'<br>
+
+                                                                            <div style='font-size: 27px'></div>
+                  </div>
+
+                                                                        <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+                  </div>
+                                                                    ` }
+
+                sendEmail("", sendOptions);
                 const participantsNum = participants_num ? participants_num + 1 : 1;
 
                 let whitelist2 = {
@@ -786,42 +827,11 @@ module.exports = function (meetings) {
                 // console.log("valid2", valid2)
 
                 await meetings.upsert(valid2.data);
-                let shalom = mailDetails
-                let sendOptions = {
-                    to: email, subject: "הרשמתך למפגש התקבלה", html:
-                        `
-                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                   background-color: #082551; direction: rtl'>
-                  <div style='display: flex ; width: 100%' >
-                    <div style='width: 100%;' >
-                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
-                    </div>
-                    <div style='width: 30%;' >
-                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
-                    </div>
-                  </div>
-                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                  שלום,<br>
-אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
-ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
-אז איך זה עובד?<br><br>
-בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
-רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
-ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
-כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
-יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
-אנחנו כאן כדי לעזור.<br><br>
-להתראות בקרוב,<br>
-צוות 'האחים שלנו'<br>
-                  
-                  <div style='font-size: 27px'></div>
-                  </div>
-              
-                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-                  </div>
-                  ` }
 
+<<<<<<< HEAD
                 // sendEmail("", sendOptions);
+=======
+>>>>>>> 263ee61e2a7dac9d8287d86d4c3d605bad9511a5
                 cb(null, { participantsNum });
             } catch (err) {
                 console.log(err);
