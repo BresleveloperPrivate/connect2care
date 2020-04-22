@@ -784,10 +784,10 @@ module.exports = function (meetings) {
                 let sendOptions = {
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                < div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-            background - color: #082551; direction: rtl'>
-                < div style = 'display: flex ; width: 100%' >
-                    <div style='width: 100%;' >
+                <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+            background-color: #082551; direction: rtl'>
+                <div style = 'display:flex ; width: 100%' >
+                    <div style='width:100%;' >
                         <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
                     </div>
                         <div style='width: 30%;' >
