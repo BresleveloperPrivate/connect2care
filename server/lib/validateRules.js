@@ -61,10 +61,10 @@ module.exports = {
             type: "string",
             length: { maximum: 7 }
         },
-        zoomId: {
-            type: "string",
-            length: { maximum: 20 }
-        },
+        // zoomId: {
+        //     type: "string",
+        //     length: { maximum: 20 }
+        // },
         participants_num: {
             type: "number",
             numericality: { greaterThanOrEqualTo: 0 }
