@@ -119,8 +119,11 @@
     font-weight: 700;
     font-size: 1.3vw;
     display: flex;
-    flex-grow: 1;
+    // max-height: 70%;
+    flex-grow: 0;
+    overflow: hidden;
     z-index: 2;
+    line-height: 1.3;
 }
 
 .meetingOwner-comp{

@@ -140,6 +140,7 @@ const ComputerList = (props) => {
                                                             </div>}
                                                             {meeting.name}
                                                         </div>
+                                                        <div style={{flexGrow:'1'}}></div>
 
                                                         <div className='meetingOwner-comp'>
 
