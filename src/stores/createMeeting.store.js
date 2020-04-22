@@ -552,7 +552,6 @@ class CreateMeetingStore {
             })
         }
 
-
         this.waitForData = true
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/updateMeeting/`,
@@ -614,6 +613,7 @@ decorate(CreateMeetingStore, {
     nameMessage: observable,
     otherRelationship: observable,
     meetingDetails: observable,
+    meetingDetailsOriginal: observable,
     meetingId: observable,
     error: observable,
     deleting: observable,

@@ -53,13 +53,12 @@ const Participants = (props) => {
             setShowCancelPanelistPopup(true)
         }
         else {
-            console.log(participant.id)
             let [success, err] = await Auth.superAuthFetch(
                 `/api/meetings/setPanelistStatus`,
                 {
                     method: 'POST',
                     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id), isPanelist: true })
+                    body: JSON.stringify({ meetingId: Number(props.CreateMeetingStore.meetingId), participantId: Number(participant.id), isPanelist: true, participantName: participant.name, participantEmail: participant.email, zoomId: props.CreateMeetingStore.meetingDetailsOriginal.zoomId })
                 }, true);
             if (err) {
                 console.log(err)
@@ -141,7 +140,7 @@ const Participants = (props) => {
                     </div>
             }
             {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant.id} spliceFromArr={spliceFromArr} />}
-            {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} setPanelistInArr={setPanelistInArr} />}
+            {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} zoomId={props.CreateMeetingStore.meetingDetailsOriginal.zoomId} setPanelistInArr={setPanelistInArr} />}
         </div >
     )
 }

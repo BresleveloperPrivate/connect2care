@@ -4,7 +4,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Auth from '../../modules/auth/Auth'
 
-export default function DaleteMeetingPopup(props) {
+export default function CancelPanelistPopup(props) {
 
     const [waitForData, setWaitForData] = useState(false)
     const [err, setErr] = useState(false)
@@ -16,7 +16,7 @@ export default function DaleteMeetingPopup(props) {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.currentParticipant.id), isPanelist: false })
+                body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.currentParticipant.id), isPanelist: false, participantName: props.currentParticipant.name, participantEmail: props.currentParticipant.email, zoomId: props.zoomId })
             }, true);
         setWaitForData(false)
         if (err) {
