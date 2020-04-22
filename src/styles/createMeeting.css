@@ -211,7 +211,7 @@ input[type=radio]:focus {
 
 #containDetailsSideBar{
     padding: 3vh 3vh;
-    max-height: 80vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 

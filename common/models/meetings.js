@@ -206,15 +206,11 @@ module.exports = function (meetings) {
             }
             else data.owner = user0.id
 
-
             // security validate
-            data.max_participants = Number(data.max_participants)
-            if (data.isOpen === "true")
-                data.isOpen = true
-            else if (data.isOpen === "false") {
-                data.isOpen = false
+            if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
+            console.log("data.isOpen", data.isOpen, typeof data.isOpen, "data.code", data.code)
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
@@ -365,9 +361,10 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-
+            console.log("data", data)
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
+                console.log("errMeeting", errMeeting)
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
@@ -393,12 +390,16 @@ module.exports = function (meetings) {
                         fallen: true, meeting: true, relationship: true
                     };
                     let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    console.log("valid1", valid1)
                     if (!valid1.success || valid1.errors) {
+
                         return cb(valid1.errors, null);
                     }
 
                     fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
+                            console.log("err3", err3)
+
                             console.log("err3", err3)
                             return cb(err3)
                         }
@@ -455,12 +456,16 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
 
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
+                    console.log("errPeople", errPeople)
+
                     console.log(errPeople)
                     return cb(errPeople)
                 }
@@ -471,11 +476,11 @@ module.exports = function (meetings) {
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
             if (data.isOpen) {
-                data.isOpen = true
+                // data.isOpen = true
                 data.code = null
             }
             else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
-                data.isOpen = false
+                // data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
 
                 let sendOptions = {}
@@ -534,7 +539,7 @@ module.exports = function (meetings) {
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
             { arg: 'fallenFullArray', type: 'array', required: true },
-            { arg: 'lang', type: 'string', required: false },
+            { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -558,14 +563,14 @@ module.exports = function (meetings) {
 
         if (filters.isOpen !== (null || undefined)) {
             if (filters.isOpen !== true && filters.isOpen !== false) {
-                return cb({error:'isOpen is not valid'})
+                return cb({ error: 'isOpen is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
         }
 
         if (filters.approved !== (null || undefined)) {
             if (filters.approved !== true && filters.approved !== false) {
-                return cb({error:'approved is not valid'})
+                return cb({ error: 'approved is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
         }
