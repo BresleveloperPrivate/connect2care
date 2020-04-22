@@ -112,7 +112,16 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
             console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
             console.log(error)
             if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
-                setErrorMsg('לא ניתן להצטרף לאותו מפגש פעמיים.')
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "You cannot join the same session twice." : 'לא ניתן להצטרף לאותו מפגש פעמיים.')
+            }
+            else if (error && error.error && error.error.email) {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct email address." : ".אנא בדוק שהכנסת כתובת אימייל נכונה")
+            }
+            else if (error && error.error && error.error.name) {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct name." : ".אנא בדוק שהכנסת שם נכון")
+            }
+            else if (error && error.error && error.error.phone) {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct phone number." : ".אנא בדוק שהכנסת מספר טלפון נכון")
             }
             return;
         }

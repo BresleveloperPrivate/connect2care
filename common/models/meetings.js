@@ -771,9 +771,9 @@ module.exports = function (meetings) {
                     return cb(valid1.errors, null);
                 }
                 // console.log("valid1", valid1)
-
-
-                await people_meetings.create(valid1.data);
+                console.log("participants_num", participants_num)
+                let pepoleResponse = await people_meetings.create(valid1.data);
+                console.log("pepoleResponse", pepoleResponse)
                 const participantsNum = participants_num ? participants_num + 1 : 1;
 
                 let whitelist2 = {
@@ -821,7 +821,7 @@ module.exports = function (meetings) {
                   </div>
                   ` }
 
-                sendEmail("", sendOptions);
+                // sendEmail("", sendOptions);
                 cb(null, { participantsNum });
             } catch (err) {
                 console.log(err);
