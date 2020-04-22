@@ -134,7 +134,7 @@ class CreateMeetingStore {
     }
 
     changeShortDescription = (e) => {
-        if (e.length > 1000) return
+        if (e.length > 1500) return
         this.meetingDetails.description = e.target.value
     }
 
@@ -308,7 +308,7 @@ class CreateMeetingStore {
                 if (!this.meetingDetailsOriginal.otherRelationship) {
                     this.meetingDetailsOriginal.otherRelationship = []
                 }
-                if (object.fallens[i].relationship !== "אח/ות" && object.fallens[i].relationship !== "אלמן/ אלמנה" && object.fallens[i].relationship !== "יתומים" && object.fallens[i].relationship !== "הורים" && object.fallens[i].relationship !== "קרובי משפחה") {
+                if (object.fallens[i].relationship !== "אח/ות" && object.fallens[i].relationship !== "בית אביחי" && object.fallens[i].relationship !== "האחים שלנו" && object.fallens[i].relationship !== "אלמן/ אלמנה" && object.fallens[i].relationship !== "יתומים" && object.fallens[i].relationship !== "הורים" && object.fallens[i].relationship !== "קרובי משפחה") {
                     obj.relative = 'אחר'
                     if (!this.meetingDetailsOriginal.otherRelationship[i])
                         this.meetingDetailsOriginal.otherRelationship[i] = { id: object.fallens[i].id, relative: object.fallens[i].relationship }

@@ -118,11 +118,14 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
             else if (error && error.error && error.error.email) {
                 setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct email address." : ".אנא בדוק שהכנסת כתובת אימייל נכונה")
             }
-            else if (error && error.error && error.error.name) {
+            else if (error && error.error && error.error.name && typeof error.error.name === "object") {
                 setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct name." : ".אנא בדוק שהכנסת שם נכון")
             }
             else if (error && error.error && error.error.phone) {
                 setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct phone number." : ".אנא בדוק שהכנסת מספר טלפון נכון")
+            }
+            else {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "Something went worng, please try again later." : ".משהו השתבש, אנא נסה שנית מאוחר יותר")
             }
             return;
         }
@@ -249,7 +252,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
                     </form>
                     {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
-                    <div className='grow joinBtn'  style={{ transition: 'transform 0.5s ease' }} onClick={loading ? ()=>{} : ()=>onSend()}>
+                    <div className='grow joinBtn' style={{ transition: 'transform 0.5s ease' }} onClick={loading ? () => { } : () => onSend()}>
                         {LanguageStore.lang !== 'heb' ? 'Join' : 'הצטרף'}
                     </div>
                 </div>
