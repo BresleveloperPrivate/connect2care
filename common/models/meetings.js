@@ -854,7 +854,7 @@ module.exports = function (meetings) {
         (async () => {
             console.log(process.env.TEST, process.env.TEST)
             sendEmail(senderName, sendOptions);
-            cb(null, { res: "success" })
+            cb(null, { res:  process.env.TEST})
         })();
     }
 
