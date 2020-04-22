@@ -18,7 +18,7 @@ import { downloadFile, creatCsvFile } from "download-csv"
 // mikmek     827627
 
 const downloadExcel = (data, columns, name) => {
-    downloadFile(creatCsvFile(data, columns), name + '.xlsx');
+    downloadFile(creatCsvFile(data, columns), name + '.csv');
 };
 
 export default downloadExcel;
