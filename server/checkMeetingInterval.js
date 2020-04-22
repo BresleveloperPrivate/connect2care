@@ -43,7 +43,7 @@ module.exports = function (app) {
                                     start_time = "2020-04-27T00:59:00"
                                     break;
                                 case 'יום ראשון, ב באייר, 26.04':
-                                    start_time = "2020-05-26T00:59:00"
+                                    start_time = "2020-04-26T00:59:00"
                                     break;
                                 default:
                                     start_time = "2020-05-05T00:59:00"

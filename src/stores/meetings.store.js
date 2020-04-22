@@ -17,6 +17,15 @@ class MeetingsStore {
     availableOnly = false
     loading = false
     status = false
+    view= 1
+
+    setView=()=>{
+        if(this.view === 1){
+            this.view = 2
+        }else{
+            this.view = 1
+        }
+    }
 
     changeSearchInput = (event) => {
         ////if match...
@@ -131,7 +140,9 @@ decorate(MeetingsStore, {
     error: observable,
     loading: observable,
     status: observable,
-    changeMeetingStatus:action
+    changeMeetingStatus:action,
+    view:observable,
+    setView:action,
 });
 
 export default new MeetingsStore();

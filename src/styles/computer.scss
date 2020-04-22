@@ -1,6 +1,6 @@
 .mainPage-meetings-comp{
     margin: auto;
-    width: 88vw;
+    width: 86vw;
     font-size:10px;
     @media screen and (max-width: 900px){
         font-size: 8.5px;
@@ -26,11 +26,10 @@
 
 .containMeetings-comp{
     margin: auto;
-    width: 88vw;
+    width: 86vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: right;
-    margin-top: 3vh;
 }
 
 
@@ -138,7 +137,7 @@
 
 .flip-card {
     direction: rtl;
-    margin: 1vw 1vw;
+    // margin: 1vw 1vw;
     position: relative;
     // background-color: transparent;
     // perspective: 1000px;

@@ -375,7 +375,7 @@ module.exports = function (meetings) {
             if (fallenFullArray) {
                 for (let fallen of fallenFullArray) {
                     if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                        if (data.max_participants && Number(data.max_participants) > 2000)
+                        if (data.max_participants && Number(data.max_participants) > 1000)
                             return cb({ max_participants: true })
                     }
                     else if (data.max_participants && Number(data.max_participants) > 500) {
