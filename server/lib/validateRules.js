@@ -67,7 +67,7 @@ module.exports = {
         },
         participants_num: {
             type: "number",
-            numericality: { greaterThan: 0 }
+            numericality: { greaterThanOrEqualTo: 0 }
         },
         max_participants: {
             type: "number",
