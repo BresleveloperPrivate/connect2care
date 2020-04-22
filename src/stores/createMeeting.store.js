@@ -4,15 +4,11 @@ import Auth from '../modules/auth/Auth'
 
 
 class CreateMeetingStore {
+    date = (new Date()).getDate()
     res = null
     fallenDetails = null;
     fallenName = null;
     nameMessage = "";
-    fallensToDelete = []
-    deleting = false;
-    fallensToAdd = []
-    fallensToChange = []
-    date = (new Date()).getDate()
     meetingDetailsOriginal = {
         name: "",
         description: "",
@@ -23,17 +19,34 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
+        date: "",
+        timeHour: "",
+        timeMinute: "",
+        max_participants: "",
+        fallens: null,
+        zoomId: "",
+        otherRelationship: null,
+        // approved: ""
+    }
+
+    meetingDetails = {
+        name: "",
+        description: "",
+        owner: {
+            name: "",
+            phone: "",
+            email: ""
+        },
+        language: "",
+        isOpen: "",
         date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
-        timeHour: '20',
-        timeMinute: '30',
+        timeHour:  "20",
+        timeMinute: "30",
         max_participants: 300,
         fallens: null,
         zoomId: "",
-        notAllFieldsCorrect: true,
-        otherRelationship: null
+        otherRelationship: null,
     }
-
-    meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
 
     error = null;
     waitForData = false;
@@ -59,10 +72,10 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
-            timeHour: "20",
-            timeMinute: "30",
-            max_participants: 300,
+            date: "",
+            timeHour: "",
+            timeMinute: "",
+            max_participants: "",
             fallens: null,
             zoomId: "",
             otherRelationship: null,
@@ -70,6 +83,10 @@ class CreateMeetingStore {
         }
 
         this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+        this.meetingDetails.date = this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04'
+        this.meetingDetails.timeHour = "20"
+        this.meetingDetails.timeMinute = "30"
+        this.meetingDetails.max_participants = 300
 
         this.error = null;
         this.waitForData = false;
@@ -446,12 +463,12 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
-        if (this.date < 26) delete this.meetingDetailsOriginal.date
-        delete this.meetingDetailsOriginal.timeHour
-        delete this.meetingDetailsOriginal.timeMinute
-        delete this.meetingDetailsOriginal.max_participants
+        // if (this.date < 26) delete this.meetingDetailsOriginal.date
+        // delete this.meetingDetailsOriginal.timeHour
+        // delete this.meetingDetailsOriginal.timeMinute
+        // delete this.meetingDetailsOriginal.max_participants
         delete beforePostJSON.otherRelationship
-
+        console.log("beforePostJSON", beforePostJSON)
         if (this.notAllFieldsCorrect) {
             this.setError(lang !== "heb" ? "Please check that you fixed all the red errors" : "אנא בדוק שטיפלת בכל ההערות האדומות")
             return
@@ -459,6 +476,8 @@ class CreateMeetingStore {
 
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
+
+        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
             this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return

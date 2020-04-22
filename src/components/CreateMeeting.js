@@ -24,7 +24,6 @@ const CreateMeeting = (props) => {
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
     const [readBylaw, setReadBylaw] = useState(false)
-    const [wait, setWait] = useState(false)
 
     const meetingLanguage = [
         { option: 'עברית', data: 'עברית' },
@@ -243,7 +242,7 @@ const CreateMeeting = (props) => {
                             <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
                                 <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: true } })}>
                                     <div>
-                                        {Boolean(props.CreateMeetingStore.meetingDetails.isOpen) !== "" && Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
+                                        {props.CreateMeetingStore.meetingDetails.isOpen !== "" && Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                             <img src={checkbox_on_light} /> :
                                             <div style={{
                                                 width: "24px",
@@ -367,17 +366,33 @@ const CreateMeeting = (props) => {
                                 <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
 
                                     <div className=" d-flex align-items-center" style={{ marginTop: '2vh' }}>
-                                        <div>
-                                            <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw) }} src={readBylaw ? checkbox_on_light : checkbox_off_light} />
+                                        {/* <div>
+                                            <img style={{ cursor: 'pointer' }} onClick={() => { if (readBylaw === true) setReadBylaw(false); else setReadBylaw(true) }} src={readBylaw ? checkbox_on_light : checkbox_off_light} />
+                                        </div> */}
+                                        <div style={{ cursor: 'pointer' }} onClick={() => {
+                                            if (readBylaw === true) setReadBylaw(false);
+                                            else setReadBylaw(true)
+                                            props.CreateMeetingStore.setError(false)
 
+                                        }}>
+                                            {Boolean(readBylaw) ?
+                                                <img src={checkbox_on_light} /> :
+                                                <div style={{
+                                                    width: "24px",
+                                                    height: "24px",
+                                                    WebkitMaskSize: "24px 24px",
+                                                    background: (isSaved && !readBylaw) ? '#c31a1a' : '#4d4f5c',
+                                                    WebkitMaskImage: `Url(${checkbox_off_light})`
+                                                }}></div>
+                                            }
                                         </div>
                                         {/* <input style={{ margin: props.LanguageStore.lang !== 'heb' ? '0' : null }} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} /> */}
                                         <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                             {props.LanguageStore.lang !== 'heb' ?
                                                 <div>Iv'e read and accepted the
-<a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
-</div>
+                                                    <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
+                                                </div>
                                                 :
                                                 <div>אני מסכים/ה ל<span className='contentClick' onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
                                             }
@@ -390,21 +405,17 @@ const CreateMeeting = (props) => {
 
                             <div className="containCreateMettingButton">
                                 <div className="createMeetingButton grow" onClick={async () => {
-                                    if (wait) return
-                                    if (!props.CreateMeetingStore.waitForData) {
-                                        setWait(true)
+                                    if (!props.CreateMeetingStore.waitForData && !props.CreateMeetingStore.error) {
                                         setIsSaved(true)
                                         if (!readBylaw) {
                                             let error = props.LanguageStore.lang !== 'heb' ? "You must read the terms before adding the meeting" : "עליך לקרוא את התקנון לפני ההוספה"
                                             props.CreateMeetingStore.setError(error)
-                                            setWait(false)
                                             return
                                         }
                                         let meeting = await props.CreateMeetingStore.createNewMeetingPost(props.LanguageStore.lang)
                                         if (meeting) {
                                             setSuccess(meeting[0])
                                         }
-                                        setWait(false)
                                     }
                                 }}>
                                     {props.CreateMeetingStore.waitForData ?
@@ -422,7 +433,6 @@ const CreateMeeting = (props) => {
                             props.CreateMeetingStore.error &&
                             <ErrorMethod {...props} />
                         }
-                        {console.log("pressOnCancel", pressOnCancel, "dataForFallen", dataForFallen)}
                         {(dataForFallen || !pressOnCancel) && <TextSIdeDiv t={props.t} setPressOnCancel={setPressOnCancel} dataForFallen={dataForFallen} setDataForFallen={setDataForFallen} />}
                     </div >
                     : <Success history={props.history} meeting={success} t={props.t} />

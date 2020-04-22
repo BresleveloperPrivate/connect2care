@@ -5,7 +5,7 @@ const createZoomUser = require('../../server/createZoomUser.js');
 const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-const addPanelists =  require('../../server/addPanelists.js');
+const addPanelists = require('../../server/addPanelists.js');
 // const http = require("https");
 // const jwt = require('jsonwebtoken');
 // const config = require('./config');
@@ -41,7 +41,10 @@ module.exports = function (meetings) {
 
         if (filters.date) {
             params.push(filters.date)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '??'`
+            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+                return cb({ error: 'date is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
         }
 
         if (filters.status === 1) {
@@ -53,14 +56,17 @@ module.exports = function (meetings) {
         }
 
         if (filters.language) {
-            params.push(filters.language)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '??'`
+            if (filters.language !== 'עברית' && filters.language !== 'English' && filters.language !== 'français' && filters.language !== 'العربية' && filters.language !== 'русский' && filters.language !== 'አማርኛ' && filters.language !== 'español') {
+                return cb({ error: 'language is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '${filters.language}'`
         }
 
         if (filters.time) {
-            params.push(filters.time[0])
-            params.push(filters.time[1])
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ?? and Replace(meetings.time, ':', '') < ??`
+            if (filters.time[0] !== 0 && !Number(filters.time[0]) && filters.time[1] !== 0 && !Number(filters.time[1])) {
+                return cb({ error: 'value is not a number' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
         // if (filters.isAvailable) {
@@ -70,8 +76,10 @@ module.exports = function (meetings) {
         if (filters.relationship || search) {
             // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                params.push(filters.relationship)
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
+                if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
+                    return cb({ error: 'relationship is not valid' })
+                }
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
 
             if (search) {
@@ -541,18 +549,25 @@ module.exports = function (meetings) {
         let params = []
 
         if (filters.date) {
-            params.push(filters.date)
-            sqlQueryWhere += `meetings.date = '??'`
+            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+                return cb({ error: 'date is not valid' })
+            }
+
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
         }
 
         if (filters.isOpen !== (null || undefined)) {
-            params.push(filters.isOpen)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ??`
+            if (filters.isOpen !== true && filters.isOpen !== false) {
+                return cb({error:'isOpen is not valid'})
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
         }
 
         if (filters.approved !== (null || undefined)) {
-            params.push(filters.approved)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ??`
+            if (filters.approved !== true && filters.approved !== false) {
+                return cb({error:'approved is not valid'})
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
         }
 
         if (filters.name) {
@@ -568,8 +583,10 @@ module.exports = function (meetings) {
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                params.push(filters.relationship)
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
+                if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
+                    return cb({ error: 'relationship is not valid' })
+                }
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
                 let fallenArr = filters.fallen.split("'")

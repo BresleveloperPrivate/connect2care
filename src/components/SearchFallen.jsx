@@ -6,6 +6,7 @@ import throttle from 'lodash/throttle';
 import { inject, observer } from 'mobx-react';
 
 import Auth from '../modules/auth/Auth';
+import fallenNotExistPic from '../icons/fallenNotExistPic.jpg'
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
 // import { useLanguageStore } from '../stores/language.store';
@@ -43,11 +44,19 @@ const SearchFallen = observer((props) => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState(null);
     const [showOptions, setShowOptions] = useState(true);
+    // const [imgCorrect, setImgCorrect] = useState();
 
     const { inputWraper, list, loadingOrNoResults } = useStyles();
 
     const CreateMeetingStore = useCreateMeetingStore();
     const ref = useRef()
+
+    // const setImg = (index, value) => {
+    //     let allImg = JSON.parse(JSON.stringify(imgCorrect))
+    //     allImg[index] = value
+    //     setImgCorrect(allImg)
+    // }
+
     useOnClickOutside(ref, () => setShowOptions(false));
 
     const onChange = useCallback(event => {
@@ -88,6 +97,12 @@ const SearchFallen = observer((props) => {
     }, 200), []);
 
     useEffect(() => {
+        // let correct = []
+        // for (let i = 0; i < props.array.length; i++) {
+        //     correct.push(false)
+        // }
+        // setImgCorrect(correct)
+
         if (!showOptions) { setOptions([]); return; }
 
         let active = true;
@@ -142,10 +157,11 @@ const SearchFallen = observer((props) => {
 
             {showOptions && searchValue.length > 0 && (
                 <List className={list + " listSearch"}>
-                    {options ? options.length > 0 ? options.map(fallen => (
+                    {options ? options.length > 0 ? options.map((fallen, index) => (
                         <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>
-                                <Avatar src={fallen.image_link || "./images/fallenFallback.jpeg"} style={fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" />
+                                <Avatar src={fallen.image_link || fallenNotExistPic} style={fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" />
+                                {/* <img onError={() => setImgCorrect(index, fallenNotExistPic)} src={imgCorrect ? imgCorrect : (fallen.image_link || fallenNotExistPic)} style={!imgCorrect && fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" /> */}
                             </ListItemAvatar>
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>

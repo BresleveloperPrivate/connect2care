@@ -95,7 +95,14 @@ const ComputerList = (props) => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }}
                                 style={{
-                                    margin: Math.floor(index / 4) === index / 4 ? '1vw 0 1vw 1vw':
+                                    margin: 
+                                    props.LanguageStore.lang !== 'heb' &&
+                                    Math.floor(index / 4) === index / 4 ? '1vw 1vw 1vw 0':
+                                    props.LanguageStore.lang !== 'heb' &&
+                                    Math.floor((index + 1) / 4) === (index + 1) / 4 ? '1vw 0 1vw 1vw':
+                                    props.LanguageStore.lang === 'heb' &&
+                                    Math.floor(index / 4) === index / 4 ? '1vw 0 1vw 1vw':
+                                    props.LanguageStore.lang === 'heb' &&
                                     Math.floor((index + 1) / 4) === (index + 1) / 4 ? '1vw 1vw 1vw 0':
                                     '1vw'
                                 }}
