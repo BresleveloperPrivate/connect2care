@@ -852,9 +852,6 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // let url = scheduleWebinar((x) => {
-            //     console.log("url", x)
-            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
             sendEmail(senderName, sendOptions);
             cb(null, { res: "success" })
         })();
