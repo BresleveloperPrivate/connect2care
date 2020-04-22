@@ -206,15 +206,11 @@ module.exports = function (meetings) {
             }
             else data.owner = user0.id
 
-
             // security validate
-            data.max_participants = Number(data.max_participants)
-            if (data.isOpen === "true")
-                data.isOpen = true
-            else if (data.isOpen === "false") {
-                data.isOpen = false
+            if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
+            console.log("data.isOpen", data.isOpen, typeof data.isOpen, "data.code", data.code)
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
@@ -365,9 +361,10 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-
+            console.log("data", data)
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
+                console.log("errMeeting", errMeeting)
                 console.log(errMeeting)
                 return cb(errMeeting)
             }
@@ -393,12 +390,16 @@ module.exports = function (meetings) {
                         fallen: true, meeting: true, relationship: true
                     };
                     let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    console.log("valid1", valid1)
                     if (!valid1.success || valid1.errors) {
+
                         return cb(valid1.errors, null);
                     }
 
                     fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
+                            console.log("err3", err3)
+
                             console.log("err3", err3)
                             return cb(err3)
                         }
@@ -455,12 +456,16 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
 
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
+                    console.log("errPeople", errPeople)
+
                     console.log(errPeople)
                     return cb(errPeople)
                 }
@@ -471,11 +476,11 @@ module.exports = function (meetings) {
             if (data.max_participants) data.max_participants = Number(data.max_participants)
 
             if (data.isOpen) {
-                data.isOpen = true
+                // data.isOpen = true
                 data.code = null
             }
             else if (data.isOpen !== undefined && data.isOpen !== null && !data.isOpen) {
-                data.isOpen = false
+                // data.isOpen = false
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
 
                 let sendOptions = {}
@@ -534,7 +539,7 @@ module.exports = function (meetings) {
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
             { arg: 'fallenFullArray', type: 'array', required: true },
-            { arg: 'lang', type: 'string', required: false },
+            { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
         returns: { arg: 'res', type: 'object', root: true }
@@ -615,11 +620,15 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            params.push(filters.participants.min)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ??`
+            if (filters.participants.min !== 0 && !Number(filters.participants.min)) {
+                return cb({ error: 'participants is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${participants.min}`
             if (filters.participants.max)
-                params.push(filters.participants.max)
-            sqlQueryWhere += ` and meetings.participants_num < ??`
+                if (filters.participants.max !== 0 && !Number(filters.participants.max)) {
+                    return cb({ error: 'participants is not valid' })
+                }
+            sqlQueryWhere += ` and meetings.participants_num < ${participants.max}`
         }
 
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
@@ -774,36 +783,36 @@ module.exports = function (meetings) {
                 let sendOptions = {
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                  <div style='width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                   background-color: #082551; direction: rtl'>
-                  <div style='display: flex ; width: 100%' >
+                < div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+            background - color: #082551; direction: rtl'>
+                < div style = 'display: flex ; width: 100%' >
                     <div style='width: 100%;' >
-                      <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                        <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
                     </div>
-                    <div style='width: 30%;' >
-                      <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                        <div style='width: 30%;' >
+                            <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
                     </div>
+                        </div>
+                        <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
+                            שלום,<br>
+                                אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
+                                    ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
+                                        אז איך זה עובד?<br><br>
+                                            בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+                                                רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
+                                                    ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
+                                                        כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
+                                                            יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
+                                                                אנחנו כאן כדי לעזור.<br><br>
+                                                                    להתראות בקרוב,<br>
+                                                                        צוות 'האחים שלנו'<br>
+
+                                                                            <div style='font-size: 27px'></div>
                   </div>
-                  <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                  שלום,<br>
-אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
-ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
-אז איך זה עובד?<br><br>
-בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
-רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
-ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
-כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
-יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
-אנחנו כאן כדי לעזור.<br><br>
-להתראות בקרוב,<br>
-צוות 'האחים שלנו'<br>
-                  
-                  <div style='font-size: 27px'></div>
+
+                                                                        <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
                   </div>
-              
-                  <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
-                  </div>
-                  ` }
+                                                                    ` }
 
                 sendEmail("", sendOptions);
                 const participantsNum = participants_num ? participants_num + 1 : 1;

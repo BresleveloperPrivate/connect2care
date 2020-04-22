@@ -40,7 +40,7 @@ class CreateMeetingStore {
         language: "",
         isOpen: "",
         date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
-        timeHour:  "20",
+        timeHour: "20",
         timeMinute: "30",
         max_participants: 300,
         fallens: null,
@@ -558,7 +558,7 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens, lang: localStorage.getItem('lang') })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens, lang: String(localStorage.getItem('lang')) })
             }, true);
         this.waitForData = false
         if (err) {

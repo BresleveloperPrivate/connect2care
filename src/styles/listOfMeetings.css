@@ -551,6 +551,10 @@
         margin-top: 0;
     }
 
+    .meetingsFullPage{
+        margin-top: 0;
+    }
+
     .buttonOnMeetings{
         position:static;
         padding: 0.4em 1em;

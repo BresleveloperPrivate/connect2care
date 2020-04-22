@@ -211,7 +211,7 @@ input[type=radio]:focus {
 
 #containDetailsSideBar{
     padding: 3vh 3vh;
-    max-height: 80vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -458,6 +458,11 @@ input[type=radio]:focus {
         font: Bold 28px Assistant;
     }
 
+    .headlineCM{
+        margin-top: 0;
+        padding-top: 2vh;
+    }
+
     .createMeetingSecondSentence{
         margin: 0 6vw;
         font: normal 20px Assistant;
@@ -487,7 +492,6 @@ input[type=radio]:focus {
         margin-left: 0 !important;
         margin-right: 0 !important;
     }    
-
 
     .fallenSearchDiv{
         width: 100%;
