@@ -249,7 +249,7 @@ module.exports = function (meetings) {
 
             let [err2, meeting] = await to(meetings.create(valid.data))
             if (err2) {
-                if (err2.code === 'ER_DUP_ENTRY') return cd({ error: { duplicate: true } })
+                if (err2.code === 'ER_DUP_ENTRY') return cb({ error: { duplicate: true } })
                 return cb(err2)
             }
 
