@@ -61,13 +61,13 @@ module.exports = {
             type: "string",
             length: { maximum: 7 }
         },
-        zoomId: {
-            type: "string",
-            length: { maximum: 20 }
-        },
+        // zoomId: {
+        //     type: "string",
+        //     length: { maximum: 20 }
+        // },
         participants_num: {
             type: "number",
-            numericality: { greaterThan: 0 }
+            numericality: { greaterThanOrEqualTo: 0 }
         },
         max_participants: {
             type: "number",
@@ -106,7 +106,7 @@ module.exports = {
         phone: {
             type: "string",
             format: {
-                pattern: '^(0|\\+972)[0-9]{8,9}$',
+                pattern: '/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/',
                 message: "invalid phone"
             }
         },

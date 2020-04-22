@@ -192,6 +192,13 @@ module.exports = function (meetings) {
                 let whitelist = {
                     name: true, email: true, phone: true
                 };
+                // countDigit = 0
+                // countMinues = 0
+
+                // for (let i = 0; i < data.phone.length; i++) {
+                //     if( data.phone[i]==="0"||data.phone[i]==="1"||data.phone[i]==="2"||data.phone[i]==="3"||)
+                // }
+
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
@@ -210,7 +217,6 @@ module.exports = function (meetings) {
             if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            console.log("data.isOpen", data.isOpen, typeof data.isOpen, "data.code", data.code)
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
@@ -225,12 +231,15 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true, 
-                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                owner: true, language: true, isOpen: true, time: true,
+                //  zoomId: true, 
+                max_participants: true, code: true, date: true
             };
             let name = data.name
             let description = data.description
             delete data.name
             delete data.description
+            data.max_participants = Number(data.max_participants)
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
@@ -361,26 +370,25 @@ module.exports = function (meetings) {
     meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
-            console.log("data", data)
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
             if (errMeeting) {
                 console.log("errMeeting", errMeeting)
-                console.log(errMeeting)
                 return cb(errMeeting)
             }
-
+            let beenInIf = false
             if (fallenFullArray) {
                 for (let fallen of fallenFullArray) {
                     if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                        if (data.max_participants && Number(data.max_participants) > 1000)
-                            return cb({ max_participants: true })
-                    }
-                    else if (data.max_participants && Number(data.max_participants) > 500) {
-                        return cb({ max_participants: true })
+                        beenInIf = true
+                        if (data.max_participants && Number(data.max_participants) > 2000)
+                            return cb({ max_participants: 2000 })
                     }
                 }
             }
 
+            if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
+                return cb({ max_participants: 500 })
+            }
             let meetingById = JSON.parse(JSON.stringify(res))
             if (data.fallensToChange) {
 
@@ -390,7 +398,6 @@ module.exports = function (meetings) {
                         fallen: true, meeting: true, relationship: true
                     };
                     let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
-                    console.log("valid1", valid1)
                     if (!valid1.success || valid1.errors) {
 
                         return cb(valid1.errors, null);
@@ -398,8 +405,6 @@ module.exports = function (meetings) {
 
                     fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
-                            console.log("err3", err3)
-
                             console.log("err3", err3)
                             return cb(err3)
                         }
@@ -456,8 +461,6 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
-                console.log("valid", valid)
-
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -465,8 +468,6 @@ module.exports = function (meetings) {
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
                     console.log("errPeople", errPeople)
-
-                    console.log(errPeople)
                     return cb(errPeople)
                 }
                 delete data.owner
@@ -474,7 +475,6 @@ module.exports = function (meetings) {
 
             // security validate
             if (data.max_participants) data.max_participants = Number(data.max_participants)
-
             if (data.isOpen) {
                 // data.isOpen = true
                 data.code = null
@@ -494,7 +494,7 @@ module.exports = function (meetings) {
                     sendOptions = {
                         to: meetingById.meetingOwner.email, subject: "קוד מפגש", html:
                             `<div style="direction: rtl;"> המפגש ${meetingById.name} הוא עכשיו מפגש פרטי.<br/>
-                            קוד המפגש להצטרפות: ${data.code}`
+                        קוד המפגש להצטרפות: ${data.code}`
                     }
 
                 }
@@ -507,7 +507,8 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true,
+                title: true, owner: true, language: true, isOpen: true, time: true,
+                //  zoomId: true,
                 // max_participants: true,
                 code: true, date: true
             };
@@ -517,11 +518,14 @@ module.exports = function (meetings) {
                 return cb(valid.errors, null);
             }
 
+            if (data.name)
+                valid.data.name = data.name
+            if (data.description)
+                valid.data.description = data.description
+            if (data.max_participants) {
+                valid.data.max_participants = data.max_participants
+            }
             if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
-                if (data.name)
-                    valid.data.name = data.name
-                if (data.description)
-                    valid.data.description = data.description
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
                     console.log("err2", err2)
@@ -731,7 +735,7 @@ module.exports = function (meetings) {
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
-                if (phone.length > 10) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (phone.length > 14) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
@@ -759,7 +763,6 @@ module.exports = function (meetings) {
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
-                    // console.log("valid", valid)
 
                     person = await people.create(valid.data);
                 }
@@ -775,8 +778,6 @@ module.exports = function (meetings) {
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
-                // console.log("valid1", valid1)
-
 
                 await people_meetings.create(valid1.data);
                 let shalom = mailDetails
@@ -824,9 +825,7 @@ module.exports = function (meetings) {
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
-                // console.log("valid2", valid2)
-
-                await meetings.upsert(valid2.data);
+                let meetingsRes = await meetings.upsert(valid2.data);
 
                 cb(null, { participantsNum });
             } catch (err) {
