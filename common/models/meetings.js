@@ -233,6 +233,7 @@ module.exports = function (meetings) {
             let description = data.description
             delete data.name
             delete data.description
+            data.max_participants = Number(data.max_participants)
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
