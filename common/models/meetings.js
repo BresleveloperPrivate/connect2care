@@ -983,9 +983,7 @@ module.exports = function (meetings) {
                             irrelevant for this meet-up; please use the temporary account. <br>
                             Due to a special
                             collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-
                             including unlimited time, ability to record the session, etc.
-
                                     <div
                                         style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                                         How does this work?
@@ -993,7 +991,6 @@ module.exports = function (meetings) {
                             A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
                             B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
                             C. Your user name will be automatically filled in, please use the password:
-
                             OurBrothers2020 <br>
                                     <div
                                         style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
@@ -1007,7 +1004,6 @@ module.exports = function (meetings) {
                                         Zoom Prep Workshop
                                         </div>
                                         The virtual workshop will be held on Zoom by public speaking experts and digital content
-
                                         experts. It is highly recommended!<br>
                                         Sign up here: <a href="https://bit.ly/connect2care_foryou"
                                         target="_blank">https://bit.ly/connect2care_foryou</a>
@@ -1051,7 +1047,6 @@ module.exports = function (meetings) {
                             זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
                         </div>
                         <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת המפגש</a>
-
                         <br>
                         ${code}
                         <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
@@ -1261,7 +1256,7 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            addPanelists()
+            // addPanelists()
             return cb(null, true)
         })()
     }
