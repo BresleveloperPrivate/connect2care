@@ -1,7 +1,7 @@
 $darkBlue: #082551;
 $lightBlue: #19a099;
 $meetinngPageLeftWidth: 40em;
-$navBarMargin: 10vh;
+// $navBarMargin: 10vh;
 
 #meetingPage{
   
@@ -188,7 +188,7 @@ $navBarMargin: 10vh;
 
 #meetingPageLeft {
     overflow: auto;
-    padding: $navBarMargin + 4vh 3em 7vh 3em;
+    padding: 14vh 3em 7vh 3em;
     position: fixed;
     height: 100%;
     left: 0;
@@ -350,4 +350,12 @@ $navBarMargin: 10vh;
         }
     }
  
+}
+
+@media screen and (max-height: 450px){
+    #meetingPageLeft {
+        padding: 19vh 3em 7vh 3em;
+
+    } 
+    
 }

@@ -5,6 +5,10 @@
     color: #0A2D63;
 }
 
+.headlineCM{
+    margin-top: 12vh;
+}
+
 .createMeetingSecondSentence{
     font: normal 28px Assistant;
     letter-spacing: 0.5;
@@ -47,6 +51,7 @@ input[type=radio]:focus {
 }
 
 .containInputTextSide{
+    z-index: 6;
     background: #19A099 0% 0% no-repeat padding-box;
     box-shadow: 5px 3px 6px #00000029;
     padding: 4vh 5vh;
@@ -586,3 +591,15 @@ input[type=radio]:focus {
         font: normal 14px Assistant;
     }
 }
+
+@media screen and (max-height: 450px){
+
+    .headlineCM{
+        margin-top: 17vh;
+    }
+    .containInputTextSide{
+        padding: 9vh 6vh;
+    }
+    
+}
+

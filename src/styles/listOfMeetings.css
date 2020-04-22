@@ -595,3 +595,9 @@
     
     }
 }
+
+@media screen and (max-height: 450px){
+    .meetingsFullPage{
+        margin-top: 16vh;
+    }
+}

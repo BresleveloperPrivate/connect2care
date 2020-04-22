@@ -25,11 +25,6 @@ module.exports = function (meetings) {
         let sqlQueryfrom = `meetings , fallens_meetings`
         let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
         let params = []
-        let searchArr = search.split("'")
-        let newSearch = ""
-        for (let i = 0; i < searchArr.length; i++) {
-            newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
-        }
 
         // console.log(filters)
 
@@ -38,10 +33,15 @@ module.exports = function (meetings) {
         //     sqlQueryWhere += `meetings.id <= '${filters.id}'`
         // }
 
+        if (limit.min !== 0 && !Number(limit.min)) {
+            return cb({ error: 'value is not a number' })
+        }
+
         sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = 1`
 
         if (filters.date) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
+            params.push(filters.date)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '??'`
         }
 
         if (filters.status === 1) {
@@ -53,11 +53,14 @@ module.exports = function (meetings) {
         }
 
         if (filters.language) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '${filters.language}'`
+            params.push(filters.language)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '??'`
         }
 
         if (filters.time) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
+            params.push(filters.time[0])
+            params.push(filters.time[1])
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ?? and Replace(meetings.time, ':', '') < ??`
         }
 
         // if (filters.isAvailable) {
@@ -67,15 +70,24 @@ module.exports = function (meetings) {
         if (filters.relationship || search) {
             // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+                params.push(filters.relationship)
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
             }
 
             if (search) {
+                let searchArr = search.split("'")
+                let newSearch = ""
+                for (let i = 0; i < searchArr.length; i++) {
+                    newSearch += searchArr[i] + ((searchArr.length - 1) === i ? '' : "\\'")
+                }
+                params.push(newSearch)
+                params.push(newSearch)
+                params.push(newSearch)
                 sqlQueryfrom += ` , people , fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `(match(fallens.name) against('"${newSearch}"') or 
-                        match(meetings.name) against('"${newSearch}"') or 
-                        match(people.name) against('"${newSearch}"') )
+                    `(match(fallens.name) against('"??"') or 
+                        match(meetings.name) against('"??"') or 
+                        match(people.name) against('"??"') )
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
@@ -91,7 +103,7 @@ module.exports = function (meetings) {
         WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
         WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
         ELSE 9
-        END , meetings.id DESC LIMIT ${limit.min} , 21`, (err, res) => {
+        END , meetings.id DESC LIMIT ${limit.min} , 21`, params, (err, res) => {
 
             if (err) {
                 console.log(err)
@@ -342,7 +354,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, fallenFullArray,lang, options, cb) => {
+    meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
 
@@ -377,7 +389,7 @@ module.exports = function (meetings) {
                         return cb(valid1.errors, null);
                     }
 
-                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="??" WHERE meeting=?? and fallen=??`, [i.relationship, id, i.fallen], (err3, res1) => {
                         if (err3) {
                             console.log("err3", err3)
                             return cb(err3)
@@ -526,15 +538,22 @@ module.exports = function (meetings) {
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
         let sqlQueryWhere = ``
+        let params = []
 
-        if (filters.date)
-            sqlQueryWhere += `meetings.date = '${filters.date}'`
+        if (filters.date) {
+            params.push(filters.date)
+            sqlQueryWhere += `meetings.date = '??'`
+        }
 
-        if (filters.isOpen !== (null || undefined))
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
+        if (filters.isOpen !== (null || undefined)) {
+            params.push(filters.isOpen)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ??`
+        }
 
-        if (filters.approved !== (null || undefined))
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
+        if (filters.approved !== (null || undefined)) {
+            params.push(filters.approved)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ??`
+        }
 
         if (filters.name) {
             let nameArr = filters.name.split("'")
@@ -542,13 +561,15 @@ module.exports = function (meetings) {
             for (let i = 0; i < nameArr.length; i++) {
                 newName += nameArr[i] + ((nameArr.length - 1) === i ? '' : "\\'")
             }
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"${newName}"')`
+            params.push(newName)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `match(meetings.name) against('"??"')`
         }
 
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
+                params.push(filters.relationship)
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
             }
             if (filters.fallen) {
                 let fallenArr = filters.fallen.split("'")
@@ -556,9 +577,10 @@ module.exports = function (meetings) {
                 for (let i = 0; i < fallenArr.length; i++) {
                     newFallen += fallenArr[i] + ((fallenArr.length - 1) === i ? '' : "\\'")
                 }
+                params.push(newFallen)
                 sqlQueryfrom += `, fallens`
                 sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                    `match(fallens.name) against ('"${newFallen}"')
+                    `match(fallens.name) against ('"??"')
                      and fallens.id = fallens_meetings.fallen`
             }
             sqlQueryWhere += ` and meetings.id = fallens_meetings.meeting`
@@ -569,18 +591,21 @@ module.exports = function (meetings) {
             for (let i = 0; i < ownerArr.length; i++) {
                 newOwner += ownerArr[i] + ((ownerArr.length - 1) === i ? '' : "\\'")
             }
+            params.push(newOwner)
             sqlQueryfrom += `, people`
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) +
-                ` match(people.name) against('"${newOwner}"')
+                ` match(people.name) against('"??"')
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
+            params.push(filters.participants.min)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ??`
             if (filters.participants.max)
-                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
+                params.push(filters.participants.max)
+            sqlQueryWhere += ` and meetings.participants_num < ??`
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -613,7 +638,7 @@ module.exports = function (meetings) {
                                     fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : ', ')
                                 )
                                 meetingToReturn.push({
-                                    name: meeting.name,
+                                    name: '"' + meeting.name + '"',
                                     date: '"' + meeting.date + '"',
                                     time: meeting.time,
                                     fallens: '"' + fallens + '"',
@@ -1095,7 +1120,7 @@ module.exports = function (meetings) {
             }
             meetings.dataSource.connector.query(`select id
             from meetings
-            where match(name) against ('"${newName}"')`, (err, res) => {
+            where match(name) against ('"??"')`, [newName], (err, res) => {
                 if (err) {
                     console.log(err)
                     return cb(err)

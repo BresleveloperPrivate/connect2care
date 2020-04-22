@@ -78,3 +78,9 @@
     }
 
 }
+
+@media screen and (max-height: 450px){
+    .contactHeadLine{
+        margin-top: 16vh;
+    }
+}

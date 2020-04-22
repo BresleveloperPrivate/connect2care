@@ -16,11 +16,12 @@ module.exports = function (fallens) {
         for (let i = 0; i < valueArr.length; i++) {
             newValue += valueArr[i] + ((valueArr.length - 1) === i ? '' : "\\'")
         }
+    
         fallens.dataSource.connector.query(`select *
             from fallens
-            where match(fallens.name) against ('"${newValue}"')
+            where match(fallens.name) against ('"??"')
             order by fallens.falling_date desc
-            limit 0, 40`, (err, res) => {
+            limit 0, 40`, [newValue], (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
