@@ -91,7 +91,7 @@ const ComputerList = (props) => {
                        
                         {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                             return (
-                                <div className="flip-card" onClick={() => {
+                                <div  key={index} className="flip-card" onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }}
                                 style={{
@@ -103,7 +103,7 @@ const ComputerList = (props) => {
                                 >
                                         <div className="flip-card-front">
 
-                                            <div key={index} className={checkSide(index) ?'containMeetingCard2-comp' : 'containMeetingCard1-comp'}>
+                                            <div className={checkSide(index) ?'containMeetingCard2-comp' : 'containMeetingCard1-comp'}>
                                                 <div style={{ cursor: 'pointer' }}
                                                 >
                                                     <ImageOfFallen
