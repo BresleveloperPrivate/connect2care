@@ -227,7 +227,7 @@ module.exports = function (meetings) {
                 // name: true, description: true, 
                 owner: true, language: true, isOpen: true, time: true,
                 //  zoomId: true, 
-                 max_participants: true, code: true, date: true
+                max_participants: true, code: true, date: true
             };
             let name = data.name
             let description = data.description
@@ -457,7 +457,6 @@ module.exports = function (meetings) {
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
-
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
                     console.log("errPeople", errPeople)
@@ -467,7 +466,7 @@ module.exports = function (meetings) {
             }
 
             // security validate
-            if (data.max_participants)  data.max_participants = Number(data.max_participants)
+            if (data.max_participants) data.max_participants = Number(data.max_participants)
             if (data.isOpen) {
                 // data.isOpen = true
                 data.code = null
@@ -505,19 +504,21 @@ module.exports = function (meetings) {
                 // max_participants: true,
                 code: true, date: true
             };
-            
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-            
+
             if (data.name)
-            valid.data.name = data.name
+                valid.data.name = data.name
             if (data.description)
-            valid.data.description = data.description
+                valid.data.description = data.description
             if (data.max_participants) {
                 valid.data.max_participants = data.max_participants
             }
+            if (data.zoomId && meetingById.max_participants > 500 && meetingById.meetingOwner.name === 'האחים שלנו') valid.data.zoomId = data.zoomId
+
             if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
