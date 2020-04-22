@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Avatar } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
-
-
+import fallenNotExistPic from '../../icons/fallenNotExistPic.jpg'
 const useStyles = makeStyles({
     avatar: {
         height: 167,
@@ -13,9 +12,12 @@ const useStyles = makeStyles({
 
 const MeetingFallen = ({ fallen: { name, falling_date, heb_falling_date, image_link }, LanguageStore }) => {
     const { avatar } = useStyles();
+    const [imgCorrect, setImgCorrect] = useState();
+
     return (
         <div className={LanguageStore.lang !== 'heb' ? "meetingFallen fdrr" : "meetingFallen"}>
-            <Avatar src={image_link || "./images/fallenFallback.jpeg"} className={avatar} style={image_link ? {filter: "grayscale(1)"} : {}} variant="square" />
+            <img onError={() => setImgCorrect(fallenNotExistPic)} src={imgCorrect ? imgCorrect : (image_link || fallenNotExistPic)} className={avatar} style={!imgCorrect && image_link ? { filter: "grayscale(1)" } : {}} variant="square" />
+            {/* <Avatar src={image_link || "../../icons/fallenNotExistPic.jpg"} className={avatar} style={image_link ? {filter: "grayscale(1)"} : {}} variant="square" /> */}
             <div className={LanguageStore.lang !== 'heb' ? "meetingFallenDescription tal" : "meetingFallenDescription tar"}>
                 <img alt="alt" src="./images/lightBlueCandleIcon.svg" className="fallenCandle" />
                 <div className="fallenName">{`${name || ''}`}</div>
