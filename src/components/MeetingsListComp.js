@@ -12,6 +12,7 @@ import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import grass from '../icons/grass.png'
 import ourBrothers from '../icons/ourBro.png'
+import matrix from '../icons/matrix.svg'
 
 const ComputerList = (props) => {
 
@@ -35,7 +36,7 @@ const ComputerList = (props) => {
                 props.history.push('/create-meeting')
             }} >{props.t('IWantToInitiateAMeeting')}</div>
             {!props.MeetingsStore.error ?
-                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings-comp mainPage-meetings-ltr' : 'mainPage-meetings-comp'}>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>{props.t('meetingsList')}</div>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-second-title tal' : 'meetings-second-title tar'}> {props.t('meetingsList2')} </div>
                     <div className='containSearch'>
@@ -61,15 +62,19 @@ const ComputerList = (props) => {
 
                     </div>
                     <ContainFilters className='containFilters' t={props.t} />
-
+                    <div className='grow' style={{height:'2vw' , width:'2vw' , display:'flex' , marginTop:'3vh' , cursor:'pointer'}}>
+                            <img src={matrix} onClick={props.MeetingsStore.setView} height='100%' width='100%' />
+                        </div>
 
                     {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                         return (
-                            <div key={index} className={props.LanguageStore.lang !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard'}>
+                            <div 
+                            style={{ marginTop: index === 0 ? '1vw' : null}}
+                            key={index} className={props.LanguageStore.lang !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard'}>
                                 <div onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
                                 }}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer'}}
                                 >
                                     <ImageOfFallen
                                         className='imageOfFallen'
@@ -209,7 +214,7 @@ const ComputerList = (props) => {
                         </div>}
                 </div>
                 :
-                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings-comp mainPage-meetings-ltr' : 'mainPage-meetings-comp'}>
                     <div style={{ paddingTop: '10em', color: 'var(--custom-blue)', fontSize: '2em' }}>
                         {props.MeetingsStore.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
                     </div>

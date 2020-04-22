@@ -13,6 +13,7 @@ import ContainFilters from './ContainFilters'
 import grass from '../icons/bac-white.svg'
 import ourBrothers from '../icons/ob-white.svg'
 import tell from '../icons/Asset 7@3x11.png';
+import list from '../icons/list.svg'
 
 const ComputerList = (props) => {
 
@@ -83,13 +84,23 @@ const ComputerList = (props) => {
 
                     </div>
                     <ContainFilters className='containFilters' t={props.t} />
-
+                    <div className='grow' style={{height:'2vw' , width:'2vw' , display:'flex' , marginTop:'3vh' , cursor:'pointer'}}>
+                            <img src={list} onClick={props.MeetingsStore.setView} height='100%' width='100%' />
+                        </div>
                     <div className='containMeetings-comp'>
+                       
                         {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
                             return (
                                 <div className="flip-card" onClick={() => {
                                     props.history.push(`/meeting/${meeting.id}`)
-                                }}>
+                                }}
+                                style={{
+                                    margin: Math.floor(index / 4) === index / 4 ? '1vw 0 1vw 1vw':
+                                    Math.floor((index + 1) / 4) === (index + 1) / 4 ? '1vw 1vw 1vw 0':
+                                    '1vw'
+                                }}
+                                
+                                >
                                         <div className="flip-card-front">
 
                                             <div key={index} className={checkSide(index) ?'containMeetingCard2-comp' : 'containMeetingCard1-comp'}>
@@ -242,7 +253,7 @@ const ComputerList = (props) => {
                         </div>}
                 </div>
                 :
-                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'}>
+                <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings-comp mainPage-meetings-ltr' : 'mainPage-meetings-comp'}>
                     <div style={{ paddingTop: '10em', color: 'var(--custom-blue)', fontSize: '2em' }}>
                         {props.MeetingsStore.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
                     </div>
