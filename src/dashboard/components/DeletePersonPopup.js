@@ -20,6 +20,7 @@ export default function DaletePersonPopup(props) {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ meetingId: Number(props.meetingId), participantId: Number(props.participantId) })
             }, true);
+        console.log("success", success)
         setWaitForData(false)
         if (err) {
             setErr(true)

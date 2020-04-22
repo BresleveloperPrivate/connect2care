@@ -854,7 +854,7 @@ module.exports = function (meetings) {
         (async () => {
             console.log(process.env.TEST, process.env.TEST)
             sendEmail(senderName, sendOptions);
-            cb(null, { res:  process.env.TEST})
+            cb(null, { res: process.env.TEST })
         })();
     }
 
@@ -1243,7 +1243,9 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            return cb(null, true)
+            console.log("process.env.TEST", process.env.TEST)
+            let x = { "process.env.TEST": process.env.TEST }
+            return cb(null, x)
         })()
     }
 
@@ -1253,7 +1255,7 @@ module.exports = function (meetings) {
             { arg: 'meetingId', type: 'number', required: true },
             { arg: 'participantId', type: 'number', required: true }
         ],
-        returns: { arg: 'res', type: 'boolean', root: true }
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
     meetings.setPanelistStatus = (meetingId, participantId, isPanelist, participantName, participantEmail, zoomId, cb) => {
