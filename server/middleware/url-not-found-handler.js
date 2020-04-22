@@ -1,9 +1,9 @@
-'use strict';
-module.exports = function () {
-    //4XX - URLs not found
-    return function customRaiseUrlNotFoundError(req, res, next) {
+// 'use strict';
+// module.exports = function () {
+//     //4XX - URLs not found
+//     return function customRaiseUrlNotFoundError(req, res, next) {
         
-        res.render('index');
+//         res.render('index');
         //next();
         //res.send("<h1>404</h1>");
         //res.sendFile('index.html');
@@ -13,17 +13,17 @@ module.exports = function () {
         //        res.status(err.status).end();
         //    }
         //});
-    };
-};
-// 'use strict';
-// module.exports = function () {
-//     //4XX - URLs not found
-//     return function customRaiseUrlNotFoundError(req, res, next) {
-//         res.sendFile('./x.html', function (err) {
-//             if (err) {
-//                 console.error(err);
-//                 res.status(err.status).end();
-//             }
-//         });
 //     };
 // };
+'use strict';
+module.exports = function () {
+    //4XX - URLs not found
+    return function customRaiseUrlNotFoundError(req, res, next) {
+        res.sendFile('./notFound.html', function (err) {
+            if (err) {
+                console.error(err);
+                res.status(err.status).end();
+            }
+        });
+    };
+};

@@ -464,7 +464,6 @@ module.exports = function (meetings) {
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
-
                 let [errPeople, peopleById] = await to(people.upsertWithWhere({ id: meetingById.owner }, valid.data))
                 if (errPeople) {
                     console.log("errPeople", errPeople)
@@ -525,6 +524,8 @@ module.exports = function (meetings) {
             if (data.max_participants) {
                 valid.data.max_participants = data.max_participants
             }
+            if (data.zoomId && meetingById.max_participants > 500 && meetingById.meetingOwner.name === 'האחים שלנו') valid.data.zoomId = data.zoomId
+
             if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
                 if (err2) {
@@ -701,18 +702,17 @@ module.exports = function (meetings) {
 
     meetings.GetMeetingInfo = (meetingId, cb) => {
         (async () => {
-            try {
-                let meeting = await meetings.findById(meetingId, { "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] });
-                if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
-                // console.log(meeting.approved)
-                // console.log("meeting", meeting.code)
-                meeting = JSON.parse(JSON.stringify(meeting))
-                // delete meeting.code;
-                cb(null, meeting);
-            } catch (err) {
+            let [err, meeting] = await to(meetings.findById(meetingId, { "fields": { "code": false, "zoomId": false }, include: [{ "relation": 'meetingOwner', "scope": { "fields": "name" } }, 'fallens'] }));
+            if (err) {
                 console.log(err);
-                cb(err, null);
+                return cb(err, null);
             }
+            if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
+            // console.log(meeting.approved)
+            // console.log("meeting", meeting.code)
+            meeting = JSON.parse(JSON.stringify(meeting))
+            // delete meeting.code;
+            cb(null, meeting);
         })();
     }
 
@@ -725,67 +725,68 @@ module.exports = function (meetings) {
 
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
-            try {
-                if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
-                if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלקטרוני' }, null); return; }
-                if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-                // const validateName = /^['"\u0590-\u05fe\s.-]*$/
-                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
-                const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
-                if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
-                if (phone.length > 14) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+            const { people, people_meetings } = meetings.app.models;
+            const [err, meeting] = await to(meetings.findById(meetingId));
+            if (err) {
+                console.log(err);
+                return cb(err, null);
+            }
 
-                const { people, people_meetings } = meetings.app.models;
-                const meeting = await meetings.findById(meetingId);
+            if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
+            const { max_participants, participants_num, isOpen, code } = meeting;
 
-                if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
-                const { max_participants, participants_num, isOpen, code } = meeting;
-
-                if (!!!isOpen) {
-                    if (String(code) !== String(myCode)) {
-                        { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
-                    }
+            if (!!!isOpen) {
+                if (String(code) !== String(myCode)) {
+                    { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
                 }
-                if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
-                let person;
-                let [err, user0] = await to(people.findOne({ where: { email: email } }))
-                if (err) {
-                    console.log("err", err)
-                    return cb(err)
-                }
-                if (!user0) {
-                    let whitelist = {
-                        name: true, email: true, phone: true
-                    };
-                    let valid = ValidateTools.runValidate({ name, email, phone }, ValidateRules.people, whitelist);
-                    if (!valid.success || valid.errors) {
-                        return cb(valid.errors, null);
-                    }
-
-                    person = await people.create(valid.data);
-                }
-                else {
-                    if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
-                    person = user0
-                }
-
-                let whitelist1 = {
-                    person: true, meeting: true
+            }
+            if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
+            let person;
+            let [err1, user0] = await to(people.findOne({ where: { email: email } }))
+            if (err1) {
+                console.log("err", err1)
+                return cb(err1)
+            }
+            if (!user0) {
+                let whitelist = {
+                    name: true, email: true, phone: true
                 };
-                let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
-                if (!valid1.success || valid1.errors) {
-                    return cb(valid1.errors, null);
+                let valid = ValidateTools.runValidate({ name: name, email: email, phone: phone }, ValidateRules.people, whitelist);
+                if (!valid.success || valid.errors) {
+                    return cb(valid.errors, null);
                 }
 
-                await people_meetings.create(valid1.data);
-                let shalom = mailDetails
-                let sendOptions = {
-                    to: email, subject: "הרשמתך למפגש התקבלה", html:
-                        `
+                let [err2, person1] = await to(people.create(valid.data));
+                if (err2) {
+                    console.log(err2);
+                    return cb(err2, null);
+                }
+                person = person1
+            }
+            else {
+                if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
+                person = user0
+            }
+
+            let whitelist1 = {
+                person: true, meeting: true
+            };
+            let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
+            if (!valid1.success || valid1.errors) {
+                return cb(valid1.errors, null);
+            }
+
+            let [err3, res] = await to(people_meetings.create(valid1.data));
+            if (err3) {
+                console.log(err3);
+                return cb(err3, null);
+            }
+            let shalom = mailDetails
+            let sendOptions = {
+                to: email, subject: "הרשמתך למפגש התקבלה", html:
+                    `
                 <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-            background-color: #082551; direction: rtl'>
+                background-color: #082551; direction: rtl'>
                 <div style = 'display:flex ; width: 100%' >
                     <div style='width:100%;' >
                         <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
@@ -815,23 +816,23 @@ module.exports = function (meetings) {
                   </div>
                                                                     ` }
 
-                sendEmail("", sendOptions);
-                const participantsNum = participants_num ? participants_num + 1 : 1;
+            sendEmail("", sendOptions);
+            const participantsNum = participants_num ? participants_num + 1 : 1;
 
-                let whitelist2 = {
-                    id: true, participants_num: true
-                };
-                let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-                if (!valid2.success || valid2.errors) {
-                    return cb(valid2.errors, null);
-                }
-                let meetingsRes = await meetings.upsert(valid2.data);
-
-                cb(null, { participantsNum });
-            } catch (err) {
-                console.log(err);
-                cb(err, null);
+            let whitelist2 = {
+                id: true, participants_num: true
+            };
+            let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
+            if (!valid2.success || valid2.errors) {
+                return cb(valid2.errors, null);
             }
+            let [err4, meetingsRes] = await to(meetings.upsert(valid2.data));
+            if (err4) {
+                console.log(err4);
+                return cb(err4, null);
+            }
+
+            return cb(null, { participantsNum });
         })();
     }
 
@@ -911,7 +912,7 @@ module.exports = function (meetings) {
 
                 sendEmail("", sendOptions);
 
-                // people.destroyAll(where, (err3, res2) => {
+                // people.destroyAll(where, (err4, res2) => {
                 //     if (err3) {
                 //         console.log("err3", err3)
                 //         return cb(err3)
@@ -1202,10 +1203,8 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            console.log("res", res)
             let people_meetings = JSON.parse(JSON.stringify(res)).people_meetings
             let people = []
-            console.log("people_meetings", people_meetings)
             for (let i of people_meetings) {
                 i.people.isPanelist = i.isPanelist
                 people.push(i.people)
