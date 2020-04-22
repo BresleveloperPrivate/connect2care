@@ -5,7 +5,7 @@ const createZoomUser = require('../../server/createZoomUser.js');
 const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
-const addPanelists =  require('../../server/addPanelists.js');
+const addPanelists = require('../../server/addPanelists.js');
 // const http = require("https");
 // const jwt = require('jsonwebtoken');
 // const config = require('./config');
@@ -41,7 +41,10 @@ module.exports = function (meetings) {
 
         if (filters.date) {
             params.push(filters.date)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '??'`
+            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+                return cb({ error: 'date is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
         }
 
         if (filters.status === 1) {
@@ -53,14 +56,17 @@ module.exports = function (meetings) {
         }
 
         if (filters.language) {
-            params.push(filters.language)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '??'`
+            if (filters.language !== 'עברית' && filters.language !== 'English' && filters.language !== 'français' && filters.language !== 'العربية' && filters.language !== 'русский' && filters.language !== 'አማርኛ' && filters.language !== 'español') {
+                return cb({ error: 'language is not valid' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.language = '${filters.language}'`
         }
 
         if (filters.time) {
-            params.push(filters.time[0])
-            params.push(filters.time[1])
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ?? and Replace(meetings.time, ':', '') < ??`
+            if (filters.time[0] !== 0 && !Number(filters.time[0]) && filters.time[1] !== 0 && !Number(filters.time[1])) {
+                return cb({ error: 'value is not a number' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
         // if (filters.isAvailable) {
@@ -70,8 +76,10 @@ module.exports = function (meetings) {
         if (filters.relationship || search) {
             // sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                params.push(filters.relationship)
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
+                if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
+                    return cb({ error: 'relationship is not valid' })
+                }
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
 
             if (search) {
@@ -389,7 +397,7 @@ module.exports = function (meetings) {
                         return cb(valid1.errors, null);
                     }
 
-                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="??" WHERE meeting=?? and fallen=??`, [i.relationship, id, i.fallen], (err3, res1) => {
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
                             console.log("err3", err3)
                             return cb(err3)
@@ -541,18 +549,25 @@ module.exports = function (meetings) {
         let params = []
 
         if (filters.date) {
-            params.push(filters.date)
-            sqlQueryWhere += `meetings.date = '??'`
+            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+                return cb({ error: 'date is not valid' })
+            }
+
+            sqlQueryWhere += `meetings.date = '${filters.date}'`
         }
 
         if (filters.isOpen !== (null || undefined)) {
-            params.push(filters.isOpen)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ??`
+            if (filters.isOpen !== true && filters.isOpen !== false) {
+                return cb({error:'isOpen is not valid'})
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.isOpen = ${filters.isOpen}`
         }
 
         if (filters.approved !== (null || undefined)) {
-            params.push(filters.approved)
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ??`
+            if (filters.approved !== true && filters.approved !== false) {
+                return cb({error:'approved is not valid'})
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.approved = ${filters.approved}`
         }
 
         if (filters.name) {
@@ -568,8 +583,10 @@ module.exports = function (meetings) {
         if (filters.relationship || filters.fallen) {
             sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
-                params.push(filters.relationship)
-                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '??'`
+                if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
+                    return cb({ error: 'relationship is not valid' })
+                }
+                sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ` `) + `fallens_meetings.relationship = '${filters.relationship}'`
             }
             if (filters.fallen) {
                 let fallenArr = filters.fallen.split("'")
@@ -966,9 +983,7 @@ module.exports = function (meetings) {
                             irrelevant for this meet-up; please use the temporary account. <br>
                             Due to a special
                             collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-
                             including unlimited time, ability to record the session, etc.
-
                                     <div
                                         style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                                         How does this work?
@@ -976,7 +991,6 @@ module.exports = function (meetings) {
                             A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
                             B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
                             C. Your user name will be automatically filled in, please use the password:
-
                             OurBrothers2020 <br>
                                     <div
                                         style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
@@ -990,7 +1004,6 @@ module.exports = function (meetings) {
                                         Zoom Prep Workshop
                                         </div>
                                         The virtual workshop will be held on Zoom by public speaking experts and digital content
-
                                         experts. It is highly recommended!<br>
                                         Sign up here: <a href="https://bit.ly/connect2care_foryou"
                                         target="_blank">https://bit.ly/connect2care_foryou</a>
@@ -1034,7 +1047,6 @@ module.exports = function (meetings) {
                             זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
                         </div>
                         <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת המפגש</a>
-
                         <br>
                         ${code}
                         <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
@@ -1244,7 +1256,7 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            addPanelists()
+            // addPanelists()
             return cb(null, true)
         })()
     }
