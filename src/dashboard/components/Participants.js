@@ -139,7 +139,7 @@ const Participants = (props) => {
                         {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '10vw', paddingTop: '1vh' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                     </div>
             }
-            {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant.id} spliceFromArr={spliceFromArr} />}
+            {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant} spliceFromArr={spliceFromArr} />}
             {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} zoomId={props.CreateMeetingStore.meetingDetailsOriginal.zoomId} setPanelistInArr={setPanelistInArr} />}
         </div >
     )

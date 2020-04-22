@@ -12,6 +12,7 @@ export default function DaletePersonPopup(props) {
 
     const deleteMeeting = async () => {
         setWaitForData(true)
+        console.log(props.meetingId, props.participantId)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/deleteParticipant`,
             {
