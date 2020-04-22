@@ -397,7 +397,7 @@ module.exports = function (meetings) {
                         return cb(valid1.errors, null);
                     }
 
-                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="??" WHERE meeting=?? and fallen=??`, [i.relationship, id, i.fallen], (err3, res1) => {
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
                             console.log("err3", err3)
                             return cb(err3)
