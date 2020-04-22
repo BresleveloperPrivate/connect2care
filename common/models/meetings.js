@@ -225,7 +225,9 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true, 
-                owner: true, language: true, isOpen: true, time: true, zoomId: true, max_participants: true, code: true, date: true
+                owner: true, language: true, isOpen: true, time: true,
+                //  zoomId: true, 
+                 max_participants: true, code: true, date: true
             };
             let name = data.name
             let description = data.description
@@ -498,7 +500,8 @@ module.exports = function (meetings) {
 
             let whitelist = {
                 // name: true, description: true,
-                title: true, owner: true, language: true, isOpen: true, time: true, zoomId: true,
+                title: true, owner: true, language: true, isOpen: true, time: true,
+                //  zoomId: true,
                 // max_participants: true,
                 code: true, date: true
             };
