@@ -6,12 +6,12 @@ import { inject, observer, PropTypes } from 'mobx-react';
 import lock from '../icons/lock-white.svg'
 import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
-import candle from '../icons/candle-dark-blue.svg'
-import clock from '../icons/clock.svg'
-import participants from '../icons/participants.png'
+import candle from '../icons/candle.svg'
+import clock from '../icons/whiteclock.svg'
+// import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
-import grass from '../icons/grass.png'
-import ourBrothers from '../icons/ourBro.png'
+import grass from '../icons/bac-white.svg'
+import ourBrothers from '../icons/ob-white.svg'
 import tell from '../icons/Asset 7@3x11.png';
 
 const ComputerList = (props) => {
@@ -137,15 +137,8 @@ const ComputerList = (props) => {
                                                             </div>
                                                             {props.t('host')}: {meeting.meetingOwner && meeting.meetingOwner.name}
                                                         </div>
-                                                        {/* <div className={props.LanguageStore.lang !== 'heb' ? 'meetingDescription tal' : 'tar meetingDescription'}>
-                                            {meeting.description}
-                                        </div> */}
-                                                        {console.log(index, 'index')}
-                                                        {console.log(index % 2, 'index % 2')}
-                                                        {console.log(index % 4, 'index % 4')}
-                                                        {console.log(Math.floor(index % 4) % 2, 'Math.floor(index % 4) % 2')}
 
-                                                        <div className={checkSide(index) ?'arrow-left-blue' :'arrow-right-blue'}></div>
+                                                        <div className={checkSide(index) ?'arrow-left-blue-comp' :'arrow-right-blue-comp'}></div>
 
                                                     </div>
 
@@ -156,10 +149,13 @@ const ComputerList = (props) => {
                                         </div>
                                         <div className="flip-card-back">
                                         <div className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
-                                         style={{direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}
-
-                                        >
-                                                {meeting.fallens_meetings.map((fallen, index) => {
+                                         style={{direction: props.LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' , display:'flex' , borderBottom:'0.7px solid white' , paddingBottom:'0.4vw' , fontWeight:700}} >
+                                             <div style={props.LanguageStore.lang !== 'heb' ?
+                                                { height: '1.3em', marginRight: '0.5vw',display:'flex' } :
+                                                { height: '1.3em', marginLeft: '0.5vw',display:'flex' }}>
+                                                <img src={candle} height='100%' />
+                                            </div>
+                                                <div>{meeting.fallens_meetings.map((fallen, index) => {
                                                     if (index === 0) {
                                                         if (props.LanguageStore.lang !== 'heb') {
                                                             return (
@@ -194,6 +190,26 @@ const ComputerList = (props) => {
                                                         }
                                                     }
                                                 })}</div>
+                                                </div>
+
+                                       <div
+                                       className={props.LanguageStore.lang !== 'heb' ? 'tal' : 'tar'}
+                                        style={{display:'flex',flexDirection: props.LanguageStore.lang !== 'heb' ? 'row-reverse':'row' , fontSize:'1.2vw' , paddingTop:'1vw' }}>
+                                            <div style={
+                                                props.LanguageStore.lang !== 'heb' ?
+                                                    {height:'1.1em' , display:'flex' , marginRight:'0.5vw' , marginTop:'0.3vw'}
+                                                    :
+                                                    {height:'1.1em' , display:'flex' , marginLeft:'0.5vw', marginTop:'0.3vw'}
+                                                    }>
+                                                <img src={clock} height='100%' />
+                                                </div>
+                                                <div>{props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}</div>
+
+                                        </div>
+                                        <div style={{flexGrow:'1'}}></div>
+                                        <div style={{fontSize:'1vw' , width:'100%' , maxHeight:'5vw' , overflow:'hidden', paddingTop:'0.5vw' }} className={props.LanguageStore.lang !== 'heb' ? ' tal' : 'tar '}>
+                                            {meeting.description}
+                                        </div>
                                         </div>
                                     </div>
 

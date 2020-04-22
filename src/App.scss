@@ -107,3 +107,10 @@ body{
 .navBarMargin{
   margin-top: 10vh;
 }
+
+@media screen and (max-height: 450px){
+  .navBarMargin{
+    margin-top: 15vh;
+  }
+  
+}

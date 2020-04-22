@@ -5,6 +5,7 @@ const createZoomUser = require('../../server/createZoomUser.js');
 const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
+const addPanelists =  require('../../server/addPanelists.js');
 // const http = require("https");
 // const jwt = require('jsonwebtoken');
 // const config = require('./config');
@@ -1243,6 +1244,7 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
+            addPanelists()
             return cb(null, true)
         })()
     }

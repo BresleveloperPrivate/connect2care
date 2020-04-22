@@ -58,7 +58,7 @@ const Info = (props) => {
 
     return (
         <div id="infoPage" style={props.LanguageStore.lang === "heb" ? { textAlign: "right" } : { textAlign: "left" }}>
-            <div className="createMeetingHeadLine margin-right-text" style={{ marginTop: "12vh" }}>{props.LanguageStore.lang === "heb" ? "שאלות ותשובות" : "Questions and Answers"}</div>
+            <div className="createMeetingHeadLine margin-right-text headlineCM" >{props.LanguageStore.lang === "heb" ? "שאלות ותשובות" : "Questions and Answers"}</div>
             <div className="createMeetingSecondSentence margin-right-text">{props.LanguageStore.lang === "heb" ? "שאלות ותשובות ששאלתם אותנו" : "Questions and Answers you asked us"}</div>
             {arrayQuestion.map((_, index) => {
 
