@@ -190,6 +190,7 @@
 
 @media screen and (max-height: 450px){
     .navbar{
+        position: unset !important;
         height: 15vh !important;
     }
 
@@ -201,6 +202,11 @@
 @media screen and (max-width: 550px){
     .containIconNavbar{
         height: 5vh;
+    }
+
+    .navbar{
+        position: unset !important;
+        // height: 15vh !important;
     }
     // .navbarOptions{
     //     align-items: center !important;

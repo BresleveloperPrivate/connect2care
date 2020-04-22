@@ -10,7 +10,7 @@ import close from '../icons/close.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import grayCandle from '../icons/gray-candle.svg'
-import fallenFallBack from "../icons/fallenFallback.jpeg"
+import fallenNotExistPic from '../icons/fallenNotExistPic.jpg'
 
 import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
@@ -135,12 +135,12 @@ const FallenDetails = (props) => {
 
             <div className={(findImage ? "exictingPic" : "candleImg")} style={(findImage && CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image && !imgCorrect) ? { filter: "grayscale(1)" } : {}}>
 
-                <img onError={() => setImgCorrect(grayCandle)} src={
+                <img onError={() => setImgCorrect(fallenNotExistPic)} src={
                     (findImage) ?
                         (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ?
-                            imgCorrect ? fallenFallBack :
+                            imgCorrect ? fallenNotExistPic :
                                 CreateMeetingStore.fallenDetails[props.fallen.id].image :
-                            fallenFallBack :
+                            fallenNotExistPic :
                         grayCandle}
                     alt="grayCandle" style={
                         findImage ? { height: "22.6vh", borderRadius: "4px" } : { height: "13vh" }} />

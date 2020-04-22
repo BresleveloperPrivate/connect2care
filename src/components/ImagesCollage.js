@@ -98,10 +98,8 @@ class HowItWorks extends Component {
                         </div>
                     </div>
                     <div className='container'>
-                        {console.log("this.state.imgTryArray", this.state.imgTryArray)}
                         {this.state.images.map((val, index) => {
                             if (val) {
-                                console.log("val.image", val.image)
                                 return (
                                     <div key={index} style={{ gridArea: 'a' + Number(index + 1), margin: '0.5vw' }}>
                                         <img
