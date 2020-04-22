@@ -10,13 +10,14 @@
     "password": "z10mz10m",
     "name": "msql",
     "user": "root",
-    "connector": "mysql"
+    "connector": "mysql",
+    "ssl": true
   },
   "myEmailDataSource": {
     "connector": "mail",
     "transports": [
       {
-        "service":"gmail",
+        "service": "gmail",
         "type": "smtp",
         "host": "smtp.gmail.com",
         "secure": true,

@@ -25,7 +25,7 @@ const TextSideDiv = (props) => {
                             <div style={{ marginTop: "2vh" }}> Our Brothers are here for you,
                             Before the meet-up we will hold a preparatory session and explain how the zoom meeting works, and
                             provide tools for hosting the event.
-                    </div>
+                            </div>
                         </div>
                         :
 
@@ -35,7 +35,7 @@ const TextSideDiv = (props) => {
                             <strong>ביחד תספרו ותזכרו בסיפורם של היקרים לכם.</strong>
                             <div style={{ marginTop: "2vh" }}> האחים שלנו כאן בשבילכם,
                             לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.
-                </div>
+                            </div>
                         </div>
 
 
@@ -71,9 +71,9 @@ const TextSideDiv = (props) => {
                                     </div>
                                 )
                         })}
-                        <div className="gotItButton pointer" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }}>הבנתי</div>
                     </div>}
             </div>
+            {props.dataForFallen && <div className="gotItButton pointer" onClick={() => { props.setPressOnCancel(true); props.setDataForFallen(false) }}>הבנתי</div>}
         </div>
     )
 }
