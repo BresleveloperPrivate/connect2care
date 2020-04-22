@@ -219,7 +219,7 @@ class CreateMeetingStore {
     }
 
     changeMeetingFacilitatorPhoneNumber = (e) => {
-        if (e.target.value.match(/[^0-9-]/g) || e.target.value.length > 11) {
+        if (e.target.value.match(/[^0-9-+]/g) || e.target.value.length > 14) {
             return
         }
         this.meetingDetails.owner.phone = e.target.value
