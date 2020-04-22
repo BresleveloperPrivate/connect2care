@@ -16,7 +16,7 @@ const DashboardMain = (props) => {
     }, [])
 
     return (
-        <div style={{ height: '100vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
+        <div style={{ minHeight: '100vh', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>
             <TopBarManager />
             <Filters t={props.t} />
             <div className="textStyle" style={{ margin: '4vh 15vw 2.5vh 0px', width: 'fit-content', fontSize: "3vh", fontWeight: "bold" }}>מאגר מפגשים</div>

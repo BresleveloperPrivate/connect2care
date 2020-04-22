@@ -3,7 +3,7 @@
     position: relative;
     padding-bottom: 2em;
     margin-top: 11vh;
-    /* min-height: calc(100vh - 11vh + 2em - (2vh + 0.7vw + 3.3em));    */
+    min-height: calc(87vh - 20px);
 }
 /* .emailAndPhonePopup{
     position: relative;
