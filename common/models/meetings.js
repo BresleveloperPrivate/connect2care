@@ -192,6 +192,13 @@ module.exports = function (meetings) {
                 let whitelist = {
                     name: true, email: true, phone: true
                 };
+                // countDigit = 0
+                // countMinues = 0
+
+                // for (let i = 0; i < data.phone.length; i++) {
+                //     if( data.phone[i]==="0"||data.phone[i]==="1"||data.phone[i]==="2"||data.phone[i]==="3"||)
+                // }
+
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
@@ -210,7 +217,6 @@ module.exports = function (meetings) {
             if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            console.log("data.isOpen", data.isOpen, typeof data.isOpen, "data.code", data.code)
             let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
@@ -227,7 +233,7 @@ module.exports = function (meetings) {
                 // name: true, description: true, 
                 owner: true, language: true, isOpen: true, time: true,
                 //  zoomId: true, 
-                 max_participants: true, code: true, date: true
+                max_participants: true, code: true, date: true
             };
             let name = data.name
             let description = data.description
@@ -468,7 +474,7 @@ module.exports = function (meetings) {
             }
 
             // security validate
-            if (data.max_participants)  data.max_participants = Number(data.max_participants)
+            if (data.max_participants) data.max_participants = Number(data.max_participants)
             if (data.isOpen) {
                 // data.isOpen = true
                 data.code = null
@@ -506,16 +512,16 @@ module.exports = function (meetings) {
                 // max_participants: true,
                 code: true, date: true
             };
-            
+
             let valid = ValidateTools.runValidate(data, ValidateRules.meetings, whitelist);
             if (!valid.success || valid.errors) {
                 return cb(valid.errors, null);
             }
-            
+
             if (data.name)
-            valid.data.name = data.name
+                valid.data.name = data.name
             if (data.description)
-            valid.data.description = data.description
+                valid.data.description = data.description
             if (data.max_participants) {
                 valid.data.max_participants = data.max_participants
             }
@@ -729,7 +735,7 @@ module.exports = function (meetings) {
                 // if (!validateName.test(name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
-                if (phone.length > 10) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
+                if (phone.length > 14) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
                 const { people, people_meetings } = meetings.app.models;
                 const meeting = await meetings.findById(meetingId);
@@ -757,10 +763,8 @@ module.exports = function (meetings) {
                     if (!valid.success || valid.errors) {
                         return cb(valid.errors, null);
                     }
-                    console.log("valid", valid)
 
                     person = await people.create(valid.data);
-                    console.log("person", person)
                 }
                 else {
                     if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
@@ -774,8 +778,6 @@ module.exports = function (meetings) {
                 if (!valid1.success || valid1.errors) {
                     return cb(valid1.errors, null);
                 }
-                console.log("valid1", valid1)
-
 
                 await people_meetings.create(valid1.data);
                 let shalom = mailDetails
@@ -813,8 +815,7 @@ module.exports = function (meetings) {
                   </div>
                                                                     ` }
 
-                // sendEmail("", sendOptions);
-                console.log("participants_num", typeof participants_num)
+                sendEmail("", sendOptions);
                 const participantsNum = participants_num ? participants_num + 1 : 1;
 
                 let whitelist2 = {
@@ -824,11 +825,7 @@ module.exports = function (meetings) {
                 if (!valid2.success || valid2.errors) {
                     return cb(valid2.errors, null);
                 }
-                console.log("valid2", valid2)
-                console.log("participantsNum after", participantsNum)
-
                 let meetingsRes = await meetings.upsert(valid2.data);
-                console.log("meetingsRes", meetingsRes)
 
                 cb(null, { participantsNum });
             } catch (err) {
