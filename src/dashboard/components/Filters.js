@@ -71,6 +71,7 @@ const Filters = (props) => {
                 filters.participants.max = splited[0]
             }
         }
+        props.ManagerStore.setPage(1)
         props.ManagerStore.fetchMeetingsDashboard(filters, false, isExcel)
     }
 
