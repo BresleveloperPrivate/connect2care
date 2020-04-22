@@ -91,7 +91,7 @@ const Filters = (props) => {
                             selectTextDefault='הכל'
                             arr={DATES}
                             width='90%'
-                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedDate("") : setSelectedDate(value.option) }}
+                            onChoseOption={(value) => { value.option === "הכל" ? setSelectedDate("") : setSelectedDate(value.data) }}
                         />
                     </div>
                     <div className='filterItem'>
