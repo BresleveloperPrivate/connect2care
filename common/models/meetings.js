@@ -852,6 +852,7 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
+            console.log(process.env.TEST, process.env.TEST)
             sendEmail(senderName, sendOptions);
             cb(null, { res: "success" })
         })();
