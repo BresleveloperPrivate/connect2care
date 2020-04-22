@@ -1249,7 +1249,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.setPanelistStatus = (meetingId, participantId, isPanelist, cb) => {
+    meetings.setPanelistStatus = (meetingId, participantId, isPanelist, participantName, participantEmail, zoomId, cb) => {
         (async () => {
             const people_meetings = meetings.app.models.people_meetings
             let [err, res] = await to(people_meetings.upsertWithWhere({ meeting: meetingId, person: participantId }, { isPanelist: isPanelist }))
@@ -1266,7 +1266,11 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'meetingId', type: 'number', required: true },
             { arg: 'participantId', type: 'number', required: true },
-            { arg: 'isPanelist', type: 'boolean', required: true }
+            { arg: 'isPanelist', type: 'boolean', required: true },
+            { arg: 'participantName', type: 'string', required: true },
+            { arg: 'participantEmail', type: 'string', required: true },
+            { arg: 'zoomId', type: 'string', required: true },
+
         ],
         returns: { arg: 'res', type: 'boolean', root: true }
     })
