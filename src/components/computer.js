@@ -132,13 +132,16 @@ const ComputerList = (props) => {
                                                         <div className={props.LanguageStore.lang !== 'heb' ? 'meetingName-comp tal' : 'meetingName-comp tar'}>
                                                             {!meeting.isOpen && <div style={
                                                                 props.LanguageStore.lang !== 'heb' ?
-                                                                    { height: '2vw', width: '0.5em', display: 'flex', marginRight: '0.5vw', zIndex: 2 }
+                                                                    {width:'1vw', display: 'flex', marginRight: '0.5vw', zIndex: 2}
                                                                     :
-                                                                    { height: '2vw', width: '0.5em', display: 'flex', marginLeft: '0.5vw', zIndex: 2 }
+                                                                    {width:'1vw', display: 'flex', marginLeft: '0.5vw', zIndex: 2}
                                                             }>
-                                                                <img height='100%' width='100%' src={lock} />
+                                                                <img width='100%' src={lock} />
                                                             </div>}
-                                                            {meeting.name}
+
+                                                            {meeting.name.split(' ').map((val , index)=>{
+                                                                return <span style={{padding: '0 0.2vw'}} key={index}>{val} </span>
+                                                            })}
                                                         </div>
                                                         <div style={{flexGrow:'1'}}></div>
 

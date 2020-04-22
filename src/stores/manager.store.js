@@ -42,13 +42,13 @@ class ManagerStore {
         }
         if (!isExcel) {
             this.meetingsNum = meetings.pop() || 0
-            this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
             if (!readMore) this.meetings = meetings || []
             else {
                 for (let meeting of meetings) {
                     this.meetings.push(meeting)
                 }
             }
+            this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
         }
         else {
             const columns = {
@@ -58,7 +58,7 @@ class ManagerStore {
                 fallens: 'שמות הנופלים',
                 ownerName: 'שם המארח',
                 ownerEmail: 'כתובת המייל של המארח',
-                ownerPhone:'פלפון של המארח'
+                ownerPhone: 'פלפון של המארח'
 
             }
 
