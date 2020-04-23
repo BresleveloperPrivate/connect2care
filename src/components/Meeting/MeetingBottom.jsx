@@ -17,17 +17,17 @@ const MeetingBottom = ({ numOfPeople , LanguageStore , maxNum }) => {
     return (
         <div id="meetingPageBottom" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
             <div id="peopleCircle">
-                <div id="peopleCircleNum">{maxNum !== null ? maxNum : numOfPeople}</div>
+                <div id="peopleCircleNum">{numOfPeople !== null ? numOfPeople : maxNum}</div>
                 <SupervisorAccount className={peopleIcon} />
             </div>
             <div id="peopleCircleText">
 
-                {maxNum !== null ?
+                {numOfPeople === null ?
                  LanguageStore.lang !== 'heb' ?
                  'Maximum number of participants' : 'מספר המשתתפים המקסימלי'
                  :
                 LanguageStore.lang !== 'heb' ?
-                    'Participants signed up for the meet-up' : 'משתתפים נרשמו למפגש'
+                    `Participants signed up for the meet-up out of ${maxNum}` : `משתתפים נרשמו למפגש מתוך ${maxNum}`
                 }
             </div>
         </div>

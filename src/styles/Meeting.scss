@@ -204,7 +204,7 @@ $meetinngPageLeftWidth: 40em;
     overflow: auto;
     padding: 14vh 3em 7vh 3em;
     position: fixed;
-    height: 100%;
+    height: calc(100% - 5vh);
     left: 0;
     top: 0;
     width: $meetinngPageLeftWidth;
@@ -270,8 +270,8 @@ $meetinngPageLeftWidth: 40em;
 
         #meetingPageBottom {
             margin-top: 2rem;
-            padding-left: 0;
-            padding-right: 0;
+            // padding-left: 0;
+            // padding-right: 0;
             justify-content: center;
         }
     }
