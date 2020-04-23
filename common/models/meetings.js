@@ -289,30 +289,38 @@ module.exports = function (meetings) {
                                 // let code = jsdata.code ? data.lang == 'en' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
 
                                 let sendOptions = {}
-                                if (data.lang == 'en') {
+                                if (data.lang !== 'heb' && data.lang) {
                                     sendOptions = {
-                                        to: emailowner, subject: "המפגש שיצרת התקבל וממתין לאישור", html:
+                                        to: emailowner, subject: "The meeting you initiated was accepted and awaiting approval", html:
 
                                             `
-                                    <div width="100%" style="direction: rtl;">
+                                    <div width="100%" style="direction: ltr;">
                                     <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
                                     <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
                                       <div style="font-weight: bold; margin-bottom: 20px;">
-                                        אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
-                                        בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+                                      Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom HaZikaron.<br>
+                                      Thanks to you, we can give a hug of memory and appreciation to those who have fallen for us, and show that this year- despite the challenge- we have not forgotten.
                                       </div>
-                                      על מנת להבטיח אבטחה מירבית למפגש, צוות המיזם יעבור על הבקשה שלך, ישוחח איתך ותוך 24 שעות ישלח לך אישור על
-                                      פרסום המפגש אצלנו באתר.<br><br>
-                                      המשך לעקוב אחרי המיילים שתקבל מאיתנו.<br>
-                                      תודה על ההבנה והסבלנות<br>
+                                      In order to promise top security for our meet-ups, the project team is reviewing your request, will possibly discuss your request with you, and within 24 hours will send you confirmation to publish and share your meet-up on our website. <br><br>
+                                      Continue following our emails.<br>
+                                      Thank you for your patience and understanding.
+                                      <br>
                                     </div>
                                       <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
                                         <div style="font-weight: bold;">
-                                          שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624
+                                        More questions? Anything still unclear? Reach out
+                                        </div>zikaron@ourbrothers.org | 058-409-4624
                                       </div>
                                       <div
                                         style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                        להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+                                        See you soon,
+                                        Connect2Care Team.</div>
+                                        <div
+                                        style="text-align: center; color: rgb(30, 43, 78);">
+                                        For technical support: <br>
+                                        052-6283967 | Amdocs.Digital@glassix.net
+                                        </div>
+                                        </div>
                                     `
                                     }
                                 }
@@ -345,6 +353,11 @@ module.exports = function (meetings) {
                                   <div
                                     style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
                                     להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+                                    <div
+                                    style="text-align: center; color: rgb(30, 43, 78);">
+                                    לתמיכה טכנית: <br>
+                                    052-6283967 | Amdocs.Digital@glassix.net
+                                    </div>
                                     </div>
                                 `
                                     }
@@ -422,6 +435,7 @@ module.exports = function (meetings) {
             }
 
             if (data.date || data.time) {
+
                 const people_meetings = meetings.app.models.people_meetings
                 //find all people that sign to the meeting
                 const [err2, res1] = await to(people_meetings.find({ where: { meeting: id }, include: 'people' }))
@@ -438,17 +452,17 @@ module.exports = function (meetings) {
                         sendTo.push(peopleMeeting.people.email)
                     }
                     let sendOptions = {}
-                    if (lang !== 'heb' && lang) {
+                    if (meetingById.language !== 'עברית') {
                         sendOptions = {
-                            to: sendTo, subject: "מפגש השתנה", html:
-                                `<div style="direction: ltr;">יוצר המפגש ${meetingById.name}, שינה את זמן המפגש.<br/>
-                               המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                            to: sendTo, subject: "Change in Meet-up", html:
+                                `<div style="direction: ltr;">The initiator of the meet-up "${meetingById.name}" has changed the time of the meeting.<br/>
+                                The meet-up will now take place on ${data.date || meetingById.date} at ${data.time || meetingById.time}</div>`
                         }
                     } else {
                         sendOptions = {
                             to: sendTo, subject: "מפגש השתנה", html:
                                 `<div style="direction: rtl;">יוצר המפגש ${meetingById.name}, שינה את זמן המפגש.<br/>
-                               המפגש יתקיים ב${data.date || meetingById.data} ${data.time || meetingById.time}</div>`
+                               המפגש יתקיים ב${data.date || meetingById.date} ${data.time || meetingById.time}</div>`
                         }
                     }
 
@@ -490,7 +504,7 @@ module.exports = function (meetings) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
 
                 let sendOptions = {}
-                if (lang !== 'heb' && lang) {
+                if (meetingById.language !== 'עברית') {
                     sendOptions = {
                         to: meetingById.meetingOwner.email, subject: "Meeting Code", html:
                             `<div style="direction: ltr;"> The meeting "${meetingById.name}" is now a private meeting.<br/>
@@ -731,7 +745,7 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, lang, cb) => {
         (async () => {
             const { people, people_meetings } = meetings.app.models;
             const [err, meeting] = await to(meetings.findById(meetingId));
@@ -790,9 +804,52 @@ module.exports = function (meetings) {
                 return cb(err3, null);
             }
             let shalom = mailDetails
-            let sendOptions = {
-                to: email, subject: "הרשמתך למפגש התקבלה", html:
-                    `
+            let sendOptions = {}
+            if (meeting.language !== 'עברית') {
+
+                sendOptions = {
+                    to: email, subject: "Meet-up registration confirmed", html:
+                        `
+                    <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
+                    background-color: #082551; direction: rtl'>
+                    <div style = 'display:flex ; width: 100%' >
+                        <div style='width:100%;' >
+                            <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
+                        </div>
+                            <div style='width: 30%;' >
+                                <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
+                        </div>
+                            </div>
+                            <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; direction: ltr; '>
+                           Hello,<br>
+                           We would like to thank you for choosing to participate in one of the "Connect2Care" meet-ups on this coming Yom Hazikaron.<br><br>
+                           Your participation means so much, even more than in previous years, gives strength to bereaved families, and widens the circle of commemoration.<br><br>
+                           So how does it work?<br><br>
+                           In the coming days we will send you a link for the Zoom meet up in memory of ${shalom.fallensText}.  All that's left to do is to click on the link in zoom on ${shalom.date} at ${shalom.time}.<br><br>
+                           Want to invite friends to join the meet-up? Sounds great!<br>
+                           Just share the link with your family and friends, neighbors and colleagues, and on all social media platforms,<br>
+                           so that everyone can participate in Yom Hazikaron events.<br><br>
+                           Ideas? Suggestions? Questions or comments?<br>
+                           We are here to help.<br><br>
+                           See you soon,
+                           <br>
+                           Connect2Care Team.<br>
+    
+                           <div
+                           style="text-align: center; color: rgb(30, 43, 78);">
+                           For technical support: <br>
+                           052-6283967 | Amdocs.Digital@glassix.net
+                           </div>
+                           </div>
+    
+                   
+                      </div>
+                           ` }
+            } else {
+                sendOptions = {
+
+                    to: email, subject: "הרשמתך למפגש התקבלה", html:
+                        `
                 <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
                 background-color: #082551; direction: rtl'>
                 <div style = 'display:flex ; width: 100%' >
@@ -804,25 +861,31 @@ module.exports = function (meetings) {
                     </div>
                         </div>
                         <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                            שלום,<br>
-                                אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
-                                    ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
-                                        אז איך זה עובד?<br><br>
-                                            בימים הקרובים נשלח לך קישור למפגש  של ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
-                                                רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
-                                                    ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
-                                                        כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
-                                                            יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
-                                                                אנחנו כאן כדי לעזור.<br><br>
-                                                                    להתראות בקרוב,<br>
-                                                                        צוות 'האחים שלנו'<br>
+                       שלום,<br>
+                      אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
+                      ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
+                      אז איך זה עובד?<br><br>
+                      בימים הקרובים נשלח לך קישור למפגש לזכר ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
+                      רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
+                      ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
+                      כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
+                     יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
+                     אנחנו כאן כדי לעזור.<br><br>
+                      להתראות בקרוב,<br>
+                      צוות 'מתחברים וזוכרים'<br>
 
-                                                                            <div style='font-size: 27px'></div>
-                  </div>
+                      <div
+                      style="text-align: center; color: rgb(30, 43, 78);">
+                      לתמיכה טכנית: <br>
+                      052-6283967 | Amdocs.Digital@glassix.net
+                      </div>
+                      </div>
 
-                                                                        <div style='color: white ; margin-top: 20px ; text-align: center; font-size: 16px;'></div>
+                               
                   </div>
-                                                                    ` }
+                       ` }
+            }
+
 
             sendEmail("", sendOptions);
             const participantsNum = participants_num ? participants_num + 1 : 1;
@@ -852,7 +915,8 @@ module.exports = function (meetings) {
             { arg: "email", type: "string", required: true },
             { arg: "phone", type: "string", required: true },
             { arg: "myCode", type: "string", required: false },
-            { arg: 'mailDetails', type: 'object', required: true }
+            { arg: 'mailDetails', type: 'object', required: true },
+            { arg: "lang", type: "string", required: false },
         ],
         returns: { type: "object", root: true },
         http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }
@@ -911,10 +975,20 @@ module.exports = function (meetings) {
                 for (let peopleMeeting of peopleInMeeting) {
                     if (peopleMeeting.people) sendTo.push(peopleMeeting.people.email)
                 }
-                let sendOptions = {
-                    to: sendTo, subject: "מפגש התבטל", html:
-                        `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                let sendOptions = {}
+
+                if (meeting && meeting.language !== 'עברית') {
+                    sendOptions = {
+                        to: sendTo, subject: "Meeting canceled", html:
+                            `<div style='direction: ltr;'>The initiator of the meet-up "${meeting.name}" has canceld the meet-up. We're sorry.</div>`
+                    }
+                } else {
+                    sendOptions = {
+                        to: sendTo, subject: "מפגש התבטל", html:
+                            `<div style='direction: rtl;'>יוצר המפגש ${meeting.name} בחר לבטל את המפגש לזכר ${fallensNames} עמך הסליחה.</div>`
+                    }
                 }
+
 
                 sendEmail("", sendOptions);
 
@@ -973,7 +1047,7 @@ module.exports = function (meetings) {
             let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
             createZoomUser(newEmail, nameOwner)
             let sendOptions = {}
-            if (res.language !== 'עברית') {
+            if (res.language !== 'עברית' && res.language) {
                 sendOptions = {
                     to: emailowner, subject: "The meet-up you initiated has been approved",
                     html:
@@ -1043,7 +1117,12 @@ module.exports = function (meetings) {
                                 </div>
                                 <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
                                     See you soon,
-                                    <br>Connect2Care Team
+                                    <br>Connect2Care Team.
+                                </div>
+                                <div
+                                style="text-align: center; color: rgb(30, 43, 78);">
+                                For technical support: <br>
+                                052-6283967 | Amdocs.Digital@glassix.net
                                 </div>
                             </div>
                             `
@@ -1100,6 +1179,12 @@ module.exports = function (meetings) {
                         </div>
                         <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
                         להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+
+                        <div
+                        style="text-align: center; color: rgb(30, 43, 78);">
+                        לתמיכה טכנית: <br>
+                        052-6283967 | Amdocs.Digital@glassix.net
+                        </div>
                     </div>
                 `
 
@@ -1274,7 +1359,7 @@ module.exports = function (meetings) {
                 return cb(err)
             }
             let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
-            console.log( participantName, participantEmail, zoomId)
+            console.log(participantName, participantEmail, zoomId)
             // addPanelists(participantName, participantEmail, webinarId)
             return cb(null, true)
         })()

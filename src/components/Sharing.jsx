@@ -12,6 +12,8 @@ import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
 import { useCopyToClipboard } from 'react-use';
 import useOnClickOutside from './UseOnClickOutside'
+import { inject, observer } from 'mobx-react';
+
 
 // import greenBackground from '../icons/greenBackground.png'
 
@@ -22,7 +24,7 @@ import useOnClickOutside from './UseOnClickOutside'
 //imageHeight: '?px'
 //} Make sure these are strings!
 
-export default function Sharing(props) {
+function Sharing(props) {
   const ref = React.useRef()
   useOnClickOutside(ref, () => setOpenShare(false));
   const [openShare, setOpenShare] = React.useState(false);
@@ -95,15 +97,28 @@ export default function Sharing(props) {
     let fallens = ''
     for (let i = 0; i < props.data.fallens.length; i++) {
       if (i === 0) {
-        fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`
+          if (props.LanguageStore.lang !== 'heb') {
+              fallens = fallens + ` ${props.data.fallens[i].name} `
+          } else {
+              fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`
+          }
       }
       else if (i === props.data.fallens.length - 1) {
-        fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`
+          if (props.LanguageStore.lang !== 'heb') {
+              fallens = fallens + ` and ${props.data.fallens[i].name} ז"ל`
+          } else {
+              fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`
+          }
       }
       else {
-        fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`
+          if (props.LanguageStore.lang !== 'heb') {
+              fallens = fallens + `, ${props.data.fallens[i].name}`
+          } else {
+              fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`
+          }
       }
-    }
+  }
+    
     let sendOptions = {
       to: passedEmail, subject: string, html:
         `
@@ -226,3 +241,6 @@ const setCopiesd=()=>{
     </div>
   );
 }
+
+export default inject('LanguageStore')(observer(Sharing));
+
