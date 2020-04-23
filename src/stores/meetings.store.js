@@ -17,12 +17,13 @@ class MeetingsStore {
     availableOnly = false
     loading = false
     status = false
-    view= 1
+    view = 1
+    participants = false
 
-    setView=()=>{
-        if(this.view === 1){
+    setView = () => {
+        if (this.view === 1) {
             this.view = 2
-        }else{
+        } else {
             this.view = 1
         }
     }
@@ -37,7 +38,11 @@ class MeetingsStore {
         }
     }
 
-    changeMeetingStatus=(status)=>{
+    changeMeetingParticipants = (participants) => {
+        this.participants = participants
+    }
+
+    changeMeetingStatus = (status) => {
         this.status = status
     }
 
@@ -83,6 +88,7 @@ class MeetingsStore {
             relationship: this.fallenRelative.data,
             time: this.time.data,
             isAvailable: this.availableOnly,
+            participants: this.participants.data
         }
 
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsUser', {
@@ -140,9 +146,11 @@ decorate(MeetingsStore, {
     error: observable,
     loading: observable,
     status: observable,
-    changeMeetingStatus:action,
-    view:observable,
-    setView:action,
+    changeMeetingStatus: action,
+    view: observable,
+    setView: action,
+    changeMeetingParticipants: action,
+    participants: observable,
 });
 
 export default new MeetingsStore();

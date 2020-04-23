@@ -57,6 +57,7 @@ const Participants = (props) => {
             setShowCancelPanelistPopup(true)
         }
         else {
+            console.log("props.CreateMeetingStore.meetingDetailsOriginal.zoomId",props.CreateMeetingStore.meetingDetailsOriginal.zoomId)
             let [success, err] = await Auth.superAuthFetch(
                 `/api/meetings/setPanelistStatus`,
                 {

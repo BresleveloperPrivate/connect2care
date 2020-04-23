@@ -96,6 +96,7 @@ const translationHEB = {
     'meeting language': 'שפת המפגש',
     'relationship to fallen': 'מארח/ת המפגש',
     'show available meetings only': 'הצג מפגשים זמינים בלבד',
+    'participantsNum':'מספר משתתפים',
     'filter by': 'סנן לפי',
     "load more": 'טען עוד',
 

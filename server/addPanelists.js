@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const http = require("https");
 
-const addPanelists = async (email, webinarId) => {
+const addPanelists = async (email, name, webinarId) => {
 
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",

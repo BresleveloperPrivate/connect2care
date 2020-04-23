@@ -7,7 +7,7 @@ import Email from '../icons/email-green.svg'
 const Support = (props) => {
 
     return (
-        <div id="supportContainDiv">
+        <div id="supportContainDiv" style={props.LanguageStore.lang !== "heb" && props.LanguageStore.width > 550 ? { textAlign: "left", marginLeft: "12vw" } : {}}>
             <div className="supportHeadLine">{props.LanguageStore.lang !== "heb" ? "Support - We are here for you" : "תמיכה - אנחנו פה בשבילכם"}</div>
             <div className="supportSecondLine">{props.LanguageStore.lang !== "heb" ? "You will find different tutorials here for connecting and remembering meet-up" : "תוכלו למצוא כאן הדרכות שונות עבור מפגשי מתחברים וזוכרים"}</div>
             <div className="containSupportLink">
@@ -17,7 +17,7 @@ const Support = (props) => {
                             <div className="textDivSupport">{props.LanguageStore.lang !== "heb" ? "Technical Explanation leader meet-up" : "הסבר טכני למוביל מפגש"}</div>
                         </div>
                     </div>
-                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/Technical Explanation leader meet-up.pdf`)} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
+                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/Technical Explanation leader meet-up.pdf`)} style={props.LanguageStore.lang !== "heb" ? { float: "right" } : {}} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
                 </div>
 
                 <div>
@@ -26,7 +26,7 @@ const Support = (props) => {
                             <div className="textDivSupport" >{props.LanguageStore.lang !== "heb" ? "In their memory - convergence guidelines" : "לזכרם- קווים מנחים להתכנסות"}</div>
                         </div>
                     </div>
-                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/In their memory - convergence guidelines.pdf`)} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
+                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/In their memory - convergence guidelines.pdf`)} style={props.LanguageStore.lang !== "heb" ? { float: "right" } : {}} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
                 </div>
 
                 <div>
@@ -35,7 +35,7 @@ const Support = (props) => {
                             <div className="textDivSupport">{props.LanguageStore.lang !== "heb" ? "ZOOM Meeting Host Kit" : "ערכת מארח מפגש ZOOM"}</div>
                         </div>
                     </div>
-                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/ZOOM Meeting Host Kit.pdf`)} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
+                    <div onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/ZOOM Meeting Host Kit.pdf`)} style={props.LanguageStore.lang !== "heb" ? { float: "right" } : {}} className="watchHere">{props.LanguageStore.lang !== "heb" ? "To view click here" : "לצפייה לחץ כאן"}</div>
                 </div>
 
             </div>
