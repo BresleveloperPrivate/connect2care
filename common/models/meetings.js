@@ -772,20 +772,20 @@ module.exports = function (meetings) {
                 return cb(err1)
             }
             if (!user0) {
-                let whitelist = {
-                    name: true, email: true, phone: true
-                };
-                let valid = ValidateTools.runValidate({ name: name, email: email, phone: phone }, ValidateRules.people, whitelist);
-                if (!valid.success || valid.errors) {
-                    return cb(valid.errors, null);
-                }
+                if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
+                if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלטקרוני' }, null); return; }
+                if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
+                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
+                if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
 
-                let [err2, person1] = await to(people.create(valid.data));
-                if (err2) {
-                    console.log(err2);
-                    return cb(err2, null);
+                let [err1, user] = await to(people.create({ email: email, name: name, phone: phone }))
+                if (err1) {
+                    console.log("err1", err1)
+                    return cb(err1)
                 }
-                person = person1
+                person = user
             }
             else {
                 if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
@@ -883,7 +883,7 @@ module.exports = function (meetings) {
 
             sendEmail("", sendOptions);
             const participantsNum = participants_num ? participants_num + 1 : 1;
-            
+
             let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: participantsNum }));
             if (err4) {
                 console.log(err4);
