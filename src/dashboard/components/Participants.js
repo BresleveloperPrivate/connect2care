@@ -141,6 +141,7 @@ const Participants = (props) => {
                     </div>
             }
             {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant} spliceFromArr={spliceFromArr} />}
+            {console.log(props.CreateMeetingStore.meetingDetailsOriginal.zoomId)}
             {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} zoomId={props.CreateMeetingStore.meetingDetailsOriginal.zoomId} setPanelistInArr={setPanelistInArr} />}
         </div >
     )
