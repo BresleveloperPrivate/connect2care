@@ -57,7 +57,7 @@ const Participants = (props) => {
             setShowCancelPanelistPopup(true)
         }
         else {
-            console.log("props.CreateMeetingStore.meetingDetailsOriginal.zoomId",props.CreateMeetingStore.meetingDetailsOriginal.zoomId)
+            console.log("props.CreateMeetingStore.meetingDetailsOriginal.zoomId", props.CreateMeetingStore.meetingDetailsOriginal.zoomId)
             let [success, err] = await Auth.superAuthFetch(
                 `/api/meetings/setPanelistStatus`,
                 {
@@ -127,8 +127,10 @@ const Participants = (props) => {
                                     </div>
 
                                 </div>
+                                {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '11vw', paddingTop: '0' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                             </div>
                         </div>
+
                         <table className="allTableStyle" style={{ margin: 0, borderRadius: '0 0 7px 7px' }}>
                             <tbody>
                                 <tr className="tableHead">
@@ -180,8 +182,6 @@ const Participants = (props) => {
                                     )}
                             </tbody>
                         </table>
-
-                        {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '10vw', paddingTop: '1vh' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                     </div>
             }
             {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant} spliceFromArr={spliceFromArr} />}

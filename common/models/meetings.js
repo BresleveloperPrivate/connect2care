@@ -776,15 +776,7 @@ module.exports = function (meetings) {
                 person = user0
             }
 
-            let whitelist1 = {
-                person: true, meeting: true
-            };
-            let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
-            if (!valid1.success || valid1.errors) {
-                return cb(valid1.errors, null);
-            }
-
-            let [err3, res] = await to(people_meetings.create(valid1.data));
+            let [err3, res] = await to(people_meetings.create({ person: person.id, meeting: Number(meetingId) }));
             if (err3) {
                 console.log(err3);
                 return cb(err3, null);
@@ -826,15 +818,8 @@ module.exports = function (meetings) {
 
             sendEmail("", sendOptions);
             const participantsNum = participants_num ? participants_num + 1 : 1;
-
-            let whitelist2 = {
-                id: true, participants_num: true
-            };
-            let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-            if (!valid2.success || valid2.errors) {
-                return cb(valid2.errors, null);
-            }
-            let [err4, meetingsRes] = await to(meetings.upsert(valid2.data));
+            
+            let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: participantsNum }));
             if (err4) {
                 console.log(err4);
                 return cb(err4, null);
@@ -1274,7 +1259,7 @@ module.exports = function (meetings) {
                 return cb(err)
             }
             let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
-            console.log( participantName, participantEmail, zoomId)
+            console.log(participantName, participantEmail, zoomId)
             // addPanelists(participantName, participantEmail, webinarId)
             return cb(null, true)
         })()
