@@ -28,12 +28,13 @@
     
 }
 
-.circle{
+.paddingCircle{
     padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 .circle:hover{
     background-color: rgb(243, 243, 243);
