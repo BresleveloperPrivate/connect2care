@@ -28,6 +28,18 @@
     
 }
 
+.circle{
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle:hover{
+    background-color: rgb(243, 243, 243);
+    border-radius: 50%;
+}
+
 .blurArrow-gray-left{
     position: absolute;
     background-image: linear-gradient(-90deg , rgb(238, 238, 238) , rgba(238, 238, 238, 0.349));
