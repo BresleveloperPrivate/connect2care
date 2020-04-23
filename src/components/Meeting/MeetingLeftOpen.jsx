@@ -79,7 +79,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         let text = null;
         if (mailDetails.fallens && typeof mailDetails.fallens !== "string") {
             if (mailDetails.fallens.length === 1)
-                text = ` לזכרו של ${mailDetails.fallens[0].name} ז"ל`
+                text = `לזכר ${mailDetails.fallens[0].name} ז"ל`
             else {
                 text = `לזכרם של `;
                 mailDetails.fallens.map((x, index) => {

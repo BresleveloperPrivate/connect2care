@@ -55,7 +55,7 @@ export default function Sharing(props) {
   const shareWithWhatsApp = async () => {
     let text = null;
     if (props.data.fallens.length === 1)
-      text = `הצטרפו אלינו למפגש zoom לזכרו של ${props.data.fallens[0].name} ז"ל`
+      text = `הצטרפו אלינו למפגש zoom לזכר ${props.data.fallens[0].name} ז"ל`
     else {
       text = `הצטרפו אלינו למפגש zoom לזכרם של `
       props.data.fallens.map((x, index) => {
