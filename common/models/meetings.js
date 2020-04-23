@@ -854,11 +854,9 @@ module.exports = function (meetings) {
 
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
-            // let url = scheduleWebinar((x) => {
-            //     console.log("url", x)
-            // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
+            console.log(process.env.TEST, process.env.TEST)
             sendEmail(senderName, sendOptions);
-            cb(null, { res: "success" })
+            cb(null, { res: process.env.TEST })
         })();
     }
 
@@ -1247,7 +1245,9 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            return cb(null, true)
+            console.log("process.env.TEST", process.env.TEST)
+            let x = { "process.env.TEST": process.env.TEST }
+            return cb(null, x)
         })()
     }
 
@@ -1257,7 +1257,7 @@ module.exports = function (meetings) {
             { arg: 'meetingId', type: 'number', required: true },
             { arg: 'participantId', type: 'number', required: true }
         ],
-        returns: { arg: 'res', type: 'boolean', root: true }
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
     meetings.setPanelistStatus = (meetingId, participantId, isPanelist, participantName, participantEmail, zoomId, cb) => {
