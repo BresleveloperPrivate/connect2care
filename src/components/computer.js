@@ -143,7 +143,9 @@ const ComputerList = (props) => {
                                                                 return <span style={{padding: '0 0.2vw'}} key={index}>{val} </span>
                                                             })}
                                                         </div>
-                                                        <div style={{flexGrow:'1'}}></div>
+                                                        <div className='banner' style={{flexGrow:'1'}}> 
+                                                            <div className='insideBanner'></div>
+                                                        </div>
 
                                                         <div className='meetingOwner-comp'>
 
