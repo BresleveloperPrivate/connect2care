@@ -18,7 +18,7 @@ const Select = (props) => {
     useEffect(() => {
     }, [props.selectTextDefault]);
 
-    if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)){
+    if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)) {
         setSelectedOption(props.selectTextDefault)
     }
 
@@ -38,11 +38,21 @@ const Select = (props) => {
                         color: props.color || 'unset'
                     }}>
                     <div className={"selectInput " + (!selectedOption && props.selectTextDefault ? "changeDefauleSelectOpacity" : "")} style={{ width: '100%' }}>
+
+                    <div className={props.LanguageStore.lang !== 'heb' &&
+                    props.changeBackground && selectedOption && selectedOption.data ?
+                     "blurArrow-gray-left" :
+                     props.LanguageStore.lang !== 'heb'?
+                     'blurArrow-white-left':
+                     props.changeBackground && selectedOption && selectedOption.data ?
+                     'blurArrow-gray-right':
+                     'blurArrow-white-right'
+                     }> </div>
                         {selectedOption && selectedOption.data ? selectedOption.option : props.selectTextDefault || 'בחר'}
                     </div>
                     {/* <img style={{ marginLeft: '1vw' }} className="arrowInput" src={DownArrow} alt='arrow' /> */}
-                    <FontAwesomeIcon className={props.LanguageStore.lang !== 'heb' ? "arrowInput-tal" : 'arrowInput-tar'}
-                        icon={["fas", "chevron-down"]} />
+                        <FontAwesomeIcon className={props.LanguageStore.lang !== 'heb' ? "arrowInput-tal" : 'arrowInput-tar'}
+                            icon={["fas", "chevron-down"]} />
                 </div>
                 {isSelectOpen &&
                     <div className='optionsContainer' style={{ backgroundColor: props.backgroundColor || 'white', color: props.color || 'unset', maxHeight: props.maxHeight || null }}>

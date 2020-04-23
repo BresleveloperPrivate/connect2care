@@ -4,7 +4,6 @@ const scheduleWebinar = require('./scheduleWebinar.js');
 const schedule = require('node-schedule');
 
 module.exports = function (app) {
-    console.log("here")
     const to = (promise) => {
         return promise.then(data => {
             return [null, data];
