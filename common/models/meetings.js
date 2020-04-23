@@ -1265,7 +1265,9 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            // addPanelists()
+            let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
+            console.log( participantName, participantEmail, zoomId)
+            // addPanelists(participantName, participantEmail, webinarId)
             return cb(null, true)
         })()
     }

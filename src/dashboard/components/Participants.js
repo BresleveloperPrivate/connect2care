@@ -53,6 +53,7 @@ const Participants = (props) => {
             setShowCancelPanelistPopup(true)
         }
         else {
+            console.log("props.CreateMeetingStore.meetingDetailsOriginal.zoomId",props.CreateMeetingStore.meetingDetailsOriginal.zoomId)
             let [success, err] = await Auth.superAuthFetch(
                 `/api/meetings/setPanelistStatus`,
                 {
@@ -115,7 +116,7 @@ const Participants = (props) => {
                                         <td className='email'>{participant.email}</td>
                                         <td className='phone'>{participant.phone}</td>
 
-                                        {/* {canChangePanelist && <td>
+                                        {canChangePanelist && <td>
                                             <div>
                                                 <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
                                                     <div
@@ -130,7 +131,7 @@ const Participants = (props) => {
                                                     {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                 </div>
                                             </div>
-                                        </td>} */}
+                                        </td>}
                                         <td></td>
                                     </tr>)
                                 )}
