@@ -1,0 +1,157 @@
+#supportContainDiv{
+    padding-top: 14vh;
+    text-align: right;
+    margin-right: 12vw;
+}
+
+.supportHeadLine{
+    font: Bold 35px Assistant;
+    letter-spacing: 0px;
+    color: #0A2D63;
+}
+
+.supportSecondLine{
+    font: normal 28px Assistant;
+    letter-spacing: 0px;
+    color: #19A099;
+    margin-bottom: 5vh;
+}
+
+.divExplaniationSupport{
+    background: #0A2D63 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 5px;
+    color: white;
+    padding: 3vh 6vh 4vh;
+    font: 400 20px Assistant;
+}
+
+.divContainSupport{
+    padding: 2vh;
+    border-bottom: 1px white solid;
+    text-align: center;
+}
+
+.watchHere{
+    float: left;
+    font: 600 16px Assistant;
+    letter-spacing: 0px;
+    color: #19A099;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.textDivSupport{
+    width: 18vh;
+}
+
+/* 720 */
+
+.supportMsg{
+    font: normal 25px Assistant;
+    margin: 6vh 0px 4vh;
+    letter-spacing: 0px;
+    color: #19A099;
+}
+
+.textContact{
+    text-align: right;
+    font: normal 20px Assistant;
+    letter-spacing: 0px;
+    color: #4D4F5C;
+    opacity: 1;
+    height: fit-content;
+    /* margin-bottom: 2vw; */
+}
+
+.containSupportLink{
+    display: flex;
+    align-items: center;
+    justify-content: space-between ;
+    width: 76vw;
+}
+
+@media screen and (max-width: 1190px){
+
+    .containSupportLink{
+        flex-direction: column;
+        align-items: flex-start;    
+    }
+
+    .textDivSupport{
+        min-height: 56px;
+        align-items: center;
+        display: flex;
+    }
+
+    .watchHere{
+        margin-bottom: 2vh;
+    }
+
+    .supportMsg{
+        margin: 4vh 0;
+    }
+
+    .containPhoneAndEmail{
+
+        margin-bottom: 2vh;
+    }
+
+}
+
+
+@media screen and (max-width: 550px){
+    #supportContainDiv {
+        text-align: center !important;
+        padding-top: 2vh;
+        margin-right: 0;
+    }
+
+    .containSupportLink{
+        flex-direction: column;
+        align-items: center;
+        width: unset;
+    }
+
+    .textDivSupport{
+        width: 50vw;
+        min-height: 56px;
+        align-items: center;
+        display: flex;
+    }
+
+    .watchHere{
+        margin-bottom: 2vh;
+    }
+
+    .supportMsg{
+        margin: 4vh 0;
+        font-size: 22px;
+    }
+
+    .containPhoneAndEmail{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2vh;
+    }
+
+    .supportHeadLine{
+        font: Bold 28px Assistant;
+        margin-left: 1vh;
+        margin-right: 1vh;
+    }
+
+    .supportSecondLine{
+        font: normal 21px Assistant;
+        margin-left: 1vh;
+        margin-right: 1vh;
+    }
+
+}
+
+/* @media screen and (max-height: 450px){
+    .contactHeadLine{
+        margin-top: 16vh;
+    }
+} */

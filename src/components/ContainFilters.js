@@ -55,7 +55,7 @@ const Filters = (props) => {
     return (
 
         <div id='filtersId' className={props.className}>
-            <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy tal' : 'filterBy tar'}> {props.t('filter by')}:</div>
+            <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy-left tal' : 'filterBy-right tar'}> {props.t('filter by')}:</div>
             <Select
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '15%' : props.LanguageStore.width > 800 ? '15%' : '100%'}
                 default={props.MeetingsStore.status}
@@ -84,7 +84,7 @@ const Filters = (props) => {
 
             />
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '12%' : props.LanguageStore.width > 800 ? '12%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '12%' : props.LanguageStore.width > 800 ? '13%' : '100%'}
                 default={props.MeetingsStore.time}
                 selectTextDefault={props.t('meeting time')}
                 arr={meetingTime}
