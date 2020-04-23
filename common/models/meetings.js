@@ -395,19 +395,21 @@ module.exports = function (meetings) {
                 console.log("errMeeting", errMeeting)
                 return cb(errMeeting)
             }
-            let beenInIf = false
-            if (fallenFullArray) {
-                for (let fallen of fallenFullArray) {
-                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                        beenInIf = true
-                        if (data.max_participants && Number(data.max_participants) > 2000)
-                            return cb({ max_participants: 2000 })
+            if (data.max_participants) {
+                let beenInIf = false
+                if (fallenFullArray) {
+                    for (let fallen of fallenFullArray) {
+                        if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                            beenInIf = true
+                            if (data.max_participants && Number(data.max_participants) > 2000)
+                                return cb({ max_participants: 2000 })
+                        }
                     }
                 }
-            }
 
-            if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
-                return cb({ max_participants: 500 })
+                if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
+                    return cb({ max_participants: 500 })
+                }
             }
             let meetingById = JSON.parse(JSON.stringify(res))
             if (data.fallensToChange) {
@@ -790,15 +792,7 @@ module.exports = function (meetings) {
                 person = user0
             }
 
-            let whitelist1 = {
-                person: true, meeting: true
-            };
-            let valid1 = ValidateTools.runValidate({ person: person.id, meeting: Number(meetingId) }, ValidateRules.people_meetings, whitelist1);
-            if (!valid1.success || valid1.errors) {
-                return cb(valid1.errors, null);
-            }
-
-            let [err3, res] = await to(people_meetings.create(valid1.data));
+            let [err3, res] = await to(people_meetings.create({ person: person.id, meeting: Number(meetingId) }));
             if (err3) {
                 console.log(err3);
                 return cb(err3, null);
@@ -889,15 +883,8 @@ module.exports = function (meetings) {
 
             sendEmail("", sendOptions);
             const participantsNum = participants_num ? participants_num + 1 : 1;
-
-            let whitelist2 = {
-                id: true, participants_num: true
-            };
-            let valid2 = ValidateTools.runValidate({ id: Number(meetingId), participants_num: participantsNum }, ValidateRules.meetings, whitelist2);
-            if (!valid2.success || valid2.errors) {
-                return cb(valid2.errors, null);
-            }
-            let [err4, meetingsRes] = await to(meetings.upsert(valid2.data));
+            
+            let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: participantsNum }));
             if (err4) {
                 console.log(err4);
                 return cb(err4, null);

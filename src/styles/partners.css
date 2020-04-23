@@ -74,6 +74,11 @@
   z-index: 8;
 }
 
+.hilmaCredit-white{
+  background-color: white;
+  color: var(--custom-dark-blue);
+}
+
 @media screen and (max-width: 1190px){
   .hilmaCredit{
     font-size: 2vh;
