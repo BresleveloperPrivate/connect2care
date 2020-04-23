@@ -40,6 +40,13 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.LanguageStore.width < 800){
+            document.fullscreen
+        }
+        
+    }
+
     changeLanguage = async (lang) => {
         const { i18n } = this.props;
         await i18n.changeLanguage(lang);

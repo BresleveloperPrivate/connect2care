@@ -562,7 +562,7 @@ class CreateMeetingStore {
             }, true);
         this.waitForData = false
         if (err) {
-            this.postErr(err, "heb")
+            this.postErr(err, String(localStorage.getItem('lang')))
             return
         }
         this.meetingDetailsOriginal = JSON.parse(JSON.stringify(this.meetingDetails))
