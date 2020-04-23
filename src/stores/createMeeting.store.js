@@ -62,7 +62,7 @@ class CreateMeetingStore {
         this.fallenDetails = null;
         this.fallenName = null;
         this.nameMessage = "";
-        this.meetingDetailsOriginal = {
+        this.meetingDetails = {
             name: "",
             description: "",
             owner: {
@@ -82,7 +82,7 @@ class CreateMeetingStore {
             // approved: ""
         }
 
-        this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
+        // this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
         this.meetingDetails.date = this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04'
         this.meetingDetails.timeHour = "20"
         this.meetingDetails.timeMinute = "30"
