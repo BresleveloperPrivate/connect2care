@@ -42,7 +42,7 @@ class CreateMeetingStore {
         date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
         timeHour: "20",
         timeMinute: "30",
-        max_participants: 300,
+        max_participants: 500,
         fallens: null,
         zoomId: "",
         otherRelationship: null,
@@ -86,7 +86,7 @@ class CreateMeetingStore {
         this.meetingDetails.date = this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04'
         this.meetingDetails.timeHour = "20"
         this.meetingDetails.timeMinute = "30"
-        this.meetingDetails.max_participants = 300
+        this.meetingDetails.max_participants = 500
 
         this.error = null;
         this.waitForData = false;

@@ -747,7 +747,7 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, lang, cb) => {
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
         (async () => {
             const { people, people_meetings } = meetings.app.models;
             const [err, meeting] = await to(meetings.findById(meetingId));
@@ -902,8 +902,7 @@ module.exports = function (meetings) {
             { arg: "email", type: "string", required: true },
             { arg: "phone", type: "string", required: true },
             { arg: "myCode", type: "string", required: false },
-            { arg: 'mailDetails', type: 'object', required: true },
-            { arg: "lang", type: "string", required: false },
+            { arg: 'mailDetails', type: 'object', required: true }
         ],
         returns: { type: "object", root: true },
         http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }

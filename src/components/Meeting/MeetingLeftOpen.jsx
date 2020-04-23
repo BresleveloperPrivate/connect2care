@@ -110,53 +110,53 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                 }
             }
         }
-            mailDetails.fallensText = fallens;
-            mailDetails.date = t(meetingDate.find(val => val.data === mailDetails.date).option)
+        mailDetails.fallensText = fallens;
+        mailDetails.date = t(meetingDate.find(val => val.data === mailDetails.date).option)
+        console.log("fsdfsdfsdfsd", name, email, phone, code, mailDetails)
+        const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
+            method: "POST",
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ name, email, phone, myCode: code, mailDetails })
+        });
 
-            const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
-                method: "POST",
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ name, email, phone, myCode: code, mailDetails, lang: localStorage.getItem('lang') })
-            });
+        setLoading(false);
 
-            setLoading(false);
-
-            if (error || response.error) {
-                console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
-                // response.error && setErrorMsg(response.error.msg)
-                console.log(error, "error")
-                if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
-                    setErrorMsg(LanguageStore.lang !== 'heb' ? "You cannot join the same session twice." : 'לא ניתן להצטרף לאותו מפגש פעמיים.')
-                }
-                else if (error && error.error && error.error.email) {
-                    setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct email address." : ".אנא בדוק שהכנסת כתובת אימייל נכונה")
-                }
-                else if (error && error.error && error.error.name && typeof error.error.name === "object") {
-                    setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct name." : ".אנא בדוק שהכנסת שם נכון")
-                }
-                else if (error && error.error && error.error.phone) {
-                    setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct phone number." : ".אנא בדוק שהכנסת מספר טלפון נכון")
-                }
-                else if (error && error.error && error.error.msg) {
-                    setErrorMsg(error.error.msg)
-                }
-                else {
-                    setErrorMsg(LanguageStore.lang !== 'heb' ? "Something went worng, please try again later." : ".משהו השתבש, אנא נסה שנית מאוחר יותר")
-                }
-                return;
+        if (error || response.error) {
+            console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
+            // response.error && setErrorMsg(response.error.msg)
+            console.log(error, "error")
+            if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "You cannot join the same session twice." : 'לא ניתן להצטרף לאותו מפגש פעמיים.')
             }
+            else if (error && error.error && error.error.email) {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct email address." : ".אנא בדוק שהכנסת כתובת אימייל נכונה")
+            }
+            else if (error && error.error && error.error.name && typeof error.error.name === "object") {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct name." : ".אנא בדוק שהכנסת שם נכון")
+            }
+            else if (error && error.error && error.error.phone) {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "please make sure that you entered a correct phone number." : ".אנא בדוק שהכנסת מספר טלפון נכון")
+            }
+            else if (error && error.error && error.error.msg) {
+                setErrorMsg(error.error.msg)
+            }
+            else {
+                setErrorMsg(LanguageStore.lang !== 'heb' ? "Something went worng, please try again later." : ".משהו השתבש, אנא נסה שנית מאוחר יותר")
+            }
+            return;
+        }
 
-            setErrorMsg(null);
-            setName('');
-            setEmail('');
-            setPhone('');
-            setCode('');
-            setReadBylaw(false);
-            setOpenSuccess(true)
+        setErrorMsg(null);
+        setName('');
+        setEmail('');
+        setPhone('');
+        setCode('');
+        setReadBylaw(false);
+        setOpenSuccess(true)
 
-            // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
-            setNumOfPeople(response.participantsNum);
-        }, [name, email, phone, code, readBylaw, meetingId]);
+        // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
+        setNumOfPeople(response.participantsNum);
+    }, [name, email, phone, code, readBylaw, meetingId]);
 
     const setPhoneValue = (value) => {
         if (value.match(/[^0-9-+]/g) || value.length > 14) {
