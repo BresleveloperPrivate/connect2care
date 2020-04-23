@@ -30,11 +30,11 @@
 
 
 .buttonOnMeetings-right{
-    right: 6vw;
+    right: 7vw;
 }
 
 .buttonOnMeetings-left{
-    left: 6vw;
+    left: 7vw;
 }
 
 
@@ -108,11 +108,19 @@
     margin-left: 1.8%;
 }
 
-.filterBy{
-    padding: 0px 3px;
-    flex-grow: 1;
+.filterBy-right{
+    padding: 0px 0 0px 1.5vw;
+    /* flex-grow: 1; */
     color: #4D4F5C;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    /* text-align: right; */
+}
+
+.filterBy-left{
+    padding: 0px 1.5vw 0 0;
+    /* flex-grow: 1; */
+    color: #4D4F5C;
+    font-size: 1.1em;
     /* text-align: right; */
 }
 
@@ -419,7 +427,7 @@
         margin-top: 2vh;
     }
 
-    .filterBy{
+    .filterBy-left , .filterBy-right{
         width: 100%;
         /* text-align: right; */
     }
