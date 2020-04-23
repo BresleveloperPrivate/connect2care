@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { inject, observer } from 'mobx-react';
 import '../style/dashboardMain.css'
 import '../style/meetingInfo.scss'
+import '../style/filters.css'
 import Auth from '../../modules/auth/Auth'
 import DeletePersonPopup from './DeletePersonPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,12 +10,14 @@ import panelBtn from '../../icons/Asset 7@3x11@2x.png'
 import CancelPanelistPopup from './CancelPanelistPopup'
 const Participants = (props) => {
 
+    const [allParticipants, setAllParticipants] = useState(null)
     const [participants, setParticipants] = useState(null)
     const [showDeletePersonPopup, setShowDeletePersonPopup] = useState(false)
     const [currentParticipant, setCurrentParticipant] = useState(null)
     const [maxPaticipants, setMaxParticipants] = useState(null)
     const [canChangePanelist, setCanChangePanelist] = useState(false)
     const [showCancelPanelistPopup, setShowCancelPanelistPopup] = useState(false)
+    const [inputSearch, setInputSearch] = useState('')
 
     useEffect(() => {
         (async () => {
@@ -35,6 +38,7 @@ const Participants = (props) => {
             if (success) {
                 setCanChangePanelist(success.pop())
                 setMaxParticipants(success.pop())
+                setAllParticipants(success)
                 setParticipants(success)
             }
         })()
@@ -53,6 +57,7 @@ const Participants = (props) => {
             setShowCancelPanelistPopup(true)
         }
         else {
+            console.log("props.CreateMeetingStore.meetingDetailsOriginal.zoomId",props.CreateMeetingStore.meetingDetailsOriginal.zoomId)
             let [success, err] = await Auth.superAuthFetch(
                 `/api/meetings/setPanelistStatus`,
                 {
@@ -86,9 +91,44 @@ const Participants = (props) => {
                     </div>
                 </div> :
 
-                participants.length === 0 ?
+                allParticipants.length === 0 ?
                     <div className='headLine noRes' style={{ margin: 0, padding: '5vh 0' }}>עדיין לא נרשמו אנשים למפגש</div> :
                     <div>
+                        <div className='filters' style={{ width: '55%', margin: '5vw', marginTop: '4vh', marginBottom: '20px', textAlign: 'right', boxShadow: 'unset' }}>
+                            <div className='filterItem'>
+                                <div className='textFilter'>חיפוש משתתף</div>
+                                <div className="searchInputContainer position-relative">
+                                    <input className='searchPlaceInput'
+                                        type='text'
+                                        onChange={(e) => {
+                                            if (e.target.value === '') setParticipants(allParticipants)
+                                            setInputSearch(e.target.value)
+                                        }}
+                                        value={inputSearch}
+                                        placeholder={"חיפוש"}
+                                    />
+                                    {inputSearch &&
+                                        <div className="iconInSearchInput position-absolute"
+                                            style={{ left: '5vw', cursor: 'pointer' }}
+                                            onClick={() => {
+                                                setInputSearch("")
+                                                setParticipants(allParticipants)
+                                            }}>
+                                            <FontAwesomeIcon icon={['fas', 'times']} style={{ fontSize: '1rem' }} />
+                                        </div>}
+                                    <div className="iconInSearchInput"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            let participantsSearch = participants.filter((e) => e.name.includes(inputSearch))
+                                            setParticipants(participantsSearch)
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '1rem' }} />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         <table className="allTableStyle" style={{ margin: 0, borderRadius: '0 0 7px 7px' }}>
                             <tbody>
                                 <tr className="tableHead">
@@ -98,24 +138,28 @@ const Participants = (props) => {
                                     {canChangePanelist && <th></th>}
                                     <th></th>
                                 </tr>
-                                {participants.map((participant, index) =>
-                                    (<tr key={index} className="tableBodyStyle">
-                                        <td className='name position-relative' style={{ paddingRight: '2vw' }}>
-                                            <div className='position-absolute'>
-                                                <div style={{ width: '4.5vw', fontSize: '2vh' }} className='trash' onClick={() => {
-                                                    setShowDeletePersonPopup(true)
-                                                    setCurrentParticipant(participant.id)
-                                                }}>
-                                                    <FontAwesomeIcon icon={['fas', 'trash']} />
-                                                    <div className='trashText'>מחק משתתף</div>
+                                {participants.length === 0 ?
+                                    <tr className='position-relative' style={{ height: '9vh' }}>
+                                        <td><div className='position-absolute' style={{ width: '80%', fontSize: '3vh', fontWeight: 600, height: '1vh', lineHeight: '1vh' }}>לא נמצאו תוצאות</div></td>
+                                    </tr> :
+                                    participants.map((participant, index) =>
+                                        (<tr key={index} className="tableBodyStyle">
+                                            <td className='name position-relative' style={{ paddingRight: '2vw' }}>
+                                                <div className='position-absolute'>
+                                                    <div style={{ width: '4.5vw', fontSize: '2vh' }} className='trash' onClick={() => {
+                                                        setShowDeletePersonPopup(true)
+                                                        setCurrentParticipant(participant.id)
+                                                    }}>
+                                                        <FontAwesomeIcon icon={['fas', 'trash']} />
+                                                        <div className='trashText'>מחק משתתף</div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            {participant.name}
-                                        </td>
-                                        <td className='email'>{participant.email}</td>
-                                        <td className='phone'>{participant.phone}</td>
+                                                {participant.name}
+                                            </td>
+                                            <td className='email'>{participant.email}</td>
+                                            <td className='phone'>{participant.phone}</td>
 
-                                        {/* {canChangePanelist && <td>
+                                            {/* {canChangePanelist && <td>
                                             <div>
                                                 <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
                                                     <div
@@ -131,16 +175,16 @@ const Participants = (props) => {
                                                 </div>
                                             </div>
                                         </td>} */}
-                                        <td></td>
-                                    </tr>)
-                                )}
+                                            <td></td>
+                                        </tr>)
+                                    )}
                             </tbody>
                         </table>
+
                         {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '10vw', paddingTop: '1vh' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                     </div>
             }
             {showDeletePersonPopup && <DeletePersonPopup handleClose={() => setShowDeletePersonPopup(false)} meetingId={props.CreateMeetingStore.meetingId} participantId={currentParticipant} spliceFromArr={spliceFromArr} />}
-            {console.log(props.CreateMeetingStore.meetingDetailsOriginal.zoomId)}
             {showCancelPanelistPopup && <CancelPanelistPopup handleClose={() => setShowCancelPanelistPopup(false)} meetingId={props.CreateMeetingStore.meetingId} currentParticipant={currentParticipant} zoomId={props.CreateMeetingStore.meetingDetailsOriginal.zoomId} setPanelistInArr={setPanelistInArr} />}
         </div >
     )

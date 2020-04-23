@@ -16,15 +16,16 @@ const sendGridEmail = async (senderName, options) => {
     await sgMail.setApiKey(SENDGRID_API_KEY);
 
     const msg = {
-        to: options.to,
+        // to: options.to,
+        ...options,
         from: 'Zikaron@ourbrothers.org',
         subject: options.subject,
         // text: this.tplPersonalContent,
-        html: options.html,
-        attachments: options.attachments
+        // html: options.html,
+        // attachments: options.attachments
     };
     try { await sgMail.send(msg); }
-    catch (err) { console.log("Could not send email with err", err); }
+    catch (err) { console.log("Could not send email with err", err.response.body.errors.forEach(console.log)); }
 }
 
 module.exports = sendGridEmail;

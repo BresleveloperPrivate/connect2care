@@ -644,8 +644,7 @@ module.exports = function (meetings) {
             }
         }
 
-        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`)
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} GROUP BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)
@@ -1274,7 +1273,9 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            // addPanelists()
+            let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
+            console.log( participantName, participantEmail, zoomId)
+            // addPanelists(participantName, participantEmail, webinarId)
             return cb(null, true)
         })()
     }
