@@ -60,13 +60,12 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
     // const readBylawRef = useRef();
 
-    const meetingDate = [
-        { option: t('all'), data: false },
-        { option: t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+    const meetingDate = {
+        'יום ראשון, ב באייר, 26.04': t('sunday'),
+        'יום שני, ג באייר, 27.04': t('monday'),
+        'יום שלישי, ד באייר, 28.04': t('tuesday'),
+        'יום רביעי, ה באייר, 29.04': t('wednesday')
+    }
 
     const { input, sendButton, sendLabel } = useStyles();
 
@@ -111,8 +110,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
             }
         }
         mailDetails.fallensText = fallens;
-        mailDetails.date = t(meetingDate.find(val => val.data === mailDetails.date).option)
-        console.log("fsdfsdfsdfsd", name, email, phone, code, mailDetails)
+        mailDetails.date = meetingDate[mailDetails.date] ? t(meetingDate[mailDetails.date]) : ''
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
