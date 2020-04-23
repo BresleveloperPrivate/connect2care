@@ -19,6 +19,7 @@ import nao from '../icons/nao.svg'
 import jgive from '../icons/jgive.png'
 import logo11 from '../icons/logo11.png'
 import logo12 from '../icons/logo12.png'
+import amdocs from '../icons/amdocs.jpeg'
 
 
 class Partners extends Component {
@@ -54,6 +55,7 @@ class Partners extends Component {
                     <div onClick={() => { window.open('https://www.wework.com/he-IL') }} className='partner fg0'><img src={logo1} height='85%' /></div>
                     <div onClick={() => { window.open('http://project21.co.il/') }} className='partner fg0'><img src={logo5} height='105%' /></div>
                     <div onClick={() => { window.open('https://www.jgive.com/new/he/ils') }} className='partner fg0'><img src={jgive} height='145%' /></div>
+                    <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='55%' /></div>
 
 
                 </div>
