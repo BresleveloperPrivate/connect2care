@@ -323,7 +323,23 @@ $meetinngPageLeftWidth: 40em;
 }
 
 @media screen and (max-width: 550px){
-    
+#meetingPageMain{
+    #meetingPageBottom {
+
+
+        #peopleCircle {
+  
+            width: 70px;
+            height: 70px;
+
+            #peopleCircleNum {
+                margin-top: 0px;
+                color: white;
+                font-size: 28px;
+            }
+        }
+    }
+}
                      
     #meetingDateTime {
         font-size: 2.8em;
