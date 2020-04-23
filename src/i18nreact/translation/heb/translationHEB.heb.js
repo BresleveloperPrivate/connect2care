@@ -6,8 +6,8 @@ const translationHEB = {
     "contactUs": "צרו קשר",
     "meetingContent": "ערכת תוכן",
     "qna": "שאלות ותשובות",
-    "copy" : 'העתק קישור ללוח',
-    "copied":'הקישור הועתק ללוח',
+    "copy": 'העתק קישור ללוח',
+    "copied": 'הקישור הועתק ללוח',
     'homePage': 'דף הבית',
     "approve": "אישור",
     "cancel": "ביטול",
@@ -82,15 +82,15 @@ const translationHEB = {
     "other": "אחר",
 
 
-    'all meetings':'כל המפגשים',
-    'open meetings':'מפגשים פתוחים',
-    'private meetings':'מפגשים פרטיים',
-    'full meetings':'מפגשים מלאים',
+    'all meetings': 'כל המפגשים',
+    'open meetings': 'מפגשים פתוחים',
+    'private meetings': 'מפגשים פרטיים',
+    'full meetings': 'מפגשים מלאים',
 
     "orphans": "יתומ/ה",
     "widower": "אלמן / אלמנה",
-    'avi chai':"בית אבי חי",
-    'ourBrothers':'האחים שלנו',
+    'avi chai': "בית אבי חי",
+    'ourBrothers': 'האחים שלנו',
     "meeting time": "שעת המפגש",
     "meeting date": 'תאריך המפגש',
     'meeting language': 'שפת המפגש',
@@ -101,6 +101,7 @@ const translationHEB = {
 
     "share": "הזמינו למפגש",
     "save": "שמור",
+    "support": "תמיכה",
 
     'ConnectRemember': 'מתחברים וזוכרים. לזכרם.',
     'my relative to the fallen': 'הקרבה שלי לחלל',
@@ -154,7 +155,7 @@ const translationHEB = {
     "allAgesA": "בהחלט כן. שימו לב שאם מדובר באוכלוסייה צעירה יותר, יש לכוון את המפגש לכך.",
     "meetingCanceledA": "יכול להיות מצב בו יוזם המפגש מבטל את המפגש, במצב כזה אתה תקבל מייל המתריע על כך. ניתן להכנס לרשימת המפגשים ולבחור מפגש חדש.",
     "differentMeetingsA": `מפגשי האחים שלנו, אלו מפגשים מיוחדים שנוצרו בשיתופי פעולה שונים ומפגשי בית אביחי, אלו מפגשים שנוצרו ע"י בית אביחי כחלק מפרויקט 'פנים יום זיכרון'`
-    
+
 }
 
 export default translationHEB;
