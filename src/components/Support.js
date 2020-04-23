@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import '../styles/support.css'
-import Phone from '../icons/phone.svg'
+// import Phone from '../icons/phone.svg'
 import Email from '../icons/email-green.svg'
 
 const Support = (props) => {
@@ -45,10 +45,10 @@ const Support = (props) => {
                 <div>אם עדיין אתם זקוקים לעזרה, <br />מוקד התמיכה שלנו עומד לשירותכם!</div>
             }</div>
             <div className="containPhoneAndEmail">
-                <div className="d-flex align-items-center margin-right-left-text" style={{ marginBottom: "2vw" }}>
+                {/* <div className="d-flex align-items-center margin-right-left-text" style={{ marginBottom: "2vw" }}>
                     <img src={Phone} style={{ width: "22px" }} />
                     <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "4vw" } : { marginLeft: "4vw" }}>058-409-4624</div>
-                </div>
+                </div> */}
                 <div className="d-flex align-items-center margin-right-left-text" style={{ marginBottom: "2vw" }}>
                     <img className="" src={Email} style={{ width: "22px" }} />
                     <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "4vw" } : { marginLeft: "4vw" }}>Zikaron@ourbrothers.org</div>

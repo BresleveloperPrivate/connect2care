@@ -72,7 +72,9 @@ $meetinngPageLeftWidth: 40em;
 #meetingPage {
     direction: rtl;
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
+    min-height: 95vh;
+    height: 100%;
 }
 
 #meetingPageMain {
@@ -201,12 +203,12 @@ $meetinngPageLeftWidth: 40em;
 }
 
 #meetingPageLeft {
-    overflow: auto;
+    // overflow: auto;
     padding: 14vh 3em 7vh 3em;
-    position: fixed;
-    height: calc(100% - 5vh);
-    left: 0;
-    top: 0;
+    // position: fixed;
+    min-height: 100%;
+    // left: 0;
+    // top: 0;
     width: $meetinngPageLeftWidth;
     background-color: $darkBlue;
    

@@ -253,9 +253,9 @@ const CreateMeeting = (props) => {
                                             }}></div>
                                         }
                                     </div>
-                                    <div style={{ marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
+                                    <div style={props.LanguageStore.lang !== "heb" ? {} : { marginLeft: "2vh" }}>{props.t("meetingIsOpen")}</div>
                                 </div>
-                                <div className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
+                                <div style={props.LanguageStore.lang !== "heb" ? { marginLeft: "2vh" } : {}} className="d-flex align-items-center" onClick={() => props.CreateMeetingStore.changeMeetingOpenOrClose({ target: { value: false } })}>
                                     <div>
                                         {props.CreateMeetingStore.meetingDetails.isOpen !== "" && !Boolean(props.CreateMeetingStore.meetingDetails.isOpen) ?
                                             <img src={checkbox_on_light} /> :
@@ -268,7 +268,8 @@ const CreateMeeting = (props) => {
                                             }}></div>
                                         }
                                     </div>
-                                    <div style={{ marginLeft: "2vh" }}><img src={lock} alt="lock" style={{ marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
+                                    <div style={props.LanguageStore.lang !== "heb" ? {} : { marginLeft: "2vh" }}>
+                                        <img src={lock} alt="lock" style={props.LanguageStore.lang !== "heb" ?{ marginRight: "1vh", width: "1.5vh" }:{marginLeft: "1vh", width: "1.5vh"}} />{props.t("meetingIsClosed")}</div>
                                 </div>
                             </div>
                             {props.CreateMeetingStore.meetingDetails.code &&

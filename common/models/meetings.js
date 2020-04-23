@@ -382,19 +382,21 @@ module.exports = function (meetings) {
                 console.log("errMeeting", errMeeting)
                 return cb(errMeeting)
             }
-            let beenInIf = false
-            if (fallenFullArray) {
-                for (let fallen of fallenFullArray) {
-                    if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                        beenInIf = true
-                        if (data.max_participants && Number(data.max_participants) > 2000)
-                            return cb({ max_participants: 2000 })
+            if (data.max_participants) {
+                let beenInIf = false
+                if (fallenFullArray) {
+                    for (let fallen of fallenFullArray) {
+                        if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
+                            beenInIf = true
+                            if (data.max_participants && Number(data.max_participants) > 2000)
+                                return cb({ max_participants: 2000 })
+                        }
                     }
                 }
-            }
 
-            if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
-                return cb({ max_participants: 500 })
+                if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
+                    return cb({ max_participants: 500 })
+                }
             }
             let meetingById = JSON.parse(JSON.stringify(res))
             if (data.fallensToChange) {

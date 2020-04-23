@@ -13,7 +13,7 @@ import ContainFilters from './ContainFilters'
 import grass from '../icons/bac-white.svg'
 import ourBrothers from '../icons/ob-white.svg'
 import tell from '../icons/Asset 7@3x11.png';
-import list from '../icons/list.svg'
+import View from './View.js'
 
 const ComputerList = (props) => {
 
@@ -84,9 +84,7 @@ const ComputerList = (props) => {
 
                     </div>
                     <ContainFilters className='containFilters' t={props.t} />
-                    <div className='grow' style={{height:'2vw' , width:'2vw' , display:'flex' , marginTop:'3vh' , cursor:'pointer'}}>
-                            <img src={list} onClick={props.MeetingsStore.setView} height='100%' width='100%' />
-                        </div>
+                   <View />
                     <div className='containMeetings-comp'>
                        
                         {props.MeetingsStore.meetings ? props.MeetingsStore.meetings.map((meeting, index) => {
