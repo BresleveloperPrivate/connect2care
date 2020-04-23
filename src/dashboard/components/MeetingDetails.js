@@ -362,7 +362,7 @@ const MeetingDetails = (props) => {
                         </div>
                     </div>
 
-                    {props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '' &&
+                    {props.CreateMeetingStore.meetingDetailsOriginal.zoomId && props.CreateMeetingStore.meetingDetailsOriginal.zoomId !== '' &&
                         <div>
                             <div className='position-relative'>
                                 <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>

@@ -191,7 +191,7 @@ class CreateMeetingStore {
                     if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship[index] && index === this.meetingDetails.otherRelationship[index].id) this.meetingDetails.otherRelationship[index].relative = ""
                     if (option !== "אח/ות" && option !== "אלמן/ אלמנה" && option !== "יתומים" && option !== "הורים" && option !== "קרובי משפחה") {
                         this.meetingDetails.fallens[i].needAlert = true
-                        this.time = setTimeout(() => { if (this.meetingDetails.fallens) this.meetingDetails.fallens[i].needAlert = false }, 10000)
+                        this.time = setTimeout(() => { if (this.meetingDetails.fallens && this.meetingDetails.fallens[i]) this.meetingDetails.fallens[i].needAlert = false }, 10000)
                     }
                 }
             }
@@ -553,6 +553,7 @@ class CreateMeetingStore {
         }
 
         this.waitForData = true
+        console.log(changedObj)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/updateMeeting/`,
             {
