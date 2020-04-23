@@ -10,7 +10,7 @@ var boot = require('loopback-boot');
 var path = require('path');
 const express = require('express');
 let s = require('./checkMeetingInterval.js');
-const sendMeetingInfo = require('./sendMeetingInfo');
+// const sendMeetingInfo = require('./sendMeetingInfo');
 
 var app = module.exports = loopback();
 app.use(express.json());
