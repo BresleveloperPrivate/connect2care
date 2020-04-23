@@ -132,7 +132,7 @@
 
 .selectInput{
     padding: 0 0.5em;
-    overflow-x: hidden;
+    overflow: hidden;
     white-space: nowrap;
     position: relative;
 }
