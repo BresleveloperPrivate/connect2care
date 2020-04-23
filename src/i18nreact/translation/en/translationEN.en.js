@@ -90,7 +90,7 @@ const translationEN = {
     'private meetings': 'Private meetings',
     'full meetings': 'Full meetings',
 
-
+    'participantsNum': 'Number of participants',
     "meeting time": "Meeting time",
     "meeting date": 'Meeting date',
     'meeting language': 'Meeting language',

@@ -69,6 +69,13 @@ module.exports = function (meetings) {
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` Replace(meetings.time, ':', '') >= ${filters.time[0]} and Replace(meetings.time, ':', '') < ${filters.time[1]}`
         }
 
+        if (filters.participants) {
+            if (filters.participants[0] !== 0 && !Number(filters.participants[0]) && filters.participants[1] !== 0 && !Number(filters.participants[1])) {
+                return cb({ error: 'value is not a number' })
+            }
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num  >= ${filters.participants[0]} and meetings.participants_num < ${filters.participants[1]} and meetings.isOpen = 1`
+        }
+
         // if (filters.isAvailable) {
         //     sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.participants_num < meetings.max_participants and meetings.isOpen = 1`
         // }

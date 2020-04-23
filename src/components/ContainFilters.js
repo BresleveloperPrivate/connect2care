@@ -51,13 +51,31 @@ const Filters = (props) => {
         { option: '18:00 - 21:00', data: [1800, 2100] },
         { option: '21:00 - 00:00', data: [2100, 2400] },
     ]
+    const participants = 
+    
+    props.LanguageStore.lang !== 'heb' ? [
+        { option: props.t('all'), data: false },
+        { option: '0 - 20', data: [0, 20] },
+        { option: '20 - 50', data: [20, 50] },
+        { option: '50 - 100', data: [50, 100] },
+        { option: '100 - 200', data: [100, 200] },
+        { option: '200+', data: [200, 1000] },
+    ]
+    : [
+        { option: props.t('all'), data: false },
+        { option: '20 - 0', data: [0, 20] },
+        { option: '50 - 20', data: [20, 50] },
+        { option: '100 - 50', data: [50, 100] },
+        { option: '200 - 100', data: [100, 200] },
+        { option: '200+', data: [200, 1000] },
+    ]
 
     return (
 
         <div id='filtersId' className={props.className}>
             <div className={props.LanguageStore.lang !== 'heb' ? 'filterBy-left tal' : 'filterBy-right tar'}> {props.t('filter by')}:</div>
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '15%' : props.LanguageStore.width > 800 ? '15%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '12%' : '100%'}
                 default={props.MeetingsStore.status}
                 selectTextDefault={props.t('all meetings')}
                 arr={meetings}
@@ -71,7 +89,7 @@ const Filters = (props) => {
 
             <Select
                 default={props.MeetingsStore.date}
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '25%' : props.LanguageStore.width > 800 ? '25%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '14%' : '100%'}
                 // fetch={props.MeetingsStore.search}
                 selectTextDefault={props.t('meeting date')}
                 arr={meetingDate}
@@ -84,7 +102,7 @@ const Filters = (props) => {
 
             />
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '12%' : props.LanguageStore.width > 800 ? '13%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '12%' : '100%'}
                 default={props.MeetingsStore.time}
                 selectTextDefault={props.t('meeting time')}
                 arr={meetingTime}
@@ -97,7 +115,7 @@ const Filters = (props) => {
             />
             <Select
                 img={true}
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' && props.LanguageStore.width > 800 ? '17%' : props.LanguageStore.width > 800 ? '17%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' && props.LanguageStore.width > 800 ? '14%' : props.LanguageStore.width > 800 ? '14%' : '100%'}
                 default={props.MeetingsStore.fallenRelative.data ? props.MeetingsStore.fallenRelative : false}
                 selectTextDefault={props.t('relationship to fallen')}
                 arr={myCloseToTheFallen}
@@ -110,7 +128,7 @@ const Filters = (props) => {
                 changeBackground={true}
             />
             <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? null : props.LanguageStore.width > 800 ? '16%' : '100%'}
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '14%' : '100%'}
                 default={props.MeetingsStore.language}
                 selectTextDefault={props.t('meeting language')}
                 arr={meetingLanguage}
@@ -122,7 +140,18 @@ const Filters = (props) => {
                 changeBackground={true}
             />
 
-
+            <Select
+                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
+                default={props.MeetingsStore.participants}
+                selectTextDefault={props.t('participantsNum')}
+                arr={participants}
+                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
+                onChoseOption={(value) => {
+                    props.MeetingsStore.changeMeetingParticipants(value)
+                    props.MeetingsStore.search()
+                }}
+                changeBackground={true}
+            />
 
             {/* <div className='availableOnly'>
                 <div
