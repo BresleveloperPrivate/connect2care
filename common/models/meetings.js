@@ -625,17 +625,19 @@ module.exports = function (meetings) {
                  and meetings.owner = people.id`
         }
         if (filters.participants) {
-            if (filters.participants.min !== 0 && !Number(filters.participants.min)) {
+            if (filters.participants.min !== '0' && !Number(filters.participants.min)) {
                 return cb({ error: 'participants is not valid' })
             }
-            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${participants.min}`
-            if (filters.participants.max)
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + ` meetings.participants_num >= ${filters.participants.min}`
+            if (filters.participants.max) {
                 if (filters.participants.max !== 0 && !Number(filters.participants.max)) {
                     return cb({ error: 'participants is not valid' })
                 }
-            sqlQueryWhere += ` and meetings.participants_num < ${participants.max}`
+                sqlQueryWhere += ` and meetings.participants_num < ${filters.participants.max}`
+            }
         }
 
+        console.log(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`)
         meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''} ORDER BY meetings.approved ASC, meetings.id DESC`, params, (err, res) => {
             if (err) {
                 console.log(err)
@@ -732,12 +734,12 @@ module.exports = function (meetings) {
                 return cb(err, null);
             }
 
-            if (!meeting) { cb({ msg: "הפגישה אינה קיימת" }, null); return; }
+            if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
 
             if (!!!isOpen) {
                 if (String(code) !== String(myCode)) {
-                    { cb({ msg: 'קוד ההצטרפות שגוי' }, null); return; }
+                    return cb({ msg: 'קוד ההצטרפות שגוי' }, null)
                 }
             }
             if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
