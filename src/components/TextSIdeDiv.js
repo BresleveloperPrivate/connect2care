@@ -49,7 +49,7 @@ const TextSideDiv = (props) => {
                                 return (
                                     <div key={index}>
                                         <div style={{ fontSize: props.LanguageStore.width > 550 ? "30px" : "20px" }}>
-                                            קיים מפגש נוסף לזכרו של <strong>{props.CreateMeetingStore.fallenDetails[fallenId.id].name}</strong>
+                                            קיים מפגש נוסף לזכר <strong>{props.CreateMeetingStore.fallenDetails[fallenId.id].name}</strong>
                                         </div>
                                         {props.CreateMeetingStore.fallenDetails[fallenId.id].meetings && props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.length &&
                                             props.CreateMeetingStore.fallenDetails[fallenId.id].meetings.map((meeting, i) => {

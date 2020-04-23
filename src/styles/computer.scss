@@ -137,10 +137,18 @@
 }
 
 
+.banner{
+    position: relative;
+}
 
-
-
-
+.insideBanner{
+    position: absolute;
+    bottom: 0px;
+    height: 20px;
+    background-image: linear-gradient(#08255100 , #082551  );
+    width: 100%;
+    z-index: 2;
+}
 
 .flip-card {
     direction: rtl;
