@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { observer, PropTypes, inject } from 'mobx-react';
+import React from 'react';
+import { observer, inject } from 'mobx-react';
 import '../styles/support.css'
 import Phone from '../icons/phone.svg'
 import Email from '../icons/email-green.svg'
