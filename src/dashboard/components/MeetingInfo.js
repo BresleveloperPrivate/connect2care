@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { inject, observer } from 'mobx-react';
 import TopBarManager from './TopBarManager'
 import '../style/dashboardMain.css'
@@ -9,9 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const MeetingInfo = (props) => {
 
     const [page, setPage] = useState("MeetingDetails");
-
-    // useEffect(() => {
-    // }, [])
 
     return (
         <div style={{ minHeight: '95vh', overflow: 'auto', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '5vh' }}>

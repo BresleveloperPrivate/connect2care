@@ -11,7 +11,7 @@ import envelope from '../icons/envelope.svg'
 
 function AlertDialog(props) {
   const { openEmail, setOpenEmail } = props;
-  const [openSuccess, setOpenSuccess] = React.useState(null);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   const [email, setEmail] = React.useState(null);
   const [isEmailNotLegal, setIsEmailNotLegal] = React.useState(false);
   const regex = RegExp(/^(.+)@(.+){2,}.(.+){2,}$/);
