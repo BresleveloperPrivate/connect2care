@@ -88,7 +88,7 @@ const Meeting = ({ match: { params }, history: { goBack }, t, LanguageStore }) =
                 </div>
             }
 
-            <MeetingBottom maxNum={!isOpen ? maxNum : null} numOfPeople={numOfPeople} />
+            <MeetingBottom maxNum={maxNum} numOfPeople={isOpen ? numOfPeople : null} />
 
         </div>
         {!!name && (isOpen !== null && isOpen !== undefined && !((maxNum >= 0) && (numOfPeople > 0 || numOfPeople === 0) && maxNum <= numOfPeople) ? (
