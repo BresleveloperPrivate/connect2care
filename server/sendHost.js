@@ -12,7 +12,7 @@ module.exports = function (app) {
             .catch(err => [err]);
     }
 
-    for (let hour = 0; hour < 24; hour += 8) {
+    for (let hour = 0; hour < 24; hour += 1) {
         const rule = new schedule.RecurrenceRule();
 
         rule.year = new Date().getFullYear();
