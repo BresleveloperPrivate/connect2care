@@ -92,7 +92,7 @@ const PhoneList = (props) => {
 
                                     Many families would love to see you join their virtual meet-ups.
                                     So, we have added a filter that will let you find the meet-ups that are still less crowded. <br />
-                                    Join us for a joint commemoration.
+                                    Join us to commemorate together.
                                  </div>
                                         :
                                         <div className='speech-bubble-filter-text'>
