@@ -21,9 +21,9 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
-        let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings , fallens_meetings`
-        let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let sqlQuerySelect = `meetings.id `
+        let sqlQueryfrom = `meetings `
+        let sqlQueryWhere = ``
         let params = []
 
         // console.log(filters)
@@ -81,7 +81,7 @@ module.exports = function (meetings) {
         // }
 
         if (filters.relationship || search) {
-            // sqlQueryfrom += `, fallens_meetings`
+            sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
                     return cb({ error: 'relationship is not valid' })
@@ -106,18 +106,16 @@ module.exports = function (meetings) {
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
+
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and meetings.id = fallens_meetings.meeting ` : `meetings.id = fallens_meetings.meeting `)
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
-        ELSE 9
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 1
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 3 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 4 
+        ELSE 5
         END , meetings.id DESC LIMIT ${limit.min} , 21`, params, (err, res) => {
 
             if (err) {
