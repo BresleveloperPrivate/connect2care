@@ -447,11 +447,11 @@ input[type=radio]:focus {
 
 }
 
-@media screen and (max-width: 800px){
+/* @media screen and (max-width: 800px){
     .textSide{
         font: normal 18px Assistant;
     }
-}
+} */
 
 @media screen and (max-width: 550px){
     .createMeetingHeadLine{
@@ -587,15 +587,22 @@ input[type=radio]:focus {
     }
 
     .textSide{
-        font: normal 15px Assistant;
+        font: normal 18px Assistant;
     }
 }
 
-@media screen and (max-width: 280px){
+@media screen and (max-width: 380px){
     .textSide{
-        font: normal 14px Assistant;
+        font: normal 17px Assistant;
     }
 }
+
+@media screen and (max-width: 320px){
+    .textSide{
+        font: normal 16px Assistant;
+    }
+}
+
 
 @media screen and (max-height: 450px){
 
