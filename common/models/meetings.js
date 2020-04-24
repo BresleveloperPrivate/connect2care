@@ -1,15 +1,13 @@
 'use strict';
-const getZoomUser = require('../../server/getZoomUser.js');
+// const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-const scheduleWebinar = require('../../server/scheduleWebinar.js');
+// const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
-// const http = require("https");
-// const jwt = require('jsonwebtoken');
-// const config = require('./config');
-// const rp = require('request-promise');
+const removePanelists = require('../../server/removePanelists.js');
+
 
 module.exports = function (meetings) {
 
@@ -1342,10 +1340,13 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
-            console.log(participantName, participantEmail, zoomId)
-            // addPanelists(participantName, participantEmail, webinarId)
-            return cb(null, true)
+            if (res) {
+                console.log(zoomId)
+                let webinarId = zoomId.split('/')[4].split('?')[0]
+                console.log(isPanelist, webinarId, participantName, participantEmail, zoomId)
+                // isPanelist ? addPanelists(participantEmail, participantName, webinarId) : removePanelists(participantEmail, participantName, webinarId)
+                return cb(null, true)
+            }
         })()
     }
 

@@ -10,7 +10,7 @@ var boot = require('loopback-boot');
 var path = require('path');
 const express = require('express');
 let s = require('./checkMeetingInterval.js');
-// const sendMeetingInfo = require('./sendMeetingInfo');
+const sendMeetingInfo = require('./sendHost');
 
 var app = module.exports = loopback();
 app.use(express.json());
@@ -31,7 +31,7 @@ app.start = function () {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
     s(app);
-    // sendMeetingInfo(app);
+    sendMeetingInfo(app);
   });
   
 };
