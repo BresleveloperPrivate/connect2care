@@ -88,12 +88,12 @@ const PhoneList = (props) => {
                                     }><FontAwesomeIcon onClick={() => { localStorage.setItem('speech', true); setSpeech(false) }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer', color: 'white' }} /></div>
 
                                     {props.LanguageStore.lang !== 'heb' ?
-                                        <div className='speech-bubble-filter-text'>
+                                    <div className='speech-bubble-filter-text'>
 
-                                            הרבה משפחות ישמחו לראותכם במפגשים,
-                        לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
-                        הצטרפו אלינו לחיבוק וזכרון משותף.
-                        </div>
+                                    Many families would love to see you join their virtual meet-ups.
+                                    So, we have added a filter that will let you find the meet-ups that are still less crowded. <br />
+                                    Join us for a joint commemoration.
+                                 </div>
                                         :
                                         <div className='speech-bubble-filter-text'>
 

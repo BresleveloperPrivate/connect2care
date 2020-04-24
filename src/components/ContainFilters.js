@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Select from './Select.js'
 import { inject, observer } from 'mobx-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Filters = (props) => {
 
-    const [speech , setSpeech] = useState(true)
+    const [speech, setSpeech] = useState(true)
 
     const myCloseToTheFallen = [
         { option: props.t('all'), data: false },
@@ -159,29 +159,29 @@ const Filters = (props) => {
                 />
                 {props.LanguageStore.width > 800 && !localStorage.getItem('speech') && speech &&
                     <div className={props.LanguageStore.lang !== 'heb' ? 'speech-bubble-filter speech-bubble-filter-en' : 'speech-bubble-filter speech-bubble-filter-heb'}>
-                <div style={
-                    props.LanguageStore.lang !== 'heb' ?
-                    {position:'absolute' , top:'8px' ,  left:'8px'}
-                :{position:'absolute' , top:'8px' ,  right:'8px'}
-                }><FontAwesomeIcon onClick={() => {localStorage.setItem('speech', true) ; setSpeech(false)}} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer' , color:'white'}} /></div>
-                       {props.LanguageStore.lang !== 'heb' ?
-                                        <div className='speech-bubble-filter-text'>
+                        <div style={
+                            props.LanguageStore.lang !== 'heb' ?
+                                { position: 'absolute', top: '8px', left: '8px' }
+                                : { position: 'absolute', top: '8px', right: '8px' }
+                        }><FontAwesomeIcon onClick={() => { localStorage.setItem('speech', true); setSpeech(false) }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer', color: 'white' }} /></div>
+                        {props.LanguageStore.lang !== 'heb' ?
+                            <div className='speech-bubble-filter-text'>
 
-                                            הרבה משפחות ישמחו לראותכם במפגשים,
-                        לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
-                        הצטרפו אלינו לחיבוק וזכרון משותף.
+                                Many families would love to see you join their virtual meet-ups.
+                                So, we have added a filter that will let you find the meet-ups that are still less crowded. <br />
+                                Join us for a joint commemoration.
+                             </div>
+                            :
+                            <div className='speech-bubble-filter-text'>
+
+                                הרבה משפחות ישמחו לראותכם במפגשים,
+                                לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
+                                הצטרפו אלינו לחיבוק וזכרון משותף.
                         </div>
-                                        :
-                                        <div className='speech-bubble-filter-text'>
 
-                                            הרבה משפחות ישמחו לראותכם במפגשים,
-                        לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
-                        הצטרפו אלינו לחיבוק וזכרון משותף.
-                        </div>
-
-                                    }
-                    <div className={props.LanguageStore.lang !== 'heb' ? 'arrow-top arrow-top-en' : 'arrow-top arrow-top-heb'}> </div>
-                </div>}
+                        }
+                        <div className={props.LanguageStore.lang !== 'heb' ? 'arrow-top arrow-top-en' : 'arrow-top arrow-top-heb'}> </div>
+                    </div>}
             </div>
 
 
