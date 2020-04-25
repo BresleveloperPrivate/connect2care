@@ -51,7 +51,7 @@ module.exports = function (app) {
             schedule.scheduleJob(rule, () => {
                 (async () => {
                     try {
-                        const [errM, meetings] = await to(app.models.meetings.find({ where: { and: [{ or: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { or: timeStrings.map(time => ({ time })) }, { date }] }, include: ["people", "meetingOwner", "fallens"] }))
+                        const [errM, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { or: timeStrings.map(time => ({ time })) }, { date }] }, include: ["people", "meetingOwner", "fallens"] }))
                         meetings.forEach(meeting => {
                             const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                             if (people && people.length > 0) {
