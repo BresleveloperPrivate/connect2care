@@ -24,7 +24,7 @@ module.exports = function (app) {
         schedule.scheduleJob(rule, () => {
             (async () => {
                 try {
-                    const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" });
+                    const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" }))
                     meetings.forEach(meeting => {
                         // console.log("xxxxxxxxxxxxxxxxxxxxxxx")
                         // console.log(meeting);
