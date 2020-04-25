@@ -1,12 +1,13 @@
 
-import checkboxOn from '../icons/checkbox_on_light.svg'
-import checkboxOff from '../icons/checkbox_off_light.svg'
+import React, { useState } from 'react';
 import Select from './Select.js'
-import React, { useState, useEffect, useRef } from 'react';
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const Filters = (props) => {
+
+    const [speech, setSpeech] = useState(true)
 
     const myCloseToTheFallen = [
         { option: props.t('all'), data: false },
@@ -51,24 +52,24 @@ const Filters = (props) => {
         { option: '18:00 - 21:00', data: [1800, 2100] },
         { option: '21:00 - 00:00', data: [2100, 2400] },
     ]
-    const participants = 
-    
-    props.LanguageStore.lang !== 'heb' ? [
-        { option: props.t('all'), data: false },
-        { option: '0 - 20', data: [0, 20] },
-        { option: '20 - 50', data: [20, 50] },
-        { option: '50 - 100', data: [50, 100] },
-        { option: '100 - 200', data: [100, 200] },
-        { option: '200+', data: [200, 1000] },
-    ]
-    : [
-        { option: props.t('all'), data: false },
-        { option: '20 - 0', data: [0, 20] },
-        { option: '50 - 20', data: [20, 50] },
-        { option: '100 - 50', data: [50, 100] },
-        { option: '200 - 100', data: [100, 200] },
-        { option: '200+', data: [200, 1000] },
-    ]
+    const participants =
+
+        props.LanguageStore.lang !== 'heb' ? [
+            { option: props.t('all'), data: false },
+            { option: '0 - 20', data: [0, 20] },
+            { option: '20 - 50', data: [20, 50] },
+            { option: '50 - 100', data: [50, 100] },
+            { option: '100 - 200', data: [100, 200] },
+            { option: '200+', data: [200, 1500] },
+        ]
+            : [
+                { option: props.t('all'), data: false },
+                { option: '20 - 0', data: [0, 20] },
+                { option: '50 - 20', data: [20, 50] },
+                { option: '100 - 50', data: [50, 100] },
+                { option: '200 - 100', data: [100, 200] },
+                { option: '200+', data: [200, 1500] },
+            ]
 
     return (
 
@@ -140,18 +141,49 @@ const Filters = (props) => {
                 changeBackground={true}
             />
 
-            <Select
-                width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
-                default={props.MeetingsStore.participants}
-                selectTextDefault={props.t('participantsNum')}
-                arr={participants}
-                className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
-                onChoseOption={(value) => {
-                    props.MeetingsStore.changeMeetingParticipants(value)
-                    props.MeetingsStore.search()
-                }}
-                changeBackground={true}
-            />
+            <div
+                className={props.LanguageStore.lang !== 'heb' ? 'filter-meeting-left' : 'filter-meeting-right'}
+                style={{ position: 'relative', width: props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '18%' : '100%' }}>
+                <Select
+                    width='100%'
+                    // width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '18%' : '100%'}
+                    default={props.MeetingsStore.participants}
+                    selectTextDefault={props.t('participantsNum')}
+                    arr={participants}
+                    className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings' : 'tar input-meetings '}
+                    onChoseOption={(value) => {
+                        props.MeetingsStore.changeMeetingParticipants(value)
+                        props.MeetingsStore.search()
+                    }}
+                    changeBackground={true}
+                />
+                {props.LanguageStore.width > 800 && !localStorage.getItem('speech') && speech &&
+                    <div className={props.LanguageStore.lang !== 'heb' ? 'speech-bubble-filter speech-bubble-filter-en' : 'speech-bubble-filter speech-bubble-filter-heb'}>
+                        <div style={
+                            props.LanguageStore.lang !== 'heb' ?
+                                { position: 'absolute', top: '8px', left: '8px' }
+                                : { position: 'absolute', top: '8px', right: '8px' }
+                        }><FontAwesomeIcon onClick={() => { localStorage.setItem('speech', true); setSpeech(false) }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer', color: 'white' }} /></div>
+                        {props.LanguageStore.lang !== 'heb' ?
+                            <div className='speech-bubble-filter-text'>
+
+                                Many families would love to see you join their virtual meet-ups.
+                                So, we have added a filter that will let you find the meet-ups that are still less crowded. <br />
+                                Join us to commemorate together.
+                             </div>
+                            :
+                            <div className='speech-bubble-filter-text'>
+
+                                הרבה משפחות ישמחו לראותכם במפגשים,
+                                לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
+                                הצטרפו אלינו לחיבוק וזכרון משותף.
+                        </div>
+
+                        }
+                        <div className={props.LanguageStore.lang !== 'heb' ? 'arrow-top arrow-top-en' : 'arrow-top arrow-top-heb'}> </div>
+                    </div>}
+            </div>
+
 
             {/* <div className='availableOnly'>
                 <div

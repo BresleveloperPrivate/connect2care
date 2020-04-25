@@ -1,7 +1,8 @@
 'use strict';
 const scheduleWebinar = require('./scheduleWebinar.js');
-
+const sendEmail = require('./email');
 const schedule = require('node-schedule');
+const createZoomUser = require('./createZoomUser.js');
 
 module.exports = function (app) {
     const to = (promise) => {
@@ -48,7 +49,6 @@ module.exports = function (app) {
                                     start_time = "2020-05-05T00:59:00"
                                     break;
                             }
-                            // console.log("TTTTTTTT", start_time, email)
                             scheduleWebinar(async (url) => {
                                 console.log("url", url)
                                 if (url && url !== undefined) {
@@ -57,6 +57,18 @@ module.exports = function (app) {
                                     if (err) {
                                         console.log(err)
                                     }
+                                }
+                                else {
+                                    if (hour == 8 || hour == 16) {
+                                        createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
+                                            if (toSend) {
+                                                sendEmail("", {
+                                                    to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
+                                                });
+                                            }
+                                        })
+                                    }
+
                                 }
                             }, email, start_time)
                         }

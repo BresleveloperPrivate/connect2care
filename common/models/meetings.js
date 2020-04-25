@@ -1,15 +1,13 @@
 'use strict';
-const getZoomUser = require('../../server/getZoomUser.js');
+// const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-const scheduleWebinar = require('../../server/scheduleWebinar.js');
+// const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
-// const http = require("https");
-// const jwt = require('jsonwebtoken');
-// const config = require('./config');
-// const rp = require('request-promise');
+const removePanelists = require('../../server/removePanelists.js');
+
 
 module.exports = function (meetings) {
 
@@ -21,9 +19,9 @@ module.exports = function (meetings) {
     }
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
-        let sqlQuerySelect = `meetings.id`
-        let sqlQueryfrom = `meetings , fallens_meetings`
-        let sqlQueryWhere = `meetings.id = fallens_meetings.meeting `
+        let sqlQuerySelect = `meetings.id `
+        let sqlQueryfrom = `meetings `
+        let sqlQueryWhere = ``
         let params = []
 
         // console.log(filters)
@@ -81,7 +79,7 @@ module.exports = function (meetings) {
         // }
 
         if (filters.relationship || search) {
-            // sqlQueryfrom += `, fallens_meetings`
+            sqlQueryfrom += `, fallens_meetings`
             if (filters.relationship) {
                 if (filters.relationship !== 'אח/ות' && filters.relationship !== 'הורים' && filters.relationship !== 'קרובי משפחה' && filters.relationship !== 'אלמן/ אלמנה' && filters.relationship !== 'יתומים' && filters.relationship !== 'חבר/ה' && filters.relationship !== 'בית אביחי' && filters.relationship !== 'האחים שלנו') {
                     return cb({ error: 'relationship is not valid' })
@@ -106,18 +104,16 @@ module.exports = function (meetings) {
                     and meetings.owner = people.id
                     and fallens.id = fallens_meetings.fallen`
             }
+
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and meetings.id = fallens_meetings.meeting ` : `meetings.id = fallens_meetings.meeting `)
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
-        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 4
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 5
-        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 6
-        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 7 
-        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 8 
-        ELSE 9
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE 
+        WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 1
+        WHEN meetings.isOpen = 0 and meetings.participants_num < meetings.max_participants THEN 2
+        WHEN meetings.isOpen = 1 and meetings.participants_num >= meetings.max_participants THEN 3 
+        WHEN meetings.isOpen = 0 and meetings.participants_num >= meetings.max_participants THEN 4 
+        ELSE 5
         END , meetings.id DESC LIMIT ${limit.min} , 21`, params, (err, res) => {
 
             if (err) {
@@ -1031,7 +1027,7 @@ module.exports = function (meetings) {
                 return cb(err2, false)
             }
             let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
-            createZoomUser(newEmail, nameOwner)
+            createZoomUser(newEmail, nameOwner, (b) => { })
             let sendOptions = {}
             if (res.language !== 'עברית' && res.language) {
                 sendOptions = {
@@ -1260,7 +1256,7 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            createZoomUser(newEmail, nameOwner)
+            createZoomUser(newEmail, nameOwner,(b) => { })
 
             return cb(null, true)
         })()
@@ -1344,10 +1340,13 @@ module.exports = function (meetings) {
             if (err) {
                 return cb(err)
             }
-            let webinarId = "https://zoom.us/j/98960759537?pwd=cXYxT3RHZzh6Z094ZHZPamlWOWdoQT09"
-            console.log(participantName, participantEmail, zoomId)
-            // addPanelists(participantName, participantEmail, webinarId)
-            return cb(null, true)
+            if (res) {
+                console.log(zoomId)
+                let webinarId = zoomId.split('/')[4].split('?')[0]
+                console.log(isPanelist, webinarId, participantName, participantEmail, zoomId)
+                isPanelist ? addPanelists(participantEmail, participantName, webinarId) : removePanelists(participantEmail, participantName, webinarId)
+                return cb(null, true)
+            }
         })()
     }
 

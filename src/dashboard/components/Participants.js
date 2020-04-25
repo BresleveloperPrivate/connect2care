@@ -161,22 +161,22 @@ const Participants = (props) => {
                                             <td className='email'>{participant.email}</td>
                                             <td className='phone'>{participant.phone}</td>
 
-                                            {/* {canChangePanelist && <td>
-                                            <div>
-                                                <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
-                                                    <div
-                                                        className='panelBtn'
-                                                        style={{
-                                                            width: "20px",
-                                                            height: "34px",
-                                                            WebkitMaskSize: "20px 34px",
-                                                            WebkitMaskImage: `Url(${panelBtn})`
-                                                        }}>
+                                            {canChangePanelist && <td>
+                                                <div>
+                                                    <div className={participant.isPanelist ? 'panelistContain' : 'panelContain'} onClick={() => changePanelitStatus(participant)} >
+                                                        <div
+                                                            className='panelBtn'
+                                                            style={{
+                                                                width: "20px",
+                                                                height: "34px",
+                                                                WebkitMaskSize: "20px 34px",
+                                                                WebkitMaskImage: `Url(${panelBtn})`
+                                                            }}>
+                                                        </div>
+                                                        {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                     </div>
-                                                    {!participant.isPanelist && <div className='panelText position-absolute'>הגדר כפאנליסט</div>}
                                                 </div>
-                                            </div>
-                                        </td>} */}
+                                            </td>}
                                             <td></td>
                                         </tr>)
                                     )}

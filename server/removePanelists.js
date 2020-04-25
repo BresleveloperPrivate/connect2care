@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const http = require("https");
 
-const addPanelists = async (email, name, webinarId) => {
+const removePanelists = async (email, name, webinarId) => {
 
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",
@@ -9,13 +9,12 @@ const addPanelists = async (email, name, webinarId) => {
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 
-    // console.log("token", token)
 
     let options = {
         "method": "POST",
         "hostname": "api.zoom.us",
         "port": null,
-        "path": `/v2/webinars/${webinarId}/panelists?access_token=` + token,
+        "path": `v2/webinars/${webinarId}/panelists/${email}?access_token=` + token,
         "headers": {
             "content-type": "application/json"
         }
@@ -30,23 +29,20 @@ const addPanelists = async (email, name, webinarId) => {
 
         res.on("end", function () {
             let body = Buffer.concat(chunks);
-            console.log(JSON.parse(body.toString()))
+            console.log(body.toString())
         });
     });
 
-    req.write(JSON.stringify(
-        {
-            "panelists": [
-                {
-                    "name": name,
-                    "email": email
-                }
-            ]
-        }
-    ));
+    // req.write(JSON.stringify(
+    //     {
+
+
+    //     }
+    // ));
+
 
     req.end();
 
 }
 
-module.exports = addPanelists;
+module.exports = removePanelists;

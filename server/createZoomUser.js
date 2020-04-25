@@ -1,12 +1,13 @@
 const http = require("https");
 const jwt = require('jsonwebtoken');
 
+
 /**
  * @param {string} mail;
  * @param {string} name;
 */
 
-const createZoomUser = async (mail, name) => {
+const createZoomUser = async (mail, name, cb) => {
     const payload = {
         iss: "bxkoUl94RgOEagOunvJnDA",
         exp: ((new Date()).getTime() + 5000)
@@ -35,6 +36,13 @@ const createZoomUser = async (mail, name) => {
         res.on("end", function () {
             let body = Buffer.concat(chunks);
             console.log(body.toString());
+            let jsdata = JSON.parse(body.toString())
+            if (jsdata.code && (jsdata.code == "1005" || jsdata.code == 1005)) {
+                cb(false)
+            }
+            else{
+                cb(true)
+            }
         });
     });
 

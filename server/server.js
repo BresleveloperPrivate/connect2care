@@ -10,7 +10,8 @@ var boot = require('loopback-boot');
 var path = require('path');
 const express = require('express');
 let s = require('./checkMeetingInterval.js');
-// const sendMeetingInfo = require('./sendMeetingInfo');
+const sendHostMeetingInfo = require('./sendHostMeetingInfo');
+const scheduleBeforeMeetings = require('./scheduleBeforeMeetings')
 
 var app = module.exports = loopback();
 app.use(express.json());
@@ -31,9 +32,10 @@ app.start = function () {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
     s(app);
-    // sendMeetingInfo(app);
+    sendHostMeetingInfo(app);
+    scheduleBeforeMeetings(app)
   });
-  
+
 };
 
 // Bootstrap the application, configure models, datasources and middleware.
@@ -47,6 +49,6 @@ boot(app, __dirname, function (err) {
   if (require.main === module) {
 
     app.start();
-    
+
   }
 });
