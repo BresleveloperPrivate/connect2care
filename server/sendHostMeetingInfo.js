@@ -44,7 +44,7 @@ module.exports = function (app) {
                             f_day = 'יום ראשון, ב באייר, 26.04'
                             break;
                     }
-                    const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ or: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: f_day }] }, include: ["people", "meetingOwner"] }))
+                    const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: f_day }] }, include: ["people", "meetingOwner"] }))
 
                     if (meetings) {
                         meetings.forEach(meeting => {
