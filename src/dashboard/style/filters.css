@@ -104,6 +104,11 @@
     padding: 0.25vh 1vw;
 }
 
+#recipients .selectInput{
+    width: 80% !important;
+    padding: 0.25vh 1vw;
+}
+
 .selectBorder{
     border-radius: 5px;
 }
