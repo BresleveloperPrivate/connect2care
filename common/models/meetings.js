@@ -1438,4 +1438,29 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     })
 
+    meetings.sendMailParticipants = (time, date, cb) => {
+        (async () => {
+            const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            meetings.forEach(meeting => {
+                const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
+                if (people && people.length > 0) {
+                    people.forEach(human => {
+                        sendEmail("", {
+                            to: human.email, subject: "קישור זום למפגש", html: `<h1 style="direction: rtl;>זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                        });
+                    });
+                }
+            });
+        })()
+    }
+
+    meetings.remoteMethod('sendMailParticipants', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'time', type: 'string', required: true },
+            { arg: 'date', type: 'string', required: true }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
 };
