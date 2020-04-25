@@ -744,7 +744,23 @@ module.exports = function (meetings) {
     });
 
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
+
+
+
         (async () => {
+            const meetingDate = [
+                { option: [26, 4, 2020], data: 'יום ראשון, ב באייר, 26.04' },
+                { option: [27, 4, 2020], data: 'יום שני, ג באייר, 27.04' },
+                { option: [28, 4, 2020], data: 'יום שלישי, ד באייר, 28.04' },
+                { option: [29, 4, 2020], data: 'יום רביעי, ה באייר, 29.04' },
+            ]
+
+            var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "https://stackoverflow.com/", false);
+            xmlhttp.send();
+            var dateStr = xmlhttp.getResponseHeader('Date');
+
             const { people, people_meetings } = meetings.app.models;
             const [err, meeting] = await to(meetings.findById(meetingId));
             if (err) {
@@ -760,6 +776,41 @@ module.exports = function (meetings) {
                     return cb({ msg: 'קוד ההצטרפות שגוי' }, null)
                 }
             }
+
+
+
+            var date = meetingDate.find(date => date.data === meeting.date).option
+            let threeHours = Number(String(dateStr).split(' ')[4].split(':')[0] + String(dateStr).split(' ')[4].split(':')[1])
+            let meetingTime = Number(meeting.time.replace(':', ''))
+            let currentTime = threeHours + 300
+            // if (date[2] < new Date(dateStr).getFullYear()) {
+            //     return cb({ msg: 'עבר זמן המפגש' }, null)
+            // }
+            // if (date[2] === new Date(dateStr).getFullYear() && date[1] < new Date(dateStr).getMonth() + 1) {
+            //     return cb({ msg: 'עבר זמן המפגש' }, null)
+            // }
+
+            // if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] < new Date(dateStr).getDate()) {
+            //     return cb({ msg: 'עבר זמן המפגש' }, null)
+            // }
+
+            // if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < 0) {
+            //     return cb({ msg: 'עבר זמן המפגש' }, null)
+            // }
+
+            // if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= 0) {
+
+            //     ///send zoom
+            // }
+
+
+            let userCB = {
+                newdate: new Date(),
+                threeHours:threeHours,
+                currentTime : currentTime,
+            }
+
+
             if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
             let person;
             let [err1, user0] = await to(people.findOne({ where: { email: email } }))
@@ -793,6 +844,8 @@ module.exports = function (meetings) {
                 console.log(err3);
                 return cb(err3, null);
             }
+
+
             let shalom = mailDetails
             let sendOptions = {}
             if (meeting.language !== 'עברית') {
@@ -876,8 +929,10 @@ module.exports = function (meetings) {
                        ` }
             }
 
-
             sendEmail("", sendOptions);
+
+
+
             const participantsNum = participants_num ? participants_num + 1 : 1;
 
             let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: participantsNum }));
@@ -886,7 +941,7 @@ module.exports = function (meetings) {
                 return cb(err4, null);
             }
 
-            return cb(null, { participantsNum });
+            return cb(null, { participantsNum , userCB});
         })();
     }
 
@@ -1256,7 +1311,7 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            createZoomUser(newEmail, nameOwner,(b) => { })
+            createZoomUser(newEmail, nameOwner, (b) => { })
 
             return cb(null, true)
         })()
