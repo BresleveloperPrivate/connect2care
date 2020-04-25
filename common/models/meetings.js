@@ -808,8 +808,8 @@ module.exports = function (meetings) {
 
             let userCB = {
                 newdate: new Date(),
-                threeHours:threeHours,
-                currentTime : currentTime,
+                threeHours: threeHours,
+                currentTime: currentTime,
             }
 
 
@@ -943,7 +943,7 @@ module.exports = function (meetings) {
                 return cb(err4, null);
             }
 
-            return cb(null, { participantsNum , userCB});
+            return cb(null, { participantsNum, userCB });
         })();
     }
 
@@ -1423,12 +1423,12 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
-            const [err, meeting] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
             if (err) {
-                cb(err, {})
+                return cb(err)
             }
-            if (meeting) {
-                meetings.forEach(meeting => {
+            if (meetings1) {
+                meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
@@ -1483,6 +1483,7 @@ module.exports = function (meetings) {
 
                 });
             }
+            return cb(null, {})
         })()
     }
 
