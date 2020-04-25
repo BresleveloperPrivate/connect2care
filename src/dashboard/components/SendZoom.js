@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { inject, observer } from 'mobx-react';
 import Select from '../../components/Select'
+import Auth from '../../modules/auth/Auth'
 
 const SendZoom = (props) => {
 
@@ -8,6 +8,7 @@ const SendZoom = (props) => {
     const [date, setDate] = useState('')
     const [timeHour, setTimeHour] = useState('')
     const [timeMinute, setTimeMinute] = useState('')
+    const [recipient, setRecipient ]
 
     const meetingTimeHour = [
         { option: '08', data: '08' },
@@ -39,20 +40,40 @@ const SendZoom = (props) => {
         { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
-    const onClickBtn = () => {
+    const recipients = [
+        { data: 'מארח' },
+        { data: 'משתתפים' }
+    ]
+
+    const onClickBtn = async () => {
         setIsSaved(true)
+        if (date === '' || timeHour === '' || timeMinute === '') return
         let time = timeHour + ':' + timeMinute
         console.log(date, time)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/sendMailHost`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: time, date: date })
+            }, true);
+        console.log("success", success)
+        // setWaitForData(false)
+        if (err) {
+            // setErr(true)
+            return
+        }
+
     }
 
     return (
         <div className='filters' style={{ padding: '5vh 3vw' }}>
             <div className="containDateAndTime" style={{ width: '100%', marginRight: '0' }}>
-                <div className='containDateInput position-relative' style={{ width: '35%' }}>
+                <div className='containDateInput position-relative' style={{ width: '35%', borderRadius: '5px', border: (isSaved && date === '' ? "2px solid #EC5A5A" : "unser") }}>
                     <div className="textAboveInput">{props.t("date")}</div>
                     <Select
                         backgroundColor='var(--custom-background-light-blue)'
-                        className={'selectBorder' + (isSaved && date === '' ? "error" : "")}
+                        className='selectBorder'
                         color='#A5A4BF'
                         selectTextDefault={date !== '' && props.t("meetingIsClosed")}
                         arr={meetingDate}
@@ -62,25 +83,42 @@ const SendZoom = (props) => {
 
                 <div className='containSelectTime position-relative' style={{ marginRight: 0 }}>
                     <div className="textAboveInput">שעה (שעון ישראל):</div>
-                    <div style={{ width: '36%', padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
-                        <Select
-                            backgroundColor='var(--custom-background-light-blue)'
-                            className={'selectBorder' + (isSaved && date === '' ? "error" : "")}
-                            color='#A5A4BF'
-                            selectTextDefault={timeMinute !== '' ? timeMinute : "דקות"}
-                            arr={meetingTimeMinute}
-                            width='100%'
-                            onChoseOption={(value) => { setTimeMinute(value.data) }} />
+                    <div style={{ width: '36%', borderRadius: '5px', border: (isSaved && timeMinute === '' ? "2px solid #EC5A5A" : "unser") }}>
+                        <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
+                            <Select
+                                backgroundColor='var(--custom-background-light-blue)'
+                                className='selectBorder'
+                                color='#A5A4BF'
+                                selectTextDefault={timeMinute !== '' ? timeMinute : "דקות"}
+                                arr={meetingTimeMinute}
+                                width='100%'
+                                onChoseOption={(value) => { setTimeMinute(value.data) }} />
+                        </div>
                     </div>
 
                     <div className="timeDot" style={{ marginBottom: 0 }}>:</div>
-                    <div style={{ width: '36%', padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
+                    <div style={{ width: '36%', borderRadius: '5px', border: (isSaved && timeMinute === '' ? "2px solid #EC5A5A" : "unser") }}>
+                        <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
+                            <Select
+                                backgroundColor='var(--custom-background-light-blue)'
+                                className='selectBorder'
+                                color='#A5A4BF'
+                                selectTextDefault={timeHour !== "" ? timeHour : "שעות"}
+                                arr={meetingTimeHour}
+                                width='100%'
+                                onChoseOption={(value) => { setTimeHour(value.data) }} />
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{ width: '36%', borderRadius: '5px', border: (isSaved && timeMinute === '' ? "2px solid #EC5A5A" : "unser") }}>
+                    <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
                         <Select
                             backgroundColor='var(--custom-background-light-blue)'
-                            className={'selectBorder' + (isSaved && date === '' ? "error" : "")}
+                            className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault={timeHour !== "" ? timeHour : "שעות"}
-                            arr={meetingTimeHour}
+                            arr={recipients}
                             width='100%'
                             onChoseOption={(value) => { setTimeHour(value.data) }} />
                     </div>
