@@ -129,7 +129,8 @@
     "webpack": "4.39.1",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
