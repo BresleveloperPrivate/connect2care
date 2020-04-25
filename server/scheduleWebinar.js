@@ -62,7 +62,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
                 "hd_video": "true",
                 "approval_type": 0,
                 "audio": "both",
-                "auto_recording": "none",
+                "auto_recording": "cloud",
                 "enforce_login": "false",
                 "close_registration": "true",
                 "show_share_button": "true",
