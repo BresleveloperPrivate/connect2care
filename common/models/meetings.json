@@ -285,7 +285,9 @@
                 "newZoom",
                 "getParticipants",
                 "deleteParticipant",
-                "setPanelistStatus"
+                "setPanelistStatus",
+                "sendMailParticipants",
+                "sendMailHost"
             ]
         }
     ]
