@@ -102,11 +102,10 @@ module.exports = {
                 flags: ""
             }
         },
-
         phone: {
             type: "string",
             format: {
-                pattern: '^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{0,15}$',
+                pattern: '^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]{7,15}$',
                 message: "invalid phone"
             }
         },
