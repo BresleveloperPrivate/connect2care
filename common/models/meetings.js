@@ -1423,11 +1423,11 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
-            const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meeting] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
             if (err) {
                 cb(err, {})
             }
-            if (meetings) {
+            if (meeting) {
                 meetings.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
@@ -1497,8 +1497,8 @@ module.exports = function (meetings) {
 
     meetings.sendMailParticipants = (time, date, cb) => {
         (async () => {
-            const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
-            meetings.forEach(meeting => {
+            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            meetings1.forEach(meeting => {
                 const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                 if (people && people.length > 0) {
                     people.forEach(human => {
@@ -1508,6 +1508,7 @@ module.exports = function (meetings) {
                     });
                 }
             });
+            return cb(null, {})
         })()
     }
 
