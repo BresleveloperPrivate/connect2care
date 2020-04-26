@@ -108,7 +108,7 @@ const SendZoom = (props) => {
 
                 <div className='containSelectTime position-relative' style={{ marginRight: 0, width: '22%' }}>
                     <div className="textAboveInput">שעה (שעון ישראל):</div>
-                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeMinute === '') ? "2px solid #EC5A5A" : "unser") }}>
+                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeMinute === '') ? "2px solid #EC5A5A" : "unset") }}>
                         <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
                             <Select
                                 backgroundColor='var(--custom-background-light-blue)'
@@ -122,7 +122,7 @@ const SendZoom = (props) => {
                     </div>
 
                     <div className="timeDot" style={{ marginBottom: 0, padding: '0px 1vh' }}>:</div>
-                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeMinute === '') ? "2px solid #EC5A5A" : "unser") }}>
+                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeHour === '') ? "2px solid #EC5A5A" : "unset") }}>
                         <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
                             <Select
                                 backgroundColor='var(--custom-background-light-blue)'

@@ -1053,7 +1053,7 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
             let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
-            // console.log("res", res)
+            // console.log("res", res, "email", email)
             if (err2) {
                 console.log("err2", err2)
                 return cb(err2, false)
@@ -1063,7 +1063,7 @@ module.exports = function (meetings) {
             let sendOptions = {}
             if (res.language !== 'עברית' && res.language) {
                 sendOptions = {
-                    to: emailowner, subject: "The meet-up you initiated has been approved",
+                    to: email, subject: "The meet-up you initiated has been approved",
                     html:
                         `<div width="100%" style="direction: ltr;">
                                 <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
@@ -1398,15 +1398,18 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
+            console.log("time", time)
+            console.log("date", date)
             const [err, meetings1] = await to(meetings.find({ where: { and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }], approved: 1, date: date, time: time }, include: ["people", "meetingOwner"] }))
 
             if (err) {
                 return cb(err)
             }
             if (meetings1) {
-                console.log(meetings1)
+                console.log("meetings1", meetings1)
                 meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
+                    console.log("meeting", meeting)
                     // add datas and columns:
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                     let datas = [];
@@ -1421,13 +1424,21 @@ module.exports = function (meetings) {
                                     sendEmail("", {
                                         // add subject and html:
                                         to: meetingOwner.email, subject: "קישור זום למפגש", html:
-                                            `<div style="direction: rtl;">זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br>
-                                    טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br> התחבר עם האימייל והסיסמה:
-                                    <br>אימייל: ${emailZoom} <br>סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
-                                    לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                                    <br>
-                                    בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
-                                    </div>`,
+                                            `<div style="direction: rtl;">
+                                                <div>
+                                                    זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br>
+                                                    טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br> התחבר עם האימייל והסיסמה:
+                                                    <br>אימייל: ${emailZoom} <br>סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                                                    לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
+                                                    <br>
+                                                    בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
+                                                </div>
+                                                <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                                    <div style="font-weight: bold;">
+                                                        לתמיכה טכנית: <br>
+                                                        052-6283967 | Amdocs.Digital@glassix.net
+                                                    </div>
+                                            </div>`,
                                         attachments: [
                                             {
                                                 content: attachment,
@@ -1448,12 +1459,18 @@ module.exports = function (meetings) {
                         sendEmail("", {
                             // add subject and html:
                             to: meetingOwner.email, subject: "קישור זום למפגש", html:
-                                `<div style="direction: rtl;">זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br>
-                        טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br> התחבר עם האימייל והסיסמה:
-                        <br>אימייל: ${emailZoom} <br>סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
-                        לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                        <br>
-                        נכון לרגע שליחת המייל, לא נרשמו משתתפים למפגש
+                                `<div style="direction: rtl;">
+                                    זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br>
+                                    טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br> התחבר עם האימייל והסיסמה:
+                                    <br>אימייל: ${emailZoom} <br>סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                                    לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
+                                    <br>
+                                    נכון לרגע שליחת המייל, לא נרשמו משתתפים למפגש<br>
+                                   <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
+                                        <div style="font-weight: bold;">
+                                        לתמיכה טכנית: <br>
+                                        052-6283967 | Amdocs.Digital@glassix.net    
+                                    </div>
                         </div>`
                         });
                     }
@@ -1480,8 +1497,42 @@ module.exports = function (meetings) {
                 const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                 if (people && people.length > 0) {
                     people.forEach(human => {
+                        let htmlMessage = meeting.language !== 'heb' ?
+                        `<div style="direction: rtl;">
+                            שלום <br>
+                            מצורף קישור למפגש של: ${meeting.name}<br>
+                            בתאריך: ${meeting.date}<br>
+                            בשעה: ${meeting.time}<br><br>
+                            להלן הקישור: ${meeting.zoomId}<br><br>
+                            מטעמי אבטחה, על מנת להצטרף לפגישה<br>
+                            בכניסה למפגש יהיה עליכם למלא את שמכם וכתובת המייל שלכם.<br>
+                            כך גם נוכל לדעת מי נמצא כאן איתנו , לתת לנו חיבוק!<br><br>
+                            כמו כן, רוצים לשמור את המפגש אצלכם ביומן?<br>
+                            העתיקו את הקישור והדביקו אותו בפגישה שתפתחו ידנית.<br>
+                            <strong>אין</strong>  לשמור את המפגש אוטמטית דרך יומן גוגל וזום<br><br>
+                            תודה<br>
+                            צוות מתחברים וזוכרים
+
+                    </div>`
+                            :
+                            `<div style="direction: rtl;">
+                                שלום <br>
+                                מצורף קישור למפגש של: ${meeting.name}<br>
+                                בתאריך: ${meeting.date}<br>
+                                בשעה: ${meeting.time}<br><br>
+                                להלן הקישור: ${meeting.zoomId}<br><br>
+                                מטעמי אבטחה, על מנת להצטרף לפגישה<br>
+                                בכניסה למפגש יהיה עליכם למלא את שמכם וכתובת המייל שלכם.<br>
+                                כך גם נוכל לדעת מי נמצא כאן איתנו , לתת לנו חיבוק!<br><br>
+                                כמו כן, רוצים לשמור את המפגש אצלכם ביומן?<br>
+                                העתיקו את הקישור והדביקו אותו בפגישה שתפתחו ידנית.<br>
+                                <strong>אין</strong>  לשמור את המפגש אוטמטית דרך יומן גוגל וזום<br><br>
+                                תודה<br>
+                                צוות מתחברים וזוכרים
+
+                            </div>`
                         sendEmail("", {
-                            to: human.email, subject: "קישור זום למפגש", html: `<h1 style="direction: rtl;">זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                            to: human.email, subject: "קישור זום למפגש", html: htmlMessage,
                         });
                     });
                 }
