@@ -100,7 +100,7 @@ const SendZoom = (props) => {
                         backgroundColor='var(--custom-background-light-blue)'
                         className='selectBorder'
                         color='#A5A4BF'
-                        selectTextDefault={date !== '' && props.t("meetingIsClosed")}
+                        selectTextDefault={date !== '' ? date : 'בחר'}
                         arr={meetingDate}
                         width='100%'
                         onChoseOption={(value) => { setDate(value.data) }} />
