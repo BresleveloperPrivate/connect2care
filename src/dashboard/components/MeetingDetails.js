@@ -405,14 +405,14 @@ const MeetingDetails = (props) => {
                                     צור מפגש זום
                             </div>
                             }
-                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
+                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
                                 <div
                                     onClick={() => props.CreateMeetingStore.sendZoomHost(props.CreateMeetingStore.meetingDetails.timeHour + ':' + props.CreateMeetingStore.meetingDetails.timeMinute, props.CreateMeetingStore.meetingDetails.date)}
                                     className="grow"
                                     style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: 'rgb(15, 82, 169)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
                                     שלח קישור זום למארח
                                 </div>}
-                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
+                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
                                 <div
                                     onClick={() => props.CreateMeetingStore.sendZoomParticipants(props.CreateMeetingStore.meetingDetails.timeHour + ':' + props.CreateMeetingStore.meetingDetails.timeMinute, props.CreateMeetingStore.meetingDetails.date)}
                                     className="grow"
