@@ -59,7 +59,7 @@ module.exports = function (app) {
                             if (people && people.length > 0) {
                                 people.forEach(human => {
                                     sendEmail("", {
-                                        to: human.email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                                        to: human.email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
                                     });
                                 });
                             }

@@ -83,24 +83,24 @@ const MeetingDetails = (props) => {
     }, []);
 
     const maxParticipationValidation = () => {
-        if (props.CreateMeetingStore.meetingDetails && props.CreateMeetingStore.meetingDetails.fallens) {
-            let arrayFallens = props.CreateMeetingStore.meetingDetails.fallens
-            for (let i = 0; i < arrayFallens.length; i++) {
-                if (arrayFallens[i].relative === "בית אבי חי" || arrayFallens[i].relative === "האחים שלנו" || arrayFallens[i].relative === "בית אביחי") {
-                    if (props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
-                        setErrorMaxParticipants("מקסימום מספר המשתתפים חייב פחות מ-2000")
-                        props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
-                    }
-                    return
-                }
-            }
-        }
+        // if (props.CreateMeetingStore.meetingDetails && props.CreateMeetingStore.meetingDetails.fallens) {
+        //     let arrayFallens = props.CreateMeetingStore.meetingDetails.fallens
+        //     for (let i = 0; i < arrayFallens.length; i++) {
+        //         if (arrayFallens[i].relative === "בית אבי חי" || arrayFallens[i].relative === "האחים שלנו" || arrayFallens[i].relative === "בית אביחי") {
+        //             if (props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
+        //                 setErrorMaxParticipants("מקסימום מספר המשתתפים חייב פחות מ-2000")
+        //                 props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
+        //             }
+        //             return
+        //         }
+        //     }
+        // }
         if (props.CreateMeetingStore.meetingDetails.max_participants < 10) {
             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
             props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
         }
-        else if (!errorMaxParticipants && props.CreateMeetingStore.meetingDetails.max_participants > 500) {
-            setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBeLessThan500Participants"))
+        else if (!errorMaxParticipants && props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
+            setErrorMaxParticipants("מקסימום מספר המשתתפים חייב להיות פחות מ-2000")
             props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
         }
         else {

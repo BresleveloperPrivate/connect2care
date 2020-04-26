@@ -178,6 +178,12 @@
     .optionInNavbar{
       font-size: 12px;
     }
+
+    .containIconNavbar{
+        height: 6vh;
+
+    }
+    
 }
 
 
@@ -202,6 +208,7 @@
 @media screen and (max-width: 550px){
     .containIconNavbar{
         height: 5vh;
+        margin-left: 2.6%;
     }
 
     .navbar{
@@ -213,7 +220,7 @@
     // }
 }
 
-@media screen and (max-width: 290px){
+@media screen and (max-width: 310px){
     .containIconNavbar{
         height: 4vh;
     }

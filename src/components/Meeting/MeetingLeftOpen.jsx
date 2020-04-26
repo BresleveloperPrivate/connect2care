@@ -154,7 +154,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
         // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-        console.log(response.userCB)
     }, [name, email, phone, code, readBylaw, meetingId]);
 
     const setPhoneValue = (value) => {

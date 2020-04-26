@@ -393,6 +393,12 @@ module.exports = function (meetings) {
                 console.log("errMeeting", errMeeting)
                 return cb(errMeeting)
             }
+            if (data.max_participants) {
+
+                if (data.max_participants && Number(data.max_participants) > 2000) {
+                    return cb(lang != "heb" ? "You must enter multiple participants less or equal to 2000" : "אתה חייב להכניס מספר משתתפים שקטן או שווה ל2000")
+                }
+            }
             let meetingById = JSON.parse(JSON.stringify(res))
 
 
@@ -716,10 +722,7 @@ module.exports = function (meetings) {
                 return cb(err, null);
             }
             if (!meeting || !meeting.approved) { cb({ error: "no meeting" }, null); return; }
-            // console.log(meeting.approved)
-            // console.log("meeting", meeting.code)
             meeting = JSON.parse(JSON.stringify(meeting))
-            // delete meeting.code;
             cb(null, meeting);
         })();
     }
@@ -743,11 +746,13 @@ module.exports = function (meetings) {
                 { option: [29, 4, 2020], data: 'יום רביעי, ה באייר, 29.04' },
             ]
 
-            var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "https://stackoverflow.com/", false);
-            xmlhttp.send();
-            var dateStr = xmlhttp.getResponseHeader('Date');
+            // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+            // var xmlhttp = new XMLHttpRequest();
+            // xmlhttp.open("GET", "https://stackoverflow.com/", false);
+            // xmlhttp.send();
+            // var dateStr = xmlhttp.getResponseHeader('Date');
+
+            var dateStr = new Date()
 
             const { people, people_meetings } = meetings.app.models;
             const [err, meeting] = await to(meetings.findById(meetingId));
@@ -771,33 +776,24 @@ module.exports = function (meetings) {
             let threeHours = Number(String(dateStr).split(' ')[4].split(':')[0] + String(dateStr).split(' ')[4].split(':')[1])
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
-            // if (date[2] < new Date(dateStr).getFullYear()) {
-            //     return cb({ msg: 'עבר זמן המפגש' }, null)
-            // }
-            // if (date[2] === new Date(dateStr).getFullYear() && date[1] < new Date(dateStr).getMonth() + 1) {
-            //     return cb({ msg: 'עבר זמן המפגש' }, null)
-            // }
-
-            // if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] < new Date(dateStr).getDate()) {
-            //     return cb({ msg: 'עבר זמן המפגש' }, null)
-            // }
-
-            // if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < 0) {
-            //     return cb({ msg: 'עבר זמן המפגש' }, null)
-            // }
-
-            // if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= 0) {
-
-            //     ///send zoom
-            // }
-
-
-            let userCB = {
-                newdate: new Date(),
-                threeHours: threeHours,
-                currentTime: currentTime,
+            if (date[2] < new Date(dateStr).getFullYear()) {
+                console.log('1', date[2], new Date(dateStr).getFullYear())
+                return cb({ msg: 'עבר זמן המפגש' }, null)
+            }
+            if (date[2] === new Date(dateStr).getFullYear() && date[1] < new Date(dateStr).getMonth() + 1) {
+                console.log('2', date[1], new Date(dateStr).getMonth() + 1)
+                return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
+            if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] < new Date(dateStr).getDate()) {
+                console.log('3', date[0], new Date(dateStr).getDate())
+                return cb({ msg: 'עבר זמן המפגש' }, null)
+            }
+
+            if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < -10) {
+                console.log('4', meetingTime, currentTime)
+                return cb({ msg: 'עבר זמן המפגש' }, null)
+            }
 
             if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
             let person;
@@ -865,12 +861,6 @@ module.exports = function (meetings) {
                            See you soon,
                            <br>
                            Connect2Care Team.<br>
-    
-                           <div
-                           style="text-align: center; color: rgb(30, 43, 78);">
-                           For technical support: <br>
-                           052-6283967 | Amdocs.Digital@glassix.net
-                           </div>
                            </div>
     
                    
@@ -904,12 +894,6 @@ module.exports = function (meetings) {
                      אנחנו כאן כדי לעזור.<br><br>
                       להתראות בקרוב,<br>
                       צוות 'מתחברים וזוכרים'<br>
-
-                      <div
-                      style="text-align: center; color: rgb(30, 43, 78);">
-                      לתמיכה טכנית: <br>
-                      052-6283967 | Amdocs.Digital@glassix.net
-                      </div>
                       </div>
 
                                
@@ -919,6 +903,12 @@ module.exports = function (meetings) {
 
             sendEmail("", sendOptions);
 
+            if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= -10) {
+
+                sendEmail("", {
+                    to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                });
+            }
 
 
             const participantsNum = participants_num ? participants_num + 1 : 1;
@@ -929,7 +919,7 @@ module.exports = function (meetings) {
                 return cb(err4, null);
             }
 
-            return cb(null, { participantsNum, userCB });
+            return cb(null, { participantsNum });
         })();
     }
 
