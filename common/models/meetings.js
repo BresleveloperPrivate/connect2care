@@ -188,7 +188,7 @@ module.exports = function (meetings) {
                 if (!!!data.owner.email) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your email' : 'אנא מלא/י דואר אלטקרוני' }, null); return; }
                 if (!!!data.owner.phone) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your phone number' : 'אנא מלא/י מספר טלפון' }, null); return; }
                 // const validateName = /^['"\u0590-\u05fe\s.-]*$/
-                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validateEmail = /^[\w.+\-]*@gmail\.com$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(data.owner.email)) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Email is incorrect' : 'הדואר האלקטרוני אינו תקין' }, null); return; }
@@ -205,6 +205,7 @@ module.exports = function (meetings) {
                 // }
 
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -463,7 +464,7 @@ module.exports = function (meetings) {
             }
 
             if (data.owner) {
-                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validateEmail = /^[\w.+\-]*@gmail\.com$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
@@ -474,6 +475,7 @@ module.exports = function (meetings) {
                     name: true, email: true, phone: true
                 };
                 let valid = ValidateTools.runValidate(data.owner, ValidateRules.people, whitelist);
+                console.log("valid", valid)
                 if (!valid.success || valid.errors) {
                     return cb(valid.errors, null);
                 }
@@ -806,19 +808,25 @@ module.exports = function (meetings) {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלטקרוני' }, null); return; }
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
+                const validateEmail = /^[\w.+\-]*@gmail\.com$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
-
-                let [err1, user] = await to(people.create({ email: email, name: name, phone: phone }))
+                let whitelist = {
+                    name: true, email: true, phone: true
+                };
+                let valid = ValidateTools.runValidate({ email: email, name: name, phone: phone }, ValidateRules.people, whitelist);
+                console.log("valid", valid)
+                if (!valid.success || valid.errors) {
+                    return cb(valid.errors, null);
+                }
+                let [err1, user] = await to(people.create(valid.data))
                 if (err1) {
                     console.log("err1", err1)
                     return cb(err1)
                 }
                 person = user
-            }
-            else {
+            } else {
                 if (meeting.owner === user0.id) { cb({ msg: 'מארח/ת המפגש לא יכול להצטרף למפגש כמשתתף' }, null); return; }
                 person = user0
             }
@@ -901,13 +909,13 @@ module.exports = function (meetings) {
                        ` }
             }
 
-            sendEmail("", sendOptions);
+            // sendEmail("", sendOptions);
 
             if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= -10) {
 
-                sendEmail("", {
-                    to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
-                });
+                // sendEmail("", {
+                //     to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                // });
             }
 
 

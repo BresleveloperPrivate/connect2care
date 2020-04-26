@@ -109,7 +109,7 @@ const MeetingDetails = (props) => {
     }
 
     const emailValidate = (e) => {
-        let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+        let regex = /^[\w.+\-]*@gmail\.com$/;
         if (!e.target.value.match(regex)) {
             setErrorEmail(true)
             props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
