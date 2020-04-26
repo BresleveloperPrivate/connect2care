@@ -385,7 +385,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
+    meetings.updateMeeting = (data, id, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
@@ -393,23 +393,9 @@ module.exports = function (meetings) {
                 console.log("errMeeting", errMeeting)
                 return cb(errMeeting)
             }
-            if (data.max_participants) {
-                let beenInIf = false
-                if (fallenFullArray) {
-                    for (let fallen of fallenFullArray) {
-                        if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                            beenInIf = true
-                            if (data.max_participants && Number(data.max_participants) > 2000)
-                                return cb({ max_participants: 2000 })
-                        }
-                    }
-                }
-
-                if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
-                    return cb({ max_participants: 500 })
-                }
-            }
             let meetingById = JSON.parse(JSON.stringify(res))
+
+
             if (data.fallensToChange) {
 
                 const fallens_meetings = meetings.app.models.fallens_meetings
@@ -565,7 +551,6 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
-            { arg: 'fallenFullArray', type: 'array', required: true },
             { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
@@ -1327,6 +1312,24 @@ module.exports = function (meetings) {
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
     })
+
+    // meetings.createZoom = (email, nameOwner, cb) => {
+    //     (async () => {
+    //         let newEmail = email.replace("@", "+c2c@");
+
+    //         createZoomUser(newEmail, nameOwner, (b) => { })
+
+    //         return cb(null, true)
+    //     })()
+    // }
+
+    // meetings.remoteMethod('createZoom', {
+    //     http: { verb: 'post' },
+    //     accepts: [
+    //         { arg: 'email', type: 'string', required: true },
+    //         { arg: 'nameOwner', type: 'string', required: true },],
+    //     returns: { arg: 'res', type: 'boolean', root: true }
+    // })
 
     meetings.getParticipants = (id, cb) => {
         (async () => {

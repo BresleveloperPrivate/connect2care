@@ -280,6 +280,7 @@
                 "getMeetingsDashboard",
                 "deleteMeeting",
                 "approveMeeting",
+                "createZoom",
                 "getMeetingById",
                 "isNameExist",
                 "newZoom",

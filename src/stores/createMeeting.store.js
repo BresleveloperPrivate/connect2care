@@ -376,6 +376,22 @@ class CreateMeetingStore {
         console.log(success, err)
     }
 
+    createZoom = async (email, date) => {
+        console.log("email", email, this.meetingId)
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/createZoom/`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, id: Number(this.meetingId), date })
+            }, true);
+        if (success) {
+            this.meetingDetailsOriginal.approved = true;
+            this.meetingDetails.approved = true;
+        }
+        console.log(success, err)
+    }
+
     newZoom = async (email, nameOwner) => {
         console.log("email", email, this.meetingId)
         let [success, err] = await Auth.superAuthFetch(
@@ -559,7 +575,7 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), fallenFullArray: beforePostJSON.fallens, lang: String(localStorage.getItem('lang')) })
+                body: JSON.stringify({ data: changedObj, id: Number(this.meetingId), lang: String(localStorage.getItem('lang')) })
             }, true);
         this.waitForData = false
         if (err) {
