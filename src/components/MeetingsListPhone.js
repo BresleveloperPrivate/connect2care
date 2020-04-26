@@ -125,7 +125,7 @@ const PhoneList = (props) => {
                                     props.MeetingsStore.search(true, false)
                                 }}
                                 className="loadMore-meetings grow">{props.t("load more")}</div>}
-                        {(new Date()).getDate < 28 && <div className='buttonOnMeetings grow' onClick={() => {
+                        {(new Date()).getDate() < 28 && <div className='buttonOnMeetings grow' onClick={() => {
                             props.history.push('/create-meeting')
                         }} >{props.t('IWantToInitiateAMeeting')}</div>}
                     </div>

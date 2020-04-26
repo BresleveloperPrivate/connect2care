@@ -31,7 +31,7 @@ const ComputerList = (props) => {
 
     return (
         <div className='meetingsFullPage'>
-            {(new Date()).getDate < 28 && <div className={props.LanguageStore.lang !== 'heb' ? 'buttonOnMeetings-right buttonOnMeetings grow' : 'buttonOnMeetings-left buttonOnMeetings grow'} onClick={() => {
+            {(new Date()).getDate() < 28 && <div className={props.LanguageStore.lang !== 'heb' ? 'buttonOnMeetings-right buttonOnMeetings grow' : 'buttonOnMeetings-left buttonOnMeetings grow'} onClick={() => {
                 props.history.push('/create-meeting')
             }} >{props.t('IWantToInitiateAMeeting')}</div>}
             {!props.MeetingsStore.error ?

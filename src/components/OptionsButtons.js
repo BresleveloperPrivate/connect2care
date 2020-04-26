@@ -11,7 +11,7 @@ class ContainOptions extends Component {
         return (
 
             <div className={this.props.className}>
-                {(new Date()).getDate < 28 && <div className={this.props.LanguageStore.lang !== 'heb' ? 'pointer grow firstOptionOpeningImage' : 'ml6vw pointer grow firstOptionOpeningImage'}
+                {(new Date()).getDate() < 28 && <div className={this.props.LanguageStore.lang !== 'heb' ? 'pointer grow firstOptionOpeningImage' : 'ml6vw pointer grow firstOptionOpeningImage'}
                     // onClick={() => {this.props.history.push('/create-meeting')}}
                     onClick={() => {
                         this.props && this.props.history.push("/create-meeting")
