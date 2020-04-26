@@ -9,7 +9,7 @@ const addPanelists = async (email, name, webinarId) => {
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 
-    console.log("token", token)
+    // console.log("token", token)
 
     let options = {
         "method": "POST",
