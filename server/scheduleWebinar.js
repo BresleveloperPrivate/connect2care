@@ -42,7 +42,8 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             let jsdata = JSON.parse(body.toString())
             console.log(jsdata)
             // console.log("zzzzzzzzzzzzz", jsdata.join_url);
-            cb(jsdata.join_url)
+            if (jsdata.code === 1001) cb(null, jsdata)
+            else cb(jsdata.join_url, null)
         });
     });
 

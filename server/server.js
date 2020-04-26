@@ -33,7 +33,7 @@ app.start = function () {
     }
     s(app);
     sendHostMeetingInfo(app);
-    scheduleBeforeMeetings(app)
+    // scheduleBeforeMeetings(app)
   });
 
 };
