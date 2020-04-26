@@ -662,3 +662,132 @@
         margin-top: 16vh;
     }
 }
+
+.speech-bubble-filter-heb{
+    left: 0;
+}
+
+.speech-bubble-filter-en{
+    right: 0;
+}
+
+.arrow-top-heb{
+    left: 2.8vw;
+}
+
+.arrow-top-en{
+    right: 2.8vw;
+}
+
+
+.speech-bubble-filter{
+
+    padding: 8px 8px;
+    margin-top: 3vw;
+    position: absolute;
+    background-color: var(--custom-light-blue);
+    border-radius: 5px;
+    width: 30vw;
+    z-index: 3;
+
+    box-shadow: 2px 2px 10px rgba(51, 50, 50, 0.904);
+}
+
+.speech-bubble-filter-text{
+    color: white;
+    font-size: 1.8vw;
+    z-index: 3;
+    padding: 1vh 2vw;
+}
+
+
+.arrow-top {
+    position: absolute;
+    top: -1.3vw;
+    z-index: -1;
+    width: 3vw;
+    height: 3vw;
+    background-color: var(--custom-light-blue);
+    -webkit-transform:rotate(-125deg) scaleZ(1.2) skewX(15deg);
+    transform: rotate(-125deg) scaleZ(1.2) skewX(15deg);
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 800px){
+    .speech-bubble-filter-heb{
+        left: -3vw;
+    }
+    
+    .speech-bubble-filter-en{
+        right: -3vw;
+    }
+    
+    .arrow-top-heb{
+        left: 2.8vw;
+    }
+    
+    .arrow-top-en{
+        right: 2.8vw;
+    }
+    
+    
+    .speech-bubble-filter{
+        margin-top: 9vw;
+        width: 60vw;
+    }
+    
+    .speech-bubble-filter-text{
+        font-size: 3.8vw;
+    }
+    
+    
+    .arrow-top {
+        top: -2vw;
+        width: 4.5vw;
+        height: 4.5vw;
+    }
+}
+
+@media screen and (max-width: 550px){
+    
+    .speech-bubble-filter{
+        margin-top: 9vw;
+        width: 95vw;
+    }
+    
+    .speech-bubble-filter-text{
+        font-size: 4.8vw;
+    }
+    
+    .arrow-top {
+        top: -2vw;
+        width: 4.5vw;
+        height: 4.5vw;
+    }
+}
+
+@media screen and (max-width: 370px){
+
+    .speech-bubble-filter-heb{
+        left: -2vw;
+    }
+    
+    .speech-bubble-filter-en{
+        right: -2vw;
+    }
+
+    .speech-bubble-filter{
+        margin-top: 12vw;
+        width: 95vw;
+    }
+    
+    .speech-bubble-filter-text{
+        font-size: 6.8vw;
+    }
+    
+    .arrow-top {
+        top: -2.8vw;
+        width: 6vw;
+        height: 6vw;
+    }
+}

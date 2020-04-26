@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/listOfMeetings.css'
 import { inject, observer, PropTypes } from 'mobx-react';
 // import lock from '../icons/blue-lock.svg'
@@ -14,10 +13,11 @@ import filter1 from '../icons/filter1.svg'
 import filter2 from '../icons/filter2.svg'
 import search from '../icons/search.svg'
 import MeetingCardPhone from './MeetingCardPhone'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const PhoneList = (props) => {
-
+    const [speech, setSpeech] = useState(true)
     const [filter, setFilter] = useState(false)
 
     const onKeyDown = (e) => {
@@ -61,9 +61,9 @@ const PhoneList = (props) => {
                         </div>
                         <div style={
                             props.LanguageStore.lang !== 'heb' ?
-                                { height: '2em', width: '1.5em', display: 'flex', marginLeft: '0.8em' }
+                                { height: '2em', width: '1.5em', display: 'flex', marginLeft: '0.8em', position: 'relative' }
                                 :
-                                { height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em' }
+                                { height: '2em', width: '1.5em', display: 'flex', marginRight: '0.8em', position: 'relative' }
                         }
                             onClick={() => {
                                 if (!filter) {
@@ -78,6 +78,34 @@ const PhoneList = (props) => {
 
                             }}
                         >
+
+                            {!localStorage.getItem('speech') && speech &&
+                                <div className={props.LanguageStore.lang !== 'heb' ? 'speech-bubble-filter speech-bubble-filter-en' : 'speech-bubble-filter speech-bubble-filter-heb'}>
+                                    <div style={
+                                        props.LanguageStore.lang !== 'heb' ?
+                                            { position: 'absolute', top: '8px', left: '8px' }
+                                            : { position: 'absolute', top: '8px', right: '8px' }
+                                    }><FontAwesomeIcon onClick={() => { localStorage.setItem('speech', true); setSpeech(false) }} icon={['fas', 'times']} style={{ fontSize: '1rem', cursor: 'pointer', color: 'white' }} /></div>
+
+                                    {props.LanguageStore.lang !== 'heb' ?
+                                        <div className='speech-bubble-filter-text'>
+
+                                            הרבה משפחות ישמחו לראותכם במפגשים,
+                        לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
+                        הצטרפו אלינו לחיבוק וזכרון משותף.
+                        </div>
+                                        :
+                                        <div className='speech-bubble-filter-text'>
+
+                                            הרבה משפחות ישמחו לראותכם במפגשים,
+                        לכן הוספנו סינון המאפשר לראות אילו מפגשים פחות עמוסים. <br />
+                        הצטרפו אלינו לחיבוק וזכרון משותף.
+                        </div>
+
+                                    }
+
+                                    <div className={props.LanguageStore.lang !== 'heb' ? 'arrow-top arrow-top-en' : 'arrow-top arrow-top-heb'}> </div>
+                                </div>}
                             <img style={{ cursor: 'pointer' }} height='100%' width='100%' src={filter ? filter2 : filter1} />
                         </div>
                         {/* <div
@@ -139,7 +167,7 @@ const PhoneList = (props) => {
                     </div>
                 </div>
             }
-        </div>
+        </div >
 
     );
 }
