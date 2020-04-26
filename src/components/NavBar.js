@@ -10,6 +10,7 @@ import '../styles/animations.scss'
 // import Language from './Language';
 import Lng from './Lng';
 import logo10 from '../icons/logo10.png'
+import hilma from '../icons/hilmasquare.png'
 // import tzahal from '../icons/tzahal.png'
 
 
@@ -107,11 +108,12 @@ class NavBar extends Component {
                     <div style={{ flexGrow: 1 }}></div>
 
 
-                    {/* <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://www.idfwo.org/') }} alt="alt" src={tzahal} height='60%' />
-                    </div> */}
+                   
                     <div className='containIconNavbar'>
                         <img onClick={() => { window.open('https://www.yadlabanim.org.il/') }} alt="alt" src={logo10} height='80%' />
+                    </div>
+                    <div className='containIconNavbar'>
+                        <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='70%' />
                     </div>
                     <div className='containIconNavbar'>
                         <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='60%' />
