@@ -383,11 +383,11 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, id: Number(this.meetingId), date })
+                body: JSON.stringify({ email, meetingId: Number(this.meetingId), date })
             }, true);
         if (success) {
-            this.meetingDetailsOriginal.approved = true;
-            this.meetingDetails.approved = true;
+            this.meetingDetailsOriginal.zoomId = success;
+            this.meetingDetails.zoomId = success;
         }
         console.log(success, err)
         if (!success) {
