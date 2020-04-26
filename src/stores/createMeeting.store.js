@@ -390,6 +390,9 @@ class CreateMeetingStore {
             this.meetingDetails.approved = true;
         }
         console.log(success, err)
+        if(!success){
+            this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
+        }
     }
 
     newZoom = async (email, nameOwner) => {

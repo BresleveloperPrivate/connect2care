@@ -2,7 +2,7 @@
 // const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-// const scheduleWebinar = require('../../server/scheduleWebinar.js');
+const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
@@ -1303,7 +1303,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.createZoom = (email, nameOwner, cb) => {
+    meetings.createZoom = (email, date, cb) => {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
@@ -1325,32 +1325,19 @@ module.exports = function (meetings) {
                     start_time = "2020-05-05T00:59:00"
                     break;
             }
-            console.log(count)
-            scheduleWebinar(async (url) => {
-                console.log("url", url)
+            scheduleWebinar(async (url, error) => {
+                if (error) { return cb(null, false) }
                 if (url && url !== undefined) {
                     // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
                     let [err, res] = await to(meetings.upsertWithWhere({ id: meeting.id }, { zoomId: url }));
                     if (err) {
                         console.log(err)
+                        return cb(null, false)
                     }
                 }
-                else {
-                    if (hour == 8 || hour == 16) {
-                        // createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
-                        //     if (toSend) {
-                        //         // sendEmail("", {
-                        //         //     to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
-                        //         // });
-                        //     }
-                        // })
-                    }
-
-                }
+                return cb(null, true)
             }, newEmail, start_time)
 
-
-            return cb(null, true)
         })()
     }
 
@@ -1456,9 +1443,9 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.sendMailHost = (time, date, cb) => {
+    meetings.sendMailHost = (time, date, meetingId = null, cb) => {
         (async () => {
-            const [err, meetings1] = await to(meetings.find({ where: { and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }], approved: 1, date: date, time: time }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = !meetingId ? await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] })) : await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }, { id: meetingId }] }, include: ["people", "meetingOwner"] }))
 
             if (err) {
                 return cb(err)
@@ -1528,14 +1515,15 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'time', type: 'string', required: true },
-            { arg: 'date', type: 'string', required: true }
+            { arg: 'date', type: 'string', required: true },
+            { arg: 'meetingId', type: 'number', required: false }
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
 
-    meetings.sendMailParticipants = (time, date, cb) => {
+    meetings.sendMailParticipants = (time, date, meetingId = null, cb) => {
         (async () => {
-            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = !meetingId ? await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] })) : await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }, { id: meetingId }] }, include: ["people", "meetingOwner"] }))
             meetings1.forEach(meeting => {
                 const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                 if (people && people.length > 0) {
@@ -1554,7 +1542,8 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'time', type: 'string', required: true },
-            { arg: 'date', type: 'string', required: true }
+            { arg: 'date', type: 'string', required: true },
+            { arg: 'meetingId', type: 'number', required: false }
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
