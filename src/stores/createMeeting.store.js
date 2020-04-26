@@ -390,7 +390,7 @@ class CreateMeetingStore {
             this.meetingDetails.approved = true;
         }
         console.log(success, err)
-        if(!success){
+        if (!success) {
             this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
         }
     }
@@ -410,6 +410,36 @@ class CreateMeetingStore {
         if (success) {
             this.setError = 'ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום'
         }
+    }
+
+    sendZoomHost = async (time, date) => {
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/sendMailHost`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
+            }, true);
+        if (err) {
+            // setErr(true)
+            return
+        }
+        this.setError("המייל נשלח בהצלחה")
+    }
+
+    sendZoomParticipants = async (time, date) => {
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/sendMailParticipants`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
+            }, true);
+        if (err) {
+            // setErr(true)
+            return
+        }
+        this.setError("המייל נשלח בהצלחה")
     }
 
     changeMeetingTimeHour = (event) => {
