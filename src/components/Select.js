@@ -16,7 +16,9 @@ const Select = (props) => {
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     useEffect(() => {
-        setSelectedOption({ data: props.selectTextDefault, option: props.selectTextDefault })
+        if(!props.useEffect){
+            setSelectedOption({ data: props.selectTextDefault, option: props.selectTextDefault })
+        }
     }, [props.selectTextDefault]);
 
     if (props.defaultSelectRelative && (props.defaultSelectRelative !== props.selectTextDefault && props.selectTextDefault !== selectedOption)) {
