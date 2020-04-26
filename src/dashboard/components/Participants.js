@@ -8,6 +8,8 @@ import DeletePersonPopup from './DeletePersonPopup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import panelBtn from '../../icons/Asset 7@3x11@2x.png'
 import CancelPanelistPopup from './CancelPanelistPopup'
+import downloadExcel from '../../functions/downloadExcel'
+
 const Participants = (props) => {
 
     const [allParticipants, setAllParticipants] = useState(null)
@@ -82,6 +84,19 @@ const Participants = (props) => {
         setParticipants(participantsPS)
     }
 
+    const onClickBtn = () => {
+        let excetParticipants = participants.map(i => { return { name: i.name, email: i.email, phone: i.phone } })
+        const columns = {
+            ownerName: 'שם',
+            ownerEmail: 'כתובת המייל',
+            ownerPhone: 'פלפון'
+
+        }
+
+        downloadExcel(excetParticipants, columns, "מתחברים וזוכרים טבלאת משתתפים")
+
+    }
+
     return (
         <div>
             {!participants ?
@@ -127,6 +142,10 @@ const Participants = (props) => {
                                     </div>
 
                                 </div>
+                                <div className='searchBtn pointer'
+                                    onClick={() => {
+                                        onClickBtn(true)
+                                    }}>יצא לאקסל</div>
                                 {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '11vw', paddingTop: '0' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
                             </div>
                         </div>
