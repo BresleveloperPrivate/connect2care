@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Select from '../../components/Select'
 import Auth from '../../modules/auth/Auth'
+import DownArrow from '../../icons/Icon awesome-chevron-down.svg'
 
 const SendZoom = (props) => {
 
@@ -10,6 +11,7 @@ const SendZoom = (props) => {
     const [timeMinute, setTimeMinute] = useState('')
     const [recipient, setRecipient] = useState('')
     const [waitForData, setWaitForData] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const meetingTimeHour = [
         { option: '08', data: '08' },
@@ -89,77 +91,81 @@ const SendZoom = (props) => {
     }
 
     return (
-        <div className='filters' style={{ padding: '5vh 3vw' }}>
-            <div style={{ margin: 'unset', padding: '0 0 4vh 0' }} className='headLine'>
-                שלח מייל עם קישור לזום
+        <div className='filters'>
+            <div style={{ margin: 'unset', padding: '2vh 5vw', display: 'flex' }} className='headLine pointer' onClick={() => setIsOpen((isFilterOpen) => !isOpen)}>
+                <div style={{ width: '20vw' }}>שלח מייל עם קישור לזום</div>
+                <img style={{ width: '2.5vh', marginRight: '46vw', transform: isOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
             </div>
-            <div className="containDateAndTime" style={{ width: '100%', marginRight: '0', alignItems: 'center' }}>
-                <div className='containDateInput position-relative' style={{ width: '35%', borderRadius: '5px', border: ((isSaved && date === '') ? "2px solid #EC5A5A" : "unset") }}>
-                    <div className="textAboveInput">{props.t("date")}</div>
-                    <Select
-                        backgroundColor='var(--custom-background-light-blue)'
-                        className='selectBorder'
-                        color='#A5A4BF'
-                        selectTextDefault={date !== '' ? date : 'בחר'}
-                        arr={meetingDate}
-                        width='100%'
-                        onChoseOption={(value) => { setDate(value.data) }} />
-                </div>
+            <div className="filtersContainer" style={isOpen ? { psdding: 'unset', paddingTop: '1vh', height: '15vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
 
-                <div className='containSelectTime position-relative' style={{ marginRight: 0, width: '22%' }}>
-                    <div className="textAboveInput">שעה (שעון ישראל):</div>
-                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeMinute === '') ? "2px solid #EC5A5A" : "unset") }}>
-                        <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
-                            <Select
-                                backgroundColor='var(--custom-background-light-blue)'
-                                className='selectBorder'
-                                color='#A5A4BF'
-                                selectTextDefault={timeMinute !== '' ? timeMinute : "דקות"}
-                                arr={meetingTimeMinute}
-                                width='100%'
-                                onChoseOption={(value) => { setTimeMinute(value.data) }} />
-                        </div>
+                <div className="containDateAndTime" style={{ width: '100%', marginRight: '0', alignItems: 'center', marginLeft: 0 }}>
+                    <div className='containDateInput position-relative' style={{ width: '35%', borderRadius: '5px', border: ((isSaved && date === '') ? "2px solid #EC5A5A" : "unset") }}>
+                        <div className="textAboveInput">{props.t("date")}</div>
+                        <Select
+                            backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
+                            color='#A5A4BF'
+                            selectTextDefault={date !== '' ? date : 'בחר'}
+                            arr={meetingDate}
+                            width='100%'
+                            onChoseOption={(value) => { setDate(value.data) }} />
                     </div>
 
-                    <div className="timeDot" style={{ marginBottom: 0, padding: '0px 1vh' }}>:</div>
-                    <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeHour === '') ? "2px solid #EC5A5A" : "unset") }}>
-                        <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
-                            <Select
-                                backgroundColor='var(--custom-background-light-blue)'
-                                className='selectBorder'
-                                color='#A5A4BF'
-                                selectTextDefault={timeHour !== "" ? timeHour : "שעות"}
-                                arr={meetingTimeHour}
-                                width='100%'
-                                onChoseOption={(value) => { setTimeHour(value.data) }} />
+                    <div className='containSelectTime position-relative' style={{ marginRight: 0, width: '22%' }}>
+                        <div className="textAboveInput">שעה (שעון ישראל):</div>
+                        <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeMinute === '') ? "2px solid #EC5A5A" : "unset") }}>
+                            <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
+                                <Select
+                                    backgroundColor='var(--custom-background-light-blue)'
+                                    className='selectBorder'
+                                    color='#A5A4BF'
+                                    selectTextDefault={timeMinute !== '' ? timeMinute : "דקות"}
+                                    arr={meetingTimeMinute}
+                                    width='100%'
+                                    onChoseOption={(value) => { setTimeMinute(value.data) }} />
+                            </div>
+                        </div>
+
+                        <div className="timeDot" style={{ marginBottom: 0, padding: '0px 1vh' }}>:</div>
+                        <div style={{ width: '45%', borderRadius: '5px', border: ((isSaved && timeHour === '') ? "2px solid #EC5A5A" : "unset") }}>
+                            <div style={{ padding: '0 10px', backgroundColor: 'var(--custom-background-light-blue)', borderRadius: '5px' }}>
+                                <Select
+                                    backgroundColor='var(--custom-background-light-blue)'
+                                    className='selectBorder'
+                                    color='#A5A4BF'
+                                    selectTextDefault={timeHour !== "" ? timeHour : "שעות"}
+                                    arr={meetingTimeHour}
+                                    width='100%'
+                                    onChoseOption={(value) => { setTimeHour(value.data) }} />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='containDateInput position-relative' style={{ width: '14%', borderRadius: '5px', border: ((isSaved && recipient === '') ? "2px solid #EC5A5A" : "unset") }}>
-                    <div id='recipients' className="textAboveInput">נמען</div>
-                    <Select
-                        backgroundColor='var(--custom-background-light-blue)'
-                        className='selectBorder'
-                        color='#A5A4BF'
-                        selectTextDefault={recipient !== "" ? recipient : "בחר"}
-                        arr={recipients}
-                        width='100%'
-                        onChoseOption={(value) => { setRecipient(value.data) }} />
-                </div>
+                    <div className='containDateInput position-relative' style={{ width: '14%', borderRadius: '5px', border: ((isSaved && recipient === '') ? "2px solid #EC5A5A" : "unset") }}>
+                        <div id='recipients' className="textAboveInput">נמען</div>
+                        <Select
+                            backgroundColor='var(--custom-background-light-blue)'
+                            className='selectBorder'
+                            color='#A5A4BF'
+                            selectTextDefault={recipient !== "" ? recipient : "בחר"}
+                            arr={recipients}
+                            width='100%'
+                            onChoseOption={(value) => { setRecipient(value.data) }} />
+                    </div>
 
-                <div
-                    style={{ float: 'unset', marginTop: 'unset' }}
-                    className='searchBtn pointer'
-                    onClick={() => {
-                        onClickBtn()
-                    }}>{waitForData ?
-                        <div className="spinner">
-                            <div className="bounce1"></div>
-                            <div className="bounce2"></div>
-                            <div className="bounce3"></div>
-                        </div>
-                        : "שלח"
-                    }
+                    <div
+                        style={{ float: 'unset', marginTop: 'unset' }}
+                        className='searchBtn pointer'
+                        onClick={() => {
+                            onClickBtn()
+                        }}>{waitForData ?
+                            <div className="spinner">
+                                <div className="bounce1"></div>
+                                <div className="bounce2"></div>
+                                <div className="bounce3"></div>
+                            </div>
+                            : "שלח"
+                        }
+                    </div>
                 </div>
             </div>
 
