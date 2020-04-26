@@ -12,6 +12,7 @@ class CreateMeetingStore {
     deleting = false;
     fallensToAdd = []
     fallensToChange = []
+    date = (new Date()).getDate()
     meetingDetailsOriginal = {
         name: "",
         description: "",
@@ -22,7 +23,7 @@ class CreateMeetingStore {
         },
         language: "",
         isOpen: "",
-        date: 'יום שני, ג באייר, 27.04',
+        date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
         timeHour: '20',
         timeMinute: '30',
         max_participants: 300,
@@ -57,7 +58,7 @@ class CreateMeetingStore {
             },
             language: "",
             isOpen: "",
-            date: 'יום שני, ג באייר, 27.04',
+            date: this.date >= 26 ? '' : 'יום שני, ג באייר, 27.04',
             timeHour: "20",
             timeMinute: "30",
             max_participants: 300,
@@ -433,7 +434,7 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
-        delete this.meetingDetailsOriginal.date
+        if (this.date < 26) delete this.meetingDetailsOriginal.date
         delete this.meetingDetailsOriginal.timeHour
         delete this.meetingDetailsOriginal.timeMinute
         delete this.meetingDetailsOriginal.max_participants
@@ -484,44 +485,6 @@ class CreateMeetingStore {
         if (changedObj.owner) {
             changedObj.owner = this.whatChanged(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
         }
-
-        // if (changedObj.fallens) {
-        //     for (let i = 0; i < this.meetingDetailsOriginal.fallens.length; i++) {
-        //         let index = beforePostJSON.fallens.findIndex(fallen => fallen.id === this.meetingDetailsOriginal.fallens[i].id)
-        //         if (index === -1) {
-        //             fallensToDelete.push(this.meetingDetailsOriginal.fallens[i])
-        //         }
-        //         else if (this.meetingDetailsOriginal.fallens[i].id === beforePostJSON.fallens[index].id) {
-        //             if (this.meetingDetailsOriginal.fallens[i].relative !== beforePostJSON.fallens[Number(index)].relative) {
-        //                 if (beforePostJSON.fallens[Number(index)].relative === "אחר") {
-        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
-        //                 }
-        //                 else fallensToChange.push(beforePostJSON.fallens[Number(index)])
-        //             }
-        //             else {
-        //                 if (this.meetingDetailsOriginal.fallens[i].relative === "אחר" && this.meetingDetailsOriginal.otherRelationship[i].id === beforePostJSON.otherRelationship[Number(index)].id && this.meetingDetailsOriginal.otherRelationship[i].relative !== beforePostJSON.otherRelationship[Number(index)].relative) {
-        //                     fallensToChange.push(beforePostJSON.otherRelationship[Number(index)])
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     beforePostJSON.fallens.filter(afterFallen => {
-        //         console.log("afterFallen", afterFallen)
-        //         if (afterFallen.id === null || afterFallen.relative === null) {
-        //             this.error = "משהו השתבש, אנא בדוק שהכנסת את כל הפרטים"
-        //             return
-        //         }
-        //         let index = this.meetingDetailsOriginal.fallens.findIndex(fallen => fallen.id === afterFallen.id)
-        //         if (index === -1) {
-        //             fallensToAdd.push(afterFallen)
-        //         }
-        //     })
-        // }
-        // 
-
-        // if (fallensToChange.length) beforePostJSON.fallensToChange = JSON.parse(JSON.stringify(fallensToChange))
-        // if (fallensToDelete.length) beforePostJSON.fallensToDelete = JSON.parse(JSON.stringify(fallensToDelete))
-        // if (fallensToAdd.length) beforePostJSON.fallensToAdd = JSON.parse(JSON.stringify(fallensToAdd))
 
         if (changedObj.fallens) {
             let changedFallensObj = this.whatChanged(changedObj.fallens, this.meetingDetailsOriginal.fallens)
