@@ -755,13 +755,13 @@ module.exports = function (meetings) {
                 { option: [29, 4, 2020], data: 'יום רביעי, ה באייר, 29.04' },
             ]
 
-            var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "https://stackoverflow.com/", false);
-            xmlhttp.send();
-            var dateStr = xmlhttp.getResponseHeader('Date');
+            // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+            // var xmlhttp = new XMLHttpRequest();
+            // xmlhttp.open("GET", "https://stackoverflow.com/", false);
+            // xmlhttp.send();
+            // var dateStr = xmlhttp.getResponseHeader('Date');
 
-            // var dateStr = new Date()
+            var dateStr = new Date()
 
             const { people, people_meetings } = meetings.app.models;
             const [err, meeting] = await to(meetings.findById(meetingId));
@@ -799,7 +799,7 @@ module.exports = function (meetings) {
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
-            if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < 0) {
+            if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < -10) {
                 console.log('4' ,meetingTime , currentTime)
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
@@ -912,7 +912,7 @@ module.exports = function (meetings) {
 
             sendEmail("", sendOptions);
 
-            if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= 0) {
+            if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= -10) {
 
                 sendEmail("", {
                     to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
