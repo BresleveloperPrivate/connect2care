@@ -1311,7 +1311,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.createZoom = (email, date, cb) => {
+    meetings.createZoom = (email, date, meetingId, cb) => {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
@@ -1334,16 +1334,16 @@ module.exports = function (meetings) {
                     break;
             }
             scheduleWebinar(async (url, error) => {
-                if (error) { return cb(null, false) }
+                if (error) { return cb(null, '') }
                 if (url && url !== undefined) {
                     // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
-                    let [err, res] = await to(meetings.upsertWithWhere({ id: meeting.id }, { zoomId: url }));
+                    let [err, res] = await to(meetings.upsertWithWhere({ id: meetingId }, { zoomId: url }));
                     if (err) {
                         console.log(err)
-                        return cb(null, false)
+                        return cb(null, '')
                     }
                 }
-                return cb(null, true)
+                return cb(null, url)
             }, newEmail, start_time)
 
         })()
@@ -1353,8 +1353,11 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'email', type: 'string', required: true },
-            { arg: 'date', type: 'string', required: true },],
-        returns: { arg: 'res', type: 'boolean', root: true }
+            { arg: 'date', type: 'string', required: true },
+            { arg: 'meetingId', type: 'number', required: true },
+
+        ],
+        returns: { arg: 'res', type: 'string', root: true }
     })
 
     meetings.getParticipants = (id, cb) => {
