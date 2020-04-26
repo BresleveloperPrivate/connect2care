@@ -810,7 +810,7 @@ module.exports = function (meetings) {
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
                 const validateEmail = /^[\w.+\-]*@gmail\.com$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
-                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין' }, null); return; }
+                if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין, האימייל חייב להיות בסיומת של gmail.com' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
                 let whitelist = {
                     name: true, email: true, phone: true
