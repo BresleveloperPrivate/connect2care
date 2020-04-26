@@ -546,7 +546,7 @@ module.exports = function (meetings) {
                 valid.data.max_participants = data.max_participants
             }
             // if (data.zoomId && meetingById.max_participants > 500 && (meetingById.meetingOwner.name === 'האחים שלנו' || meetingById.meetingOwner.name === 'בית אביחי' || meetingById.meetingOwner.name === 'בית אבי חי')) 
-            valid.data.zoomId = data.zoomId
+            if (data.zoomId) valid.data.zoomId = data.zoomId
 
             if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
@@ -1424,7 +1424,9 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
-            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = await to(meetings.find({ where: { and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }], approved: 1, date: date, time: time }, include: ["people", "meetingOwner"] }))
+            console.log(meetings1)
+
             if (err) {
                 return cb(err)
             }
