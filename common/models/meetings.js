@@ -394,19 +394,9 @@ module.exports = function (meetings) {
                 return cb(errMeeting)
             }
             if (data.max_participants) {
-                let beenInIf = false
-                if (fallenFullArray) {
-                    for (let fallen of fallenFullArray) {
-                        if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                            beenInIf = true
-                            if (data.max_participants && Number(data.max_participants) > 2000)
-                                return cb({ max_participants: 2000 })
-                        }
-                    }
-                }
 
-                if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
-                    return cb({ max_participants: 500 })
+                if (data.max_participants && Number(data.max_participants) > 2000) {
+                    return cb(lang != "heb" ? "You must enter multiple participants less or equal to 2000" : "אתה חייב להכניס מספר משתתפים שקטן או שווה ל2000")
                 }
             }
             let meetingById = JSON.parse(JSON.stringify(res))
@@ -786,21 +776,21 @@ module.exports = function (meetings) {
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
             if (date[2] < new Date(dateStr).getFullYear()) {
-                console.log('1' , date[2] , new Date(dateStr).getFullYear())
+                console.log('1', date[2], new Date(dateStr).getFullYear())
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
             if (date[2] === new Date(dateStr).getFullYear() && date[1] < new Date(dateStr).getMonth() + 1) {
-                console.log('2' , date[1] , new Date(dateStr).getMonth() + 1)
+                console.log('2', date[1], new Date(dateStr).getMonth() + 1)
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
             if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] < new Date(dateStr).getDate()) {
-                console.log('3' , date[0] , new Date(dateStr).getDate())
+                console.log('3', date[0], new Date(dateStr).getDate())
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
             if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < -10) {
-                console.log('4' ,meetingTime , currentTime)
+                console.log('4', meetingTime, currentTime)
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
