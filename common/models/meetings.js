@@ -2,7 +2,7 @@
 // const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-// const scheduleWebinar = require('../../server/scheduleWebinar.js');
+const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
@@ -385,7 +385,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
+    meetings.updateMeeting = (data, id, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
@@ -394,22 +394,14 @@ module.exports = function (meetings) {
                 return cb(errMeeting)
             }
             if (data.max_participants) {
-                let beenInIf = false
-                if (fallenFullArray) {
-                    for (let fallen of fallenFullArray) {
-                        if (fallen.relative === "בית אביחי" || fallen.relative === "בית אבי חי" || fallen.relative === "האחים שלנו") {
-                            beenInIf = true
-                            if (data.max_participants && Number(data.max_participants) > 2000)
-                                return cb({ max_participants: 2000 })
-                        }
-                    }
-                }
 
-                if (!beenInIf && data.max_participants && Number(data.max_participants) > 500) {
-                    return cb({ max_participants: 500 })
+                if (data.max_participants && Number(data.max_participants) > 2000) {
+                    return cb(lang != "heb" ? "You must enter multiple participants less or equal to 2000" : "אתה חייב להכניס מספר משתתפים שקטן או שווה ל2000")
                 }
             }
             let meetingById = JSON.parse(JSON.stringify(res))
+
+
             if (data.fallensToChange) {
 
                 const fallens_meetings = meetings.app.models.fallens_meetings
@@ -565,7 +557,6 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
-            { arg: 'fallenFullArray', type: 'array', required: true },
             { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
@@ -786,21 +777,21 @@ module.exports = function (meetings) {
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
             if (date[2] < new Date(dateStr).getFullYear()) {
-                console.log('1' , date[2] , new Date(dateStr).getFullYear())
+                console.log('1', date[2], new Date(dateStr).getFullYear())
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
             if (date[2] === new Date(dateStr).getFullYear() && date[1] < new Date(dateStr).getMonth() + 1) {
-                console.log('2' , date[1] , new Date(dateStr).getMonth() + 1)
+                console.log('2', date[1], new Date(dateStr).getMonth() + 1)
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
             if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] < new Date(dateStr).getDate()) {
-                console.log('3' , date[0] , new Date(dateStr).getDate())
+                console.log('3', date[0], new Date(dateStr).getDate())
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
             if (date[2] === new Date(dateStr).getFullYear() && date[1] === new Date(dateStr).getMonth() + 1 && date[0] === new Date(dateStr).getDate() && meetingTime - currentTime < -10) {
-                console.log('4' ,meetingTime , currentTime)
+                console.log('4', meetingTime, currentTime)
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
@@ -1312,6 +1303,52 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
+    meetings.createZoom = (email, date, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
+
+            let start_time = null; //"2020-09-20T20:00:00"
+            switch (date) {
+                case 'יום רביעי, ה באייר, 29.04':
+                    start_time = "2020-04-30T00:59:00"
+                    break;
+                case 'יום שלישי, ד באייר, 28.04':
+                    start_time = "2020-04-29T00:59:00"
+                    break;
+                case 'יום שני, ג באייר, 27.04':
+                    start_time = "2020-04-28T00:59:00"
+                    break;
+                case 'יום ראשון, ב באייר, 26.04':
+                    start_time = "2020-04-27T00:59:00"
+                    break;
+                default:
+                    start_time = "2020-05-05T00:59:00"
+                    break;
+            }
+            scheduleWebinar(async (url, error) => {
+                if (error) { return cb(null, false) }
+                if (url && url !== undefined) {
+                    // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
+                    let [err, res] = await to(meetings.upsertWithWhere({ id: meeting.id }, { zoomId: url }));
+                    if (err) {
+                        console.log(err)
+                        return cb(null, false)
+                    }
+                }
+                return cb(null, true)
+            }, newEmail, start_time)
+
+        })()
+    }
+
+    meetings.remoteMethod('createZoom', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'date', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
     meetings.getParticipants = (id, cb) => {
         (async () => {
             let [err, res] = await to(meetings.findById(id, { include: { relation: "people_meetings", scope: { include: "people" } } }))
@@ -1406,9 +1443,9 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.sendMailHost = (time, date, cb) => {
+    meetings.sendMailHost = (time, date, meetingId = null, cb) => {
         (async () => {
-            const [err, meetings1] = await to(meetings.find({ where: { and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }], approved: 1, date: date, time: time }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = !meetingId ? await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] })) : await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }, { id: meetingId }] }, include: ["people", "meetingOwner"] }))
 
             if (err) {
                 return cb(err)
@@ -1478,14 +1515,15 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'time', type: 'string', required: true },
-            { arg: 'date', type: 'string', required: true }
+            { arg: 'date', type: 'string', required: true },
+            { arg: 'meetingId', type: 'number', required: false }
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
 
-    meetings.sendMailParticipants = (time, date, cb) => {
+    meetings.sendMailParticipants = (time, date, meetingId = null, cb) => {
         (async () => {
-            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = !meetingId ? await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] })) : await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }, { id: meetingId }] }, include: ["people", "meetingOwner"] }))
             meetings1.forEach(meeting => {
                 const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                 if (people && people.length > 0) {
@@ -1504,7 +1542,8 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'time', type: 'string', required: true },
-            { arg: 'date', type: 'string', required: true }
+            { arg: 'date', type: 'string', required: true },
+            { arg: 'meetingId', type: 'number', required: false }
         ],
         returns: { arg: 'res', type: 'object', root: true }
     })
