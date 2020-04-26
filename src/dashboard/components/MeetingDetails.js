@@ -362,34 +362,32 @@ const MeetingDetails = (props) => {
                         </div>
                     </div>
 
-                    {props.CreateMeetingStore.meetingDetailsOriginal.zoomId && props.CreateMeetingStore.meetingDetailsOriginal.zoomId !== '' &&
-                        <div>
-                            <div className='position-relative'>
-                                <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
-                                <input
-                                    type="text"
-                                    // disabled={props.CreateMeetingStore.meetingDetailsOriginal.max_participants < 500 || (props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'האחים שלנו' && props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'בית אביחי')}
-                                    className={'inputStyle margin-right-text '}
-                                    onChange={props.CreateMeetingStore.changeZoomId}
-                                    value={props.CreateMeetingStore.meetingDetails.zoomId}
-                                />
-                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={() => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId); setCopy1(true); setTimeout(() => { setCopy1(false) }, 500) }} />
-                                {copy1 && <div className='copyText'>הועתק!</div>}
-                            </div>
-                            <div className='position-relative'>
-                                <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
-                                <input
-                                    type="text"
-                                    disabled
-                                    className={'inputStyle margin-right-text '}
-                                    onChange={() => { }}
-                                    value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
-                                />
-                                <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')); setCopy2(true); setTimeout(() => { setCopy2(false) }, 500) }} />
-                                {copy2 && <div className='copyText'>הועתק!</div>}
-                            </div>
+                    <div>
+                        <div className='position-relative'>
+                            <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
+                            <input
+                                type="text"
+                                // disabled={props.CreateMeetingStore.meetingDetailsOriginal.max_participants < 500 || (props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'האחים שלנו' && props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'בית אביחי')}
+                                className={'inputStyle margin-right-text '}
+                                onChange={props.CreateMeetingStore.changeZoomId}
+                                value={props.CreateMeetingStore.meetingDetails.zoomId}
+                            />
+                            <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={() => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId); setCopy1(true); setTimeout(() => { setCopy1(false) }, 500) }} />
+                            {copy1 && <div className='copyText'>הועתק!</div>}
                         </div>
-                    }
+                        <div className='position-relative'>
+                            <div className="textAboveInput  margin-right-text">קישור לזום מארח</div>
+                            <input
+                                type="text"
+                                disabled
+                                className={'inputStyle margin-right-text '}
+                                onChange={() => { }}
+                                value={props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')}
+                            />
+                            <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')); setCopy2(true); setTimeout(() => { setCopy2(false) }, 500) }} />
+                            {copy2 && <div className='copyText'>הועתק!</div>}
+                        </div>
+                    </div>
 
                     <div className='d-flex align-items-center pb-5 pt-4' style={{ float: 'left' }}>
                         <div style={{ marginRight: '6vw', marginLeft: '2vw', width: '2.5vh' }} className='trash' onClick={() => setShowDeleteMeetingPopup(true)}>
@@ -404,6 +402,14 @@ const MeetingDetails = (props) => {
                                 אישור מפגש
                                     </div>
                         }
+                        {/* {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
+                            <div
+                                onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.date)}
+                                className="grow"
+                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                צור זום חדש
+                            </div>
+                        } */}
                         {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
                             <div
                                 onClick={() => props.CreateMeetingStore.newZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}

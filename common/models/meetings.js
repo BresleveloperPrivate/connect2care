@@ -385,7 +385,7 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'object', root: true }
     });
 
-    meetings.updateMeeting = (data, id, fallenFullArray, lang, options, cb) => {
+    meetings.updateMeeting = (data, id, lang, options, cb) => {
         (async () => {
             if (data.code) delete data.code
             let [errMeeting, res] = await to(meetings.findById(id, { include: "meetingOwner" }))
@@ -400,6 +400,8 @@ module.exports = function (meetings) {
                 }
             }
             let meetingById = JSON.parse(JSON.stringify(res))
+
+
             if (data.fallensToChange) {
 
                 const fallens_meetings = meetings.app.models.fallens_meetings
@@ -555,7 +557,6 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'data', type: 'object', required: true },
             { arg: 'id', type: 'number', required: true },
-            { arg: 'fallenFullArray', type: 'array', required: true },
             { arg: 'lang', type: 'string', required: true },
             { arg: 'options', type: 'object', http: 'optionsFromRequest' }
         ],
@@ -1299,6 +1300,65 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'email', type: 'string', required: true },
             { arg: 'nameOwner', type: 'string', required: true },],
+        returns: { arg: 'res', type: 'boolean', root: true }
+    })
+
+    meetings.createZoom = (email, nameOwner, cb) => {
+        (async () => {
+            let newEmail = email.replace("@", "+c2c@");
+
+            let start_time = null; //"2020-09-20T20:00:00"
+            switch (date) {
+                case 'יום רביעי, ה באייר, 29.04':
+                    start_time = "2020-04-30T00:59:00"
+                    break;
+                case 'יום שלישי, ד באייר, 28.04':
+                    start_time = "2020-04-29T00:59:00"
+                    break;
+                case 'יום שני, ג באייר, 27.04':
+                    start_time = "2020-04-28T00:59:00"
+                    break;
+                case 'יום ראשון, ב באייר, 26.04':
+                    start_time = "2020-04-27T00:59:00"
+                    break;
+                default:
+                    start_time = "2020-05-05T00:59:00"
+                    break;
+            }
+            console.log(count)
+            scheduleWebinar(async (url) => {
+                console.log("url", url)
+                if (url && url !== undefined) {
+                    // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
+                    let [err, res] = await to(meetings.upsertWithWhere({ id: meeting.id }, { zoomId: url }));
+                    if (err) {
+                        console.log(err)
+                    }
+                }
+                else {
+                    if (hour == 8 || hour == 16) {
+                        // createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
+                        //     if (toSend) {
+                        //         // sendEmail("", {
+                        //         //     to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
+                        //         // });
+                        //     }
+                        // })
+                    }
+
+                }
+            }, newEmail, start_time)
+
+
+            return cb(null, true)
+        })()
+    }
+
+    meetings.remoteMethod('createZoom', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'email', type: 'string', required: true },
+            { arg: 'date', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
