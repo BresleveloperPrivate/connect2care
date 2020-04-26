@@ -1592,7 +1592,7 @@ module.exports = function (meetings) {
                 if (people && people.length > 0) {
                     people.forEach(human => {
                         let htmlMessage = meeting.language !== 'heb' ?
-                            `<div style="direction: ltr;">
+                            `<div style="direction: rtl;">
                             שלום <br>
                             מצורף קישור למפגש של: ${meeting.name}<br>
                             בתאריך: ${meeting.date}<br>
