@@ -24,7 +24,7 @@ module.exports = function (app) {
         schedule.scheduleJob(rule, () => {
             (async () => {
                 try {
-                    const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" });
+                    const meetings = app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" })
                     meetings.forEach(meeting => {
                         // console.log("xxxxxxxxxxxxxxxxxxxxxxx")
                         // console.log(meeting);
@@ -34,19 +34,19 @@ module.exports = function (app) {
                             let start_time = null; //"2020-09-20T20:00:00"
                             switch (jsdata.date) {
                                 case 'יום רביעי, ה באייר, 29.04':
-                                    start_time = "2020-04-30T00:59:00"
+                                    start_time = "2020-04-30T01:59:00"
                                     break;
                                 case 'יום שלישי, ד באייר, 28.04':
-                                    start_time = "2020-04-29T00:59:00"
+                                    start_time = "2020-04-29T01:59:00"
                                     break;
                                 case 'יום שני, ג באייר, 27.04':
-                                    start_time = "2020-04-28T00:59:00"
+                                    start_time = "2020-04-28T01:59:00"
                                     break;
                                 case 'יום ראשון, ב באייר, 26.04':
-                                    start_time = "2020-04-27T00:59:00"
+                                    start_time = "2020-04-27T01:59:00"
                                     break;
                                 default:
-                                    start_time = "2020-05-05T00:59:00"
+                                    start_time = "2020-05-05T01:59:00"
                                     break;
                             }
                             scheduleWebinar(async (url) => {
@@ -58,18 +58,18 @@ module.exports = function (app) {
                                         console.log(err)
                                     }
                                 }
-                                else {
-                                    if (hour == 8 || hour == 16) {
-                                        createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
-                                            if (toSend) {
-                                                sendEmail("", {
-                                                    to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
-                                                });
-                                            }
-                                        })
-                                    }
+                                // else {
+                                //     if (hour == 8 || hour == 16) {
+                                //         createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
+                                //             if (toSend) {
+                                //                 sendEmail("", {
+                                //                     to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
+                                //                 });
+                                //             }
+                                //         })
+                                //     }
 
-                                }
+                                // }
                             }, email, start_time)
                         }
                     });
