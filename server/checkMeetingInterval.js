@@ -24,7 +24,7 @@ module.exports = function (app) {
         schedule.scheduleJob(rule, () => {
             (async () => {
                 try {
-                    const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" })
+                    const meetings = app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" })
                     meetings.forEach(meeting => {
                         // console.log("xxxxxxxxxxxxxxxxxxxxxxx")
                         // console.log(meeting);
@@ -58,18 +58,18 @@ module.exports = function (app) {
                                         console.log(err)
                                     }
                                 }
-                                else {
-                                    if (hour == 8 || hour == 16) {
-                                        createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
-                                            if (toSend) {
-                                                sendEmail("", {
-                                                    to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
-                                                });
-                                            }
-                                        })
-                                    }
+                                // else {
+                                //     if (hour == 8 || hour == 16) {
+                                //         createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
+                                //             if (toSend) {
+                                //                 sendEmail("", {
+                                //                     to: jsdata.meetingOwner.email, subject: "עליך לבצע אקטיבציה", html: `<h1>נראה שלא ביצעת אקטיבציה לחשבון הזום שיצרנו לך ובהתאם לכך לא הצלחנו ליצור לך פגישת זום. עליך לבצע אקטיבציה בהקדם. כל שעליך לעשות הוא להכנס למייל של זום המצורף, ולהפעיל את החשבון על ידי הכנסת סיסמה. </h1>`,
+                                //                 });
+                                //             }
+                                //         })
+                                //     }
 
-                                }
+                                // }
                             }, email, start_time)
                         }
                     });
