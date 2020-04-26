@@ -7,6 +7,8 @@ const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools'
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
 const removePanelists = require('../../server/removePanelists.js');
+const { creatCsvFile } = require('download-csv');
+
 
 
 module.exports = function (meetings) {
@@ -543,7 +545,8 @@ module.exports = function (meetings) {
             if (data.max_participants) {
                 valid.data.max_participants = data.max_participants
             }
-            if (data.zoomId && meetingById.max_participants > 500 && (meetingById.meetingOwner.name === 'האחים שלנו' || meetingById.meetingOwner.name === 'בית אביחי' || meetingById.meetingOwner.name === 'בית אבי חי')) valid.data.zoomId = data.zoomId
+            // if (data.zoomId && meetingById.max_participants > 500 && (meetingById.meetingOwner.name === 'האחים שלנו' || meetingById.meetingOwner.name === 'בית אביחי' || meetingById.meetingOwner.name === 'בית אבי חי')) 
+            if (data.zoomId) valid.data.zoomId = data.zoomId
 
             if (Object.keys(valid.data).length !== 0 || data.name || data.description) {
                 let [err2, meeting] = await to(meetings.upsertWithWhere({ id: id }, valid.data))
@@ -1405,12 +1408,14 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
-            const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            const [err, meetings1] = await to(meetings.find({ where: { and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }], approved: 1, date: date, time: time }, include: ["people", "meetingOwner"] }))
+
             if (err) {
-                cb(err, {})
+                return cb(err)
             }
-            if (meetings) {
-                meetings.forEach(meeting => {
+            if (meetings1) {
+                console.log(meetings1)
+                meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
@@ -1465,10 +1470,37 @@ module.exports = function (meetings) {
 
                 });
             }
+            return cb(null, {})
         })()
     }
 
     meetings.remoteMethod('sendMailHost', {
+        http: { verb: 'post' },
+        accepts: [
+            { arg: 'time', type: 'string', required: true },
+            { arg: 'date', type: 'string', required: true }
+        ],
+        returns: { arg: 'res', type: 'object', root: true }
+    })
+
+    meetings.sendMailParticipants = (time, date, cb) => {
+        (async () => {
+            const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
+            meetings1.forEach(meeting => {
+                const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
+                if (people && people.length > 0) {
+                    people.forEach(human => {
+                        sendEmail("", {
+                            to: human.email, subject: "קישור זום למפגש", html: `<h1 style="direction: rtl;">זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                        });
+                    });
+                }
+            });
+            return cb(null, {})
+        })()
+    }
+
+    meetings.remoteMethod('sendMailParticipants', {
         http: { verb: 'post' },
         accepts: [
             { arg: 'time', type: 'string', required: true },

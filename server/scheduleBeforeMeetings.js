@@ -53,7 +53,9 @@ module.exports = function (app) {
                     try {
                         const [errM, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { or: timeStrings.map(time => ({ time })) }, { date }] }, include: ["people", "meetingOwner", "fallens"] }))
                         meetings.forEach(meeting => {
+
                             const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
+                            console.log(people)
                             if (people && people.length > 0) {
                                 people.forEach(human => {
                                     sendEmail("", {
