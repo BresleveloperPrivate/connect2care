@@ -10,7 +10,8 @@
     "password": "z10mz10m",
     "name": "msql",
     "user": "root",
-    "connector": "mysql"
+    "connector": "mysql",
+    "ssl": true
   },
   "myEmailDataSource": {
     "connector": "mail",

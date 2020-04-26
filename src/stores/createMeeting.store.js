@@ -385,14 +385,14 @@ class CreateMeetingStore {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, meetingId: Number(this.meetingId), date })
             }, true);
+        if (success.length === 0) {
+            this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
+        }
         if (success) {
             this.meetingDetailsOriginal.zoomId = success;
             this.meetingDetails.zoomId = success;
         }
         console.log(success, err)
-        if (!success) {
-            this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
-        }
     }
 
     newZoom = async (email, nameOwner) => {
