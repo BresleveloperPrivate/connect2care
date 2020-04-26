@@ -143,6 +143,7 @@ const Participants = (props) => {
 
                                 </div>
                                 <div className='searchBtn pointer'
+                                    style={{ marginTop: '4vh', float: 'unset' }}
                                     onClick={() => {
                                         onClickBtn(true)
                                     }}>יצא לאקסל</div>

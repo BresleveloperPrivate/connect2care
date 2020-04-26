@@ -77,10 +77,10 @@ const Filters = (props) => {
 
     return (
         <div className='filters'>
-            <div style={{ margin: 'unset', padding: '2vh 5vw', display: 'flex' }} className='headLine' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
+            <div style={{ margin: 'unset', padding: '2vh 5vw', display: 'flex' }} className='headLine pointer' onClick={() => setIsFilterOpen((isFilterOpen) => !isFilterOpen)}>
                 <div style={{ width: '20vw' }}> סנן לפי</div>
 
-                <img className="pointer" style={{ width: '2.5vh', marginRight: '46vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
+                <img style={{ width: '2.5vh', marginRight: '46vw', transform: isFilterOpen ? 'rotate(-180deg)' : 'rotate(0deg)' }} src={DownArrow} alt='arrow' />
             </div>
             <div className="filtersContainer" style={isFilterOpen ? { height: '40vh' } : { height: 0, padding: '0 5vw', overflow: 'hidden' }}>
                 <div style={{ width: '50%' }}>
