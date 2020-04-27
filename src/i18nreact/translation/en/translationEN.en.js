@@ -18,7 +18,7 @@ const translationEN = {
     "shortDescription": "Short description",
     "ownerDetails": "Meeting Host Details",
     "ownerFullName": "Your full name- the meeting host",
-    "email": "e-mail",
+    "email": "e-mail (gmail)",
     "pleaseCheckThatTheEmailAddressCorrect": "Please check that the email address is correct",
     "phone": "Phone",
     "numberNotCorrect": "The number is not valid",
