@@ -215,6 +215,7 @@ const CreateMeeting = (props) => {
                                     onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                     value={props.CreateMeetingStore.meetingDetails.owner.phone}
                                     autoComplete="off"
+                                    style={{ direction: "ltr", textAlign: props.LanguageStore.lang !== "heb" ? "left" : "right" }}
                                     placeholder={props.t("phone")}
                                     onBlur={phoneValidate}
                                     onFocus={() => setErrorPhone(false)}
@@ -269,7 +270,7 @@ const CreateMeeting = (props) => {
                                         }
                                     </div>
                                     <div style={props.LanguageStore.lang !== "heb" ? {} : { marginLeft: "2vh" }}>
-                                        <img src={lock} alt="lock" style={props.LanguageStore.lang !== "heb" ?{ marginRight: "1vh", width: "1.5vh" }:{marginLeft: "1vh", width: "1.5vh"}} />{props.t("meetingIsClosed")}</div>
+                                        <img src={lock} alt="lock" style={props.LanguageStore.lang !== "heb" ? { marginRight: "1vh", width: "1.5vh" } : { marginLeft: "1vh", width: "1.5vh" }} />{props.t("meetingIsClosed")}</div>
                                 </div>
                             </div>
                             {props.CreateMeetingStore.meetingDetails.code &&

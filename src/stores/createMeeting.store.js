@@ -629,7 +629,7 @@ class CreateMeetingStore {
         else if (err && err.error && err.error.message)
             this.error = err.error.message
         else if (err && err.error && err.error.email)
-            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address of gmail" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה של gmail"
         else if (err && err.error && err.error.phone)
             this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct phone number" : "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
         else if (err && err.error && err.error.max_participants)

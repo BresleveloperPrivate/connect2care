@@ -147,7 +147,7 @@ const Participants = (props) => {
                                     onClick={() => {
                                         onClickBtn(true)
                                     }}>יצא לאקסל</div>
-                                {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '11vw', paddingTop: '0' }}>מספר המשתתפים: {maxPaticipants} / {participants.length}</div>}
+                                {participants && maxPaticipants && <div style={{ position: 'absolute', color: 'var(--custom-gray)', left: '11vw', paddingTop: '0' }}>מספר המשתתפים: {maxPaticipants} / {allParticipants.length}</div>}
                             </div>
                         </div>
 

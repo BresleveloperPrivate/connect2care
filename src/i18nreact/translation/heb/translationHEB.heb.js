@@ -18,7 +18,7 @@ const translationHEB = {
     "shortDescription": "תאור קצר",
     "ownerDetails": "פרטי מארח/ת המפגש",
     "ownerFullName": "השם המלא שלך - מארח/ת המפגש",
-    "email": "דואר אלקטרוני",
+    "email": "דואר אלקטרוני (gmail)",
     "pleaseCheckThatTheEmailAddressCorrect": "אנא בדוק שכתובת האימייל הינה נכונה",
     "phone": "טלפון",
     "numberNotCorrect": "המספר אינו תקין",
