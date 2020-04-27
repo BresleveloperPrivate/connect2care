@@ -231,11 +231,7 @@ const MeetingDetails = (props) => {
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                 value={props.CreateMeetingStore.meetingDetails.owner.phone}
                                 autoComplete="off"
-<<<<<<< HEAD
                                 style={{ direction: "ltr", textAlign: "right" }}
-=======
-                                style={{ direction: "ltr" }}
->>>>>>> c1cb1de846e0c55c258280e46c26ea0977bd118b
                                 placeholder={props.t("phone")}
                                 onBlur={phoneValidate}
                                 onFocus={() => setErrorPhone(false)}
