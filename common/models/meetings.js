@@ -741,12 +741,12 @@ module.exports = function (meetings) {
 
 
         (async () => {
-            const meetingDate = [
-                { option: [26, 4, 2020], data: 'יום ראשון, ב באייר, 26.04' },
-                { option: [27, 4, 2020], data: 'יום שני, ג באייר, 27.04' },
-                { option: [28, 4, 2020], data: 'יום שלישי, ד באייר, 28.04' },
-                { option: [29, 4, 2020], data: 'יום רביעי, ה באייר, 29.04' },
-            ]
+            const meetingDate = {
+                'יום ראשון, ב באייר, 26.04': [26, 4, 2020],
+                'יום שני, ג באייר, 27.04': [27, 4, 2020],
+                'יום שלישי, ד באייר, 28.04': [28, 4, 2020],
+                'יום רביעי, ה באייר, 29.04': [29, 4, 2020]
+            }
 
             // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             // var xmlhttp = new XMLHttpRequest();
@@ -757,11 +757,12 @@ module.exports = function (meetings) {
             var dateStr = new Date()
 
             const { people, people_meetings } = meetings.app.models;
-            const [err, meeting] = await to(meetings.findById(meetingId));
+            const [err, meetingById] = await to(meetings.findById(meetingId));
             if (err) {
                 console.log(err);
                 return cb(err, null);
             }
+            let meeting = JSON.parse(JSON.stringify(meetingById))
 
             if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
@@ -773,8 +774,7 @@ module.exports = function (meetings) {
             }
 
 
-
-            var date = meetingDate.find(date => date.data === meeting.date).option
+            var date = meetingDate[meeting.date]
             let threeHours = Number(String(dateStr).split(' ')[4].split(':')[0] + String(dateStr).split(' ')[4].split(':')[1])
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
@@ -836,7 +836,6 @@ module.exports = function (meetings) {
                 console.log(err3);
                 return cb(err3, null);
             }
-
 
             let shalom = mailDetails
             let sendOptions = {}
