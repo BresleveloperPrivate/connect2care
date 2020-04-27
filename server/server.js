@@ -32,7 +32,7 @@ app.start = function () {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
     s(app);
-    sendHostMeetingInfo(app);
+    // sendHostMeetingInfo(app);
     // scheduleBeforeMeetings(app)
   });
 
