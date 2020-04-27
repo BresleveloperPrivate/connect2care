@@ -188,7 +188,7 @@ module.exports = function (meetings) {
                 if (!!!data.owner.email) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your email' : 'אנא מלא/י דואר אלטקרוני' }, null); return; }
                 if (!!!data.owner.phone) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Please fill in your phone number' : 'אנא מלא/י מספר טלפון' }, null); return; }
                 // const validateName = /^['"\u0590-\u05fe\s.-]*$/
-                const validateEmail = /^[\w.+\-]*@gmail\.com$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 // if (!validateName.test(data.owner.name)) { cb({ msg: 'השם אינו תקין' }, null); return; }
                 if (!validateEmail.test(data.owner.email)) { cb({ msg: data.lang !== 'heb' && data.lang ? 'Email is incorrect' : 'הדואר האלקטרוני אינו תקין' }, null); return; }
@@ -464,7 +464,7 @@ module.exports = function (meetings) {
             }
 
             if (data.owner) {
-                const validateEmail = /^[\w.+\-]*@gmail\.com$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 if (data.owner.email && !validateEmail.test(data.owner.email)) { cb({ msg: 'הדואר אלקטרוני אינו תקין' }, null); return; }
                 if (data.owner.phone && !validatePhone.test(data.owner.phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
@@ -808,7 +808,7 @@ module.exports = function (meetings) {
                 if (!!!name) { cb({ msg: 'אנא מלא/י שם' }, null); return; }
                 if (!!!email) { cb({ msg: 'אנא מלא/י דואר אלטקרוני' }, null); return; }
                 if (!!!phone) { cb({ msg: 'אנא מלא/י מספר טלפון' }, null); return; }
-                const validateEmail = /^[\w.+\-]*@gmail\.com$/
+                const validateEmail = /^(.+)@(.+){2,}\.(.+){2,}$/
                 const validatePhone = /(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/
                 if (!validateEmail.test(email)) { cb({ msg: 'הדואר האלקטרוני אינו תקין, האימייל חייב להיות בסיומת של gmail.com' }, null); return; }
                 if (!validatePhone.test(phone)) { cb({ msg: 'מספר הטלפון אינו תקין' }, null); return; }
