@@ -1027,7 +1027,7 @@ module.exports = function (meetings) {
                 return cb(err2, false)
             }
             let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
-            createZoomUser(newEmail, nameOwner)
+            createZoomUser(newEmail, nameOwner, (b) => { })
             let sendOptions = {}
             if (res.language !== 'עברית' && res.language) {
                 sendOptions = {
@@ -1256,7 +1256,7 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            createZoomUser(newEmail, nameOwner)
+            createZoomUser(newEmail, nameOwner,(b) => { })
 
             return cb(null, true)
         })()
@@ -1344,7 +1344,7 @@ module.exports = function (meetings) {
                 console.log(zoomId)
                 let webinarId = zoomId.split('/')[4].split('?')[0]
                 console.log(isPanelist, webinarId, participantName, participantEmail, zoomId)
-                // isPanelist ? addPanelists(participantEmail, participantName, webinarId) : removePanelists(participantEmail, participantName, webinarId)
+                isPanelist ? addPanelists(participantEmail, participantName, webinarId) : removePanelists(participantEmail, participantName, webinarId)
                 return cb(null, true)
             }
         })()
