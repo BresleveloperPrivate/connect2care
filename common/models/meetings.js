@@ -1424,11 +1424,13 @@ module.exports = function (meetings) {
 
     meetings.sendMailHost = (time, date, cb) => {
         (async () => {
+            console.log(time, date)
             const [err, meetings1] = await to(meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }, { time: time }] }, include: ["people", "meetingOwner"] }))
             if (err) {
                 return cb(err)
             }
             if (meetings1) {
+                console.log(meetings1)
                 meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
@@ -1505,7 +1507,7 @@ module.exports = function (meetings) {
                 if (people && people.length > 0) {
                     people.forEach(human => {
                         sendEmail("", {
-                            to: human.email, subject: "קישור זום למפגש", html: `<h1 style="direction: rtl;>זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                            to: human.email, subject: "קישור זום למפגש", html: `<h1 style="direction: rtl;">זהו קישור הזום למפגש שנרשמת שעליך להכנס איתו למפגש  ${meeting.name} ב ${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
                         });
                     });
                 }
