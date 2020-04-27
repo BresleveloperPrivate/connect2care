@@ -68,7 +68,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
                 "enforce_login": "false",
                 "close_registration": "true",
                 "show_share_button": "true",
-                "allow_multiple_devices": "false"
+                "allow_multiple_devices": "true"
             }
         }
     ));
