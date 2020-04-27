@@ -71,7 +71,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
     const onSend = useCallback(async () => {
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
-        if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני'); return; }
+        if (!!!email) { setErrorMsg('אנא מלא/י דואר אלקטרוני (gmail)'); return; }
         if (!!!phone) { setErrorMsg('אנא מלא/י מספר טלפון'); return; }
         if (sendCode && !!!code) { setErrorMsg('אנא מלא/י קוד הצטרפות '); return; }
         if (!readBylaw) { setErrorMsg('עליך לקרוא את התקנון לפני הצטרפות למפגש'); return }
@@ -166,13 +166,13 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
     const inputs = useMemo(() =>
         sendCode ? [
             [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
-            [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+            [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email (gmail)' : 'דואר אלקטרוני (gmail)'],
             [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
             [code, setCode, LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
 
         ] : [
                 [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
-                [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email' : 'דואר אלקטרוני'],
+                [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email (gmail)' : 'דואר אלקטרוני (gmail)'],
                 [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
 
             ], [name, email, phone, code, LanguageStore.lang]);
@@ -244,7 +244,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                         }
                                     </div>
                                 }
-                                <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                                <input style={index === 2 ? { direction: "ltr", textAlign: LanguageStore.lang !== "heb" ? "left" : "right" } : {}} key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                             </div>
                         ))}
                         <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '1.5em' }}>

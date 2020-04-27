@@ -65,10 +65,10 @@ const MeetingDetails = (props) => {
     ]
     const date = (new Date()).getDate()
     const meetingDate = [
-        date >= 25 ? null : { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        date >= 26 ? null : { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        date >= 27 ? null : { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        date >= 28 ? null : { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
+        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
+        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
+        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
+        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     useEffect(() => {
@@ -224,13 +224,14 @@ const MeetingDetails = (props) => {
                         </div>
 
                         <div className='position-relative'>
-                            {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput  margin-right-text">{props.t("phone")}</div>}
+                            {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                             <input
                                 type="text"
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                 value={props.CreateMeetingStore.meetingDetails.owner.phone}
                                 autoComplete="off"
+                                style={{ direction: "ltr", textAlign: "right" }}
                                 placeholder={props.t("phone")}
                                 onBlur={phoneValidate}
                                 onFocus={() => setErrorPhone(false)}
@@ -387,49 +388,54 @@ const MeetingDetails = (props) => {
                             <FontAwesomeIcon className='copy' icon={['fas', 'copy']} onClick={(ssss) => { copyToClipboard(props.CreateMeetingStore.meetingDetails.zoomId.replace('j', 's')); setCopy2(true); setTimeout(() => { setCopy2(false) }, 500) }} />
                             {copy2 && <div className='copyText'>הועתק!</div>}
                         </div>
+
+                        <div className='d-flex align-items-center pb-4' style={{ marginRight: '6vw' }}>
+                            {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email &&
+                                <div
+                                    onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
+                                    className="grow"
+                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                    אישור מפגש
+                                    </div>
+                            }
+                            {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId == '') &&
+                                <div
+                                    onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.date)}
+                                    className="grow"
+                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                    צור מפגש זום
+                            </div>
+                            }
+                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
+                                <div
+                                    onClick={() => props.CreateMeetingStore.sendZoomHost(props.CreateMeetingStore.meetingDetails.timeHour + ':' + props.CreateMeetingStore.meetingDetails.timeMinute, props.CreateMeetingStore.meetingDetails.date)}
+                                    className="grow"
+                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: 'rgb(15, 82, 169)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                    שלח קישור זום למארח
+                                </div>}
+                            {props.CreateMeetingStore.meetingDetails.approved && (props.CreateMeetingStore.meetingDetails.zoomId && props.CreateMeetingStore.meetingDetails.zoomId !== '') &&
+                                <div
+                                    onClick={() => props.CreateMeetingStore.sendZoomParticipants(props.CreateMeetingStore.meetingDetails.timeHour + ':' + props.CreateMeetingStore.meetingDetails.timeMinute, props.CreateMeetingStore.meetingDetails.date)}
+                                    className="grow"
+                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#3586b1', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                    שלח קישור זום למשתתפים
+                                </div>}
+                            {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
+                                <div
+                                    onClick={() => props.CreateMeetingStore.newZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
+                                    className="grow"
+                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
+                                    שלח אקטיבציה
+                                </div>
+                            }
+                        </div>
                     </div>
 
-                    <div className='d-flex align-items-center pb-5 pt-4' style={{ float: 'left' }}>
+                    <div className='d-flex align-items-center pb-5 pt-4' style={{ float: 'left', flexWrap: 'wrap' }}>
                         <div style={{ marginRight: '6vw', marginLeft: '2vw', width: '2.5vh' }} className='trash' onClick={() => setShowDeleteMeetingPopup(true)}>
                             <FontAwesomeIcon icon={['fas', 'trash']} />
                             <div className='trashText'>מחק מפגש</div>
                         </div>
-                        {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email &&
-                            <div
-                                onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
-                                className="grow"
-                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                                אישור מפגש
-                                    </div>
-                        }
-                        {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
-                            <div
-                                onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.date)}
-                                className="grow"
-                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                                צור זום חדש
-                            </div>
-                        }
-                        {/* <div
-                            onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.date)}
-                            className="grow"
-                            style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                            שלח מייל עם זום למארח
-                            </div>
-                        <div
-                            onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.date)}
-                            className="grow"
-                            style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                            שלח מייל עם זום למשתתפים
-                            </div> */}
-                        {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
-                            <div
-                                onClick={() => props.CreateMeetingStore.newZoom(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.name)}
-                                className="grow"
-                                style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                                שלח מייל של זום חדש
-                                    </div>
-                        }
                         <div
                             className="grow"
                             style={{ cursor: 'pointer', backgroundColor: 'var(--custom-orange)', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}

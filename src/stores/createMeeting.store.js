@@ -383,16 +383,16 @@ class CreateMeetingStore {
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, id: Number(this.meetingId), date })
+                body: JSON.stringify({ email, meetingId: Number(this.meetingId), date })
             }, true);
-        if (success) {
-            this.meetingDetailsOriginal.approved = true;
-            this.meetingDetails.approved = true;
-        }
-        console.log(success, err)
-        if(!success){
+        if (success.length === 0) {
             this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
         }
+        if (success) {
+            this.meetingDetailsOriginal.zoomId = success;
+            this.meetingDetails.zoomId = success;
+        }
+        console.log(success, err)
     }
 
     newZoom = async (email, nameOwner) => {
@@ -410,6 +410,36 @@ class CreateMeetingStore {
         if (success) {
             this.setError = 'ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום'
         }
+    }
+
+    sendZoomHost = async (time, date) => {
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/sendMailHost`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
+            }, true);
+        if (err) {
+            // setErr(true)
+            return
+        }
+        this.setError("המייל נשלח בהצלחה")
+    }
+
+    sendZoomParticipants = async (time, date) => {
+        let [success, err] = await Auth.superAuthFetch(
+            `/api/meetings/sendMailParticipants`,
+            {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
+            }, true);
+        if (err) {
+            // setErr(true)
+            return
+        }
+        this.setError("המייל נשלח בהצלחה")
     }
 
     changeMeetingTimeHour = (event) => {
@@ -599,7 +629,7 @@ class CreateMeetingStore {
         else if (err && err.error && err.error.message)
             this.error = err.error.message
         else if (err && err.error && err.error.email)
-            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה"
+            this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct email address of gmail" : "משהו השתבש, אנא בדוק שהכנסת כתובת אימייל נכונה של gmail"
         else if (err && err.error && err.error.phone)
             this.error = lang !== "heb" ? "Something went wrong, please make sure that you entered a correct phone number" : "משהו השתבש, אנא בדוק שהכנסת מספר טלפון נכון"
         else if (err && err.error && err.error.max_participants)
