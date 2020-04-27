@@ -244,7 +244,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                         }
                                     </div>
                                 }
-                                <input key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                                <input style={index === 2 ? { direction: "ltr", textAlign: LanguageStore.lang !== "heb" ? "left" : "right" } : {}} key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                             </div>
                         ))}
                         <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '1.5em' }}>
