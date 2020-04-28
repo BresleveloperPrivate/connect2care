@@ -18,12 +18,12 @@ class ManagerStore {
         this.readMore = readMore
     }
 
-    fetchMeetingsDashboard = async (filters = {}, readMore = false) => {
+    fetchMeetingsDashboard = async (filters = {}, readMore = false, isExcel = false) => {
         if (readMore) {
             filters = this.filters
             this.page = this.page + 1
         }
-        else {
+        else if (!isExcel) {
             this.filters = filters
             this.meetings = null
         }
@@ -32,23 +32,28 @@ class ManagerStore {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/getMeetingsDashboard', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filters: filters })
+            body: JSON.stringify({ filters: filters, isExcel: isExcel })
         }, true)
         this.loading = false
         if (err) {
             console.log(err)
             return
         }
-        this.meetingsNum = meetings.pop() || 0
-        this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
-        if (!readMore) this.meetings = meetings || []
-        else {
-            for (let meeting of meetings) {
-                this.meetings.push(meeting)
+        if (!isExcel) {
+            this.meetingsNum = meetings.pop() || 0
+            this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
+            if (!readMore) this.meetings = meetings || []
+            else {
+                for (let meeting of meetings) {
+                    this.meetings.push(meeting)
+                }
             }
         }
-        console.log("this.meetings", this.meetings)
-        return this.meetings
+        else {
+            //כאן ייצוא לאקסל
+
+
+        }
     }
 }
 
