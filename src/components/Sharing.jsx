@@ -75,7 +75,8 @@ export default function Sharing(props) {
     let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (!isMobile) {
       //whats app web:
-      let linkText = text + ":" + url;
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let linkText = text + ":" + urlApp;
       let href = `https://web.whatsapp.com/send?text=${linkText}`;
       window.open(href, '_blank');
     } else {
