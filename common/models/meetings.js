@@ -80,7 +80,7 @@ module.exports = function (meetings) {
             }
         }
 
-        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  ORDER BY CASE
+        meetings.dataSource.connector.query(`SELECT ${sqlQuerySelect} FROM ${sqlQueryfrom} ${sqlQueryWhere.length !== 0 ? 'WHERE ' + sqlQueryWhere : ''}  GROUP BY CASE
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'האחים שלנו' THEN 1
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants and fallens_meetings.relationship = 'בית אביחי' THEN 2
         WHEN meetings.isOpen = 1 and meetings.participants_num < meetings.max_participants THEN 3
@@ -115,7 +115,7 @@ module.exports = function (meetings) {
                         }
 
                         ////sortttt
-   
+
                         return cb(null, res1.sort((firstRes, secondRes) => {
                             if (where.or.findIndex(or => or.id === firstRes.id) > where.or.findIndex(or => or.id === secondRes.id)) {
                                 return 1
@@ -837,8 +837,8 @@ module.exports = function (meetings) {
             // let url = scheduleWebinar((x) => {
             //     console.log("url", x)
             // }, "talibenyakir+c2c@gmail.com", "2020-04-28T01:00:00")
-            // let res = sendEmail(senderName, sendOptions);
-            cb(null, { res: res })
+            sendEmail(senderName, sendOptions);
+            cb(null, { res: "success"})
         })();
     }
 
