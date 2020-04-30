@@ -11,6 +11,7 @@ import '../styles/animations.scss'
 import Lng from './Lng';
 import logo10 from '../icons/logo10.png'
 import hilma from '../icons/hilmasquare.png'
+import matnas from '../icons/logo11.png'
 // import tzahal from '../icons/tzahal.png'
 
 
@@ -113,7 +114,7 @@ class NavBar extends Component {
                         <img onClick={() => { window.open('https://www.yadlabanim.org.il/') }} alt="alt" src={logo10} height='80%' />
                     </div>
                     <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='70%' />
+                        <img onClick={() => { window.open('https://www.matnasim.org.il/') }} alt="alt" src={matnas} height='70%' />
                     </div>
                     <div className='containIconNavbar'>
                         <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='60%' />

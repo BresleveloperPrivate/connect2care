@@ -363,7 +363,7 @@ module.exports = function (meetings) {
                                 }
 
 
-                                sendEmail("", sendOptions);
+                                // sendEmail("", sendOptions);
                                 return cb(null, userMeeting)
 
                             }
@@ -459,7 +459,7 @@ module.exports = function (meetings) {
                         }
                     }
 
-                    sendEmail("", sendOptions);
+                    // sendEmail("", sendOptions);
                 }
             }
 
@@ -513,7 +513,7 @@ module.exports = function (meetings) {
 
                 }
 
-                sendEmail("", sendOptions);
+                // sendEmail("", sendOptions);
             }
 
             if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
@@ -908,13 +908,13 @@ module.exports = function (meetings) {
                        ` }
             }
 
-            sendEmail("", sendOptions);
+            // sendEmail("", sendOptions);
 
             if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= -10) {
 
-                sendEmail("", {
-                    to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
-                });
+                // sendEmail("", {
+                //     to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                // });
             }
 
 
@@ -947,7 +947,7 @@ module.exports = function (meetings) {
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
             console.log(process.env.TEST, process.env.TEST)
-            sendEmail(senderName, sendOptions);
+            // sendEmail(senderName, sendOptions);
             cb(null, { res: process.env.TEST })
         })();
     }
@@ -1012,7 +1012,7 @@ module.exports = function (meetings) {
                 }
 
 
-                sendEmail("", sendOptions);
+                // sendEmail("", sendOptions);
 
                 // people.destroyAll(where, (err4, res2) => {
                 //     if (err3) {
@@ -1215,7 +1215,7 @@ module.exports = function (meetings) {
 
 
 
-            sendEmail("", sendOptions);
+            // sendEmail("", sendOptions);
             return cb(null, true)
         })()
     }
@@ -1517,19 +1517,19 @@ module.exports = function (meetings) {
 
 
 
-                                    sendEmail("", {
-                                        // add subject and html:
-                                        to: meetingOwner.email, subject: "קישור זום למפגש", html: htmlMessage,
-                                        attachments: [
-                                            {
-                                                content: attachment,
-                                                // add file name:
-                                                filename: "משתתפים.csv",
-                                                type: "application/csv",
-                                                disposition: "attachment"
-                                            }
-                                        ]
-                                    });
+                                    // sendEmail("", {
+                                    //     // add subject and html:
+                                    //     to: meetingOwner.email, subject: "קישור זום למפגש", html: htmlMessage,
+                                    //     attachments: [
+                                    //         {
+                                    //             content: attachment,
+                                    //             // add file name:
+                                    //             filename: "משתתפים.csv",
+                                    //             type: "application/csv",
+                                    //             disposition: "attachment"
+                                    //         }
+                                    //     ]
+                                    // });
                                 } catch (err) {
                                     console.error(err);
                                 }
@@ -1575,10 +1575,10 @@ module.exports = function (meetings) {
                         </div>
                     </div>`
 
-                        sendEmail("", {
-                            // add subject and html:
-                            to: meetingOwner.email, subject: "קישור זום למפגש", html: htmlMessage
-                        });
+                        // sendEmail("", {
+                        //     // add subject and html:
+                        //     to: meetingOwner.email, subject: "קישור זום למפגש", html: htmlMessage
+                        // });
                     }
 
                 });
@@ -1638,9 +1638,9 @@ module.exports = function (meetings) {
                                 צוות מתחברים וזוכרים
 
                             </div>`
-                        sendEmail("", {
-                            to: human.email, subject: "קישור זום למפגש", html: htmlMessage,
-                        });
+                        // sendEmail("", {
+                        //     to: human.email, subject: "קישור זום למפגש", html: htmlMessage,
+                        // });
                     });
                 }
             });
