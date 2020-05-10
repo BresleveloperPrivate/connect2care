@@ -113,7 +113,7 @@ const CreateMeeting = (props) => {
 
     return (
         <div>
-            {(new Date()).getDate() >= 28 ?
+            {true ?
                 <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
                     <div style={{ width: '30vw', height: 'fit-content' }}>

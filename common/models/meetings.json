@@ -263,7 +263,6 @@
             "permission": "ALLOW",
             "property": [
                 "getMeetingsUser",
-                "createMeeting",
                 "GetMeetingInfo",
                 "AddPersonToMeeting",
                 "SendShareEmail",
@@ -281,6 +280,7 @@
                 "deleteMeeting",
                 "approveMeeting",
                 "createZoom",
+                "createMeeting",
                 "getMeetingById",
                 "isNameExist",
                 "newZoom",
