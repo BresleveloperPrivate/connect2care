@@ -80,7 +80,7 @@ class NavBar extends Component {
                         <Lng changeLanguage={this.changelng} />
                     </div> */}
 
-                    {this.state.width > 900 || this.state.height > 900 ? <div className='containIconNavbar'>
+                    {this.state.width > 900 || this.state.height > 1200 ? <div className='containIconNavbar'>
                         <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='120%' />
                     </div> : null}
                     {this.options.map((value, index) => {
@@ -122,7 +122,7 @@ class NavBar extends Component {
                     <div className='containIconNavbar'>
                         <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='50%' />
                     </div>
-                    {this.state.width <= 900 && this.state.height <= 900 && <div className='containIconNavbar' style={{alignItems:'center'}}>
+                    {this.state.width <= 900 && this.state.height <= 1200 && <div className='containIconNavbar' style={{alignItems:'center'}}>
                         <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='135%' />
                     </div>}
 
