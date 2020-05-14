@@ -7,7 +7,7 @@
     "host": "localhost",
     "port": 3306,
     "database": "ourBro",
-    "password": "z10mz10m",
+    "password": "CarmelBot1010",
     "name": "msql",
     "user": "root",
     "connector": "mysql"
