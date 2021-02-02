@@ -59,7 +59,9 @@
       "../common/models",
       "./models",
       "../src/modules/fileshandler/server/models",
-      "../src/modules/auth/server/models"
+      "../src/modules/auth/server/models",
+      "..\\src\\modules\\fileshandler\\server\\models",
+      "..\\src\\modules\\auth\\server\\models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -67,7 +69,8 @@
       "../common/mixins",
       "./mixins",
       "../src/modules/fileshandler/server/mixins",
-      "../src/modules/supermodel/server/mixins"
+      "../src/modules/supermodel/server/mixins",
+      "..\\src\\modules\\fileshandler\\server\\mixins"
     ]
   },
   "User": {

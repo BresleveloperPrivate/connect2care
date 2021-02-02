@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import cancel from '../icons/cancel.svg'
 import Business from '../icons/business.svg'
 import { inject, observer, PropTypes } from 'mobx-react';
-import clock from '../icons/whiteClock.svg'
+import clock from '../icons/whiteclock.svg'
 import candleWhiteGray from '../icons/candleWhiteGray.svg'
 import lockWhite from '../icons/lock-white.svg'
 
