@@ -24,7 +24,6 @@ yarn-error.log*
 
 server/datasources.json
 server/datasources.production.json
-# src/modules/*
 server/routes/
 
 public/blpic
