@@ -9,7 +9,7 @@
     "database": "ourBro",
     "password": "z10mz10m",
     "name": "msql",
-    "user": "root",
+    "user": "ourBroDev",
     "connector": "mysql"
   },
   "myEmailDataSource": {
