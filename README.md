@@ -5,3 +5,15 @@
 5. npm run build
 
 There is a dump inside dumps/ourBro.dump.sql
+
+
+
+
+# add user my sql
+
+```
+FLUSH PRIVILEGES;
+CREATE USER 'ourBroDev'@'localhost' IDENTIFIED BY 'z10mz10m';
+GRANT ALL PRIVILEGES ON ourBroDev.* TO 'ourBro'@'localhost';
+```
+
