@@ -10,7 +10,9 @@
     "password": "z10mz10m",
     "name": "msql",
     "user": "ourBroDev",
-    "connector": "mysql"
+    "connector": "mysql",
+    "connectTimeout": 20000,
+    "acquireTimeout": 20000
   },
   "myEmailDataSource": {
     "connector": "mail",
