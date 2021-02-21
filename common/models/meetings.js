@@ -180,7 +180,7 @@ module.exports = function (meetings) {
 
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
-                console.log("err", err)
+                console.log("err people.findOne [err, user0], data, data.owner", err, user0, data, data.owner)
                 return cb(err)
             }
             if (!user0) {

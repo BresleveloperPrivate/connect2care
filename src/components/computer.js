@@ -7,7 +7,7 @@ import lock from '../icons/lock-white.svg'
 import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
 import candle from '../icons/candle.svg'
-import clock from '../icons/whiteclock.svg'
+// import clock from '../icons/whiteclock.svg'
 // import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import grass from '../icons/bac-white.svg'
@@ -223,7 +223,7 @@ const ComputerList = (props) => {
                                                     :
                                                     {height:'1.1em' , display:'flex' , marginLeft:'0.5vw', marginTop:'0.3vw'}
                                                     }>
-                                                <img src={clock} height='100%' />
+                                                {/* <img src={clock} height='100%' /> */}
                                                 </div>
                                                 <div>{props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}</div>
 
