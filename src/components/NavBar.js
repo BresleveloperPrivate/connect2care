@@ -110,18 +110,7 @@ class NavBar extends Component {
 
 
                    
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='60%' />
-                    </div>
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://www.yadlabanim.org.il/') }} alt="alt" src={logo10} height='70%' />
-                    </div>
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://www.matnasim.org.il/') }} alt="alt" src={matnas} height='60%' />
-                    </div>
-                    <div className='containIconNavbar'>
-                        <img onClick={() => { window.open('https://ourbrothers.co.il/') }} alt="alt" src={ourBrothers} height='50%' />
-                    </div>
+                    
                     {this.state.width <= 900 && this.state.height <= 1200 && <div className='containIconNavbar' style={{alignItems:'center'}}>
                         <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='135%' />
                     </div>}
