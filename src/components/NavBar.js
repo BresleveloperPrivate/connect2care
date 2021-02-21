@@ -6,7 +6,7 @@ import c2c from '../icons/logo.svg'
 import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
-import '../styles/animations.scss'
+// import '../styles/animations.scss'
 // import Language from './Language';
 import Lng from './Lng';
 import logo10 from '../icons/logo10.png'
