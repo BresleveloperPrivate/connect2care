@@ -4,11 +4,15 @@
 }
 
 .explanation-right{
-    color: var(--custom-blue);
-    text-align: right;
+    color: var(--custom-gray-3);
+    text-align: center;
     font-size: 3.5vh;
     border-right: 2px solid var(--custom-green);
     padding-right: 20px;
+}
+
+.this-year{
+    color: var(--custom-blue-3);
 }
 
 .explanation-left{

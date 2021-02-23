@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import NavBar from './NavBar'
-import OpeningImage from './OpeningImage'
+//import OpeningImage from './OpeningImage'
+import OpeningVideo from './OpeningVideo';
 import Explanation from './Explanation'
 import HowItWorks from './HowItWorks'
 import OptionsButtons from './OptionsButtons'
@@ -21,15 +22,19 @@ import Footer from './Footer';
                     className={'navbar-opening'}
                 /> */}
 
-                <OpeningImage t={props.t}/>
+                {/*<OpeningImage t={props.t}/>*/}
+
+                <OpeningVideo t={props.t} />
 
                 <Explanation t={props.t} explanation={1} />
 
+                <OptionsButtons t={props.t} className='containOptionsBottom' />
+
                 <HowItWorks t={props.t} />
 
-                <Explanation t={props.t} explanation={2} />
+                {/*<Explanation t={props.t} explanation={2} />*/}
 
-                <OptionsButtons t={props.t} className='containOptionsBottom' />
+                {/*<OptionsButtons t={props.t} className='containOptionsBottom' />*/}
 
                 <ImagesCollage t={props.t} history={props.history} />
 

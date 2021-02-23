@@ -25,6 +25,7 @@ class openingImage extends Component {
     render() {
         return (
             <div className='containOpening'>
+                {/*
                 <div id='OIB' className='openingImage-before'> </div>
 
                 <img className={this.props.LanguageStore.lang !== 'heb' ? 'lightBlueBackgroundEn' : 'lightBlueBackground'}
@@ -32,7 +33,7 @@ class openingImage extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'whiteLineEn' : 'whiteLine'}> </div>
                 <OptionsButtons t={this.props.t} className='containOptions' />
-
+                */}
             </div>
         );
     }

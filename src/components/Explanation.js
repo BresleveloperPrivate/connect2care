@@ -54,7 +54,7 @@ class Explanation extends Component {
                         נצחק ביחד. נבכה ביחד.<br /><br />
 
                             {/* השנה כולנו מתחברים וזוכרים.<br /> */}
-                            <strong>השנה כולנו מתחברים וזוכרים.</strong>
+                            <p className = 'this-year'><strong>השנה כולנו מתחברים וזוכרים.</strong></p>
 
                         </div>
                     :
