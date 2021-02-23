@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 
 const HilmaCredit = (props) => {
     return (
-        <div
+        /*<div
             className={"hilmaCredit " + (props.colorCredit === "white" ? "hilmaCredit-white " : " ") + (props.LanguageStore.lang !== 'heb' ? 'fdrr App-ltr ' : 'App-rtl ') + (props.LanguageStore.lang !== 'heb' ? ' fontSizeCreditEn' : '')}>
             {props.t('blueFooter')}
             <div style={{ height: '1em', marginRight: '4vw', display: 'flex', zIndex: '5' }}>
@@ -16,7 +16,7 @@ const HilmaCredit = (props) => {
                     WebkitMaskImage: `Url(${hilmaWhite})`
                 }}></div>
             </div>
-        </div>
+        </div>*/
     )
 }
 

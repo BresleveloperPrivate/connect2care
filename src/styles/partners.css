@@ -59,7 +59,7 @@
   margin: 2.6vw;
 }
 
-
+/*
 .hilmaCredit{
   background-color: var(--custom-dark-blue);
   color: white;
@@ -67,12 +67,13 @@
   justify-content: center;
   height: calc(5vh);
   align-items: center;
-  font-size: 2.7vh;
+  font-size: 2.7vh;*/
   /* position: absolute; */
-  padding: 1vh 3vw;
+  /*padding: 1vh 3vw;*/
   /* bottom: 0; */
-  z-index: 8;
+  /*z-index: 8;
 }
+*/
 
 .hilmaCredit-white{
   background-color: white;

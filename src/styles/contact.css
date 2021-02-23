@@ -1,12 +1,14 @@
+
 #contactPage {
-    text-align: right;
+    /*text-align: center;*/
     min-height: calc(83vh);
     padding-right: 6vw;
     padding-left: 6vw;
+    background: #f6f6f6;
 }
 
 .textContact{
-    text-align: right;
+    /*text-align: center;*/
     font: normal 23px Assistant;
     letter-spacing: 0px;
     color: #4D4F5C;

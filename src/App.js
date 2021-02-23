@@ -22,7 +22,8 @@ const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUse
 const Info = loadable(() => import('./components/Info/Info'));
 const Contact = loadable(() => import('./components/Contact'));
 const Support = loadable(() => import('./components/Support'));
-const HilmaCredit = loadable(() => import('./components/HilmaCredit'));
+
+//const HilmaCredit = loadable(() => import('./components/HilmaCredit'));
 
 // const MyMeetings = loadable(() => import('./components/MyMeetings'));
 
@@ -88,9 +89,11 @@ class App extends Component {
                                 <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />
                             </Switch>
                         </div>
-                        <Route path="/(contact|create-meeting|success|edit-meeting|support|share|meetings|my-meetings|info)/" render={props => <HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
+
+                        {/*<Route path="/(contact|create-meeting|success|edit-meeting|support|share|meetings|my-meetings|info)/" render={props => /<HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
                         <Route path="/" exact render={props => <HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
-                        <Route path="/(meeting)/" render={props => <HilmaCredit t={this.props.t} colorCredit="white" {...props} />} />
+                        <Route path="/(meeting)/" render={props => <HilmaCredit t={this.props.t} colorCredit="white" {...props} />} />*/}
+                        
                     </div>
                 </Router>
             </Suspense>}

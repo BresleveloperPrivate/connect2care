@@ -96,9 +96,6 @@ class NavBar extends Component {
                             >
                                 {value.option}
                             </div>
-
-
-
                         )
                     })}
 
@@ -108,8 +105,18 @@ class NavBar extends Component {
 
                     <div style={{ flexGrow: 1 }}></div>
 
+                    
+                    <div className = 'navbarLeft'>
+                        <div className='containIconNavbar'>
+                            <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='60%' />
+                        </div>
 
-                   
+                        <div className='containIconNavbar'>
+                            <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='60%' />
+                        </div>
+                    </div>
+
+                   {/*}
                     <div className='containIconNavbar'>
                         <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='60%' />
                     </div>
@@ -124,13 +131,15 @@ class NavBar extends Component {
                     </div>
                     {this.state.width <= 900 && this.state.height <= 1200 && <div className='containIconNavbar' style={{alignItems:'center'}}>
                         <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='135%' />
-                    </div>}
+                </div>}*/}
 
                 </div>}
 
                 {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
 
                 {/* </div> */}
+
+
                 <SideNavBar
                     history={this.props.history}
                     changeLanguage={this.changelng}
