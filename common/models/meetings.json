@@ -267,7 +267,8 @@
                 "AddPersonToMeeting",
                 "SendShareEmail",
                 "get38Meetings",
-                "isNameExist"
+                "isNameExist",
+                "createMeeting"
             ]
         },
         {

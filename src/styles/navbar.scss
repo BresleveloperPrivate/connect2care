@@ -19,11 +19,11 @@
 }
 
 
-.App{
-    font-family: 'Assistant';
-    height: 100vh;
-    overflow-y: overlay;
-}
+// .App{
+//     font-family: 'Assistant';
+//     height: 100vh;
+//     overflow-y: overlay;
+// }
 
 :root {
     --custom-blue: #0A2D63;
@@ -73,13 +73,17 @@
 }
 
 .navbar{
-    z-index: 10;
-    width: 100vw;
-    height: 10vh !important;
-    box-shadow: 0px 3px 6px #00000029;
-    position: fixed !important;
-    top: 0 !important;
-    display: flex;
+    // z-index: 10;
+    // width: 100vw;
+    // height: 10vh !important;
+    // box-shadow: 0px 3px 6px #00000029;
+    // position: fixed !important;
+    // top: 0 !important;
+    // display: flex;
+    background: #FFFFFF;
+    box-shadow: 0 -1px 16px 0 ,
+    rgba(124,123,123,0.29);
+
 }
 
 .navbar-opening{

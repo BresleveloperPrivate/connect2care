@@ -4,6 +4,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const http = require("https");
+const { log } = require('console');
 
 /**
  * @param {string} mail;
@@ -17,7 +18,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 
-    // console.log("token", token)
+    console.log("token", token)
 
     let options = {
         "method": "POST",
@@ -28,9 +29,11 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             "content-type": "application/json"
         }
     };
+    // console.log('Check point 1')
 
     let req = http.request(options, function (res) {
         let chunks = [];
+        console.log(req.options);
 
         res.on("data", function (chunk) {
             chunks.push(chunk);
@@ -38,7 +41,7 @@ const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.rando
 
         res.on("end", function () {
             let body = Buffer.concat(chunks);
-            // console.log(JSON.parse(body.toString()))
+            console.log(JSON.parse(body.toString()))
             let jsdata = JSON.parse(body.toString())
             console.log(jsdata)
             // console.log("zzzzzzzzzzzzz", jsdata.join_url);
