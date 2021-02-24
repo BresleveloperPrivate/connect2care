@@ -73,25 +73,28 @@ class NavBar extends Component {
                 {/* <div className='containLanguage'>
                     <Language changeLanguage={this.changelng} />
                 </div> */}
-                {this.options && <div
-                    style={this.props.LanguageStore.lang !== 'heb' ? { flexDirection: 'row-reverse' } : {}}
-                    className='navbarOptions'>
-                    {/* <div className='optionInNavbar lngNB pointer'>
-                        <Lng changeLanguage={this.changelng} />
-                    </div> */}
+                {this.options &&
+                <div
+                style={this.props.LanguageStore.lang !== 'heb' ? {flexDirection: 'row-reverse'} : {}}
+                className='navbarOptions'>
+                {/* <div className='optionInNavbar lngNB pointer'>
+                    <Lng changeLanguage={this.changelng} />
+                </div> */}
 
                     {this.state.width > 900 || this.state.height > 1200 ? <div className='containIconNavbar'>
-                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='120%' />
+                        <img onClick={() => {
+                            this.props.history.replace('/')
+                        }} alt="alt" src={c2c} height='120%'/>
                     </div> : null}
                     {this.options.map((value, index) => {
                         return (
                             <div key={index}
-                                onClick={() => {
-                                    !value.open ?
-                                        this.props.history.push(value.path) :
-                                        window.open(value.path)
-                                }}
-                                className='optionInNavbar grow-bold pointer'
+                                 onClick={() => {
+                                     !value.open ?
+                                         this.props.history.push(value.path) :
+                                         window.open(value.path)
+                                 }}
+                                 className='optionInNavbar grow-bold pointer'
 
                             >
                                 {value.option}
@@ -100,40 +103,44 @@ class NavBar extends Component {
                     })}
 
                     <div className='optionInNavbar lngNB pointer'>
-                        <Lng changeLanguage={this.changelng} />
+                        <Lng changeLanguage={this.changelng}/>
                     </div>
 
-                    <div style={{ flexGrow: 1 }}></div>
+                    <div style={{flexGrow: 1}}></div>
 
-                    
-                    <div className = 'navbarLeft'>
+
+                    <div className='navbarLeft'>
                         <div className='containIconNavbar'>
-                            <img onClick={() => { window.open('https://www.hilma.tech/') }} alt="alt" src={hilma} height='60%' />
+                            <img onClick={() => {
+                                window.open('https://www.hilma.tech/')
+                            }} alt="alt" src={hilma} height='60%'/>
                         </div>
 
 
-                    {this.state.width <= 900 && this.state.height <= 1200 && <div className='containIconNavbar' style={{alignItems:'center'}}>
-                        <img onClick={() => { this.props.history.replace('/') }} alt="alt" src={c2c} height='135%' />
-                </div>}*/}
+                        {this.state.width <= 900 && this.state.height <= 1200 &&
+                        <div className='containIconNavbar' style={{alignItems: 'center'}}>
+                            <img onClick={() => {
+                                this.props.history.replace('/')
+                            }} alt="alt" src={c2c} height='135%'/>
+                        </div>}*/}
 
+                    </div>
+                    }
+
+                    {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
+
+                    {/* </div> */}
+
+
+                    <SideNavBar
+                        history={this.props.history}
+                        changeLanguage={this.changelng}
+                        toggleDrawer={this.toggleDrawer}
+                        options={this.options}
+                        right={this.state.right}
+                    />
                 </div>}
-
-                {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
-
-                {/* </div> */}
-
-
-                <SideNavBar
-                    history={this.props.history}
-                    changeLanguage={this.changelng}
-                    toggleDrawer={this.toggleDrawer}
-                    options={this.options}
-                    right={this.state.right}
-                />
-            </div>
-
-
-        );
+            </div>)
     }
 }
 
