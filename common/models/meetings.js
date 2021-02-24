@@ -1333,7 +1333,9 @@ module.exports = function (meetings) {
                     break;
             }
             scheduleWebinar(async (url, error) => {
-                if (error) { return cb(null, '') }
+                //Doesn't even run
+                console.log('Check Point')
+                // if (error) { return cb(null, '') }
                 if (url && url !== undefined) {
                     // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
                     let [err, res] = await to(meetings.upsertWithWhere({ id: meetingId }, { zoomId: url }));
