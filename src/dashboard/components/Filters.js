@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { inject, observer } from 'mobx-react';
+import { meetingDate } from '../../consts/Meetings.consts';
 import '../style/filters.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Select from '../../components/Select'
@@ -17,13 +18,6 @@ const Filters = (props) => {
     const [slectedParticipants, setSlectedParticipants] = useState("")
     const [slectedApproved, setSlectedApproved] = useState("")
 
-    const DATES = [
-        { option: 'הכל', data: 'הכל' },
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
     const RELATIONSHIPS = [
         { option: 'הכל', data: 'הכל' },
         { option: 'אח/ות', data: 'אח/ות' },
@@ -91,7 +85,7 @@ const Filters = (props) => {
                             className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault='הכל'
-                            arr={DATES}
+                            arr={meetingDate(props)}
                             width='90%'
                             onChoseOption={(value) => { value.option === "הכל" ? setSelectedDate("") : setSelectedDate(value.data) }}
                         />
