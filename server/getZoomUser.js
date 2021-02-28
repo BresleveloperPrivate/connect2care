@@ -17,7 +17,7 @@ const getZoomUser = async (mail = "‫maayan45633+c2c@gmail.com‬") => {
     };
     const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
 
-    console.log("token", token)
+    console.log("getZoomUser token", token)
 
     let options = {
         "method": "POST",

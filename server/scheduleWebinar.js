@@ -5,28 +5,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const http = require("https");
 const { log } = require('console');
+const {hostname, token} = require('./zoomAPIUtils');
 
 /**
  * @param {string} mail;
 */
 
+//
+// depracated
+//
 const scheduleWebinar = async (cb, mail, start_time, pwd = Math.floor(Math.random() * (1000000 - 100000)) + 100000) => {
 
-    const payload = {
-        iss: "bxkoUl94RgOEagOunvJnDA",
-        exp: ((new Date()).getTime() + 4000)
-    };
-    const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
+    console.log('scheduleWebinar');
 
-    console.log("token", token)
-
-    let options = {
+    const options = {
         "method": "POST",
-        "hostname": "api.zoom.us",
+        "hostname": hostname,
         "port": null,
-        "path": `/v2/users/${mail}/webinars?access_token=` + token,
+        // "path": `/v2/users/${mail}/webinars?access_token=` + token,
+        "path": `/v2/users/${mail}/webinars`,
         "headers": {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "authorization": `Bearer ${token}`
         }
     };
     // console.log('Check point 1')
