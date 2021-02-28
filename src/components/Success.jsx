@@ -3,6 +3,7 @@ import '../styles/success.scss';
 import { inject, observer } from 'mobx-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageOfFallen from './ImageOfFallen';
+import { meetingDate } from '../consts/Meetings.consts';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 // import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
@@ -10,13 +11,7 @@ import candle from '../icons/candle-white.svg';
 // import Divider from '@material-ui/core/Divider';
 
 function Success(props) {
-    const meetingDate = [
-        { option: props.t('all'), data: false },
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+
     const [meeting, setMeeting] = useState(false)
 
     useEffect(() => {
@@ -136,7 +131,7 @@ function Success(props) {
                                         <FontAwesomeIcon icon="clock" color="#ffffff" />
                                         </div>
                                         <span className="exactDate">
-                                        {props.t(meetingDate.find(val=> val.data === meeting.date).option)} | {meeting.time}
+                                        {props.t(meetingDate(props).find(val=> val.data === meeting.date).option)} | {meeting.time}
                                             </span>
                                     </div>
                                     <div className="relationDiv">
