@@ -12,6 +12,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { meetingDate } from '../../consts/Meetings.consts';
 import tick from '../../icons/tick.svg'
 
 const useStyles = makeStyles(theme => ({
@@ -60,14 +61,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
     // const readBylawRef = useRef();
 
-    const meetingDate = {
-        'יום ראשון, ב באייר, 26.04': t('sunday'),
-        'יום שני, ג באייר, 27.04': t('monday'),
-        'יום שלישי, ד באייר, 28.04': t('tuesday'),
-        'יום רביעי, ה באייר, 29.04': t('wednesday')
-    }
-
-    const { input, sendButton, sendLabel } = useStyles();
+   const { input, sendButton, sendLabel } = useStyles();
 
     const onSend = useCallback(async () => {
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
@@ -109,8 +103,9 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                 }
             }
         }
+
         mailDetails.fallensText = fallens;
-        mailDetails.date = meetingDate[mailDetails.date] ? t(meetingDate[mailDetails.date]) : ''
+       mailDetails.date = meetingDate({t}).find(val=> val.data === mailDetails.date)?.option;
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
