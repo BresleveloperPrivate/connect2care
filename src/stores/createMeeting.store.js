@@ -167,6 +167,20 @@ class CreateMeetingStore {
         }
     }
 
+    setArmyAgentReq = index => {
+        if (!this.meetingDetails.fallens) {
+            this.meetingDetails.fallens = [];
+        }
+        this.meetingDetails.fallens[index] = {id: null, ...this.meetingDetails.fallens[index], armyAgentReq: !this.meetingDetails.fallens[index]?.armyAgentReq};
+    };
+
+    setServeUnit = (e, index) => {
+        if (!this.meetingDetails.fallens) {
+            this.meetingDetails.fallens = [];
+        }
+        this.meetingDetails.fallens[index] = {id: null, ...this.meetingDetails.fallens[index], serveUnit: e.target.value};
+    };
+
     changeFallenName = (event, index) => {
         if (!this.fallenName) {
             this.fallenName = []
