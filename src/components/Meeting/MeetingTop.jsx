@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 
 
 const MeetingTop = ({ name, owner, description, date, time ,LanguageStore , t}) => {
-    
     return(
     <div style={LanguageStore.lang !== 'heb' ? {alignItems:'flex-end'}:{}} id="meetingTop">
         {name && name.length !== 0 && <div id="meetingName">{name}</div>}
@@ -16,7 +15,7 @@ const MeetingTop = ({ name, owner, description, date, time ,LanguageStore , t}) 
             }
         {((date && date.length !== 0) || (time && time.length !== 0)) && <div id="meetingDateTime">
 
-            {t(meetingDate({t}).find(val=> val.data === date).option)} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time}
+            {t(meetingDate({t}).find(val=> val.data === date)?.option)} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time}
             
             </div>}
     </div>
