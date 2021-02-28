@@ -52,8 +52,8 @@ class NavBar extends Component {
             // { option: this.props.t("myMeetings"), path: '/my-meetings' },
             { option: this.props.t("qna"), path: '/info' },
             // { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
-            { option: this.props.t("contactUs"), path: '/contact' },
             { option: this.props.t("support"), path: '/support' },
+            { option: this.props.t("contactUs"), path: '/contact' },
                 // { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }
             ]
     }

@@ -1,5 +1,6 @@
 'use strict';
-const scheduleWebinar = require('./scheduleWebinar.js');
+// const scheduleWebinar = require('./scheduleWebinar.js');
+const scheduleMeeting = require('./scheduleMeeting.js');
 const sendEmail = require('./email');
 const schedule = require('node-schedule');
 const createZoomUser = require('./createZoomUser.js');
@@ -60,7 +61,8 @@ module.exports = function (app) {
                                     }
                                     console.log(count)
                                     console.log("xxxxxxx")
-                                    scheduleWebinar(async (url, error) => {
+                                    // scheduleWebinar(async (url, error) => {
+                                    scheduleMeeting(async (url, error) => {
                                         console.log("url", url)
                                         if (url && url !== undefined) {
                                             // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))

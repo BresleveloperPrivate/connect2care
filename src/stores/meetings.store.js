@@ -101,6 +101,8 @@ class MeetingsStore {
             console.log(err)
         } else {
             this.loading = false
+            //This line filters out only the dates that includes 2021 year
+            meetings = meetings.filter(item => item.date.includes('2021'));
 
             if (!meetings.length) {
                 this.loadMoreButton = false

@@ -13,17 +13,13 @@ import ContainFilters from './ContainFilters'
 import grass from '../icons/grass.png'
 import ourBrothers from '../icons/ourBro.png'
 import View from './View.js'
+import { meetingDate } from '../consts/Meetings.consts';
+
 
 
 const ComputerList = (props) => {
 
-    const meetingDate = [
-        { option: props.t('all'), data: false },
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+   
 
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -143,7 +139,7 @@ const ComputerList = (props) => {
                                                     { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                                 <img src={clock} height='100%' />
                                             </div>
-                                            {props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}
+                                            {props.t(meetingDate(props).find(val => val.data === meeting.date)?.option)} | {meeting.time}
                                         </div>
                                         <div className='meetingOwner'>
 

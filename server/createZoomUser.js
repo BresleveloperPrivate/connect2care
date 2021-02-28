@@ -1,6 +1,6 @@
 const http = require("https");
 const jwt = require('jsonwebtoken');
-
+const {hostname, token} = require('./zoomAPIUtils');
 
 /**
  * @param {string} mail;
@@ -8,21 +8,17 @@ const jwt = require('jsonwebtoken');
 */
 
 const createZoomUser = async (mail, name, cb) => {
-    const payload = {
-        iss: "bxkoUl94RgOEagOunvJnDA",
-        exp: ((new Date()).getTime() + 5000)
-    };
-    const token = jwt.sign(payload, "KOp8KDqjqW8wuAsi37VWUGnN61KJt7N8Enzy");
+    
+    console.log('createZoomUser');
 
-    console.log("token", token)
-
-    let options = {
+    const options = {
         "method": "POST",
-        "hostname": "api.zoom.us",
+        "hostname": hostname,
         "port": null,
-        "path": "/v2/users?access_token=" + token,
+        "path": "/v2/users",
         "headers": {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "authorization": `Bearer ${token}`
         }
     };
 

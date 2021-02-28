@@ -2,7 +2,8 @@
 // const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-const scheduleWebinar = require('../../server/scheduleWebinar.js');
+// const scheduleWebinar = require('../../server/scheduleWebinar.js');
+const scheduleMeeting = require('../../server/scheduleMeeting.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
@@ -1332,7 +1333,8 @@ module.exports = function (meetings) {
                     start_time = "2020-05-05T00:59:00"
                     break;
             }
-            scheduleWebinar(async (url, error) => {
+            // scheduleWebinar(async (url, error) => {
+            scheduleMeeting(async (url, error) => {
                 //Doesn't even run
                 console.log('Check Point')
                 // if (error) { return cb(null, '') }

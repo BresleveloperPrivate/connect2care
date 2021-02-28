@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Select from '../../components/Select'
 import Auth from '../../modules/auth/Auth'
 import DownArrow from '../../icons/Icon awesome-chevron-down.svg'
+import { meetingDate } from '../../consts/Meetings.consts';
+
 
 const SendZoom = (props) => {
 
@@ -35,12 +37,6 @@ const SendZoom = (props) => {
     const meetingTimeMinute = [
         { option: '00', data: '00' },
         { option: '30', data: '30' }
-    ]
-    const meetingDate = [
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
     ]
 
     const recipients = [
@@ -106,7 +102,7 @@ const SendZoom = (props) => {
                             className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault={date !== '' ? date : 'בחר'}
-                            arr={meetingDate}
+                            arr={meetingDate(props)?.slice(1)}
                             width='100%'
                             onChoseOption={(value) => { setDate(value.data) }} />
                     </div>
