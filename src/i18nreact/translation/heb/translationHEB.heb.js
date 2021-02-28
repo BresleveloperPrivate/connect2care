@@ -108,7 +108,7 @@ const translationHEB = {
 
     "share": "הזמינו למפגש",
     "save": "שמור",
-    "support": "תמיכה",
+    "support": "תמיכה טכנית",
 
     'ConnectRemember': 'מתחברים וזוכרים. לזכרם.',
     'my relative to the fallen': 'הקרבה שלי לחלל',
