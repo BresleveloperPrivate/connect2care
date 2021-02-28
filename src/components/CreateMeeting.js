@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/createMeeting.css'
 import { inject, observer, PropTypes } from 'mobx-react';
+import { meetingDate } from '../consts/Meetings.consts';
 import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
 import person from '../icons/person.svg'
@@ -58,13 +59,6 @@ const CreateMeeting = (props) => {
         { option: '30', data: '30' }
     ]
 
-    const date = (new Date()).getDate()
-    const meetingDate = [
-        date >= 25 ? null : { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        date >= 26 ? null : { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        date >= 27 ? null : { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        date >= 28 ? null : { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
 
     useEffect(() => {
 
@@ -287,7 +281,7 @@ const CreateMeeting = (props) => {
                                     {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date === "יום שני, ג באייר, 27.04" ? props.t("monday") : props.CreateMeetingStore.meetingDetails.date : props.t("date")}
-                                        arr={meetingDate}
+                                        arr={meetingDate(props)}
                                         width='100%'
                                         // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
