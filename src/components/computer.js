@@ -14,16 +14,9 @@ import grass from '../icons/bac-white.svg'
 import ourBrothers from '../icons/ob-white.svg'
 import tell from '../icons/Asset 7@3x11.png';
 import View from './View.js'
+import { meetingDate } from '../consts/Meetings.consts';
 
 const ComputerList = (props) => {
-
-    const meetingDate = [
-        { option: props.t('all'), data: false },
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
 
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -225,7 +218,7 @@ const ComputerList = (props) => {
                                                     }>
                                                 {/* <img src={clock} height='100%' /> */}
                                                 </div>
-                                                <div>{props.t(meetingDate.find(val => val.data === meeting.date).option)} | {meeting.time}</div>
+                                                <div>{props.t(meetingDate(props).find(val => val.data === meeting.date).option)} | {meeting.time}</div>
 
                                         </div>
                                         <div style={{flexGrow:'1'}}></div>

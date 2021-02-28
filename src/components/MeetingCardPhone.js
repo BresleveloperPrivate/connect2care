@@ -11,14 +11,11 @@ import clock from '../icons/clock.svg'
 import participants from '../icons/participants.png'
 import grass from '../icons/grass.png'
 import ourBrothers from '../icons/ourBro.png'
+import { meetingDate } from '../consts/Meetings.consts';
 
 const PhoneCard = (props) => {
-    const meetingDate = [
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+   
+    
     return (
 
         <div key={props.index}  className={props.LanguageStore.lang !== 'heb' ? 'containMeetingCard fdrr' : 'containMeetingCard' }>
@@ -98,7 +95,7 @@ const PhoneCard = (props) => {
                         { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                     <img src={clock} height='100%' />
                         </div> : null}
-                        {props.t(meetingDate.find(val=> val.data === props.meeting.date).option)} | {props.meeting.time}
+                        {props.t(meetingDate(props).find(val=> val.data === props.meeting.date).option)} | {props.meeting.time}
                     </div>
                     <div className='meetingOwner'>
 

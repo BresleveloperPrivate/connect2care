@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Select from './Select.js'
 import { inject, observer } from 'mobx-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { meetingDate } from '../consts/Meetings.consts';
+
 
 
 const Filters = (props) => {
@@ -37,13 +39,7 @@ const Filters = (props) => {
         { option: props.t('private meetings'), data: 2 },
         { option: props.t('full meetings'), data: 3 },
     ]
-    const meetingDate = [
-        { option: props.t('all'), data: false },
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+   
     const meetingTime = [
         { option: props.t('all'), data: false },
         { option: '09:00 - 12:00', data: [900, 1200] },
@@ -95,7 +91,7 @@ const Filters = (props) => {
                 width={props.LanguageStore.width > 800 && props.LanguageStore.lang === 'heb' ? '14%' : props.LanguageStore.width > 800 ? '14%' : '100%'}
                 // fetch={props.MeetingsStore.search}
                 selectTextDefault={props.t('meeting date')}
-                arr={meetingDate}
+                arr={meetingDate(props)}
                 className={props.LanguageStore.lang !== 'heb' ? 'tal input-meetings filter-meeting-left' : 'tar input-meetings filter-meeting-right'}
                 onChoseOption={(value) => {
                     props.MeetingsStore.changeMeetingDate(value)
