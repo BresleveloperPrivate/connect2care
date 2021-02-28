@@ -218,7 +218,7 @@ const ComputerList = (props) => {
                                                     }>
                                                 {/* <img src={clock} height='100%' /> */}
                                                 </div>
-                                                <div>{props.t(meetingDate(props).find(val => val.data === meeting.date).option)} | {meeting.time}</div>
+                                                <div>{props.t(meetingDate(props).find(val => val.data === meeting.date)?.option)} | {meeting.time}</div>
 
                                         </div>
                                         <div style={{flexGrow:'1'}}></div>

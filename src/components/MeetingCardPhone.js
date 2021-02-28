@@ -95,7 +95,7 @@ const PhoneCard = (props) => {
                         { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                     <img src={clock} height='100%' />
                         </div> : null}
-                        {props.t(meetingDate(props).find(val=> val.data === props.meeting.date).option)} | {props.meeting.time}
+                        {props.t(meetingDate(props)?.slice(1).find(val=> val.data === props.meeting.date).option)} | {props.meeting.time}
                     </div>
                     <div className='meetingOwner'>
 

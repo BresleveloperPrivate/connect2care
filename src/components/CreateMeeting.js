@@ -281,7 +281,7 @@ const CreateMeeting = (props) => {
                                     {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date === "יום שני, ג באייר, 27.04" ? props.t("monday") : props.CreateMeetingStore.meetingDetails.date : props.t("date")}
-                                        arr={meetingDate(props)}
+                                        arr={meetingDate(props)?.slice(1)}
                                         width='100%'
                                         // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}

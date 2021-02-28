@@ -139,7 +139,7 @@ const ComputerList = (props) => {
                                                     { height: '1.3em', marginBottom: '0.5em', marginLeft: '0.5em' }}>
                                                 <img src={clock} height='100%' />
                                             </div>
-                                            {props.t(meetingDate(props).find(val => val.data === meeting.date).option)} | {meeting.time}
+                                            {props.t(meetingDate(props).find(val => val.data === meeting.date)?.option)} | {meeting.time}
                                         </div>
                                         <div className='meetingOwner'>
 

@@ -102,7 +102,7 @@ const SendZoom = (props) => {
                             className='selectBorder'
                             color='#A5A4BF'
                             selectTextDefault={date !== '' ? date : 'בחר'}
-                            arr={meetingDate(props)}
+                            arr={meetingDate(props)?.slice(1)}
                             width='100%'
                             onChoseOption={(value) => { setDate(value.data) }} />
                     </div>
