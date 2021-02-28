@@ -14,6 +14,8 @@ import fallenNotExistPic from '../icons/fallenNotExistPic.jpg'
 
 import SearchFallen from './SearchFallen.jsx';
 import { useCreateMeetingStore } from '../stores/createMeeting.store.js';
+import checkbox_on_light from "../icons/checkbox_on_light.svg";
+import checkbox_off_light from "../icons/checkbox_off_light.svg";
 
 const FallenDetails = (props) => {
 
@@ -41,7 +43,8 @@ const FallenDetails = (props) => {
         setImgCorrect(false)
     }, [CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id] && CreateMeetingStore.fallenDetails[props.fallen.id].image])
 
-    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id]
+    let findImage = CreateMeetingStore.fallenDetails && CreateMeetingStore.fallenDetails[props.fallen.id];
+    const currentFallen = CreateMeetingStore.meetingDetails.fallens[props.index];
     return (
         <div className="containFallenDetails">
             {props.LanguageStore.width > 550 && <img style={props.LanguageStore.lang !== "heb" ? { marginRight: "2vh" } : { marginLeft: "2vh" }} src={blueCandle} alt="blueCandle" />}
@@ -96,7 +99,9 @@ const FallenDetails = (props) => {
                         arr={myCloseToTheFallen}
                         width='95%'
                         className={'inputStyle p-0 ' + (props.isSaved && (!CreateMeetingStore.meetingDetails.fallens || (CreateMeetingStore.meetingDetails.fallens && !CreateMeetingStore.meetingDetails.fallens[props.index]) || (CreateMeetingStore.meetingDetails.fallens && CreateMeetingStore.meetingDetails.fallens[props.index] && !CreateMeetingStore.meetingDetails.fallens[props.index].relative)) ? "error" : "")}
-                        onChoseOption={(value) => { CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id) }} />
+                        onChoseOption={(value) => {
+                            CreateMeetingStore.changeFallenRelative(value.data, props.fallen.id);
+                        }} />
                     {CreateMeetingStore.meetingDetails.fallens[props.index].needAlert ?
                         <div className="speakBobble" style={{ bottom: "-30px" }}>
                             <img src={speachBooble} alt="speachBooble" />
@@ -130,6 +135,24 @@ const FallenDetails = (props) => {
                             {props.LanguageStore.lang === "heb" ? "הסר בחירה" : "Remove selection"}
                         </div>
                     </div>
+                }
+                {(currentFallen.relative && currentFallen.relative !== "אחר" && currentFallen.relative !== 'חבר/ה') &&
+                    <>
+                        <div className="d-flex align-items-center" onClick={() => CreateMeetingStore.setArmyAgentReq(props.index)}>
+                            <div>
+                                {Boolean(currentFallen.armyAgentReq) ?
+                                    <img src={checkbox_on_light} /> :
+                                    <div style={{width: "24px", height: "24px", WebkitMaskSize: "24px 24px", background: "#4d4f5c", WebkitMaskImage: `Url(${checkbox_off_light})`}}/>
+                                }
+                            </div>
+                            <div style={{ marginRight: "1vh" }}>{props.t("wouldYouLikeMilitaryAgentToJoinYou")}</div>
+                        </div>
+                        <input type="text" className='inputStyle' disabled={!currentFallen.armyAgentReq}
+                            style={{ width: "95%", marginBottom: CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 ? "2vh" : "4vh" }}
+                            value={currentFallen.serveUnit}
+                            onChange={e => CreateMeetingStore.setServeUnit(e, props.index)}
+                            autoComplete="off" placeholder={props.t("whatUnitDidYouServe")} />
+                    </>
                 }
             </div>
 
