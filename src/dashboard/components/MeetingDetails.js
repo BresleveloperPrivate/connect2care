@@ -15,6 +15,7 @@ import checkbox_off_light from '../../icons/checkbox_off_light.svg'
 import checkbox_on_light from '../../icons/checkbox_on_light.svg'
 import FallenDetails from "../../components/FallenDetails"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { meetingDate } from '../../consts/Meetings.consts';
 
 const MeetingDetails = (props) => {
 
@@ -64,12 +65,7 @@ const MeetingDetails = (props) => {
         { option: '30', data: '30' }
     ]
     const date = (new Date()).getDate()
-    const meetingDate = [
-        { option: props.t('sunday'), data: 'יום ראשון, ב באייר, 26.04' },
-        { option: props.t('monday'), data: 'יום שני, ג באייר, 27.04' },
-        { option: props.t('tuesday'), data: 'יום שלישי, ד באייר, 28.04' },
-        { option: props.t('wednesday'), data: 'יום רביעי, ה באייר, 29.04' },
-    ]
+
 
     useEffect(() => {
         (async () => {
@@ -306,7 +302,7 @@ const MeetingDetails = (props) => {
                                 {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                 <Select
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date : props.t("meetingIsClosed")}
-                                    arr={meetingDate}
+                                    arr={meetingDate(props)}
                                     width='100%'
                                     // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
