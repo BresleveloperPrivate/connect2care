@@ -4,7 +4,7 @@
     * might also need `npm install node-sass`
 * install mysql\XAMMP
 * new Database `ourBro`
-* use lates `dump.sql` (`ourBro-new.dump.sql`) file
+* use lates `dump.sql` (`ourbro.marches.sql`) file
 * update file `my.ini`, add after `[mysqld]` these 2 values
     * `ft_min_word_len=2`
     * `innodb_ft_min_token_size=2`
