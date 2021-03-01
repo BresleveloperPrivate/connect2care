@@ -110,11 +110,11 @@ class NavBar extends Component {
 
 
                     <div className='navbarLeft'>
-                        <div className='containIconNavbar'>
+                        {/* <div className='containIconNavbar'>
                             <img onClick={() => {
                                 window.open('https://www.hilma.tech/')
                             }} alt="alt" src={hilma} height='60%'/>
-                        </div>
+                        </div> */}
 
 
                         {this.state.width <= 900 && this.state.height <= 1200 &&
@@ -122,10 +122,10 @@ class NavBar extends Component {
                             <img onClick={() => {
                                 this.props.history.replace('/')
                             }} alt="alt" src={c2c} height='135%'/>
-                        </div>}*/}
+                        </div>}
 
                     </div>
-                    }
+                    
 
                     {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
 

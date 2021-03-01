@@ -1,14 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@700&family=Assistant:wght@800&display=swap');
+
 .containExplanation{
     width: 100vw;
-    padding: 5vw calc(10vw - 20px) 5vw 5vw;
+    padding: 5vw calc(10vw - 20px) 3vw 5vw;
 }
 
-.explanation-right{
+.explanation-right-text{
     color: var(--custom-gray-3);
     text-align: center;
-    font-size: 3.5vh;
-    border-right: 2px solid var(--custom-green);
-    padding-right: 20px;
+    font-size: 18px;
+    /* border-right: 2px solid var(--custom-green);
+    padding-right: 20px; */
+    font-family: 'Heebo', sans-serif;
+}
+
+.explanation-right-headlines{
+    text-align: center;
+    margin-bottom: 5px;
+    font-family: 'Assistant', sans-serif;
+    font-weight: bold;
+}
+
+.explanation-headline1{
+    color: var(--custom-green2);
+    font-size: 24px;
+}
+
+.explanation-headline2{
+    color: var(--custom-blue-3);
+    font-size: 22px;
+    margin-bottom: 15px;
 }
 
 .this-year{
@@ -24,7 +46,13 @@
 }
 
 .containFirstExplanation{
-    padding-top: 7vw;
+    padding-top: 2vw;
+}
+
+.backgroundFlower{
+    height: 5vh;
+    position: relative;
+    left: 1vw;
 }
 
 .containQuote{

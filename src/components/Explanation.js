@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { withNamespaces } from 'react-i18next'
-import '../styles/explanation.css'
+import '../styles/explanation.css';
+import Group268 from '../icons/Group268.png';
 
 class Explanation extends Component {
 
@@ -39,24 +40,38 @@ class Explanation extends Component {
 
                         </div>
                         :
-                        <div className='explanation-right'>
-                        <strong>"כל עוד מישהו זוכר אותנו, אנחנו חיים"</strong><br />
-                        (קרלוס רואיס סאפון) <br /><br />
+                        <div className='explanationTotal'>
+                            <div className='backgroundFlower'><img src={Group268} alt='flower' /></div>
+                            <div className='explanation-right'>
+                                <div className='explanation-right-headlines'>
+                                    <div className='explanation-headline1'>
+                                        <strong>"כל עוד מישהו זוכר אותנו, אנחנו חיים"</strong>
+                                    </div>
+                                    <div className='explanation-headline2'>
+                                        (קרלוס רואיס סאפון)
+                                    </div>
+                                </div>
+                                
+                                <div className='explanation-right-text'>
+                                    {/* <strong>"כל עוד מישהו זוכר אותנו, אנחנו חיים"</strong><br />
+                                    (קרלוס רואיס סאפון) <br /><br /> */}
 
-                        השנה האחרונה הייתה מורכבת, <br />
-                        שנה מלאה בחוסר ודאות, הרבה חיכוכים והרבה בדידות.<br />
-                        ביום הזיכרון אנחנו רוצים להיות ביחד, להתחבק, להתחבר ולהתחזק ביחד. <br />
-                        ולכן גם השנה - אנחנו מזמינים אתכם להתחבר איתנו. <br />
-                        להתחבר לאחים שלנו, לחברים שלנו, <br />
-                        לבני המשפחה שלנו ולצאת איתנו למסע של זיכרון, הנצחה ואחדות. <br />
-                        <br />
+                                    השנה האחרונה הייתה מורכבת, <br />
+                                    שנה מלאה בחוסר ודאות, הרבה חיכוכים והרבה בדידות.<br />
+                                    ביום הזיכרון אנחנו רוצים להיות ביחד, להתחבק, להתחבר ולהתחזק ביחד. <br />
+                                    ולכן גם השנה - אנחנו מזמינים אתכם להתחבר איתנו. <br />
+                                    להתחבר לאחים שלנו, לחברים שלנו, <br />
+                                    לבני המשפחה שלנו ולצאת איתנו למסע של זיכרון, הנצחה ואחדות. <br />
+                                    <br />
 
-                        עמותת "האחים שלנו" מחברת את ישראל והעולם ביום הזיכרון לחללי מערכות ישראל ונפגעי פעולות האיבה 2021 אל סיפורי הנופלים,<br />
-                        ביחד, ניזום ונשתתף במפגשי זיכרון וירטואליים.<br />
-                        אל הסיפורים שנשמעו, ואל אלה שעדיין לא.<br />
+                                    עמותת "האחים שלנו" מחברת את ישראל והעולם ביום הזיכרון לחללי מערכות ישראל ונפגעי פעולות האיבה 2021 אל סיפורי הנופלים,<br />
+                                    ביחד, ניזום ונשתתף במפגשי זיכרון וירטואליים.<br />
+                                    אל הסיפורים שנשמעו, ואל אלה שעדיין לא.<br />
 
-                            {/* השנה כולנו מתחברים וזוכרים.<br /> */}
-                            <p className = 'this-year'><strong>העמותה מחברת וזוכרת את כולם.</strong></p>
+                                    {/* השנה כולנו מתחברים וזוכרים.<br /> */}
+                                    <p className = 'this-year'><strong>העמותה מחברת וזוכרת את כולם.</strong></p>
+                                </div>
+                            </div>
 
                         </div>
                     :
@@ -81,11 +96,6 @@ class Explanation extends Component {
                         siblings,<br />
                         And in the same breath, create a national and
                         global movement of memory and commemoration.<br />
-
-
-
-
-
                         </div>
                         :
                         <div className='explanation-right'>
@@ -104,6 +114,7 @@ class Explanation extends Component {
                 }
 
             </div>
+
 
         );
     }

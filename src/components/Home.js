@@ -11,6 +11,7 @@ import ImagesCollage from './ImagesCollage'
 import Partners from './Partners'
 import Info from './Contact';
 import Footer from './Footer';
+import Rights from './Rights';
 
  const Home = (props) => {
 
@@ -47,6 +48,8 @@ import Footer from './Footer';
                 <Info t={props.t} />
 
                 <Footer t={props.t} />
+
+                <Rights t={props.t} />
 
             </div>
         );
