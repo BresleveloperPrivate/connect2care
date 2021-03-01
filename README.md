@@ -3,6 +3,7 @@
 * `npm install`
     * might also need `npm install node-sass`
 * install mysql\XAMMP
+* start Apache and MySql
 * new Database `ourBro`
 * use lates `dump.sql` (`ourbro.marches.sql`) file
 * update file `my.ini`, add after `[mysqld]` these 2 values
