@@ -54,10 +54,12 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [code, setCode] = useState('');
+    const [participantsCount, setParticipantsCount] = useState('1');
     const [errorMsg, setErrorMsg] = useState(null);
     const [loading, setLoading] = useState(false);
     const [readBylaw, setReadBylaw] = useState(false)
     const [openSuccess, setOpenSuccess] = useState(false);
+    const [isGroup, setIsGroup] = useState(false);
 
     // const readBylawRef = useRef();
 
@@ -104,12 +106,12 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
             }
         }
 
-        mailDetails.fallensText = fallens;
+       mailDetails.fallensText = fallens;
        mailDetails.date = meetingDate({t}).find(val=> val.data === mailDetails.date)?.option;
         const [response, error] = await Auth.superAuthFetch(`/api/meetings/AddPersonToMeeting/${meetingId}`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ name, email, phone, myCode: code, mailDetails })
+            body: JSON.stringify({ name, email, phone, myCode: code, mailDetails, participantsCount})
         });
 
         setLoading(false);
@@ -144,12 +146,14 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         setEmail('');
         setPhone('');
         setCode('');
+        setParticipantsCount('1');
+        setIsGroup(false);
         setReadBylaw(false);
         setOpenSuccess(true)
 
         // alert(LanguageStore.lang !== 'heb' ? 'You have successfully joined this meeting' : 'הצטרפת למפגש בהצלחה');
         setNumOfPeople(response.participantsNum);
-    }, [name, email, phone, code, readBylaw, meetingId]);
+    }, [name, email, phone, code, readBylaw, meetingId, participantsCount]);
 
     const setPhoneValue = (value) => {
         if (value.match(/[^0-9-+]/g) || value.length > 14) {
@@ -158,19 +162,30 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         setPhone(value)
     }
 
-    const inputs = useMemo(() =>
-        sendCode ? [
+    const setParticipantsValue = value => {
+        if (value.match(/[^0-9-+]/g) || value.length > 14) {
+            return
+        }
+        setParticipantsCount(value)
+    }
+
+    const inputs = useMemo(() => {
+        const inputList = [
             [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
             [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email (gmail)' : 'דואר אלקטרוני (gmail)'],
             [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
-            [code, setCode, LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות'],
+        ];
+        if (isGroup) {
+            inputList.push([participantsCount, setParticipantsValue, LanguageStore.lang !== 'heb' ? 'Number Of Participants' : 'מספר משתתפים']);
+        }
 
-        ] : [
-                [name, setName, LanguageStore.lang !== 'heb' ? 'Full name' : 'שם מלא'],
-                [email, setEmail, LanguageStore.lang !== 'heb' ? 'Email (gmail)' : 'דואר אלקטרוני (gmail)'],
-                [phone, setPhoneValue, LanguageStore.lang !== 'heb' ? 'Phone' : 'טלפון'],
+        if (sendCode) {
+            inputList.push([code, setCode, LanguageStore.lang !== 'heb' ? 'Code' : 'קוד הצטרפות']);
+        }
 
-            ], [name, email, phone, code, LanguageStore.lang]);
+        return inputList;
+    }
+    , [name, email, phone, code, LanguageStore.lang, isGroup, setParticipantsValue, participantsCount, sendCode]);
 
     return (
         <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
@@ -226,10 +241,18 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
                 <div style={{ width: '100%' }}>
                     <form>
+                        <div className="d-flex align-items-center" onClick={() => setIsGroup(!isGroup)} style={{color: 'white', fontSize: '1.5em', marginTop: '2vh'}}>
+                            <div>
+                                {isGroup
+                                    ?   <img src={checkboxOnWhite} />
+                                    :   <div style={{width: "24px", height: "24px", WebkitMaskSize: "24px 24px", background: "white", WebkitMaskImage: `Url(${checkboxOffWhite})`}}/>
+                                }
+                            </div>
+                            <div style={{marginRight: '10px'}}>{LanguageStore.lang !== 'heb' ? 'Are you a class ?' : 'האם אתם קבוצה ?'}</div>
+                        </div>
                         {inputs.map(([value, setValue, placeholder], index) => (
-
                             <div key={index}>
-                                {index === 3 &&
+                                {index === 4 &&
                                     <div className={LanguageStore.lang !== 'heb' ? 'codeExplanation tal' : 'codeExplanation tar'}>
                                         {LanguageStore.lang !== 'heb' ?
                                             'In order to join a private meeting, you must enter the code you received from the meeting host.'
@@ -239,7 +262,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                         }
                                     </div>
                                 }
-                                <input style={index === 2 ? { direction: "ltr", textAlign: LanguageStore.lang !== "heb" ? "left" : "right" } : {}} key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
+                                <input style={index === 3 || index === 4 ? { direction: "ltr", textAlign: LanguageStore.lang !== "heb" ? "left" : "right" } : {}} key={index} value={value} onChange={event => { setValue(event.target.value); setErrorMsg(null); }} placeholder={placeholder} type="text" className={input} />
                             </div>
                         ))}
                         <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '1.5em' }}>
