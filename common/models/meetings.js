@@ -9,7 +9,7 @@ const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
 const removePanelists = require('../../server/removePanelists.js');
 const { creatCsvFile } = require('download-csv');
-
+const { meetingDates } = require('../../server/common/dates');
 
 
 module.exports = function (meetings) {
@@ -42,7 +42,7 @@ module.exports = function (meetings) {
 
         if (filters.date) {
             params.push(filters.date)
-            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+            if (!meetingDates.includes(filters.date)) {
                 return cb({ error: 'date is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -575,7 +575,7 @@ module.exports = function (meetings) {
         let params = []
 
         if (filters.date) {
-            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+            if (!meetingDates.includes(filters.date)) {
                 return cb({ error: 'date is not valid' })
             }
 
@@ -740,16 +740,6 @@ module.exports = function (meetings) {
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, participantsCount, cb) => {
 
         (async () => {
-            const meetingDate = {
-                'יום שישי, כז בניסן, 09.04.2021': [9, 4, 2021],
-                'יום שבת, כח בניסן, 10.04.2021': [10, 4, 2021],
-                'יום ראשון, כט בניסן, 11.04.2021': [11, 4, 2021],
-                'יום שני, ל בניסן, 12.04.2021': [12, 4,2021],
-                'יום שלישי, א באייר, 13.04.2021': [13, 4, 2021],
-                'יום רביעי, ב באייר, 14.04.2021': [14, 4, 2021],
-                'יום חמישי, ג באייר, 15.04.2021': [15, 4, 2021],
-            }
-
             // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             // var xmlhttp = new XMLHttpRequest();
             // xmlhttp.open("GET", "https://stackoverflow.com/", false);
@@ -779,7 +769,7 @@ module.exports = function (meetings) {
             }
 
 
-            var date = meetingDate[meeting.date]
+            var date = meeting.date.split(' ').pop().split('.').map(Number);
             let threeHours = Number(String(dateStr).split(' ')[4].split(':')[0] + String(dateStr).split(' ')[4].split(':')[1])
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
@@ -1317,25 +1307,10 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            let start_time = null; //"2020-09-20T20:00:00"
-            switch (date) {
-                case 'יום רביעי, ה באייר, 29.04':
-                    start_time = "2020-04-30T00:59:00"
-                    break;
-                case 'יום שלישי, ד באייר, 28.04':
-                    start_time = "2020-04-29T00:59:00"
-                    break;
-                case 'יום שני, ג באייר, 27.04':
-                    start_time = "2020-04-28T00:59:00"
-                    break;
-                case 'יום ראשון, ב באייר, 26.04':
-                    start_time = "2020-04-27T00:59:00"
-                    break;
-                default:
-                    start_time = "2020-05-05T00:59:00"
-                    break;
-            }
-            // scheduleWebinar(async (url, error) => {
+            const dateMap = date.split(' ').pop().split('.');
+            const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
+            newDate.date += 1;
+            let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
             scheduleMeeting(async (url, error) => {
                 //Doesn't even run
                 console.log('Check Point')

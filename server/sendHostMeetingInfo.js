@@ -3,6 +3,7 @@
 const schedule = require('node-schedule');
 const { creatCsvFile } = require('download-csv');
 const sendEmail = require('./email');
+const { meetingDates } = require('./common/dates');
 
 module.exports = function (app) {
     const to = (promise) => {
@@ -20,32 +21,18 @@ module.exports = function (app) {
         rule.minute = 0;
         rule.second = 0;
         rule.tz = "Asia/Jerusalem";
-        if (hour == 16) {
-
+        if (hour === 16) {
             schedule.scheduleJob(rule, () => {
                 (async () => {
                     try {
-                        let day = new Date().getDay()
-                        let f_day = null
-                        console.log(day, typeof day)
-                        switch (day) {
-                            case 2:
-                                f_day = 'יום רביעי, ה באייר, 29.04'
-                                break;
-                            case 1:
-                                f_day = 'יום שלישי, ד באייר, 28.04'
-                                break;
-                            case 0:
-                                f_day = 'יום שני, ג באייר, 27.04'
-                                break;
-                            case 7:
-                                f_day = 'יום ראשון, ב באייר, 26.04'
-                                break;
-                            default:
-                                f_day = 'יום ראשון, ב באייר, 26.04'
-                                break;
-                        }
-                        const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: f_day }] }, include: ["people", "meetingOwner"] }))
+                        const today = new Date()
+                        const date = meetingDates.find((d) => {
+                            const dateMap = d.split(' ').pop().split('.').map(Number);
+                            return dateMap[0] === today.getDate()
+                                && dateMap[1] === today.getMonth()
+                                && dateMap[2] === today.getFullYear();
+                        })
+                        const [err, meetings] = await to(app.models.meetings.find({ where: { and: [{ and: [{ zoomId: { neq: null } }, { zoomId: { neq: '' } }] }, { approved: true }, { date: date }] }, include: ["people", "meetingOwner"] }))
 
                         if (meetings) {
                             meetings.forEach(meeting => {
