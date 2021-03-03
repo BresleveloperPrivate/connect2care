@@ -1,13 +1,20 @@
+/* @font-face {
+  font-family: "ArbelHagildaBold";
+  src: url('../fonts/ArbelHagildaBold.otf');
+} */
+
 .thanks{
-  background: var(--custom-green);
+  /* background: var(--custom-green); */
   width: 100vw;
   height: 10vh;
   position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding-right: 10vw;
-  font-size: 4vh;
-  color: white;
+  /* padding-right: 10vw; */
+  font-size: 40px;
+  color: var(--custom-blue-3);
+  font-family: 'ArbelHagildaBold', sans-serif;
 }
 
 .fg0{

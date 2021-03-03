@@ -132,14 +132,14 @@ class HowItWorks extends Component {
                         })}
 
                     </div>
-
+{/* 
                     <div className='bottomLabel'>
                         <div className='label' style={{ height: '5vw', width: '3.6vw' }}>
                             <img src={candle} />
 
                         </div>
 
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

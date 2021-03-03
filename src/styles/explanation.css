@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Alef:wght@700&family=Assistant:wght@800&display=swap');
+
+@font-face {
+    font-family: "ArbelHagildaBold";
+    src: url('../fonts/ArbelHagildaBold.otf');
+}
+
+@font-face {
+    font-family: "ArbelHagildaMedium";
+    src: url('../fonts/ArbelHagildaMedium.otf');
+  }
+  
+  @font-face {
+    font-family: "ArbelHagildaRegular";
+    src: url('../fonts/ArbelHagildaRegular.otf');
+  }
 
 .containExplanation{
     width: 100vw;
@@ -18,18 +32,18 @@
 .explanation-right-headlines{
     text-align: center;
     margin-bottom: 5px;
-    font-family: 'Assistant', sans-serif;
+    font-family: 'ArbelHagildaBold', sans-serif;
     font-weight: bold;
 }
 
 .explanation-headline1{
     color: var(--custom-green2);
-    font-size: 24px;
+    font-size: 38px;
 }
 
 .explanation-headline2{
     color: var(--custom-blue-3);
-    font-size: 22px;
+    font-size: 34px;
     margin-bottom: 15px;
 }
 

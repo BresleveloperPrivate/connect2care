@@ -47,16 +47,16 @@
 }
 
 .contactHeadLine{
-    font: Bold 35px Assistant;
+    font: 32px 'ArbelHagildaBold', sans-serif;
     letter-spacing: 0;
     color: #0A2D63;
-    margin: 12vh 6vw 2vh;
+    padding-top: 6vh;
 }
 
 .contactSecondSentence{
-    font: normal 28px Assistant;
-    letter-spacing: 0.5;
-    margin: 0 6vw 4vh;
+    font: 32px 'ArbelHagildaBold', sans-serif;
+    letter-spacing: 0;
+    margin: 0 0 4vh;
     color: #19A099;
 }
 

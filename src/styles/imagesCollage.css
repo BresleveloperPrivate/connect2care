@@ -13,7 +13,8 @@
     height: fit-content;
     min-width: fit-content;
     padding: 3vw;
-    border: 1px solid white;
+    border: 4px solid white;
+    border-radius: 50px;
     position: relative;
 }
 
@@ -43,11 +44,12 @@
 
 .label{
     color: white;
-    font-size: 2.5vw;
+    font-size: 40px;
     background-color: var(--custom-dark-blue);
     padding: 0px 1vw;
-    font-weight: 300;
+    font-family: 'ArbelHagildaBold', sans-serif;
 }
+
 .hoverImage{
     border: 1px solid rgba(255, 255, 255, 0);
     transition: border 0.5s ease;
