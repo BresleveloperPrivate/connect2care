@@ -45,7 +45,7 @@ import Rights from './Rights';
 
                 <Partners t={props.t} />
 
-                <Info t={props.t} />
+                {/* <Info t={props.t} /> */}
 
                 <Footer t={props.t} />
 

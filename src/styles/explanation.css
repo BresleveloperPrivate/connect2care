@@ -49,6 +49,7 @@
 
 .this-year{
     color: var(--custom-blue-3);
+    margin-top: 2vh;
 }
 
 .explanation-left{
@@ -60,14 +61,22 @@
 }
 
 .containFirstExplanation{
+    margin: 4vh 0 0;
     padding-top: 2vw;
+    background: url('../icons/Group268.png');
+    background-color: #ffffff; 
+    background-position: 85%;
+    background-repeat: no-repeat; 
+    background-size: contain;
 }
 
-.backgroundFlower{
-    height: 5vh;
+/* .backgroundFlower{
+    height: 645px;
+    width: 505px;
     position: relative;
     left: 1vw;
-}
+    z-index: -1;
+} */
 
 .containQuote{
     width: 100vw;

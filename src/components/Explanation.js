@@ -41,7 +41,7 @@ class Explanation extends Component {
                         </div>
                         :
                         <div className='explanationTotal'>
-                            <div className='backgroundFlower'><img src={Group268} alt='flower' /></div>
+                            {/* <div className='backgroundFlower'><img src={Group268} alt='flower' /></div> */}
                             <div className='explanation-right'>
                                 <div className='explanation-right-headlines'>
                                     <div className='explanation-headline1'>

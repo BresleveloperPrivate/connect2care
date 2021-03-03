@@ -107,15 +107,30 @@
         bottom: -3vw;
         height: 6vw;
         display: flex;
-        width: 100vw;
-        padding: 0 10vw;
+        justify-content: center;
+        position: relative;
+        top: -2vh;
     }
     
+    .leftLine{
+        border-top: 4px var(--custom-green2) solid;
+        width: calc(20%);
+        align-self: left;
+        display: inline;
+    }
+
+    .rightLine{
+        border-top: 4px var(--custom-blue-3) solid;
+        width: calc(20%);
+        align-self: right;
+        display: inline;
+    }
+
+    .buttonsSection{
+        display: inline-flex;
+    }
 
 }
-
-
-
 
 @media screen and (min-width: 801px){
 

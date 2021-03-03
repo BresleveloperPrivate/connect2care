@@ -32,9 +32,9 @@ class Partners extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'thanks fdrr' : 'thanks'}>
                     {this.props.t('partners')}
-                    <div className='cover'>
+                    {/* <div className='cover'>
                         <div className='arrow-bottom-green'></div>
-                    </div>
+                    </div> */}
 
                 </div>
 
