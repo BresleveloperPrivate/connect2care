@@ -77,10 +77,10 @@ class App extends Component {
                                 {/* <Route path="/my-meetings" exact render={props => <MyMeetings t={this.props.t} {...props} />} /> */}
                                 <Route path="/create-meeting" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
                                 <Route path="/edit-meeting/:id" exact render={props => <CreateMeeting t={this.props.t} {...props} />} />
-                                <Route path="/amisraelhi4lomefahedmidercharoka" render={(props) => <DashLogin t={this.props.t} {...props} />} />
+                                <Route path="/admin" render={(props) => <DashLogin t={this.props.t} {...props} />} />
                                 <Route path="/info" render={props => <Info t={this.props.t} {...props} />} />
                                 <Route path="/contact" render={props => <Contact t={this.props.t} {...props} />} />
-                                <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/amisraelhi4lomefahedmidercharoka' />}
+                                <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/admin' />}
                                     component={(props) => <DashboardMain t={this.props.t} {...props} />}
                                 />
                                 <PrivateRoute path="/ngsgjnsrjgtesg/edit-meeting/:id" compName='MeetingInfo'

@@ -58,7 +58,7 @@ const CreateMeeting = (props) => {
         { option: '00', data: '00' },
         { option: '30', data: '30' }
     ]
-
+    const meetingDates = meetingDate(props)?.slice(1);
 
     useEffect(() => {
 
@@ -280,8 +280,8 @@ const CreateMeeting = (props) => {
                                 <div className='containDateInput position-relative'>
                                     {props.CreateMeetingStore.meetingDetails.date && <div className="textAboveInput">{props.t("date")}</div>}
                                     <Select
-                                        selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date === "יום שני, ג באייר, 27.04" ? props.t("monday") : props.CreateMeetingStore.meetingDetails.date : props.t("date")}
-                                        arr={meetingDate(props)?.slice(1)}
+                                        selectTextDefault={props.CreateMeetingStore.meetingDetails.date === '' ? props.t("date") : props.CreateMeetingStore.meetingDetails.date}
+                                        arr={meetingDates}
                                         width='100%'
                                         // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}

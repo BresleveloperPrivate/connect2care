@@ -9,7 +9,7 @@ const ValidateRules = require('../../server/lib/validateRules.js');
 const addPanelists = require('../../server/addPanelists.js');
 const removePanelists = require('../../server/removePanelists.js');
 const { creatCsvFile } = require('download-csv');
-
+const { meetingDates } = require('../../server/common/dates');
 
 
 module.exports = function (meetings) {
@@ -42,7 +42,7 @@ module.exports = function (meetings) {
 
         if (filters.date) {
             params.push(filters.date)
-            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+            if (!meetingDates.includes(filters.date)) {
                 return cb({ error: 'date is not valid' })
             }
             sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
@@ -575,7 +575,7 @@ module.exports = function (meetings) {
         let params = []
 
         if (filters.date) {
-            if (filters.date !== 'יום ראשון, ב באייר, 26.04' && filters.date !== 'יום שני, ג באייר, 27.04' && filters.date !== 'יום שלישי, ד באייר, 28.04' && filters.date !== 'יום רביעי, ה באייר, 29.04') {
+            if (!meetingDates.includes(filters.date)) {
                 return cb({ error: 'date is not valid' })
             }
 
@@ -737,18 +737,9 @@ module.exports = function (meetings) {
         http: { path: "/GetMeetingInfo/:meetingId", verb: "get" }
     });
 
-    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, cb) => {
-
-
+    meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, participantsCount, cb) => {
 
         (async () => {
-            const meetingDate = {
-                'יום ראשון, ב באייר, 26.04': [26, 4, 2020],
-                'יום שני, ג באייר, 27.04': [27, 4, 2020],
-                'יום שלישי, ד באייר, 28.04': [28, 4, 2020],
-                'יום רביעי, ה באייר, 29.04': [29, 4, 2020]
-            }
-
             // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             // var xmlhttp = new XMLHttpRequest();
             // xmlhttp.open("GET", "https://stackoverflow.com/", false);
@@ -767,6 +758,9 @@ module.exports = function (meetings) {
 
             if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
+            const newParticipantsCount = participants_num
+                ? Number(participants_num) + Number(participantsCount)
+                : Number(participantsCount);
 
             if (!!!isOpen) {
                 if (String(code) !== String(myCode)) {
@@ -775,7 +769,7 @@ module.exports = function (meetings) {
             }
 
 
-            var date = meetingDate[meeting.date]
+            var date = meeting.date.split(' ').pop().split('.').map(Number);
             let threeHours = Number(String(dateStr).split(' ')[4].split(':')[0] + String(dateStr).split(' ')[4].split(':')[1])
             let meetingTime = Number(meeting.time.replace(':', ''))
             let currentTime = threeHours + 300
@@ -798,7 +792,7 @@ module.exports = function (meetings) {
                 return cb({ msg: 'עבר זמן המפגש' }, null)
             }
 
-            if (max_participants && participants_num && max_participants <= participants_num) { cb({ msg: "המפגש מלא" }, null); return; }
+            if (max_participants && max_participants < newParticipantsCount) { cb({ msg: "המפגש מלא" }, null); return; }
             let person;
             let [err1, user0] = await to(people.findOne({ where: { email: email } }))
             if (err1) {
@@ -918,16 +912,13 @@ module.exports = function (meetings) {
                 // });
             }
 
-
-            const participantsNum = participants_num ? participants_num + 1 : 1;
-
-            let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: participantsNum }));
+            let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: newParticipantsCount }));
             if (err4) {
                 console.log(err4);
                 return cb(err4, null);
             }
 
-            return cb(null, { participantsNum });
+            return cb(null, { participantsNum: newParticipantsCount });
         })();
     }
 
@@ -939,7 +930,8 @@ module.exports = function (meetings) {
             { arg: "email", type: "string", required: true },
             { arg: "phone", type: "string", required: true },
             { arg: "myCode", type: "string", required: false },
-            { arg: 'mailDetails', type: 'object', required: true }
+            { arg: 'mailDetails', type: 'object', required: true },
+            { arg: 'participantsCount', type: 'string', required: true }
         ],
         returns: { type: "object", root: true },
         http: { path: "/AddPersonToMeeting/:meetingId", verb: "post" }
@@ -1315,25 +1307,10 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            let start_time = null; //"2020-09-20T20:00:00"
-            switch (date) {
-                case 'יום רביעי, ה באייר, 29.04':
-                    start_time = "2020-04-30T00:59:00"
-                    break;
-                case 'יום שלישי, ד באייר, 28.04':
-                    start_time = "2020-04-29T00:59:00"
-                    break;
-                case 'יום שני, ג באייר, 27.04':
-                    start_time = "2020-04-28T00:59:00"
-                    break;
-                case 'יום ראשון, ב באייר, 26.04':
-                    start_time = "2020-04-27T00:59:00"
-                    break;
-                default:
-                    start_time = "2020-05-05T00:59:00"
-                    break;
-            }
-            // scheduleWebinar(async (url, error) => {
+            const dateMap = date.split(' ').pop().split('.');
+            const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
+            newDate.date += 1;
+            let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
             scheduleMeeting(async (url, error) => {
                 //Doesn't even run
                 console.log('Check Point')

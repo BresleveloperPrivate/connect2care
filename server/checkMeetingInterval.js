@@ -4,6 +4,7 @@ const scheduleMeeting = require('./scheduleMeeting.js');
 const sendEmail = require('./email');
 const schedule = require('node-schedule');
 const createZoomUser = require('./createZoomUser.js');
+const { meetingDates } = require('./common/dates');
 
 module.exports = function (app) {
     const to = (promise) => {
@@ -41,24 +42,10 @@ module.exports = function (app) {
                                 let jsdata = JSON.parse(JSON.stringify(meeting))
                                 if (jsdata && jsdata.meetingOwner.email && jsdata.date) {
                                     let email = jsdata.meetingOwner.email.replace("@", "+c2c@");
-                                    let start_time = null; //"2020-09-20T20:00:00"
-                                    switch (jsdata.date) {
-                                        case 'יום רביעי, ה באייר, 29.04':
-                                            start_time = "2020-04-30T00:59:00"
-                                            break;
-                                        case 'יום שלישי, ד באייר, 28.04':
-                                            start_time = "2020-04-29T00:59:00"
-                                            break;
-                                        case 'יום שני, ג באייר, 27.04':
-                                            start_time = "2020-04-28T00:59:00"
-                                            break;
-                                        case 'יום ראשון, ב באייר, 26.04':
-                                            start_time = "2020-04-27T00:59:00"
-                                            break;
-                                        default:
-                                            start_time = "2020-05-05T00:59:00"
-                                            break;
-                                    }
+                                    const dateMap = jsdata.date.split(' ').pop().split('.');
+                                    const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
+                                    newDate.date += 1;
+                                    let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
                                     console.log(count)
                                     console.log("xxxxxxx")
                                     // scheduleWebinar(async (url, error) => {

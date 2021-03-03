@@ -279,7 +279,6 @@ module.exports = function (User) {
       return fn.promise;
     }
 
-
     self.findOne({ where: query }, function (err, user) {
       var defaultError = new Error(g.f('login failed'));
       defaultError.statusCode = 401;
