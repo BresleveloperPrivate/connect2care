@@ -79,6 +79,21 @@
                 "dataScale": null,
                 "nullable": "Y"
             }
+        },
+        "serveUnit": {
+            "type": "String",
+            "required": false,
+            "length": 512,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "serveUnit",
+                "dataType": "varchar",
+                "dataLength": 50,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "Y"
+            }
         }
     },
     "acls": [

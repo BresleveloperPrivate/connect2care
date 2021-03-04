@@ -266,9 +266,9 @@ module.exports = function (meetings) {
                 for (let fallen of data.fallens) {
 
                     let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
+                        fallen: true, meeting: true, relationship: true, serveUnit: true,
                     };
-                    let valid1 = ValidateTools.runValidate({ fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative }, ValidateRules.fallens_meetings, whitelist1);
+                    let valid1 = ValidateTools.runValidate({ fallen: fallen.id, meeting: meeting.id, relationship: fallen.relative, serveUnit: fallen.serveUnit }, ValidateRules.fallens_meetings, whitelist1);
                     if (!valid1.success || valid1.errors) {
                         return cb(valid1.errors, null);
                     }
@@ -409,15 +409,15 @@ module.exports = function (meetings) {
                 const fallens_meetings = meetings.app.models.fallens_meetings
                 for (let i of data.fallensToChange) {
                     let whitelist1 = {
-                        fallen: true, meeting: true, relationship: true
+                        fallen: true, meeting: true, relationship: true, serveUnit: true,
                     };
-                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship }, ValidateRules.fallens_meetings, whitelist1);
+                    let valid1 = ValidateTools.runValidate({ fallen: i.fallen, meeting: id, relationship: i.relationship, serveUnit: i.serveUnit }, ValidateRules.fallens_meetings, whitelist1);
                     if (!valid1.success || valid1.errors) {
 
                         return cb(valid1.errors, null);
                     }
 
-                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
+                    fallens_meetings.dataSource.connector.query(`UPDATE fallens_meetings SET relationship="${i.relationship}", serveUnit="${i.serveUnit}" WHERE meeting=${id} and fallen=${i.fallen}`, (err3, res1) => {
                         if (err3) {
                             console.log("err3", err3)
                             return cb(err3)
@@ -1053,14 +1053,16 @@ module.exports = function (meetings) {
     meetings.approveMeeting = (email, id, nameOwner, cb) => {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
-            let [err2, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
-            // console.log("res", res, "email", email)
-            if (err2) {
-                console.log("err2", err2)
-                return cb(err2, false)
+            let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            if (err1) {
+                console.log("err1", err1)
+                return cb(err1, false)
             }
             let code = res.code ? res.language !== 'עברית' ? `The code for online sign-up is: ${res.code}` : `קוד המפגש להרשמה באתר: ${res.code}` : ''
-            createZoomUser(newEmail, nameOwner, (b) => { })
+            const [err2] = await createZoomUser(newEmail, nameOwner);
+            if (err2) {
+                return cb(err2, false)
+            }
             let sendOptions = {}
             if (res.language !== 'עברית' && res.language) {
                 sendOptions = {
@@ -1289,9 +1291,9 @@ module.exports = function (meetings) {
         (async () => {
             let newEmail = email.replace("@", "+c2c@");
 
-            createZoomUser(newEmail, nameOwner, (b) => { })
+            const [err] = await createZoomUser(newEmail, nameOwner)
 
-            return cb(null, true)
+            return cb(err, !err);
         })()
     }
 
@@ -1312,20 +1314,19 @@ module.exports = function (meetings) {
             newDate.date += 1;
             let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
             scheduleMeeting(async (url, error) => {
-                //Doesn't even run
-                console.log('Check Point')
-                // if (error) { return cb(null, '') }
+                if (error) {
+                    return cb(error);
+                }
                 if (url && url !== undefined) {
                     // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
                     let [err, res] = await to(meetings.upsertWithWhere({ id: meetingId }, { zoomId: url }));
                     if (err) {
                         console.log(err)
-                        return cb(null, '')
+                        return cb(err)
                     }
                 }
                 return cb(null, url)
             }, newEmail, start_time)
-
         })()
     }
 
@@ -1335,9 +1336,8 @@ module.exports = function (meetings) {
             { arg: 'email', type: 'string', required: true },
             { arg: 'date', type: 'string', required: true },
             { arg: 'meetingId', type: 'number', required: true },
-
         ],
-        returns: { arg: 'res', type: 'string', root: true }
+        returns: { arg: 'res', type: 'object', root: true }
     })
 
     meetings.getParticipants = (id, cb) => {

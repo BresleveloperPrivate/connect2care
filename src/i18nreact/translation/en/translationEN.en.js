@@ -31,7 +31,7 @@ const translationEN = {
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "The number of participants must be more than 10",
     "maximumNumberOfParticipantsMustBeLessThan500Participants": "The number of participants must be less than 500",
     "createMeeting": "Create meeting",
-    "whatUnitDidYouServe": "What unit did you Serve?",
+    "whatUnitDidFallenServe": "In what unit did the fallen serve?",
     "wouldYouLikeMilitaryAgentToJoinYou": "Would you like a military agent to join you?",
     "wantToHelpUsKeepRemembering": "Want to help us keep remembering?",
     "toDonateToTheNonprofit": "Donate to our nonprofit",
