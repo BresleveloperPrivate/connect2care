@@ -6,10 +6,10 @@
   "msql": {
     "host": "localhost",
     "port": 3306,
-    "database": "ourbrothersdb.mysql.database.azure.com",
-    "password": process.env.DBPass,
+    "database": "ourBro",
+    "password": "z10mz10m",
     "name": "msql",
-    "user": process.env.DBUser,
+    "user": "ourBroDev",
     "connector": "mysql",
     "connectTimeout": 20000,
     "acquireTimeout": 20000
