@@ -137,6 +137,10 @@ module.exports = {
             type: "string",
             length: { maximum: 100 }
         },
+        serveUnit: {
+            type: "string",
+            length: { maximum: 512 }
+        },
     },
 
     // RecordsPermissions: {

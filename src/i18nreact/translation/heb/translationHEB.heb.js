@@ -31,7 +31,7 @@ const translationHEB = {
     "maximumNumberOfParticipantsMustBe10ParticipantsOrMore": "מספר המשתתפים חייב להיות יותר מ-10",
     "maximumNumberOfParticipantsMustBeLessThan500Participants": "מספר המשתתפים חייב להיות פחות מ-500",
     "wouldYouLikeMilitaryAgentToJoinYou": "האם תרצה שיצטרף אליך נציג צבאי?",
-    "whatUnitDidYouServe": "באיזה יחידה שירתת?",
+    "whatUnitDidFallenServe": "באיזו יחידה שירת החלל?",
     "createMeeting": "צור מפגש",
 
     "wantToHelpUsKeepRemembering": "רוצה לעזור לנו להמשיך לזכור?",

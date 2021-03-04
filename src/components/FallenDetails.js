@@ -147,11 +147,14 @@ const FallenDetails = (props) => {
                             </div>
                             <div style={{ marginRight: "1vh" }}>{props.t("wouldYouLikeMilitaryAgentToJoinYou")}</div>
                         </div>
-                        <input type="text" className='inputStyle' disabled={!currentFallen.armyAgentReq}
-                            style={{ width: "95%", marginBottom: CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 ? "2vh" : "4vh" }}
-                            value={currentFallen.serveUnit}
-                            onChange={e => CreateMeetingStore.setServeUnit(e, props.index)}
-                            autoComplete="off" placeholder={props.t("whatUnitDidYouServe")} />
+                        <div style={{ position: "relative", marginTop: "20px" }}>
+                            {currentFallen.serveUnit && <div className="textAboveInput">שם היחידה בה שירת החלל</div>}
+                            <input type="text" className='inputStyle' disabled={!currentFallen.armyAgentReq}
+                                style={{ width: "95%", marginBottom: CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 ? "2vh" : "4vh" }}
+                                value={currentFallen.serveUnit}
+                                onChange={e => CreateMeetingStore.setServeUnit(e, props.index)}
+                                autoComplete="off" placeholder={props.t("whatUnitDidFallenServe")} />
+                        </div>
                     </>
                 }
             </div>

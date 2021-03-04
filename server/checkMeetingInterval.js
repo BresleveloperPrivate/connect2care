@@ -1,10 +1,5 @@
-'use strict';
-// const scheduleWebinar = require('./scheduleWebinar.js');
 const scheduleMeeting = require('./scheduleMeeting.js');
-const sendEmail = require('./email');
 const schedule = require('node-schedule');
-const createZoomUser = require('./createZoomUser.js');
-const { meetingDates } = require('./common/dates');
 
 module.exports = function (app) {
     const to = (promise) => {

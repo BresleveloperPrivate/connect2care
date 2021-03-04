@@ -284,6 +284,8 @@ class CreateMeetingStore {
                 fallen[key] = i.fallens[key]
             }
             fallen.relationship = i.relationship
+            fallen.serveUnit = i.serveUnit
+            fallen.armyAgentReq = !!i.serveUnit
             object.fallens.push(fallen)
         }
         delete object.fallens_meetings
@@ -319,6 +321,8 @@ class CreateMeetingStore {
                 let obj = {}
                 obj.id = object.fallens[i].id
                 obj.relative = object.fallens[i].relationship
+                obj.serveUnit = object.fallens[i].serveUnit
+                obj.armyAgentReq = !!object.fallens[i].serveUnit
                 if (!this.meetingDetailsOriginal.otherRelationship) {
                     this.meetingDetailsOriginal.otherRelationship = []
                 }
@@ -399,14 +403,13 @@ class CreateMeetingStore {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, meetingId: Number(this.meetingId), date })
             }, true);
-        if (success.length === 0) {
+        if (err) {
             this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')
         }
         if (success) {
             this.meetingDetailsOriginal.zoomId = success;
             this.meetingDetails.zoomId = success;
         }
-        console.log(success, err)
     }
 
     newZoom = async (email, nameOwner) => {
