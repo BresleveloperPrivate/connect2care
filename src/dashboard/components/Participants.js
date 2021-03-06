@@ -35,7 +35,7 @@ const Participants = (props) => {
                 }, true);
             if (err) {
                 console.log(err)
-                // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+                // this.setError('משהו השתבש, נסה שנית מאוחר יותר');
             }
             if (success) {
                 setCanChangePanelist(success.pop())
@@ -69,7 +69,7 @@ const Participants = (props) => {
                 }, true);
             if (err) {
                 console.log(err)
-                // this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+                // this.setError('משהו השתבש, נסה שנית מאוחר יותר');
             }
             if (success) {
                 setPanelistInArr(participant.id)
