@@ -162,7 +162,7 @@ const ComputerList = (props) => {
                                     <div className='leftPartOfMeetingCard'>
                                         <div className='participants'>
                                             <img width='100%' height='100%' src={participants} />
-                                            <div className='numberOfParticipants'>{meeting.isOpen ? meeting.participants_num : meeting.max_participants}</div>
+                                            <div className='numberOfParticipants'>{meeting.participants_num}</div>
                                         </div>
                                         <div className={!meeting.isOpen || meeting.participants_num >= meeting.max_participants ? 'meetingIsCloseBtn' : 'joinMeetingBtn grow'}>
                                             {!meeting.isOpen || meeting.participants_num >= meeting.max_participants ?

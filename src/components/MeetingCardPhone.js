@@ -41,7 +41,7 @@ const PhoneCard = (props) => {
                 <div className='meetingCardContent'>
                 <div className={props.LanguageStore.lang !== 'heb' ? 'participants participants-right' : 'participants participants-left'}>
                     <img width='100%' height='100%' src={participants} />
-                    <div className='numberOfParticipants'>{props.meeting.isOpen ? props.meeting.participants_num : props.meeting.max_participants}</div>
+                    <div className='numberOfParticipants'>{props.meeting.participants_num}</div>
                 </div>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetingName tal' : 'meetingName tar' }>
                         {props.meeting.name}

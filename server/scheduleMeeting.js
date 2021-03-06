@@ -57,7 +57,7 @@ const scheduleMeeting = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             "agenda": "Connect 2 Care Meeting",
             "settings": {
                 "host_video": true,         // Start video when the host joins the meeting.
-                "participant_video": true,  // Start video when participants join the meeting.
+                "participant_video": false,  // Start video when participants join the meeting.
                 "join_before_host": false,  // Allow participants to join the meeting before the host starts the meeting.
                 "mute_upon_entry": true,    // Mute participants upon entry.
                 "approval_type": 0,         // 0 - registration + Automatically approved. 1 - registration + Manually approve. 2 - No registration required (default)
