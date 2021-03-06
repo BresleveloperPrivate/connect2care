@@ -126,7 +126,7 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log();
       }
 
-      console.log(chalk.cyan('Starting server at port'+port+'\n'));
+      console.log(chalk.cyan('Starting server at port '+port+'\n'));
      // openBrowser(urls.localUrlForBrowser);
     });
 
