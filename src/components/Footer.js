@@ -5,7 +5,8 @@ import logo from "../icons/logo.svg";
 import email from "../icons/email.svg";
 import facebook from "../icons/facebook.svg";
 import whatsapp from "../icons/whatsapp.svg";
-import instagram from "../icons/instagram.svg";
+import instagram from "../icons/CombinedShape.svg";
+import youtube from '../icons/youtube.svg';
 // import instagram from '../icons/instagram.svg';
 
 const Footer = (props) => {
@@ -53,32 +54,40 @@ const Footer = (props) => {
         <div className="footer4 footer-section">
           <div className="footer-headline">פרטי התקשרות</div>
           <div className="footer-links">
-            <div>טלפון: 058-409-4624</div>
-            <div>אימייל: info@ourbrothers.org</div>
+            <div>טלפון:<br />058-409-4624</div>
+            <div>אימייל:<br />info@ourbrothers.org</div>
             <div className="icons">
-              <Link to="/" target="_blank" rel="noopener noreferrer">
+
+              <a href={'https://www.facebook.com/ourbrotherss'} target="_blank" rel="noopener noreferrer">
                 <div>
                   <img src={facebook} alt="facebook" className="icon" />
                 </div>
-              </Link>
-              <Link to="/" target="_blank" rel="noopener noreferrer">
+              </a>
+
+              {/* <a href={'https://www.youtube.com/channel/UCgKTy9WBTcb2Udm0tqwIzAg'} target="_blank" rel="noopener noreferrer">
                 <div>
                   <img src={email} alt="email" className="icon" />
                 </div>
-              </Link>
-              <Link to="/" target="_blank" rel="noopener noreferrer">
-                <div>{/* <img src={} alt='youtube' className='icon' /> */}</div>
-              </Link>
-              <Link to="/" target="_blank" rel="noopener noreferrer">
+              </a> */}
+
+              <a href={'https://www.youtube.com/channel/UCgKTy9WBTcb2Udm0tqwIzAg'} target="_blank" rel="noopener noreferrer">
+                <div>
+                  <img src={youtube} alt='youtube' className='youtube icon' />
+                  </div>
+              </a>
+                
+              {/* <a href={'https://www.youtube.com/channel/UCgKTy9WBTcb2Udm0tqwIzAg'} target="_blank" rel="noopener noreferrer">
                 <div>
                   <img src={whatsapp} alt="whatsapp" className="icon" />
                 </div>
-              </Link>
-              <Link to="/" target="_blank" rel="noopener noreferrer">
+              </a> */}
+
+              <a href={'https://www.instagram.com/ourbrothers2021/'} target="_blank" rel="noopener noreferrer">
                 <div>
                   <img src={instagram} alt="instagram" className="icon" />
                 </div>
-              </Link>
+              </a>
+
             </div>
           </div>
         </div>

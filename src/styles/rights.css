@@ -4,3 +4,10 @@
   font-size: 14px;
   color: var(--custom-gray-3);
 }
+
+@media screen and (max-width: 550px){
+  .rights{
+    font-size: 12px;
+    margin: 10px 0;
+  }
+}

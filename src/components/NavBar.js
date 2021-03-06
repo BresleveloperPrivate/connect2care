@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom';
 // import '../styles/animations.scss'
 // import Language from './Language';
 import Lng from './Lng';
+
 import logo10 from '../icons/logo10.png'
 import hilma from '../icons/hilmasquare.png'
 import matnas from '../icons/logo11.png'
@@ -86,6 +87,8 @@ class NavBar extends Component {
                             this.props.history.replace('/')
                         }} alt="alt" src={c2c} height='120%'/>
                     </div> : null}
+
+                    
                     {this.options.map((value, index) => {
                         return (
                             <div key={index}
@@ -102,29 +105,32 @@ class NavBar extends Component {
                         )
                     })}
 
-                    <div className='optionInNavbar lngNB pointer'>
-                        <Lng changeLanguage={this.changelng}/>
-                    </div>
-
                     <div style={{flexGrow: 1}}></div>
 
-
+                    {/* <div className='containIconNavbar'>
+                        <img onClick={() => {
+                            window.open('https://www.hilma.tech/')
+                        }} alt="alt" src={hilma} height='60%'/>
+                    </div> */}
+                    
                     <div className='navbarLeft'>
-                        {/* <div className='containIconNavbar'>
-                            <img onClick={() => {
-                                window.open('https://www.hilma.tech/')
-                            }} alt="alt" src={hilma} height='60%'/>
-                        </div> */}
 
+                        <div className='optionInNavbar lngNB pointer'>
+                        <Lng changeLanguage={this.changelng}/>
+                        </div>
 
-                        {this.state.width <= 900 && this.state.height <= 1200 &&
-                        <div className='containIconNavbar' style={{alignItems: 'center'}}>
-                            <img onClick={() => {
-                                this.props.history.replace('/')
-                            }} alt="alt" src={c2c} height='135%'/>
-                        </div>}
+                        <div className='ourBrothersLink'>
+                            <a href='https://ourbrothers.co.il/' target='_blank' rel='noopener noreferrer'>האחים שלנו</a>
+                        </div>
 
                     </div>
+
+                    {this.state.width <= 900 && this.state.height <= 1200 &&
+                    <div className='containIconNavbar' style={{alignItems: 'center'}}>
+                        <img onClick={() => {
+                            this.props.history.replace('/')
+                        }} alt="alt" src={c2c} height='135%'/>
+                    </div>}
                     
 
                     {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}

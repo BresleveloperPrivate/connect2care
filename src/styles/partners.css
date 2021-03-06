@@ -15,6 +15,7 @@
   font-size: 40px;
   color: var(--custom-blue-3);
   font-family: 'ArbelHagildaBold', sans-serif;
+  margin-top: 2vh;
 }
 
 .fg0{
@@ -45,7 +46,7 @@
 
 .containPartners{
   width: 100vw;
-  padding: 5vw 4vw 4vw 4vw;
+  padding: 3vh 4vw;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -99,14 +100,14 @@
 
 @media screen and (max-width: 550px){
   .thanks{
-    background: var(--custom-green);
+    /* background: var(--custom-green); */
     width: 100vw;
     height: 5vh;
     position: relative;
     display: flex;
     align-items: center;
     padding-right: 10vw;
-    font-size: 2vh;
+    font-size: 3vh;
   }
 
   .partner{

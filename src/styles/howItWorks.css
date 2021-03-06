@@ -191,7 +191,7 @@
     
     .levels{
         border-radius: 0px;
-        background-color: var(--custom-green);
+        /* background-color: var(--custom-green); */
         width: 100%;
         height: fit-content;
         padding-bottom: 3vh;
@@ -235,7 +235,7 @@
 
     .arrow-left-blue {
         position: absolute;
-        background: var(--custom-green);
+        /* background: var(--custom-gray-4); */
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
         border-radius: 10px;        
@@ -272,4 +272,60 @@
         font-size: 8vw;
     }
 
+    .step{
+        font-size: 12px;
+        word-wrap: break-word;
+    }
+
+    .step img{
+        height: 40px;
+        width: 40px;
+    }
+
   }
+
+  @media screen and (min-width: 550px) and (max-width: 900px){
+    .step{
+        font-size: 14px;
+    }
+
+    .howItWorksOption{
+        font-size: 16px;
+    }
+
+    .step img{
+        height: 30px;
+        width: 30px;
+    }
+
+    .result{
+        height: 350px;
+    }
+
+    .levels{
+        height: 350px;
+    }
+
+    .remember{
+        font-size: 22px;
+    }
+
+    .howItWorksTitle{
+        margin-bottom: 50px;
+    }
+
+    .howItWorks{
+        margin-bottom: 30px;
+    }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1100px){
+
+    .step{
+        font-size: 18px;
+    }
+
+    .howItWorksOption{
+        font-size: 24px;
+    }
+}
