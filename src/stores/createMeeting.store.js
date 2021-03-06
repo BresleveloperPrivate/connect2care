@@ -422,10 +422,10 @@ class CreateMeetingStore {
                 body: JSON.stringify({ email, nameOwner })
             }, true);
         if (err) {
-            this.setError = 'משהו השתבש, נסה שנית מאוחר יותר'
+            this.setError('משהו השתבש, נסה שנית מאוחר יותר');
         }
         if (success) {
-            this.setError = 'ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום'
+            this.setError('ישלח מייל בדקות הקרובות ליוצר המפגש עם פרטי הזום');
         }
     }
 
