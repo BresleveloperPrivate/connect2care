@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/partners.css'
 import hilma from '../icons/hilma.png'
-// import can from '../icons/can.png'
 import amit from '../icons/amit.png'
 import tobe from '../icons/tobe.png'
 import synamedia from '../icons/Synamedia.png'
@@ -32,10 +31,6 @@ class Partners extends Component {
 
                 <div className={this.props.LanguageStore.lang !== 'heb' ? 'thanks fdrr' : 'thanks'}>
                     {this.props.t('partners')}
-                    {/* <div className='cover'>
-                        <div className='arrow-bottom-green'></div>
-                    </div> */}
-
                 </div>
 
                 <div className='containPartners'>
@@ -58,12 +53,8 @@ class Partners extends Component {
                     <div onClick={() => { window.open('https://www.jgive.com/new/he/ils') }} className='partner fg0'><img src={jgive} height='145%' /></div>
                     <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='55%' /></div>
                     <div onClick={() => { window.open('https://www.reblaze.com/') }} className='partner fg0'><img src={reblaze} height='115%' /></div>
-
-
-
                 </div>
             </div>
-
         );
     }
 }

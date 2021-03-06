@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
 import '../styles/listOfMeetings.css'
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import lock from '../icons/blue-lock.svg'
 import tell from '../icons/tell.svg'
 import ImageOfFallen from './ImageOfFallen'
@@ -18,9 +17,6 @@ import { meetingDate } from '../consts/Meetings.consts';
 
 
 const ComputerList = (props) => {
-
-   
-
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
             props.MeetingsStore.search(false, true)

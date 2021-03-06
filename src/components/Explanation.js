@@ -2,21 +2,14 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { withNamespaces } from 'react-i18next'
 import '../styles/explanation.css';
-import Group268 from '../icons/Group268.png';
 
 class Explanation extends Component {
-
     render() {
         return (
-
             <div className={this.props.explanation === 1 ? ' containFirstExplanation containExplanation' : 'containExplanation'} >
-
                 {this.props.explanation === 1 ?
                     this.props.LanguageStore.lang !== 'heb' ?
                         <div className='explanation-left'>
-
-
-
                             Those who lost us, never gave up on us.<br />
                             This year, too, we are not giving up.<br /><br />
 
@@ -41,7 +34,6 @@ class Explanation extends Component {
                         </div>
                         :
                         <div className='explanationTotal'>
-                            {/* <div className='backgroundFlower'><img src={Group268} alt='flower' /></div> */}
                             <div className='explanation-right'>
                                 <div className='explanation-right-headlines'>
                                     <div className='explanation-headline1'>
@@ -53,9 +45,6 @@ class Explanation extends Component {
                                 </div>
                                 
                                 <div className='explanation-right-text'>
-                                    {/* <strong>"כל עוד מישהו זוכר אותנו, אנחנו חיים"</strong><br />
-                                    (קרלוס רואיס סאפון) <br /><br /> */}
-
                                     השנה האחרונה הייתה מורכבת, <br />
                                     שנה מלאה בחוסר ודאות, הרבה חיכוכים והרבה בדידות.<br />
                                     ביום הזיכרון אנחנו רוצים להיות ביחד, להתחבק, להתחבר ולהתחזק ביחד. <br />
@@ -107,19 +96,10 @@ class Explanation extends Component {
                            המטרה שלנו היא להזכיר ולזכור את האחים הפרטיים שלנו<br />
                            ובאותה נשימה, ליצור תנועה ארצית ועולמית של זיכרון והנצחה.<br />
                         </div>
-
-
-
-
                 }
-
             </div>
-
-
         );
     }
 }
-
-// export default Explanation;
 
 export default inject('i18n', 'LanguageStore')(observer(withNamespaces()(Explanation)));

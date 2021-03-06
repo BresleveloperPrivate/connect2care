@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cancel from '../icons/cancel.svg'
 import Business from '../icons/business.svg'
-import { inject, observer, PropTypes } from 'mobx-react';
-// import clock from '../icons/whiteclock.svg'
+import { inject, observer } from 'mobx-react';
 import candleWhiteGray from '../icons/candleWhiteGray.svg'
 import lockWhite from '../icons/lock-white.svg'
 
@@ -37,11 +36,7 @@ const TextSideDiv = (props) => {
                             לפני המפגש נקיים מפגש הכנה בו נסביר כיצד פועל מפגש זום ואיך כדאי להנחות אירוע מסוג זה.
                             </div>
                         </div>
-
-
-
                     :
-
                     <div>
                         {props.CreateMeetingStore.meetingDetails.fallens && props.CreateMeetingStore.meetingDetails.fallens.map((fallenId, index) => {
                             console.log("fallenId", fallenId, "index", index)
@@ -59,15 +54,13 @@ const TextSideDiv = (props) => {
                                                         <div style={{ fontWeight: "bold" }}> {meeting.name}</div>
                                                         <div > {props.t('host')}: {meeting.meetingOwner.name}</div>
                                                         <div style={{ fontSize: "18px" }} className="d-flex">
-                                                            {/* <img src={clock} alt="clock" style={{ width: "20px", marginLeft: "1vh" }} /> */}
                                                             <div>{meeting.date.split(",")[0]} | {meeting.date.split(",")[1]} | {meeting.time}</div>
                                                         </div>
                                                         <div className="divIsOpen">
-                                                            {meeting.isOpen ? props.t("meetingIsOpen") : <div><img alt="alt" src={lockWhite} alt="lockWhite" /> {props.t("meetingIsClosed")}</div>}
+                                                            {meeting.isOpen ? props.t("meetingIsOpen") : <div><img src={lockWhite} alt="lockWhite" /> {props.t("meetingIsClosed")}</div>}
                                                         </div>
                                                     </div>
                                                 )
-
                                             })
                                         }
                                     </div>

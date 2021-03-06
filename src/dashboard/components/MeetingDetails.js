@@ -22,9 +22,9 @@ const MeetingDetails = (props) => {
     const [errorEmail, setErrorEmail] = React.useState(false)
     const [errorPhone, setErrorPhone] = React.useState(false)
     const [errorMaxParticipants, setErrorMaxParticipants] = React.useState(false)
-    const [dataForFallen, setDataForFallen] = React.useState(false)
+    const [, setDataForFallen] = React.useState(false)
     const [isSaved, setIsSaved] = React.useState(false)
-    const [success, setSuccess] = React.useState(false)
+    const [, setSuccess] = React.useState(false)
     const [showDeleteMeetingPopup, setShowDeleteMeetingPopup] = React.useState(false)
     const [, copyToClipboard] = useCopyToClipboard()
     const [copy1, setCopy1] = React.useState(false)
@@ -64,8 +64,6 @@ const MeetingDetails = (props) => {
         { option: '00', data: '00' },
         { option: '30', data: '30' }
     ]
-    const date = (new Date()).getDate()
-
 
     useEffect(() => {
         (async () => {
@@ -79,18 +77,6 @@ const MeetingDetails = (props) => {
     }, []);
 
     const maxParticipationValidation = () => {
-        // if (props.CreateMeetingStore.meetingDetails && props.CreateMeetingStore.meetingDetails.fallens) {
-        //     let arrayFallens = props.CreateMeetingStore.meetingDetails.fallens
-        //     for (let i = 0; i < arrayFallens.length; i++) {
-        //         if (arrayFallens[i].relative === "בית אבי חי" || arrayFallens[i].relative === "האחים שלנו" || arrayFallens[i].relative === "בית אביחי") {
-        //             if (props.CreateMeetingStore.meetingDetails.max_participants > 2000) {
-        //                 setErrorMaxParticipants("מקסימום מספר המשתתפים חייב פחות מ-2000")
-        //                 props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
-        //             }
-        //             return
-        //         }
-        //     }
-        // }
         if (props.CreateMeetingStore.meetingDetails.max_participants < 10) {
             setErrorMaxParticipants(props.t("maximumNumberOfParticipantsMustBe10ParticipantsOrMore"))
             props.CreateMeetingStore.changeNotAllFieldsCorrect(true)
@@ -246,7 +232,6 @@ const MeetingDetails = (props) => {
                                 selectTextDefault={props.CreateMeetingStore.meetingDetails.language !== '' ? props.CreateMeetingStore.meetingDetails.language : props.t("meetingLanguage")}
                                 arr={meetingLanguage}
                                 width='calc(100% - 12vw)'
-                                // selectedText={props.CreateMeetingStore.meetingDetails.language}
                                 className={'inputStyle margin-right-text p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.language || (props.CreateMeetingStore.meetingDetails.language && !props.CreateMeetingStore.meetingDetails.language.length)) ? "error" : "")}
                                 onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingLanguage(value.data) }} />
                         </div>
@@ -304,7 +289,6 @@ const MeetingDetails = (props) => {
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.date !== '' ? props.CreateMeetingStore.meetingDetails.date : props.t("meetingIsClosed")}
                                     arr={meetingDate(props)}
                                     width='100%'
-                                    // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingDate(value.data) }} />
                             </div>
@@ -316,7 +300,6 @@ const MeetingDetails = (props) => {
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : "דקות"}
                                     arr={meetingTimeMinute}
                                     width='100%'
-                                    // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
 
@@ -325,7 +308,6 @@ const MeetingDetails = (props) => {
                                     selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : "שעות"}
                                     arr={meetingTimeHour}
                                     width='100%'
-                                    // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                     className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
                                     onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
                             </div>
@@ -342,8 +324,6 @@ const MeetingDetails = (props) => {
                                 onFocus={() => { setErrorMaxParticipants(false); props.CreateMeetingStore.changeNotAllFieldsCorrect(false) }}
                                 className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.max_participants) ? "error" : "")}
                                 onChange={props.CreateMeetingStore.changeNumberOfParticipants}
-                                // style={errorMaxParticipants ?
-                                //     { marginBottom: "0" } : {}}
                                 value={props.CreateMeetingStore.meetingDetails.max_participants}
                                 autoComplete="off"
                                 placeholder={props.t("maxParticipationNumber")}
@@ -364,7 +344,6 @@ const MeetingDetails = (props) => {
                             <div className="textAboveInput  margin-right-text">קישור לזום משתתפים</div>
                             <input
                                 type="text"
-                                // disabled={props.CreateMeetingStore.meetingDetailsOriginal.max_participants < 500 || (props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'האחים שלנו' && props.CreateMeetingStore.meetingDetailsOriginal.owner.name !== 'בית אביחי')}
                                 className={'inputStyle margin-right-text '}
                                 onChange={props.CreateMeetingStore.changeZoomId}
                                 value={props.CreateMeetingStore.meetingDetails.zoomId || ''}
@@ -455,8 +434,6 @@ const MeetingDetails = (props) => {
                                 </div>
                                 : props.t("save")
                             }
-
-                            {/* {this.props.t("approval")} */}
                         </div>
                     </div>
                     {

@@ -1,16 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import '../styles/listOfMeetings.css'
 import { inject, observer} from 'mobx-react';
-// import lock from '../icons/blue-lock.svg'
-// import tell from '../icons/tell.svg'
 import Auth from '../modules/auth/Auth'
-// import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
-// import candle from '../icons/candle-dark-blue.svg'
-// import clock from '../icons/clock.svg'
-// import participants from '../icons/participants.png'
-// import Dialog from '@material-ui/core/Dialog';
-// import MeetingCardPhone from './MeetingCardPhone'
 
 const ListOfMeetingsUser = (props) => {
 
@@ -22,10 +14,7 @@ const ListOfMeetingsUser = (props) => {
     const [code, setCode] = useState('')
 
     return (
-
         <div className='meetingsFullPage'>
-
-
             {!error ?
                 <div className={props.LanguageStore.lang !== 'heb' ? 'mainPage-meetings mainPage-meetings-ltr' : 'mainPage-meetings'} style={{ width: '85%' }}>
                     <div className={props.LanguageStore.lang !== 'heb' ? 'meetings-title tal' : 'tar meetings-title'}>המפגשים שלי</div>
@@ -52,10 +41,6 @@ const ListOfMeetingsUser = (props) => {
                                         }else{
                                             setError('שגיאה יאי')
                                         }
-
-                                        // console.log(meetings)
-                                        // setMyMeetings(meetings)
-
                                     })()
                                 }}>שלחו לי קוד אימות</div>
                         </div>
@@ -78,26 +63,11 @@ const ListOfMeetingsUser = (props) => {
                                     })()
                                 }}>התחבר</div>
                         </div>
-
                     }
-
-
-
-                    {/* {myMeetings ? myMeetings[option].map((meeting, index) => {
-                        return (<MeetingCardPhone key={index} history={props.history} index={index} meeting={meeting} />)
-                    }) : null} */}
                 </div>
                 :
-                // <div className='mainPage-meetings'>
-                //     <div style={{ paddingTop: '10em', color: 'var(--custom-blue)', fontSize: '2em' }}>
-                //         {props.MeetingsStore.error.error.message === "No response, check your network connectivity" ? 'אנא בדוק את חיבור האינטרנט שלך' : ' אירעה שגיאה בהבאת הנתונים'}
-                //     </div>
-                // </div>
                 'null'
             }
-
-
-
         </div>
     );
 }

@@ -3,7 +3,6 @@ import GenericTools from "../../tools/GenericTools";
 import Auth from "../../auth/Auth.js";
 
 class HooksList {
-
     constructor(hooksRepository) {
         this.hooksRepository = hooksRepository;
         console.log("addHooks rn")
@@ -14,12 +13,11 @@ class HooksList {
         this.hooksRepository.addHook(consts.AUTH, consts.HOOK__LOGOUT, this.deleteUserItems);
         this.hooksRepository.addHook(consts.AUTH, consts.HOOK__REDIRECT_HOME, this.redirectToHome);
         // ----- filter -----
-       
     }
 
    async deleteUserItems() {
         if (GenericTools.isCordova()) {
-            let [at, err] = await Auth.superAuthFetch('/api/CustomUsers/deleteUserItems', {
+            await Auth.superAuthFetch('/api/CustomUsers/deleteUserItems', {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             });
@@ -31,12 +29,9 @@ class HooksList {
             this.removeItem('olk');
         }
     }
-    redirectToHome(){
+    redirectToHome() {
         GenericTools.safe_redirect('/');
-
     }
-
-
 }
-export default HooksList;
 
+export default HooksList;

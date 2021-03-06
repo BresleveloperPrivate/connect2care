@@ -12,26 +12,17 @@ import './styles/partners.css'
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
-// import { Dashboard } from '@material-ui/icons';
 
 const Home = loadable(() => import('./components/Home.js'));
 const Meeting = loadable(() => import('./components/Meeting/Meeting'));
-const Success = loadable(() => import('./components/Success.jsx'));
 const CreateMeeting = loadable(() => import('./components/CreateMeeting'));
 const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUser'));
 const Info = loadable(() => import('./components/Info/Info'));
 const Contact = loadable(() => import('./components/Contact'));
 const Support = loadable(() => import('./components/Support'));
-
-//const HilmaCredit = loadable(() => import('./components/HilmaCredit'));
-
-// const MyMeetings = loadable(() => import('./components/MyMeetings'));
-
 const DashboardMain = loadable(() => import('./dashboard/components/DashboardMain'));
 const MeetingInfo = loadable(() => import('./dashboard/components/MeetingInfo'));
 const DashLogin = loadable(() => import('./dashboard/components/DashLogin'));
-
-
 
 class App extends Component {
     constructor(props) {
@@ -89,11 +80,6 @@ class App extends Component {
                                 <Route exact render={(props) => <NotFound t={this.props.t} {...props} />} />
                             </Switch>
                         </div>
-
-                        {/*<Route path="/(contact|create-meeting|success|edit-meeting|support|share|meetings|my-meetings|info)/" render={props => /<HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
-                        <Route path="/" exact render={props => <HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
-                        <Route path="/(meeting)/" render={props => <HilmaCredit t={this.props.t} colorCredit="white" {...props} />} />*/}
-                        
                     </div>
                 </Router>
             </Suspense>}

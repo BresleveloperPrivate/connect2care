@@ -26,7 +26,6 @@ class CreateMeetingStore {
         fallens: null,
         zoomId: "",
         otherRelationship: null,
-        // approved: ""
     }
 
     meetingDetails = {
@@ -79,10 +78,8 @@ class CreateMeetingStore {
             fallens: null,
             zoomId: "",
             otherRelationship: null,
-            // approved: ""
         }
 
-        // this.meetingDetails = JSON.parse(JSON.stringify(this.meetingDetailsOriginal))
         this.meetingDetails.date = ""
         this.meetingDetails.timeHour = "20"
         this.meetingDetails.timeMinute = "30"
@@ -250,8 +247,6 @@ class CreateMeetingStore {
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: this.meetingDetails.name })
             }, true);
-            console.log("success", success)
-            console.log("err", err)
             if (err) {
                 return
             }
@@ -430,7 +425,7 @@ class CreateMeetingStore {
     }
 
     sendZoomHost = async (time, date) => {
-        let [success, err] = await Auth.superAuthFetch(
+        let [, err] = await Auth.superAuthFetch(
             `/api/meetings/sendMailHost`,
             {
                 method: 'POST',
@@ -438,14 +433,13 @@ class CreateMeetingStore {
                 body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
             }, true);
         if (err) {
-            // setErr(true)
             return
         }
         this.setError("המייל נשלח בהצלחה")
     }
 
     sendZoomParticipants = async (time, date) => {
-        let [success, err] = await Auth.superAuthFetch(
+        let [, err] = await Auth.superAuthFetch(
             `/api/meetings/sendMailParticipants`,
             {
                 method: 'POST',
@@ -453,7 +447,6 @@ class CreateMeetingStore {
                 body: JSON.stringify({ time: time, date: date, meetingId: Number(this.meetingId) })
             }, true);
         if (err) {
-            // setErr(true)
             return
         }
         this.setError("המייל נשלח בהצלחה")
@@ -507,7 +500,6 @@ class CreateMeetingStore {
 
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
         if (this.meetingDetails.otherRelationship && this.meetingDetails.otherRelationship.length && beforePostJSON.fallens && beforePostJSON.fallens.length) {
-
             let checkOtherRelation = JSON.parse(JSON.stringify(this.meetingDetails.otherRelationship))
             checkOtherRelation.filter((otherRelative) => {
                 if (otherRelative.relative === "בית אביחי" || otherRelative.relative === "בית אבי חי" || otherRelative.relative === "האחים שלנו") {
@@ -529,12 +521,7 @@ class CreateMeetingStore {
         delete beforePostJSON.zoomId
         delete this.meetingDetailsOriginal.zoomId
         delete this.meetingDetailsOriginal.otherRelationship
-        // if (this.date < 26) delete this.meetingDetailsOriginal.date
-        // delete this.meetingDetailsOriginal.timeHour
-        // delete this.meetingDetailsOriginal.timeMinute
-        // delete this.meetingDetailsOriginal.max_participants
         delete beforePostJSON.otherRelationship
-        console.log("beforePostJSON", beforePostJSON)
         if (this.notAllFieldsCorrect) {
             this.setError(lang !== "heb" ? "Please check that you fixed all the red errors" : "אנא בדוק שטיפלת בכל ההערות האדומות")
             return
@@ -543,7 +530,6 @@ class CreateMeetingStore {
         let whatDidntChange = this.whatDidntChange(beforePostJSON, this.meetingDetailsOriginal)
         let whatDidntChange1 = this.whatDidntChange(beforePostJSON.owner, this.meetingDetailsOriginal.owner)
 
-        console.log("whatDidntChange", whatDidntChange, "whatDidntChange1", whatDidntChange1)
         if (!beforePostJSON.fallens && !beforePostJSON.fallens.length) {
             this.setError(lang !== "heb" ? "All the fields must be filled" : "כל השדות צריכים להיות מלאים")
             return
@@ -580,7 +566,6 @@ class CreateMeetingStore {
 
     updateMeeting = async () => {
         let beforePostJSON = JSON.parse(JSON.stringify(this.meetingDetails))
-        // let fallensToDelete = [], fallensToChange = [], fallensToAdd = []
         let fallensToChange = []
         let changedObj = this.whatChanged(beforePostJSON, this.meetingDetailsOriginal)
 
@@ -619,8 +604,7 @@ class CreateMeetingStore {
         }
 
         this.waitForData = true
-        console.log(changedObj)
-        let [success, err] = await Auth.superAuthFetch(
+        let [, err] = await Auth.superAuthFetch(
             `/api/meetings/updateMeeting/`,
             {
                 method: 'POST',

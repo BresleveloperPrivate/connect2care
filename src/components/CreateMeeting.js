@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/createMeeting.css'
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { meetingDate } from '../consts/Meetings.consts';
 import ErrorMethod from './ErrorMethod';
 import Success from './Success.jsx'
@@ -14,13 +13,13 @@ import logo from '../icons/logo.svg'
 
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
+import '../styles/createMeeting.css'
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPhone, setErrorPhone] = useState(false)
     const [errorMaxParticipants, setErrorMaxParticipants] = useState(false)
-    const [timeValue, setTimeValue] = useState()
     const [dataForFallen, setDataForFallen] = useState(false)
     const [isSaved, setIsSaved] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -61,7 +60,6 @@ const CreateMeeting = (props) => {
     const meetingDates = meetingDate(props)?.slice(1);
 
     useEffect(() => {
-
         return () => props.CreateMeetingStore.resetAll()
     }, [])
 
@@ -109,7 +107,6 @@ const CreateMeeting = (props) => {
         <div>
             {false ?
                 <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-
                     <div style={{ width: '30vw', height: 'fit-content' }}>
                         <img src={logo} width='100%' />
                     </div>
@@ -119,7 +116,9 @@ const CreateMeeting = (props) => {
                         onClick={() => {
                             props.history.replace('/')
                         }}
-                        className='grow' style={{ color: 'white', cursor: 'pointer', marginTop: '2vh', backgroundColor: '#0A2D63', borderRadius: '100px', padding: '0.2vh 2vw' }}>חזור לדף הבית</div>
+                        className='grow' style={{ color: 'white', cursor: 'pointer', marginTop: '2vh', backgroundColor: '#0A2D63', borderRadius: '100px', padding: '0.2vh 2vw' }}>
+                            חזור לדף הבית
+                    </div>
                 </div> :
                 !success ?
                     <div className="CreateMeeting" style={{ textAlign: props.LanguageStore.lang !== 'heb' ? "left" : "right" }}>
@@ -283,35 +282,29 @@ const CreateMeeting = (props) => {
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.date === '' ? props.t("date") : props.CreateMeetingStore.meetingDetails.date}
                                         arr={meetingDates}
                                         width='100%'
-                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.date || (props.CreateMeetingStore.meetingDetails.date && !props.CreateMeetingStore.meetingDetails.date.length)) ? "error" : "")}
                                         onChoseOption={(value) => props.CreateMeetingStore.changeMeetingDate(value.data)} />
                                 </div>
 
                                 <div className='containSelectTime position-relative' style={props.LanguageStore.lang !== 'heb' && props.LanguageStore.width >= 1150 ? { direction: "rtl", marginLeft: "2vh", marginRight: "0px" } : { direction: "rtl" }}>
-
                                     {((props.CreateMeetingStore.meetingDetails.timeHour || props.CreateMeetingStore.meetingDetails.timeMinute) && (props.CreateMeetingStore.meetingDetails.timeHour.length || props.CreateMeetingStore.meetingDetails.timeMinute.length)) && <div className="textAboveInput">
                                         {props.LanguageStore.lang !== 'heb' ?
                                             'Time (Israel time)' :
                                             'שעה (שעון ישראל)'
                                         }:
-{/* שעה (שעון ישראל): */}
                                     </div>}
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.timeMinute !== '' ? props.CreateMeetingStore.meetingDetails.timeMinute : props.LanguageStore.lang !== 'heb' ? "Mintes" : "דקות"}
                                         arr={meetingTimeMinute}
                                         width='100%'
-                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (props.LanguageStore.lang !== "heb" ? "dir-ltr " : " ") + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeHour || (props.CreateMeetingStore.meetingDetails.timeHour && !props.CreateMeetingStore.meetingDetails.timeHour.length)) ? "error" : "")}
                                         onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeMinute(value.data) }} />
-
                                     <div className="timeDot">:</div>
                                     <Select
                                         selectTextDefault={props.CreateMeetingStore.meetingDetails.timeHour !== "" ? props.CreateMeetingStore.meetingDetails.timeHour : props.LanguageStore.lang !== 'heb' ? "Hours" : "שעות"}
                                         arr={meetingTimeHour}
                                         width='100%'
                                         maxHeight='120px'
-                                        // selectedText={props.CreateMeetingStore.meetingDetails.date}
                                         className={'inputStyle p-0 ' + (props.LanguageStore.lang !== "heb" ? "dir-ltr " : " ") + (isSaved && (!props.CreateMeetingStore.meetingDetails.timeMinute || (props.CreateMeetingStore.meetingDetails.timeMinute && !props.CreateMeetingStore.meetingDetails.timeMinute.length)) ? "error" : "")}
                                         onChoseOption={(value) => { props.CreateMeetingStore.changeMeetingTimeHour(value.data) }} />
                                 </div>
@@ -362,9 +355,6 @@ const CreateMeeting = (props) => {
                                 <div className="margin-right-text d-flex align-items-center" style={{ marginBottom: "2vh" }}>
 
                                     <div className=" d-flex align-items-center" style={{ marginTop: '2vh' }}>
-                                        {/* <div>
-                                            <img style={{ cursor: 'pointer' }} onClick={() => { if (readBylaw === true) setReadBylaw(false); else setReadBylaw(true) }} src={readBylaw ? checkbox_on_light : checkbox_off_light} />
-                                        </div> */}
                                         <div style={{ cursor: 'pointer' }} onClick={() => {
                                             if (readBylaw === true) setReadBylaw(false);
                                             else setReadBylaw(true)
@@ -382,7 +372,6 @@ const CreateMeeting = (props) => {
                                                 }}></div>
                                             }
                                         </div>
-                                        {/* <input style={{ margin: props.LanguageStore.lang !== 'heb' ? '0' : null }} type="radio" className={(isSaved && !readBylaw) ? "error" : ""} id="readBylaw" name="readBylaw" value={false} onClick={() => setReadBylaw(true)} /> */}
                                         <label htmlFor="readBylaw" className="mb-0" style={{ marginLeft: "2vh" }}>
 
                                             {props.LanguageStore.lang !== 'heb' ?
@@ -437,4 +426,5 @@ const CreateMeeting = (props) => {
 
     )
 }
+
 export default inject('CreateMeetingStore', 'LanguageStore')(observer(CreateMeeting));

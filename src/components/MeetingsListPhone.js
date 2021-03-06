@@ -1,13 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import '../styles/listOfMeetings.css'
-import { inject, observer, PropTypes } from 'mobx-react';
-// import lock from '../icons/blue-lock.svg'
-// import tell from '../icons/tell.svg'
-// import ImageOfFallen from './ImageOfFallen'
+import { inject, observer } from 'mobx-react';
 import '../styles/animations.scss'
-// import candle from '../icons/candle-dark-blue.svg'
-// import clock from '../icons/clock.svg'
-import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import filter1 from '../icons/filter1.svg'
 import filter2 from '../icons/filter2.svg'
@@ -108,19 +102,6 @@ const PhoneList = (props) => {
                                 </div>}
                             <img style={{ cursor: 'pointer' }} height='100%' width='100%' src={filter ? filter2 : filter1} />
                         </div>
-                        {/* <div
-                        style={{ marginRight: '2em' }}
-                        className={props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
-                            'button-meetings' : 'button-meetings disabled-button-meetings'}
-                        onClick={props.MeetingsStore.searchInput !== props.MeetingsStore.prevSearchInput ?
-                            () => {
-                                props.MeetingsStore.search(false, true)
-                            } : () => { }}>
-                        חיפוש
-                    </div> */}
-
-
-
                     </div>
 
                     <ContainFilters className={filter ? 'containFilters' : 'containFilters containFiltersClose'} t={props.t} />

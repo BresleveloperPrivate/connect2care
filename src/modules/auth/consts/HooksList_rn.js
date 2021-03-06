@@ -1,17 +1,11 @@
 import consts from "./../../tools/client/hooks/consts.json"
-// import { AsyncStorage } from 'react-native';
 
 class HooksList {
-
     constructor(hooksRepository) {
-
         this.hooksRepository = hooksRepository;
-
-
     }
 
     addHooks() {
-
         this.hooksRepository.addHook(consts.AUTH, consts.HOOK__BEFORE_LOGIN, this.beforeLogin);
         this.hooksRepository.addHook(consts.AUTH, consts.HOOK__AFTER_LOGIN, this.afterLogin);
         this.hooksRepository.addHook(consts.AUTH, consts.HOOK__AFTER_REGISTER, this.afterRegister);
@@ -34,33 +28,21 @@ class HooksList {
     }
 
     async afterLogin(res) {
-
-        // await AsyncStorage.setItem('klo', res.klo);
-        // await AsyncStorage.setItem('kl', res.kl);
-        // await AsyncStorage.setItem('kloo', res.kloo);
-        // await AsyncStorage.setItem('klk', res.klk);
-        // await AsyncStorage.setItem('access_token', res.id);
-
     }
+
     async afterRegister(res) {
         console.log("res register", res)
     }
 
     async setUserData(res) {
-
     }
+
     beforeLogin() {
         console.log("hhh auth beforeLogin")
     }
 
-    async  deleteAsyncStorage() {
-
-        // await AsyncStorage.removeItem('userName');
-        // await AsyncStorage.removeItem('klo');
-        // await AsyncStorage.removeItem('kl');
-        // await AsyncStorage.removeItem('kloo');
-        // await AsyncStorage.removeItem('klk');
-        // await AsyncStorage.removeItem('access_token');
+    async deleteAsyncStorage() {
     }
 }
+
 export default HooksList;

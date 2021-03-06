@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import CompList1 from './computer'
 import CompList2 from './MeetingsListComp'

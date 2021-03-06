@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
-// import { Search } from "@material-ui/icons";
 import throttle from 'lodash/throttle';
 import { inject, observer } from 'mobx-react';
 
@@ -9,12 +8,10 @@ import Auth from '../modules/auth/Auth';
 import fallenNotExistPic from '../icons/fallenNotExistPic.jpg'
 
 import { useCreateMeetingStore } from '../stores/createMeeting.store';
-// import { useLanguageStore } from '../stores/language.store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import useOnClickOutside from './UseOnClickOutside'
 
-// const LanguageStore = useLanguageStore();
 const useStyles = makeStyles({
     inputWraper: {
         position: "relative",
@@ -44,18 +41,11 @@ const SearchFallen = observer((props) => {
     const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState(null);
     const [showOptions, setShowOptions] = useState(true);
-    // const [imgCorrect, setImgCorrect] = useState();
 
     const { inputWraper, list, loadingOrNoResults } = useStyles();
 
     const CreateMeetingStore = useCreateMeetingStore();
     const ref = useRef()
-
-    // const setImg = (index, value) => {
-    //     let allImg = JSON.parse(JSON.stringify(imgCorrect))
-    //     allImg[index] = value
-    //     setImgCorrect(allImg)
-    // }
 
     useOnClickOutside(ref, () => setShowOptions(false));
 
@@ -67,11 +57,8 @@ const SearchFallen = observer((props) => {
     }, []);
 
     const onFallenClick = useCallback(async fallen => {
-        // if (Object.keys(CreateMeetingStore.fallenDetails).indexOf(fallen.id) === -1) { }
-        // else 
         setShowOptions(false);
         setSearchValue(fallen.name);
-        // const [response, error] = await Auth.superAuthFetch(`/api/fallens/${fallen.id}?filter={ "include":{"relation":"meetings", "scope":{"include":"meetingOwner"}} }`);
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/getFallen`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },
@@ -97,12 +84,6 @@ const SearchFallen = observer((props) => {
     }, 200), []);
 
     useEffect(() => {
-        // let correct = []
-        // for (let i = 0; i < props.array.length; i++) {
-        //     correct.push(false)
-        // }
-        // setImgCorrect(correct)
-
         if (!showOptions) { setOptions([]); return; }
 
         let active = true;
@@ -161,7 +142,6 @@ const SearchFallen = observer((props) => {
                         <ListItem button key={fallen.id} onClick={() => onFallenClick(fallen)}>
                             <ListItemAvatar>
                                 <Avatar src={fallen.image_link || fallenNotExistPic} style={fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" />
-                                {/* <img onError={() => setImgCorrect(index, fallenNotExistPic)} src={imgCorrect ? imgCorrect : (fallen.image_link || fallenNotExistPic)} style={!imgCorrect && fallen.image_link ? { filter: "grayscale(1)" } : {}} variant="rounded" /> */}
                             </ListItemAvatar>
                             <ListItemText primary={fallen.name} secondary={fallen.heb_falling_date} />
                         </ListItem>

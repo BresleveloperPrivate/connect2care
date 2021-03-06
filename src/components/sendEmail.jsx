@@ -1,13 +1,12 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import '../styles/sharing.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import envelope from '../icons/envelope.svg'
+import '../styles/sharing.scss';
 
 function AlertDialog(props) {
   const { openEmail, setOpenEmail } = props;
@@ -16,8 +15,6 @@ function AlertDialog(props) {
   const [isEmailNotLegal, setIsEmailNotLegal] = React.useState(false);
   const regex = RegExp(/^(.+)@(.+){2,}.(.+){2,}$/);
   const { shareWithEmail } = props;
-
-
 
   const handleCloseEmail = () => {
     setEmail('')
@@ -75,7 +72,6 @@ function AlertDialog(props) {
         </DialogActions>
       </Dialog>
 
-
       <Dialog
         maxWidth='md'
         open={openSuccess}
@@ -91,11 +87,10 @@ function AlertDialog(props) {
               {props.LanguageStore.lang !== 'heb' ? "The email was successfully sent" : 'האימייל נשלח בהצלחה'}
             </div>
           </DialogContentText>
-        </DialogContent >
-  
+        </DialogContent>
       </Dialog>
     </div>
   );
 }
 
-export default inject('LanguageStore')(observer(AlertDialog))
+export default inject('LanguageStore')(observer(AlertDialog));

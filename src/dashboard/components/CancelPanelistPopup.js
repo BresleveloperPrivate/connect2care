@@ -11,7 +11,7 @@ export default function CancelPanelistPopup(props) {
 
     const deleteMeeting = async () => {
         setWaitForData(true)
-        let [success, err] = await Auth.superAuthFetch(
+        let [, err] = await Auth.superAuthFetch(
             `/api/meetings/setPanelistStatus`,
             {
                 method: 'POST',
@@ -66,7 +66,6 @@ export default function CancelPanelistPopup(props) {
                                     </div>
                                     : "כן"
                                 }
-                                {/* {this.props.t("approval")} */}
                             </div>
                             <div
                                 style={{ cursor: 'pointer', color: 'var(--custom-dark-green)', padding: '3px 10px', borderRadius: '10px', fontSize: '2.5vh', marginLeft: '2vw' }}

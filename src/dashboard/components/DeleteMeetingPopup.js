@@ -12,7 +12,7 @@ export default function DaleteMeetingPopup(props) {
 
     const deleteMeeting = async () => {
         setWaitForData(true)
-        let [success, err] = await Auth.superAuthFetch(
+        let [, err] = await Auth.superAuthFetch(
             `/api/meetings/deleteMeeting`,
             {
                 method: 'POST',

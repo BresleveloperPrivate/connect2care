@@ -6,7 +6,6 @@ import email from "../icons/email.svg";
 import facebook from "../icons/facebook.svg";
 import whatsapp from "../icons/whatsapp.svg";
 import instagram from "../icons/instagram.svg";
-// import instagram from '../icons/instagram.svg';
 
 const Footer = (props) => {
   return (
@@ -24,7 +23,6 @@ const Footer = (props) => {
             <Link to="/meetings">
               <div>רשימת מפגשים</div>
             </Link>
-            {/*<Link to='/'><div>שאלות</div></Link>*/}
             <Link to="/contact">
               <div>צור קשר</div>
             </Link>
@@ -65,9 +63,6 @@ const Footer = (props) => {
                 <div>
                   <img src={email} alt="email" className="icon" />
                 </div>
-              </Link>
-              <Link to="/" target="_blank" rel="noopener noreferrer">
-                <div>{/* <img src={} alt='youtube' className='icon' /> */}</div>
               </Link>
               <Link to="/" target="_blank" rel="noopener noreferrer">
                 <div>

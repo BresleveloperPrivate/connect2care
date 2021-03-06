@@ -437,12 +437,12 @@ input[type=radio]:focus {
     }
 
     .containSelectTime{
-        width: 30%;
+        width: 40%;
         margin-right: 2vh;
     }
 
     .containDateInput{
-        width: 80%;
+        width: 60%;
     }
 
 }

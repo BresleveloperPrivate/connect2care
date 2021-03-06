@@ -1,7 +1,7 @@
-import React, { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { inject, observer } from 'mobx-react';
 
-import { createMuiTheme, ThemeProvider, makeStyles, Button } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core';
 import { LockOutlined } from "@material-ui/icons";
 
 import Auth from '../../modules/auth/Auth';
@@ -47,8 +47,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-let v = false;
-
 const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, LanguageStore }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -61,9 +59,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
     const [openSuccess, setOpenSuccess] = useState(false);
     const [isGroup, setIsGroup] = useState(false);
 
-    // const readBylawRef = useRef();
-
-   const { input, sendButton, sendLabel } = useStyles();
+   const { input } = useStyles();
 
     const onSend = useCallback(async () => {
         if (!!!name) { setErrorMsg('אנא מלא/י שם'); return; }
@@ -77,10 +73,8 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
         if (!(/(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{2,4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{2,4})/).test(phone)) { setErrorMsg('מספר הטלפון אינו תקין'); return; }
         setLoading(true);
 
-        let text = null;
         let fallens = ''
         if (mailDetails.fallens && typeof mailDetails.fallens !== "string") {
-
             for (let i = 0; i < mailDetails.fallens.length; i++) {
                 if (i === 0) {
                     if (LanguageStore.lang !== 'heb') {
@@ -118,7 +112,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
         if (error || response.error) {
             console.error('ERR:', error || response.error); error && setErrorMsg(error.error.msg);
-            // response.error && setErrorMsg(response.error.msg)
             console.log(error, "error")
             if (error && error.error && error.error.code === "ER_DUP_ENTRY") {
                 setErrorMsg(LanguageStore.lang !== 'heb' ? "You cannot join the same session twice." : 'לא ניתן להצטרף לאותו מפגש פעמיים.')
@@ -189,8 +182,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
 
     return (
         <div id="meetingPageLeft" style={{ direction: LanguageStore.lang !== 'heb' ? 'ltr' : 'rtl' }}>
-
-
             <Dialog
                 maxWidth='md'
                 open={openSuccess}
@@ -211,9 +202,7 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                         </div>
                     </DialogContentText>
                 </DialogContent >
-
             </Dialog>
-
 
             <div id='meetingPageLeftInside' >
                 <img alt="alt" src="./images/bigOpacityCandle.svg" id="meetingLeftCandle" />
@@ -236,7 +225,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                         'Fill in the details and we will send you a link and reminder.'
                         : 'מלא את הפרטים ואנו נשלח לך קישור ותזכורת.'
                     }
-
                 </div>
 
                 <div style={{ width: '100%' }}>
@@ -268,7 +256,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                         <div className=" d-flex align-items-center" style={{ marginTop: '2vh', color: 'white', fontSize: '1.5em' }}>
                             <div>
                                 <img style={{ cursor: 'pointer' }} onClick={() => { setReadBylaw(!readBylaw); setErrorMsg(null); }} src={readBylaw ? checkboxOnWhite : checkboxOffWhite} />
-
                             </div>
                             {/* <input type="checkbox" id="readBylaw" name="readBylaw" ref={readBylawRef} onChange={() => { setErrorMsg(null); }} /> */}
                             <label htmlFor="readBylaw" className="mb-0" style={{ marginRight: "1vh" }}>
@@ -281,7 +268,6 @@ const MeetingLeftOpen = ({ meetingId, setNumOfPeople, sendCode, t, mailDetails, 
                                 }
                             </label>
                         </div>
-
                     </form>
                     {errorMsg && <div id="meetingErrorMsg">{errorMsg}</div>}
                     <div className='grow joinBtn' style={{ transition: 'transform 0.5s ease' }} onClick={loading ? () => { } : () => onSend()}>

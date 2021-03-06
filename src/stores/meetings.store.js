@@ -1,6 +1,5 @@
 import { observable, decorate, action } from 'mobx';
 import Auth from '../modules/auth/Auth'
-// import { tickStep } from 'd3';
 
 class MeetingsStore {
 

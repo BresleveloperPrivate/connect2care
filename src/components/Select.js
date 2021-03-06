@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
-import DownArrow from '../icons/Icon awesome-chevron-down.svg'
 import useOnClickOutside from './UseOnClickOutside'
-import '../styles/select.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { inject, observer } from 'mobx-react';
 
 import grass from '../icons/grass.png'
 import ourBrothers from '../icons/ourBro.png'
+import '../styles/select.css'
 
 const Select = (props) => {
     const ref = useRef()

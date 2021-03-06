@@ -1,15 +1,11 @@
-
-import React, { useState, useEffect, useRef } from 'react';
-import { inject, observer, PropTypes } from 'mobx-react';
-
+import React from 'react';
+import { inject, observer } from 'mobx-react';
 import matrix from '../icons/matrix.svg'
 import list from '../icons/list.svg'
-
 import matrixGray from '../icons/matrix-gray.svg'
 import listGray from '../icons/list-gray.svg'
 
 const View = (props) => {
-
     return (
         props.MeetingsStore.view === 1 ?
             <div style={{ width: '100%', display: 'flex', marginTop: '3vh', direction: 'ltr', alignItems: 'center' }}>
@@ -33,4 +29,5 @@ const View = (props) => {
             </div>
     );
 }
+
 export default inject('MeetingsStore', 'LanguageStore')(observer(View));

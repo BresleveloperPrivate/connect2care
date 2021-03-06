@@ -3,11 +3,10 @@ import Select from './Select.js'
 import cancel from '../icons/cancel.svg'
 
 import speachBooble from "../icons/speakBobble.svg"
-import { observer, PropTypes, inject } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
 import blueCandle from '../icons/candle-blue.svg'
 import close from '../icons/close.svg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import grayCandle from '../icons/gray-candle.svg'
 import fallenNotExistPic from '../icons/fallenNotExistPic.jpg'
@@ -160,7 +159,6 @@ const FallenDetails = (props) => {
             </div>
 
             <div className={(findImage ? "exictingPic" : "candleImg")} style={(findImage && CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image && !imgCorrect) ? { filter: "grayscale(1)" } : {}}>
-
                 <img onError={() => setImgCorrect(fallenNotExistPic)} src={
                     (findImage) ?
                         (CreateMeetingStore.fallenDetails[props.fallen.id].image !== "" && CreateMeetingStore.fallenDetails[props.fallen.id].image) ?
@@ -169,9 +167,11 @@ const FallenDetails = (props) => {
                             fallenNotExistPic :
                         grayCandle}
                     alt="grayCandle" style={
-                        findImage ? { height: "22.6vh", borderRadius: "4px" } : { height: "13vh" }} />
+                        findImage ? { height: "22.6vh", borderRadius: "4px" } : { height: "13vh" }
+                    }
+                />
             </div>
         </div>
     )
 }
-export default inject('LanguageStore')(observer(FallenDetails))
+export default inject('LanguageStore')(observer(FallenDetails));

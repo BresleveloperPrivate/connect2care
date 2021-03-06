@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import candle from '../icons/candle.svg'
 import '../styles/imagesCollage.css'
-// import { imageSize } from 'image-size';
 import Auth from '../modules/auth/Auth'
 
 
 const constImages = []
 
 class HowItWorks extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -17,10 +15,7 @@ class HowItWorks extends Component {
         }
     }
 
-
     componentDidMount = async () => {
-
-        // let [meetings, err] = await Auth.superAuthFetch('/api/meetings?filter={"include":[{"relation":"fallens"}],"limit":"38"}', {
         let [meetings, err] = await Auth.superAuthFetch('/api/meetings/get38Meetings', {
             method: 'GET',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -28,12 +23,14 @@ class HowItWorks extends Component {
         if (err) {
             console.log(err)
         } else {
-            let i = 0
             let meeting = 0
             while (constImages.length < 32) {
                 if (meetings[meeting]) {
                     for (let j = 0; j < meetings[meeting].fallens.length; j++) {
-                        if (constImages.length < 32 && !constImages.some(meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id) && meetings[meeting].fallens[j].image_link) {
+                        if (constImages.length < 32 && !constImages.some(
+                                meetingObject => meetingObject.fallenId === meetings[meeting].fallens[j].id
+                            ) && meetings[meeting].fallens[j].image_link) {
+
                             constImages.push(
                                 {
                                     meetingId: meetings[meeting].id,
@@ -43,14 +40,11 @@ class HowItWorks extends Component {
                                 }
                             )
                         }
-                        // i++
-
                     }
                     meeting++
                 }
                 else {
                     constImages.push(null)
-                    // i++
                 }
             }
             let imgTryArray = []
@@ -69,10 +63,7 @@ class HowItWorks extends Component {
                 this.setState({ images: constImages, imgTryArray })
             }
         }
-
-
         window.addEventListener('resize', this.onResize);
-
     }
 
     onResize = () => {
@@ -87,11 +78,8 @@ class HowItWorks extends Component {
 
     render() {
         return (
-
             <div className='containImagesCollage'>
-
                 <div className='borderImagesCollage'>
-
                     <div className='topLabel'>
                         <div className='label'>
                             {this.props.t('ConnectRemember')}
@@ -130,19 +118,9 @@ class HowItWorks extends Component {
                                 )
                             }
                         })}
-
                     </div>
-{/* 
-                    <div className='bottomLabel'>
-                        <div className='label' style={{ height: '5vw', width: '3.6vw' }}>
-                            <img src={candle} />
-
-                        </div>
-
-                    </div> */}
                 </div>
             </div>
-
         );
     }
 }

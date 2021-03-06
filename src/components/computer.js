@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import '../styles/listOfMeetings.css'
+import React from 'react';
 import '../styles/computer.scss'
-import { inject, observer, PropTypes } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import lock from '../icons/lock-white.svg'
 import ImageOfFallen from './ImageOfFallen'
 import '../styles/animations.scss'
 import candle from '../icons/candle.svg'
-// import clock from '../icons/whiteclock.svg'
-// import participants from '../icons/participants.png'
 import ContainFilters from './ContainFilters'
 import grass from '../icons/bac-white.svg'
 import ourBrothers from '../icons/ob-white.svg'

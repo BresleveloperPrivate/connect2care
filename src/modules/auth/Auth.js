@@ -43,7 +43,6 @@ const Auth = {
   setItem(id, item, localStorageOnly = false, cookiesOnly = false) {
     if (!localStorageOnly)
       document.cookie = `${id}=${item};path=/`;
-    // document.cookie = `${id}=${item};path=/;max-age=${1000 * 60 * 60 * 5}`;
     if (!cookiesOnly)
       localStorage.setItem(id, item);
   },
@@ -63,7 +62,6 @@ const Auth = {
     if (res && res.ok) {
       return res.json();
     } else {
-      //console.log("Could not fetch data from server, make sure your server is running? (2)");
       return new Promise((resolve, reject) => {
         reject([]);
       });
@@ -129,7 +127,6 @@ const Auth = {
       return new Promise((res, rej) => { res({ success: false, msg: err }) });
     }
 
-    // console.log("Login res", res);
     this._isAuthenticated = true;
     if (await this.isHooksRepository()) {
       this.hooksRepository.applyHook(consts.AUTH, consts.HOOK__AFTER_LOGIN, res);// HOOK__AFTER_LOGIN
@@ -148,7 +145,6 @@ const Auth = {
   },
 
   async loginAs(uid, cb) {
-
     let [at, err] = await Auth.superAuthFetch('/api/CustomUsers/login-as', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -192,7 +188,6 @@ const Auth = {
       this.removeItem('olk');
     }
 
-
     GenericTools.deleteAllCookies();
     // NtfFactory.getInstance().unsubscribe();
     this._isAuthenticated = false;
@@ -205,7 +200,7 @@ const Auth = {
   },
 
 
-  register(fd, message) {
+  register(fd) {
     var payload = {};
     fd.forEach(function (value, key) {
       payload[key] = value;
@@ -218,8 +213,6 @@ const Auth = {
     }).then((res => res.json()))
       .then(res => {
         if (!res.error) {
-          // console.log("User registered!!", res);
-          // console.log(message)
           return false;
         }
         else {
@@ -227,12 +220,8 @@ const Auth = {
             console.log(res.error.message)
           else if (res.error.details.codes.email[0] === "uniqueness")
             console.log("This email is alredy registered in our system.")
-
         }
-      }).catch(error => {
-        // console.log("error!!", error);
-      })
-
+      });
   },
 
   // input: fd - array or object - that consist of data of a new user
@@ -296,7 +285,6 @@ const Auth = {
     document.addEventListener("keypress", resetTimer);
   },
 
-
   superFetch(url, payload = null, redirOnFailure = false) { return this.superAuthFetch(url, payload, redirOnFailure); },
   //DEPRECATED
   authFetchJsonify(url, payload = null, redirOnFailure = false) { return this.superAuthFetch(url, payload, redirOnFailure); },
@@ -304,7 +292,6 @@ const Auth = {
   authFetch(url, payload = null, redirOnFailure = false) { return this.superAuthFetch(url, payload, redirOnFailure); },
   //DEPRECATED 
   getUserId() { return 0; },
-
 }
 
 export default Auth;

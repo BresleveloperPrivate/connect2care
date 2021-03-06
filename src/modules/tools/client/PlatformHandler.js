@@ -1,8 +1,4 @@
-// import GenericTools from "./../../tools/GenericTools"
-
 const PlatformHandler = {
-
-
     PLATFORM_WEB: "PLATFORM_WEB",
     PLATFORM_CORDOVA: "PLATFORM_CORDOVA",
     PLATFORM_REACT_NATIVE: "PLATFORM_REACT_NATIVE",
@@ -33,12 +29,6 @@ const PlatformHandler = {
             }
         }
     ],
-
-    // {PLATFORM_WEB:{suffix:'web'},
-
-    // {suffix:'rn'},{suffix:'cordova'}}
-
-
 
     getPlatformOptions() {
         let platform = this.getPlatformName()
@@ -72,10 +62,6 @@ const PlatformHandler = {
         if (window.hasOwnProperty("cordova")) {
             return this.PLATFORM_CORDOVA;
         }
-
-        // if (document && typeof document != 'undefined') {
-        //     return this.PLATFORM_WEB
-        // }
     }
 }
 

@@ -6,7 +6,6 @@ import { meetingDate } from '../../consts/Meetings.consts';
 
 
 const SendZoom = (props) => {
-
     const [isSaved, setIsSaved] = useState(false)
     const [date, setDate] = useState('')
     const [timeHour, setTimeHour] = useState('')
@@ -50,7 +49,7 @@ const SendZoom = (props) => {
         let time = timeHour + ':' + timeMinute
         setWaitForData(false)
         if (recipient === 'מארח') {
-            let [success, err] = await Auth.superAuthFetch(
+            let [, err] = await Auth.superAuthFetch(
                 `/api/meetings/sendMailHost`,
                 {
                     method: 'POST',
@@ -65,7 +64,7 @@ const SendZoom = (props) => {
         }
 
         else {
-            let [success, err] = await Auth.superAuthFetch(
+            let [, err] = await Auth.superAuthFetch(
                 `/api/meetings/sendMailParticipants`,
                 {
                     method: 'POST',
@@ -74,7 +73,6 @@ const SendZoom = (props) => {
                 }, true);
             setWaitForData(false)
             if (err) {
-                // setErr(true)
                 return
             }
         }
@@ -164,7 +162,6 @@ const SendZoom = (props) => {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

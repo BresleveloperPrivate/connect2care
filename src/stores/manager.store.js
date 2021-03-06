@@ -3,7 +3,6 @@ import Auth from '../modules/auth/Auth'
 import downloadExcel from '../functions/downloadExcel'
 
 class ManagerStore {
-
     page = 1
     meetings = null
     loading = false
@@ -42,11 +41,10 @@ class ManagerStore {
         }
         if (!isExcel) {
             this.meetingsNum = meetings.pop() || 0
-            if (!readMore) this.meetings = meetings || []
-            else {
-                for (let meeting of meetings) {
-                    this.meetings.push(meeting)
-                }
+            if (!readMore) {
+                this.meetings = meetings || []
+            } else {
+                this.meetings = [...meetings];
             }
             this.readMore = (Math.ceil(this.meetingsNum / 20) - this.page) > 0
         }
@@ -59,7 +57,6 @@ class ManagerStore {
                 ownerName: 'שם המארח',
                 ownerEmail: 'כתובת המייל של המארח',
                 ownerPhone:'פלפון של המארח'
-
             }
 
             downloadExcel(meetings, columns, "מתחברים וזוכרים טבלאות")
@@ -75,10 +72,7 @@ decorate(ManagerStore, {
     setPage: action,
     setReadMore: action,
     setFilters: action,
-    meetings: observable,
     fetchMeetingsDashboard: action
-
 });
 
 export default new ManagerStore();
-

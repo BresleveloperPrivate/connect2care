@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
-import ourBrothers from '../icons/oblogo.png'
 import c2c from '../icons/logo.svg'
 import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
-// import '../styles/animations.scss'
-// import Language from './Language';
 import Lng from './Lng';
-import logo10 from '../icons/logo10.png'
-import hilma from '../icons/hilmasquare.png'
-import matnas from '../icons/logo11.png'
-// import tzahal from '../icons/tzahal.png'
-
 
 class NavBar extends Component {
     constructor(props) {
@@ -29,7 +21,6 @@ class NavBar extends Component {
         window.addEventListener('resize', this.onResize, false)
         this.props.LanguageStore.setWidth(window.innerWidth)
         this.setState({width:window.innerWidth, height:window.innerHeight})
-
     }
 
     onResize = (e) => {
@@ -49,12 +40,9 @@ class NavBar extends Component {
         this.options =
             [{ option: this.props.t("homePage"), path: '/' },
             { option: this.props.t("meetingsList"), path: '/meetings' },
-            // { option: this.props.t("myMeetings"), path: '/my-meetings' },
             { option: this.props.t("qna"), path: '/info' },
-            // { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
             { option: this.props.t("support"), path: '/support' },
             { option: this.props.t("contactUs"), path: '/contact' },
-                // { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }
             ]
     }
 
@@ -70,17 +58,10 @@ class NavBar extends Component {
                 <div className='containMenu'>
                     <img onClick={this.toggleDrawer(true)} className='pointer' src={menu} alt="menu" style={{ height: "30%" }} />
                 </div>
-                {/* <div className='containLanguage'>
-                    <Language changeLanguage={this.changelng} />
-                </div> */}
                 {this.options &&
                 <div
                 style={this.props.LanguageStore.lang !== 'heb' ? {flexDirection: 'row-reverse'} : {}}
                 className='navbarOptions'>
-                {/* <div className='optionInNavbar lngNB pointer'>
-                    <Lng changeLanguage={this.changelng} />
-                </div> */}
-
                     {this.state.width > 900 || this.state.height > 1200 ? <div className='containIconNavbar'>
                         <img onClick={() => {
                             this.props.history.replace('/')
@@ -110,13 +91,6 @@ class NavBar extends Component {
 
 
                     <div className='navbarLeft'>
-                        {/* <div className='containIconNavbar'>
-                            <img onClick={() => {
-                                window.open('https://www.hilma.tech/')
-                            }} alt="alt" src={hilma} height='60%'/>
-                        </div> */}
-
-
                         {this.state.width <= 900 && this.state.height <= 1200 &&
                         <div className='containIconNavbar' style={{alignItems: 'center'}}>
                             <img onClick={() => {
@@ -125,13 +99,6 @@ class NavBar extends Component {
                         </div>}
 
                     </div>
-                    
-
-                    {/* <div className={this.props.LanguageStore.lang !== 'heb' ? 'navbarIcon fdrr' : 'navbarIcon'}> */}
-
-                    {/* </div> */}
-
-
                     <SideNavBar
                         history={this.props.history}
                         changeLanguage={this.changelng}
@@ -144,5 +111,4 @@ class NavBar extends Component {
     }
 }
 
-// export default withRouter(NavBar);
 export default inject('LanguageStore')(observer(withRouter(NavBar)));

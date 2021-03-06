@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './_Login.scss';
 import Auth from './Auth';
-// import { Redirect } from 'react-router';
 import ValidateTool from '../tools/ValidateTool'
 import ElementsHandler from '../../handlers/ElementsHandler'
 import { Dialog, DialogTitle, Button, DialogContent, DialogActions } from '@material-ui/core';
 import GenericTools from '../tools/GenericTools'
 
 class Login extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +35,6 @@ class Login extends Component {
         this.setState({ isLoading: true });
 
         let res = await Auth.login(email, pw);
-        // console.log("Auth.authenticate res", res);
 
         this.setState({ isLoading: false });
 
@@ -46,9 +43,7 @@ class Login extends Component {
             this.setState({ loginMsg: res.msg.error.msg });
             return;
         }
-        //if res.success is true
         let pwdResetRequired = res.user && res.user.pwdResetRequired;
-        // console.log(this.props.redirectUrl, 'this.props.redirectUrl')
         let redirTo = this.props.redirectUrl || "/";
         if (pwdResetRequired) redirTo = "/new-password";
         GenericTools.safe_redirect(redirTo);
@@ -243,36 +238,3 @@ class Login extends Component {
 
 window.ValidateTool = ValidateTool;
 export default Login;
-
-
-/*
-<div className='frow'>
-        <p className="registerLink" onClick={this.openRegModal}>לא רשומים? הירשמו עכשיו!</p>
-
-            <form className="form" id="registrationForm" style={{ textAlign: 'center' }} onSubmit={this.register}>
-                <p className="mt-3">מלאו את הפרטים הבאים</p>
-                <div className="form-group">
-                    <label for="registerPrivateName">הכנס שם פרטי</label>
-                    <input onChange={this.handleInputChange} name='realm' id="registerPrivateName" className="form-control" type='text' required placeholder="הכנס את שמך"></input>
-                    <div className="validationError">{this.state.realm.text}</div>
-                </div>
-                <div className="form-group">
-                    <label for="registerEmail">הכנס כתובת מייל</label>
-                    <input onChange={this.handleInputChange} name='email' id="registerEmail" className="form-control" type='email' required placeholder={"example@gmail.com"}></input>
-                    <div className="validationError">{this.state.email.text}</div>
-                </div>
-                <div className="form-group">
-                    <label for="registerUserName">הכנס שם משתמש</label>
-                    <input onChange={this.handleInputChange} name='username' id="registerUserName" className="form-control" type='text' required placeholder="הכנס שם משתמש"></input>
-                    <div className="validationError">{this.state.username.text}</div>
-                </div>
-                <div className="form-group">
-                    <label for="registerPasswd">הכנס סיסמא</label>
-                    <input required name='password' id="registerPasswd" className="form-control" type='password' required placeholder="הכנס סיסמא" onChange={this.handleInputChange}></input>
-                    <div className="validationError">{this.state.password.text}</div>
-                </div>
-                <button className='btn btn-warning' type='submit'>הירשם!</button>
-            </form>
-
-    </div>
-*/

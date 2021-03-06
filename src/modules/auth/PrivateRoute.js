@@ -1,4 +1,4 @@
-import React, { Component } from 'react';//, Suspense, lazy
+import React, { Component } from 'react';
 import { Route } from "react-router-dom";
 import { Redirect } from 'react-router';
 import Auth from './Auth';
@@ -6,7 +6,6 @@ import b from 'base-64';
 
 
 class PrivateRouteAsync extends Component {
-
   state = { haveAccess: false, loaded: false, }
 
   componentDidMount() {
@@ -14,35 +13,29 @@ class PrivateRouteAsync extends Component {
   }
 
   checkAcces = () => {
-
-    // const { userRole, history } = this.props;
-    // let { haveAccess } = this.state;
     Auth.isAuthenticatedSync((isAuth) => {
       this.setState({ haveAccess: isAuth, loaded: true });
     });
-
   }
 
   render() {
     const { component: Component, ...rest } = this.props;
     const { loaded, haveAccess } = this.state;
-    if (!loaded) return null;
-    // console.log("pathname", this.props.location.pathname);
 
+    if (!loaded) {
+      return null;
+    }
 
     return (
       <Route key={0}
         {...rest}
         render={props => {
-          // console.log("have access?", haveAccess);
-          return haveAccess ?
-            (<Component {...props} />)
-            :
-            (<Redirect to={{ pathname: '/', }} />);
+          return haveAccess
+            ? (<Component {...props} />)
+            : (<Redirect to={{ pathname: '/', }} />);
         }}
       />
     );
-
   }
 }
 
@@ -62,14 +55,11 @@ class PrivateRoute extends Component {
     let kls = Auth.getKls();
     this.klsk = [];
     this.dhp = null;
-    //console.log("KLS?",kls);
-    //console.log("klo?",JSON.parse(b.decode(kls.klo)));
     try {
       let klsk = JSON.parse(b.decode(kls.klo));
       this.klsk = klsk.a;
       this.dhp = klsk.b;
-
-    } catch (err) { }
+    } catch (err) {}
     this.haveAccess = Auth.isAuthenticated();
   }
 
@@ -77,15 +67,12 @@ class PrivateRoute extends Component {
     const { compName, component: Component, defaultRedirectComp: Drc, ...rest } = this.props;
 
     return (
-
       <Route key={0} {...rest} render={props => {
-
-        if (this.klsk.indexOf(compName) == -1 || !this.haveAccess) {
+        if (this.klsk.indexOf(compName) === -1 || !this.haveAccess) {
           return Drc ? Drc : <Redirect to='/' />
         }
         return <Component {...props} />;
       }} />
-
     );
   }
 }
@@ -111,7 +98,6 @@ class MultipleRoute extends Component {
     try {
       let klsk = JSON.parse(b.decode(kls.klo));
       this.klsk = klsk.a;
-
     } catch (err) { }
 
     this.haveAccess = Auth.isAuthenticated();
@@ -126,7 +112,6 @@ class MultipleRoute extends Component {
     return (
       <Route exact key={0} {...rest} render={props => {
         if (!this.haveAccess || intersection.length === 0 || this.klsk.length === 0) {
-          // console.log("Multipleroutes - not authorized!")
           return Drc ? Drc : <Redirect to="/" />;
         }
 

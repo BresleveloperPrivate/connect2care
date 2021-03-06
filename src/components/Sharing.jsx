@@ -1,12 +1,9 @@
 import React from 'react';
 import '../styles/sharing.scss';
 import shareIt from '../icons/share.svg';
-// import Button from '@material-ui/core/Button';
-// import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import whatsappIcon from '../icons/whatsapp.svg';
 import facebookIcon from '../icons/facebook.svg';
-import emailIcon from '../icons/email.svg';
 import linkIcon from '../icons/link.svg';
 import Auth from '../modules/auth/Auth';
 import SendEmail from './sendEmail.jsx';
@@ -14,15 +11,6 @@ import { useCopyToClipboard } from 'react-use';
 import useOnClickOutside from './UseOnClickOutside'
 import { inject, observer } from 'mobx-react';
 
-
-// import greenBackground from '../icons/greenBackground.png'
-
-//pass me this: styleObject = {
-//buttonWidth: '?rem'
-//fontSize: '?rem'
-//imageWidth: '?px'
-//imageHeight: '?px'
-//} Make sure these are strings!
 
 function Sharing(props) {
   const ref = React.useRef()
@@ -32,10 +20,6 @@ function Sharing(props) {
   const [openEmail, setOpenEmail] = React.useState(false);
   const [, copyToClipboard] = useCopyToClipboard();
   let url = `${process.env.REACT_APP_DOMAIN}/#/meeting/${props.data.meetingId}`
-
-  const handleOpenEmail = () => {
-    setOpenEmail(true);
-  };
 
   const handleClick = () => {
     setOpenShare(!openShare);
@@ -47,20 +31,13 @@ function Sharing(props) {
 
   const { styleObject } = props;
 
-  // const getViewport = () => {
-  //   let width = Math.max(document.documentElement.clientWidth, window.outerWidth || 0);
-  //   let height = Math.max(document.documentElement.clientHeight, window.outerHeight || 0);
-  //   if (width >= 490 && height >= 490) return true;
-  //   else return false;
-  // }
-
   const shareWithWhatsApp = async () => {
     let text = null;
-    if (props.data.fallens.length === 1)
+    if (props.data.fallens.length === 1) {
       text = `הצטרפו אלינו למפגש zoom לזכר ${props.data.fallens[0].name} ז"ל`
-    else {
+    } else {
       text = `הצטרפו אלינו למפגש zoom לזכרם של `
-      props.data.fallens.map((x, index) => {
+      props.data.fallens.forEach((x, index) => {
         if (index === 0) {
           text = text + `${x.name}`
         }
@@ -77,13 +54,13 @@ function Sharing(props) {
     let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (!isMobile) {
       //whats app web:
-      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`;
       let linkText = text + ":" + urlApp;
       let href = `https://web.whatsapp.com/send?text=${linkText}`;
       window.open(href, '_blank');
     } else {
       //whatsapp App:
-      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`
+      let urlApp = `${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`;
       let linkText = text + ":" + urlApp;
       let href = `whatsapp://send?text=${linkText}`;
       window.location.assign(href);
@@ -98,23 +75,23 @@ function Sharing(props) {
     for (let i = 0; i < props.data.fallens.length; i++) {
       if (i === 0) {
           if (props.LanguageStore.lang !== 'heb') {
-              fallens = fallens + ` ${props.data.fallens[i].name} `
+              fallens = fallens + ` ${props.data.fallens[i].name} `;
           } else {
-              fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`
+              fallens = fallens + ` ${props.data.fallens[i].name} ז"ל`;
           }
       }
       else if (i === props.data.fallens.length - 1) {
           if (props.LanguageStore.lang !== 'heb') {
-              fallens = fallens + ` and ${props.data.fallens[i].name} ז"ל`
+              fallens = fallens + ` and ${props.data.fallens[i].name} ז"ל`;
           } else {
-              fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`
+              fallens = fallens + ` ו${props.data.fallens[i].name} ז"ל`;
           }
       }
       else {
           if (props.LanguageStore.lang !== 'heb') {
-              fallens = fallens + `, ${props.data.fallens[i].name}`
+              fallens = fallens + `, ${props.data.fallens[i].name}`;
           } else {
-              fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`
+              fallens = fallens + `, ${props.data.fallens[i].name} ז"ל`;
           }
       }
   }
@@ -153,7 +130,7 @@ function Sharing(props) {
     
     </div>
     ` }
-    let [res, err] = await Auth.superAuthFetch('api/meetings/SendShareEmail', {
+    await Auth.superAuthFetch('api/meetings/SendShareEmail', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -163,18 +140,17 @@ function Sharing(props) {
     handleClose();
   };
 
-const setCopiesd=()=>{
+const setCopiesd = () => {
   let ctc = document.getElementById('CTC')
-  if(ctc){
+  if (ctc) {
     ctc.classList.remove('opacity')
-    setTimeout(()=>{
+    setTimeout(() => {
       ctc.classList.add('opacity')
-    },2500)
+    }, 2500)
   }
 }
 
   const shareWithFaceBook = async () => {
-
     window.FB.ui({
       method: 'share_open_graph',
       action_type: 'og.shares',
@@ -185,48 +161,24 @@ const setCopiesd=()=>{
         }
       })
     })
-    // window.FB.ui({
-    //   method: 'share_open_graph',
-    //   action_type: 'og.shares',
-    //   display: 'popup',
-    //   action_properties: JSON.stringify({
-    //     object: {
-    //       'og:url': 'https://lohamim.carmel6000.com/#/?og_img=http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg',
-    //       'og:title': 'crap in pita',
-    //       'og:description': 'not tasty',
-    //       'og:image': 'http://izkorcdn.azureedge.net/Data/korot/Image/506173.jpg'
-    //     }
-    //   })
-    // }, function(response) {
-    //   // Action after response
-    //   console.log("res fb",response)
-    // });
-    // window.open('https://www.facebook.com/sharer/sharer.php?u=https://lohamim.carmel6000.com', '_blank');
     handleClose();
   };
 
   return (
-
-
-
     <div ref={ref} style={{ position: 'relative' }}>
       <div id={props.myId} aria-controls="simple-menu" aria-haspopup="true" className='grow' onClick={handleClick} style={{ width: styleObject.buttonWidth, cursor: 'pointer', transition: 'transform 0.5s ease' }}>
         <div className={props.containImageClassName}><img src={shareIt} alt="alt" width='100%' height='100%' /></div>
         <span className="inviteSpan">
-          
-{props.t('share')}
-          </span>
-
+          {props.t('share')}
+        </span>
       </div>
 
       <div id='CTC' className='copied opacity'>
-    {props.t('copied')}
+        {props.t('copied')}
       </div>
       {openShare ? <div className='containShareOptions'>
-
         <MenuItem className='shareOption' onClick={shareWithWhatsApp}><img width="20px" height="20px" src={whatsappIcon} id="platformIcon" /> <span id="platformName">Whatsapp</span> </MenuItem>
         <MenuItem className='shareOption' onClick={shareWithFaceBook}><img width="20px" height="20px" src={facebookIcon} id="platformIcon" /> <span id="platformName">Facebook</span></MenuItem>
-        {/* <MenuItem className='shareOption' onClick={handleOpenEmail}><img width="20px" height="20px" src={emailIcon} id="platformIcon" /> <span id="platformName">{props.t("email")}</span></MenuItem> */}
         <MenuItem className='shareOption'><img width="20px" height="20px" src={linkIcon} id="platformIcon" /> <span onClick={() => {
           copyToClipboard(`${process.env.REACT_APP_DOMAIN}?id=${props.data.meetingId}`)
           handleClose()
@@ -243,4 +195,3 @@ const setCopiesd=()=>{
 }
 
 export default inject('LanguageStore')(observer(Sharing));
-

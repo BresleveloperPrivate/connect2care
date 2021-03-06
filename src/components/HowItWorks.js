@@ -3,15 +3,6 @@ import { inject, observer} from 'mobx-react';
 
 import '../styles/howItWorks.css'
 
-import candle from '../icons/candle.svg'
-import Step1 from '../icons/step1.svg'
-import Step2 from '../icons/step2.svg'
-import Step3 from '../icons/step3.svg'
-import Step4 from '../icons/step4.svg'
-import Step5 from '../icons/step5.svg'
-// import Step6 from '../icons/step6.svg'
-// import Step7 from '../icons/step7.png'
-
 import Group5 from '../icons/Group5.svg';
 import Group6 from '../icons/Group6.svg';
 import Group7 from '../icons/Group7.svg';
@@ -35,7 +26,6 @@ class HowItWorks extends Component {
 
                     <div className={this.props.LanguageStore.lang !== 'heb' ? 'howItWorksOption tal' : 'howItWorksOption tar'}>
                             {this.props.t('meetingHost')}
-                            {/* מארח/ת המפגש */}
                         </div>
                         <div className='containSteps'>
                             <div className='step'>
@@ -55,7 +45,6 @@ class HowItWorks extends Component {
                                     <img alt="alt" src={noun_clock_3690327} width='80%' />
                                 </div>
                                 {this.props.t('step3')}
-                                {/* <strong>האחים שלנו</strong> */}
                             </div>
 
                         </div>
@@ -99,18 +88,6 @@ class HowItWorks extends Component {
                             <div className='arrow-left-gray'></div>
                         </div>
 
-                        {/* <div className='resultText'> */}
-                            {/* מתחברים לקישור של Zoom,<br />
-                        מסדרים את המצלמה, */}
-                        {/* {this.props.t('step7-1')}
-                        <br/>
-                        {this.props.t('step7-2')} */}
-
-                      {/* </div> */}
-                        {/* <div style={{ padding: '20px 0px 10px 0px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <div className='containImageStep'><img alt="alt" width='100%' src={Step5} /></div>
-                        </div> */}
-
                         <div className='howItWorksLeft'>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2vh' }}>
                                 <div className={this.props.LanguageStore.lang !== 'heb' && this.props.LanguageStore.width > 550 ?'containImageStep tal': this.props.LanguageStore.width > 550 ? 'containImageStep tar': 'containImageStep'} style={{height:'fit-content'}}><img alt="alt" width='60%' src={shape} /></div>
@@ -119,9 +96,7 @@ class HowItWorks extends Component {
                         </div>
                     </div>
                 </div>
-
             </div>
-
         );
     }
 }

@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { inject, observer } from 'mobx-react';
 import TopBarManager from './TopBarManager'
 import Filters from './Filters'
 import SendZoom from './SendZoom'
 import MeetingsList from './MeetingsList'
 import '../style/dashboardMain.css'
-import Select from '../../components/Select'
 
 const DashboardMain = (props) => {
-
     useEffect(() => {
         (async () => {
             props.ManagerStore.setPage(1)
             props.ManagerStore.setReadMore(false)
             await props.ManagerStore.fetchMeetingsDashboard()
         })()
-    }, [])
+    }, []);
 
     return (
         <div style={{ minHeight: '100vh', width: '100vw', backgroundColor: 'var(--custom-background-light-blue)', paddingBottom: '10vh' }}>
@@ -29,4 +27,4 @@ const DashboardMain = (props) => {
     )
 }
 
-export default inject('ManagerStore')(observer(DashboardMain))
+export default inject('ManagerStore')(observer(DashboardMain));
