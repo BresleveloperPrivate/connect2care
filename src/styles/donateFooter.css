@@ -1,0 +1,38 @@
+.donateIcon{
+  height: 80%;
+  width: 80%;
+  padding: 2px;
+}
+
+.donateContent{
+  height: 50px;
+  width: 180px;
+  background: var(--custom-blue-3);
+  color: #ffffff;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin: 0;
+}
+
+ .donateContent:hover{
+  text-decoration: none;
+  color: #a4cece;
+}
+
+.iconContainer{
+  border-radius: 50px;
+  background: #f6f8f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  height: 35px;
+  width: 35px;
+}
+
+.donateText{
+  margin: auto auto;
+}

@@ -2,6 +2,17 @@
   height: 60vh;
   background: #ffffff;
   text-align: center;
-  border: 2px black solid;
   margin: 12px;
+}
+
+
+
+@media screen and (max-width: 550px){
+  .opening-video{
+    display: none;
+  }
+
+  .openingImage{
+    width: 90vw;
+  }
 }
