@@ -1,0 +1,21 @@
+/* .responsiveImage{
+  display: none;
+} */
+
+@media screen and (max-width: 550px){
+  .responsiveImage{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+  .responsiveImage img{
+  width: 95vw;
+  }
+}
+
+@media screen and (min-width: 551px){
+  .responsiveImage img{
+    display: none;
+  }
+}

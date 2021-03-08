@@ -5,6 +5,19 @@
     padding-right: 6vw;
     padding-left: 6vw;
     background: #f6f6f6;
+    /* display: flex;
+    justify-content: center; */
+}
+
+.contactMail{
+    display: flex;
+    justify-content: center;
+}
+
+.contactSocial{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .textContact{
@@ -58,6 +71,7 @@
     letter-spacing: 0;
     margin: 0 0 4vh;
     color: #19A099;
+    margin-bottom: 50px;
 }
 
 

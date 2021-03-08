@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import NavBar from './NavBar'
-//import OpeningImage from './OpeningImage'
+import ResponsiveImage from './ResponsiveImage';
 import OpeningVideo from './OpeningVideo';
 import Explanation from './Explanation'
 import HowItWorks from './HowItWorks'
@@ -23,7 +23,7 @@ import Rights from './Rights';
                     className={'navbar-opening'}
                 /> */}
 
-                {/*<OpeningImage t={props.t}/>*/}
+                <ResponsiveImage t={props.t}/>
 
                 <OpeningVideo t={props.t} />
 
@@ -47,9 +47,9 @@ import Rights from './Rights';
 
                 {/* <Info t={props.t} /> */}
 
-                <Footer t={props.t} />
+                {/* <Footer t={props.t} /> */}
 
-                <Rights t={props.t} />
+                {/* <Rights t={props.t} /> */}
 
             </div>
         );

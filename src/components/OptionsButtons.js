@@ -10,7 +10,7 @@ class ContainOptions extends Component {
     render() {
         return (
             <div className='buttonsSection'>
-                <div className='leftLine '></div>
+                <div className='leftLine'></div>
                 <div>
                     <div className={this.props.className}>
                         <div className={this.props.LanguageStore.lang !== 'heb' ? 'pointer grow firstOptionOpeningImage' : 'ml6vw pointer grow firstOptionOpeningImage'}

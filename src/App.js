@@ -12,6 +12,8 @@ import './styles/partners.css'
 import loadable from '@loadable/component';
 import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
+import Footer from '../src/components/Footer';
+import Rights from '../src/components/Rights';
 // import { Dashboard } from '@material-ui/icons';
 
 const Home = loadable(() => import('./components/Home.js'));
@@ -94,6 +96,8 @@ class App extends Component {
                         <Route path="/" exact render={props => <HilmaCredit t={this.props.t} colorCredit="blue" {...props} />} />
                         <Route path="/(meeting)/" render={props => <HilmaCredit t={this.props.t} colorCredit="white" {...props} />} />*/}
                         
+                        <Footer />
+                        <Rights />
                     </div>
                 </Router>
             </Suspense>}

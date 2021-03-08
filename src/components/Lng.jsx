@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import heb from '../icons/27122.svg';
+import eng from '../icons/usFlag2.svg.webp';
 
 class Lng extends Component {
     constructor(props) {
@@ -20,8 +22,8 @@ class Lng extends Component {
         return (
             <div >
                 {this.state.lngToChoose === "heb" ?
-                <div className="lgnP" onClick={() => { this.changelng("en"); }}>English</div> :
-                <div className="lgnP" onClick={() => { this.changelng("heb"); }}>עברית</div>}
+                <div className="lgnP" onClick={() => { this.changelng("en"); }}>ENG<img src={eng} alt="english" className="flag" /></div> :
+                <div className="lgnP" onClick={() => { this.changelng("heb"); }}>HEB<img src={heb} alt="hebrew" className="flag" /></div>}
             </div>
 
 

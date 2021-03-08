@@ -41,10 +41,12 @@ const SideNavBar = (props) => {
                                 <ListItemText disableTypography className='optionTextContainer' primary={text.option} />
                             </ListItem>
                         )
+                        
                     })}
                     <ListItem button className='containSideListItem'>
                         <ListItemText disableTypography className='optionTextContainer' primary={<Lng changeLanguage={props.changeLanguage} />} />
                     </ListItem>
+
                 </List>
             </div>
         </SwipeableDrawer>)
