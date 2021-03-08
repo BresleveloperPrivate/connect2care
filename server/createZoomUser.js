@@ -16,13 +16,14 @@ const createZoomUser = async (email, name) => {
             Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
-            action: 'create',
+            action: 'autoCreate',
             user_info:
             {
                 email,
                 type: 2,
                 first_name: name,
                 last_name: 'ממתחברים וזוכרים',
+                password: 'OurBrothers2021',
             }
         }),
     };

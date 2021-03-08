@@ -32,7 +32,7 @@ const TopBarManager = () => {
     return (
         <div>
             <div className="topBar d-flex align-items-center">
-                <div style={{ fontSize: '4vh', fontWeight: 'bolder', padding: '0 10vw', paddingLeft: '61vw' }}>מתחברים וזוכרים</div>
+                <div style={{ fontSize: '4vh', fontWeight: 'bolder', padding: '0 10vw', paddingLeft: '61vw', whiteSpace: 'nowrap' }}>מתחברים וזוכרים</div>
                 <div className="managerName">
                     {/* משה לוי */}
                     <img src={logoutIcon} alt='התנתק' className="pointer" style={{ width: '3.5vh' }} onClick={logOut}/>
