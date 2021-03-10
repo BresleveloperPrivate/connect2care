@@ -1,6 +1,8 @@
 'use strict';
 // const getZoomUser = require('../../server/getZoomUser.js');
-const sendEmail = require('../../server/email.js');
+const sendEmail = require('../../server/newEmail.js');
+
+// const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 // const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const scheduleMeeting = require('../../server/scheduleMeeting.js');
@@ -331,7 +333,7 @@ module.exports = function (meetings) {
                                             //     <div width="100%" style="direction: rtl;"><img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg"><div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;"><div style="font-weight: bold; margin-bottom: 20px;">אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
                                             //     </div>המפגש שיצרת נוצר בהצלחה.
                                             //     ${code}<br>
-                                            //     <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2020<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
+                                            //     <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2021<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
                                             //   `
                                             `
                                 <div width="100%" style="direction: rtl;">
@@ -364,7 +366,7 @@ module.exports = function (meetings) {
                                 }
 
 
-                                // sendEmail("", sendOptions);
+                                sendEmail(sendOptions);
                                 return cb(null, userMeeting)
 
                             }
@@ -460,7 +462,7 @@ module.exports = function (meetings) {
                         }
                     }
 
-                    // sendEmail("", sendOptions);
+                    sendEmail(sendOptions);
                 }
             }
 
@@ -514,7 +516,7 @@ module.exports = function (meetings) {
 
                 }
 
-                // sendEmail("", sendOptions);
+                sendEmail(sendOptions);
             }
 
             if (data.description && data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
@@ -903,13 +905,15 @@ module.exports = function (meetings) {
                        ` }
             }
 
-            // sendEmail("", sendOptions);
+            sendEmail (sendOptions);
 
             if (date[0] === new Date(dateStr).getDate() && date[1] === new Date(dateStr).getMonth() + 1 && date[2] === new Date(dateStr).getFullYear() && meetingTime - currentTime < 300 && meetingTime - currentTime >= -10) {
 
-                // sendEmail("", {
-                //     to: email, subject: "קישור זום למפגש", html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
-                // });
+                sendEmail({
+                    to: email, 
+                    subject: "קישור זום למפגש", 
+                    html: `<h1>זהו קישור הזום למפגש אליו נרשמת, עליך להכנס איתו למפגש  "${meeting.name}" ב${meeting.date} ${meeting.time}<br> ${meeting.zoomId}</h1>`,
+                });
             }
 
             let [err4, meetingsRes] = await to(meetings.upsertWithWhere({ id: Number(meetingId) }, { participants_num: newParticipantsCount }));
@@ -940,7 +944,7 @@ module.exports = function (meetings) {
     meetings.SendShareEmail = (senderName, sendOptions, cb) => {
         (async () => {
             console.log(process.env.TEST, process.env.TEST)
-            // sendEmail(senderName, sendOptions);
+            sendEmail(sendOptions);
             cb(null, { res: process.env.TEST })
         })();
     }
@@ -1005,7 +1009,7 @@ module.exports = function (meetings) {
                 }
 
 
-                // sendEmail("", sendOptions);
+                sendEmail(sendOptions);
 
                 // people.destroyAll(where, (err4, res2) => {
                 //     if (err3) {
@@ -1099,7 +1103,7 @@ module.exports = function (meetings) {
                             A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
                             B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
                             C. Your user name will be automatically filled in, please use the password:
-                            OurBrothers2020 <br>
+                            OurBrothers2021 <br>
                                     <div
                                         style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                                         How to create a meaningful meet-up:
@@ -1172,7 +1176,7 @@ module.exports = function (meetings) {
                         <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                             איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה
                         להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה
-                        השתמש ב: OurBrothers2020<br>
+                        השתמש ב: OurBrothers2021<br>
                         <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                             איך יוצרים מפגש מעולה:</div>
                         <div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל
@@ -1210,7 +1214,7 @@ module.exports = function (meetings) {
 
 
 
-            // sendEmail("", sendOptions);
+            sendEmail(sendOptions);
             return cb(null, true)
         })()
     }
@@ -1464,7 +1468,7 @@ module.exports = function (meetings) {
                                                 <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
                                                 <strong>התחבר עם האימייל והסיסמה:</strong><br>
                                                 אימייל: ${emailZoom} <br>
-                                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
                                                 לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
                                                 <br><br>
                                                 בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
@@ -1483,7 +1487,7 @@ module.exports = function (meetings) {
                                                     <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
                                                     <strong>התחבר עם האימייל והסיסמה:</strong><br>
                                                     אימייל: ${emailZoom} <br>
-                                                    סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                                                    סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
                                                     לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
                                                     <br><br>
                                                     בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
@@ -1525,7 +1529,7 @@ module.exports = function (meetings) {
                             טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br>
                             <strong>התחבר עם האימייל והסיסמה:</strong>
                             <br><strong>אימייל:</strong> ${emailZoom} <br>
-                            <strong>סיסמה:</strong> הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                            <strong>סיסמה:</strong> הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
                             לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
                             <br>
                             בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
@@ -1543,7 +1547,7 @@ module.exports = function (meetings) {
                             טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.<br>
                             <strong>התחבר עם האימייל והסיסמה:</strong>
                             <br><strong>אימייל:</strong> ${emailZoom} <br>
-                            <strong>סיסמה:</strong> הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2020" <br>
+                            <strong>סיסמה:</strong> הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
                             לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
                             <br>
                             בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
