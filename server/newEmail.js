@@ -55,7 +55,7 @@
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'eu-west-1' });
 
-const sourceEmail = 'justsivan@gmail.com' // 'Zikaron@ourbrothers.org';
+const sourceEmail = 'ourbrother@connect2care.ourbrothers.co.il' // 'Zikaron@ourbrothers.org';
 
 const awsSendEmail = async (options) => {
     const params = {
