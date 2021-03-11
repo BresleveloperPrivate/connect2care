@@ -4,7 +4,7 @@
     min-height: calc(83vh);
     padding-right: 6vw;
     padding-left: 6vw;
-    background: #f6f6f6;
+    /* background: #f6f6f6; */
     /* display: flex;
     justify-content: center; */
 }
@@ -99,5 +99,11 @@
 @media screen and (max-height: 450px){
     .contactHeadLine{
         margin-top: 16vh;
+    }
+}
+
+@media screen and (min-width: 550px){
+    #contactPage{
+        margin-top: 11vh;
     }
 }

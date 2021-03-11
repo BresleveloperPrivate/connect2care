@@ -390,7 +390,7 @@ const CreateMeeting = (props) => {
                                                     <a href={`${process.env.REACT_APP_DOMAIN}/terms.pdf`} target="_blank"> terms and conditions </a>.
                                                 </div>
                                                 :
-                                                <div>אני מסכים/ה ל<span className='contentClick' onClick={() => window.open(`${process.env.REACT_APP_DOMAIN}/terms.pdf`)}>תקנון</span> ולתנאי השימוש באתר.</div>
+                                                <div>אני מסכים/ה ל<span className='terms' onClick={()=>{window.open('https://ourbrothers.co.il/assets/docs/%D7%AA%D7%A0%D7%90%D7%99%20%D7%A9%D7%99%D7%9E%D7%95%D7%A9%20%D7%94%D7%90%D7%97%D7%99%D7%9D%20%D7%A9%D7%9C%D7%A0%D7%95.pdf')}}>תקנון</span> ולתנאי השימוש באתר.</div>
                                             }
 
                                         </label>
