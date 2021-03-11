@@ -14,6 +14,7 @@ import logo10 from '../icons/logo10.png'
 import hilma from '../icons/hilmasquare.png'
 import matnas from '../icons/logo11.png'
 // import tzahal from '../icons/tzahal.png'
+import DonateButton from './DonateButton';
 
 
 class NavBar extends Component {
@@ -118,6 +119,8 @@ class NavBar extends Component {
                         <div className='optionInNavbar lngNB pointer'>
                         <Lng changeLanguage={this.changelng}/>
                         </div>
+
+                        {/* <DonateButton /> */}
 
                         <div className='ourBrothersLink'>
                             <a href='https://ourbrothers.co.il/' target='_blank' rel='noopener noreferrer'>האחים שלנו</a>

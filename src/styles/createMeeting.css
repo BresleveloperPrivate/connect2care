@@ -18,6 +18,12 @@
     padding-bottom: 5vh;
 }
 
+.terms{
+    text-decoration: underline;
+    cursor: pointer;
+    color: blue;
+}
+
 .inputStyle{
     color: var(--custom-gray);
     border: 2px solid #E8E9EC;
