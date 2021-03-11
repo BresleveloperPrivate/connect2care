@@ -33,7 +33,7 @@ const Info = (props) => {
                     <div className="contactFacebookImg" style={props.LanguageStore.lang === "heb" ? { marginRight: "1vh" } : { marginLeft: "1vh" }}></div>
                 </div>
 
-                <div className="facebook-div" onClick={() => { window.open("https://www.instagram.com/ourbrothers2020/") }}>
+                <div className="facebook-div" onClick={() => { window.open("https://www.instagram.com/ourbrothers2021/") }}>
                     <div>Instagram</div>
                     <img src={instagram} style={props.LanguageStore.lang === "heb" ? { width: "20px", marginRight: "1vh" } : { width: "20px", marginLeft: "1vh" }} />
                 </div>
