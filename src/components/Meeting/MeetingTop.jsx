@@ -1,5 +1,5 @@
 import React from 'react';
-import { meetingDate } from '../../consts/Meetings.consts';
+// import { meetingDate } from '../../consts/Meetings.consts';
 import { inject, observer } from 'mobx-react';
 
 
@@ -13,9 +13,9 @@ const MeetingTop = ({ name, owner, description, date, time ,LanguageStore , t}) 
         <p style={LanguageStore.lang !== 'heb' ? {textAlign:'left'}:{textAlign:'right'}} id="meetingDescription">
             {description}</p>
             }
-        {((date && date.length !== 0) || (time && time.length !== 0)) && <div id="meetingDateTime">
+        {(date || time) && <div id="meetingDateTime">
 
-            {t(meetingDate({t}).find(val=> val.data === date)?.option)} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time}
+            {date} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time}
             
             </div>}
     </div>
