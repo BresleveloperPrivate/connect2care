@@ -48,8 +48,8 @@ const translationHEB = {
 
     "IWantToInitiateAMeeting": "אני רוצה להוביל מפגש",
     "IWantToAttendAMeeting": "אני רוצה להשתתף במפגש",
-    "participantInMeeting": "משתתף במפגש",
-    "meetingHost": 'מארח/ת המפגש',
+    "participantInMeeting": "משתתפ/ת במפגש",
+    "meetingHost": 'מוביל/ת המפגש',
     "step1": 'פותחים מפגש חדש',
     "step2": 'משתפים את כולם',
     "step3": 'נפגשים בזמן ובשעה שקבענו',
