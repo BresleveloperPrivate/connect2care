@@ -1229,8 +1229,15 @@ module.exports = function (meetings) {
     })
 
     meetings.get38Meetings = (cb) => {
+        // console.log('meetings', meetings);
         (async () => {
-            let [err, res] = await to(meetings.find({ "where": { "approved": 1 }, "fields": { "id": true, "zoomId": false }, "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }], "limit": "38" }))
+            let [err, res] = await to(meetings.find(
+                {
+                    "where": { "approved": 1 , "date": { like: "%2021%"} },
+                    "fields": { "id": true, "zoomId": false },
+                    "include": [{ "relation": "fallens", "scope": { "fields": { "image_link": true } } }],
+                    "limit": "38"
+                }))
             if (err) {
                 console.log(err)
                 cb(err, {})
