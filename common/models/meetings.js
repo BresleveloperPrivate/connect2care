@@ -1056,7 +1056,9 @@ module.exports = function (meetings) {
 
     meetings.approveMeeting = (email, id, nameOwner, cb) => {
         (async () => {
-            let newEmail = email.replace("@", "+c2c@");
+            // let newEmail = email.replace("@", "+c2c@");
+            let emailArr = email.split('@');
+            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`
             let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
             if (err1) {
                 console.log("err1", err1)
