@@ -178,7 +178,9 @@ module.exports = function (meetings) {
         (async () => {
             const people = meetings.app.models.people
             const emailowner = data.owner.email;
-            let newEmail = emailowner.replace("@", "+c2c@");
+            // let newEmail = emailowner.replace("@", "+c2c@");
+            let emailArr = emailowner.split('@');
+            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
             const nameOwner = data.owner.name;
 
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
@@ -1058,7 +1060,7 @@ module.exports = function (meetings) {
         (async () => {
             // let newEmail = email.replace("@", "+c2c@");
             let emailArr = email.split('@');
-            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`
+            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
             let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
             if (err1) {
                 console.log("err1", err1)
@@ -1302,7 +1304,9 @@ module.exports = function (meetings) {
 
     meetings.newZoom = (email, nameOwner, cb) => {
         (async () => {
-            let newEmail = email.replace("@", "+c2c@");
+            // let newEmail = email.replace("@", "+c2c@");
+            let emailArr = email.split('@');
+            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
 
             const [err] = await createZoomUser(newEmail, nameOwner)
 
@@ -1320,7 +1324,9 @@ module.exports = function (meetings) {
 
     meetings.createZoom = (email, date, meetingId, cb) => {
         (async () => {
-            let newEmail = email.replace("@", "+c2c@");
+            // let newEmail = email.replace("@", "+c2c@");
+            let emailArr = email.split('@');
+            const newEmail = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
 
             const dateMap = date.split(' ').pop().split('.');
             const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
@@ -1462,7 +1468,9 @@ module.exports = function (meetings) {
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
-                    let emailZoom = meetingOwner.email.replace("@", "+c2c@");
+                    // let emailZoom = meetingOwner.email.replace("@", "+c2c@");
+                    let emailArr = email.split('@');
+                    const emailZoom = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
                             datas.push({ name: man.name, email: man.email })

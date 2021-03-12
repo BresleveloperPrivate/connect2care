@@ -36,7 +36,9 @@ module.exports = function (app) {
 
                                 let jsdata = JSON.parse(JSON.stringify(meeting))
                                 if (jsdata && jsdata.meetingOwner.email && jsdata.date) {
-                                    let email = jsdata.meetingOwner.email.replace("@", "+c2c@");
+                                    // let email = jsdata.meetingOwner.email.replace("@", "+c2c@");
+                                    let emailArr = jsdata.meetingOwner.email.split('@');
+                                    const email = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
                                     const dateMap = jsdata.date.split(' ').pop().split('.');
                                     const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
                                     newDate.date += 1;
