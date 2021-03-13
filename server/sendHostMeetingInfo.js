@@ -4,6 +4,7 @@ const schedule = require('node-schedule');
 const { creatCsvFile } = require('download-csv');
 const sendEmail = require('./email');
 const { meetingDates } = require('./common/dates');
+const changeEmail = require('./changeEmail');
 
 module.exports = function (app) {
     const to = (promise) => {
@@ -42,8 +43,7 @@ module.exports = function (app) {
                                 let datas = [];
                                 let link = meeting.zoomId.replace('j', 's')
                                 // let emailZoom = meetingOwner.email.replace("@", "+c2c@");
-                                let emailArr = meetingOwner.email.split("@");
-                                const emailZoom = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
+                                const emailZoom = changeEmail(meetingOwner.email);
                                 if (people && people.length > 0) {
                                     people.forEach((man, index) => {
                                         datas.push({ name: man.name, email: man.email })

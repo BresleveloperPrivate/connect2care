@@ -25,11 +25,12 @@ const scheduleMeeting = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             "authorization": `Bearer ${token}`
         }
     };
+    console.log(mail);
 
     let req = http.request(options, function (res) {
         let chunks = [];
         // console.log('scheduleMeeting req.options', req.options);
-
+        console.log(mail);
         res.on("data", function (chunk) {
             chunks.push(chunk);
         });

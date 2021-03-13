@@ -12,6 +12,7 @@ const addPanelists = require('../../server/addPanelists.js');
 const removePanelists = require('../../server/removePanelists.js');
 const { creatCsvFile } = require('download-csv');
 const { meetingDates } = require('../../server/common/dates');
+const changeEmail = require('../../server/changeEmail');
 
 
 module.exports = function (meetings) {
@@ -23,9 +24,6 @@ module.exports = function (meetings) {
             .catch(err => [err]);
     }
     
-    const changeEmail = (email) => {
-        return `${email.replace('@', '')}@connect2commemorate.ourbrothers.co.il`
-    }
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id `
@@ -1346,6 +1344,7 @@ module.exports = function (meetings) {
                     }
                 }
                 return cb(null, url)
+                
             }, newEmail, start_time)
         })()
     }
