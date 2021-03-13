@@ -77,7 +77,7 @@ class NavBar extends Component {
                 </div> */}
                 {this.options &&
                 <div
-                style={this.props.LanguageStore.lang !== 'heb' ? {flexDirection: 'row-reverse'} : {}}
+                // style={this.props.LanguageStore.lang !== 'heb' ? {flexDirection: 'row-reverse'} : {}}
                 className='navbarOptions'>
                 {/* <div className='optionInNavbar lngNB pointer'>
                     <Lng changeLanguage={this.changelng} />
