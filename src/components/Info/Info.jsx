@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { inject, observer } from 'mobx-react';
-import  translationHEB  from '../../i18nreact/translation/heb/translationHEB.heb';
+import translationHEB from '../../i18nreact/translation/heb/translationHEB.heb';
 
 import InfoCard from './InfoCard';
 
@@ -81,7 +81,7 @@ const Info = (props) => {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             לאחר הרישום באתר, יישלח אלייך מייל מהאתר 'מתחברים וזוכרים' שמאשר את ההרשמה ושהמפגש יאושר ב- 48 השעות הקרובות. לאחר אישור המפגש, יישלח אלייך מייל נוסף שההרשמה אושרה ותקבל לינק לעמוד המפגש שלך, אותו תוכל לשלוח לחברים ולבני משפחה.
-                            <br/>
+                            <br />
                             במפגש סגור- בנוסף ללינק, יופיע גם קוד ההצטרפות למפגש. כשאתה מזמין אנשים למפגש חשוב שתשלח להם את הקישור ואת הקוד הצטרפות.
 
                         <br />
@@ -110,11 +110,11 @@ const Info = (props) => {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             בהחלט! צוות ההדרכה שלנו עמל רבות והכין עבורך סדנה וירטואלית לניהול המפגש.<br />
-                        הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">כאן</a>.
+                        הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a>.
                         </div> :
                             <div>
                                 Definitely! Our team has been working hard to prepare a virtual workshop for running sessions.<br />
-                                This workshop will be run online through Zoom, by public speaking experts and digital content experts. You can sign up for one or more of the sessions <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">here</a>.
+                                This workshop will be run online through Zoom, by public speaking experts and digital content experts. You can sign up for one or more of the sessions <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">here</a>.
 
                             </div>}
                     </InfoCard>
@@ -122,8 +122,10 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === "successfulMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
-                            חשוב שיהיה לצידך "מארח", שידאג לכל הצד הטכני, שהזום עובד, המצלמה תקינה, ואם יש צורך אז גם להשתיק קולות מפריעים. כמו כן, חשוב להגיע עם מסרים שאותם רוצים להעביר.<br />
-                            <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">בסדנאות ההכנה</a> ניתן להיעזר ו<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">בערכת ההדרכה</a>.
+                            שוב שיהיה לצידך חבר/ בן משפחה שידאג לכל הצד הטכני - שהזום עובד, המצלמה תקינה, ואם יש צורך אז גם להשתיק קולות מפריעים. כמו כן, חשוב להגיע עם מסרים שאותם רוצים להעביר.
+                            השתתפות ב
+                            <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">בסדנאות ההכנה</a> ניתן להיעזר ו<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">בערכת ההדרכה</a>.
+                            יתרמו לך רבות.
                         </div> :
                             <div>
                                 Ensure that you have a “host” close by, who will be your technical support, that the Zoom and camera are working, and if you must then to mute background noise. You should arrive with the message that you would like to pass on.<br />
@@ -158,13 +160,13 @@ const Info = (props) => {
 
                 else if (arrayQuestion[index] === "inviteToMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
-                        {props.LanguageStore.lang === "heb" ? 
+                        {props.LanguageStore.lang === "heb" ?
                             <div>
                                 בכדי להזמין משתתפים נוספים למפגש שלך, כל שעליך לעשות הוא להכנס
                                 <a href="https://connect2commemorate.ourbrothers.co.il/#/meetings"> למפגש שיצרת באתר </a>
                                 וללחוץ על כפתור 'הזמינו למפגש' - העתיקו את הקישור ופרסמו בקבוצות הוואטסאפ שלכם, בקיר הפייסבוק ובמייל - והזמינו את בני המשפחה והחברים. או לחילופין, להעתיק את הלינק של עמוד המפגש ולשלוח אנשים להכנס פנימה ולהרשם כמשתתפים.
 
-                            </div>:
+                            </div> :
                             <div>
                                 Through Zoom, the program that is hosting our virtual meet-ups. <br />
                                 You can read more in our <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">hosting pack</a> or join the <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">preparatory workshop</a>.
@@ -175,6 +177,53 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === 'doNotSeeTheMeetingQ') {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         <div>{translationHEB.doNotSeeTheMeetingA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'additionalLanguagesQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.additionalLanguagesA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'moreThanOneMeetingQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.moreThanOneMeetingA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'joinMeetingQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>ניתן לבחור בעמוד
+                            <a href="https://connect2commemorate.ourbrothers.co.il/#/meetings"> רשימת המפגשים </a>
+                            את המפגש הנכון עבורך. בסרגל כלים העליון יש אופציות סינון לפי סוג המפגש, תאריכים, שעות, כמות משתתפים וחיפוש חופשי. הקלקה על מפגש ספציפי יפתח חלונית בו יש פירוט על המפגש.
+                            לאחר שבחרת את המפגש אליו אתה רוצה להצטרף, יש למלא פרטים ולחכות למייל.
+                            למפגשים סגורים יש צורך בקוד מפגש שניתן לך ע"י מוביל המפגש.
+                        </div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'maxAndMinParticipantsQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.maxAndMinParticipantsA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'fewFallenQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.fewFallenA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'getZoomLinkQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.getZoomLinkA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'zoomTimeLimitQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.zoomTimeLimitA}</div>
                     </InfoCard>
                 }
 
