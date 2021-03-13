@@ -136,7 +136,7 @@ const FallenDetails = (props) => {
                         </div>
                     </div>
                 }
-                {(currentFallen.relative && currentFallen.relative !== "אחר" && currentFallen.relative !== 'חבר/ה') &&
+                {(currentFallen.relative && currentFallen.relative !== "אחר" && currentFallen.relative !== 'חבר/ה' && currentFallen.relative !== 'קרובי משפחה') &&
                     <>
                         <div className="d-flex align-items-center" onClick={() => CreateMeetingStore.setArmyAgentReq(props.index)}>
                             <div>

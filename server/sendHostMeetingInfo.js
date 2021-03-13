@@ -41,7 +41,9 @@ module.exports = function (app) {
                                 let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                                 let datas = [];
                                 let link = meeting.zoomId.replace('j', 's')
-                                let emailZoom = meetingOwner.email.replace("@", "+c2c@");
+                                // let emailZoom = meetingOwner.email.replace("@", "+c2c@");
+                                let emailArr = meetingOwner.email.split("@");
+                                const emailZoom = `${emailArr[0]}@connect2commemorate.ourbrothers.co.il`;
                                 if (people && people.length > 0) {
                                     people.forEach((man, index) => {
                                         datas.push({ name: man.name, email: man.email })
