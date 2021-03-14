@@ -2,7 +2,7 @@ import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react'
 
 import { createMuiTheme, ThemeProvider, List, ListItem, ListItemAvatar, ListItemText, Avatar, makeStyles, CircularProgress } from '@material-ui/core';
 // import { Search } from "@material-ui/icons";
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { inject, observer } from 'mobx-react';
 
 import Auth from '../modules/auth/Auth';
@@ -84,7 +84,7 @@ const SearchFallen = observer((props) => {
             props.setDataForFallen(true)
     }, []);
 
-    const fetch = useMemo(() => throttle(async (value, callback) => {
+    const fetch = useMemo(() => debounce(async (value, callback) => {
         const [response, error] = await Auth.superAuthFetch(`/api/fallens/SearchFallen`, {
             method: "POST",
             headers: { 'Content-type': 'application/json' },

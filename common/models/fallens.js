@@ -19,9 +19,9 @@ module.exports = function (fallens) {
     
         fallens.dataSource.connector.query(`select *
             from fallens
-            where match(fallens.name) against ('"??"')
+            where fallens.name like '%${newValue}%'
             order by fallens.falling_date desc
-            limit 0, 40`, [newValue], (err, res) => {
+            limit 0, 40`, [], (err, res) => {
             if (err) {
                 console.log(err)
                 return cb(err)

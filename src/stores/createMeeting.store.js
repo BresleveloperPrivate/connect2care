@@ -379,7 +379,6 @@ class CreateMeetingStore {
     }
 
     approveMeeting = async (email, nameOwner) => {
-        console.log("email", email, this.meetingId)
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/approveMeeting/`,
             {

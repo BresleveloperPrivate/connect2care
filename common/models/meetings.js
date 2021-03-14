@@ -1,10 +1,6 @@
 'use strict';
-// const getZoomUser = require('../../server/getZoomUser.js');
 const sendEmail = require('../../server/newEmail.js');
-
-// const sendEmail = require('../../server/email.js');
 const createZoomUser = require('../../server/createZoomUser.js');
-// const scheduleWebinar = require('../../server/scheduleWebinar.js');
 const scheduleMeeting = require('../../server/scheduleMeeting.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
 const ValidateRules = require('../../server/lib/validateRules.js');
@@ -23,20 +19,12 @@ module.exports = function (meetings) {
         })
             .catch(err => [err]);
     }
-    
 
     meetings.getMeetingsUser = (search, filters, limit, options, cb) => {
         let sqlQuerySelect = `meetings.id `
         let sqlQueryfrom = `meetings `
         let sqlQueryWhere = ``
         let params = []
-
-        // console.log(filters)
-
-
-        // if (filters.id) {
-        //     sqlQueryWhere += `meetings.id <= '${filters.id}'`
-        // }
 
         if (limit.min !== 0 && !Number(limit.min)) {
             return cb({ error: 'value is not a number' })
@@ -181,10 +169,6 @@ module.exports = function (meetings) {
             const people = meetings.app.models.people
             const emailowner = data.owner.email;
             console.log(data.owner);
-            // let newEmail = emailowner.replace("@", "+c2c@");
-            const newEmail = changeEmail(emailowner);
-            console.log(newEmail);
-            const nameOwner = data.owner.name;
 
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
@@ -231,7 +215,6 @@ module.exports = function (meetings) {
             if (!data.isOpen) {
                 data.code = Math.floor(Math.random() * (1000000 - 100000)) + 100000
             }
-            let jsdata = JSON.parse(JSON.stringify(data))
             if (data.description.length > 1500) return cb("משהו השתבש, אנא בדוק שתאור המפגש נכון")
             if (data.name.length > 100) return cb("משהו השתבש, אנא בדוק ששם המפגש נכון")
 
@@ -293,8 +276,6 @@ module.exports = function (meetings) {
                                 return cb(err4)
                             }
                             if (userMeeting) {
-                                // let code = jsdata.code ? data.lang == 'en' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-
                                 let sendOptions = {}
                                 if (data.lang !== 'heb' && data.lang) {
                                     sendOptions = {
@@ -1061,7 +1042,6 @@ module.exports = function (meetings) {
 
     meetings.approveMeeting = (email, id, nameOwner, cb) => {
         (async () => {
-            // let newEmail = email.replace("@", "+c2c@");
             const newEmail = changeEmail(email);
             let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
             if (err1) {
@@ -1214,11 +1194,8 @@ module.exports = function (meetings) {
                         </div>
                     </div>
                 `
-
                 }
             }
-
-
 
             sendEmail(sendOptions);
             return cb(null, true)
@@ -1306,7 +1283,6 @@ module.exports = function (meetings) {
 
     meetings.newZoom = (email, nameOwner, cb) => {
         (async () => {
-            // let newEmail = email.replace("@", "+c2c@");
             const newEmail = changeEmail(email);
 
             const [err] = await createZoomUser(newEmail, nameOwner)
@@ -1325,7 +1301,6 @@ module.exports = function (meetings) {
 
     meetings.createZoom = (email, date, meetingId, cb) => {
         (async () => {
-            // let newEmail = email.replace("@", "+c2c@");
             const newEmail = changeEmail(email);
 
             const dateMap = date.split(' ').pop().split('.');
@@ -1337,7 +1312,6 @@ module.exports = function (meetings) {
                     return cb(error);
                 }
                 if (url && url !== undefined) {
-                    // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
                     let [err, res] = await to(meetings.upsertWithWhere({ id: meetingId }, { zoomId: url }));
                     if (err) {
                         console.log(err)
@@ -1469,8 +1443,7 @@ module.exports = function (meetings) {
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
-                    // let emailZoom = meetingOwner.email.replace("@", "+c2c@");
-                    const emailZoom = changeEmail(meetingOwner.email);
+                    const emailZoom = changeEmail(meetingOwner.phone);
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
                             datas.push({ name: man.name, email: man.email })

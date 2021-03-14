@@ -42,8 +42,7 @@ module.exports = function (app) {
                                 let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                                 let datas = [];
                                 let link = meeting.zoomId.replace('j', 's')
-                                // let emailZoom = meetingOwner.email.replace("@", "+c2c@");
-                                const emailZoom = changeEmail(meetingOwner.email);
+                                const emailZoom = changeEmail(meetingOwner.phone);
                                 if (people && people.length > 0) {
                                     people.forEach((man, index) => {
                                         datas.push({ name: man.name, email: man.email })

@@ -37,19 +37,16 @@ module.exports = function (app) {
 
                                 let jsdata = JSON.parse(JSON.stringify(meeting))
                                 if (jsdata && jsdata.meetingOwner.email && jsdata.date) {
-                                    // let email = jsdata.meetingOwner.email.replace("@", "+c2c@");
-                                    const email = changeEmail(jsdata.meetingOwner.email);
+                                    const email = changeEmail(jsdata.meetingOwner.phone);
                                     const dateMap = jsdata.date.split(' ').pop().split('.');
                                     const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
                                     newDate.date += 1;
                                     let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
                                     console.log(count)
                                     console.log("xxxxxxx")
-                                    // scheduleWebinar(async (url, error) => {
                                     scheduleMeeting(async (url, error) => {
                                         console.log("url", url)
                                         if (url && url !== undefined) {
-                                            // let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meetingId }, { participants_num: meeting.participants_num - 1 }))
                                             let [err, res] = await to(app.models.meetings.upsertWithWhere({ id: meeting.id }, { zoomId: url }));
                                             if (err) {
                                                 console.log(err)
