@@ -180,6 +180,7 @@ module.exports = function (meetings) {
         (async () => {
             const people = meetings.app.models.people
             const emailowner = data.owner.email;
+            console.log(data.owner);
             // let newEmail = emailowner.replace("@", "+c2c@");
             const newEmail = changeEmail(emailowner);
             console.log(newEmail);
