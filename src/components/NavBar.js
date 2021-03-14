@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import '../styles/navbar.scss'
 import ourBrothers from '../icons/oblogo.png'
 import c2c from '../icons/logo.svg'
+import logoEnglish from '../icons/logoEnglish.jpg'
 import menu from '../icons/menu.svg'
 import SideNavBar from './SideNavBar'
 import { withRouter } from 'react-router-dom';
@@ -83,7 +84,8 @@ class NavBar extends Component {
                     <Lng changeLanguage={this.changelng} />
                 </div> */}
 
-                    {this.state.width > 900 || this.state.height > 1200 ? <div className='containIconNavbar'>
+                    {this.state.width > 900 || this.state.height > 1200 ? 
+                    <div className='containIconNavbar'>
                         <img onClick={() => {
                             this.props.history.replace('/')
                         }} alt="alt" src={c2c} height='120%'/>
