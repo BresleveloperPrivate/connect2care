@@ -40,6 +40,7 @@ class Partners extends Component {
                 <div className='containPartners'>
                     <div onClick={() => { window.open('https://www.matnasim.org.il/') }} className='partner'><img src={logo11} height='55%' /></div>
                     <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='115%' /></div>
+                    <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='55%' /></div>
                     <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='175%' /></div>
                     <div onClick={() => { window.open('https://grth.io/2bcloud/') }} className='partner'><img src={tobe} height='65%' /></div>
@@ -55,7 +56,6 @@ class Partners extends Component {
                     {/* <div onClick={() => { window.open('https://www.wework.com/he-IL') }} className='partner fg0'><img src={logo1} height='85%' /></div> */}
                     <div onClick={() => { window.open('http://project21.co.il/') }} className='partner fg0'><img src={logo5} height='105%' /></div>
                     <div onClick={() => { window.open('https://www.jgive.com/new/he/ils') }} className='partner fg0'><img src={jgive} height='145%' /></div>
-                    <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='55%' /></div>
                     <div onClick={() => { window.open('https://www.reblaze.com/') }} className='partner fg0'><img src={reblaze} height='115%' /></div>
 
                 </div>

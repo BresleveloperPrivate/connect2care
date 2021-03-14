@@ -34,7 +34,8 @@
     margin: 0 6vw 4vh;
 }
 
-.facebook-div{
+.facebook-div,
+.supportButton{
     background: #0A2D63 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #00000029;
     color: white;
@@ -46,6 +47,14 @@
     cursor: pointer;
     width: fit-content;
     margin-bottom: 4vh;
+}
+
+.supportButton{
+    margin: auto auto;
+}
+
+.supportButton:hover{
+    text-decoration: none;
 }
 
 .contactFacebookImg{
@@ -69,9 +78,8 @@
 .contactSecondSentence{
     font: 32px 'ArbelHagildaBold', sans-serif;
     letter-spacing: 0;
-    margin: 0 0 4vh;
     color: #19A099;
-    margin-bottom: 50px;
+    margin-top: 50px;
 }
 
 
@@ -105,5 +113,15 @@
 @media screen and (min-width: 550px){
     #contactPage{
         margin-top: 11vh;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .contactSocial{
+        flex-direction: column;
+    }
+
+    .contactSecondSentence{
+        margin-top: 20px;
     }
 }

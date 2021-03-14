@@ -4,7 +4,8 @@ import Email from '../icons/email-green.svg'
 import { inject, observer } from 'mobx-react';
 import instagram from '../icons/instagram.svg'
 import SupportForm from './SupportForm';
-import './../styles/contact.css'
+import './../styles/contact.css';
+import { Link } from "react-router-dom";
 
 const Info = (props) => {
     return (
@@ -14,7 +15,6 @@ const Info = (props) => {
             <div className="contactSecondSentence">{props.LanguageStore.lang === "heb" ? "נשמח לעזור בכל נושא. השאירו הודעה והצוות הנפלא שלנו יחזור אליכם" : "We would be happy to help with any issue. Leave a message and our wonderful team will get back to you"}</div>*/}
 
             <div className="contactHeadLine">{props.LanguageStore.lang === "heb" ? "צרו קשר" : "Contact Us"}</div>
-            <div className="contactSecondSentence">{props.LanguageStore.lang === "heb" ? "לתמיכה טכנית" : "For technical support"}</div>
 
             {/* <SupportForm /> */}
 
@@ -24,7 +24,7 @@ const Info = (props) => {
             </div> */}
             <div className="d-flex align-items-center margin-right-left-text contactMail">
                 <img className="" src={Email} style={{ width: "30px" }} />
-                <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "4vw" } : { marginLeft: "4vw" }}>Zikaron@ourbrothers.org</div>
+                <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "1vw" } : { marginLeft: "1vw" }}>Zikaron@ourbrothers.org</div>
             </div>
 
             <div className="d-flex align-items-center margin-right-left-text contactSocial">
@@ -44,6 +44,18 @@ const Info = (props) => {
                     <img src={instagram} style={props.LanguageStore.lang === "heb" ? { width: "20px", marginRight: "1vh" } : { width: "20px", marginLeft: "1vh" }} />
                 </div>
             </div>
+
+            <div className="contactSecondSentence">{props.LanguageStore.lang === "heb" ? "לתמיכה טכנית" : "For technical support"}</div>
+
+            <div className="d-flex align-items-center margin-right-left-text contactMail">
+                <img className="" src={Email} style={{ width: "30px" }} />
+                <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "1vw" } : { marginLeft: "1vw" }}>help@ourbrothers.org</div>
+            </div>
+
+            <Link to="/support">
+                <div className="supportButton">תמיכה טכנית</div>
+            </Link>
+
         </div>
     );
 }

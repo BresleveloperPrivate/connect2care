@@ -56,7 +56,9 @@ const Footer = (props) => {
               </Link>
             </div>
           </div> */}
-          <div className="footer4 footer-section">
+          <div className="footer4 footer-section" 
+          // style={props.LanguageStore.lang === "heb" ? { marginRight: "1vw" } : { marginLeft: "1vw" }}
+          >
             {/* <div className="footer-headline">פרטי התקשרות</div> */}
             <div className="footer-links">
               <div>
