@@ -2,7 +2,7 @@
   "name": "our_brothers",
   "version": "2.1.2",
   "main": "server/server.js",
-  "proxy": "https://ourbrothers20201be.azurewebsites.net",
+  "proxy": "http://127.0.0.1:8080",
   "private": true,
   "dependencies": {
     "@babel/core": "7.5.5",

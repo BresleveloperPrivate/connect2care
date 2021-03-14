@@ -22,24 +22,24 @@ const Info = (props) => {
         "joinMeetingQ",
         "maxAndMinParticipantsQ",
         "fewFallenQ",
+        "getZoomLinkQ",
+        "zoomTimeLimitQ",
         "guidanceZoom&buildTheNightQ",
         "successfulMeetingQ",
         "behindTheProjectQ",
+        "supportTheProjectQ",
         "allAgesQ",
         "meetingCanceledQ",
+        "isMeetingRecorededQ",
         "playVideoQ",
-        "differentMeetingsQ"
+        "meetingParticepantsQ"
     ]
 
     const arrayAnswers = [
         "initiateMeetingA",
-        "",
         "inviteToMeetingA",
-        "",
         "openMeetingA",
         "closedMeetingA",
-        "",
-        "",
         "doNotSeeTheMeetingA",
         "additionalLanguagesA",
         "moreThanOneMeetingA",
@@ -47,13 +47,9 @@ const Info = (props) => {
         "joinMeetingA",
         "maxAndMinParticipantsA",
         "fewFallenA",
-        "",
-        "",
-        "",
+        "getZoomLinkA",
         "allAgesA",
-        "meetingCanceledA",
-        "",
-        "differentMeetingsA",
+        "meetingCanceledA"
     ]
 
     return (
@@ -136,20 +132,35 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === "behindTheProjectQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
-                            מאחורי המיזם עומדת עמותת 'האחים שלנו' אשר הוקמה במטרה לבנות - לראשונה בישראל - קהילה תומכת ומעצימה עבור האחים השכולים במדינה.
-                        העמותה הוקמה בשנת 2017 על ידי אחים שכולים ומתנדבים מכלל החברה הישראלית בכדי לתת בפעם הראשונה מקום לכאב, להתמודדות ולסיפור הייחודי שלנו, האחים השכולים. ניתן לקרוא עלינו עוד <a target="_blank" href="https://ourbrothers.co.il/about">כאן</a>.
+                            מאחורי המיזם עומדת עמותת
+                            <a target="blank" href="https://ourbrothers.co.il/home"> האחים שלנו </a>
+                            אשר הוקמה במטרה לבנות - לראשונה בישראל - קהילה תומכת ומעצימה עבור האחים השכולים במדינה. העמותה הוקמה בשנת 2017 על ידי אחים שכולים ומתנדבים מכלל החברה הישראלית בכדי לתת בפעם הראשונה מקום לכאב, להתמודדות ולסיפור הייחודי שלנו, האחים השכולים. ניתן לקרוא אלינו עוד
+                            <a target="blank" href="https://ourbrothers.co.il/home"> כאן </a>
                         </div> :
                             <div>
                                 Behind the scenes is the “Our Brothers” Project that was founded in order to create - for the first time in Israel - a supportive and empowering peer community for bereaved brothers and sisters in the country. <br />
-                                 This non-profit was founded in 2017 by bereaved siblings and volunteers in order to provide a space for pain, coping and our unique stories, the bereaved siblings. You can read more about us <a target="_blank" href="https://ourbrothers.co.il/about">here</a>.
+                                This non-profit was founded in 2017 by bereaved siblings and volunteers in order to provide a space for pain, coping and our unique stories, the bereaved siblings. You can read more about us <a target="_blank" href="https://ourbrothers.co.il/about">here</a>.
+                            </div>}
+                    </InfoCard>
+
+                else if (arrayQuestion[index] === "supportTheProjectQ")
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        {props.LanguageStore.lang === "heb" ? <div>
+                            פרויקט 'מתחברים וזוכרים' הוקם ע"י עמותת 'האחים שלנו' והוא וולנטרי, ללא מטרות רווח במטרה להעצים את יום הזיכרון לחללי ישראל ונפגעי פעולות האיבה.
+                            ניתן לתרום לפרויקט ולעמותת 'האחים שלנו' בלחיצה על לשונית
+                            <a target="blank" href="https://ourbrothers.co.il/donate"> תרומה לפרוייקט </a>
+                        </div> :
+                            <div>
                             </div>}
                     </InfoCard>
 
                 else if (arrayQuestion[index] === "playVideoQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
-                            ניתן לעשות זאת באמצעים של תכנת ZOOM , בה מתקיימים המפגשים בדרך וירטואלית.<br />
-                        ניתן לקרוא עוד ב<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">ערכת הדרכה</a> שהכנו עבורך ולהצטרף לאחד <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">ממפגשי ההכנה</a>.
+                            ניתן לעשות זאת באמצעים של תוכנת ZOOM, בה מתקיימים המפגשים בדרך וירטואלית. למידע נוסף ניתן לקרוא ב
+                            <a target="blank" href="#">ערכת ההדרכה </a>
+                            שהכנו עבורך ולהצטרף לאחד
+                            <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform"> מסדנאות ההכנה </a>
                         </div> :
                             <div>
                                 Through Zoom, the program that is hosting our virtual meet-ups. <br />
@@ -224,6 +235,30 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === 'zoomTimeLimitQ') {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         <div>{translationHEB.zoomTimeLimitA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'allAgesQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.allAgesA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'meetingCanceledQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.meetingCanceledA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'isMeetingRecorededQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.isMeetingRecorededA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'meetingParticepantsQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.meetingParticepantsA}</div>
                     </InfoCard>
                 }
 
