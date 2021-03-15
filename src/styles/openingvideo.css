@@ -5,7 +5,7 @@
   margin: 100px 0 0 0;
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 750px){
   .opening-video{
     display: none;
   }

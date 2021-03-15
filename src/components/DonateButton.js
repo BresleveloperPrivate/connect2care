@@ -8,7 +8,7 @@ const DonateButton = () => {
     <a href='https://ourbrothers.co.il/donate' target="_blank" rel="noopener noreferrer" className='donateContent'>
       <div className='iconContainer'>
         <img src={donations} alt="donate" className="donateIcon" /></div>
-      <div className='donateText'>תרומה לעמותה</div>
+      <div className='donateText'>תרומה<br />לעמותה</div>
     </a>
   )
 }

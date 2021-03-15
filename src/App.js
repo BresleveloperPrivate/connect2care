@@ -24,6 +24,7 @@ const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUse
 const Info = loadable(() => import('./components/Info/Info'));
 const Contact = loadable(() => import('./components/Contact'));
 const Support = loadable(() => import('./components/Support'));
+// const Hosting = loadable(() => import('./icons/ercatMovil.pdf'));
 
 //const HilmaCredit = loadable(() => import('./components/HilmaCredit'));
 
@@ -82,6 +83,7 @@ class App extends Component {
                                 <Route path="/admin" render={(props) => <DashLogin t={this.props.t} {...props} />} />
                                 <Route path="/info" render={props => <Info t={this.props.t} {...props} />} />
                                 <Route path="/contact" render={props => <Contact t={this.props.t} {...props} />} />
+                                {/* <Route path="/hosting" render={props => <Hosting t={this.props.t} {...props} />} /> */}
                                 <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/admin' />}
                                     component={(props) => <DashboardMain t={this.props.t} {...props} />}
                                 />

@@ -16,7 +16,8 @@ import hilma from '../icons/hilmasquare.png'
 import matnas from '../icons/logo11.png'
 // import tzahal from '../icons/tzahal.png'
 import DonateButton from './DonateButton';
-
+import ercatMovil from '../icons/ercatMovil.pdf';
+import englishLogo from '../icons/logoEnglish.jpg';
 
 class NavBar extends Component {
     constructor(props) {
@@ -54,10 +55,10 @@ class NavBar extends Component {
             { option: this.props.t("meetingsList"), path: '/meetings' },
             // { option: this.props.t("myMeetings"), path: '/my-meetings' },
             { option: this.props.t("qna"), path: '/info' },
-            // { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
-            { option: this.props.t("support"), path: '/support' },
+            // { option: this.props.t("hosting"), path: '/hosting' },
             { option: this.props.t("contactUs"), path: '/contact' },
-                // { option: this.props.t("meetingContent"), path: `${process.env.REACT_APP_DOMAIN}/meetingContent.pdf`, open: true }
+            // { option: this.props.t("hosting"), path: '/hosting', open: true },
+            { option: this.props.t("donate"), path: 'https://ourbrothers.co.il/donate?referer=connect-2-care', open: true },
             ]
     }
 
@@ -86,9 +87,15 @@ class NavBar extends Component {
 
                     {this.state.width > 900 || this.state.height > 1200 ? 
                     <div className='containIconNavbar'>
+                        {this.props.LanguageStore.lang !== "heb" ? 
                         <img onClick={() => {
                             this.props.history.replace('/')
-                        }} alt="alt" src={c2c} height='120%'/>
+                        }} alt="alt" src={englishLogo} height='140%'/>
+                        :
+                        <img onClick={() => {
+                            this.props.history.replace('/')
+                        }} alt="alt" src={c2c} height='120%'/>}
+                        
                     </div> : null}
 
                     
@@ -117,15 +124,17 @@ class NavBar extends Component {
                     </div> */}
                     
                     <div className='navbarLeft'>
+{/* 
+                        <DonateButton /> */}
 
+                        
                         <div className='optionInNavbar lngNB pointer'>
-                        <Lng changeLanguage={this.changelng}/>
+                            <Lng changeLanguage={this.changelng}/>
                         </div>
 
-                        {/* <DonateButton /> */}
-
                         <div className='ourBrothersLink'>
-                            <a href='https://ourbrothers.co.il/' target='_blank' rel='noopener noreferrer'>האחים שלנו</a>
+                            <a href='https://ourbrothers.co.il/' target='_blank' rel='noopener noreferrer'>
+                            {this.props.LanguageStore.lang !== "heb" ? "Our Brothers" : "האחים שלנו"}</a>
                         </div>
 
                     </div>
