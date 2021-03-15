@@ -69,9 +69,11 @@ class NavBar extends Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              {this.props.LanguageStore.lang !== "heb"
+              {/* {this.props.LanguageStore.lang !== "heb"
                 ? "Host toolkit"
-                : "ערכת מוביל מפגש"}
+                : " */}
+                ערכת מוביל מפגש
+                {/* "} */}
             </a>
           </div>
         ),
