@@ -1,11 +1,10 @@
 import React from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
 
-const Hosting = (props) => {
-  return(
-    <div>
-      <a href='../icons/ercatMovil.pdf' target='_blank'>ערכת מוביל מפגש</a>
-    </div>
-  )
-}
+const Hosting = () => (
+  <PDFViewer>
+    <img src='../icons/ercatMovil.pdf' alt='ercatMovil' />
+  </PDFViewer>
+);
 
 export default Hosting;

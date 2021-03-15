@@ -14,6 +14,7 @@ import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
 import Footer from '../src/components/Footer';
 import Rights from '../src/components/Rights';
+// import Hosting from '../src/components/Hosting';
 // import { Dashboard } from '@material-ui/icons';
 
 const Home = loadable(() => import('./components/Home.js'));
@@ -24,7 +25,6 @@ const ListOfMeetingsUser = loadable(() => import('./components/listOfMeetingsUse
 const Info = loadable(() => import('./components/Info/Info'));
 const Contact = loadable(() => import('./components/Contact'));
 const Support = loadable(() => import('./components/Support'));
-// const Hosting = loadable(() => import('./icons/ercatMovil.pdf'));
 
 //const HilmaCredit = loadable(() => import('./components/HilmaCredit'));
 
