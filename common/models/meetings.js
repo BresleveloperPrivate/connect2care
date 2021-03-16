@@ -180,12 +180,10 @@ module.exports = function (meetings) {
         (async () => {
             const people = meetings.app.models.people
             const emailowner = data.owner.email;
-            console.log(data.owner);
             // let newEmail = emailowner.replace("@", "+c2c@");
             const newEmail = changeEmail(emailowner);
-            console.log(newEmail);
             const nameOwner = data.owner.name;
-
+            console.log('send email')
             let [err, user0] = await to(people.findOne({ where: { email: data.owner.email } }))
             if (err) {
                 console.log("err people.findOne [err, user0], data, data.owner", err, user0, data, data.owner)
@@ -294,9 +292,11 @@ module.exports = function (meetings) {
                             }
                             if (userMeeting) {
                                 // let code = jsdata.code ? data.lang == 'en' ? `The code for online sign-up is" ${jsdata.code}` : `קוד המפגש להרשמה באתר: ${jsdata.code}` : ''
-
+                                console.log("sending email next")
                                 let sendOptions = {}
                                 if (data.lang !== 'heb' && data.lang) {
+                                    
+                                    
                                     sendOptions = {
                                         to: emailowner, subject: "The meeting you initiated was accepted and awaiting approval", html:
 
@@ -341,31 +341,36 @@ module.exports = function (meetings) {
                                             //     <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">מידע הכרחי לקיום המפגשים:</div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>יש לך כבר חשבון zoom? לא רלוונטי לצערנו.שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון בתשלום, בחינם.<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה השתמש ב: OurBrothers2021<br><div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">איך יוצרים מפגש מעולה:</div><div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div><div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום</div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou" target="_blank">https://bit.ly/connect2care_foryou</a><div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a><div style="font-weight: bold; margin-top: 20px;">הזמנת משתתפים</div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם קהל אוהד.</div><div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);"><div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624</div><div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div></div>
                                             //   `
                                             `
-                                <div width="100%" style="direction: rtl;">
-                                <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                  <div style="font-weight: bold; margin-bottom: 20px;">
-                                    אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>
-                                    בזכותך זכינו להעניק חיבוק של זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
-                                  </div>
-                                  על מנת להבטיח אבטחה מירבית למפגש, צוות המיזם יעבור על הבקשה שלך, ישוחח איתך ותוך 24 שעות ישלח לך אישור על
-                                  פרסום המפגש אצלנו באתר.<br><br>
-                                  המשך לעקוב אחרי המיילים שתקבל מאיתנו.<br>
-                                  תודה על ההבנה והסבלנות<br>
-                                </div>
-                                  <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                    <div style="font-weight: bold;">
-                                      שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org | 058-409-4624
-                                  </div>
-                                  <div
-                                    style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                    להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
-                                    <div
-                                    style="text-align: center; color: rgb(30, 43, 78);">
-                                    לתמיכה טכנית: <br>
-                                    052-6283967 | Amdocs.Digital@glassix.net
-                                    </div>
-                                    </div>
+                                <div style="background-image: url('../../server/assets/emailPhoto2.jfif');
+    background-repeat: no-repeat; background-attachment: fixed;
+    background-position: center; background-size:100% 100%">
+
+    <div style="padding-top: 10%;">
+        <div
+            style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                <h3>מייל הרשמה - מתחברים וזוכרים</h3>
+                <div style="font-weight: bold; margin-bottom: 20px; ">אנחנו מעריכים ומודים לך על שבחרת לארח מפגש יום
+                    זיכרון
+                    של מתחברים וזוכרים'</div>
+                <div style="padding: 15px">צוות המתנדבים שלנו יצור איתך קשר ב-48 שעות הקרובות על מנת לתת לך את המידע
+                    הנדרש ולאשר את המפגש שלך.
+                    <br>
+                    לאחר אישור המפגש -
+                    יועברו לך פרטים נוספים להמשך תהליך.</div>
+                <div style="padding: 15px">לתשומת לבך, ניתן לפתוח יותר ממפגש אחד. יש לשים לב שאין חפיפה בשעות ובתאריכים.
+                </div>
+                <div style="padding: 15px">לכל שאלה, אנחנו פה.</div>
+                <div style="padding: 15px">צוות 'מתחברים וזוכרים'
+                    <br>
+                    <a href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
                                 `
                                     }
                                 }
@@ -880,34 +885,46 @@ module.exports = function (meetings) {
 
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                background-color: #082551; direction: rtl'>
-                <div style = 'display:flex ; width: 100%' >
-                    <div style='width:100%;' >
-                        <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
-                    </div>
-                        <div style='width: 30%;' >
-                            <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
-                    </div>
-                        </div>
-                        <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; '>
-                       שלום,<br>
-                      אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב.<br><br>
-                      ההשתתפות שלך משמעותית אף יותר השנה מבעבר, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.<br><br>
-                      אז איך זה עובד?<br><br>
-                      בימים הקרובים נשלח לך קישור למפגש לזכר ${shalom.fallensText} בזום. כל שנותר לך לעשות, הוא להיכנס לקישור ביום ${shalom.date} בשעה ${shalom.time}.<br><br>
-                      רוצה להזמין אחרים להשתתף איתך במפגש? אנחנו בעד!<br>
-                      ניתן לשתף בלינק משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,<br>
-                      כך שאירועי יום הזיכרון יהיו שייכים לכולם.<br><br>
-                     יש לך רעיונות? הצעות ייעול? שאלות או התלבטויות?<br>
-                     אנחנו כאן כדי לעזור.<br><br>
-                      להתראות בקרוב,<br>
-                      צוות 'מתחברים וזוכרים'<br>
-                      </div>
+                        <body style="background-image: url('./assets/emailPhoto2.jfif');
+        background-repeat: no-repeat; background-attachment: fixed;
+        background-position: center; background-size:100% 100%">
+    <div
+        style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
+        <div
+            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            <h2 style="text-decoration: underline;">הרשמתך למפגש התקבלה - 'מתחברים וזוכרים'</h2>
 
-                               
-                  </div>
-                       ` }
+            <div style="padding-top: 10px;">
+                <div style="padding-top: 10px;">שלום </div>
+
+                <div style="padding-top: 10px;">אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב. </div>
+
+                <div>ההשתתפות שלך משמעותית, מחזקת את משפחות הנופלים ומרחיבה את מעגל ההנצחה.</div>
+
+                <div style="padding-top: 10px; font-weight: bold;">אז איך זה עובד?</div>
+
+                <div style="padding-top: 10px;">שעות לפני פתיחת המפגש ישלח לך קישור למפגש לזכר X ז"ל בזום ZOOM.</div>
+
+                <div>כל שנותר לך לעשות, הוא להיכנס לקישור ב ${meeting.date} בשעה ${meeting.time}</div>
+
+                <div style="padding-top: 20px"><strong>רוצה להזמין אחרים להשתתף איתך במפגש?</strong> אנחנו בעד!</div>
+
+                <div style="padding-top: 10px">ניתן לשתף <a target="blank" href="${meeting.zoomId}">בלינק</a>
+                    משפחה וחברים, שכנים וחברים מהעבודה, וגם ברשתות החברתיות,
+                    כך שאירועי יום הזיכרון יהיו שייכים לכולם.
+
+                </div>
+
+                <div style="padding-top: 10px">אנחנו כאן לכל שאלה,</div>
+
+                <div style="padding-top: 20px;">להתראות בקרוב,</div>
+
+                <div>צוות 'מתחברים וזוכרים'</div>
+            </div>
+        </div>
+    </div>
+</body>
+                ` }
             }
 
             sendEmail (sendOptions);
@@ -1160,59 +1177,122 @@ module.exports = function (meetings) {
                     to: email, subject: "המפגש שיצרת אושר",
                     html:
                         `
-                    <div width="100%" style="direction: rtl;">
-                        <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                        <div
-                        style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                        <div style="font-weight: bold; margin-bottom: 20px;">
-                            המפגש שלך אושר!<br><br>
-                            אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק חיבוק של
-                            זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
-                        </div>
-                        <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת המפגש</a>
-                        <br>
-                        ${code}
-                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                            מידע הכרחי לקיום המפגשים:
-                        </div>
-                        נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.<br>
-                        יש לך כבר חשבון zoom? לא רלוונטי לצערנו. שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.<br>למה? בזכות שיתוף פעולה עם
-                        חברת zoom לכל המשתתפים במפגש החשבון לא יהיה מוגבל בזמן (pro), תוכל להקליט אותו, ולהשתמש בכל ההטבות של חשבון
-                        בתשלום, בחינם.<br>
-                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                            איך תעשו זאת?</div>א. לחיצה על הקישור של הפעלת החשבון תפתח דף באתר של זום בו תתבקש להירשם<br>ב. יש לבחור באופציה
-                        להירשם עם שם משתמש וסיסמה (ולא דרך גוגל או פייסבוק)<br>ג. לאחר בחירת הרשמה השם שלך ימולא באופן אוטומטי, לסיסמה
-                        השתמש ב: OurBrothers2021<br>
-                        <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                            איך יוצרים מפגש מעולה:</div>
-                        <div style="font-weight: bold;">אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,<br>ובדיוק בגלל
-                            זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.</div>
-                        <div style="font-weight: bold; margin-top: 20px;">סדנת הכנה בזום
-                        </div>הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom, ובתחומי התוכן והדיגיטל. מומלץ מאוד!<br>
-                        להרשמה לחץ כאן: <a href="https://bit.ly/connect2care_foryou"
-                            target="_blank">https://bit.ly/connect2care_foryou</a>
-                        <div style="font-weight: bold; margin-top: 20px;">ערכת הכנה</div>
-                        ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים<br>
-                        <a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                        <div style="font-weight: bold; margin-top: 20px;">
-                            הזמנת משתתפים
-                        </div>הכנו לך כאן חומרים להפצה ושליחה לכל מי שתרצה. חשוב לרתום בני משפחה וחברים, קל ונעים הרבה יותר לנהל מפגש, עם
-                        קהל אוהד.
-                        </div>
-                        <div width="100%"
-                        style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                        <div style="font-weight: bold;">שאלות נוספות? משהו לא ברור? אנחנו כאן לכל דבר</div>zikaron@ourbrothers.org |
-                        058-409-4624
-                        </div>
-                        <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                        להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+                    <body style="background-image: url('./assets/emailPhoto2.jfif');
+    background-repeat: no-repeat; background-attachment: fixed;
+    background-position: center; background-size:100% 100%">
+    <div width="100%" style="direction: rtl; font-family: Arial">
+        <div
+            style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            <div style="font-weight: bold; margin-bottom: 20px;">
+                המפגש שלך אושר!<br><br>
+                אנחנו מעריכים ומודים לך, על שבחרת לארח מפגש יום זיכרון של 'מתחברים וזוכרים'.<br>בזכותך זכינו להעניק
+                חיבוק של
+                זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
+            </div>
+            <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת פרטי המפגש</a>
+            <br>
 
-                        <div
-                        style="text-align: center; color: rgb(30, 43, 78);">
-                        לתמיכה טכנית: <br>
-                        052-6283967 | Amdocs.Digital@glassix.net
-                        </div>
-                    </div>
+            <div
+                style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                מידע הכרחי לקיום המפגשים:
+            </div>
+
+            <div>נשלח אליך מייל הפעלת חשבון מ zoom. החשבון זה הוא יעודי עבורך למפגש שיצרת.</div>
+
+            <div>
+                יש לך כבר חשבון zoom? לא רלוונטי לצערנו. שים לב שעבור המפגש תצטרך להשתמש בחשבון זמני.
+                <br>
+                למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא תהיה מגבלת זמן מפגש (pro).
+            </div>
+
+            <div>תוכל להקליט אותו, ולהשתמש בכל ההטבות של החשבון - בחינם.</div>
+
+            <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                איך זה עובד?
+            </div>
+            <div>
+                <div  style="padding-top: 1%;">א. ביום המפגש תקבל מאיתנו מייל עם לינק למפגש</div>
+
+                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: והסיסמה: OurBrothers2021</div>
+
+                <div  style="padding-top: 1%;">ג. חשוב מאוד! לא להתחבר עם המשתמש זום הקיים שלך, רק עם המשתמש שיצרנו לך והסיסמה שקיבלת.</div>
+            </div>
+
+
+            <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
+                איך יוצרים מפגש מעולה:
+            </div>
+
+            <div>
+                הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom ובתחומי התוכן והדיגיטל.
+                <br>
+                מומלץ מאוד!
+            </div>
+
+            <div style="font-weight: bold; padding-top: 10px;" >
+                אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
+                <br>
+                ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
+                    <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
+            </div>
+
+            <div>מועדי הסדנאות מתחלקים בין מועדי הכנה למובילי מפגש בזום ובין מועדי סדנה הכנת למפגשים פרונטליים - 4 סדנאות בתאריכים ושעות
+            שונות בתאריכים: 4-5.4.2021 - בוקר+ ערב</div>
+
+            <div style="font-weight: bold">  להשתבצות לסדנה לחץ <a target="blank"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a></div>
+
+            <div style="font-weight: bold; padding-top: 10px;">ערכת הכנה</div>
+
+            <div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים</div>
+
+            <div style="font-weight: bold; padding-top: 10px;">
+                <a target="blank" href="">ערכת תוכן להובלת מפגש זיכרון</a>
+            </div>
+
+            <div style="font-weight: bold; padding-top: 10px;">הזמנת משתתפים</div>
+
+            <div style="padding-top: 10px">הכנו לך כאן חומרים להפצה ושליחה אותם תוכל להפיץ לכל מי שתרצה. חשוב לרתום בני משפחה וחברים קרובים ורחוקים. קל ונעים
+                הרבה
+                יותר לנהל מפגש עם קהל קרוב.</div>
+
+            <div style="font-weight: bold; text-decoration: underline; padding-top: 15px;">
+                איך מזמינים אנשים למפגשים?
+                הזמנת משתתפים למפגש > באמצעות לינק
+            </div>
+
+            <div style="font-weight: bold">
+                -מפגש פתוח לקהל הרחב-
+            </div>
+
+            <div>
+                יש לשלוח כתובת URL עם מס' המפגש המופיע שם > מי שמקבל את הקישור נכנס לעמוד של מתחברים וזוכרים ושם נרשם בצד שמאל להשתתפות
+                במפגש.
+            </div>
+
+            <div style="font-weight: bold">
+                -מפגש סגור לקהל ספציפי -
+            </div>
+
+            <div>
+                קוד מפגש > זה הקוד שאתה מזמין איתו משתתפים להירשם.
+            </div>
+
+            <div
+                style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
+                להתראות בקרוב,<br>צוות 'מתחברים וזוכרים'</div>
+
+            <div style="text-align: center; color: rgb(30, 43, 78);">
+                שאלות נוספות? משהו לא ברור?: <br>
+                zikaron@ourbrothers.org
+            </div>
+
+            <div style="text-align: center; color: rgb(30, 43, 78); padding-top: 10px;">
+                לתמיכה טכנית: <br>
+                052-6283967 | Amdocs.Digital@glassix.net
+            </div>
+        </div>
+    </body>
                 `
 
                 }
@@ -1607,22 +1687,41 @@ module.exports = function (meetings) {
                 if (people && people.length > 0) {
                     people.forEach(human => {
                         let htmlMessage = meeting.language !== 'heb' ?
-                            `<div style="direction: rtl;">
-                            שלום <br>
-                            מצורף קישור למפגש של: ${meeting.name}<br>
-                            בתאריך: ${meeting.date}<br>
-                            בשעה: ${meeting.time}<br><br>
-                            להלן הקישור: ${meeting.zoomId}<br><br>
-                            מטעמי אבטחה, על מנת להצטרף לפגישה<br>
-                            בכניסה למפגש יהיה עליכם למלא את שמכם וכתובת המייל שלכם.<br>
-                            כך גם נוכל לדעת מי נמצא כאן איתנו , לתת לנו חיבוק!<br><br>
-                            כמו כן, רוצים לשמור את המפגש אצלכם ביומן?<br>
-                            העתיקו את הקישור והדביקו אותו בפגישה שתפתחו ידנית.<br>
-                            <strong>אין</strong>  לשמור את המפגש אוטמטית דרך יומן גוגל וזום<br><br>
-                            תודה<br>
-                            צוות מתחברים וזוכרים
+                            `<body style="background-image: url('./assets/emailPhoto2.jfif'); 
+        background-repeat: no-repeat; background-attachment: fixed;
+        background-position: center; background-size:100% 100%">
+    <div
+        style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
+        <div
+            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            <h2 style="text-decoration: underline;">קישור למפגש - 'מתחברים וזוכרים'</h2>
 
-                    </div>`
+            <div style="padding-top: 10px;">
+                <div style="padding-top: 10px;">שלום </div>
+
+                <div style="padding-top: 10px;">מצורף קישור למפגש של: ${meeting.name} </div>
+
+                <div style="padding-top: 10px;">מצורף קישור למפגש של: ${meeting.date} בשעה ${meeting.time}</div>
+
+                <div style="padding-top: 10px;">להלן הקישור למפגש זום ${meeting.zoomId}</div>
+
+                <div style="padding-top: 20px;">מטעמי אבטחה, על מנת להצטרף לפגישה בכניסה למפגש יהיה עליך למלא את שמך וכתובת המייל שלך.</div>
+
+                <div>כך גם נוכל לדעת מי נמצא כאן איתנו, כדי לתת לנו חיבוק!</div>
+
+                <div style="padding-top: 20px;">רוצה לשמור את המפגש אצלך ביומן ?</div>
+
+                <div>*אין לשמור את המפגש אוטומטית דרך יומן גוגל וזום</div>
+
+                <div>יש להעתיק את הקישור ולהדביק בפגישה, אותה פותחים ידנית באופן עצמאי, אצלך ביומן של גוגל.</div>
+
+                <div style="padding-top: 20px;">תודה</div>
+
+                <div>צוות 'מתחברים וזוכרים'</div>
+            </div>
+        </div>
+    </div>
+</body>`
                             :
                             `<div style="direction: rtl;">
                                 שלום <br>
