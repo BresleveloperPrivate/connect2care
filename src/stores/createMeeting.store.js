@@ -378,13 +378,13 @@ class CreateMeetingStore {
         this.deleting = del
     }
 
-    approveMeeting = async (email, nameOwner) => {
+    approveMeeting = async (email, phone, nameOwner) => {
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/approveMeeting/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, id: Number(this.meetingId), nameOwner })
+                body: JSON.stringify({ email, phone, id: Number(this.meetingId), nameOwner })
             }, true);
         if (success) {
             this.meetingDetailsOriginal.approved = true;
