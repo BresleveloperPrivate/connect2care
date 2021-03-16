@@ -52,9 +52,9 @@ const Info = (props) => {
                 <div className="textContact" style={props.LanguageStore.lang === "heb" ? { marginRight: "1vw" } : { marginLeft: "1vw" }}>help@ourbrothers.org</div>
             </div>
 
-            <Link to="/support">
+            {/* <Link to="/support">
                 <div className="supportButton">תמיכה טכנית</div>
-            </Link>
+            </Link> */}
 
         </div>
     );
