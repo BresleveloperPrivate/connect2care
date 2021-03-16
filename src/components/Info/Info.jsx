@@ -58,7 +58,13 @@ const Info = (props) => {
             <div className="createMeetingSecondSentence margin-right-text">{props.LanguageStore.lang === "heb" ? "שאלות ותשובות ששאלתם אותנו" : "Questions and Answers you asked us"}</div>
             {arrayQuestion.map((_, index) => {
 
-                if (arrayQuestion[index] === "createdMeetingQ")
+                if (arrayQuestion[index] === "initiateMeetingQ") {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.initiateMeetingA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === "createdMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>{
                         props.LanguageStore.lang === "heb" ? <div>
                             קודם כל, תודה! בזכותך אנשים רבים יציינו את יום הזיכרון ויתחברו אליו ממקום אישי.
@@ -90,6 +96,18 @@ const Info = (props) => {
                                 In an open meet-up - anyone who enters your meet-up can register for it online, and can receive a link for the open meet-up. Participants will be partly general public and partly people that you know, since you already invited them. You can see the updated number of participants on your meet-up page.
                             </div>}
                     </InfoCard>
+
+                else if (arrayQuestion[index] === 'openMeetingQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.openMeetingA}</div>
+                    </InfoCard>
+                }
+
+                else if (arrayQuestion[index] === 'closedMeetingQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.closedMeetingA}</div>
+                    </InfoCard>
+                }
 
                 else if (arrayQuestion[index] === "couldNotSignUpQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
