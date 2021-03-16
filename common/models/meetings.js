@@ -1291,6 +1291,7 @@ module.exports = function (meetings) {
         http: { verb: 'post' },
         accepts: [
             { arg: 'email', type: 'string', required: true },
+            { arg: 'phone', type: 'string', required: true },
             { arg: 'id', type: 'number', required: true },
             { arg: 'nameOwner', type: 'string', required: true },],
         returns: { arg: 'res', type: 'boolean', root: true }
