@@ -388,13 +388,13 @@ const MeetingDetails = (props) => {
                         <div className='d-flex align-items-center pb-4' style={{ marginRight: '6vw' }}>
                             {!props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email &&
                                 <div
-                                    onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingDetails.owner.name)}
+                                    onClick={() => props.CreateMeetingStore.approveMeeting(props.CreateMeetingStore.meetingDetails.owner.email, props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingId, props.CreateMeetingStore.meetingDetails.owner.name)}
                                     className="grow"
                                     style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
                                     אישור מפגש
                                     </div>
                             }
-                            {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId == '') &&
+                            {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
                                 <div
                                     onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingDetails.date)}
                                     className="grow"

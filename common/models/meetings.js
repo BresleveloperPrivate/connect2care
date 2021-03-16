@@ -1061,9 +1061,9 @@ module.exports = function (meetings) {
     })
 
 
-    meetings.approveMeeting = (email, id, nameOwner, cb) => {
+    meetings.approveMeeting = (email, phone, id, nameOwner, cb) => {
         (async () => {
-            const newEmail = changeEmail(email);
+            const newEmail = changeEmail(phone);
             let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
             if (err1) {
                 console.log("err1", err1)
@@ -1281,6 +1281,7 @@ module.exports = function (meetings) {
                 }
             }
 
+            console.log('sending a meeting approval to', sendOptions);
             sendEmail(sendOptions);
             return cb(null, true)
         })()
@@ -1391,6 +1392,7 @@ module.exports = function (meetings) {
             const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
             newDate.date += 1;
             let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
+            console.log('date ---------->', date, newDate, start_time);
             scheduleMeeting(async (url, error) => {
                 if (error) {
                     return cb(error);
