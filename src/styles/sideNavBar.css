@@ -18,11 +18,10 @@
     font-family: 'assistant';
     color: white;
     text-align: center;
-    /* padding: 0 30px; */
     font-weight: 300;
     font-size: 3.5vh;
 }
-  
+
 .containSideListItem{
     padding: 0px !important;
     align-items: center;

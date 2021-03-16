@@ -132,10 +132,23 @@
 
 .optionInNavbar{
     font-family: 'Heebo', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     color: var(--custom-blue-2);
     margin: 0 15px;
     margin-top: auto auto;
+}
+
+.ercatMovil a{
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    color: var(--custom-blue-2);
+    margin-top: auto auto;
+    
+}
+
+.ercatMovil a:hover{
+    text-decoration: none;
+    color: var(--custom-blue-2);
 }
 
 .lngNB{
@@ -155,6 +168,9 @@
 .navbarLeft{
     display: flex;
     direction: rtl;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
 }
 
 .ourBrothersLink a{
@@ -162,10 +178,10 @@
     border-radius: 50px;
     color: #ffffff;
     height: 50px;
-    width: 150px;
+    font-size: 16px;
     // display: flex;
     text-align: center;
-    padding: 10px 40px;
+    padding: 10px;
 }
 
 .ourBrothersLink a:hover{
@@ -212,6 +228,11 @@
     }
 
     .ourBrothersLink{
+        visibility: hidden;
+        display: none;
+    }
+
+    .donateContent{
         visibility: hidden;
         display: none;
     }
@@ -277,3 +298,16 @@
         height: 4vh;
     }
 }
+
+
+// @media screen and (min-width:901px) and (max-width: 1250px){
+//     .ourBrothersLink{
+//         height: 4vh;
+//     }
+
+//     .donateContent{
+
+//     }
+// }
+
+
