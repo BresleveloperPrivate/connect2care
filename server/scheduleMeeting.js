@@ -1,10 +1,8 @@
-const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const http = require("https");
-// const { log } = require('console');
 const {hostname, token} = require('./zoomAPIUtils');
 
 /**
@@ -12,8 +10,7 @@ const {hostname, token} = require('./zoomAPIUtils');
 */
 
 const scheduleMeeting = async (cb, mail, start_time, pwd = Math.floor(Math.random() * (1000000 - 100000)) + 100000) => {
-
-    console.log('scheduleMeeting');
+    console.log('scheduleMeeting', mail, start_time);
 
     let options = {
         "method": "POST",
@@ -25,12 +22,9 @@ const scheduleMeeting = async (cb, mail, start_time, pwd = Math.floor(Math.rando
             "authorization": `Bearer ${token}`
         }
     };
-    console.log(mail);
 
     let req = http.request(options, function (res) {
         let chunks = [];
-        // console.log('scheduleMeeting req.options', req.options);
-        console.log(mail);
         res.on("data", function (chunk) {
             chunks.push(chunk);
         });
@@ -73,7 +67,6 @@ const scheduleMeeting = async (cb, mail, start_time, pwd = Math.floor(Math.rando
     ));
 
     req.end();
-
 }
 
 module.exports = scheduleMeeting;

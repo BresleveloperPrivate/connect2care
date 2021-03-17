@@ -9,6 +9,7 @@ const removePanelists = require('../../server/removePanelists.js');
 const { creatCsvFile } = require('download-csv');
 const { meetingDates } = require('../../server/common/dates');
 const changeEmail = require('../../server/changeEmail');
+const changeDateTime = require('../../server/changeDateTime');
 
 
 module.exports = function (meetings) {
@@ -568,7 +569,7 @@ module.exports = function (meetings) {
 
         let sqlQuerySelect = `meetings.id`
         let sqlQueryfrom = `meetings`
-        let sqlQueryWhere = ``
+        let sqlQueryWhere = `meetings.date like '%2021%'`
         let params = []
 
         if (filters.date) {
@@ -576,7 +577,7 @@ module.exports = function (meetings) {
                 return cb({ error: 'date is not valid' })
             }
 
-            sqlQueryWhere += `meetings.date = '${filters.date}'`
+            sqlQueryWhere += (sqlQueryWhere.length !== 0 ? ` and ` : ``) + `meetings.date = '${filters.date}'`
         }
 
         if (filters.isOpen !== (null || undefined)) {
@@ -1281,7 +1282,7 @@ module.exports = function (meetings) {
                 }
             }
 
-            console.log('sending a meeting approval to', sendOptions);
+            console.log('sending a meeting approval to', sendOptions.to);
             sendEmail(sendOptions);
             return cb(null, true)
         })()
@@ -1385,15 +1386,10 @@ module.exports = function (meetings) {
         returns: { arg: 'res', type: 'boolean', root: true }
     })
 
-    meetings.createZoom = (email, date, meetingId, cb) => {
+    meetings.createZoom = (email, date, time, meetingId, cb) => {
         (async () => {
             const newEmail = changeEmail(email);
-
-            const dateMap = date.split(' ').pop().split('.');
-            const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
-            newDate.date += 1;
-            let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
-            console.log('date ---------->', date, newDate, start_time);
+            const startTime = changeDateTime(date, time);
             scheduleMeeting(async (url, error) => {
                 if (error) {
                     return cb(error);
@@ -1407,7 +1403,7 @@ module.exports = function (meetings) {
                 }
                 return cb(null, url)
                 
-            }, newEmail, start_time)
+            }, newEmail, startTime)
         })()
     }
 
@@ -1416,6 +1412,7 @@ module.exports = function (meetings) {
         accepts: [
             { arg: 'email', type: 'string', required: true },
             { arg: 'date', type: 'string', required: true },
+            { arg: 'time', type: 'string', required: true },
             { arg: 'meetingId', type: 'number', required: true },
         ],
         returns: { arg: 'res', type: 'object', root: true }

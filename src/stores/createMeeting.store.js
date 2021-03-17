@@ -393,14 +393,13 @@ class CreateMeetingStore {
         console.log(success, err)
     }
 
-    createZoom = async (email, date) => {
-        console.log("email", email, this.meetingId)
+    createZoom = async (email, date, time) => {
         let [success, err] = await Auth.superAuthFetch(
             `/api/meetings/createZoom/`,
             {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, meetingId: Number(this.meetingId), date })
+                body: JSON.stringify({ email, date, time, meetingId: Number(this.meetingId) })
             }, true);
         if (err) {
             this.setError('אירעה שגיאה, נסה שנית מאוחר יותר')

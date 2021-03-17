@@ -1,6 +1,7 @@
 const scheduleMeeting = require('./scheduleMeeting.js');
 const schedule = require('node-schedule');
 const changeEmail = require('./changeEmail');
+const changeDateTime = require('./changeDateTime.js');
 
 module.exports = function (app) {
     const to = (promise) => {
@@ -24,7 +25,7 @@ module.exports = function (app) {
                 try {
                     let time = 1000;
                     let count = 0;
-                    const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }] }, include: "meetingOwner" });
+                    const meetings = await app.models.meetings.find({ where: { and: [{ or: [{ zoomId: '' }, { zoomId: null }] }, { approved: true }, { date: { like: '%2021%' } }] }, include: "meetingOwner" });
                     meetings.forEach(meeting => {
                         count++
                         if (count > 20) {
@@ -32,18 +33,12 @@ module.exports = function (app) {
                             time = time + 4000
                         }
                         else {
-
                             setTimeout(function () {
-
                                 let jsdata = JSON.parse(JSON.stringify(meeting))
                                 if (jsdata && jsdata.meetingOwner.email && jsdata.date) {
                                     const email = changeEmail(jsdata.meetingOwner.phone);
-                                    const dateMap = jsdata.date.split(' ').pop().split('.');
-                                    const newDate = new Date(`${dateMap[1]}/${dateMap[0]}/${dateMap[2]}`);
-                                    newDate.date += 1;
-                                    let start_time = `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}T00:59:00`;
+                                    const startTime = changeDateTime(jsdata.date, jsdata.time);
                                     console.log(count)
-                                    console.log("xxxxxxx")
                                     scheduleMeeting(async (url, error) => {
                                         console.log("url", url)
                                         if (url && url !== undefined) {
@@ -53,7 +48,7 @@ module.exports = function (app) {
                                             }
                                         }
                                         else {
-                                            if (hour == 8 || hour == 16) {
+                                            if (hour === 8 || hour === 16) {
                                                 // createZoomUser(email, jsdata.meetingOwner.name, (toSend) => {
                                                 //     if (toSend) {
                                                 //         // sendEmail("", {
@@ -64,14 +59,11 @@ module.exports = function (app) {
                                             }
 
                                         }
-                                    }, email, start_time)
+                                    }, email, startTime)
                                 }
                             }, time);
                         }
-
                     });
-
-
                 } catch (err) {
                     console.error(err);
                 }

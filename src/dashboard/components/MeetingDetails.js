@@ -396,7 +396,7 @@ const MeetingDetails = (props) => {
                             }
                             {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
                                 <div
-                                    onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingDetails.date)}
+                                    onClick={() => props.CreateMeetingStore.createZoom(props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingDetails.date, props.CreateMeetingStore.meetingDetails.timeHour + ':' + props.CreateMeetingStore.meetingDetails.timeMinute)}
                                     className="grow"
                                     style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
                                     צור מפגש זום
