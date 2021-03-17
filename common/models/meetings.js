@@ -1527,6 +1527,7 @@ module.exports = function (meetings) {
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };;
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
+                    console.log(meetingOwner)
                     const emailZoom = changeEmail(meetingOwner.phone);
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
@@ -1574,7 +1575,13 @@ module.exports = function (meetings) {
                                                 </div>
                                             </div>`
 
+                                                                    const sendOptions = {
+                            to: meetingOwner.email,
+                            subject: "קישור זום למפגש מתחברים וזוכרים",
+                            html: htmlMessage
+                        }
 
+                        sendEmail(sendOptions);
 
                                     // sendEmail("", {
                                     //     // add subject and html:
@@ -1638,11 +1645,20 @@ module.exports = function (meetings) {
                         //     // add subject and html:
                         //     to: meetingOwner.email, subject: "קישור זום למפגש", html: htmlMessage
                         // });
+
+                        // const sendOptions = {
+                        //     to: meetingOwner.email,
+                        //     subject: "קישור זום למפגש מתחברים וזוכרים",
+                        //     html: htmlMessage
+                        // }
+
+                        // sendEmail(sendOptions);
+                        // console.log(sendOptions)
                     }
 
                 });
             }
-            return cb(null, {})
+            return cb(null, true)
         })()
     }
 
