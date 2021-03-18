@@ -12,6 +12,7 @@ const createZoomUser = async (email, name) => {
     const options = {
         method: "POST",
         headers: {
+            "Accept": "application/json",
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },

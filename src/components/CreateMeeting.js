@@ -183,7 +183,7 @@ const CreateMeeting = (props) => {
                             <div className='position-relative'>
                                 {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput margin-right-text">{props.t("email")}</div>}
                                 <input
-                                    type="text"
+                                    type="email"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.email || (props.CreateMeetingStore.meetingDetails.owner.email && !props.CreateMeetingStore.meetingDetails.owner.email.length)) ? "error" : "")}
                                     onTouchEnd={() => setErrorEmail(true)}
                                     onChange={props.CreateMeetingStore.changeMeetingFacilitatorEmail}
@@ -204,7 +204,7 @@ const CreateMeeting = (props) => {
                             <div className='position-relative'>
                                 {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                                 <input
-                                    type="text"
+                                    type="phone"
                                     className={'inputStyle margin-right-text ' + (isSaved && (!props.CreateMeetingStore.meetingDetails.owner.phone || (props.CreateMeetingStore.meetingDetails.owner.phone && !props.CreateMeetingStore.meetingDetails.owner.phone.length)) ? "error" : "")}
                                     onChange={props.CreateMeetingStore.changeMeetingFacilitatorPhoneNumber}
                                     value={props.CreateMeetingStore.meetingDetails.owner.phone}
