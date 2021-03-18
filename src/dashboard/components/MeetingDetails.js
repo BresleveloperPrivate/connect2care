@@ -416,14 +416,6 @@ const MeetingDetails = (props) => {
                                     style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#3586b1', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
                                     שלח קישור זום למשתתפים
                                 </div>}
-                            {props.CreateMeetingStore.meetingDetails.approved && props.CreateMeetingStore.meetingDetails.owner.email && (!props.CreateMeetingStore.meetingDetails.zoomId || props.CreateMeetingStore.meetingDetails.zoomId === '') &&
-                                <div
-                                    onClick={() => props.CreateMeetingStore.newZoom(props.CreateMeetingStore.meetingDetails.owner.phone, props.CreateMeetingStore.meetingDetails.owner.name)}
-                                    className="grow"
-                                    style={{ cursor: 'pointer', marginLeft: '20px', backgroundColor: '#00726B', padding: '3px 3vw', borderRadius: '10px', color: 'white', fontSize: '20px' }}>
-                                    שלח אקטיבציה
-                                </div>
-                            }
                         </div>
                     </div>
 

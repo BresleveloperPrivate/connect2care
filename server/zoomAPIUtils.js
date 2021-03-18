@@ -15,8 +15,7 @@ const generateJWT() {
 }
 */
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IlhRMFBHSkFHU3ZHTTktdkhoMzZHTVEiLCJleHAiOjE2MjE2MzA4MDAsImlhdCI6MTYxNDUxOTYwM30.ixX6bhgIDmA16y3zZgU0sIHfsjj6jzpf67-fGbmMz0w';
-
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Img5UEUxU2I2VDh1U21WN1JjR0YybnciLCJleHAiOjE2MjE0NTA4MDAsImlhdCI6MTYxNjA1NjY2OH0.bUHqNEo7my2nH52J63tAOmCk89FxlHh6vfa3CyN5x4o';
 const hostname = 'api.zoom.us';
 
 module.exports = {
