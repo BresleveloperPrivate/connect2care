@@ -12,7 +12,21 @@ import { useCreateMeetingStore } from '../stores/createMeeting.store';
 // import { useLanguageStore } from '../stores/language.store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import useOnClickOutside from './UseOnClickOutside'
+import useOnClickOutside from './UseOnClickOutside';
+
+import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from '@material-ui/core/styles';
+
+const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+      backgroundColor: '#16B3AB',
+      color: 'white',
+      textAlign: 'center',
+      boxShadow: theme.shadows[1],
+      fontSize: 12,
+      fontFamily: 'Heebo',
+    },
+  }))(Tooltip);
 
 // const LanguageStore = useLanguageStore();
 const useStyles = makeStyles({
@@ -139,21 +153,23 @@ const SearchFallen = observer((props) => {
     return (
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
-            <div
-                className={'inputStyle inputSelectFallen d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
-                style={{ width: "100%", marginBottom: '0' }}>
-                <input
-                    disabled={CreateMeetingStore.meetingId !== -1}
-                    type="text"
-                    style={{ all: "unset", width: "calc(100% - 20px)" }}
-                    onChange={onChange}
-                    value={searchValue}
-                    autoComplete="off"
-                    placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
-                    onClick={() => setShowOptions(true)}
-                />
-                <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
-            </div>
+            <LightTooltip title={props.LanguageStore.lang !== "heb"?"Enter a name as shown on Izkor/Laad website":"יש לכתוב את השם כפי שמופיע באתר יזכור/לעד"} placement="top" arrow>   
+                <div
+                    className={'inputStyle inputSelectFallen d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
+                    style={{ width: "100%", marginBottom: '0' }}>
+                    <input
+                        disabled={CreateMeetingStore.meetingId !== -1}
+                        type="text"
+                        style={{ all: "unset", width: "calc(100% - 20px)" }}
+                        onChange={onChange}
+                        value={searchValue}
+                        autoComplete="off"
+                        placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name' : "שם החלל"}
+                        onClick={() => setShowOptions(true)}
+                    />
+                    <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />
+                </div>
+            </LightTooltip>
 
             {showOptions && searchValue.length > 0 && (
                 <List className={list + " listSearch"}>
