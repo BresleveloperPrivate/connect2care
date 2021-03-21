@@ -32,7 +32,8 @@ const Info = (props) => {
         "meetingCanceledQ",
         "isMeetingRecorededQ",
         "playVideoQ",
-        "meetingParticepantsQ"
+        "meetingParticepantsQ",
+        "hostNotHostQ"
     ]
 
     const arrayAnswers = [
@@ -67,10 +68,12 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === "createdMeetingQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>{
                         props.LanguageStore.lang === "heb" ? <div>
-                            קודם כל, תודה! בזכותך אנשים רבים יציינו את יום הזיכרון ויתחברו אליו ממקום אישי.
-                            לאחר אישור המפגש על ידינו, יישלח אלייך מייל עם ערכת ההדרכה המכילה את כל המידע לקראת המפגש. על מנת לייצר מפגש מוצלח חשוב מאוד הרשם <a href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">לסדנאות ההכנה</a> שיצרנו עבורך. בנוסף, יש לפרסם את המפגש שיצרת ברשתות החברתיות ולחברים על מנת להזמין כמה שיותר משתתפים וליצור קהל אוהד במפגש. כמה שעות לפני המפגש, תקבלו מאיתנו מייל עם הקישור לזום.
-
-                         </div> :
+                            קודם כל, תודה! בזכותך אנשים רבים יציינו את יום הזיכרון ויתחברו אליו ממקום אישי. לאחר אישור המפגש על ידינו, יישלח אלייך מייל עם כל הפרטים שאתה צריך - שם משתמש וסיסמה, 
+                            <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf" > ערכת ההדרכה </a>
+                            המכילה את כל המידע לקראת המפגש. על מנת לייצר מפגש מוצלח חשוב מאוד הרשם
+                            <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform?gxids=7628"> לסדנאות ההכנה </a>
+                            שיצרנו עבורך. בנוסף, יש לפרסם את המפגש שיצרת ברשתות החברתיות ולחברים על מנת להזמין כמה שיותר משתתפים וליצור קהל אוהד במפגש. כמה שעות לפני המפגש, תקבלו מאיתנו מייל עם הקישור לזום. יש לשים לב, אתם תקבלו מאיתנו שם משתמש וסיסמה ויש להתחבר עם חשבון המשתמש שיצרנו עבורך ולא עם המשתמש האישי שלך.
+                        </div> :
                             <div>
                                 First of all, thank you! Thanks to you, many people will commemorate Yom Hazikaron this year and will enlarge the circle of memory. All you have to do now, is to connect to the meet-up through the email you received from Zoom, and follow the instructions that were sent in the email. It is very important to share the meeting on social networks, among your personal friends, to invite as many participants as possible.
                                 It is crucial to share the meet-up on social media and with your friends so that we can reach as many participants as possible. In addition, in order to create a successful meet-up, it is important to sign up for the <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdoihZZojnQ8-lcWlV4vSfECTyzV2Metqhn6uoHa_n5ZNScag/viewform">preparatory workshop</a> that we created for you, and to read the <a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">content pack</a>hat includes all relevant information for the meet-up.
@@ -112,10 +115,10 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === "couldNotSignUpQ")
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
-                            חשוב לנסות להבין מה סוג הבעיה בהרשמה, <a target="_blank" href="https://connect2commemorate.ourbrothers.co.il/#/support">ותפנה אלינו</a> - כך נוכל לסייע לך, אנא כתוב בצורה מפורטת מה הבעיה ונשמח לסייע.
+                            חשוב לנסות להבין מה סוג הבעיה בהרשמה, <a target="_blank" href="https://connect2care.ourbrothers.co.il/#/contact">ותפנה אלינו</a> - כך נוכל לסייע לך, אנא כתוב בצורה מפורטת מה הבעיה ונשמח לסייע.
                             </div> :
                             <div>
-                                Please <a target="_blank" href="https://ourbrothers.co.il/contact?referer=connect-2-care">contact us</a>  with the problem - so that we can assist you, please describe the problem in detail and we will be happy to help.
+                                Please <a target="_blank" href="https://connect2care.ourbrothers.co.il/#/contact">contact us</a>  with the problem - so that we can assist you, please describe the problem in detail and we will be happy to help.
                             </div>}
                     </InfoCard>
 
@@ -124,7 +127,7 @@ const Info = (props) => {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             בהחלט! צוות ההדרכה שלנו עמל רבות והכין עבורך סדנה וירטואלית לניהול המפגש.<br />
-                        הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a>.
+                        הסדנה תועבר בזמן אמת אונליין בzoom על ידי מרצים מומחים בתחומי התוכן והדיגיטל. ניתן להשתבץ לאחד או יותר מהמועדים לבחירתך. ההרשמה ממש <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform"> כאן ערכת תוכן</a>.
                         </div> :
                             <div>
                                 Definitely! Our team has been working hard to prepare a virtual workshop for running sessions.<br />
@@ -138,7 +141,7 @@ const Info = (props) => {
                         {props.LanguageStore.lang === "heb" ? <div>
                             שוב שיהיה לצידך חבר/ בן משפחה שידאג לכל הצד הטכני - שהזום עובד, המצלמה תקינה, ואם יש צורך אז גם להשתיק קולות מפריעים. כמו כן, חשוב להגיע עם מסרים שאותם רוצים להעביר.
                             השתתפות ב
-                            <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">בסדנאות ההכנה</a> ניתן להיעזר ו<a target="_blank" href="https://connect2care.ourbrothers.co.il/meetingContent.pdf">בערכת ההדרכה</a>.
+                            <a target="_blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">בערכת ההדרכה</a>.
                             יתרמו לך רבות.
                         </div> :
                             <div>
@@ -176,7 +179,7 @@ const Info = (props) => {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         {props.LanguageStore.lang === "heb" ? <div>
                             ניתן לעשות זאת באמצעים של תוכנת ZOOM, בה מתקיימים המפגשים בדרך וירטואלית. למידע נוסף ניתן לקרוא ב
-                            <a target="blank" href="#">ערכת ההדרכה </a>
+                            <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">ערכת ההדרכה </a>
                             שהכנו עבורך ולהצטרף לאחד
                             <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform"> מסדנאות ההכנה </a>
                         </div> :
@@ -192,7 +195,7 @@ const Info = (props) => {
                         {props.LanguageStore.lang === "heb" ?
                             <div>
                                 בכדי להזמין משתתפים נוספים למפגש שלך, כל שעליך לעשות הוא להכנס
-                                <a href="https://connect2commemorate.ourbrothers.co.il/#/meetings"> למפגש שיצרת באתר </a>
+                                <a target="blank" href="https://connect2care.ourbrothers.co.il/#/meetings"> למפגש שיצרת באתר </a>
                                 וללחוץ על כפתור 'הזמינו למפגש' - העתיקו את הקישור ופרסמו בקבוצות הוואטסאפ שלכם, בקיר הפייסבוק ובמייל - והזמינו את בני המשפחה והחברים. או לחילופין, להעתיק את הלינק של עמוד המפגש ולשלוח אנשים להכנס פנימה ולהרשם כמשתתפים.
 
                             </div> :
@@ -277,6 +280,13 @@ const Info = (props) => {
                 else if (arrayQuestion[index] === 'meetingParticepantsQ') {
                     return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
                         <div>{translationHEB.meetingParticepantsA}</div>
+                    </InfoCard>
+                }
+
+
+                else if (arrayQuestion[index] === 'hostNotHostQ') {
+                    return <InfoCard key={index} title={props.t(arrayQuestion[index])}>
+                        <div>{translationHEB.hostNotHostA}</div>
                     </InfoCard>
                 }
 
