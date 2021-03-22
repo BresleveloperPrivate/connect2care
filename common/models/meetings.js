@@ -753,6 +753,7 @@ module.exports = function (meetings) {
                 return cb(err, null);
             }
             let meeting = JSON.parse(JSON.stringify(meetingById))
+            console.log(meeting)
 
             if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
@@ -871,9 +872,10 @@ module.exports = function (meetings) {
 
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                        <body style="background-image: url('./assets/emailPhoto2.jfif');
-        background-repeat: no-repeat; background-attachment: fixed;
-        background-position: center; background-size:100% 100%">
+<div>
+    <div style=" text-align: center">
+        <img src="./assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+    </div>
     <div
         style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
         <div
@@ -889,7 +891,7 @@ module.exports = function (meetings) {
 
                 <div style="padding-top: 10px; font-weight: bold;">אז איך זה עובד?</div>
 
-                <div style="padding-top: 10px;">שעות לפני פתיחת המפגש ישלח לך קישור למפגש לזכר X ז"ל בזום ZOOM.</div>
+                <div style="padding-top: 10px;">כמה שעות לפני פתיחת המפגש יישלח לך קישור לZoom</div>
 
                 <div>כל שנותר לך לעשות, הוא להיכנס לקישור ב ${meeting.date} בשעה ${meeting.time}</div>
 
@@ -909,7 +911,7 @@ module.exports = function (meetings) {
             </div>
         </div>
     </div>
-</body>
+</ג>
                 ` }
             }
 
@@ -1286,7 +1288,7 @@ module.exports = function (meetings) {
             </div>
 
             <div>כאן ניתן לצפות ב 
-                <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info">  שאלות ותשובות נפוצות </a>
+                <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info>  שאלות ותשובות נפוצות </a>
                 לקראת המפגשים.
             </div>
 
@@ -1547,42 +1549,144 @@ module.exports = function (meetings) {
                     let link = meeting.zoomId.replace('j', 's')
                     const emailZoom = changeEmail(meetingOwner.phone);
                     let htmlMessage = meeting.language !== 'heb'
-                        ? `<div style="direction: rtl;">
-                            <div>
-                                זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br><br>
-                                <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
-                                <strong>התחבר עם האימייל והסיסמה:</strong><br>
-                                אימייל: ${emailZoom} <br>
-                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
-                                לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                                <br><br>
-                                בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
-                            </div>
-                            <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                <div style="font-weight: bold;">
-                                    לתמיכה טכנית: <br>
-                                    052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
-                        </div>`
-                        : `<div style="direction: rtl;">
-                            <div>
-                                זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br><br>
-                                <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
-                                <strong>התחבר עם האימייל והסיסמה:</strong><br>
-                                אימייל: ${emailZoom} <br>
-                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
-                                לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                                <br><br>
-                                בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
-                            </div>
-                            <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                <div style="font-weight: bold;">
-                                    לתמיכה טכנית: <br>
-                                    052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
-                        </div>`
+                        ? `<div><div style=" text-align: center">
+        <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+    </div>
+    <div style='width: 100%; max-width: 98vw; 
+        height: fit-content ;  padding-bottom: 30px; 
+        direction: rtl; font-family: Arial'>
+        <div
+            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            
+
+            <h2 style="text-decoration: underline;">לקראת המפגש - 'מתחברים וזוכרים'</h2>
+            <div style="padding-top: 10px;">
+                <div style="padding-top: 10px;">שלום ${meetingOwner.name}</div>
+
+                <div style="padding-top: 10px;">זהו קישור הזום למפגש שיצרת, איתו תוכל להיכנס למפגש</div>
+
+                <div><a target="blank" href="${link}">קישור למפגש זום</a></div>
+
+                <div style="padding-top: 10px;">טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון
+                    הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
+                    הפרטים הבאים:</div>
+
+                <div><a target="blank" href="${emailZoom}">אימייל: ${emailZoom}</a></div>
+
+                <div>סיסמה: OurBrothers2021</div>
+
+                <div style="padding-top: 15px;">כמה דגשים חשובים להצלחת המפגש:</div>
+
+                <div style="padding-top: 5px;">1. גם אם יש לך חשבון זום משלך, חשוב לא להיכנס דרכו. הפגישות שיצרנו אינן
+                    מוגבלות בזמן וגם מוקלטות לטובת המשפחות.</div>
+
+                <div>2. הקלטת המפגש הינה אוטומטית, אבל אם עשית ניסיון של הפעלת הזום לפני המפגש - יתכן ושתיכנס בפעם הבאה ההקלטה כבר לא תחל
+                אוטומטית, על כך, יש להפעילה ידנית כך: לחיצה על האייקון של הקלטה (record) בסרגל הכלים התחתון ביותר בזום (ליד הצ'אט)
+                ולוודא שההתחלה מתחילה.
+
+                </div>
+
+                <div style="padding-top: 20px;">
+                    מצ"ב
+                    <div>
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">1. ערכת תוכן למוביל מפגש</a>
+                    </div>
+                    <div>2. רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.</div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        לשימושך- מוקד תמיכה טכנית - 052-6283967 | Amdocs.Digital@glassix.net
+                    </div>
+                    <div>
+                        כאן ניתן לצפות ב
+                        <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info"> שאלות ותשובות נפוצות </a>
+                        לקראת המפגשים
+                    </div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        מאחלים לך המון בהצלחה ובטוחים שהמפגש שלך יהיה משמעותי ומרגש, לך ולמשתתפים!
+                        צוות 'מתחברים וזוכרים'
+                    </div>
+                    <div>
+                        <a href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>` : `<div><div style=" text-align: center">
+        <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+    </div>
+    <div style='width: 100%; max-width: 98vw; 
+        height: fit-content ;  padding-bottom: 30px; 
+        direction: rtl; font-family: Arial'>
+        <div
+            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            
+
+            <h2 style="text-decoration: underline;">לקראת המפגש - 'מתחברים וזוכרים'</h2>
+            <div style="padding-top: 10px;">
+                <div style="padding-top: 10px;">שלום ${meetingOwner.name}</div>
+
+                <div style="padding-top: 10px;">זהו קישור הזום למפגש שיצרת, איתו תוכל להיכנס למפגש</div>
+
+                <div><a target="blank" href="${link}">קישור למפגש זום</a></div>
+
+                <div style="padding-top: 10px;">טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון
+                    הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
+                    הפרטים הבאים:</div>
+
+                <div><a target="blank" href="${emailZoom}">אימייל: ${emailZoom}</a></div>
+
+                <div>סיסמה: OurBrothers2021</div>
+
+                <div style="padding-top: 15px;">כמה דגשים חשובים להצלחת המפגש:</div>
+
+                <div style="padding-top: 5px;">1. גם אם יש לך חשבון זום משלך, חשוב לא להיכנס דרכו. הפגישות שיצרנו אינן
+                    מוגבלות בזמן וגם מוקלטות לטובת המשפחות.</div>
+
+                <div>2. הקלטת המפגש הינה אוטומטית, אבל אם עשית ניסיון של הפעלת הזום לפני המפגש - יתכן ושתיכנס בפעם הבאה ההקלטה כבר לא תחל
+                אוטומטית, על כך, יש להפעילה ידנית כך: לחיצה על האייקון של הקלטה (record) בסרגל הכלים התחתון ביותר בזום (ליד הצ'אט)
+                ולוודא שההתחלה מתחילה.
+
+                </div>
+
+                <div style="padding-top: 20px;">
+                    מצ"ב
+                    <div>
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">1. ערכת תוכן למוביל מפגש</a>
+                    </div>
+                    <div>2. רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.</div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        לשימושך- מוקד תמיכה טכנית - 052-6283967 | Amdocs.Digital@glassix.net
+                    </div>
+                    <div>
+                        כאן ניתן לצפות ב
+                        <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info"> שאלות ותשובות נפוצות </a>
+                        לקראת המפגשים
+                    </div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        מאחלים לך המון בהצלחה ובטוחים שהמפגש שלך יהיה משמעותי ומרגש, לך ולמשתתפים!
+                        צוות 'מתחברים וזוכרים'
+                    </div>
+                    <div>
+                        <a href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>`
+
 
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
@@ -1632,7 +1736,7 @@ module.exports = function (meetings) {
                 meetings1.forEach(meeting => {
                     const { people } = JSON.parse(JSON.stringify(meeting));
                     let htmlMessage = meeting.language !== 'heb'
-                    ? `<body style="background-image: url('./assets/emailPhoto2.jfif');
+                        ? `<body style="background-image: url('./assets/emailPhoto2.jfif');
                         background-repeat: no-repeat; background-attachment: fixed;
                         background-position: center; background-size:100% 100%">
                         <div style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
@@ -1654,7 +1758,7 @@ module.exports = function (meetings) {
                             </div>
                         </div>
                     </body>`
-                    : `<div style="direction: rtl;">
+                        : `<div style="direction: rtl;">
                         שלום <br>
                         מצורף קישור למפגש של: ${meeting.name}<br>
                         בתאריך: ${meeting.date}<br>
