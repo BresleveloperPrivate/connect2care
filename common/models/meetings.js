@@ -1198,7 +1198,7 @@ module.exports = function (meetings) {
             <div>
                 <div  style="padding-top: 1%;">א. ביום המפגש תקבל מאיתנו מייל עם לינק למפגש</div>
 
-                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: והסיסמה: OurBrothers2021</div>
+                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: ${newEmail} והסיסמה: OurBrothers2021</div>
 
                 <div  style="padding-top: 1%;">ג. חשוב מאוד! לא להתחבר עם המשתמש זום הקיים שלך, רק עם המשתמש שיצרנו לך והסיסמה שקיבלת.</div>
             </div>
@@ -1208,31 +1208,32 @@ module.exports = function (meetings) {
                 איך יוצרים מפגש מעולה:
             </div>
 
+            
+            <div style="font-weight: bold; padding-top: 10px;" >
+            אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
+            <br>
+            ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
+            <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
+            </div>
+            
             <div>
                 הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom ובתחומי התוכן והדיגיטל.
                 <br>
                 מומלץ מאוד!
             </div>
 
-            <div style="font-weight: bold; padding-top: 10px;" >
-                אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
-                <br>
-                ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
-                    <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
-            </div>
-
             <div>מועדי הסדנאות מתחלקים בין מועדי הכנה למובילי מפגש בזום ובין מועדי סדנה הכנת למפגשים פרונטליים - 4 סדנאות בתאריכים ושעות
             שונות בתאריכים: 4-5.4.2021 - בוקר+ ערב</div>
 
             <div style="font-weight: bold">  להשתבצות לסדנה לחץ <a target="blank"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a></div>
+                href="https://forms.gle/dEbeRAdcZB6YYDA18">כאן</a></div>
 
             <div style="font-weight: bold; padding-top: 10px;">ערכת הכנה</div>
 
             <div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים</div>
 
             <div style="font-weight: bold; padding-top: 10px;">
-                <a target="blank" href="">ערכת תוכן להובלת מפגש זיכרון</a>
+                <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">ערכת תוכן להובלת מפגש זיכרון</a>
             </div>
 
             <div style="font-weight: bold; padding-top: 10px;">הזמנת משתתפים</div>
@@ -1262,6 +1263,18 @@ module.exports = function (meetings) {
             <div>
                 קוד מפגש > זה הקוד שאתה מזמין איתו משתתפים להירשם.
             </div>
+            
+
+            <div style="padding-top: 15px;">
+                <div style="font-weight: bold">
+                סיכת "דם המכבים"
+                </div>
+                <div>
+                השנה אנו פועלים בשיתוף עם עמותת דם המכבים אשר מייצרת ומפיצה את הסיכה המיוחדת ליום הזיכרון מפרח דם המכבים האמיתי.
+                אנו שמחים להעניק לכם, כמובילי מפגש, סיכה בחינם. להזמנת סיכה ניתן לפנות לעמותת דם המכבים- במייל: info@redeverlasting.co או בוואטסאפ למספר:
+                למספר: 054-7259035. ציינו כי אתם מובילים מפגש באחים שלנו, והם ישמחו לעזור בכל דבר.
+                </div>
+            </div>
 
             <div
                 style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
@@ -1270,6 +1283,11 @@ module.exports = function (meetings) {
             <div style="text-align: center; color: rgb(30, 43, 78);">
                 שאלות נוספות? משהו לא ברור?: <br>
                 zikaron@ourbrothers.org
+            </div>
+
+            <div>כאן ניתן לצפות ב 
+                <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info">  שאלות ותשובות נפוצות </a>
+                לקראת המפגשים.
             </div>
 
             <div style="text-align: center; color: rgb(30, 43, 78); padding-top: 10px;">
