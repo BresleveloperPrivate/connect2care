@@ -153,7 +153,7 @@ const SearchFallen = observer((props) => {
     return (
         <div className={inputWraper + " fallenSearchDiv"} ref={ref}>
 
-            <LightTooltip title={props.LanguageStore.lang !== "heb"?"Enter a name as shown on Izkor/Laad website":"יש לכתוב את השם כפי שמופיע באתר יזכור/לעד"} placement="top" arrow>   
+            <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter a name as shown on Izkor/Laad website":"יש לכתוב את השם כפי שמופיע באתר יזכור/לעד"} placement="top" arrow>   
                 <div
                     className={'inputStyle inputSelectFallen d-flex align-items-center ' + (props.isSaved && (!CreateMeetingStore.fallenDetails || (CreateMeetingStore.fallenDetails && !CreateMeetingStore.fallenDetails[props.fallen.id])) ? "error" : "")}
                     style={{ width: "100%", marginBottom: '0' }}>
