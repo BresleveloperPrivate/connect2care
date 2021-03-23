@@ -20,7 +20,6 @@ import ercatMovil from "../icons/ercatMovil.pdf";
 import englishErcatMovil from '../icons/englishErcatMovil.pdf'
 import englishLogo2 from "../icons/logoEnglish2.jpg";
 import arrow from '../icons/Icon awesome-chevron-down.svg';
-import Toolkit from './Toolkit';
 import '../styles/toolkit.css';
 
 class NavBar extends Component {
@@ -90,7 +89,10 @@ class NavBar extends Component {
               <button className='dropdownButton'>{this.props.t("hosting")}&nbsp;<img src={arrow} alt='arrow' /></button>
               <ul className='dropdownMenu'>
                 <li><Link to='/info'>{this.props.t("qna")}</Link></li>
-                <li><a href={this.props.LanguageStore.lang === "heb"?ercatMovil:englishErcatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li>
+
+                <li><a href={this.props.t("toolkit") === "Hosting Kit" ? englishErcatMovil : ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li>
+                {/* <li><a href={this.props.LanguageStore.lang === "heb"?ercatMovil:englishErcatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li> */}
+
                 <li><a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("hostVideo")}</a></li>
                 <li><a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("workshop")}</a></li>
                 {/* <li><Link to='/support'>{this.props.t("support")}</Link></li> */}
@@ -112,9 +114,15 @@ class NavBar extends Component {
 
       {
         option: this.props.t("donate"),
-        path: this.props.LanguageStore.lang === "heb"
-        ? "https://ourbrothers.co.il/donate?referer=connect-2-care"
-        : "https://www.jgive.com/new/en/ils/external/charity-organizations/2278" ,
+
+        path: this.props.t("donate")==="Donate Us" 
+        ? "https://www.jgive.com/new/en/ils/external/charity-organizations/2278" 
+        : "https://ourbrothers.co.il/donate?referer=connect-2-care",
+
+        // path: this.props.LanguageStore.lang === "heb"
+        // ? "https://ourbrothers.co.il/donate?referer=connect-2-care"
+        // : "https://www.jgive.com/new/en/ils/external/charity-organizations/2278" ,
+
         open: true,
       },
 
