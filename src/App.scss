@@ -32,6 +32,14 @@ z
   flex-direction: row-reverse;
 }
 
+.navbar.fdrr{
+  font-weight: 500;
+}
+
+.containMenu .fdrr{
+  text-align: left;
+}
+
 ::-webkit-scrollbar {
   background-color: white !important;
   width: 5px;

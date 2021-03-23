@@ -6,7 +6,7 @@ import c2c from "../icons/logo.svg";
 import logoEnglish from "../icons/logoEnglish.jpg";
 import menu from "../icons/menu.svg";
 import SideNavBar from "./SideNavBar";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 // import '../styles/animations.scss'
 // import Language from './Language';
 import Lng from "./Lng";
@@ -17,7 +17,11 @@ import matnas from "../icons/logo11.png";
 // import tzahal from '../icons/tzahal.png'
 import DonateButton from "./DonateButton";
 import ercatMovil from "../icons/ercatMovil.pdf";
-import englishLogo from "../icons/logoEnglish.jpg";
+import englishErcatMovil from '../icons/englishErcatMovil.pdf'
+import englishLogo2 from "../icons/logoEnglish2.jpg";
+import arrow from '../icons/Icon awesome-chevron-down.svg';
+import Toolkit from './Toolkit';
+import '../styles/toolkit.css';
 
 class NavBar extends Component {
   constructor(props) {
@@ -52,37 +56,69 @@ class NavBar extends Component {
     this.setState({ right: open });
   };
 
-  setOptions = () => {
+  setOptions = (lng) => {
     this.options = [
       { option: this.props.t("homePage"), path: "/" },
       { option: this.props.t("meetingsList"), path: "/meetings" },
       // { option: this.props.t("myMeetings"), path: '/my-meetings' },
-      { option: this.props.t("qna"), path: "/info" },
+      // { option: this.props.t("qna"), path: "/info" },
       // { option: this.props.t("hosting"), path: '/hosting' },
-      { option: this.props.t("contactUs"), path: "/contact" },
+      // { option: this.props.t("toolkit"), path: "/toolkit" },
+
+      // {
+      //   option: (
+      //     <div className="ercatMovil">
+      //       <a
+      //         href={ercatMovil}
+      //         without
+      //         rel="noopener noreferrer"
+      //         target="_blank"
+      //       >
+      //         {this.props.t("toolkit")}
+      //           &nbsp;<img src={arrow} alt='arrow' />
+      //       </a>
+      //     </div>
+      //   ),
+      // },
+      
       {
         option: (
-          <div className="ercatMovil">
-            <a
-              href={ercatMovil}
-              without
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {/* {this.props.LanguageStore.lang !== "heb"
-                ? "Host toolkit"
-                : " */}
-                ערכת מוביל מפגש
-                {/* "} */}
-            </a>
+          // <div className="ercatMovil">
+          //     {this.props.t("toolkit")}
+          //       &nbsp;<img src={arrow} alt='arrow' />
+            <div className='toolkit'>
+              <button className='dropdownButton'>{this.props.t("hosting")}&nbsp;<img src={arrow} alt='arrow' /></button>
+              <ul className='dropdownMenu'>
+                <li><Link to='/info'>{this.props.t("qna")}</Link></li>
+                <li><a href={this.props.LanguageStore.lang === "heb"?ercatMovil:englishErcatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li>
+                <li><a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("hostVideo")}</a></li>
+                <li><a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("workshop")}</a></li>
+                {/* <li><Link to='/support'>{this.props.t("support")}</Link></li> */}
+              </ul>
           </div>
+          // </div>
         ),
       },
+
+
+      // {
+      //   option: 
+      //   <div>
+      //     <a href={lng==='heb'? "https://ourbrothers.co.il/donate?referer=connect-2-care" : "https://www.jgive.com/new/en/ils/external/charity-organizations/2278"} target="_blank" without rel="noopener noreferrer">
+      //       {lng==="heb"?"תרומה לעמותה":"Donate Us"}
+      //     </a>
+      //   </div>
+      // },
+
       {
         option: this.props.t("donate"),
-        path: "https://ourbrothers.co.il/donate?referer=connect-2-care",
+        path: this.props.LanguageStore.lang === "heb"
+        ? "https://ourbrothers.co.il/donate?referer=connect-2-care"
+        : "https://www.jgive.com/new/en/ils/external/charity-organizations/2278" ,
         open: true,
       },
+
+      { option: this.props.t("contactUs"), path: "/contact" },
     ];
   };
 
@@ -130,7 +166,7 @@ class NavBar extends Component {
                       this.props.history.replace("/");
                     }}
                     alt="alt"
-                    src={englishLogo}
+                    src={englishLogo2}
                     height="140%"
                   />
                 ) : (
@@ -194,8 +230,19 @@ class NavBar extends Component {
             {this.state.width <= 900 && this.state.height <= 1200 && (
               <div
                 className="containIconNavbar"
-                style={{ alignItems: "center" }}
+                style={{ alignItems: "center"}}
               >
+                {this.props.LanguageStore.lang !== "heb"?
+                  <img
+                  onClick={() => {
+                    this.props.history.replace("/");
+                  }}
+                  alt="alt"
+                  src={englishLogo2}
+                  height="90%"
+                  style={{display:'flex', position: 'absolute', left: '5vw'}}
+                />
+                :
                 <img
                   onClick={() => {
                     this.props.history.replace("/");
@@ -203,7 +250,7 @@ class NavBar extends Component {
                   alt="alt"
                   src={c2c}
                   height="135%"
-                />
+                />}
               </div>
             )}
 

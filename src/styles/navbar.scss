@@ -78,6 +78,7 @@
     display: none;
 }
 
+
 .navbar{
     //fixed position
     z-index: 10;
@@ -160,10 +161,10 @@
     // border-radius: 100px;
 }
 
-.lgnP{
-    font-size: 14px;
-    font-weight: normal;
-}
+// .lgnP{
+//     font-size: 14px;
+//     font-weight: normal;
+// }
 
 .navbarLeft{
     display: flex;
@@ -242,6 +243,10 @@
    
     .optionInNavbar{
       font-size: 13px;
+    }
+
+    .dropdownMenu a{
+        font-size: 12px;
     }
 }
 

@@ -194,7 +194,7 @@ const CreateMeeting = (props) => {
                                 />
                             </div>
 
-                            <LightTooltip title={props.LanguageStore.lang !== "heb"?"Enter a GMAIL address":"GMAIL יש לכתוב כתובת"} placement="top" arrow>   
+                            <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter a GMAIL address":"GMAIL יש לכתוב כתובת"} placement="top" arrow>   
                                 <div className='position-relative'>
                                     {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput margin-right-text">{props.t("email")}</div>}
                                     <input
@@ -217,7 +217,7 @@ const CreateMeeting = (props) => {
                                 </div>
                             </LightTooltip>
 
-                            <LightTooltip title={props.LanguageStore.lang !== "heb"?"Enter your personal phone number, it will be your username":"נא לכתוב את מספר הטלפון האישי, הוא יהיה משתמש הזום שלכם"} placement="top" arrow>
+                            <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter your personal phone number, it will be your username":"נא לכתוב את מספר הטלפון האישי, הוא יהיה משתמש הזום שלכם"} placement="top" arrow>
                                 <div className='position-relative'>
                                     {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                                     <input
