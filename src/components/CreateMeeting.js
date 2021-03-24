@@ -15,19 +15,19 @@ import logo from '../icons/logo.svg'
 import FallenDetails from "./FallenDetails"
 import TextSIdeDiv from './TextSIdeDiv';
 
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from '@material-ui/core/styles';
+// import Tooltip from "@material-ui/core/Tooltip";
+// import { withStyles } from '@material-ui/core/styles';
 
-const LightTooltip = withStyles((theme) => ({
-    tooltip: {
-      backgroundColor: '#16B3AB',
-      color: 'white',
-      textAlign: 'center',
-      boxShadow: theme.shadows[1],
-      fontSize: 12,
-      fontFamily: 'Heebo',
-    },
-  }))(Tooltip);
+// const LightTooltip = withStyles((theme) => ({
+//     tooltip: {
+//       backgroundColor: '#16B3AB',
+//       color: 'white',
+//       textAlign: 'center',
+//       boxShadow: theme.shadows[1],
+//       fontSize: 12,
+//       fontFamily: 'Heebo',
+//     },
+//   }))(Tooltip);
 
 const CreateMeeting = (props) => {
     const [pressOnCancel, setPressOnCancel] = useState(false)
@@ -194,7 +194,7 @@ const CreateMeeting = (props) => {
                                 />
                             </div>
 
-                            <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter a GMAIL address":"GMAIL יש לכתוב כתובת"} placement="top" arrow>   
+                            {/* <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter a GMAIL address":"GMAIL יש לכתוב כתובת"} placement="top" arrow>    */}
                                 <div className='position-relative'>
                                     {props.CreateMeetingStore.meetingDetails.owner.email && <div className="textAboveInput margin-right-text">{props.t("email")}</div>}
                                     <input
@@ -215,9 +215,9 @@ const CreateMeeting = (props) => {
                                         </div>
                                     }
                                 </div>
-                            </LightTooltip>
+                            {/* </LightTooltip> */}
 
-                            <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter your personal phone number, it will be your username":"נא לכתוב את מספר הטלפון האישי, הוא יהיה משתמש הזום שלכם"} placement="top" arrow>
+                            {/* <LightTooltip disableHoverListener title={props.LanguageStore.lang !== "heb"?"Enter your personal phone number, it will be your username":"נא לכתוב את מספר הטלפון האישי, הוא יהיה משתמש הזום שלכם"} placement="top" arrow> */}
                                 <div className='position-relative'>
                                     {props.CreateMeetingStore.meetingDetails.owner.phone && <div className="textAboveInput margin-right-text">{props.t("phone")}</div>}
                                     <input
@@ -238,7 +238,7 @@ const CreateMeeting = (props) => {
                                         </div>
                                     }
                                 </div>
-                            </LightTooltip>
+                            {/* </LightTooltip> */}
 
                             <div className='position-relative'>
                                 {props.CreateMeetingStore.meetingDetails.language && <div className="textAboveInput margin-right-text">{props.t("meetingLanguage")}</div>}
