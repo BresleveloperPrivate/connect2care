@@ -39,6 +39,8 @@
     font: normal 20px Assistant;
 }
 
+
+
 input[type=radio] {
     border: 1px solid var(--custom-gray);
     background: url("../icons/checkbox_off_light.svg") no-repeat center center;
@@ -593,3 +595,10 @@ input[type=radio]:focus {
         padding: 9vh 6vh;
     }
 }
+/* 
+@media screen and (min-width:300px) and (max-width: 850px){
+    .inputStyle.inputSelectFallen,
+    .inputStyle{
+    font-size: 10px;
+}
+} */
