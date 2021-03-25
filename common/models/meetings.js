@@ -287,33 +287,46 @@ module.exports = function (meetings) {
                                         to: emailowner, subject: "The meeting you initiated was accepted and awaiting approval", html:
 
                                             `
-                                    <div width="100%" style="direction: ltr;">
-                                    <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                    <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                      <div style="font-weight: bold; margin-bottom: 20px;">
-                                      Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom HaZikaron.<br>
-                                      Thanks to you, we can give a hug of memory and appreciation to those who have fallen for us, and show that this year- despite the challenge- we have not forgotten.
-                                      </div>
-                                      In order to promise top security for our meet-ups, the project team is reviewing your request, will possibly discuss your request with you, and within 24 hours will send you confirmation to publish and share your meet-up on our website. <br><br>
-                                      Continue following our emails.<br>
-                                      Thank you for your patience and understanding.
-                                      <br>
-                                    </div>
-                                      <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                        <div style="font-weight: bold;">
-                                        More questions? Anything still unclear? Reach out
-                                        </div>zikaron@ourbrothers.org | 058-409-4624
-                                      </div>
-                                      <div
-                                        style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                        See you soon,
-                                        Connect2Care Team.</div>
-                                        <div
-                                        style="text-align: center; color: rgb(30, 43, 78);">
-                                        For technical support: <br>
-                                        052-6283967 | Amdocs.Digital@glassix.net
-                                        </div>
-                                        </div>
+                                    <div>
+        <div style=" text-align: center">
+            <img src="../assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw;
+                height: fit-content ;  padding-bottom: 30px;
+                font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="text-decoration: underline;">Registration - ‘Connect 2 Commemorate’ Meet-Up</h2>
+                <div style="padding-top: 15px;">
+                    <div style="padding-top: 15px;">Thank you for choosing to host a “Connect2Commemorate” Meet-Up this
+                        Yom Hazikaron.</div>
+
+                    <div style="padding-top: 25px;">
+                        One of our volunteers will contact you within 48 hours with the
+                        relevant information and confirmation for your meet-up.
+                        Once your meet-up is confirmed we will reach out with more details.
+                    </div>
+
+
+
+                    <div style="padding-top: 25px;">
+                        Please note, you can host more than one meet-up- make sure the dates and times don’t clash.
+                        If you have any questions, we’re here.
+
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div>The “Connect2Commemorate” Team</div>
+                        <div><a target="blank" href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a></div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
                                     `
                                     }
                                 }
