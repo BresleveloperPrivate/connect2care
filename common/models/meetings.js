@@ -1095,80 +1095,131 @@ module.exports = function (meetings) {
                 sendOptions = {
                     to: email, subject: "The meet-up you initiated has been approved",
                     html:
-                        `<div width="100%" style="direction: ltr;">
-                                <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                <div
-                                    style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                    <div style="font-weight: bold; margin-bottom: 20px;">
-                                        Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
-                            HaZikaron.<br>
-                            Thanks to you, we can give a hug of memory and appreciation to those
-                            who have fallen for us, and show that this year- despite the challenge- we have
-                            not forgotten.
-                                    </div>
-                                    <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">To the meeting</a>
-                                    ${code}<br>
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        Crucial information for hosting the meet-up:
-                                    </div>
-                                    This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
-                            <br>
-                            If you already have a Zoom account, this is
-                            irrelevant for this meet-up; please use the temporary account. <br>
-                            Due to a special
-                            collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-                            including unlimited time, ability to record the session, etc.
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        How does this work?
-                            </div>
-                            A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
-                            B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
-                            C. Your user name will be automatically filled in, please use the password:
-                            OurBrothers2021 <br>
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        How to create a meaningful meet-up:
-                            </div>
-                                    <div style="font-weight: bold;">
-                                        We know you probably have questions and concerns about the virtual meet-up.<br>
-                                        And exactly for that reason we created the perfect preparatory workshop on Zoom.
-                                    </div>
-                                    <div style="font-weight: bold; margin-top: 20px;">
-                                        Zoom Prep Workshop
-                                        </div>
-                                        The virtual workshop will be held on Zoom by public speaking experts and digital content
-                                        experts. It is highly recommended!<br>
-                                        Sign up here: <a href="https://bit.ly/connect2care_foryou"
-                                        target="_blank">https://bit.ly/connect2care_foryou</a>
-                                    <div style="font-weight: bold; margin-top: 20px;">Prep Packet
-                                    </div>
-                                    Short, detailed and user-friendly pack for successful meet-ups
-                                    <br>
-                                    h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                                    <div style="font-weight: bold; margin-top: 20px;">
-                                        Invite Participants
-                            </div>
-                            We have prepared materials for you to share and send to anyone you would like. It is
-                            crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
-                                </div>
-                                <div width="100%"
-                                    style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                    <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
-                                    </div>zikaron@ourbrothers.org |
-                                    058-409-4624
-                                </div>
-                                <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                    See you soon,
-                                    <br>Connect2Care Team.
-                                </div>
-                                <div
-                                style="text-align: center; color: rgb(30, 43, 78);">
-                                For technical support: <br>
-                                052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
+                        `<div>
+        <div style=" text-align: center">
+            <img src="../assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw; 
+                height: fit-content ;  padding-bottom: 30px; 
+                font-family: Arial'>
+            <div style="margin-top: 20px; padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="color: black; text-decoration: underline;">Meet-Up Confirmed - “Connect2Commemorate”</h2>
+                <div style="padding-top: 15px; max-width: 70%;">
+
+                    <div style="padding-top: 25px; color: black;">
+                        <div style="font-weight: bold;">Your Meet-Up is confirmed!</div>
+                        <div>Thank you for choosing to host a “Connect2Commemorate” Meet-Up this Yom Hazikaron.
+                            Thanks to you, we are blessed to be able to share an embrace of memory and appreciation for
+                            the fallen. Thanks to you we
+                            are blessed to show them that even this year, despite everything, we have not forgotten
+                            them.
+                        </div>
+                    </div>
+
+                    <div style="padding-top: 25px; color: black; font-weight: bold;">Meet-Up Details</div>
+
+                    <div style="padding-top: 25px; color: #1e2b4e;">
+                        <u style="font-weight: bold;">Private Meet-Up</u> - Your Meet-Up code for online registration:
+                        ${res.code}
+                    </div>
+
+                    <div style="padding-top: 25px; color: #1e2b4e;">
+                        <strong>Do you already have a ZOOM account?</strong>
+                        This is irrelevant for the Meet-Up. you will need to connect with the temporary Zoom account.
+                        Thanks to our partnership
+                        with ZOOM, you can use Zoom’s advanced features - for free. The Meet-Ups will have no time limit
+                        and can be recorded,
+                        and more.
+                    </div>
+
+                    <div style="padding-top: 25px; color: black; font-weight: bold;">How does it work?</div>
+
+                    <div style="padding-top: 10px; color: #1e2b4e;">
+                        <ol type="A">
+                            <li style="padding: 5px 0;">On the day of the Meet-Up you will receive an email from us
+                                including the designated
+                                ZOOM link</li>
+                            <li style="padding: 5px 0;">Click on the ZOOM link a few hours in advance, using the
+                                username: ${newEmail} And
+                                password: OurBrothers2021</li>
+                            <li style="padding: 5px 0;">Please connect to ZOOM with the account we allocated for you and
+                                sent to you by email,
+                                not with your private ZOOM
+                                account.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding-top: 25px;">
+                    <div style="color: #1e2b4e; font-weight: bold;">How to Host an Amazing Meet-Up:</div>
+                    
+                    <div style="padding-top: 25px; color: black;">
+                    We know you have questions, doubts, and uncertainties about the Meet-Up, And that is exactly why we created the 
+                    <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/englishErcatMovil.dfcb2ef5.pdf">
+                    Meet-Up Prep Packet 
+                    </a>
+                    that can be found on the “Connect2Commemorate” website
+                    </div>
+
+                    <div style="color: #1e2b4e; font-weight: bold; padding-top: 25px;">Inviting Participants</div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        We have sent you materials that you can use to invite guests. It is crucial that family and friends join, as it is much
+                        easier to host the Meet-Up with familiar faces.
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Link to the invite:
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/?id=${res.id}">
+                            https://connect2care.ourbrothers.co.il/?id=${res.id}
+                        </a>
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        How to invite guests to my Meet-Up?
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Inviting participants to Meet-Up by sharing the link
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/?id=${res.id}">
+                            https://connect2care.ourbrothers.co.il/?id=${res.id}
+                        </a>
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        Public Meet-Up
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Send the URL with the Meet-Up number >> everyone who receives the link can register for the Meet-Up on the Connect 2
+                        Commemorate website
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        Private Meet-Up
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        You will receive a Meet-Up registration code >> Using this code ${code} , invite participants to register
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        everyone who receives the link can register for the Meet-Up on the Connect 2 Commemorate website, where they will be
+                        asked for the registration code
+                    </div>
+                </div>
+                <div style="background-color: #1e2b4e; color: white; font-weight: bold; margin-top: 25px; text-align: center;">
+                    <div style="padding-top: 25px">Questions? We are here for you!</div>
+                    <div style="padding-top: 25px">zikaron@ourbrothers.org</div>
+                    <div style="padding-top: 25px">See you soon,</div>
+                    <div style="padding-top: 25px">"Connect 2 Commemorate”</div>
+                </div>
+            </div>
+        </div>
+    </div>
                             `
                 }
 
