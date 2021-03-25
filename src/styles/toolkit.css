@@ -45,3 +45,27 @@
 .toolkit:hover .dropdownMenu{
   display: block;
 }
+
+@media screen and (max-width: 900px){
+  .toolkit button{
+      color: white;
+      font-weight: 300;
+      direction: rtl;
+  }
+
+  .toolkit:active .dropdownMenu ul,
+  .toolkit:hover .dropdownMenu ul{
+      position:relative;
+      right: 0;
+      z-index: 1;
+      background: transparent;
+      color: white;
+  }
+
+  .toolkit:active .dropdownMenu a,
+  .toolkit:hover .dropdownMenu a{
+      font-size: 3vh;
+      font-weight: 300;
+  }
+}
+
