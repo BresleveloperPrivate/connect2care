@@ -21,6 +21,7 @@ import logo11 from '../icons/logo11.png'
 import logo12 from '../icons/logo12.png'
 import amdocs from '../icons/amdocs.jpeg'
 import reblaze from '../icons/reblaze.jpeg'
+import logo9 from '../icons/amazonLogo.jpeg'
 
 class Partners extends Component {
 
@@ -40,6 +41,7 @@ class Partners extends Component {
                 <div className='containPartners'>
                     <div onClick={() => { window.open('https://www.matnasim.org.il/') }} className='partner'><img src={logo11} height='55%' /></div>
                     <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='115%' /></div>
+                    <div onClick={() => { window.open('https://www.amazon.com/') }} className='partner'><img src={logo9} height='50%' /></div>
                     <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='55%' /></div>
                     <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='175%' /></div>
