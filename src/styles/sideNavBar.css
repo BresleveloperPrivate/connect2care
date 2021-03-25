@@ -36,16 +36,3 @@
 }
 
 
-@media screen and (max-width: 900px){
-    .toolkit button{
-        color: white;
-        font-weight: 300;
-        direction: rtl;
-    }
-
-    .dropdownMenu ul li{
-        color: white;
-        background: none;
-        width: 80vw;
-       }
-}
