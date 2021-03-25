@@ -289,7 +289,7 @@ module.exports = function (meetings) {
                                             `
                                     <div>
         <div style=" text-align: center">
-            <img src="../assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
         </div>
         <div style='width: 100%; max-width: 98vw;
                 height: fit-content ;  padding-bottom: 30px;
@@ -1097,7 +1097,7 @@ module.exports = function (meetings) {
                     html:
                         `<div>
         <div style=" text-align: center">
-            <img src="../assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
         </div>
         <div style='width: 100%; max-width: 98vw; 
                 height: fit-content ;  padding-bottom: 30px; 
@@ -1613,75 +1613,85 @@ module.exports = function (meetings) {
                     let link = meeting.zoomId.replace('j', 's')
                     const emailZoom = changeEmail(meetingOwner.phone);
                     let htmlMessage = meeting.language !== 'heb'
-                        ? `<div><div style=" text-align: center">
-        <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
-    </div>
-    <div style='width: 100%; max-width: 98vw; 
-        height: fit-content ;  padding-bottom: 30px; 
-        direction: rtl; font-family: Arial'>
-        <div
-            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-            
+                        ? `<div>
+        <div style=" text-align: center">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw; 
+                height: fit-content ;  padding-bottom: 30px; 
+                font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
 
-            <h2 style="text-decoration: underline;">לקראת המפגש - 'מתחברים וזוכרים'</h2>
-            <div style="padding-top: 10px;">
-                <div style="padding-top: 10px;">שלום ${meetingOwner.name}</div>
 
-                <div style="padding-top: 10px;">זהו קישור הזום למפגש שיצרת, איתו תוכל להיכנס למפגש</div>
+                <h2 style="text-decoration: underline;">Meet-Up is approaching - “Connect2Commemorate”</h2>
 
-                <div><a target="blank" href="${link}">קישור למפגש זום</a></div>
+                <div style="padding-top: 15px; max-width: 70%;">
 
-                <div style="padding-top: 10px;">טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון
-                    הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
-                    הפרטים הבאים:</div>
+                    <div style="padding-top: 15px;">Shalom ${meetingOwner.name}</div>
 
-                <div><a target="blank" href="${emailZoom}">אימייל: ${emailZoom}</a></div>
+                    <div style="padding-top: 25px;">
+                        Below is the ZOOM link for the meet-up you will be hosting Zoom link:
+                        <a target="blank" href="${link}">link to Zoom meeting</a>
+                    </div>
 
-                <div>סיסמה: OurBrothers2021</div>
 
-                <div style="padding-top: 15px;">כמה דגשים חשובים להצלחת המפגש:</div>
 
-                <div style="padding-top: 5px;">1. גם אם יש לך חשבון זום משלך, חשוב לא להיכנס דרכו. הפגישות שיצרנו אינן
-                    מוגבלות בזמן וגם מוקלטות לטובת המשפחות.</div>
+                    <div style="padding-top: 10px;">
+                        Before the meet-up, please log out from all ZOOM accounts and log back in with the designated
+                        ZOOM account we created
+                        for you as a meet-up host
+                    </div>
 
-                <div>2. הקלטת המפגש הינה אוטומטית, אבל אם עשית ניסיון של הפעלת הזום לפני המפגש - יתכן ושתיכנס בפעם הבאה ההקלטה כבר לא תחל
-                אוטומטית, על כך, יש להפעילה ידנית כך: לחיצה על האייקון של הקלטה (record) בסרגל הכלים התחתון ביותר בזום (ליד הצ'אט)
-                ולוודא שההתחלה מתחילה.
+                    <div style="padding-top: 5px;">
+                        User Name: ${emailZoom}
+                    </div>
+
+                    <div style="padding-top: 5px;">
+                        Password:OurBrothers2021
+                    </div>
+
+                    <div style="padding-top: 15px;">
+                        After you have logged back in click on the attached
+                        <a target="blank" href="${link}">link</a>
+                        and the meet-up will begin.
+                        Please note, regarding recording the meet-up:
+                    </div>
+
+                    <div style="padding-top: 15px;">
+                        The meet-up will be recorded, and if you enter the meet-up in advance and then exit
+                        the recording will automatically stop. When you enter the meet-up for the second time, please
+                        click the “record” button
+                        (red button on the bottom of the screen).
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div style=" text-decoration: underline;">Attached:</div>
+                        <ol>
+                            <li style="padding-top: 15px;">Content Pack for Meet-Up Host</li>
+                            <li style="padding-top: 15px;">Meet-Up Prep Workshop Recorded for your reference</li>
+                            <li style="padding-top: 15px;">Participant list of your Meet-Up</li>
+                        </ol>
+                    </div>
+
+                    <div style="padding-top: 10px;">
+                        For technical difficulties or questions about ZOOM -
+                        <a target="blank" href="help@ourbrothers.org">help@ourbrothers.org</a>
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        Good luck! We know your meet-up will be moving and significant for you and the participants!
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div>The “Connect2Commemorate” Team</div>
+                        <div><a target="blank" href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a></div>
+                    </div>
 
                 </div>
-
-                <div style="padding-top: 20px;">
-                    מצ"ב
-                    <div>
-                        <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">1. ערכת תוכן למוביל מפגש</a>
-                    </div>
-                    <div>2. רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.</div>
-                </div>
-
-                <div style="padding-top: 15px">
-                    <div>
-                        לשימושך- מוקד תמיכה טכנית - 052-6283967 | Amdocs.Digital@glassix.net
-                    </div>
-                    <div>
-                        כאן ניתן לצפות ב
-                        <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info"> שאלות ותשובות נפוצות </a>
-                        לקראת המפגשים
-                    </div>
-                </div>
-
-                <div style="padding-top: 15px">
-                    <div>
-                        מאחלים לך המון בהצלחה ובטוחים שהמפגש שלך יהיה משמעותי ומרגש, לך ולמשתתפים!
-                        צוות 'מתחברים וזוכרים'
-                    </div>
-                    <div>
-                        <a href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a>
-                    </div>
-                </div>
-
             </div>
         </div>
-        </div>` : `<div><div style=" text-align: center">
+    </div>` : `<div><div style=" text-align: center">
         <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
     </div>
     <div style='width: 100%; max-width: 98vw; 
