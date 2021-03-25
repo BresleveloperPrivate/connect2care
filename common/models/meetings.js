@@ -289,11 +289,11 @@ module.exports = function (meetings) {
                                             `
                                     <div>
         <div style=" text-align: center">
-            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="500" height="250">
         </div>
         <div style='width: 100%; max-width: 98vw;
                 height: fit-content ;  padding-bottom: 30px;
-                font-family: Arial'>
+                font-family: Arial; direction: ltr;'>
             <div
                 style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
 
@@ -1101,7 +1101,8 @@ module.exports = function (meetings) {
         </div>
         <div style='width: 100%; max-width: 98vw; 
                 height: fit-content ;  padding-bottom: 30px; 
-                font-family: Arial'>
+                font-family: Arial; direction: ltr;
+                '>
             <div style="margin-top: 20px; padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
 
 
@@ -1621,7 +1622,7 @@ module.exports = function (meetings) {
                 height: fit-content ;  padding-bottom: 30px; 
                 font-family: Arial'>
             <div
-                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px; direction: ltr;">
 
 
                 <h2 style="text-decoration: underline;">Meet-Up is approaching - “Connect2Commemorate”</h2>
