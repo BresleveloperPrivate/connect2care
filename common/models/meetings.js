@@ -287,33 +287,46 @@ module.exports = function (meetings) {
                                         to: emailowner, subject: "The meeting you initiated was accepted and awaiting approval", html:
 
                                             `
-                                    <div width="100%" style="direction: ltr;">
-                                    <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                    <div style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                      <div style="font-weight: bold; margin-bottom: 20px;">
-                                      Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom HaZikaron.<br>
-                                      Thanks to you, we can give a hug of memory and appreciation to those who have fallen for us, and show that this year- despite the challenge- we have not forgotten.
-                                      </div>
-                                      In order to promise top security for our meet-ups, the project team is reviewing your request, will possibly discuss your request with you, and within 24 hours will send you confirmation to publish and share your meet-up on our website. <br><br>
-                                      Continue following our emails.<br>
-                                      Thank you for your patience and understanding.
-                                      <br>
-                                    </div>
-                                      <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                        <div style="font-weight: bold;">
-                                        More questions? Anything still unclear? Reach out
-                                        </div>zikaron@ourbrothers.org | 058-409-4624
-                                      </div>
-                                      <div
-                                        style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                        See you soon,
-                                        Connect2Care Team.</div>
-                                        <div
-                                        style="text-align: center; color: rgb(30, 43, 78);">
-                                        For technical support: <br>
-                                        052-6283967 | Amdocs.Digital@glassix.net
-                                        </div>
-                                        </div>
+                                    <div>
+        <div style=" text-align: center">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="500" height="250">
+        </div>
+        <div style='width: 100%; max-width: 98vw;
+                height: fit-content ;  padding-bottom: 30px;
+                font-family: Arial; direction: ltr;'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="text-decoration: underline;">Registration - ‘Connect 2 Commemorate’ Meet-Up</h2>
+                <div style="padding-top: 15px;">
+                    <div style="padding-top: 15px;">Thank you for choosing to host a “Connect2Commemorate” Meet-Up this
+                        Yom Hazikaron.</div>
+
+                    <div style="padding-top: 25px;">
+                        One of our volunteers will contact you within 48 hours with the
+                        relevant information and confirmation for your meet-up.
+                        Once your meet-up is confirmed we will reach out with more details.
+                    </div>
+
+
+
+                    <div style="padding-top: 25px;">
+                        Please note, you can host more than one meet-up- make sure the dates and times don’t clash.
+                        If you have any questions, we’re here.
+
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div>The “Connect2Commemorate” Team</div>
+                        <div><a target="blank" href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a></div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
                                     `
                                     }
                                 }
@@ -753,6 +766,7 @@ module.exports = function (meetings) {
                 return cb(err, null);
             }
             let meeting = JSON.parse(JSON.stringify(meetingById))
+            console.log(meeting)
 
             if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
@@ -871,9 +885,10 @@ module.exports = function (meetings) {
 
                     to: email, subject: "הרשמתך למפגש התקבלה", html:
                         `
-                        <body style="background-image: url('./assets/emailPhoto2.jfif');
-        background-repeat: no-repeat; background-attachment: fixed;
-        background-position: center; background-size:100% 100%">
+<div>
+    <div style=" text-align: center">
+        <img src="./assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+    </div>
     <div
         style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
         <div
@@ -889,7 +904,7 @@ module.exports = function (meetings) {
 
                 <div style="padding-top: 10px; font-weight: bold;">אז איך זה עובד?</div>
 
-                <div style="padding-top: 10px;">שעות לפני פתיחת המפגש ישלח לך קישור למפגש לזכר X ז"ל בזום ZOOM.</div>
+                <div style="padding-top: 10px;">כמה שעות לפני פתיחת המפגש יישלח לך קישור לZoom</div>
 
                 <div>כל שנותר לך לעשות, הוא להיכנס לקישור ב ${meeting.date} בשעה ${meeting.time}</div>
 
@@ -909,7 +924,7 @@ module.exports = function (meetings) {
             </div>
         </div>
     </div>
-</body>
+</ג>
                 ` }
             }
 
@@ -1080,80 +1095,132 @@ module.exports = function (meetings) {
                 sendOptions = {
                     to: email, subject: "The meet-up you initiated has been approved",
                     html:
-                        `<div width="100%" style="direction: ltr;">
-                                <img width="100%" src="https://connect2care.ourbrothers.co.il/head.jpg">
-                                <div
-                                    style="text-align: center; margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
-                                    <div style="font-weight: bold; margin-bottom: 20px;">
-                                        Thank you for choosing to host a “Connect2Care” virtual meet-up for Yom
-                            HaZikaron.<br>
-                            Thanks to you, we can give a hug of memory and appreciation to those
-                            who have fallen for us, and show that this year- despite the challenge- we have
-                            not forgotten.
-                                    </div>
-                                    <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">To the meeting</a>
-                                    ${code}<br>
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        Crucial information for hosting the meet-up:
-                                    </div>
-                                    This account has been created for the meet-up that you initiated. An activate account e-mail has been sent to you via Zoom.
-                            <br>
-                            If you already have a Zoom account, this is
-                            irrelevant for this meet-up; please use the temporary account. <br>
-                            Due to a special
-                            collaboration with Zoom, all of the meet-ups will be able to use pro features at no cost:
-                            including unlimited time, ability to record the session, etc.
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        How does this work?
-                            </div>
-                            A. Click the link “Activate Account”, you will be sent to the Zoom sign-up site <br>
-                            B. Click sign-up for Zoom with User Name and Password (not through google or Facebook) <br>
-                            C. Your user name will be automatically filled in, please use the password:
-                            OurBrothers2021 <br>
-                                    <div
-                                        style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
-                                        How to create a meaningful meet-up:
-                            </div>
-                                    <div style="font-weight: bold;">
-                                        We know you probably have questions and concerns about the virtual meet-up.<br>
-                                        And exactly for that reason we created the perfect preparatory workshop on Zoom.
-                                    </div>
-                                    <div style="font-weight: bold; margin-top: 20px;">
-                                        Zoom Prep Workshop
-                                        </div>
-                                        The virtual workshop will be held on Zoom by public speaking experts and digital content
-                                        experts. It is highly recommended!<br>
-                                        Sign up here: <a href="https://bit.ly/connect2care_foryou"
-                                        target="_blank">https://bit.ly/connect2care_foryou</a>
-                                    <div style="font-weight: bold; margin-top: 20px;">Prep Packet
-                                    </div>
-                                    Short, detailed and user-friendly pack for successful meet-ups
-                                    <br>
-                                    h<a href="https://bit.ly/connect2care" target="_blank">https://bit.ly/connect2care</a>
-                                    <div style="font-weight: bold; margin-top: 20px;">
-                                        Invite Participants
-                            </div>
-                            We have prepared materials for you to share and send to anyone you would like. It is
-                            crucial to invite friends and family, it is much easier to host a meeting with a loving crowd.
-                                </div>
-                                <div width="100%"
-                                    style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                    <div style="font-weight: bold;">More questions? Anything still unclear? Reach out
-                                    </div>zikaron@ourbrothers.org |
-                                    058-409-4624
-                                </div>
-                                <div style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
-                                    See you soon,
-                                    <br>Connect2Care Team.
-                                </div>
-                                <div
-                                style="text-align: center; color: rgb(30, 43, 78);">
-                                For technical support: <br>
-                                052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
+                        `<div>
+        <div style=" text-align: center">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw; 
+                height: fit-content ;  padding-bottom: 30px; 
+                font-family: Arial; direction: ltr;
+                '>
+            <div style="margin-top: 20px; padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="color: black; text-decoration: underline;">Meet-Up Confirmed - “Connect2Commemorate”</h2>
+                <div style="padding-top: 15px; max-width: 70%;">
+
+                    <div style="padding-top: 25px; color: black;">
+                        <div style="font-weight: bold;">Your Meet-Up is confirmed!</div>
+                        <div>Thank you for choosing to host a “Connect2Commemorate” Meet-Up this Yom Hazikaron.
+                            Thanks to you, we are blessed to be able to share an embrace of memory and appreciation for
+                            the fallen. Thanks to you we
+                            are blessed to show them that even this year, despite everything, we have not forgotten
+                            them.
+                        </div>
+                    </div>
+
+                    <div style="padding-top: 25px; color: black; font-weight: bold;">Meet-Up Details</div>
+
+                    <div style="padding-top: 25px; color: #1e2b4e;">
+                        <u style="font-weight: bold;">Private Meet-Up</u> - Your Meet-Up code for online registration:
+                        ${res.code}
+                    </div>
+
+                    <div style="padding-top: 25px; color: #1e2b4e;">
+                        <strong>Do you already have a ZOOM account?</strong>
+                        This is irrelevant for the Meet-Up. you will need to connect with the temporary Zoom account.
+                        Thanks to our partnership
+                        with ZOOM, you can use Zoom’s advanced features - for free. The Meet-Ups will have no time limit
+                        and can be recorded,
+                        and more.
+                    </div>
+
+                    <div style="padding-top: 25px; color: black; font-weight: bold;">How does it work?</div>
+
+                    <div style="padding-top: 10px; color: #1e2b4e;">
+                        <ol type="A">
+                            <li style="padding: 5px 0;">On the day of the Meet-Up you will receive an email from us
+                                including the designated
+                                ZOOM link</li>
+                            <li style="padding: 5px 0;">Click on the ZOOM link a few hours in advance, using the
+                                username: ${newEmail} And
+                                password: OurBrothers2021</li>
+                            <li style="padding: 5px 0;">Please connect to ZOOM with the account we allocated for you and
+                                sent to you by email,
+                                not with your private ZOOM
+                                account.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding-top: 25px;">
+                    <div style="color: #1e2b4e; font-weight: bold;">How to Host an Amazing Meet-Up:</div>
+                    
+                    <div style="padding-top: 25px; color: black;">
+                    We know you have questions, doubts, and uncertainties about the Meet-Up, And that is exactly why we created the 
+                    <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/englishErcatMovil.dfcb2ef5.pdf">
+                    Meet-Up Prep Packet 
+                    </a>
+                    that can be found on the “Connect2Commemorate” website
+                    </div>
+
+                    <div style="color: #1e2b4e; font-weight: bold; padding-top: 25px;">Inviting Participants</div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        We have sent you materials that you can use to invite guests. It is crucial that family and friends join, as it is much
+                        easier to host the Meet-Up with familiar faces.
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Link to the invite:
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/?id=${res.id}">
+                            https://connect2care.ourbrothers.co.il/?id=${res.id}
+                        </a>
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        How to invite guests to my Meet-Up?
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Inviting participants to Meet-Up by sharing the link
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/?id=${res.id}">
+                            https://connect2care.ourbrothers.co.il/?id=${res.id}
+                        </a>
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        Public Meet-Up
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        Send the URL with the Meet-Up number >> everyone who receives the link can register for the Meet-Up on the Connect 2
+                        Commemorate website
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        Private Meet-Up
+                    </div>
+
+                    <div style="color: #1e2b4e; padding-top: 25px;">
+                        You will receive a Meet-Up registration code >> Using this code ${code} , invite participants to register
+                    </div>
+
+                    <div style="color: black; padding-top: 25px; text-decoration: underline; font-weight: bold;">
+                        everyone who receives the link can register for the Meet-Up on the Connect 2 Commemorate website, where they will be
+                        asked for the registration code
+                    </div>
+                </div>
+                <div style="background-color: #1e2b4e; color: white; font-weight: bold; margin-top: 25px; text-align: center;">
+                    <div style="padding-top: 25px">Questions? We are here for you!</div>
+                    <div style="padding-top: 25px">zikaron@ourbrothers.org</div>
+                    <div style="padding-top: 25px">See you soon,</div>
+                    <div style="padding-top: 25px">"Connect 2 Commemorate”</div>
+                </div>
+            </div>
+        </div>
+    </div>
                             `
                 }
 
@@ -1198,7 +1265,7 @@ module.exports = function (meetings) {
             <div>
                 <div  style="padding-top: 1%;">א. ביום המפגש תקבל מאיתנו מייל עם לינק למפגש</div>
 
-                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: והסיסמה: OurBrothers2021</div>
+                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: ${newEmail} והסיסמה: OurBrothers2021</div>
 
                 <div  style="padding-top: 1%;">ג. חשוב מאוד! לא להתחבר עם המשתמש זום הקיים שלך, רק עם המשתמש שיצרנו לך והסיסמה שקיבלת.</div>
             </div>
@@ -1208,31 +1275,32 @@ module.exports = function (meetings) {
                 איך יוצרים מפגש מעולה:
             </div>
 
+            
+            <div style="font-weight: bold; padding-top: 10px;" >
+            אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
+            <br>
+            ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
+            <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
+            </div>
+            
             <div>
                 הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom ובתחומי התוכן והדיגיטל.
                 <br>
                 מומלץ מאוד!
             </div>
 
-            <div style="font-weight: bold; padding-top: 10px;" >
-                אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
-                <br>
-                ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
-                    <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
-            </div>
-
             <div>מועדי הסדנאות מתחלקים בין מועדי הכנה למובילי מפגש בזום ובין מועדי סדנה הכנת למפגשים פרונטליים - 4 סדנאות בתאריכים ושעות
             שונות בתאריכים: 4-5.4.2021 - בוקר+ ערב</div>
 
             <div style="font-weight: bold">  להשתבצות לסדנה לחץ <a target="blank"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a></div>
+                href="https://forms.gle/dEbeRAdcZB6YYDA18">כאן</a></div>
 
             <div style="font-weight: bold; padding-top: 10px;">ערכת הכנה</div>
 
             <div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים</div>
 
             <div style="font-weight: bold; padding-top: 10px;">
-                <a target="blank" href="">ערכת תוכן להובלת מפגש זיכרון</a>
+                <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">ערכת תוכן להובלת מפגש זיכרון</a>
             </div>
 
             <div style="font-weight: bold; padding-top: 10px;">הזמנת משתתפים</div>
@@ -1262,6 +1330,18 @@ module.exports = function (meetings) {
             <div>
                 קוד מפגש > זה הקוד שאתה מזמין איתו משתתפים להירשם.
             </div>
+            
+
+            <div style="padding-top: 15px;">
+                <div style="font-weight: bold">
+                סיכת "דם המכבים"
+                </div>
+                <div>
+                השנה אנו פועלים בשיתוף עם עמותת דם המכבים אשר מייצרת ומפיצה את הסיכה המיוחדת ליום הזיכרון מפרח דם המכבים האמיתי.
+                אנו שמחים להעניק לכם, כמובילי מפגש, סיכה בחינם. להזמנת סיכה ניתן לפנות לעמותת דם המכבים- במייל: info@redeverlasting.co או בוואטסאפ למספר:
+                למספר: 054-7259035. ציינו כי אתם מובילים מפגש באחים שלנו, והם ישמחו לעזור בכל דבר.
+                </div>
+            </div>
 
             <div
                 style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 20px; color: rgb(30, 43, 78);">
@@ -1270,6 +1350,11 @@ module.exports = function (meetings) {
             <div style="text-align: center; color: rgb(30, 43, 78);">
                 שאלות נוספות? משהו לא ברור?: <br>
                 zikaron@ourbrothers.org
+            </div>
+
+            <div>כאן ניתן לצפות ב 
+                <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info>  שאלות ותשובות נפוצות </a>
+                לקראת המפגשים.
             </div>
 
             <div style="text-align: center; color: rgb(30, 43, 78); padding-top: 10px;">
@@ -1529,42 +1614,154 @@ module.exports = function (meetings) {
                     let link = meeting.zoomId.replace('j', 's')
                     const emailZoom = changeEmail(meetingOwner.phone);
                     let htmlMessage = meeting.language !== 'heb'
-                        ? `<div style="direction: rtl;">
-                            <div>
-                                זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br><br>
-                                <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
-                                <strong>התחבר עם האימייל והסיסמה:</strong><br>
-                                אימייל: ${emailZoom} <br>
-                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
-                                לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                                <br><br>
-                                בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
-                            </div>
-                            <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                <div style="font-weight: bold;">
-                                    לתמיכה טכנית: <br>
-                                    052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
-                        </div>`
-                        : `<div style="direction: rtl;">
-                            <div>
-                                זהו קישור הזום למפגש שיצרת שעליך להכנס איתו למפגש "${meeting.name}"<br>${link}<br><br>
-                                <strong>טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון הזום אותו יצרנו עבורך.</strong><br><br>
-                                <strong>התחבר עם האימייל והסיסמה:</strong><br>
-                                אימייל: ${emailZoom} <br>
-                                סיסמה: הסיסמה איתה ביצעת אקטיבציה לחשבון זום, אנחנו המלצנו על הסיסמה "OurBrothers2021" <br>
-                                לאחר שעשית זאת לחץ על הלינק המצורף והפגישה תחל.
-                                <br><br>
-                                בקובץ המצורף ישנה רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.
-                            </div>
-                            <div width="100%" style="text-align: center; margin-top: 20px; padding: 15px; color: white; background-color: rgb(30, 43, 78);">
-                                <div style="font-weight: bold;">
-                                    לתמיכה טכנית: <br>
-                                    052-6283967 | Amdocs.Digital@glassix.net
-                                </div>
-                            </div>
-                        </div>`
+                        ? `<div>
+        <div style=" text-align: center">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw; 
+                height: fit-content ;  padding-bottom: 30px; 
+                font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px; direction: ltr;">
+
+
+                <h2 style="text-decoration: underline;">Meet-Up is approaching - “Connect2Commemorate”</h2>
+
+                <div style="padding-top: 15px; max-width: 70%;">
+
+                    <div style="padding-top: 15px;">Shalom ${meetingOwner.name}</div>
+
+                    <div style="padding-top: 25px;">
+                        Below is the ZOOM link for the meet-up you will be hosting Zoom link:
+                        <a target="blank" href="${link}">link to Zoom meeting</a>
+                    </div>
+
+
+
+                    <div style="padding-top: 10px;">
+                        Before the meet-up, please log out from all ZOOM accounts and log back in with the designated
+                        ZOOM account we created
+                        for you as a meet-up host
+                    </div>
+
+                    <div style="padding-top: 5px;">
+                        User Name: ${emailZoom}
+                    </div>
+
+                    <div style="padding-top: 5px;">
+                        Password:OurBrothers2021
+                    </div>
+
+                    <div style="padding-top: 15px;">
+                        After you have logged back in click on the attached
+                        <a target="blank" href="${link}">link</a>
+                        and the meet-up will begin.
+                        Please note, regarding recording the meet-up:
+                    </div>
+
+                    <div style="padding-top: 15px;">
+                        The meet-up will be recorded, and if you enter the meet-up in advance and then exit
+                        the recording will automatically stop. When you enter the meet-up for the second time, please
+                        click the “record” button
+                        (red button on the bottom of the screen).
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div style=" text-decoration: underline;">Attached:</div>
+                        <ol>
+                            <li style="padding-top: 15px;">Content Pack for Meet-Up Host</li>
+                            <li style="padding-top: 15px;">Meet-Up Prep Workshop Recorded for your reference</li>
+                            <li style="padding-top: 15px;">Participant list of your Meet-Up</li>
+                        </ol>
+                    </div>
+
+                    <div style="padding-top: 10px;">
+                        For technical difficulties or questions about ZOOM -
+                        <a target="blank" href="help@ourbrothers.org">help@ourbrothers.org</a>
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        Good luck! We know your meet-up will be moving and significant for you and the participants!
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div>The “Connect2Commemorate” Team</div>
+                        <div><a target="blank" href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>` : `<div><div style=" text-align: center">
+        <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+    </div>
+    <div style='width: 100%; max-width: 98vw; 
+        height: fit-content ;  padding-bottom: 30px; 
+        direction: rtl; font-family: Arial'>
+        <div
+            style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+            
+
+            <h2 style="text-decoration: underline;">לקראת המפגש - 'מתחברים וזוכרים'</h2>
+            <div style="padding-top: 10px;">
+                <div style="padding-top: 10px;">שלום ${meetingOwner.name}</div>
+
+                <div style="padding-top: 10px;">זהו קישור הזום למפגש שיצרת, איתו תוכל להיכנס למפגש</div>
+
+                <div><a target="blank" href="${link}">קישור למפגש זום</a></div>
+
+                <div style="padding-top: 10px;">טרם המפגש עליך להתנתק מכל חשבונות הזום אליהם אתה מחובר ולהתחבר עם חשבון
+                    הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
+                    הפרטים הבאים:</div>
+
+                <div><a target="blank" href="${emailZoom}">אימייל: ${emailZoom}</a></div>
+
+                <div>סיסמה: OurBrothers2021</div>
+
+                <div style="padding-top: 15px;">כמה דגשים חשובים להצלחת המפגש:</div>
+
+                <div style="padding-top: 5px;">1. גם אם יש לך חשבון זום משלך, חשוב לא להיכנס דרכו. הפגישות שיצרנו אינן
+                    מוגבלות בזמן וגם מוקלטות לטובת המשפחות.</div>
+
+                <div>2. הקלטת המפגש הינה אוטומטית, אבל אם עשית ניסיון של הפעלת הזום לפני המפגש - יתכן ושתיכנס בפעם הבאה ההקלטה כבר לא תחל
+                אוטומטית, על כך, יש להפעילה ידנית כך: לחיצה על האייקון של הקלטה (record) בסרגל הכלים התחתון ביותר בזום (ליד הצ'אט)
+                ולוודא שההתחלה מתחילה.
+
+                </div>
+
+                <div style="padding-top: 20px;">
+                    מצ"ב
+                    <div>
+                        <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">1. ערכת תוכן למוביל מפגש</a>
+                    </div>
+                    <div>2. רשימת כל המשתתפים שנרשמו למפגש שיצרת נכון לזמן שליחת מייל זה.</div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        לשימושך- מוקד תמיכה טכנית - 052-6283967 | Amdocs.Digital@glassix.net
+                    </div>
+                    <div>
+                        כאן ניתן לצפות ב
+                        <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info"> שאלות ותשובות נפוצות </a>
+                        לקראת המפגשים
+                    </div>
+                </div>
+
+                <div style="padding-top: 15px">
+                    <div>
+                        מאחלים לך המון בהצלחה ובטוחים שהמפגש שלך יהיה משמעותי ומרגש, לך ולמשתתפים!
+                        צוות 'מתחברים וזוכרים'
+                    </div>
+                    <div>
+                        <a href="zikaron@ourbrothers.org">zikaron@ourbrothers.org</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>`
+
 
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
@@ -1614,7 +1811,7 @@ module.exports = function (meetings) {
                 meetings1.forEach(meeting => {
                     const { people } = JSON.parse(JSON.stringify(meeting));
                     let htmlMessage = meeting.language !== 'heb'
-                    ? `<body style="background-image: url('./assets/emailPhoto2.jfif');
+                        ? `<body style="background-image: url('./assets/emailPhoto2.jfif');
                         background-repeat: no-repeat; background-attachment: fixed;
                         background-position: center; background-size:100% 100%">
                         <div style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
@@ -1636,7 +1833,7 @@ module.exports = function (meetings) {
                             </div>
                         </div>
                     </body>`
-                    : `<div style="direction: rtl;">
+                        : `<div style="direction: rtl;">
                         שלום <br>
                         מצורף קישור למפגש של: ${meeting.name}<br>
                         בתאריך: ${meeting.date}<br>
