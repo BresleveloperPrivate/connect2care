@@ -845,41 +845,69 @@ module.exports = function (meetings) {
             }
 
             let shalom = mailDetails
+            console.log(shalom)
             let sendOptions = {}
             if (meeting.language !== 'עברית') {
 
                 sendOptions = {
                     to: email, subject: "Meet-up registration confirmed", html:
                         `
-                    <div style = 'width: 100%; max-width: 98vw; color: white !important; height: fit-content ;  padding-bottom: 30px;
-                    background-color: #082551; direction: rtl'>
-                    <div style = 'display:flex ; width: 100%' >
-                        <div style='width:100%;' >
-                            <img style='margin-right: 10%; margin-top: 10%;' width='60%' src="https://i.ibb.co/VqRC2ZS/green-Background.png" > 
-                        </div>
-                            <div style='width: 30%;' >
-                                <img width='100%' src="https://i.ibb.co/FByFZfx/New-Project-3-1.png"  > 
-                        </div>
-                            </div>
-                            <div style='color: white !important; font-size: 20px; width: 73%; margin: auto; margin-top: 20px; direction: ltr; '>
-                           Hello,<br>
-                           We would like to thank you for choosing to participate in one of the "Connect2Care" meet-ups on this coming Yom Hazikaron.<br><br>
-                           Your participation means so much, even more than in previous years, gives strength to bereaved families, and widens the circle of commemoration.<br><br>
-                           So how does it work?<br><br>
-                           In the coming days we will send you a link for the Zoom meet up in memory of ${shalom.fallensText}.  All that's left to do is to click on the link in zoom on ${shalom.date} at ${shalom.time}.<br><br>
-                           Want to invite friends to join the meet-up? Sounds great!<br>
-                           Just share the link with your family and friends, neighbors and colleagues, and on all social media platforms,<br>
-                           so that everyone can participate in Yom Hazikaron events.<br><br>
-                           Ideas? Suggestions? Questions or comments?<br>
-                           We are here to help.<br><br>
-                           See you soon,
-                           <br>
-                           Connect2Care Team.<br>
-                           </div>
-    
-                   
-                      </div>
-                           ` }
+                        <div>
+        <div style=" text-align: center">
+            <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw;
+                height: fit-content ;  padding-bottom: 30px;
+                font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="text-decoration: underline;">Registration Confirmed - ‘Connect 2 Commemorate’ Meet-Up</h2>
+
+                <div style="padding-top: 15px; max-width: 70%;">
+
+                    <div style="padding-top: 15px;">Shalom ${name}</div>
+
+                    <div style="padding-top: 25px;">
+                        Thank you for choosing one of the “Connect2Commemorate” Meet-Ups this Yom Hazikaron. Your participation strengthens the
+                        bereaved families and widens the memory circle.
+                        So how does this work?
+                        12 hours before the Meet-Up begins, you will receive a ZOOM link for the Meet-Up in
+                        memory of ${shalom.fallensText} z"l.
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        All you need to do, is click on the link at 
+                        <a target="blank" href="${meeting.zoomId}">${meeting.zoomId} </a>
+                        , on ${meeting.date} at ${meeting.time}.
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        Want to invite more people to join the Meet-Up? Go for it!
+                    </div>
+
+                    <div style="padding-top: 5px;">
+                        If the Meet-Up is private - you will not be able to invite additional participants
+                        If your Meet-Up is public - you can share the link with family and friends, neighbors and colleagues, and on any social
+                        media channel, so that everyone you know can take a part in Yom Hazikaron this year.
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        We are here for any questions,
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        <div>See you soon,</div>
+                        <div style="padding-top: 3px;">The “Connect 2 Commemorate” Team</div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+                    ` }
             } else {
                 sendOptions = {
 
@@ -896,7 +924,7 @@ module.exports = function (meetings) {
             <h2 style="text-decoration: underline;">הרשמתך למפגש התקבלה - 'מתחברים וזוכרים'</h2>
 
             <div style="padding-top: 10px;">
-                <div style="padding-top: 10px;">שלום </div>
+                <div style="padding-top: 10px;">שלום ${name} </div>
 
                 <div style="padding-top: 10px;">אנחנו רוצים לומר תודה על שבחרת להשתתף באחד ממפגשי 'מתחברים וזוכרים' ביום הזיכרון הקרוב. </div>
 
@@ -1782,6 +1810,7 @@ module.exports = function (meetings) {
                                 disposition: "attachment"
                             }
                         ]
+                        console.log(emailOptions);
                     }
                     sendEmail(emailOptions);
                 });
@@ -1811,7 +1840,63 @@ module.exports = function (meetings) {
                 meetings1.forEach(meeting => {
                     const { people } = JSON.parse(JSON.stringify(meeting));
                     let htmlMessage = meeting.language !== 'heb'
-                        ? `<body style="background-image: url('./assets/emailPhoto2.jfif');
+                        ? `<div>
+        <div style=" text-align: center">
+            <img src="../assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
+        </div>
+        <div style='width: 100%; max-width: 98vw; 
+                height: fit-content ;  padding-bottom: 30px; 
+                font-family: Arial'>
+            <div
+                style="margin-top: 20px; color: rgb(30, 43, 78); padding-left: 10vw; padding-right: 10vw; font-size: 15px;">
+
+
+                <h2 style="text-decoration: underline;">Registration Confirmed - ‘Connect 2 Commemorate’ Meet-Up</h2>
+
+                <div style="padding-top: 15px; max-width: 70%;">
+
+                    <div style="padding-top: 15px;">Shalom ${name}</div>
+
+                    <div style="padding-top: 25px;">
+                        <div>Attached to this email is a link to the Meet-Up for ${meeting.name}</div>
+                        <div style="padding-top: 5px;">On: Day ${meeting.date} at ${meeting.time}</div>
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        ZOOM Meet-Up Link:
+                        <a target="blank" href="${meeting.zoomId}">${meeting.zoomId}</a>
+                    </div>
+
+                    <div style="padding-top: 25px;">
+                        For security purposes, in order to join the Meet-Up
+                        Upon entering the Meet-Up you will be asked for your name and email. This is how we can also get to know the
+                        participants who join our Meet-Ups.
+                        Want to save the Meet-Up in your calendar?
+                        Copy the ZOOM link and paste in to a meeting that you will open separately and manually in your Google calendar.
+                        *There is no way to save the Meet-Up automatically in your Google calendar through ZOOM
+                    </div>
+
+
+
+                    <div style="padding-top: 25px;">
+                        Wishing you a meaningful Meet-Up,
+                    </div>
+
+                    <div style="padding-top: 3px;">
+                        The “Connect 2 Commemorate” Team
+                    </div>
+
+                    <div style="padding-top: 15px;">
+                        To support the initiative-
+                        <a target="blank" href="https://ourbrothers.co.il/donate?referer=connect-2-care">Click here to donate</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>`
+                        : `<body style="background-image: url('./assets/emailPhoto2.jfif');
                         background-repeat: no-repeat; background-attachment: fixed;
                         background-position: center; background-size:100% 100%">
                         <div style='width: 100%; max-width: 98vw; height: fit-content ;  padding-bottom: 30px; direction: rtl; text-align: center; font-family: Arial'>
@@ -1833,21 +1918,6 @@ module.exports = function (meetings) {
                             </div>
                         </div>
                     </body>`
-                        : `<div style="direction: rtl;">
-                        שלום <br>
-                        מצורף קישור למפגש של: ${meeting.name}<br>
-                        בתאריך: ${meeting.date}<br>
-                        בשעה: ${meeting.time}<br><br>
-                        להלן הקישור: ${meeting.zoomId}<br><br>
-                        מטעמי אבטחה, על מנת להצטרף לפגישה<br>
-                        בכניסה למפגש יהיה עליכם למלא את שמכם וכתובת המייל שלכם.<br>
-                        כך גם נוכל לדעת מי נמצא כאן איתנו , לתת לנו חיבוק!<br><br>
-                        כמו כן, רוצים לשמור את המפגש אצלכם ביומן?<br>
-                        העתיקו את הקישור והדביקו אותו בפגישה שתפתחו ידנית.<br>
-                        <strong>אין</strong>  לשמור את המפגש אוטמטית דרך יומן גוגל וזום<br><br>
-                        תודה<br>
-                        צוות מתחברים וזוכרים
-                    </div>`
 
                     if (people && people.length > 0) {
                         people.forEach(human => {
