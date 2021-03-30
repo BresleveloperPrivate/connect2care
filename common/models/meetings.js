@@ -10,6 +10,7 @@ const { creatCsvFile } = require('download-csv');
 const { meetingDates } = require('../../server/common/dates');
 const changeEmail = require('../../server/changeEmail');
 const changeDateTime = require('../../server/changeDateTime');
+const sendMailWithAttched = require('../../server/emailsWithAttached');
 
 
 module.exports = function (meetings) {
@@ -1812,7 +1813,7 @@ module.exports = function (meetings) {
                         ]
                         console.log(emailOptions);
                     }
-                    sendEmail(emailOptions);
+                    sendMailWithAttched(emailOptions);
                 });
             }
             return cb(null, {})
