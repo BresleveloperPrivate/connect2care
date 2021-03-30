@@ -24,7 +24,7 @@ const translationHEB = {
     "ownerFullName": "השם המלא שלך - מארח/ת המפגש",
     "email": "דואר אלקטרוני (GMAIL בלבד)",
     "pleaseCheckThatTheEmailAddressCorrect": "אנא בדוק שכתובת האימייל הינה נכונה",
-    "phone": "טלפון (מספר טלפון אישי שיהיה משתמש הזום שלכם)",
+    "phone": "טלפון (מספר טלפון אישי)",
     "numberNotCorrect": "המספר אינו תקין",
     "meetingLanguage": "שפת המפגש",
     "meetingIsOpen": "מפגש פתוח",
