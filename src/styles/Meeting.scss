@@ -186,9 +186,9 @@ $meetinngPageLeftWidth: 40em;
             overflow: hidden;
 
             #peopleCircleNum {
-                margin-top: -5px;
+                // margin-top: -5px;
                 color: white;
-                font-size: 28px;
+                font-size: 20px;
             }
         }
 
@@ -335,9 +335,9 @@ $meetinngPageLeftWidth: 40em;
             height: 70px;
 
             #peopleCircleNum {
-                margin-top: 0px;
+                margin-top: 5px;
                 color: white;
-                font-size: 28px;
+                font-size: 20px;
             }
         }
     }
