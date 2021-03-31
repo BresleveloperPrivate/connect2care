@@ -1,5 +1,5 @@
 'use strict';
-const sendEmail = require('../../server/newEmail.js');
+const  { sendEmail, sendMailWithAttached } = require('../../server/newEmail.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const scheduleMeeting = require('../../server/scheduleMeeting.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
@@ -10,7 +10,7 @@ const { creatCsvFile } = require('download-csv');
 const { meetingDates } = require('../../server/common/dates');
 const changeEmail = require('../../server/changeEmail');
 const changeDateTime = require('../../server/changeDateTime');
-const sendMailWithAttched = require('../../server/emailsWithAttached');
+// const sendMailWithAttached = require('../../server/emailsWithAttached');
 
 
 module.exports = function (meetings) {
@@ -1813,7 +1813,7 @@ module.exports = function (meetings) {
                         ]
                         console.log(emailOptions);
                     }
-                    sendMailWithAttched(emailOptions);
+                    sendMailWithAttached(emailOptions);
                 });
             }
             return cb(null, {})
