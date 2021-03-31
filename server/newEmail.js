@@ -1,5 +1,7 @@
 const AWS = require('aws-sdk');
+const nodeMailer = require('nodemailer');
 AWS.config.update({ region: 'eu-west-1' });
+
 
 const sourceEmail = 'ourbrother@connect2care.ourbrothers.co.il' // 'Zikaron@ourbrothers.org';
 
@@ -70,3 +72,4 @@ module.exports = {
     sendEmail,
     sendMailWithAttached
 }
+
