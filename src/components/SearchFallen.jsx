@@ -164,7 +164,7 @@ const SearchFallen = observer((props) => {
                         onChange={onChange}
                         value={searchValue}
                         autoComplete="off"
-                        placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name (as shown on Izkor/Laad website)' : "שם החלל (כפי שמופיע באתר יזכור/לעד)"}
+                        placeholder={props.LanguageStore.lang !== 'heb' ? 'Fallen name (according to Izkor/Laad site)' : "שם החלל (לפי אתר יזכור/לעד)"}
                         onClick={() => setShowOptions(true)}
                     />
                     <FontAwesomeIcon icon={['fas', 'search']} style={{ fontSize: '20px', opacity: "0.5" }} />

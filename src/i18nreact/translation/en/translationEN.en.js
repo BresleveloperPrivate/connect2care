@@ -24,7 +24,7 @@ const translationEN = {
     "ownerFullName": "Your full name- the meeting host",
     "email": "Email (GMAIL only)",
     "pleaseCheckThatTheEmailAddressCorrect": "Please check that the email address is correct",
-    "phone": "Phone (your personal number which will be your zoom username)",
+    "phone": "Phone (your personal number)",
     "numberNotCorrect": "The number is not valid",
     "meetingLanguage": "Meeting language",
     "meetingIsOpen": "Open Meeting",

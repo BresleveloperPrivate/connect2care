@@ -15,7 +15,7 @@ const MeetingTop = ({ name, owner, description, date, time ,LanguageStore , t}) 
             }
         {(date || time) && <div id="meetingDateTime">
 
-            {date} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time}
+            {date} | {LanguageStore.lang !== 'heb' ? 'At' : 'בשעה'} {time} {LanguageStore.lang !== 'heb' ? '(IDT)' : ''}
             
             </div>}
     </div>
