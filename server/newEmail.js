@@ -1,9 +1,20 @@
 const AWS = require('aws-sdk');
+const { csv } = require('d3-fetch');
+const nodeMailer = require('nodemailer');
 AWS.config.update({ region: 'eu-west-1' });
+
 
 const sourceEmail = 'ourbrother@connect2care.ourbrothers.co.il' // 'Zikaron@ourbrothers.org';
 
-const sendEmail = async (options) => {
+const sendEmail = async (mailOptions) => {
+    if (mailOptions.attachments) {
+        sendMailWithAttached(mailOptions);
+    } else {
+        sendEmailWithoutFiles(mailOptions);
+    }
+}
+
+const sendEmailWithoutFiles = async (options) => {
     const params = {
         Destination: { /* required */
             // CcAddresses: [
@@ -45,4 +56,32 @@ const sendEmail = async (options) => {
 
 }
 
-module.exports = sendEmail;
+const sendMailWithAttached = async (mailingData) => {
+    const sourceEmail = 'ourbrother@connect2care.ourbrothers.co.il';
+
+    let transporter = nodeMailer.createTransport({
+        SES: new AWS.SES({ region: 'eu-west-1', apiVersion: '2010-12-01' })
+    });
+    try {
+        console.log('Trying to send email', mailingData.to, mailingData.subject)
+        let mail = await transporter.sendMail({
+            from: sourceEmail,
+            to: mailingData.to,
+            subject: mailingData.subject,
+            html: mailingData.html,
+            attachments: mailingData.attachments,
+        });
+        console.log("Message sent: %s", mail.messageId);
+        return mail;
+    } catch (err) {
+        console.log('sendEmailWithAttached error:', err)
+    }
+    
+}
+
+
+
+module.exports = {
+    sendEmail
+}
+

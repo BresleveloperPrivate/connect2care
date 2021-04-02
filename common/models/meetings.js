@@ -1,5 +1,5 @@
 'use strict';
-const sendEmail = require('../../server/newEmail.js');
+const  { sendEmail } = require('../../server/newEmail.js');
 const createZoomUser = require('../../server/createZoomUser.js');
 const scheduleMeeting = require('../../server/scheduleMeeting.js');
 const ValidateTools = require('../../src/modules/tools/server/lib/ValidateTools');
@@ -10,6 +10,8 @@ const { creatCsvFile } = require('download-csv');
 const { meetingDates } = require('../../server/common/dates');
 const changeEmail = require('../../server/changeEmail');
 const changeDateTime = require('../../server/changeDateTime');
+const { csv } = require('d3-fetch');
+// const sendMailWithAttached = require('../../server/emailsWithAttached');
 
 
 module.exports = function (meetings) {
@@ -1803,14 +1805,15 @@ module.exports = function (meetings) {
                     if (datas.length > 0) {
                         emailOptions.attachments = [
                             {
-                                content: Buffer.from(creatCsvFile(datas, columns)).toString("base64"),
+                                content: Buffer.from(creatCsvFile(datas, columns)),
                                 // add file name:
                                 filename: "משתתפים.csv",
                                 type: "application/csv",
-                                disposition: "attachment"
+                                disposition: "attachment",
+
                             }
                         ]
-                        console.log(emailOptions);
+                        console.log(emailOptions)   ;
                     }
                     sendEmail(emailOptions);
                 });
