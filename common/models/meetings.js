@@ -698,13 +698,13 @@ module.exports = function (meetings) {
                                 let fallens = ''
                                 console.log(meeting.fallens_meetings)
                                 meeting.fallens_meetings.forEach((fallenMeeting, index) =>{
-                                    fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n '),
-                                    serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n ')
+                                    fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n'),
+                                    serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n')
                                 })
                                 
-                                // serveUnit = meeting.fallens_meetings.map((fallenMeeting, index) => {
-                                //     serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n ')
-                                // });
+
+                                let ownerPhone = (meeting.meetingOwner.phone).toString()
+
                             
                                 meetingToReturn.push({
                                     name: '"' + meeting.name + '"',
@@ -714,9 +714,8 @@ module.exports = function (meetings) {
                                     serveUnit: '"' +serveUnit + '"',
                                     ownerName: meeting.meetingOwner.name,
                                     ownerEmail: meeting.meetingOwner.email,
-                                    ownerPhone: meeting.meetingOwner.phone
+                                    ownerPhone: ownerPhone
                                 })
-                                console.log(meetingToReturn)
                             }
                             return cb(null, meetingToReturn)
                         }
