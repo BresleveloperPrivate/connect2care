@@ -11,7 +11,7 @@ const { meetingDates } = require('../../server/common/dates');
 const changeEmail = require('../../server/changeEmail');
 const changeDateTime = require('../../server/changeDateTime');
 const { csv } = require('d3-fetch');
-// const sendMailWithAttached = require('../../server/emailsWithAttached');
+
 
 
 module.exports = function (meetings) {
@@ -1639,7 +1639,7 @@ module.exports = function (meetings) {
                 meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
-                    let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף' };
+                    let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף', phoneNumber: 'מספר טלפון משתמש' };
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
                     const emailZoom = changeEmail(meetingOwner.phone);
@@ -1795,7 +1795,7 @@ module.exports = function (meetings) {
 
                     if (people && people.length > 0) {
                         people.forEach((man, index) => {
-                            datas.push({ name: man.name, email: man.email })
+                            datas.push({ name: man.name, email: man.email, phone: man.phone })
                         })
                     }
 
