@@ -694,12 +694,13 @@ module.exports = function (meetings) {
                             let meetingsPS = JSON.parse(JSON.stringify(res1))
                             let meetingToReturn = []
                             for (let meeting of meetingsPS) {
-                                let serveUnit;
+                                let serveUnit = '';
                                 let fallens = ''
                                 console.log(meeting.fallens_meetings)
-                                meeting.fallens_meetings.map((fallenMeeting, index) =>
-                                    fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n ')
-                                )
+                                meeting.fallens_meetings.forEach((fallenMeeting, index) =>{
+                                    fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n '),
+                                    serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n ')
+                                })
                                 
                                 // serveUnit = meeting.fallens_meetings.map((fallenMeeting, index) => {
                                 //     serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '/n ')
