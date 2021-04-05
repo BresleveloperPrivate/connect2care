@@ -93,7 +93,7 @@ class NavBar extends Component {
                 <li><a href={this.props.t("toolkit") === "Hosting Kit" ? englishErcatMovil : ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li>
                 {/* <li><a href={this.props.LanguageStore.lang === "heb"?ercatMovil:englishErcatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("toolkit")}</a></li> */}
 
-                <li><a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>{this.props.t("hostVideo")}</a></li>
+                <li><a href="https://www.youtube.com/watch?v=WTJAOPVBg_s" target='_blank' without rel='noopener noreferrer'>{this.props.t("hostVideo")}</a></li>
                 <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform" target='_blank' without rel='noopener noreferrer'>{this.props.t("workshop")}</a></li>
                 {/* <li><Link to='/support'>{this.props.t("support")}</Link></li> */}
               </ul>

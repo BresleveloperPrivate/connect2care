@@ -1,0 +1,12 @@
+.host-video{
+  /* height: 80vh; */
+  background: #ffffff;
+  text-align: center;
+  margin: 100px 0 0 0;
+}
+/* 
+@media screen and (max-width: 750px){
+  .host-video{
+    display: none;
+  }
+} */
