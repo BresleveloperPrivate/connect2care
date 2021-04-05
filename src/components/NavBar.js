@@ -19,6 +19,7 @@ import DonateButton from "./DonateButton";
 import ercatMovil from "../icons/ercatMovil.pdf";
 import englishErcatMovil from '../icons/englishErcatMovil.pdf'
 import englishLogo2 from "../icons/logoEnglish2.jpg";
+import invitation from '../icons/invitation.jpeg';
 import arrow from '../icons/Icon awesome-chevron-down.svg';
 import '../styles/toolkit.css';
 
@@ -95,6 +96,7 @@ class NavBar extends Component {
 
                 <li><a href="https://www.youtube.com/watch?v=WTJAOPVBg_s" target='_blank' without rel='noopener noreferrer'>{this.props.t("hostVideo")}</a></li>
                 <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform" target='_blank' without rel='noopener noreferrer'>{this.props.t("workshop")}</a></li>
+                <li><a href={invitation} target='_blank' without rel='noopener noreferrer'>{this.props.t("invitation")}</a></li>
                 {/* <li><Link to='/support'>{this.props.t("support")}</Link></li> */}
               </ul>
           </div>

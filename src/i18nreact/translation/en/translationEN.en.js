@@ -15,6 +15,7 @@ const translationEN = {
     "toolkit": "Hosting Kit",
     "hosting": "Toolkit for ZOOM host",
     "hostVideo": "Instruction Video",
+    "invitation": "Meeting Invitation",
     "workshop": "",
     "meetingName": "Meeting name",
     "createTheMeeting": "Create Meeting",
