@@ -1120,6 +1120,7 @@ module.exports = function (meetings) {
         (async () => {
             const newEmail = changeEmail(phone);
             let [err1, res] = await to(meetings.upsertWithWhere({ id: id }, { "approved": 1 }))
+            console.log(res)
             if (err1) {
                 console.log("err1", err1)
                 return cb(err1, false)
@@ -1280,6 +1281,15 @@ module.exports = function (meetings) {
                 חיבוק של
                 זיכרון והערכה לאלו שנפלו למעננו, ולהראות שגם השנה, למרות הקושי, לא שכחנו.
             </div>
+
+            <div style="padding-top: 25px; font-weight: bold; text-decoration: underline; font-size: 18px;">
+
+                <div>המפגש בתאריך: ${res.date}</div>
+
+                <div>בשעה: ${res.time}</div>
+            
+            </div>
+
             <a href="https://connect2care.ourbrothers.co.il/#/meeting/${res.id}" target="_blank">להצגת פרטי המפגש</a>
             <br>
 
@@ -1296,15 +1306,19 @@ module.exports = function (meetings) {
                 למה? בזכות שיתוף פעולה עם חברת zoom לכל המשתתפים במפגש החשבון לא תהיה מגבלת זמן מפגש (pro).
             </div>
 
-            <div>תוכל להקליט אותו, ולהשתמש בכל ההטבות של החשבון - בחינם.</div>
 
             <div style="font-weight: bold; color: rgb(71, 129, 177); margin-top: 20px; margin-bottom: 20px; font-size: 20px;">
                 איך זה עובד?
             </div>
             <div>
                 <div  style="padding-top: 1%;">א. ביום המפגש תקבל מאיתנו מייל עם לינק למפגש</div>
+                
+                <div  style="padding-top: 1%;">יש להכנס ללינק כמה שעות קודם לכן עם שם המשתמש: </div>
 
-                <div  style="padding-top: 1%;">ב. יש להכנס ללינק כמה שעות קודם עם שם המשתמש: ${newEmail} והסיסמה: OurBrothers2021</div>
+                <div style="padding-top: 1%; direction: ltr;">${newEmail}</div>
+
+                <div style="padding-top: 1%;">והסיסמה OurBrothers2021</div>
+
 
                 <div  style="padding-top: 1%;">ג. חשוב מאוד! לא להתחבר עם המשתמש זום הקיים שלך, רק עם המשתמש שיצרנו לך והסיסמה שקיבלת.</div>
             </div>
@@ -1314,32 +1328,31 @@ module.exports = function (meetings) {
                 איך יוצרים מפגש מעולה:
             </div>
 
-            
-            <div style="font-weight: bold; padding-top: 10px;" >
-            אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
-            <br>
-            ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
-            <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
-            </div>
-            
             <div>
                 הסדנה תועבר ב-zoom על ידי מומחים בהעברת הרצאות zoom ובתחומי התוכן והדיגיטל.
                 <br>
                 מומלץ מאוד!
             </div>
 
+            <div style="font-weight: bold; padding-top: 10px;" >
+                אנחנו יודעים שבטוח יש לך שאלות, התלבטויות ואפילו חששות לקראת המפגש,
+                <br>
+                ובדיוק בגלל זה הכנו עבורך את הסדנה המושלמת שתעשה לך סדר.
+                    <div style="font-weight: bold; padding-top: 1%;">סדנת הכנה בזום</div>
+            </div>
+
             <div>מועדי הסדנאות מתחלקים בין מועדי הכנה למובילי מפגש בזום ובין מועדי סדנה הכנת למפגשים פרונטליים - 4 סדנאות בתאריכים ושעות
             שונות בתאריכים: 4-5.4.2021 - בוקר+ ערב</div>
 
             <div style="font-weight: bold">  להשתבצות לסדנה לחץ <a target="blank"
-                href="https://forms.gle/dEbeRAdcZB6YYDA18">כאן</a></div>
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform">כאן</a></div>
 
             <div style="font-weight: bold; padding-top: 10px;">ערכת הכנה</div>
 
             <div>ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים</div>
 
             <div style="font-weight: bold; padding-top: 10px;">
-                <a target="blank" href="https://connect2care.ourbrothers.co.il/static/media/ercatMovil.9a402ee4.pdf">ערכת תוכן להובלת מפגש זיכרון</a>
+                <a target="blank" href="">ערכת תוכן להובלת מפגש זיכרון</a>
             </div>
 
             <div style="font-weight: bold; padding-top: 10px;">הזמנת משתתפים</div>
@@ -1369,16 +1382,19 @@ module.exports = function (meetings) {
             <div>
                 קוד מפגש > זה הקוד שאתה מזמין איתו משתתפים להירשם.
             </div>
-            
 
-            <div style="padding-top: 15px;">
-                <div style="font-weight: bold">
-                סיכת "דם המכבים"
+            <div style="padding-top: 25px; color: black;">
+                <div style="font-weight:bold;">סיכת "דם המכבים"</div>
+
+                <div style="padding-top:5px;">
+                השנה אנו פועלים בשיתוף עם עמותת דם המכבים אשר מייצרת ומפיצה את הסיכה המיוחדת ליום הזיכרון מפרח דם המכבים האמיתי. אנו
+                שמחים להעניק לכם, כמובילי מפגש, סיכה בחינם.
                 </div>
-                <div>
-                השנה אנו פועלים בשיתוף עם עמותת דם המכבים אשר מייצרת ומפיצה את הסיכה המיוחדת ליום הזיכרון מפרח דם המכבים האמיתי.
-                אנו שמחים להעניק לכם, כמובילי מפגש, סיכה בחינם. להזמנת סיכה ניתן לפנות לעמותת דם המכבים- במייל: info@redeverlasting.co או בוואטסאפ למספר:
-                למספר: 054-7259035. ציינו כי אתם מובילים מפגש באחים שלנו, והם ישמחו לעזור בכל דבר.
+
+                <div style="padding-top:5px;">
+                להזמנת סיכה ניתן לפנות לעמותת דם המכבים- במייל:
+                <a target="_blank" href="info@redeverlasting.com">info@redeverlasting.com</a>
+                או בוואטסאפ למספר: 054-7259035. ציינו כי אתם מובילים מפגש באחים שלנו, והם ישמחו לעזור בכל דבר.
                 </div>
             </div>
 
@@ -1389,11 +1405,6 @@ module.exports = function (meetings) {
             <div style="text-align: center; color: rgb(30, 43, 78);">
                 שאלות נוספות? משהו לא ברור?: <br>
                 zikaron@ourbrothers.org
-            </div>
-
-            <div>כאן ניתן לצפות ב 
-                <a target="blank" href="https://connect2commemorate.ourbrothers.co.il/#/info>  שאלות ותשובות נפוצות </a>
-                לקראת המפגשים.
             </div>
 
             <div style="text-align: center; color: rgb(30, 43, 78); padding-top: 10px;">
@@ -1652,7 +1663,8 @@ module.exports = function (meetings) {
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
                     const emailZoom = changeEmail(meetingOwner.phone);
-                    let htmlMessage = meeting.language !== 'heb'
+                    console.log(meeting);
+                    let htmlMessage = meeting.language !== 'עברית'
                         ? `<div>
         <div style=" text-align: center">
             <img src="../../server/assets/couchphoto.jpg" alt="connect2care logo" width="400" height="200">
@@ -1753,7 +1765,7 @@ module.exports = function (meetings) {
                     הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
                     הפרטים הבאים:</div>
 
-                <div><a target="blank" href="${emailZoom}">אימייל: ${emailZoom}</a></div>
+                <div>אימייל: <a style="direction: ltr;" target="blank" href="${emailZoom}">${emailZoom}</a></div>
 
                 <div>סיסמה: OurBrothers2021</div>
 
