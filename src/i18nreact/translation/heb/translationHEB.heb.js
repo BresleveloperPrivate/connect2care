@@ -18,6 +18,7 @@ const translationHEB = {
     "addFallen": "הוסף נופל",
     "meetingName": "שם המפגש",
     "createTheMeeting": "יצירת המפגש",
+    "invitation": "הזמנה למפגש",
     "editMeeting": "עריכת המפגש",
     "shortDescription": "תאור קצר",
     "ownerDetails": "פרטי מארח/ת המפגש",

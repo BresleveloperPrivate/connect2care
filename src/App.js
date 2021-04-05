@@ -14,6 +14,7 @@ import NavBar from './components/NavBar'
 import NotFound from './components/NotFound';
 import Footer from '../src/components/Footer';
 import Rights from '../src/components/Rights';
+// import HostVideo from '../src/components/HostVideo';
 // import Hosting from '../src/components/Hosting';
 // import { Dashboard } from '@material-ui/icons';
 
@@ -83,6 +84,7 @@ class App extends Component {
                                 <Route path="/admin" render={(props) => <DashLogin t={this.props.t} {...props} />} />
                                 <Route path="/info" render={props => <Info t={this.props.t} {...props} />} />
                                 <Route path="/contact" render={props => <Contact t={this.props.t} {...props} />} />
+                                {/* <Route path="/hostVideo" render={props => <HostVideo t={this.props.t} {...props} />} /> */}
                                 {/* <Route path="/hosting" render={props => <Hosting t={this.props.t} {...props} />} /> */}
                                 <PrivateRoute path="/ngsgjnsrjgtesg" exact compName='DashboardMain' defaultRedirectComp={<Redirect to='/admin' />}
                                     component={(props) => <DashboardMain t={this.props.t} {...props} />}
