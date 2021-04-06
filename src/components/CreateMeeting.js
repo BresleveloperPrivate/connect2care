@@ -67,6 +67,13 @@ const CreateMeeting = (props) => {
         { option: '22', data: '22' },
         { option: '23', data: '23' },
         { option: '00', data: '00' },
+        { option: '01', data: '01' },
+        { option: '02', data: '02' },
+        { option: '03', data: '03' },
+        { option: '04', data: '04' },
+        { option: '05', data: '05' },
+        { option: '06', data: '06' },
+        { option: '07', data: '07' },
     ]
     const meetingTimeMinute = [
         { option: '00', data: '00' },
