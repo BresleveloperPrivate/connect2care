@@ -22,6 +22,7 @@ import logo12 from '../icons/logo12.png'
 import amdocs from '../icons/amdocs.jpeg'
 import reblaze from '../icons/reblaze.jpeg'
 import logo9 from '../icons/amazonLogo.jpeg'
+import SchustermanLogo from '../icons/SchustermanLogo.png'
 
 class Partners extends Component {
 
@@ -43,6 +44,7 @@ class Partners extends Component {
                     <div onClick={() => { window.open('http://www.amit.org.il/') }} className='partner'><img src={amit} height='115%' /></div>
                     <div onClick={() => { window.open('https://www.amazon.com/') }} className='partner'><img src={logo9} height='50%' /></div>
                     <div onClick={() => { window.open('https://www.amdocs.com/') }} className='partner fg0'><img src={amdocs} height='70%' /></div>
+                    <div onClick={() => { window.open('https://www.schusterman.org/') }} className='partner fg0'><img src={SchustermanLogo} height='70%' /></div>
                     <div onClick={() => { window.open('https://www.hilma.tech/') }} className='partner'><img src={hilma} height='55%' /></div>
                     <div onClick={() => { window.open('https://www.synamedia.com/') }} className='partner'><img src={synamedia} height='175%' /></div>
                     <div onClick={() => { window.open('https://grth.io/2bcloud/') }} className='partner'><img src={tobe} height='65%' /></div>

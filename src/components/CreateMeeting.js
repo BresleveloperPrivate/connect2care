@@ -50,6 +50,13 @@ const CreateMeeting = (props) => {
         { option: 'español', data: 'español' },
     ]
     const meetingTimeHour = [
+        { option: '01', data: '01' },
+        { option: '02', data: '02' },
+        { option: '03', data: '03' },
+        { option: '04', data: '04' },
+        { option: '05', data: '05' },
+        { option: '06', data: '06' },
+        { option: '07', data: '07' },
         { option: '08', data: '08' },
         { option: '09', data: '09' },
         { option: '10', data: '10' },
@@ -66,14 +73,7 @@ const CreateMeeting = (props) => {
         { option: '21', data: '21' },
         { option: '22', data: '22' },
         { option: '23', data: '23' },
-        { option: '00', data: '00' },
-        { option: '01', data: '01' },
-        { option: '02', data: '02' },
-        { option: '03', data: '03' },
-        { option: '04', data: '04' },
-        { option: '05', data: '05' },
-        { option: '06', data: '06' },
-        { option: '07', data: '07' },
+        { option: '24', data: '24' },
     ]
     const meetingTimeMinute = [
         { option: '00', data: '00' },

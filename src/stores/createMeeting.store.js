@@ -167,12 +167,12 @@ class CreateMeetingStore {
         }
     }
 
-    setArmyAgentReq = index => {
-        if (!this.meetingDetails.fallens) {
-            this.meetingDetails.fallens = [];
-        }
-        this.meetingDetails.fallens[index] = {id: null, ...this.meetingDetails.fallens[index], armyAgentReq: !this.meetingDetails.fallens[index]?.armyAgentReq};
-    };
+    // setArmyAgentReq = index => {
+    //     if (!this.meetingDetails.fallens) {
+    //         this.meetingDetails.fallens = [];
+    //     }
+    //     this.meetingDetails.fallens[index] = {id: null, ...this.meetingDetails.fallens[index], armyAgentReq: !this.meetingDetails.fallens[index]?.armyAgentReq};
+    // };
 
     setServeUnit = (e, index) => {
         if (!this.meetingDetails.fallens) {
