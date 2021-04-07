@@ -138,7 +138,7 @@ const FallenDetails = (props) => {
                 }
                 {(currentFallen.relative && currentFallen.relative !== "אחר" && currentFallen.relative !== 'חבר/ה' && currentFallen.relative !== 'קרובי משפחה') &&
                     <>
-                        <div className="d-flex align-items-center" onClick={() => CreateMeetingStore.setArmyAgentReq(props.index)}>
+                        {/* <div className="d-flex align-items-center" onClick={() => CreateMeetingStore.setArmyAgentReq(props.index)}>
                             <div>
                                 {Boolean(currentFallen.armyAgentReq) ?
                                     <img src={checkbox_on_light} /> :
@@ -146,15 +146,15 @@ const FallenDetails = (props) => {
                                 }
                             </div>
                             <div style={{ marginRight: "1vh" }}>{props.t("wouldYouLikeMilitaryAgentToJoinYou")}</div>
-                        </div>
-                        <div style={{ position: "relative", marginTop: "20px" }}>
+                        </div> */}
+                        {/* <div style={{ position: "relative", marginTop: "20px" }}>
                             {currentFallen.serveUnit && <div className="textAboveInput">שם היחידה בה שירת החלל</div>}
                             <input type="text" className='inputStyle' disabled={!currentFallen.armyAgentReq}
                                 style={{ width: "95%", marginBottom: CreateMeetingStore.meetingDetails.fallens.length > 1 && CreateMeetingStore.meetingId === -1 ? "2vh" : "4vh" }}
                                 value={currentFallen.serveUnit}
                                 onChange={e => CreateMeetingStore.setServeUnit(e, props.index)}
                                 autoComplete="off" placeholder={props.t("whatUnitDidFallenServe")} />
-                        </div>
+                        </div> */}
                     </>
                 }
             </div>
