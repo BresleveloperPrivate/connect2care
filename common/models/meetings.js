@@ -761,6 +761,9 @@ module.exports = function (meetings) {
 
     meetings.AddPersonToMeeting = (meetingId, name, email, phone, myCode, mailDetails, participantsCount, cb) => {
 
+
+        
+
         (async () => {
             // var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             // var xmlhttp = new XMLHttpRequest();
@@ -770,6 +773,8 @@ module.exports = function (meetings) {
 
             var dateStr = new Date()
 
+            
+
             const { people, people_meetings } = meetings.app.models;
             const [err, meetingById] = await to(meetings.findById(meetingId));
             if (err) {
@@ -777,11 +782,12 @@ module.exports = function (meetings) {
                 return cb(err, null);
             }
             let meeting = JSON.parse(JSON.stringify(meetingById))
-            console.log(meeting)
+            
 
             if (!meeting) return cb({ msg: "הפגישה אינה קיימת" }, null)
             const { max_participants, participants_num, isOpen, code } = meeting;
-            const newParticipantsCount = participants_num
+            const newParticipantsCount =
+             participants_num
                 ? Number(participants_num) + Number(participantsCount)
                 : Number(participantsCount);
 
@@ -1659,6 +1665,7 @@ module.exports = function (meetings) {
                 meetings1.forEach(meeting => {
                     const { people, meetingOwner } = JSON.parse(JSON.stringify(meeting));
                     // add datas and columns:
+                    console.log(meeting)
                     let columns = { name: 'שם המשתתף', email: 'אימייל המשתתף', phoneNumber: 'מספר טלפון משתמש' };
                     let datas = [];
                     let link = meeting.zoomId.replace('j', 's')
@@ -1879,7 +1886,7 @@ module.exports = function (meetings) {
 
                 <div style="padding-top: 15px; max-width: 70%;">
 
-                    <div style="padding-top: 15px;">Shalom ${name}</div>
+                    <div style="padding-top: 15px;">Shalom</div>
 
                     <div style="padding-top: 25px;">
                         <div>Attached to this email is a link to the Meet-Up for ${meeting.name}</div>

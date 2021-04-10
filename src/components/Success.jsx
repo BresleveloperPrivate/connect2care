@@ -7,6 +7,8 @@ import { meetingDate } from '../consts/Meetings.consts';
 import annonymousPerson from '../icons/Asset 7@3x11.png';
 // import Sharing from './Sharing.jsx';
 import candle from '../icons/candle-white.svg';
+import ercatMovil from "../icons/ercatMovil.pdf";
+import englishErcatMovil from '../icons/englishErcatMovil.pdf'
 // import Auth from '../modules/auth/Auth'
 // import Divider from '@material-ui/core/Divider';
 
@@ -184,16 +186,36 @@ function Success(props) {
                         className="additionalInfo">
                             <div>*{props.t('whiteFutter')} </div>
                             {props.LanguageStore.lang !== 'heb' ?
+                        //     <div>
+                        //         *To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
+                        //    </div>
                             <div>
-                           *To download a short, detailed and user-friendly pack for successful meet-ups <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> click here </span>.
+                                *To download a short, detailed and user-friendly pack for successful meet-ups <a href={englishErcatMovil} target='_blank' without rel='noopener noreferrer'>click here</a>
                            </div>
                             :
+                            // <div>
+                            //     *להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים 
+                            //     <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
+                            // </div>
+                            
                             <div>
-                             *להורדת ערכה מקיפה, קצרה, ושימושית לקיום מפגשים מוצלחים <span className='contentClick' onClick={() => { window.open(`https://bit.ly/connect2care`) }}> לחצו כאן </span>.
-                        </div>}
+                                <a href={ercatMovil} target='_blank' without rel='noopener noreferrer'>*ערכת תוכן למוביל מפגש</a>
+                            </div>
+                            }
+
+
+
+                                {props.LanguageStore.lang !== 'heb' ?
+                                ''
+                            :
+                            <div>
+                                <a href='https://docs.google.com/forms/d/e/1FAIpQLSdysCMih5-VnB241KuP9zFbLyju9NqShDwntZHpBcUsGntqLg/viewform' target='_blank' without rel='noopener noreferrer'>*הרשמה לסדנאות הכנה למפגשים</a>
+                            </div>
+                            }
+
                             {/* <div>*{props.t('InvitationIsWaiting')}</div> */}
                         </div>
-                    </div>
+                </div>
         </div>
          : null)
     
