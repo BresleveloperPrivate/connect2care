@@ -1772,7 +1772,11 @@ module.exports = function (meetings) {
                     הזום אותו יצרנו עבורך. התחבר לחשבון הזום עם
                     הפרטים הבאים:</div>
 
-                <div>אימייל: <a style="direction: ltr;" target="blank" href="${emailZoom}">${emailZoom}</a></div>
+                <div>אימייל:
+                        <div style="direction: ltr;">
+                            ${emailZoom}
+                        </div>
+                    </div>
 
                 <div>סיסמה: OurBrothers2021</div>
 
