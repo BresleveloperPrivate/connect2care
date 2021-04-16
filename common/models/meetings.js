@@ -695,14 +695,16 @@ module.exports = function (meetings) {
                             let meetingToReturn = []
                             for (let meeting of meetingsPS) {
                                 let serveUnit = '';
-                                let fallens = ''
-                                console.log(meeting.fallens_meetings)
+                                let fallens = '';
+                                let relationship = '';
+                                console.log('fallens_meetings is:  ' ,meeting.fallens_meetings)
                                 meeting.fallens_meetings.forEach((fallenMeeting, index) =>{
                                     fallens = fallens + fallenMeeting.fallens.name + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n'),
-                                    serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n')
+                                    serveUnit = serveUnit + fallenMeeting.serveUnit + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n'),
+                                    relationship = relationship + fallenMeeting.relationship + (index === (meeting.fallens_meetings.length - 1) ? '' : '\n')
                                 })
                                 
-
+                                console.log('Meeting_owner is: ', meeting.meetingOwner)
                                 let ownerPhone = (meeting.meetingOwner.phone).toString()
 
                             
@@ -712,6 +714,7 @@ module.exports = function (meetings) {
                                     time: meeting.time,
                                     fallens: '"' + fallens + '"',
                                     serveUnit: '"' +serveUnit + '"',
+                                    relationship: '"' + relationship + '"',
                                     ownerName: meeting.meetingOwner.name,
                                     ownerEmail: meeting.meetingOwner.email,
                                     ownerPhone: ownerPhone
